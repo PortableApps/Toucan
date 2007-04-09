@@ -28,7 +28,7 @@
 
 #include "frmvariable.h"
 
-#include "puss.h"
+#include "toucan.h"
 #include "frmmain.h"
 #include "secure.h"
 #include "backup.h"
@@ -174,7 +174,7 @@ bool frmMain::Create( wxWindow* parent, wxWindowID id, const wxString& caption, 
 	wxDialog::Create( parent, id, caption, pos, size, style );
 
 	CreateControls();
-	SetIcon(GetIconResource(wxT("Puss.ico")));
+	SetIcon(GetIconResource(wxT("toucan.ico")));
 	Centre();
 	////\@end frmMain creation
 	return true;
@@ -186,7 +186,7 @@ void frmMain::CreateControls()
 {   if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data") + wxFILE_SEP_PATH + wxT("fr") + wxFILE_SEP_PATH + wxT("toucan.mo")))
 	{
 		//wxMessageBox(wxT("boo"));
-		//Load language if one exists from puss.h
+		//Load language if one exists from toucan.h
 		wxGetApp().SelectLanguage(wxLANGUAGE_FRENCH);
 	}
 	////\@begin frmMain content construction
@@ -742,7 +742,7 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 {	// Icon retrieval
 	////\@begin frmMain icon retrieval
 	wxUnusedVar(name);
-	if (name == _T("Puss.ico"))
+	if (name == _T("toucan.ico"))
 	{
 		wxIcon icon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\App\\bitmaps\\Toucan.ico"), wxBITMAP_TYPE_ICO);
 		return icon;

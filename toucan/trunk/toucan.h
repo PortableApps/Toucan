@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        puss.h
+// Name:        toucan.h
 // Purpose:     
 // Author:      Steven Lamerton
 // Modified by: 
@@ -9,11 +9,11 @@
 // Licence:     
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef _PUSS_H_
-#define _PUSS_H_
+#ifndef _Toucan_H_
+#define _Toucan_H_
 
 #if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-#pragma interface "puss.h"
+#pragma interface "toucan.h"
 #endif
 
 /*!
@@ -40,17 +40,17 @@
 ////@end control identifiers
 
 /*!
-* PUSS class declaration
+* Toucan class declaration
 */
 
-class PUSS: public wxApp
+class Toucan: public wxApp
 {    
-	DECLARE_CLASS( PUSS )
+	DECLARE_CLASS( Toucan )
 	DECLARE_EVENT_TABLE()
 
 public:
 	/// Constructor
-	PUSS();
+	Toucan();
 
 	/// Initialises the application
 	virtual bool OnInit();
@@ -59,16 +59,16 @@ public:
 	virtual int OnExit();
 		void SelectLanguage(int lang) ;
 
-	////@begin PUSS event handler declarations
+	////@begin Toucan event handler declarations
 
-	////@end PUSS event handler declarations
+	////@end Toucan event handler declarations
 
-	////@begin PUSS member function declarations
+	////@begin Toucan member function declarations
 
-	////@end PUSS member function declarations
+	////@end Toucan member function declarations
 
-	////@begin PUSS member variables
-	////@end PUSS member variables
+	////@begin Toucan member variables
+	////@end Toucan member variables
 private:
 	wxLocale* m_locale; // 'our' locale
 };
@@ -77,9 +77,8 @@ private:
 * Application instance declaration 
 */
 
-////@begin declare app
-DECLARE_APP(PUSS)
-////@end declare app
+///@begin declare app
+DECLARE_APP(Toucan)
+///@end declare app
 
 #endif
-// _PUSS_H_

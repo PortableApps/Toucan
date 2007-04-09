@@ -38,12 +38,12 @@
 
 ////@begin control identifiers
 #define ID_DIALOG 10029
+#define ID_COMBOBOX1 10033
 #define SYMBOL_FRMVARIABLE_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
 #define SYMBOL_FRMVARIABLE_TITLE _("Insert Variable")
 #define SYMBOL_FRMVARIABLE_IDNAME ID_DIALOG
 #define SYMBOL_FRMVARIABLE_SIZE wxSize(400, 300)
 #define SYMBOL_FRMVARIABLE_POSITION wxDefaultPosition
-#define ID_COMBOBOX1 10033
 ////@end control identifiers
 
 /*!

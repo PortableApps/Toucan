@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        puss.cpp
+// Name:        toucan.cpp
 // Purpose:     
 // Author:      Steven Lamerton
 // Modified by: 
@@ -27,7 +27,7 @@
 ////@begin includes
 ////@end includes
 
-#include "puss.h"
+#include "toucan.h"
 #include "sync.h"
 #include "backup.h"
 #include "secure.h"
@@ -49,20 +49,20 @@
 */
 
 ////@begin implement app
-IMPLEMENT_APP( PUSS )
+IMPLEMENT_APP( Toucan )
 ////@end implement app
 
 /*!
 * PUSS type definition
 */
 
-IMPLEMENT_CLASS( PUSS, wxApp )
+IMPLEMENT_CLASS( Toucan, wxApp )
 
 /*!
 * PUSS event table definition
 */
 
-BEGIN_EVENT_TABLE( PUSS, wxApp )
+BEGIN_EVENT_TABLE( Toucan, wxApp )
 
 ////@begin PUSS event table entries
 ////@end PUSS event table entries
@@ -73,7 +73,7 @@ END_EVENT_TABLE()
 * Constructor for PUSS
 */
 
-PUSS::PUSS()
+Toucan::Toucan()
 {	////@begin PUSS member initialisation
 	////@end PUSS member initialisation
 }static const wxCmdLineEntryDesc cmdLineDesc[] =
@@ -89,7 +89,7 @@ PUSS::PUSS()
 * Initialisation for PUSS
 */
 
-bool PUSS::OnInit()
+bool Toucan::OnInit()
 {    
 	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data") + wxFILE_SEP_PATH + wxT("fr") + wxFILE_SEP_PATH + wxT("puss.mo")))
 	{
@@ -187,16 +187,21 @@ bool PUSS::OnInit()
 	} 
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
-	bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("FirefoxPortable.jpg"), wxBITMAP_TYPE_JPEG);
+        frmMain* mainWindow = new frmMain(NULL, ID_DIALOG_MAIN, wxT("Toucan"));
+    if(::wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg")))
+    {
+   // wxMessageBox(_("Boo2"));
+	bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg"), wxBITMAP_TYPE_JPEG);
  
-    frmMain* mainWindow = new frmMain(NULL, ID_DIALOG_MAIN, wxT("Toucan"));
-     wxSplashScreen *scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, mainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSIMPLE_BORDER|wxSTAY_ON_TOP);
+
+     wxSplashScreen *scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, mainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTAY_ON_TOP);
 
     wxYield();
     //Sleep for two seconds before destroying the splash screen and showing main frame
     wxSleep(2);
     //Now destroy the splashscreen
     scrn->Destroy(); 
+    }
 	//delete splash;
     mainWindow->ShowModal();
     mainWindow->Destroy();
@@ -205,14 +210,14 @@ bool PUSS::OnInit()
 
 	return true;
 }
-void PUSS::SelectLanguage(int lang)
+void Toucan::SelectLanguage(int lang)
 {	m_locale = new wxLocale(wxLANGUAGE_FRENCH);
 	m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data"));
 	m_locale->AddCatalog(wxT("toucan"));
 }/*!
 * Cleanup for PUSS
 */
-int PUSS::OnExit()
+int Toucan::OnExit()
 {    
 	//delete m_locale ;
 	////@begin PUSS cleanup
