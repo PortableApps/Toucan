@@ -1132,6 +1132,7 @@ void frmMain::OnButtonSyncClick( wxCommandEvent& event )
 		wxArrayString arrExclusions;
 		for(i = 0;i <= m_sync_listex->GetCount(); i++)
 		{
+			//wxMessageBox(_("testing"));
 			arrExclusions.Add(m_sync_listex->GetString(i));
 		}
 		Sync(m_Sync_First->GetValue(), m_Sync_Second->GetValue() , m_Sync_Function->GetStringSelection(), arrExclusions, true);

@@ -4,7 +4,9 @@
 #include "removedir.h"
 
 bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayString arrExclusion, bool blBox)
-{	strSource = Normalise(strSource);
+{	
+
+    strSource = Normalise(strSource);
 	strDest = Normalise(strDest);
 	if(strFunction == _("Copy"))
 	{
