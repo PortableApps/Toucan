@@ -1,4 +1,5 @@
 #include <wx/tokenzr.h>
+#include <wx/filename.h>
 
 bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, bool blBox)
 {
@@ -9,8 +10,15 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, bool bl
 		//wxMessageBox(wxT("Boo"));
 		dialog.Update(1, _("Working"));
 	}
-	//strFile = Normalise(strFile);
-	//strFile = Normalise(strFile);
+    wxFileName filename(strFile);
+    if(filename.IsOk() == true)
+    {
+    wxString size = filename.GetHumanReadableSize();
+    if(size == wxT("Not available"))
+    {
+        return false;
+    }
+    }
 	wxArrayString arrErrors;
 	wxArrayString arrOutput;
 

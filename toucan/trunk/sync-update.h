@@ -3,7 +3,7 @@
 #include <wx/datetime.h>
 #include <wx/progdlg.h>
 
-bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blBox){
+bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blBox, bool blAttributes){
 
 	//wxLogNull logNo;
 	#ifdef __WXMSW__
@@ -64,7 +64,7 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 					{
 						
 						//wxMessageBox(wxT("Continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
-						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox);
+						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
 					}
 					
 					
@@ -73,7 +73,7 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 						//wxMessageBox(wxT("Creating and continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
 						//CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions);
 						wxMkdir(strTo + strFilename);
-						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox);
+						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
 					}
 				}
 			}
@@ -102,6 +102,17 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 						{
 							wxRemoveFile(strTo + strFilename);
 							wxCopyFile(strFrom + strFilename, strTo + strFilename, true);
+                            if(blAttributes == true)
+                            {
+                                wxFileName from(strFrom + strFilename);
+                                wxFileName to(strTo + strFilename);
+                                
+                                wxDateTime *access;
+                                wxDateTime *mod;
+                                wxDateTime *created;
+                                from.GetTimes(access ,mod ,created );
+                                to.SetTimes(access,mod,created);
+                            }
 							dialog.Update(intNumber, _("Working"));
 							intNumber++;
 						}
@@ -110,6 +121,17 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 					{
 						//wxMessageBox(strTo + strFilename, _("Doesn't Exist"));
 						wxCopyFile(strFrom + strFilename, strTo + strFilename, true);
+                        if(blAttributes == true)
+                        {
+                        wxFileName from(strFrom + strFilename);
+                        wxFileName to(strTo + strFilename);
+                        
+                        wxDateTime *access;
+                        wxDateTime *mod;
+                        wxDateTime *created;
+                        from.GetTimes(access ,mod ,created );
+                        to.SetTimes(access,mod,created);
+                        }
 						dialog.Update(intNumber, _("Working"));
 						intNumber++;
 					}

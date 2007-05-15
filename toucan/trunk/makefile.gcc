@@ -32,7 +32,7 @@ LIBS=-lwxmsw28u_xrc -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u
 CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswu"
 LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
-PROGRAM=PUSS.exe
+PROGRAM=Toucan.exe
 RCFILEOBJ=toucan_rc.o
 RCFILESRC=toucan.rc
 
@@ -58,7 +58,7 @@ LIBS=-lwxmsw28d_xrc -lwxmsw28d_richtext -lwxmsw28d_aui -lwxmsw28d_adv -lwxmsw28d
 CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswd"
 LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswd"
-PROGRAM=PUSS.exe
+PROGRAM=Toucan.exe
 RCFILEOBJ=toucan_rc.o
 RCFILESRC=toucan.rc
 
@@ -84,7 +84,7 @@ LIBS=-lwxmsw28ud_xrc -lwxmsw28ud_richtext -lwxmsw28ud_aui -lwxmsw28ud_adv -lwxms
 CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswud"
 LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswud"
-PROGRAM=PUSS.exe
+PROGRAM=Toucan.exe
 RCFILEOBJ=toucan_rc.o
 RCFILESRC=toucan.rc
 
@@ -116,7 +116,7 @@ endif
 endif
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/frmsave.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 $(OBJECTPATH):
 	-if not exist $(OBJECTPATH) mkdir $(OBJECTPATH)
@@ -142,11 +142,14 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h sync-complete.h sync-update.h normalise.h removedir.h backup.h backup-complete.h backup-update.h backup-restore.h secure.h cryptfile.h cryptdir.h remove-start.h exclusions.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h toucan.h frmmain.h secure.h cryptfile.h cryptdir.h normalise.h backup.h backup-complete.h backup-update.h backup-restore.h sync.h sync-complete.h sync-update.h removedir.h exclusions.h remove-start.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h toucan.h frmmain.h secure.h cryptfile.h cryptdir.h normalise.h backup.h backup-complete.h backup-update.h backup-restore.h sync.h sync-complete.h sync-update.h removedir.h exclusions.h remove-start.h basicops.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
-$(OBJECTPATH)/frmvariable.o:	frmvariable.cpp frmvariable.h
+$(OBJECTPATH)/frmvariable.o:	frmvariable.cpp toucan.h frmmain.h frmvariable.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
+
+$(OBJECTPATH)/frmsave.o:	frmsave.cpp frmsave.h toucan.h frmmain.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmsave.cpp
 
 .PHONY:	all clean
 ### End DialogBlocks generated body

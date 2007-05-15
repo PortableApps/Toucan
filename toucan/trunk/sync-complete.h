@@ -3,7 +3,7 @@
 #include <wx/filename.h>
 #include <wx/progdlg.h>
 
-bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blBox){
+bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blBox, bool blAttributes){
     #ifdef __WXMSW__
             wxString SLASH = wxT("\\");
     #else
@@ -43,7 +43,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
            
             if (wxDirExists(strFrom + strFilename) )
             {
-                //wxMessageBox(strFrom + strFilename);
+               // wxMessageBox(strFrom + strFilename);
                 bool blEqual = false;
                 unsigned int i;
                 for(i = 0; i <arrExclusions.GetCount(); i++)
@@ -61,8 +61,8 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                     if (wxDirExists(strTo + strFilename) )
                     {
                    
-                        //wxMessageBox(wxT("Continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
-                        CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox);
+                       //wxMessageBox(wxT("Continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
+                        CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
                     }
     
                     
@@ -71,7 +71,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                     //wxMessageBox(wxT("Creating and continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
                     //CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions);
                     wxMkdir(strTo + strFilename);
-                    CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox);
+                    CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
                     }
                 }
             }
@@ -82,17 +82,27 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                 bool blEqual = false;
                 for(i = 0; i <arrExclusions.GetCount(); i++)
                 {
-                    //wxMessageBox(flName.GetExt());
-                    if(flName.GetExt() == arrExclusions.Item(i))
-                    {
-                        //wxMessageBox(flName.GetExt() + wxT(" equals ") + arrExclusions.Item(i));
-                        blEqual = true;
-                    }
+                    if(flName.GetExt() != wxEmptyString  &&  flName.GetExt() == arrExclusions.Item(i))
+					{
+						//wxMessageBox(flName.GetExt() + wxT(" equals ") + arrExclusions.Item(i));
+						blEqual = true;
+					}
                 }
                 if(blEqual == false)
                 {
                     wxRemoveFile(strTo + strFilename);
                     wxCopyFile(strFrom + strFilename, strTo + strFilename, true);
+                    if(blAttributes == true)
+                    {
+                        wxFileName from(strFrom + strFilename);
+                        wxFileName to(strTo + strFilename);
+                        wxDateTime access;
+                        wxDateTime mod;
+                        wxDateTime created;
+                        from.GetTimes(&access ,&mod ,&created );
+                        to.SetTimes(&access ,&mod , &created); 
+                    wxMessageBox(_("Entered Attrib updates"));
+                    }
                     dialog.Update(intNumber, _("Working"));
                     intNumber++;
                 }

@@ -141,7 +141,7 @@ bool Toucan::OnInit()
 			}
 			
 		}
-		Sync(file.GetLine(0), file.GetLine(1), file.GetLine(2), arrExclusions, false);
+		Sync(file.GetLine(0), file.GetLine(1), file.GetLine(2), arrExclusions, false, false);
 		return false;
 		
 	}
@@ -187,7 +187,7 @@ bool Toucan::OnInit()
 	} 
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
-        frmMain* mainWindow = new frmMain(NULL, ID_DIALOG_MAIN, wxT("Toucan"));
+    frmMain* mainWindow = new frmMain(NULL, ID_FRMMAIN, wxT("Toucan"));
     if(::wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg")))
     {
    // wxMessageBox(_("Boo2"));

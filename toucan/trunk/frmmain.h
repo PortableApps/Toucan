@@ -42,10 +42,10 @@ class wxListCtrl;
 */
 
 ////\@begin control identifiers
-#define ID_DIALOG_MAIN 10000
+#define ID_FRMMAIN 10000
 #define SYMBOL_FRMMAIN_STYLE wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX|wxMINIMIZE_BOX|wxDIALOG_MODAL
 #define SYMBOL_FRMMAIN_TITLE wxT("Toucan")
-#define SYMBOL_FRMMAIN_IDNAME ID_DIALOG_MAIN
+#define SYMBOL_FRMMAIN_IDNAME ID_FRMMAIN
 #define SYMBOL_FRMMAIN_SIZE wxSize(640, 500)
 #define SYMBOL_FRMMAIN_POSITION wxDefaultPosition
 #define ID_NOTEBOOK1 10001
@@ -100,6 +100,7 @@ class wxListCtrl;
 #define ID_LISTCTRL 10052
 #define ID_BITMAPBUTTON_PVADDLIST 10053
 
+
 #define ID_PANEL_OTHER 10010
 ////\@end control identifiers
 #define ID_TREECTRL1 10050
@@ -107,6 +108,7 @@ class wxListCtrl;
 #define ID_TABSTYLE 10101
 #define ID_BITMAPBUTTON_PVREMOVELIST 10102
 #define ID_HELP 10103
+#define ID_CHECKBOX1 10104
 /*!
 * Compatibility
 */
@@ -283,6 +285,7 @@ public:
 	wxListCtrl* m_List;
 	wxRadioBox* m_Tooltip;
 	wxRadioBox* m_TabStyle;
+    wxCheckBox* m_Attribs;
 	public:
 	wxString strMain;
 	////\@end frmMain member variables
