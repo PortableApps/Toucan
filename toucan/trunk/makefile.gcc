@@ -116,7 +116,7 @@ endif
 endif
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/frmsave.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/frmsave.o $(OBJECTPATH)/frmopen.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 $(OBJECTPATH):
 	-if not exist $(OBJECTPATH) mkdir $(OBJECTPATH)
@@ -148,8 +148,11 @@ $(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h toucan.h frmmain.h 
 $(OBJECTPATH)/frmvariable.o:	frmvariable.cpp toucan.h frmmain.h frmvariable.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
 
-$(OBJECTPATH)/frmsave.o:	frmsave.cpp frmsave.h toucan.h frmmain.h
+$(OBJECTPATH)/frmsave.o:	frmsave.cpp frmsave.h toucan.h frmmain.h basicops.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmsave.cpp
+
+$(OBJECTPATH)/frmopen.o:	frmopen.cpp frmopen.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmopen.cpp
 
 .PHONY:	all clean
 ### End DialogBlocks generated body

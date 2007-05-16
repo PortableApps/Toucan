@@ -1,6 +1,3 @@
-#ifndef H_CRYPTDIR
-#define H_CRYPTDIR
-
 bool CryptDir(wxString strPath, wxString strPass, wxString strFunction, bool blBox)
 {
     wxProgressDialog dialog( _("Progress"), _("Working"), 1, NULL , wxPD_AUTO_HIDE);
@@ -35,5 +32,3 @@ bool CryptDir(wxString strPath, wxString strPass, wxString strFunction, bool blB
     return true;
    
 }
-
-#endif

@@ -57,7 +57,9 @@ public:
 
 	/// Called on exit
 	virtual int OnExit();
-		void SelectLanguage(int lang) ;
+		
+        void SelectLanguage(int lang) ;
+       
 
 	////@begin Toucan event handler declarations
 
@@ -65,9 +67,14 @@ public:
 
 	////@begin Toucan member function declarations
 
+	wxString GetStrTemp() const { return strTemp ; }
+	void SetStrTemp(wxString value) { strTemp = value ; }
+
 	////@end Toucan member function declarations
 
 	////@begin Toucan member variables
+public:
+	wxString strTemp;
 	////@end Toucan member variables
 private:
 	wxLocale* m_locale; // 'our' locale

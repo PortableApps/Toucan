@@ -28,6 +28,7 @@
 
 #include "frmvariable.h"
 #include "frmsave.h"
+#include "frmopen.h"
 
 #include "toucan.h"
 #include "frmmain.h"
@@ -1043,68 +1044,6 @@ void frmMain::OnButtonBackup2Click( wxCommandEvent& event )
 		
 	}
 }/*!
-* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_BACKUP_SAVE
-*/
-
-void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
-{	wxString caption = _("Save Settings");
-	wxString wildcard = _("Text Files (*.txt)|*.txt");
-	wxString defaultFilename = wxEmptyString;
-	wxString defaultDir = wxT("/");
-	wxString strPath;
-	wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxSAVE);
-	if (dialog.ShowModal() == wxID_OK)
-	{
-		strPath = dialog.GetPath();
-		PrepareTextFile(strPath);
-        wxTextFile file;
-        file.Open(strPath);
-		file.AddLine(m_Backup1->GetValue());
-		file.AddLine(m_Backup2->GetValue());
-		file.AddLine(m_BackupType->GetStringSelection());
-		file.AddLine(m_BackupFormat->GetStringSelection());
-		file.AddLine(m_BackupRatio->GetStringSelection());
-		unsigned int i;
-		for(i = 0;i <= m_backup_listex->GetCount();i++)
-		{
-			
-			file.AddLine(m_backup_listex->GetString(i));
-			
-		}
-		file.Write();
-        file.Close();
-	}
-}/*!
-* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_BACKUP_OPEN
-*/
-
-void frmMain::OnBitmapbuttonBackupOpenClick( wxCommandEvent& event )
-{	wxString caption = _("Open Settings");
-	wxString wildcard = _("Text Files (*.txt)|*.txt");
-	wxString defaultFilename = wxEmptyString;
-	wxString defaultDir = wxT("/");
-	wxString strPath;
-	wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxOPEN);
-	if (dialog.ShowModal() == wxID_OK)
-	{
-		strPath = dialog.GetPath();
-		wxTextFile file;
-		file.Open(strPath);
-		m_Backup1->SetValue(file.GetLine(0));
-		m_Backup2->SetValue(file.GetLine(1));
-		m_BackupType->SetStringSelection(file.GetLine(2));
-		m_BackupFormat->SetStringSelection(file.GetLine(3));
-		m_BackupRatio->SetStringSelection(file.GetLine(4));
-		unsigned int i;
-		for(i = 5;i < file.GetLineCount();i++)
-		{
-			
-			m_backup_listex->Append(file.GetLine(i));
-			
-		}
-        file.Close();
-	}
-}/*!
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BUTTON_SYNC
 */
 
@@ -1339,33 +1278,6 @@ void frmMain::OnListctrlItemActivated( wxListEvent& event )
 		config->Flush();
 	}
 }/*!
-* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_SYNC_OPEN
-*/
-
-void frmMain::OnBitmapbuttonSyncOpenClick( wxCommandEvent& event )
-{	wxString caption = _("Open Settings");
-	wxString wildcard = _("Text Files (*.txt)|*.txt");
-	wxString defaultFilename = wxEmptyString;
-	wxString defaultDir = wxT("/");
-	wxString strPath;
-	wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxOPEN);
-	if (dialog.ShowModal() == wxID_OK)
-	{
-		strPath = dialog.GetPath();
-		wxTextFile file;
-		file.Open(strPath);
-		m_Sync_First->SetValue(file.GetLine(0));
-		m_Sync_Second->SetValue(file.GetLine(1));
-		m_Sync_Function->SetStringSelection(file.GetLine(2));
-		unsigned int i;
-		for(i = 3;i < file.GetLineCount();i++)
-		{
-			
-			m_sync_listex->Append(file.GetLine(i));
-			
-		}
-	}
-}/*!
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_SECURE_MAKERELATIVE
 */
 
@@ -1403,13 +1315,8 @@ void frmMain::OnBitmapbuttonSyncAddvar1Click( wxCommandEvent& event )
 {	frmVariable* window = new frmVariable(this, ID_FRMINSERT, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK)
 	{
-		//wxMessageBox(_("Entered"));
-		wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\temp.txt");
-		wxTextFile file;
-		file.Open(strPath);
-		wxString strSelected = file.GetLine(0);
+		wxString strSelected = wxGetApp().GetStrTemp();
 		m_Sync_First->SetValue(wxT("@") + strSelected + wxT("@"));
-        file.Close();
 	}
 
 }
@@ -1422,12 +1329,8 @@ void frmMain::OnBitmapbuttonBackupAddvar1Click( wxCommandEvent& event )
 {	frmVariable* window = new frmVariable(this, ID_FRMINSERT, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK)
 	{
-		wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\temp.txt");
-		wxTextFile file;
-		file.Open(strPath);
-		wxString strSelected = file.GetLine(0);
+		wxString strSelected = wxGetApp().GetStrTemp();
 		m_Backup1->SetValue(wxT("@") + strSelected + wxT("@"));
-        file.Close();
 	} }
 
 /*!
@@ -1438,12 +1341,8 @@ void frmMain::OnBitmapbuttonBackupAddvar2Click( wxCommandEvent& event )
 {	frmVariable* window = new frmVariable(this, ID_FRMINSERT, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK)
 	{
-		wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\temp.txt");
-		wxTextFile file;
-		file.Open(strPath);
-		wxString strSelected = file.GetLine(0);
+		wxString strSelected = wxGetApp().GetStrTemp();
 		m_Backup2->SetValue(wxT("@") + strSelected + wxT("@"));
-        file.Close();
 	}
 }/*!
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_SYNC_ADDVAR2
@@ -1453,12 +1352,8 @@ void frmMain::OnBitmapbuttonSyncAddvar2Click( wxCommandEvent& event )
 {	frmVariable* window = new frmVariable(this, ID_FRMINSERT, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK)
 	{
-		wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\temp.txt");
-		wxTextFile file;
-		file.Open(strPath);
-		wxString strSelected = file.GetLine(0);
+		wxString strSelected = wxGetApp().GetStrTemp();
 		m_Sync_Second->SetValue(wxT("@") + strSelected + wxT("@"));
-        file.Close();
 	}
 }/*!
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_SECURE_ADDVAR
@@ -1468,12 +1363,8 @@ void frmMain::OnBitmapbuttonSecureAddvarClick( wxCommandEvent& event )
 {	frmVariable* window = new frmVariable(this, ID_FRMINSERT, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK)
 	{
-		wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\temp.txt");
-		wxTextFile file;
-		file.Open(strPath);
-		wxString strSelected = file.GetLine(0);
+        wxString strSelected = wxGetApp().GetStrTemp();
 		m_ListSecure->Append(wxT("@") + strSelected + wxT("@"));
-        file.Close();
 	}
 }/*!
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_SYNC_ADDEX
@@ -1514,14 +1405,163 @@ void frmMain::OnBitmapbuttonBackupexremClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonSyncSaveClick( wxCommandEvent& event )
 {
-   frmSave* window = new frmSave(this, ID_FRMSAVE, _("Save"));
-	//if(window->ShowModal() == wxID_OK)
-	//{
-	//	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\temp.txt");
-	//	wxTextFile file;
-	//	file.Open(strPath);
-		//Need to put stuff here about saving settings
+    wxGetApp().SetStrTemp(_("Sync"));
+    frmSave* window = new frmSave(this, ID_FRMSAVE, _("Save"));
+	if(window->ShowModal() == wxID_OK)
+	{
+        wxString strName = wxGetApp().GetStrTemp();
+        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
+        wxFileConfig::Set( config );
+        config->DeleteGroup(strName);
+        config->Write(strName+ wxT("/Type"), _("Sync"));
+        config->Write(strName+ wxT("/1"), m_Sync_First->GetValue());
+        config->Write(strName+ wxT("/2"), m_Sync_Second->GetValue());
+        config->Write(strName+ wxT("/Function"), m_Sync_Function->GetStringSelection());
+        config->Write(strName+ wxT("/Attributes"), m_Attribs->IsChecked());
+        int i;
+        wxString strExsisting;
+        for(i = 0; i  < m_sync_listex->GetCount(); i++)
+        {
+                //wxMessageBox(_("Entering"));
+            strExsisting = config->Read(strName+ wxT("/Exclusions"), wxEmptyString);
+                //wxMessageBox(strExsisting);
+                config->Write(strName+ wxT("/Exclusions"), strExsisting + wxT("|") + m_sync_listex->GetString(i));
+                config->Flush();
+        }
+        strExsisting = config->Read(strName+ wxT("/Exclusions"), wxEmptyString);
+        config->Write(strName+ wxT("/Exclusions"), strExsisting + wxT("|"));
+        config->Flush();
+        	//config->Write(m_PVCombo->GetValue() + wxT("/") + m_List->GetItemText(item), location.GetValue());
         
-	//}
+	}
 }
 
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_SYNC_OPEN
+*/
+
+void frmMain::OnBitmapbuttonSyncOpenClick( wxCommandEvent& event )
+{
+    wxGetApp().SetStrTemp(_("Sync"));	
+    wxString caption = _("Open Settings");
+    frmOpen* window = new frmOpen(this, ID_FRMOPEN, _("Open"));
+    if(window->ShowModal() == wxID_OK)
+    {
+        m_sync_listex->Clear();
+        wxString strName = wxGetApp().GetStrTemp();
+        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
+        wxFileConfig::Set( config );
+        m_Sync_First->SetValue(config->Read(strName+ wxT("/1")));
+        m_Sync_Second->SetValue(config->Read(strName+ wxT("/2")));
+        m_Sync_Function->SetStringSelection(config->Read(strName+ wxT("/Function")));
+        
+        wxString strAttribs = config->Read(strName+ wxT("/Attributes"));
+        if(strAttribs == wxT("0"))
+        {
+            m_Attribs->SetValue(false);
+        }
+        else if(strAttribs == wxT("1"))
+        {
+            m_Attribs->SetValue(true);
+        }
+        
+        wxString strToSplit = config->Read(strName+ wxT("/Exclusions"));
+        wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+        wxString token;
+        while ( tkz.HasMoreTokens() )
+        {
+            token = tkz.GetNextToken();
+            m_sync_listex->Append(token);
+        
+        }
+    }
+}
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_BACKUP_SAVE
+*/
+
+void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
+{	 
+    wxGetApp().SetStrTemp(_("Backup"));
+    frmSave* window = new frmSave(this, ID_FRMSAVE, _("Save"));
+	if(window->ShowModal() == wxID_OK)
+	{
+        wxString strName = wxGetApp().GetStrTemp();
+        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
+        wxFileConfig::Set( config );
+        config->DeleteGroup(strName);
+        config->Write(strName+ wxT("/Type"), _("Backup"));
+        config->Write(strName+ wxT("/1"), m_Backup1->GetValue());
+        config->Write(strName+ wxT("/2"), m_Backup2->GetValue());
+        config->Write(strName+ wxT("/Function"), m_BackupType->GetStringSelection());
+        config->Write(strName+ wxT("/Format"), m_BackupFormat->GetStringSelection());
+        config->Write(strName+ wxT("/Ratio"), m_BackupRatio->GetStringSelection());
+        int i;
+        wxString strExsisting;
+        for(i = 0; i  < m_backup_listex->GetCount(); i++)
+        {
+            strExsisting = config->Read(strName+ wxT("/Exclusions"), wxEmptyString);
+            config->Write(strName+ wxT("/Exclusions"), strExsisting + wxT("|") + m_backup_listex->GetString(i));
+            config->Flush();
+        }
+        strExsisting = config->Read(strName+ wxT("/Exclusions"), wxEmptyString);
+        config->Write(strName+ wxT("/Exclusions"), strExsisting + wxT("|"));
+        config->Flush();
+        	//config->Write(m_PVCombo->GetValue() + wxT("/") + m_List->GetItemText(item), location.GetValue());
+        
+	}
+}
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_BACKUP_OPEN
+*/
+
+void frmMain::OnBitmapbuttonBackupOpenClick( wxCommandEvent& event )
+{	    
+    wxGetApp().SetStrTemp(_("Backup"));	
+    wxString caption = _("Open Settings");
+    frmOpen* window = new frmOpen(this, ID_FRMOPEN, _("Open"));
+    if(window->ShowModal() == wxID_OK)
+    {
+        m_backup_listex->Clear();
+        wxString strName = wxGetApp().GetStrTemp();
+        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
+        wxFileConfig::Set( config );
+        m_Backup1->SetValue(config->Read(strName+ wxT("/1")));
+        m_Backup2->SetValue(config->Read(strName+ wxT("/2")));
+        m_BackupType->SetStringSelection(config->Read(strName+ wxT("/Function")));
+        m_BackupFormat->SetStringSelection(config->Read(strName+ wxT("/Format")));
+        m_BackupRatio->SetStringSelection(config->Read(strName+ wxT("/Ratio")));
+        
+        wxString strToSplit = config->Read(strName+ wxT("/Exclusions"));
+        wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+        wxString token;
+        while ( tkz.HasMoreTokens() )
+        {
+            token = tkz.GetNextToken();
+            m_backup_listex->Append(token);
+        
+        }
+        if(m_BackupType->GetStringSelection() == _("Complete"))
+        {
+            
+            m_BackupText1->SetLabel(_("Source Folder"));
+            m_BackupText2->SetLabel(_("Backup File"));
+            
+        }
+        else if(m_BackupType->GetStringSelection() == _("Update"))
+        {
+            
+            m_BackupText1->SetLabel(_("Source Folder"));
+            m_BackupText2->SetLabel(_("Backup File"));
+            
+        }
+        else if(m_BackupType->GetStringSelection() == _("Restore"))
+        {
+            
+            m_BackupText1->SetLabel(_("Backup File"));
+            m_BackupText2->SetLabel(_("Restore Into"));
+            
+        }
+
+    }
+}
