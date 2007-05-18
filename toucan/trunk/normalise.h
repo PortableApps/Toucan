@@ -38,7 +38,7 @@ wxString Normalise(wxString strFilePath)
 			}
 			else
 			{
-				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\settings.ini") );
+				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Variables.ini") );
 				wxFileConfig::Set( config );
 				
 				wxString strRead;

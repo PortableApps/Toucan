@@ -106,12 +106,11 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
                             {
                                 wxFileName from(strFrom + strFilename);
                                 wxFileName to(strTo + strFilename);
-                                
-                                wxDateTime *access;
-                                wxDateTime *mod;
-                                wxDateTime *created;
-                                from.GetTimes(access ,mod ,created );
-                                to.SetTimes(access,mod,created);
+                                wxDateTime access;
+                                wxDateTime mod;
+                                wxDateTime created;
+                                from.GetTimes(&access ,&mod ,&created );
+                                to.SetTimes(&access ,&mod , &created); 
                             }
 							dialog.Update(intNumber, _("Working"));
 							intNumber++;
@@ -125,12 +124,11 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
                         {
                         wxFileName from(strFrom + strFilename);
                         wxFileName to(strTo + strFilename);
-                        
-                        wxDateTime *access;
-                        wxDateTime *mod;
-                        wxDateTime *created;
-                        from.GetTimes(access ,mod ,created );
-                        to.SetTimes(access,mod,created);
+                        wxDateTime access;
+                        wxDateTime mod;
+                        wxDateTime created;
+                        from.GetTimes(&access ,&mod ,&created );
+                        to.SetTimes(&access ,&mod , &created); 
                         }
 						dialog.Update(intNumber, _("Working"));
 						intNumber++;

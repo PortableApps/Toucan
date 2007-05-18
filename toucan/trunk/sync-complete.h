@@ -101,7 +101,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                         wxDateTime created;
                         from.GetTimes(&access ,&mod ,&created );
                         to.SetTimes(&access ,&mod , &created); 
-                    wxMessageBox(_("Entered Attrib updates"));
+                   // wxMessageBox(_("Entered Attrib updates"));
                     }
                     dialog.Update(intNumber, _("Working"));
                     intNumber++;

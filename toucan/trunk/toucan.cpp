@@ -33,6 +33,7 @@
 #include "secure.h"
 #include "remove-start.h"
 #include "exclusions.h"
+#include "basicops.h"
 
 //#include <wx/intl.h>
 #include <wx/cmdline.h>
@@ -109,74 +110,6 @@ bool Toucan::OnInit()
 		res = cmdParser.Parse(false);
 	}
 		// Check for a project filename
-	if (cmdParser.GetParam(0).MakeLower() == wxT("secure"))
-	{
-		//wxMessageBox(cmdParser.GetParam(0));
-		wxTextFile file;
-		file.Open(cmdParser.GetParam(1));
-		unsigned int i;
-		wxArrayString arrFiles;
-		for(i=0; i < file.GetLineCount();i++)
-		{
-			
-			arrFiles.Add(file.GetLine(i));
-			
-		}
-		Secure(arrFiles, cmdParser.GetParam(2), cmdParser.GetParam(3), false);
-		return false;
-		
-	}
-	if (cmdParser.GetParam(0).MakeLower() == wxT("sync"))
-	{
-		//wxMessageBox(cmdParser.GetParam(0));
-		wxTextFile file;
-		wxArrayString arrExclusions;
-		file.Open(cmdParser.GetParam(1));
-		if(file.GetLineCount() >= 3)
-		{
-			unsigned int i;
-			for(i = 3;i < file.GetLineCount(); i++)
-			{
-				arrExclusions.Add(file.GetLine(i));
-			}
-			
-		}
-		Sync(file.GetLine(0), file.GetLine(1), file.GetLine(2), arrExclusions, false, false);
-		return false;
-		
-	}
-		if (cmdParser.GetParam(0).MakeLower() == wxT("backup"))
-	{
-		wxTextFile file;
-		file.Open(cmdParser.GetParam(1));
-		wxArrayString arrExclusions;
-		if(file.GetLineCount() >= 5)
-		{
-			unsigned int i;
-			for(i = 5;i < file.GetLineCount(); i++)
-			{
-				//wxMessageBox(file.GetLine(i));
-				arrExclusions.Add(file.GetLine(i));
-			}
-			
-		}
-		wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
-		wxTextFile file2;
-		if(wxFile::Exists(strPath))
-		{	
-			file2.Open(strPath);
-			file2.Clear();
-			file2.Write();
-		}
-		else
-		{
-			file2.Create(strPath);
-		}
-		GenerateExclusions(file.GetLine(0), arrExclusions, false);
-		CutStart(file.GetLine(0), false);
-		Backup(file.GetLine(0), file.GetLine(1), file.GetLine(2),file.GetLine(3),file.GetLine(4), false);
-		return false;
-	}
 
 	wxSingleInstanceChecker* m_checker = new wxSingleInstanceChecker(wxT("Toucan"));
 	if ( m_checker->IsAnotherRunning() )
@@ -185,6 +118,75 @@ bool Toucan::OnInit()
 
 		return false;
 	} 
+    
+    wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
+    wxFileConfig::Set( config );
+    
+    if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == _("Sync"))
+    {
+    
+        wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Exclusions"));
+        wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+        wxString token;
+        wxArrayString arrExclusions;
+        while ( tkz.HasMoreTokens() )
+        {
+            token = tkz.GetNextToken();
+            arrExclusions.Add(token);
+        
+        }
+        wxString strAttribs = config->Read(cmdParser.GetParam(0) + wxT("/Attributes"));
+        if(strAttribs == wxT("0"))
+        {
+            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, false);
+        }
+        else if(strAttribs == wxT("1"))
+        {
+            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, true);
+        }
+      
+		return false;
+    
+    }
+    else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == _("Backup"))
+    {
+        wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Exclusions"));
+        wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+        wxString token;
+        wxArrayString arrExclusions;
+        while ( tkz.HasMoreTokens() )
+        {
+            token = tkz.GetNextToken();
+            arrExclusions.Add(token);
+        
+        }
+        //Clears up text file for new exclusions
+        wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
+		PrepareTextFile(strPath);
+		//Generate the exclusion file list
+		GenerateExclusions(config->Read(cmdParser.GetParam(0) + wxT("/1")), arrExclusions, false);
+		//Cut the beginnings off the files so that they are 7zip compatible
+		CutStart(config->Read(cmdParser.GetParam(0) + wxT("/1")), false);
+		//Run the backup
+		Backup(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false);
+        return false;
+    }
+    else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == _("Secure"))
+    {
+        wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Files"));
+        wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+        wxString token;
+        wxArrayString arrFiles;
+        while ( tkz.HasMoreTokens() )
+        {
+            token = tkz.GetNextToken();
+            arrFiles.Add(token);
+        
+        }
+        Secure(arrFiles, config->Read(cmdParser.GetParam(0) + wxT("/Function")), cmdParser.GetParam(1), false);
+    return false;
+   }
+    
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
     frmMain* mainWindow = new frmMain(NULL, ID_FRMMAIN, wxT("Toucan"));
@@ -207,8 +209,6 @@ bool Toucan::OnInit()
     mainWindow->Destroy();
 	// A modal dialog application should return false to terminate the app.
 	return false;
-
-	return true;
 }
 void Toucan::SelectLanguage(int lang)
 {	m_locale = new wxLocale(wxLANGUAGE_FRENCH);
