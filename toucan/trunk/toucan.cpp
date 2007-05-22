@@ -34,6 +34,7 @@
 #include "remove-start.h"
 #include "exclusions.h"
 #include "basicops.h"
+#include "frmmain.h"
 
 //#include <wx/intl.h>
 #include <wx/cmdline.h>
@@ -122,7 +123,7 @@ bool Toucan::OnInit()
     wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
     wxFileConfig::Set( config );
     
-    if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == _("Sync"))
+    if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync"))
     {
     
         wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Exclusions"));
@@ -148,7 +149,7 @@ bool Toucan::OnInit()
 		return false;
     
     }
-    else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == _("Backup"))
+    else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup"))
     {
         wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Exclusions"));
         wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
@@ -171,7 +172,7 @@ bool Toucan::OnInit()
 		Backup(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false);
         return false;
     }
-    else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == _("Secure"))
+    else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure"))
     {
         wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Files"));
         wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);

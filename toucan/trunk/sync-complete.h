@@ -82,7 +82,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                 bool blEqual = false;
                 for(i = 0; i <arrExclusions.GetCount(); i++)
                 {
-                    if(flName.GetExt() != wxEmptyString  &&  flName.GetExt() == arrExclusions.Item(i))
+                    if(flName.GetExt() != wxEmptyString  &&  wxT(".") + flName.GetExt() == arrExclusions.Item(i))
 					{
 						//wxMessageBox(flName.GetExt() + wxT(" equals ") + arrExclusions.Item(i));
 						blEqual = true;

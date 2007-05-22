@@ -64,7 +64,7 @@ bool GenerateExclusions(wxString strFrom, wxArrayString arrExclusions, bool blBo
                 for(i = 0; i <arrExclusions.GetCount(); i++)
                 {
                     //wxMessageBox(flName.GetExt());
-                    if(flName.GetExt() == arrExclusions.Item(i))
+                    if(wxT(".") + flName.GetExt() == arrExclusions.Item(i))
                     {
                         //wxMessageBox(flName.GetExt() + wxT(" equals ") + arrExclusions.Item(i));
                         blEqual = true;

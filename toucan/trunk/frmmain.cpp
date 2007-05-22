@@ -225,7 +225,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer5->Add(itemBoxSizer6, 0, wxALIGN_LEFT|wxALL, 5);
-	wxStaticText* itemStaticText7 = new wxStaticText( itemPanel4, wxID_STATIC, _("Source"), wxDefaultPosition, wxSize(75, -1), 0 );
+	wxStaticText* itemStaticText7 = new wxStaticText( itemPanel4, wxID_STATIC, _("Source"), wxDefaultPosition, wxSize(100, -1), 0 );
 	itemBoxSizer6->Add(itemStaticText7, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
 	m_Sync_First = new wxTextCtrl( itemPanel4, ID_TEXTCTRL_SYNC_FIRST, _T(""), wxDefaultPosition, wxSize(300, -1), 0 );
@@ -241,7 +241,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer5->Add(itemBoxSizer11, 0, wxALIGN_LEFT|wxALL, 0);
-	itemBoxSizer11->Add(85, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer11->Add(110, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmap itemBitmapButton13Bitmap(itemDialog1->GetBitmapResource(wxT("media-floppy.png")));
 	wxBitmapButton* itemBitmapButton13 = new wxBitmapButton( itemPanel4, ID_BITMAPBUTTON_SYNC_SAVE, itemBitmapButton13Bitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW|wxBU_EXACTFIT );
@@ -253,7 +253,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer15 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer5->Add(itemBoxSizer15, 0, wxALIGN_LEFT|wxALL, 5);
-	wxStaticText* itemStaticText16 = new wxStaticText( itemPanel4, wxID_STATIC, _("Destination"), wxDefaultPosition, wxSize(75, -1), 0 );
+	wxStaticText* itemStaticText16 = new wxStaticText( itemPanel4, wxID_STATIC, _("Destination"), wxDefaultPosition, wxSize(100, -1), 0 );
 	itemBoxSizer15->Add(itemStaticText16, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
 	m_Sync_Second = new wxTextCtrl( itemPanel4, ID_TEXTCTRL_SYNC_SECOND, _T(""), wxDefaultPosition, wxSize(300, -1), 0 );
@@ -338,7 +338,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer35 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer34->Add(itemBoxSizer35, 0, wxALIGN_LEFT|wxALL, 5);
-	m_BackupText1 = new wxStaticText( itemPanel33, wxID_STATIC_1, _("Source Folder"), wxDefaultPosition, wxSize(75, -1), 0 );
+	m_BackupText1 = new wxStaticText( itemPanel33, wxID_STATIC_1, _("Source Folder"), wxDefaultPosition, wxSize(100, -1), 0 );
 	itemBoxSizer35->Add(m_BackupText1, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
 	m_Backup1 = new wxTextCtrl( itemPanel33, ID_TEXTCTRL_BACKUP1, _T(""), wxDefaultPosition, wxSize(300, -1), 0 );
@@ -353,7 +353,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer40 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer34->Add(itemBoxSizer40, 0, wxALIGN_LEFT|wxALL, 0);
-	itemBoxSizer40->Add(85, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer40->Add(110, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmap itemBitmapButton42Bitmap(itemDialog1->GetBitmapResource(wxT("media-floppy.png")));
 	wxBitmapButton* itemBitmapButton42 = new wxBitmapButton( itemPanel33, ID_BITMAPBUTTON_BACKUP_SAVE, itemBitmapButton42Bitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW|wxBU_EXACTFIT );
@@ -365,7 +365,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer34->Add(itemBoxSizer44, 0, wxALIGN_LEFT|wxALL, 5);
-	m_BackupText2 = new wxStaticText( itemPanel33, wxID_STATIC_2, _("Backup File"), wxDefaultPosition, wxSize(75, -1), 0 );
+	m_BackupText2 = new wxStaticText( itemPanel33, wxID_STATIC_2, _("Backup File"), wxDefaultPosition, wxSize(100, -1), 0 );
 	itemBoxSizer44->Add(m_BackupText2, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
 	m_Backup2 = new wxTextCtrl( itemPanel33, ID_TEXTCTRL_BACKUP2, _T(""), wxDefaultPosition, wxSize(300, -1), 0 );
@@ -394,8 +394,8 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer52 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer49->Add(itemBoxSizer52, 0, wxALIGN_TOP|wxALL, 5);
 	wxString m_BackupFormatStrings[] = {
-		_("7 Zip"),
-		_("Zip")
+		wxT("7 Zip"),
+		wxT("Zip")
 	};
 	m_BackupFormat = new wxRadioBox( itemPanel33, ID_RADIOBOX3, _("Backup Format"), wxDefaultPosition, wxDefaultSize, 2, m_BackupFormatStrings, 2, wxRA_SPECIFY_ROWS );
 	m_BackupFormat->SetSelection(0);
@@ -786,11 +786,11 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.0.0 Prerelease 1"));
+	info.SetVersion(wxT("1.0.0 Prerelease 2"));
 	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh"));
 	info.SetWebSite(wxT("http://portableapps.com/apps/utilities/toucan"));
 //	info.AddTranslator(wxT("Simeon Kühl - German"));
-//	info.AddTranslator(wxT("\nGowtam Jinnuri - French"));
+	info.AddTranslator(wxT("Gowtam Jinnuri - French"));
 
 	wxAboutBox(info);
 }void frmMain::OnHELPClick( wxCommandEvent& event )
@@ -1328,7 +1328,7 @@ void frmMain::OnBitmapbuttonSecureAddvarClick( wxCommandEvent& event )
 */
 void frmMain::OnBitmapbuttonSyncAddexClick( wxCommandEvent& event )
 {	wxTextEntryDialog exclusion(this, _("Please insert the folder name or extension \nthat you want to exclude."), _("Folder or Extension"), wxEmptyString, wxOK);
-	if(exclusion.ShowModal() == wxID_OK)
+	if(exclusion.ShowModal() == wxID_OK && exclusion.GetValue() != wxEmptyString)
 	{
 		m_sync_listex->Append(exclusion.GetValue());
 	}
@@ -1344,7 +1344,7 @@ void frmMain::OnBitmapbuttonSyncRemoveexClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonBackupexaddClick( wxCommandEvent& event )
 {	wxTextEntryDialog exclusion(this, _("Please insert the folder name or extension \nthat you want to exclude."), _("Folder or Extension"), wxEmptyString, wxOK);
-	if(exclusion.ShowModal() == wxID_OK)
+	if(exclusion.ShowModal() == wxID_OK && exclusion.GetValue() != wxEmptyString)
 	{
 		m_backup_listex->Append(exclusion.GetValue());
 	}
@@ -1362,7 +1362,7 @@ void frmMain::OnBitmapbuttonBackupexremClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonSyncSaveClick( wxCommandEvent& event )
 {
-    wxGetApp().SetStrTemp(_("Sync"));
+    wxGetApp().SetStrTemp(_T("Sync"));
     frmSave* window = new frmSave(this, ID_FRMSAVE, _("Save"));
 	if(window->ShowModal() == wxID_OK)
 	{
@@ -1370,7 +1370,7 @@ void frmMain::OnBitmapbuttonSyncSaveClick( wxCommandEvent& event )
         wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
         wxFileConfig::Set( config );
         config->DeleteGroup(strName);
-        config->Write(strName+ wxT("/Type"), _("Sync"));
+        config->Write(strName+ wxT("/Type"), _T("Sync"));
         config->Write(strName+ wxT("/1"), m_Sync_First->GetValue());
         config->Write(strName+ wxT("/2"), m_Sync_Second->GetValue());
         config->Write(strName+ wxT("/Function"), m_Sync_Function->GetStringSelection());
@@ -1399,7 +1399,7 @@ void frmMain::OnBitmapbuttonSyncSaveClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonSyncOpenClick( wxCommandEvent& event )
 {
-    wxGetApp().SetStrTemp(_("Sync"));	
+    wxGetApp().SetStrTemp(_T("Sync"));	
     wxString caption = _("Open Settings");
     frmOpen* window = new frmOpen(this, ID_FRMOPEN, _("Open"));
     if(window->ShowModal() == wxID_OK)
@@ -1439,7 +1439,7 @@ void frmMain::OnBitmapbuttonSyncOpenClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
 {	 
-    wxGetApp().SetStrTemp(_("Backup"));
+    wxGetApp().SetStrTemp(wxT("Backup"));
     frmSave* window = new frmSave(this, ID_FRMSAVE, _("Save"));
 	if(window->ShowModal() == wxID_OK)
 	{
@@ -1447,7 +1447,7 @@ void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
         wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
         wxFileConfig::Set( config );
         config->DeleteGroup(strName);
-        config->Write(strName+ wxT("/Type"), _("Backup"));
+        config->Write(strName+ wxT("/Type"), wxT("Backup"));
         config->Write(strName+ wxT("/1"), m_Backup1->GetValue());
         config->Write(strName+ wxT("/2"), m_Backup2->GetValue());
         config->Write(strName+ wxT("/Function"), m_BackupType->GetStringSelection());
@@ -1474,7 +1474,7 @@ void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonBackupOpenClick( wxCommandEvent& event )
 {	    
-    wxGetApp().SetStrTemp(_("Backup"));	
+    wxGetApp().SetStrTemp(wxT("Backup"));	
     wxString caption = _("Open Settings");
     frmOpen* window = new frmOpen(this, ID_FRMOPEN, _("Open"));
     if(window->ShowModal() == wxID_OK)
@@ -1528,7 +1528,7 @@ void frmMain::OnBitmapbuttonBackupOpenClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonSecureSaveClick( wxCommandEvent& event )
 {	
-    wxGetApp().SetStrTemp(_("Secure"));	
+    wxGetApp().SetStrTemp(wxT("Secure"));	
     wxString caption = _("Open Settings");
     frmSave* window = new frmSave(this, ID_FRMOPEN, _("Open"));
     if(window->ShowModal() == wxID_OK)
@@ -1537,7 +1537,7 @@ void frmMain::OnBitmapbuttonSecureSaveClick( wxCommandEvent& event )
         wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
         wxFileConfig::Set( config );
         config->DeleteGroup(strName);
-        config->Write(strName+ wxT("/Type"), _("Secure"));
+        config->Write(strName+ wxT("/Type"), wxT("Secure"));
         config->Write(strName+ wxT("/Function"), m_FunctionSecure->GetStringSelection());
         int i;
         wxString strExsisting;
@@ -1560,7 +1560,7 @@ void frmMain::OnBitmapbuttonSecureSaveClick( wxCommandEvent& event )
 
 void frmMain::OnBitmapbuttonSecureOpenClick( wxCommandEvent& event )
 {	
-    wxGetApp().SetStrTemp(_("Secure"));	
+    wxGetApp().SetStrTemp(wxT("Secure"));	
     wxString caption = _("Open Settings");
     frmOpen* window = new frmOpen(this, ID_FRMOPEN, _("Open"));
     if(window->ShowModal() == wxID_OK)

@@ -4,11 +4,11 @@ bool BackupComplete(wxString strFirst, wxString strSecond, wxString strFormat, w
     wxArrayString arrOutput;
     wxArrayString arrErrors;
     
-    if (strFormat == _("Zip"))
+    if (strFormat == wxT("Zip"))
     {
         strFormat = wxT("zip");
     }
-    else if (strFormat == _("7 Zip"))
+    else if (strFormat == wxT("7 Zip"))
     {
         strFormat = wxT("7z");
     }

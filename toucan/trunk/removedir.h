@@ -1,3 +1,7 @@
+#ifndef H_REMDIR
+#define H_REMDIR
+
+
 bool RemDir(wxString rmDir) {
 
         // *************************************************************
@@ -83,3 +87,5 @@ bool RemDir(wxString rmDir) {
         }
 
 } 
+
+#endif

@@ -116,7 +116,7 @@ endif
 endif
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/frmsave.o $(OBJECTPATH)/frmopen.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/frmsave.o $(OBJECTPATH)/frmopen.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 $(OBJECTPATH):
 	-if not exist $(OBJECTPATH) mkdir $(OBJECTPATH)
@@ -139,20 +139,23 @@ $(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
 $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
 
-$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h sync-complete.h sync-update.h normalise.h removedir.h backup.h backup-complete.h backup-update.h backup-restore.h secure.h cryptfile.h cryptdir.h remove-start.h exclusions.h
+$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h sync-complete.h sync-update.h sync-mirror.h removedir.h normalise.h frmprogress.h backup.h backup-complete.h backup-update.h backup-restore.h secure.h cryptfile.h cryptdir.h remove-start.h exclusions.h basicops.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h toucan.h frmmain.h secure.h cryptfile.h cryptdir.h normalise.h backup.h backup-complete.h backup-update.h backup-restore.h sync.h sync-complete.h sync-update.h removedir.h exclusions.h remove-start.h basicops.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h cryptfile.h cryptdir.h normalise.h backup.h backup-complete.h backup-update.h backup-restore.h sync.h sync-complete.h sync-update.h sync-mirror.h removedir.h frmprogress.h exclusions.h remove-start.h basicops.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 $(OBJECTPATH)/frmvariable.o:	frmvariable.cpp toucan.h frmmain.h frmvariable.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
 
-$(OBJECTPATH)/frmsave.o:	frmsave.cpp frmsave.h toucan.h frmmain.h basicops.h
+$(OBJECTPATH)/frmsave.o:	frmsave.cpp frmsave.h toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmsave.cpp
 
-$(OBJECTPATH)/frmopen.o:	frmopen.cpp frmopen.h
+$(OBJECTPATH)/frmopen.o:	frmopen.cpp frmopen.h toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmopen.cpp
+
+$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h toucan.h frmmain.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmprogress.cpp
 
 .PHONY:	all clean
 ### End DialogBlocks generated body
