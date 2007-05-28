@@ -3,7 +3,7 @@
 #include <wx/datetime.h>
 #include <wx/progdlg.h>
 
-bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blBox, bool blAttributes){
+bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blAttributes, frmProgress* window, int length1, int length2){
 
 	//wxLogNull logNo;
 	#ifdef __WXMSW__
@@ -21,16 +21,7 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 	if (strFrom[strFrom.length()-1] != SLASH) {
 		strFrom += SLASH;       
 	}  
-	//wxMessageBox(_("Updating"));
-	int intNumber = 0;
-	wxArrayString arrFileList;
-	wxDir::GetAllFiles(strFrom, & arrFileList);
-	wxProgressDialog dialog( _("Progress"), _("Working"), arrFileList.GetCount(), NULL , wxPD_AUTO_HIDE);
-	if(blBox == false)
-	{
-		//wxMessageBox(wxT("Boo"));
-		dialog.Update(arrFileList.GetCount(), _("Working"));
-	}
+
 	if (!wxDirExists(strTo))
 	wxMkdir(strTo);
 	
@@ -64,7 +55,7 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 					{
 						
 						//wxMessageBox(wxT("Continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
-						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
+						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blAttributes, window, length1, length2);
 					}
 					
 					
@@ -73,7 +64,7 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 						//wxMessageBox(wxT("Creating and continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
 						//CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions);
 						wxMkdir(strTo + strFilename);
-						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
+						UpdateDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blAttributes, window, length1, length2);
 					}
 				}
 			}
@@ -112,8 +103,11 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
                                 from.GetTimes(&access ,&mod ,&created );
                                 to.SetTimes(&access ,&mod , &created); 
                             }
-							dialog.Update(intNumber, _("Working"));
-							intNumber++;
+							//dialog.Update(intNumber, _("Working"));
+							//intNumber++;
+                            wxString both1 = strFrom + strFilename;
+                            both1 = both1.Right(both1.Length() - length1);
+                            window->m_Progress_Text->AppendText(_("\r\nOverwrote \t") + both1);
 						}
 					}
 					else
@@ -130,15 +124,15 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
                         from.GetTimes(&access ,&mod ,&created );
                         to.SetTimes(&access ,&mod , &created); 
                         }
-						dialog.Update(intNumber, _("Working"));
-						intNumber++;
+                        wxString both1 = strFrom + strFilename;
+                        both1 = both1.Right(both1.Length() - length1);
+                        window->m_Progress_Text->AppendText(_("\r\nCopied \t") + both1);
+						//intNumber++;
 					}
 				}
 			}
 		}
 		while (dir.GetNext(&strFilename) );
 	}  
-	dialog.Update(arrFileList.GetCount(), _("Working"));
-	return true;
-	
+	return true;	
 }

@@ -786,11 +786,12 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.0.0 Prerelease 2"));
+	info.SetVersion(wxT("1.0.0 Prerelease 4"));
 	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh"));
 	info.SetWebSite(wxT("http://portableapps.com/apps/utilities/toucan"));
-//	info.AddTranslator(wxT("Simeon Kühl - German"));
-	info.AddTranslator(wxT("Gowtam Jinnuri - French"));
+	info.AddTranslator(wxT("Simeon Kühl - German"));
+	info.AddTranslator(wxT("\n Gowtam Jinnuri - French"));
+	info.AddTranslator(wxT("\nMartin Wiatr - Polish"));
 
 	wxAboutBox(info);
 }void frmMain::OnHELPClick( wxCommandEvent& event )
@@ -874,15 +875,22 @@ void frmMain::OnButtonBackupClick( wxCommandEvent& event )
 		{
 			arrExclusions.Add(m_backup_listex->GetString(i));
 		}
+        wxString strFirst = Normalise(m_Backup1->GetValue());
+        strFirst = Normalise(strFirst);
+        wxString strSecond = Normalise(m_Backup2->GetValue());
+        strSecond = Normalise(strSecond);
 		//Clears up text file for new exclusions
         wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
 		PrepareTextFile(strPath);
 		//Generate the exclusion file list
-		GenerateExclusions(m_Backup1->GetValue(), arrExclusions, true);
+        if(m_BackupType->GetStringSelection() != _("Restore"))
+        {
+		GenerateExclusions(strFirst, arrExclusions, true);
 		//Cut the beginnings off the files so that they are 7zip compatible
-		CutStart(m_Backup1->GetValue(), true);
+		CutStart(strFirst, true);
+        }
 		//Run the backup
-		Backup(m_Backup1->GetValue(), m_Backup2->GetValue(), m_BackupType->GetStringSelection(), m_BackupFormat->GetStringSelection(), m_BackupRatio->GetStringSelection(), true);
+		Backup(strFirst, strSecond, m_BackupType->GetStringSelection(), m_BackupFormat->GetStringSelection(), m_BackupRatio->GetStringSelection(), true);
 	}
 	else
 	{

@@ -18,12 +18,17 @@
 #pragma interface "frmprogress.h"
 #endif
 
+class MyPipedProcess;
+WX_DEFINE_ARRAY_PTR(MyPipedProcess *, MyProcessesArray);
+
 /*!
  * Includes
  */
 
 ////@begin includes
 ////@end includes
+#include "wx/txtstrm.h"
+#include "wx/process.h"
 
 /*!
  * Forward declarations
@@ -82,24 +87,179 @@ public:
 
 ////@begin frmProgress event handler declarations
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnOKClick( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_SAVE
+    void OnSAVEClick( wxCommandEvent& event );
+
 ////@end frmProgress event handler declarations
 
-////@begin frmProgress member function declarations
+////\@begin frmProgress member function declarations
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end frmProgress member function declarations
+////\@end frmProgress member function declarations
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
 ////@begin frmProgress member variables
     wxTextCtrl* m_Progress_Text;
+    wxButton* m_OK;
+    wxButton* m_Save;
 ////@end frmProgress member variables
+    void OnTimer(wxTimerEvent& event);
+    void OnIdle(wxIdleEvent& event);
+    void OnProcessTerminated(MyPipedProcess *process);
+private:
+    MyProcessesArray m_running;
+
+    // the idle event wake up timer
+    wxTimer m_timerIdleWakeUp;
+    void AddAsyncProcess(MyPipedProcess *process)
+    {
+        if ( m_running.IsEmpty() )
+        {
+            // we want to start getting the timer events to ensure that a
+            // steady stream of idle events comes in -- otherwise we
+            // wouldn't be able to poll the child process input
+            m_timerIdleWakeUp.Start(100);
+        }
+        //else: the timer is already running
+
+        m_running.Add(process);
+    }
+    void RemoveAsyncProcess(MyPipedProcess *process)
+    {
+        m_running.Remove(process);
+
+        if ( m_running.IsEmpty() )
+        {
+            // we don't need to get idle events all the time any more
+            m_timerIdleWakeUp.Stop();
+        }
+    }
 };
+
+class MyProcess : public wxProcess
+{
+public:
+    MyProcess(frmProgress *parent, const wxString& cmd)
+        : wxProcess(parent), m_cmd(cmd)
+    {
+        m_parent = parent;
+    }
+
+    // instead of overriding this virtual function we might as well process the
+    // event from it in the frame class - this might be more convenient in some
+    // cases
+    virtual void OnTerminate(int pid, int status);
+
+protected:
+    frmProgress *m_parent;
+    wxString m_cmd;
+};
+
+// A specialization of MyProcess for redirecting the output
+class MyPipedProcess : public MyProcess
+{
+public:
+    MyPipedProcess(frmProgress *parent, const wxString& cmd)
+        : MyProcess(parent, cmd)
+        {
+            Redirect();
+        }
+
+    virtual void OnTerminate(int pid, int status);
+
+    virtual bool HasInput();
+};
+
+void MyProcess::OnTerminate(int pid, int status)
+{
+    //wxLogStatus(m_parent, _T("Process %u ('%s') terminated with exit code %d."), pid, m_cmd.c_str(), status);
+
+    // we're not needed any more
+    delete this;
+}
+
+// ----------------------------------------------------------------------------
+// MyPipedProcess
+// ----------------------------------------------------------------------------
+
+bool MyPipedProcess::HasInput()
+{
+    bool hasInput = false;
+
+    if ( IsInputAvailable() )
+    {
+        wxTextInputStream tis(*GetInputStream());
+
+        // this assumes that the output is always line buffered
+        wxString msg;
+        msg = wxT("\n") + tis.ReadLine();
+
+        m_parent->m_Progress_Text->AppendText(msg);
+        m_parent->Update();
+
+        hasInput = true;
+    }
+
+    if ( IsErrorAvailable() )
+    {
+        wxTextInputStream tis(*GetErrorStream());
+
+        // this assumes that the output is always line buffered
+        wxString msg;
+        msg = wxT("\n") + tis.ReadLine();
+
+       m_parent->m_Progress_Text->AppendText(msg);
+       m_parent->Update();
+
+        hasInput = true;
+    }
+
+    return hasInput;
+}
+
+void MyPipedProcess::OnTerminate(int pid, int status)
+{
+    // show the rest of the output
+    while ( HasInput() )
+        ;
+
+    m_parent->OnProcessTerminated(this);
+
+    MyProcess::OnTerminate(pid, status);
+    m_parent->m_OK->Enable(true);
+    m_parent->m_Save->Enable(true);
+}
+
+void frmProgress::OnIdle(wxIdleEvent& event)
+{
+    size_t count = m_running.GetCount();
+    for ( size_t n = 0; n < count; n++ )
+    {
+        if ( m_running[n]->HasInput() )
+        {
+            event.RequestMore();
+        }
+    }
+}
+
+void frmProgress::OnTimer(wxTimerEvent& WXUNUSED(event))
+{
+    wxWakeUpIdle();
+}
+
+void frmProgress::OnProcessTerminated(MyPipedProcess *process)
+{
+    RemoveAsyncProcess(process);
+}
 
 #endif
     // _FRMPROGRESS_H_

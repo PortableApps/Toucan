@@ -70,9 +70,37 @@ public:
 	wxString GetStrTemp() const { return strTemp ; }
 	void SetStrTemp(wxString value) { strTemp = value ; }
 
+	wxString GetStrFirst() const { return strFirst ; }
+	void SetStrFirst(wxString value) { strFirst = value ; }
+
+	wxString GetStrSecond() const { return strSecond ; }
+	void SetStrSecond(wxString value) { strSecond = value ; }
+
+	wxString GetStrFunction() const { return strFunction ; }
+	void SetStrFunction(wxString value) { strFunction = value ; }
+
+	wxString GetStrFormat() const { return strFormat ; }
+	void SetStrFormat(wxString value) { strFormat = value ; }
+
+	wxString GetStrRatio() const { return strRatio ; }
+	void SetStrRatio(wxString value) { strRatio = value ; }
+
+	wxString GetStrExclusions() const { return strExclusions ; }
+	void SetStrExclusions(wxString value) { strExclusions = value ; }
+
+	wxString GetStrType() const { return strType ; }
+	void SetStrType(wxString value) { strType = value ; }
+
 	////@end Toucan member function declarations
 
 	////@begin Toucan member variables
+	wxString strFirst;
+	wxString strSecond;
+	wxString strFunction;
+	wxString strFormat;
+	wxString strRatio;
+	wxString strExclusions;
+	wxString strType;
 public:
 	wxString strTemp;
 	////@end Toucan member variables

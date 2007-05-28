@@ -1,15 +1,10 @@
 #include <wx/tokenzr.h>
 #include <wx/filename.h>
+#include "frmprogress.h"
 
-bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, bool blBox)
+bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProgress* window)
 {
 
-	wxProgressDialog dialog( _("Progress"), _("Working"), 1, NULL , wxPD_AUTO_HIDE);
-	if(blBox == false)
-	{
-		//wxMessageBox(wxT("Boo"));
-		dialog.Update(1, _("Working"));
-	}
     wxFileName filename(strFile);
     if(filename.IsOk() == true)
     {
@@ -26,7 +21,7 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, bool bl
 	{
 		wxString command = wxT("App\\burp -eo -k\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
 		wxExecute(command, arrErrors,arrOutput);
-		dialog.Update(1, _("Working"));
+        window->m_Progress_Text->AppendText(_("\nEncrypted") + strFile);
 	}
 	else if(strFunction == _("Decrypt"))
 	{
@@ -34,7 +29,7 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, bool bl
 		wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC);
 		wxCopyFile(wxPathOnly(strFile) + wxT("\\1.tmp"), strFile, true);
 		wxRemoveFile(wxPathOnly(strFile) + wxT("\\1.tmp"));
-		dialog.Update(1, _("Working"));
+        window->m_Progress_Text->AppendText(_("\nDecrypted") + strFile);
 	}
 	return true;
 

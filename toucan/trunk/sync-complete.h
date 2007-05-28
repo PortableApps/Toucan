@@ -3,14 +3,14 @@
 #include <wx/filename.h>
 #include <wx/progdlg.h>
 
-bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blBox, bool blAttributes){
+#include "frmprogress.h"
+
+bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool blAttributes, frmProgress* window, int length1, int length2){
     #ifdef __WXMSW__
             wxString SLASH = wxT("\\");
     #else
             wxString SLASH = wxT("/");
     #endif
-
-
 
     // append a slash if there is not one (for easier parsing)
     // because who knows what people will pass strTo the function.
@@ -24,13 +24,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
     
     int intNumber = 0;
     wxArrayString arrFileList;
-    wxDir::GetAllFiles(strFrom, & arrFileList);
-    wxProgressDialog dialog( _("Progress"), _("Working"), arrFileList.GetCount(), NULL , wxPD_AUTO_HIDE);
-    if(blBox == false)
-    {
-        //wxMessageBox(wxT("Boo"));
-        dialog.Update(arrFileList.GetCount(), _("Working"));
-    }
+   
     if (!wxDirExists(strTo))
 	wxMkdir(strTo);
        
@@ -62,7 +56,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                     {
                    
                        //wxMessageBox(wxT("Continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
-                        CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
+                        CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blAttributes, window, length1, length2);
                     }
     
                     
@@ -71,7 +65,7 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                     //wxMessageBox(wxT("Creating and continuing with ") + strFrom + strFilename + wxT(" to ") + strTo + strFilename);
                     //CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions);
                     wxMkdir(strTo + strFilename);
-                    CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blBox, blAttributes);
+                    CopyDir(strFrom + strFilename, strTo + strFilename, arrExclusions, blAttributes, window, length1, length2);
                     }
                 }
             }
@@ -103,14 +97,17 @@ bool CopyDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bool
                         to.SetTimes(&access ,&mod , &created); 
                    // wxMessageBox(_("Entered Attrib updates"));
                     }
-                    dialog.Update(intNumber, _("Working"));
-                    intNumber++;
+                   
+                    wxString both1 = strFrom + strFilename;
+                    both1 = both1.Right(both1.Length() - length1);
+                    
+                    window->m_Progress_Text->AppendText(_("\r\nCopied \t") + both1);
+                    
                 }
             }
         }
         while (dir.GetNext(&strFilename) );
     }  
-    dialog.Update(arrFileList.GetCount(), _("Working"));
     return true;
    
 }

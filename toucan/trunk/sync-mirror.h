@@ -2,7 +2,7 @@
 
 #include <wx/filefn.h>
 
-bool MirrorDir(wxString strOriginal, wxString strNew, bool blBox)
+bool MirrorDir(wxString strOriginal, wxString strNew, frmProgress* window, int length1, int length2)
 {
     #ifdef __WXMSW__
             wxString SLASH = wxT("\\");
@@ -18,15 +18,6 @@ bool MirrorDir(wxString strOriginal, wxString strNew, bool blBox)
     // for both dirs
     if (strNew[strNew.length()-1] != SLASH) {
             strNew += SLASH;       
-    }
-    
-    int intNumber = 0;
-    wxArrayString arrFileList;
-    wxDir::GetAllFiles(strNew, & arrFileList);
-    wxProgressDialog dialog( _("Progress"), _("Working"), arrFileList.GetCount(), NULL , wxPD_AUTO_HIDE);
-    if(blBox == false)
-    {
-        dialog.Update(arrFileList.GetCount(), _("Working"));
     }
 
     wxDir dir(strNew);
@@ -45,7 +36,7 @@ bool MirrorDir(wxString strOriginal, wxString strNew, bool blBox)
                 }
                 else
                 {
-                    MirrorDir(strOriginal+ strFilename, strNew+ strFilename, blBox);
+                    MirrorDir(strOriginal+ strFilename, strNew+ strFilename,window, length1, length2);
                 }
                
             }
@@ -55,15 +46,12 @@ bool MirrorDir(wxString strOriginal, wxString strNew, bool blBox)
                 if(!wxFileExists(strOriginal + strFilename))
                 {
                     wxRemoveFile(strNew + strFilename);
+                    wxString both1 = strNew + strFilename;
+                    both1 = both1.Right(both1.Length() - length1);
+                    window->m_Progress_Text->AppendText(_("\r\nRemoved \t") + both1);
                 }
             }
         } while (dir.GetNext(&strFilename) );
     }  
-    dialog.Update(arrFileList.GetCount(), _("Working"));
     return true;
-   
-
-
-
-
 }

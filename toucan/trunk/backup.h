@@ -1,36 +1,23 @@
-#include "backup-complete.h"
-#include "backup-update.h"
-#include "backup-restore.h"
-#include "normalise.h"
+#include "frmprogress.h"
 
 bool Backup(wxString strFirst, wxString strSecond, wxString strType, wxString strFormat, wxString strRatio, bool blBox)
 {	
-	wxProgressDialog dialog( _("Progress"), _("Working"), 2, NULL , wxPD_AUTO_HIDE);
-	if(blBox == false)
-	{
-		dialog.Update(2, _("Working"));
-	}
-	strFirst = Normalise(strFirst);
-	strSecond = Normalise(strSecond);
-	if(strType == wxT("Complete"))
-	{
-		dialog.Update(0, _("Working - Backing Up Files"));
-		BackupComplete(strFirst, strSecond, strFormat, strRatio);
-		dialog.Update(2, _("Working - Finished"));
-		
-	}
-	else if(strType == wxT("Update"))
-	{
-		dialog.Update(0, _("Working"));
-		BackupUpdate(strFirst, strSecond, strFormat);
-		dialog.Update(0, _("Working"));
-	}
-	else if(strType == wxT("Restore"))
-	{
-		dialog.Update(0, _("Working"));
-		BackupRestore(strFirst, strSecond, strFormat);
-		dialog.Update(0, _("Working"));
-	}
-		return true;
+    wxGetApp().SetStrTemp(_("Backup"));
+    wxGetApp().SetStrType(strType);
+    wxGetApp().SetStrFormat(strFormat);
+    wxGetApp().SetStrRatio(strRatio);
+    wxGetApp().SetStrSecond(strSecond);
+    wxGetApp().SetStrFirst(strFirst);
+    
+    frmProgress* window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+    window->m_OK->Enable(false);
+    window->m_Save->Enable(false);
+    window->m_Progress_Text->SetValue(_("Starting..."));
+    if(blBox)
+    {
+    window->ShowModal();
+    }
+    window->Update();
+    return true;
 
 }

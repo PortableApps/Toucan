@@ -93,11 +93,10 @@ Toucan::Toucan()
 
 bool Toucan::OnInit()
 {    
-	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data") + wxFILE_SEP_PATH + wxT("fr") + wxFILE_SEP_PATH + wxT("puss.mo")))
+   if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data") + wxFILE_SEP_PATH + wxT("fr") + wxFILE_SEP_PATH + wxT("toucan.mo")))
 	{
-		//wxMessageBox(wxT("boo"));
-		//Load language if one exists from puss.h
-		SelectLanguage(wxLANGUAGE_FRENCH);
+		//Load language if one exists from toucan.h
+		wxGetApp().SelectLanguage(wxLANGUAGE_FRENCH);
 	}
 	// m_locale = NULL ;
 	// wxGetApp().SelectLanguage(wxLANGUAGE_FRENCH);
@@ -161,15 +160,22 @@ bool Toucan::OnInit()
             arrExclusions.Add(token);
         
         }
+        wxString strFirst;
+        strFirst = Normalise(config->Read(cmdParser.GetParam(0) + wxT("/1")));
+        strFirst = Normalise(strFirst);
+        wxString strSecond ;
+        strSecond = Normalise(config->Read(cmdParser.GetParam(0) + wxT("/2")));
+        strSecond = Normalise(strSecond);
+
         //Clears up text file for new exclusions
         wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
 		PrepareTextFile(strPath);
 		//Generate the exclusion file list
-		GenerateExclusions(config->Read(cmdParser.GetParam(0) + wxT("/1")), arrExclusions, false);
+		GenerateExclusions(strFirst, arrExclusions, false);
 		//Cut the beginnings off the files so that they are 7zip compatible
-		CutStart(config->Read(cmdParser.GetParam(0) + wxT("/1")), false);
+		CutStart(strFirst, false);
 		//Run the backup
-		Backup(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false);
+		Backup(strFirst,strSecond, config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false);
         return false;
     }
     else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure"))

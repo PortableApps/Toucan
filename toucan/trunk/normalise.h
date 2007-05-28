@@ -14,18 +14,23 @@ wxString Normalise(wxString strFilePath)
 	wxStringTokenizer tkz(strFilePath, wxT("@"), wxTOKEN_STRTOK);
 	while ( tkz.HasMoreTokens() )
 	{
-		token = tkz.GetNextToken();
+		//wxMessageBox(strReturn);
+        token = tkz.GetNextToken();
+        //wxMessageBox(token);
 		if(token.Left(1) != wxT("\\") && token.Right(1) != wxT("\\"))
 		{
 			
 			if(token == wxT("date"))
 			{
 				token = now.FormatISODate();
+                //wxMessageBox(token);
 				strReturn = strReturn + token;
+                
 			}
 			else if(token == wxT("time"))
 			{
 				token = now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M"));
+                //wxMessageBox(token);
 				strReturn = strReturn + token;       
 			}
 			else if(token == wxT("drive"))
@@ -44,10 +49,11 @@ wxString Normalise(wxString strFilePath)
 				wxString strRead;
 				if(config->Read(token + wxT("/") + wxGetFullHostName(), & strRead) == false)
 				{
-					strReturn = strReturn.Left(strReturn.Length() -1);
+					//strReturn = strReturn.Left(strReturn.Length() -1);
+                    //wxMessageBox(strReturn);
 					if(config->Read(token + wxT("/") + _("Other"), & strRead) == false)
 					{
-						strReturn = strReturn.Left(strReturn.Length() -1);
+						//strReturn = strReturn.Left(strReturn.Length() -1);
 						strReturn += token;                 
 					}
 					else
@@ -69,6 +75,7 @@ wxString Normalise(wxString strFilePath)
 			
 		}
 	}
+    //wxMessageBox(_("Returned") + strReturn);
 	return strReturn;
 }
 #endif
