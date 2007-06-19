@@ -2,6 +2,13 @@
 
 bool CryptDir(wxString strPath, wxString strPass, wxString strFunction, frmProgress* window)
 {   
+    if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+    {
+    
+        return false;
+    
+    }
+    
     wxDir dir(strPath);
     wxString filename;
     bool bla = dir.GetFirst(&filename);
@@ -15,6 +22,12 @@ bool CryptDir(wxString strPath, wxString strPass, wxString strFunction, frmProgr
             }
             else
 			{
+                if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+                {
+    
+                return false;
+    
+                }
                 CryptFile(strPath + wxT("\\") + filename, strPass, strFunction, window);
             }
 

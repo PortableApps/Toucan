@@ -11,7 +11,12 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 	#else
 	wxString SLASH = wxT("/");
 	#endif
-
+    if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+    {
+    
+        return false;
+    
+    }
 	// append a slash if there is not one (for easier parsing)
 	// because who knows what people will pass strTo the function.
 	if (strTo[strTo.length()-1] != SLASH) {
@@ -33,7 +38,12 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 	{
 		do 
 		{
-			
+			               if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+                {
+    
+                return false;
+    
+                }
 			if (wxDirExists(strFrom + strFilename) )
 			{
 				//wxMessageBox(strFrom + strFilename);
@@ -70,6 +80,12 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 			}
 			else
 			{
+                           if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+                {
+    
+                return false;
+    
+                }
 				wxFileName flName(strTo + strFilename);
 				unsigned int i;
 				bool blEqual = false;
@@ -93,15 +109,20 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 						{
 							wxRemoveFile(strTo + strFilename);
 							wxCopyFile(strFrom + strFilename, strTo + strFilename, true);
+                        
                             if(blAttributes == true)
                             {
                                 wxFileName from(strFrom + strFilename);
                                 wxFileName to(strTo + strFilename);
+                                int filearrtibs = GetFileAttributes(strFrom + strFilename);
+                                SetFileAttributes(strTo + strFilename,FILE_ATTRIBUTE_NORMAL);                       
                                 wxDateTime access;
                                 wxDateTime mod;
                                 wxDateTime created;
                                 from.GetTimes(&access ,&mod ,&created );
                                 to.SetTimes(&access ,&mod , &created); 
+                                SetFileAttributes(strTo + strFilename,filearrtibs);
+                                // wxMessageBox(_("Entered Attrib updates"));
                             }
 							//dialog.Update(intNumber, _("Working"));
 							//intNumber++;
@@ -116,13 +137,17 @@ bool UpdateDir(wxString strFrom, wxString strTo, wxArrayString arrExclusions, bo
 						wxCopyFile(strFrom + strFilename, strTo + strFilename, true);
                         if(blAttributes == true)
                         {
-                        wxFileName from(strFrom + strFilename);
-                        wxFileName to(strTo + strFilename);
-                        wxDateTime access;
-                        wxDateTime mod;
-                        wxDateTime created;
-                        from.GetTimes(&access ,&mod ,&created );
-                        to.SetTimes(&access ,&mod , &created); 
+                            wxFileName from(strFrom + strFilename);
+                            wxFileName to(strTo + strFilename);
+                            int filearrtibs = GetFileAttributes(strFrom + strFilename);
+                            SetFileAttributes(strTo + strFilename,FILE_ATTRIBUTE_NORMAL);                       
+                            wxDateTime access;
+                            wxDateTime mod;
+                            wxDateTime created;
+                            from.GetTimes(&access ,&mod ,&created );
+                            to.SetTimes(&access ,&mod , &created); 
+                            SetFileAttributes(strTo + strFilename,filearrtibs);
+                                // wxMessageBox(_("Entered Attrib updates"));
                         }
                         wxString both1 = strFrom + strFilename;
                         both1 = both1.Right(both1.Length() - length1);

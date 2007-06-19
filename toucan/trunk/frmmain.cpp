@@ -786,12 +786,13 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.0.0 Prerelease 4"));
+	info.SetVersion(wxT("1.0.0 Prerelease 5"));
 	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh"));
 	info.SetWebSite(wxT("http://portableapps.com/apps/utilities/toucan"));
-	info.AddTranslator(wxT("Simeon Kühl - German"));
-	info.AddTranslator(wxT("\n Gowtam Jinnuri - French"));
-	info.AddTranslator(wxT("\nMartin Wiatr - Polish"));
+	info.AddTranslator(wxT("Martin Wiatr - Polish"));
+	info.AddTranslator(wxT("\r\nSimeon Kühl - German"));
+	info.AddTranslator(wxT("\r\nGowtam Jinnuri - French"));
+	info.AddTranslator(wxT("\r\nEduardo Wenceslao Grillo, Olaf Brunjes Lozano - Spanish"));
 
 	wxAboutBox(info);
 }void frmMain::OnHELPClick( wxCommandEvent& event )

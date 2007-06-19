@@ -7,7 +7,8 @@
 
 bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayString arrExclusion, bool blBox, bool blAttributes)
 {	
-
+    wxGetApp().SetStrTemp(wxEmptyString);
+    wxGetApp().SetStrAbort(wxEmptyString);
     frmProgress* window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
     window->m_OK->Enable(false);
     window->m_Save->Enable(false);
@@ -24,7 +25,7 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
     strSource = Normalise(strSource);
 	strDest = Normalise(strDest);
 	strDest = Normalise(strDest);
-	
+
     if(strFunction == _("Copy"))
 	{
         CopyDir(strSource, strDest, arrExclusion,  blAttributes, window,length1, length2);
@@ -45,9 +46,10 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 		UpdateDir(strSource, strDest, arrExclusion, blAttributes, window,length1, length2);
 		UpdateDir(strDest, strSource, arrExclusion, blAttributes, window,length1, length2);
 	}
-    window->m_Progress_Text->AppendText(_("Finished..."));
+    window->m_Progress_Text->AppendText(_("\nFinished..."));
     window->m_OK->Enable();
     window->m_Save->Enable();
+    window->m_Abort->Enable(false);
     
 	return true;
     

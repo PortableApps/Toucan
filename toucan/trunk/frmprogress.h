@@ -29,6 +29,7 @@ WX_DEFINE_ARRAY_PTR(MyPipedProcess *, MyProcessesArray);
 ////@end includes
 #include "wx/txtstrm.h"
 #include "wx/process.h"
+#include "toucan.h"
 
 /*!
  * Forward declarations
@@ -93,6 +94,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_SAVE
     void OnSAVEClick( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_ABORT
+    void OnABORTClick( wxCommandEvent& event );
+
 ////@end frmProgress event handler declarations
 
 ////\@begin frmProgress member function declarations
@@ -111,6 +115,7 @@ public:
     wxTextCtrl* m_Progress_Text;
     wxButton* m_OK;
     wxButton* m_Save;
+    wxButton* m_Abort;
 ////@end frmProgress member variables
     void OnTimer(wxTimerEvent& event);
     void OnIdle(wxIdleEvent& event);
@@ -177,6 +182,8 @@ public:
     virtual void OnTerminate(int pid, int status);
 
     virtual bool HasInput();
+    
+   //long GetPID(){return process->GetPID();}
 };
 
 void MyProcess::OnTerminate(int pid, int status)
@@ -194,9 +201,14 @@ void MyProcess::OnTerminate(int pid, int status)
 bool MyPipedProcess::HasInput()
 {
     bool hasInput = false;
+   
 
     if ( IsInputAvailable() )
     {
+        //if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+        //{
+            //KillProcess();
+        //}
         wxTextInputStream tis(*GetInputStream());
 
         // this assumes that the output is always line buffered
@@ -205,6 +217,7 @@ bool MyPipedProcess::HasInput()
 
         m_parent->m_Progress_Text->AppendText(msg);
         m_parent->Update();
+        wxMilliSleep(50);
 
         hasInput = true;
     }
@@ -217,8 +230,9 @@ bool MyPipedProcess::HasInput()
         wxString msg;
         msg = wxT("\n") + tis.ReadLine();
 
-       m_parent->m_Progress_Text->AppendText(msg);
-       m_parent->Update();
+        m_parent->m_Progress_Text->AppendText(msg);
+        wxMilliSleep(50);
+        m_parent->Update();
 
         hasInput = true;
     }
@@ -235,8 +249,15 @@ void MyPipedProcess::OnTerminate(int pid, int status)
     m_parent->OnProcessTerminated(this);
 
     MyProcess::OnTerminate(pid, status);
+    if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+    {
+    
+        m_parent->m_Progress_Text->AppendText(_("\nAborted..."));
+    
+    }
     m_parent->m_OK->Enable(true);
     m_parent->m_Save->Enable(true);
+    m_parent->m_Abort->Enable(false);
 }
 
 void frmProgress::OnIdle(wxIdleEvent& event)

@@ -65,7 +65,7 @@ public:
 
 	////@end Toucan event handler declarations
 
-	////@begin Toucan member function declarations
+	////\@begin Toucan member function declarations
 
 	wxString GetStrTemp() const { return strTemp ; }
 	void SetStrTemp(wxString value) { strTemp = value ; }
@@ -88,10 +88,16 @@ public:
 	wxString GetStrExclusions() const { return strExclusions ; }
 	void SetStrExclusions(wxString value) { strExclusions = value ; }
 
+	wxString GetStrAbort() const { return strAbort ; }
+	void SetStrAbort(wxString value) { strAbort = value ; }
+
 	wxString GetStrType() const { return strType ; }
 	void SetStrType(wxString value) { strType = value ; }
 
-	////@end Toucan member function declarations
+	long GetlngPID() const { return lngPID ; }
+	void SetlngPID(long value) { lngPID = value ; }
+
+	////\@end Toucan member function declarations
 
 	////@begin Toucan member variables
 	wxString strFirst;
@@ -100,7 +106,9 @@ public:
 	wxString strFormat;
 	wxString strRatio;
 	wxString strExclusions;
+	wxString strAbort;
 	wxString strType;
+	long lngPID;
 public:
 	wxString strTemp;
 	////@end Toucan member variables

@@ -13,7 +13,7 @@ CONFIG=release
 
 # release
 ifeq ($(CONFIG),release)
-WXWIN=H:/wxWidgets
+WXWIN=E:/widgets/wxWidgets-2.8.4
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
@@ -39,7 +39,7 @@ RCFILESRC=toucan.rc
 # debug
 else
 ifeq ($(CONFIG),debug)
-WXWIN=H:/wxWidgets
+WXWIN=E:/widgets/wxWidgets-2.8.4
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
@@ -65,7 +65,7 @@ RCFILESRC=toucan.rc
 # unicodedebug
 else
 ifeq ($(CONFIG),unicodedebug)
-WXWIN=H:/wxWidgets
+WXWIN=E:/widgets/wxWidgets-2.8.4
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
@@ -90,7 +90,7 @@ RCFILESRC=toucan.rc
 
 # unicoderelease
 else
-WXWIN=H:/wxWidgets
+WXWIN=E:/widgets/wxWidgets-2.8.4
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
@@ -142,7 +142,7 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h sync-complete.h frmprogress.h sync-update.h sync-mirror.h removedir.h normalise.h backup.h secure.h cryptfile.h cryptdir.h remove-start.h exclusions.h basicops.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h cryptfile.h cryptdir.h normalise.h backup.h frmprogress.h sync.h sync-complete.h sync-update.h sync-mirror.h removedir.h exclusions.h remove-start.h basicops.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h cryptfile.h frmprogress.h cryptdir.h normalise.h backup.h sync.h sync-complete.h sync-update.h sync-mirror.h removedir.h exclusions.h remove-start.h basicops.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 $(OBJECTPATH)/frmvariable.o:	frmvariable.cpp toucan.h frmmain.h frmvariable.h

@@ -9,7 +9,12 @@ bool MirrorDir(wxString strOriginal, wxString strNew, frmProgress* window, int l
     #else
             wxString SLASH = wxT("/");
     #endif
-
+    if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+    {
+    
+        return false;
+    
+    }
     // append a slash if there is not one (for easier parsing)
     // because who knows what people will pass strOriginal the function.
     if (strOriginal[strOriginal.length()-1] != SLASH) {
@@ -26,10 +31,15 @@ bool MirrorDir(wxString strOriginal, wxString strNew, frmProgress* window, int l
    
     if (bla){
         do {
-           
+                          if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+                {
+    
+                return false;
+    
+                }
             if (wxDirExists(strNew + strFilename) )
             {
-                wxMessageBox(strNew + strFilename);
+               // wxMessageBox(strNew + strFilename);
                 if(!wxDirExists(strOriginal + strFilename))
                 {
                     RemDir(strNew + strFilename);
@@ -42,7 +52,13 @@ bool MirrorDir(wxString strOriginal, wxString strNew, frmProgress* window, int l
             }
             else
             {
-                wxMessageBox(strOriginal + strFilename);
+                           if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+                {
+    
+                return false;
+    
+                }
+                //wxMessageBox(strOriginal + strFilename);
                 if(!wxFileExists(strOriginal + strFilename))
                 {
                     wxRemoveFile(strNew + strFilename);

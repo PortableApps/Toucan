@@ -8,6 +8,8 @@
 
 bool Secure(wxArrayString arrLocation, wxString strFunction, wxString strPass, bool blBox)
 {  
+    wxGetApp().SetStrTemp(wxEmptyString);
+    wxGetApp().SetStrAbort(wxEmptyString);
     frmProgress* window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
     window->m_OK->Enable(false);
     window->m_Save->Enable(false);
@@ -17,10 +19,16 @@ bool Secure(wxArrayString arrLocation, wxString strFunction, wxString strPass, b
     window->Show();
     }
     window->Update();
-
+    wxGetApp().SetStrAbort(wxEmptyString);
     unsigned int i;
     for(i = 0; i < arrLocation.Count(); i++)
     {
+    if(wxGetApp().GetStrAbort() == wxT("ABORT"))
+    {
+    
+        return false;
+    
+    }
     arrLocation.Item(i) = Normalise(arrLocation.Item(i));
     arrLocation.Item(i) = Normalise(arrLocation.Item(i));
       //wxMessageBox(arrLocation.Item(i));
@@ -38,8 +46,10 @@ bool Secure(wxArrayString arrLocation, wxString strFunction, wxString strPass, b
             CryptFile(arrLocation.Item(i), strPass, strFunction, window);
         }
     }
+    window->m_Progress_Text->AppendText(_("\nFinished"));
     window->m_OK->Enable(true);
     window->m_Save->Enable(true);
+    window->m_Abort->Enable(false);
 
 return true;
 
