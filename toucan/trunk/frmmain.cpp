@@ -35,9 +35,10 @@
 #include "secure.h"
 #include "backup.h"
 #include "sync.h"
-#include "exclusions.h"
-#include "remove-start.h"
+//#include "exclusions.h"
+//#include "remove-start.h"
 #include "basicops.h"
+#include "backup-func.h"
 
 #include <wx/dir.h>
 #include <wx/fileconf.h>
@@ -132,6 +133,8 @@ EVT_BUTTON( ID_BITMAPBUTTON_PVREMOVELIST, frmMain::OnBitmapbuttonPvremovelistCli
 EVT_BUTTON( wxID_ABOUT, frmMain::OnABOUTClick )
 
 EVT_BUTTON( wxID_HELP, frmMain::OnHELPClick )
+
+//EVT_BUTTON( wxID_UPDATE, frmMain::OnUPDATEClick )
 ////\@end frmMain event table entries
 
 END_EVENT_TABLE()
@@ -171,6 +174,7 @@ bool frmMain::Create( wxWindow* parent, wxWindowID id, const wxString& caption, 
 	m_List = NULL;
 	////@end frmMain member initialisation
     m_Attribs = NULL;
+    m_Preview = NULL;
 
 	////\@begin frmMain creation
 	SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
@@ -206,15 +210,15 @@ void frmMain::CreateControls()
 	wxImageList* itemNotebook3ImageList = new wxImageList(48, 48, false, 5);
 	{
 		//Add all icons, however if the platform is less than 32 they do not get added in the page creation code.
-		wxIcon syncicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\bitmaps\\view-refresh.png"), wxBITMAP_TYPE_PNG);
+		wxIcon syncicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\toucan\\bitmaps\\view-refresh.png"), wxBITMAP_TYPE_PNG);
 		itemNotebook3ImageList->Add(syncicon);
-		wxIcon backupicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\bitmaps\\package-x-generic.png"), wxBITMAP_TYPE_PNG);
+		wxIcon backupicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\toucan\\bitmaps\\package-x-generic.png"), wxBITMAP_TYPE_PNG);
 		itemNotebook3ImageList->Add(backupicon);
-		wxIcon secureicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\bitmaps\\system-lock-screen.png"), wxBITMAP_TYPE_PNG);
+		wxIcon secureicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\toucan\\bitmaps\\system-lock-screen.png"), wxBITMAP_TYPE_PNG);
 		itemNotebook3ImageList->Add(secureicon);
-		wxIcon pvaricon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\bitmaps\\drive-removable-media-48.png"), wxBITMAP_TYPE_PNG);
+		wxIcon pvaricon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\toucan\\bitmaps\\drive-removable-media-48.png"), wxBITMAP_TYPE_PNG);
 		itemNotebook3ImageList->Add(pvaricon);
-		wxIcon optionsicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\bitmaps\\preferences-desktop.png"), wxBITMAP_TYPE_PNG);
+		wxIcon optionsicon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\App\\toucan\\bitmaps\\preferences-desktop.png"), wxBITMAP_TYPE_PNG);
 		itemNotebook3ImageList->Add(optionsicon);
 	}
 	itemNotebook3->AssignImageList(itemNotebook3ImageList);
@@ -289,7 +293,11 @@ void frmMain::CreateControls()
     
     m_Attribs = new wxCheckBox( itemPanel4, ID_CHECKBOX1, _("Retain Attributes"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     m_Attribs->SetValue(false);
-    itemStaticBoxSizer24->Add(m_Attribs, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemStaticBoxSizer24->Add(m_Attribs, 0, wxALIGN_LEFT|wxALL, 5);
+
+    m_Preview = new wxCheckBox( itemPanel4, ID_CHECKBOX2, _("Preview"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    m_Preview->SetValue(false);
+    itemStaticBoxSizer24->Add(m_Preview, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer5->Add(itemBoxSizer23, 0, wxALIGN_LEFT|wxALL, 5);
@@ -321,11 +329,11 @@ void frmMain::CreateControls()
 
 	if(strTabStyle == _("Text"))
 	{
-		itemNotebook3->AddPage(itemPanel4, _T("Sync"), false);
+		itemNotebook3->AddPage(itemPanel4, _("Sync"), false);
 	}
 	else if(strTabStyle == _("Icons + Text"))
 	{
-		itemNotebook3->AddPage(itemPanel4, _T("Sync"), false, 0);
+		itemNotebook3->AddPage(itemPanel4, _("Sync"), false, 0);
 	}
 	else
 	{
@@ -385,9 +393,10 @@ void frmMain::CreateControls()
 	wxString m_BackupTypeStrings[] = {
 		_("Complete"),
 		_("Update"),
-		_("Restore")
+		_("Restore"),
+        _("Incremental")
 	};
-	m_BackupType = new wxRadioBox( itemPanel33, ID_RADIOBOX_BACKUPTYPE, _("Backup Type"), wxDefaultPosition, wxDefaultSize, 3, m_BackupTypeStrings, 2, wxRA_SPECIFY_ROWS );
+	m_BackupType = new wxRadioBox( itemPanel33, ID_RADIOBOX_BACKUPTYPE, _("Backup Type"), wxDefaultPosition, wxDefaultSize, 4, m_BackupTypeStrings, 2, wxRA_SPECIFY_ROWS );
 	m_BackupType->SetSelection(0);
 	itemBoxSizer50->Add(m_BackupType, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
@@ -440,11 +449,11 @@ void frmMain::CreateControls()
 	itemBoxSizer64->Add(itemButton65, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	if(strTabStyle == _("Text"))
 	{
-		itemNotebook3->AddPage(itemPanel33, _T("Backup"), false);   
+		itemNotebook3->AddPage(itemPanel33, _("Backup"), false);   
 	}
 	else if(strTabStyle == _("Icons + Text"))
 	{
-		itemNotebook3->AddPage(itemPanel33, _T("Backup"), false, 1);
+		itemNotebook3->AddPage(itemPanel33, _("Backup"), false, 1);
 	}
 	else
 	{
@@ -517,11 +526,11 @@ void frmMain::CreateControls()
 
 	if(strTabStyle == _("Text"))
 	{
-		itemNotebook3->AddPage(itemPanel66, _T("Secure"), false);   
+		itemNotebook3->AddPage(itemPanel66, _("Secure"), false);   
 	}
 	else if(strTabStyle == _("Icons + Text"))
 	{    
-		itemNotebook3->AddPage(itemPanel66, _T("Secure"), false, 2);
+		itemNotebook3->AddPage(itemPanel66, _("Secure"), false, 2);
 	}
 	else
 	{    
@@ -589,6 +598,9 @@ void frmMain::CreateControls()
 	itemBoxSizer99->Add(itemButton100, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	wxButton* itemButton101 = new wxButton( itemPanel97, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer99->Add(itemButton101, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	//wxButton* itemButton102 = new wxButton( itemPanel97, wxID_UPDATE, _("Update"), wxDefaultPosition, wxDefaultSize, 0 );
+	//itemBoxSizer99->Add(itemButton102, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    
 	wxString m_TooltipStrings[] = {
 		_("Enabled"),
 		_("Disabled")
@@ -606,11 +618,11 @@ void frmMain::CreateControls()
 
 	if(strTabStyle == _("Text"))
 	{
-		itemNotebook3->AddPage(itemPanel97, _T("Other"), false);   
+		itemNotebook3->AddPage(itemPanel97, _("Help + Settings"), false);   
 	}
 	else if(strTabStyle == _("Icons + Text"))
 	{
-		itemNotebook3->AddPage(itemPanel97, _T("Other"), false, 4);
+		itemNotebook3->AddPage(itemPanel97, _("Help + Settings"), false, 4);
 	}
 	else
 	{
@@ -717,32 +729,32 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 	wxUnusedVar(name);
 	if (name == _T("test2.png"))
 	{
-		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\bitmaps\\test2.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\toucan\\bitmaps\\test2.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("media-floppy.png"))
 	{
-		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\bitmaps\\media-floppy.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\toucan\\bitmaps\\media-floppy.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("folder.png"))
 	{
-		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\bitmaps\\folder.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\toucan\\bitmaps\\folder.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("list-add.png"))
 	{
-		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\bitmaps\\list-add.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\toucan\\bitmaps\\list-add.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("list-remove.png"))
 	{
-		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\bitmaps\\list-remove.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\toucan\\bitmaps\\list-remove.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("drive-removable-media.png"))
 	{
-		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\bitmaps\\drive-removable-media.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +_T("\\App\\toucan\\bitmaps\\drive-removable-media.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	return wxNullBitmap;
@@ -757,7 +769,7 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 	wxUnusedVar(name);
 	if (name == _T("toucan.ico"))
 	{
-		wxIcon icon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\App\\bitmaps\\Toucan.ico"), wxBITMAP_TYPE_ICO);
+		wxIcon icon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\App\\toucan\\bitmaps\\Toucan.ico"), wxBITMAP_TYPE_ICO);
 		return icon;
 	}
 	return wxNullIcon;
@@ -786,7 +798,7 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.0.0 Prerelease 5"));
+	info.SetVersion(wxT("1.1.0 Pr1"));
 	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh"));
 	info.SetWebSite(wxT("http://portableapps.com/apps/utilities/toucan"));
 	info.AddTranslator(wxT("Martin Wiatr - Polish"));
@@ -795,11 +807,33 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 	info.AddTranslator(wxT("\r\nEduardo Wenceslao Grillo, Olaf Brunjes Lozano - Spanish"));
 
 	wxAboutBox(info);
-}void frmMain::OnHELPClick( wxCommandEvent& event )
+}
+void frmMain::OnHELPClick( wxCommandEvent& event )
 {	
 	//Use win32 method for launching as error with wxShell
 	ShellExecute(NULL, wxT("open"), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\Help.chm"), NULL, NULL, SW_SHOW);
-}/*!
+}
+
+/*void frmMain::OnUPDATEClick( wxCommandEvent& event )
+{	
+
+   // wxExecute(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App\\webupdater.exe"), wxEXEC_ASYNC);
+		//wxMessageBox(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\App\\toucan\\webupdater.exe"));
+        
+        ShellExecute(NULL, wxT("open"), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\App\\toucan\\webupdater.exe"), NULL, wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\App\\toucan"), SW_SHOW);
+    
+    wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Settings.ini") );
+	wxFileConfig::Set( config );
+	config->Write(wxT("General/Tabstyle") , m_TabStyle->GetStringSelection());
+	config->Write(wxT("General/Tooltip") , m_Tooltip->GetStringSelection());
+	config->Flush();
+	////@begin wxEVT_CLOSE_WINDOW event handler for ID_FRMINSERT in frmMain.
+	// Before editing this code, remove the block markers.
+	wxDialog* dialog = wxDynamicCast(this, wxDialog);
+	dialog->EndModal(ID_FRMINSERT);
+
+}*/
+/*!
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BITMAPBUTTON_ADD
 */
 
@@ -881,7 +915,7 @@ void frmMain::OnButtonBackupClick( wxCommandEvent& event )
         wxString strSecond = Normalise(m_Backup2->GetValue());
         strSecond = Normalise(strSecond);
 		//Clears up text file for new exclusions
-        wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
+        wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("toucan") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
 		PrepareTextFile(strPath);
 		//Generate the exclusion file list
         if(m_BackupType->GetStringSelection() != _("Restore"))
@@ -925,6 +959,13 @@ void frmMain::OnRadioboxBackuptypeSelected( wxCommandEvent& event )
 		
 		m_BackupText1->SetLabel(_("Backup File"));
 		m_BackupText2->SetLabel(_("Restore Into"));
+		
+	}
+	else if(m_BackupType->GetStringSelection() == _("Incremental"))
+	{
+		
+		m_BackupText1->SetLabel(_("Source Folder"));
+		m_BackupText2->SetLabel(_("Backups Folder"));
 		
 	}
 
@@ -988,6 +1029,16 @@ void frmMain::OnButtonBackup2Click( wxCommandEvent& event )
 		}
 		
 	}
+	if(m_BackupText2->GetLabel() == _("Backups Folder"))
+	{
+		
+		wxDirDialog dialog(this,_("Please Select the Folder to Stroe Backups."),wxEmptyString);
+		if (dialog.ShowModal() == wxID_OK)
+		{
+			m_Backup2->SetValue(dialog.GetPath());
+		}
+		
+	}
 	else if(m_BackupText2->GetLabel() == _("Backup File"))
 	{
 		
@@ -1024,7 +1075,7 @@ void frmMain::OnButtonSyncClick( wxCommandEvent& event )
 			arrExclusions.Add(m_sync_listex->GetString(i));
 		}
         //wxMessageBox(_("Calling with") + m_Sync_First->GetValue()+ m_Sync_Second->GetValue() + m_Sync_Function->GetStringSelection());
-		Sync(m_Sync_First->GetValue(), m_Sync_Second->GetValue() , m_Sync_Function->GetStringSelection(), arrExclusions, true, m_Attribs->IsChecked());
+		Sync(m_Sync_First->GetValue(), m_Sync_Second->GetValue() , m_Sync_Function->GetStringSelection(), arrExclusions, true, m_Attribs->IsChecked(), m_Preview->IsChecked());
 	}
 	else
 	{
@@ -1384,6 +1435,7 @@ void frmMain::OnBitmapbuttonSyncSaveClick( wxCommandEvent& event )
         config->Write(strName+ wxT("/2"), m_Sync_Second->GetValue());
         config->Write(strName+ wxT("/Function"), m_Sync_Function->GetStringSelection());
         config->Write(strName+ wxT("/Attributes"), m_Attribs->IsChecked());
+        config->Write(strName+ wxT("/Preview"), m_Preview->IsChecked());
         int i;
         wxString strExsisting;
         for(i = 0; i  < m_sync_listex->GetCount(); i++)
@@ -1429,6 +1481,15 @@ void frmMain::OnBitmapbuttonSyncOpenClick( wxCommandEvent& event )
         else if(strAttribs == wxT("1"))
         {
             m_Attribs->SetValue(true);
+        }
+        wxString strPreview = config->Read(strName+ wxT("/Preview"));
+        if(strAttribs == wxT("0"))
+        {
+            m_Preview->SetValue(false);
+        }
+        else if(strAttribs == wxT("1"))
+        {
+            m_Preview->SetValue(true);
         }
         
         wxString strToSplit = config->Read(strName+ wxT("/Exclusions"));

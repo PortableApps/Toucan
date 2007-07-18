@@ -139,10 +139,10 @@ $(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
 $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
 
-$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h sync-complete.h frmprogress.h sync-update.h sync-mirror.h removedir.h normalise.h backup.h secure.h cryptfile.h cryptdir.h remove-start.h exclusions.h basicops.h
+$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h normalise.h removedir.h frmprogress.h sync-file.h backup.h secure.h secure-file.h remove-start.h exclusions.h basicops.h backup-func.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h cryptfile.h frmprogress.h cryptdir.h normalise.h backup.h sync.h sync-complete.h sync-update.h sync-mirror.h removedir.h exclusions.h remove-start.h basicops.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h normalise.h frmprogress.h secure-file.h backup.h sync.h removedir.h sync-file.h exclusions.h remove-start.h basicops.h backup-func.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 $(OBJECTPATH)/frmvariable.o:	frmvariable.cpp toucan.h frmmain.h frmvariable.h

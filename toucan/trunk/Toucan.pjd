@@ -393,7 +393,7 @@
           <long name="title-mode">0</long>
           <long name="locked">0</long>
           <string name="template-name">"MinGW"</string>
-          <bool name="dirty">1</bool>
+          <bool name="dirty">0</bool>
           <string name="Compiler name">"MinGW"</string>
           <string name="Build mode">"Release"</string>
           <string name="Unicode mode">"Unicode"</string>
@@ -446,7 +446,7 @@
           <long name="title-mode">0</long>
           <long name="locked">0</long>
           <string name="template-name">"MinGW"</string>
-          <bool name="dirty">1</bool>
+          <bool name="dirty">0</bool>
           <string name="Compiler name">"MinGW"</string>
           <string name="Build mode">"Debug"</string>
           <string name="Unicode mode">"ANSI"</string>
@@ -499,7 +499,7 @@
           <long name="title-mode">0</long>
           <long name="locked">0</long>
           <string name="template-name">"MinGW"</string>
-          <bool name="dirty">1</bool>
+          <bool name="dirty">0</bool>
           <string name="Compiler name">"MinGW"</string>
           <string name="Build mode">"Debug"</string>
           <string name="Unicode mode">"Unicode"</string>
@@ -552,7 +552,7 @@
           <long name="title-mode">0</long>
           <long name="locked">0</long>
           <string name="template-name">"MinGW"</string>
-          <bool name="dirty">1</bool>
+          <bool name="dirty">0</bool>
           <string name="Compiler name">"MinGW"</string>
           <string name="Build mode">"Release"</string>
           <string name="Unicode mode">"Unicode"</string>
@@ -586,7 +586,7 @@
           <string name="Debug flags">"%AUTO%"</string>
           <string name="Libraries">"%AUTO%"</string>
           <string name="Library path">"%AUTO%"</string>
-          <string name="Linker flags">"%AUTO%"</string>
+          <string name="Linker flags">"-Wl,--allow-multiple-definition, --subsystem,windows -mwindows"</string>
           <string name="Include path">"%AUTO%"</string>
           <string name="Resource flags">"%AUTO%"</string>
           <string name="Resource path">"%AUTO%"</string>
@@ -965,14 +965,6 @@
             <string name="proxy-type">"wbBoxSizerProxy"</string>
             <string name="proxy-Orientation">"Vertical"</string>
             <string name="proxy-Member variable name">""</string>
-            <string name="proxy-AlignH">"Centre"</string>
-            <string name="proxy-AlignV">"Centre"</string>
-            <long name="proxy-Stretch factor">0</long>
-            <long name="proxy-Border">5</long>
-            <bool name="proxy-wxLEFT">1</bool>
-            <bool name="proxy-wxRIGHT">1</bool>
-            <bool name="proxy-wxTOP">1</bool>
-            <bool name="proxy-wxBOTTOM">1</bool>
             <bool name="proxy-wxSHAPED">0</bool>
             <bool name="proxy-wxADJUST_MINSIZE">0</bool>
             <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -1062,6 +1054,8 @@
                 <string name="proxy-Class">"wxPanel"</string>
                 <string name="proxy-Base class">"wxPanel"</string>
                 <string name="proxy-Member variable name">""</string>
+                <string name="proxy-Tab label">""</string>
+                <string name="proxy-Tab icon">"view-refresh.ico"</string>
                 <bool name="proxy-External implementation">0</bool>
                 <bool name="proxy-Separate files">0</bool>
                 <string name="proxy-Implementation filename">""</string>
@@ -1109,8 +1103,6 @@
                 <string name="proxy-Custom arguments">""</string>
                 <string name="proxy-Custom ctor arguments">""</string>
                 <string name="proxy-Event sources">""</string>
-                <string name="proxy-Tab label">""</string>
-                <string name="proxy-Tab icon">"view-refresh.ico"</string>
                 <bool name="proxy-AUI manager">0</bool>
                 <document>
                   <string name="title">"wxBoxSizer V"</string>
@@ -2465,6 +2457,8 @@
                 <string name="proxy-Class">"wxPanel"</string>
                 <string name="proxy-Base class">"wxPanel"</string>
                 <string name="proxy-Member variable name">""</string>
+                <string name="proxy-Tab label">""</string>
+                <string name="proxy-Tab icon">"package-x-generic.ico"</string>
                 <bool name="proxy-External implementation">0</bool>
                 <bool name="proxy-Separate files">0</bool>
                 <string name="proxy-Implementation filename">""</string>
@@ -2512,8 +2506,6 @@
                 <string name="proxy-Custom arguments">""</string>
                 <string name="proxy-Custom ctor arguments">""</string>
                 <string name="proxy-Event sources">""</string>
-                <string name="proxy-Tab label">""</string>
-                <string name="proxy-Tab icon">"package-x-generic.ico"</string>
                 <bool name="proxy-AUI manager">0</bool>
                 <document>
                   <string name="title">"wxBoxSizer V"</string>
@@ -3676,6 +3668,8 @@
                 <string name="proxy-Class">"wxPanel"</string>
                 <string name="proxy-Base class">"wxPanel"</string>
                 <string name="proxy-Member variable name">""</string>
+                <string name="proxy-Tab label">""</string>
+                <string name="proxy-Tab icon">"system-lock-screen.ico"</string>
                 <bool name="proxy-External implementation">1</bool>
                 <bool name="proxy-Separate files">0</bool>
                 <string name="proxy-Implementation filename">""</string>
@@ -3723,8 +3717,6 @@
                 <string name="proxy-Custom arguments">""</string>
                 <string name="proxy-Custom ctor arguments">""</string>
                 <string name="proxy-Event sources">""</string>
-                <string name="proxy-Tab label">""</string>
-                <string name="proxy-Tab icon">"system-lock-screen.ico"</string>
                 <bool name="proxy-AUI manager">0</bool>
                 <document>
                   <string name="title">"wxBoxSizer V"</string>
@@ -4715,6 +4707,8 @@
                 <string name="proxy-Class">"wxPanel"</string>
                 <string name="proxy-Base class">"wxPanel"</string>
                 <string name="proxy-Member variable name">""</string>
+                <string name="proxy-Tab label">""</string>
+                <string name="proxy-Tab icon">"drive-removable-media.ico"</string>
                 <bool name="proxy-External implementation">0</bool>
                 <bool name="proxy-Separate files">0</bool>
                 <string name="proxy-Implementation filename">""</string>
@@ -4762,8 +4756,6 @@
                 <string name="proxy-Custom arguments">""</string>
                 <string name="proxy-Custom ctor arguments">""</string>
                 <string name="proxy-Event sources">""</string>
-                <string name="proxy-Tab label">""</string>
-                <string name="proxy-Tab icon">"drive-removable-media.ico"</string>
                 <bool name="proxy-AUI manager">0</bool>
                 <document>
                   <string name="title">"wxBoxSizer V"</string>
@@ -5299,6 +5291,8 @@
                 <string name="proxy-Class">"wxPanel"</string>
                 <string name="proxy-Base class">"wxPanel"</string>
                 <string name="proxy-Member variable name">""</string>
+                <string name="proxy-Tab label">""</string>
+                <string name="proxy-Tab icon">"preferences-desktop.ico"</string>
                 <bool name="proxy-External implementation">0</bool>
                 <bool name="proxy-Separate files">0</bool>
                 <string name="proxy-Implementation filename">""</string>
@@ -5346,8 +5340,6 @@
                 <string name="proxy-Custom arguments">""</string>
                 <string name="proxy-Custom ctor arguments">""</string>
                 <string name="proxy-Event sources">""</string>
-                <string name="proxy-Tab label">""</string>
-                <string name="proxy-Tab icon">"preferences-desktop.ico"</string>
                 <bool name="proxy-AUI manager">0</bool>
                 <document>
                   <string name="title">"wxBoxSizer V"</string>
@@ -5534,7 +5526,6 @@
           <long name="proxy-Width">400</long>
           <long name="proxy-Height">300</long>
           <string name="proxy-Event sources">""</string>
-          <bool name="proxy-AUI manager">0</bool>
           <document>
             <string name="title">"wxBoxSizer V"</string>
             <string name="type">"dialog-control-document"</string>
@@ -5548,14 +5539,6 @@
             <string name="proxy-type">"wbBoxSizerProxy"</string>
             <string name="proxy-Orientation">"Vertical"</string>
             <string name="proxy-Member variable name">""</string>
-            <string name="proxy-AlignH">"Centre"</string>
-            <string name="proxy-AlignV">"Centre"</string>
-            <long name="proxy-Stretch factor">0</long>
-            <long name="proxy-Border">5</long>
-            <bool name="proxy-wxLEFT">1</bool>
-            <bool name="proxy-wxRIGHT">1</bool>
-            <bool name="proxy-wxTOP">1</bool>
-            <bool name="proxy-wxBOTTOM">1</bool>
             <bool name="proxy-wxSHAPED">0</bool>
             <bool name="proxy-wxADJUST_MINSIZE">0</bool>
             <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -5860,7 +5843,6 @@
           <long name="proxy-Width">400</long>
           <long name="proxy-Height">300</long>
           <string name="proxy-Event sources">""</string>
-          <bool name="proxy-AUI manager">0</bool>
           <document>
             <string name="title">"wxBoxSizer V"</string>
             <string name="type">"dialog-control-document"</string>
@@ -5873,14 +5855,6 @@
             <string name="proxy-type">"wbBoxSizerProxy"</string>
             <string name="proxy-Orientation">"Vertical"</string>
             <string name="proxy-Member variable name">""</string>
-            <string name="proxy-AlignH">"Centre"</string>
-            <string name="proxy-AlignV">"Centre"</string>
-            <long name="proxy-Stretch factor">0</long>
-            <long name="proxy-Border">5</long>
-            <bool name="proxy-wxLEFT">1</bool>
-            <bool name="proxy-wxRIGHT">1</bool>
-            <bool name="proxy-wxTOP">1</bool>
-            <bool name="proxy-wxBOTTOM">1</bool>
             <bool name="proxy-wxSHAPED">0</bool>
             <bool name="proxy-wxADJUST_MINSIZE">0</bool>
             <bool name="proxy-wxFIXED_MINSIZE">0</bool>
@@ -6953,6 +6927,17 @@
         <long name="title-mode">0</long>
         <long name="locked">1</long>
         <document>
+          <string name="title">"normalise.h"</string>
+          <string name="type">"source-editor-document"</string>
+          <string name="filename">"normalise.h"</string>
+          <string name="icon-name">"source-editor"</string>
+          <long name="is-transient">0</long>
+          <long name="owns-file">0</long>
+          <long name="title-mode">1</long>
+          <long name="locked">0</long>
+          <string name="language">""</string>
+        </document>
+        <document>
           <string name="title">"basicops.h"</string>
           <string name="type">"source-editor-document"</string>
           <string name="filename">"basicops.h"</string>
@@ -6973,7 +6958,29 @@
           <long name="owns-file">0</long>
           <long name="title-mode">1</long>
           <long name="locked">0</long>
-          <string name="created">"15/5/2007"</string>
+          <string name="language">""</string>
+        </document>
+        <document>
+          <string name="title">"secure.h"</string>
+          <string name="type">"source-editor-document"</string>
+          <string name="filename">"secure.h"</string>
+          <string name="icon-name">"source-editor"</string>
+          <long name="is-transient">0</long>
+          <long name="owns-file">0</long>
+          <long name="title-mode">1</long>
+          <long name="locked">0</long>
+          <string name="language">""</string>
+        </document>
+        <document>
+          <string name="title">"secure-file.h"</string>
+          <string name="type">"source-editor-document"</string>
+          <string name="filename">"secure-file.h"</string>
+          <string name="icon-name">"source-editor"</string>
+          <long name="is-transient">0</long>
+          <long name="owns-file">0</long>
+          <long name="title-mode">1</long>
+          <long name="locked">0</long>
+          <string name="created">"11/7/2007"</string>
           <string name="language">""</string>
         </document>
         <document>
@@ -6997,67 +7004,17 @@
           <long name="owns-file">0</long>
           <long name="title-mode">1</long>
           <long name="locked">0</long>
-          <string name="created">"25/11/2006"</string>
           <string name="language">""</string>
         </document>
         <document>
-          <string name="title">"cryptdir.h"</string>
+          <string name="title">"backup-func.h"</string>
           <string name="type">"source-editor-document"</string>
-          <string name="filename">"cryptdir.h"</string>
+          <string name="filename">"backup-func.h"</string>
           <string name="icon-name">"source-editor"</string>
           <long name="is-transient">0</long>
           <long name="owns-file">0</long>
           <long name="title-mode">1</long>
           <long name="locked">0</long>
-          <string name="created">"21/12/2006"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"cryptfile.h"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"cryptfile.h"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"20/12/2006"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"exclusions.h"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"exclusions.h"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"31/1/2007"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"normalise.h"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"normalise.h"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"8/1/2007"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"remove-start.h"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"remove-start.h"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"2/2/2007"</string>
           <string name="language">""</string>
         </document>
         <document>
@@ -7073,39 +7030,14 @@
           <string name="language">""</string>
         </document>
         <document>
-          <string name="title">"secure.h"</string>
+          <string name="title">"sync.h"</string>
           <string name="type">"source-editor-document"</string>
-          <string name="filename">"secure.h"</string>
+          <string name="filename">"sync.h"</string>
           <string name="icon-name">"source-editor"</string>
           <long name="is-transient">0</long>
           <long name="owns-file">0</long>
           <long name="title-mode">1</long>
           <long name="locked">0</long>
-          <string name="created">"25/11/2006"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"sync-complete.h"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"sync-complete.h"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"2/1/2007"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"sync-update.h"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"sync-update.h"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"2/1/2007"</string>
           <string name="language">""</string>
         </document>
         <document>
@@ -7120,9 +7052,9 @@
           <string name="language">""</string>
         </document>
         <document>
-          <string name="title">"sync.h"</string>
+          <string name="title">"sync-file.h"</string>
           <string name="type">"source-editor-document"</string>
-          <string name="filename">"sync.h"</string>
+          <string name="filename">"sync-file.h"</string>
           <string name="icon-name">"source-editor"</string>
           <long name="is-transient">0</long>
           <long name="owns-file">0</long>

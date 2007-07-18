@@ -9,73 +9,53 @@
 wxString Normalise(wxString strFilePath)
 {
 	wxString token;
-	wxString strReturn = _("");
+	wxString strReturn = _T("");
 	wxDateTime now = wxDateTime::Now();  
 	wxStringTokenizer tkz(strFilePath, wxT("@"), wxTOKEN_STRTOK);
 	while ( tkz.HasMoreTokens() )
 	{
-		//wxMessageBox(strReturn);
         token = tkz.GetNextToken();
-        //wxMessageBox(token);
 		if(token.Left(1) != wxT("\\") && token.Right(1) != wxT("\\"))
 		{
 			
-			if(token == wxT("date"))
-			{
+			if(token == wxT("date")){
 				token = now.FormatISODate();
-                //wxMessageBox(token);
 				strReturn = strReturn + token;
-                
 			}
-			else if(token == wxT("time"))
-			{
+			else if(token == wxT("time")){
 				token = now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M"));
-                //wxMessageBox(token);
 				strReturn = strReturn + token;       
 			}
-			else if(token == wxT("drive"))
-			{
+			else if(token == wxT("drive")){
 				strReturn = strReturn + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(2);
 			}
-			else if(token == wxT("docs"))
-			{	
+			else if(token == wxT("docs")){	
 				strReturn = strReturn + wxStandardPaths::Get().GetDocumentsDir();
 			}
-			else
-			{
+			else{
 				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Variables.ini") );
 				wxFileConfig::Set( config );
 				
 				wxString strRead;
 				if(config->Read(token + wxT("/") + wxGetFullHostName(), & strRead) == false)
 				{
-					//strReturn = strReturn.Left(strReturn.Length() -1);
-                    //wxMessageBox(strReturn);
-					if(config->Read(token + wxT("/") + _("Other"), & strRead) == false)
-					{
-						//strReturn = strReturn.Left(strReturn.Length() -1);
+					if(config->Read(token + wxT("/") + _("Other"), & strRead) == false){
 						strReturn += token;                 
 					}
-					else
-					{
+					else{
 						strReturn += strRead;
-					}
-					
+					}		
 				}
-				else
-				{
+				else{
 					strReturn += strRead;
 				}
 			}
 		}
 		else
 		{
-			
 			strReturn = strReturn + token;
-			
 		}
 	}
-    //wxMessageBox(_("Returned") + strReturn);
 	return strReturn;
 }
 #endif

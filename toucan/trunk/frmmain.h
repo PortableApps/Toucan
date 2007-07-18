@@ -109,6 +109,8 @@ class wxListCtrl;
 #define ID_BITMAPBUTTON_PVREMOVELIST 10102
 #define ID_HELP 10103
 #define ID_CHECKBOX1 10104
+#define ID_CHECKBOX2 10105
+//#define wxID_UPDATE 10106
 /*!
 * Compatibility
 */
@@ -245,6 +247,8 @@ public:
 	void OnABOUTClick( wxCommandEvent& event );
 		/// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_ABOUT
 	void OnHELPClick( wxCommandEvent& event );
+    
+    	//void OnUPDATEClick( wxCommandEvent& event );
 
 	////\@end frmMain event handler declarations
 
@@ -286,6 +290,7 @@ public:
 	wxRadioBox* m_Tooltip;
 	wxRadioBox* m_TabStyle;
     wxCheckBox* m_Attribs;
+    wxCheckBox* m_Preview;
 	public:
 	wxString strMain;
 	////\@end frmMain member variables

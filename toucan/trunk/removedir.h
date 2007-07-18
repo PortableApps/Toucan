@@ -1,6 +1,9 @@
 #ifndef H_REMDIR
 #define H_REMDIR
 
+#include <wx/dir.h>
+#include <wx/filefn.h>
+#include <wx/filename.h>
 
 bool RemDir(wxString rmDir) {
 

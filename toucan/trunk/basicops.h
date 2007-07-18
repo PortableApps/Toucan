@@ -1,3 +1,5 @@
+#include "frmmain.h"
+
 #include <wx/textfile.h>
 #include <wx/file.h>
 

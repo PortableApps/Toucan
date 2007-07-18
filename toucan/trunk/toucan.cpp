@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-#pragma implementation "puss.h"
+#pragma implementation "toucan.h"
 #endif
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -31,10 +31,11 @@
 #include "sync.h"
 #include "backup.h"
 #include "secure.h"
-#include "remove-start.h"
-#include "exclusions.h"
+//#include "remove-start.h"
+//#include "exclusions.h"
 #include "basicops.h"
 #include "frmmain.h"
+#include "backup-func.h"
 
 //#include <wx/intl.h>
 #include <wx/cmdline.h>
@@ -55,29 +56,29 @@ IMPLEMENT_APP( Toucan )
 ////@end implement app
 
 /*!
-* PUSS type definition
+* toucan type definition
 */
 
 IMPLEMENT_CLASS( Toucan, wxApp )
 
 /*!
-* PUSS event table definition
+* Toucan event table definition
 */
 
 BEGIN_EVENT_TABLE( Toucan, wxApp )
 
-////@begin PUSS event table entries
-////@end PUSS event table entries
+////@begin Toucan event table entries
+////@end Toucan event table entries
 
 END_EVENT_TABLE()
 
 /*!
-* Constructor for PUSS
+* Constructor for Toucan
 */
 
 Toucan::Toucan()
-{	////@begin PUSS member initialisation
-	////@end PUSS member initialisation
+{	////@begin toucan member initialisation
+	////@end toucan member initialisation
 }static const wxCmdLineEntryDesc cmdLineDesc[] =
 {	{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("File"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -88,7 +89,7 @@ Toucan::Toucan()
 };
 
 /*!
-* Initialisation for PUSS
+* Initialisation for toucan
 */
 
 bool Toucan::OnInit()
@@ -138,11 +139,11 @@ bool Toucan::OnInit()
         wxString strAttribs = config->Read(cmdParser.GetParam(0) + wxT("/Attributes"));
         if(strAttribs == wxT("0"))
         {
-            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, false);
+            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, false, false);
         }
         else if(strAttribs == wxT("1"))
         {
-            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, true);
+            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, true, false);
         }
       
 		return false;
@@ -222,11 +223,11 @@ void Toucan::SelectLanguage(int lang)
 	m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data"));
 	m_locale->AddCatalog(wxT("toucan"));
 }/*!
-* Cleanup for PUSS
+* Cleanup for toucan
 */
 int Toucan::OnExit()
 {    
 	//delete m_locale ;
-	////@begin PUSS cleanup
+	////@begin toucan cleanup
 	return wxApp::OnExit();
 }
