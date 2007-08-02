@@ -141,7 +141,6 @@ private:
     void RemoveAsyncProcess(MyPipedProcess *process)
     {
         m_running.Remove(process);
-
         if ( m_running.IsEmpty() )
         {
             // we don't need to get idle events all the time any more
@@ -189,7 +188,6 @@ public:
 void MyProcess::OnTerminate(int pid, int status)
 {
     //wxLogStatus(m_parent, _T("Process %u ('%s') terminated with exit code %d."), pid, m_cmd.c_str(), status);
-
     // we're not needed any more
     delete this;
 }
@@ -274,12 +272,14 @@ void frmProgress::OnIdle(wxIdleEvent& event)
 
 void frmProgress::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
+
     wxWakeUpIdle();
 }
 
 void frmProgress::OnProcessTerminated(MyPipedProcess *process)
 {
     RemoveAsyncProcess(process);
+
 }
 
 #endif

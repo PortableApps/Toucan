@@ -92,6 +92,16 @@ bool Secure(wxArrayString arrLocation, wxString strFunction, wxString strPass, b
     window->m_OK->Enable(true);
     window->m_Save->Enable(true);
     window->m_Abort->Enable(false);
+    
+           if(!blBox)
+       {
+        window->Update();
+        window->m_Progress_Text->Update();
+       // wxMessageBox(_("boo"));
+       wxSleep(5);
+       wxYield();
+        window->m_Progress_Text->SaveFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())+ + _T("\\Output.txt"));
+   }
 
 return true;
 

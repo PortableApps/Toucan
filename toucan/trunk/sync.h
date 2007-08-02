@@ -161,6 +161,14 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 	window->m_Save->Enable();
 	window->m_Abort->Enable(false);
 
-	
+	       if(!blBox)
+       {
+        window->Update();
+        window->m_Progress_Text->Update();
+       // wxMessageBox(_("boo"));
+       wxSleep(5);
+       wxYield();
+        window->m_Progress_Text->SaveFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())+ + _T("\\Output.txt"));
+   }
 	return true;
 }

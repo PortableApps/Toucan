@@ -44,6 +44,8 @@
 #include <wx/snglinst.h>
 #include <wx/splash.h>
 
+#include <stdio.h>
+
 ////@begin XPM images
 ////@end XPM images
 
@@ -166,6 +168,7 @@ bool Toucan::OnInit()
         strFirst = Normalise(strFirst);
         wxString strSecond ;
         strSecond = Normalise(config->Read(cmdParser.GetParam(0) + wxT("/2")));
+        //wxMessageBox(_("Last cmdline use"));
         strSecond = Normalise(strSecond);
 
         //Clears up text file for new exclusions
@@ -176,7 +179,8 @@ bool Toucan::OnInit()
 		//Cut the beginnings off the files so that they are 7zip compatible
 		CutStart(strFirst, false);
 		//Run the backup
-		Backup(strFirst,strSecond, config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false);
+		Backup(strFirst,strSecond, config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false);        
+        //wxMessageBox(_("Returning Now"));
         return false;
     }
     else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure"))
@@ -192,16 +196,17 @@ bool Toucan::OnInit()
         
         }
         Secure(arrFiles, config->Read(cmdParser.GetParam(0) + wxT("/Function")), cmdParser.GetParam(1), false);
+       // wxPrintF(_("Fired Secure"));
     return false;
    }
     
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
     frmMain* mainWindow = new frmMain(NULL, ID_FRMMAIN, wxT("Toucan"));
-    if(::wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg")))
+    if(::wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("toucan") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg")))
     {
    // wxMessageBox(_("Boo2"));
-	bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg"), wxBITMAP_TYPE_JPEG);
+	bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("toucan") + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.jpg"), wxBITMAP_TYPE_JPEG);
  
 
      wxSplashScreen *scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, mainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSTAY_ON_TOP);

@@ -49,7 +49,7 @@ bool MirrorDir(wxString strOriginal, wxString strNew, frmProgress* window, int l
                     }
                     wxString both1 = strNew + strFilename;
                     both1 = both1.Right(both1.Length() - length1);
-                    window->m_Progress_Text->AppendText(_("\r\nRemoved \t") + both1);
+                    window->m_Progress_Text->AppendText(_("\nRemoved \t") + both1);
                 }
             }
         } while (dir.GetNext(&strFilename) );

@@ -200,7 +200,7 @@ void frmMain::CreateControls()
 	wxFileConfig *programconfig = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Settings.ini") );
 	wxFileConfig::Set( programconfig );
 	wxString strTabStyle;
-	programconfig->Read(wxT("General/Tabstyle"), &strTabStyle, _("Icons"));
+	programconfig->Read(wxT("General/Tabstyle"), &strTabStyle, _("Icons + Text"));
 	frmMain* itemDialog1 = this;
 
 	wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
@@ -708,7 +708,7 @@ void frmMain::CreateControls()
 	if(width == 0)
 	{
 		//wxMessageBox(_("Error"));
-		width = 660;
+		width = 605;
 	}
 	itemDialog1->SetSize(width, height);
 }  
@@ -798,7 +798,7 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.1.0 Pr1"));
+	info.SetVersion(wxT("1.1.2"));
 	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh"));
 	info.SetWebSite(wxT("http://portableapps.com/apps/utilities/toucan"));
 	info.AddTranslator(wxT("Martin Wiatr - Polish"));
@@ -811,7 +811,7 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 void frmMain::OnHELPClick( wxCommandEvent& event )
 {	
 	//Use win32 method for launching as error with wxShell
-	ShellExecute(NULL, wxT("open"), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\Help.chm"), NULL, NULL, SW_SHOW);
+	ShellExecute(NULL, wxT("open"), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + _T("\\Help.html"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
 /*void frmMain::OnUPDATEClick( wxCommandEvent& event )
@@ -1032,7 +1032,7 @@ void frmMain::OnButtonBackup2Click( wxCommandEvent& event )
 	if(m_BackupText2->GetLabel() == _("Backups Folder"))
 	{
 		
-		wxDirDialog dialog(this,_("Please Select the Folder to Stroe Backups."),wxEmptyString);
+		wxDirDialog dialog(this,_("Please Select the Folder to Store Backups."),wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK)
 		{
 			m_Backup2->SetValue(dialog.GetPath());

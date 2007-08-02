@@ -139,10 +139,10 @@ $(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
 $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
 
-$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h normalise.h removedir.h frmprogress.h sync-file.h backup.h secure.h secure-file.h remove-start.h exclusions.h basicops.h backup-func.h
+$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h normalise.h removedir.h frmprogress.h sync-file.h backup.h secure.h secure-file.h basicops.h backup-func.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h normalise.h frmprogress.h secure-file.h backup.h sync.h removedir.h sync-file.h exclusions.h remove-start.h basicops.h backup-func.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmvariable.h frmsave.h frmopen.h toucan.h frmmain.h secure.h normalise.h frmprogress.h secure-file.h backup.h sync.h removedir.h sync-file.h basicops.h backup-func.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 $(OBJECTPATH)/frmvariable.o:	frmvariable.cpp toucan.h frmmain.h frmvariable.h

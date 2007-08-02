@@ -96,6 +96,9 @@ public:
 
 	long GetlngPID() const { return lngPID ; }
 	void SetlngPID(long value) { lngPID = value ; }
+    
+	bool GetBlFinished() const { return blFinished ; }
+	void SetBlFinished(bool value) { blFinished = value ; }
 
 	////\@end Toucan member function declarations
 
@@ -109,6 +112,7 @@ public:
 	wxString strAbort;
 	wxString strType;
 	long lngPID;
+	bool blFinished;
 public:
 	wxString strTemp;
 	////@end Toucan member variables
