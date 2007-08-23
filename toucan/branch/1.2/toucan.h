@@ -40,8 +40,8 @@
 
 class Toucan: public wxApp
 {    
-    DECLARE_CLASS( Toucan )
-	DECLARE_EVENT_TABLE()
+    //DECLARE_CLASS( Toucan )
+	//DECLARE_EVENT_TABLE()
 
 public:
 	/// Constructor

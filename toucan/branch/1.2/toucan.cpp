@@ -33,12 +33,16 @@
 #include "backup-func.h"
 
 //#include <wx/intl.h>
+#include <wx/wfstream.h>
 #include <wx/cmdline.h>
 #include <wx/textfile.h>
+#include <wx/txtstrm.h>
 #include <wx/stdpaths.h> 
 #include <wx/snglinst.h>
 #include <wx/splash.h>
-#include <iostream> 
+#include <iostream>
+#include <stdio.h>
+using namespace std;
 
 //declare the main wxWidgets application,
 //but don't create an entry point for the application
@@ -53,7 +57,7 @@ Toucan::Toucan()
 	////@end toucan member initialisation
 }
 
-/*
+
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {	{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("File"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -61,7 +65,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
 	{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("Function"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE }
 
-};*/
+};
 
 /*!
 * Initialisation for toucan
@@ -100,43 +104,118 @@ void Toucan::SelectLanguage()
 	m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Data"));
 	m_locale->AddCatalog(wxT("toucan"));
 	}
-}/*!
-* Cleanup for toucan
-*/
+}
+/*!
+//* Cleanup for toucan
+//*/
 int Toucan::OnExit()
 {    
-	//delete m_locale ;
-	////@begin toucan cleanup
+	delete m_locale ;
 	return wxApp::OnExit();
 }
+
 int main(int argc, char* argv[])
 {
-        printf("boo");
-        cout << "HELLO!" << endl;
-        cout << "Please make a choice:" << endl;
-        cout << "1) Start the GUI" << endl;
-        cout << "2) Print some text" << endl;
-        cout << "3) Quit" << endl;
 
-        int choice;
-        cin >> choice;
 
-        switch(choice)
+    //::wxPrintF(_("Test"));
+    if(argc == 1){
+        ShowWindow(GetConsoleWindow(), SW_HIDE ); 
+        wxEntry(argc,argv); 
+    }
+    else{
+        wxFFileOutputStream output( stderr );
+        wxTextOutputStream cout( output );
+        wxInitializer initializer; 
+        cout << _("Welcome to the Toucan command line system.\n");
+        
+        wxCmdLineParser cmdParser(cmdLineDesc, argc, argv);
+        int res;
         {
-                case 1:
-                        cout << "Starting interface..." << endl;
-                        wxEntry(argc,argv);
-                break;
-                case 2:
-                        cout << "Blablabla..." << endl;
-                break;
+            wxLogNull log;
+            // Pass false to suppress auto Usage() message
+            res = cmdParser.Parse(false);
+        }
+        //Create new file config to read the jobs
+        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxT("\\Data\\Jobs.ini") );
+        wxFileConfig::Set( config );
+        if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
+            //Split the exclusions using a string tokeniser
+            wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Exclusions"));
+            wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+            wxString token;
+            wxArrayString arrExclusions;
+            while ( tkz.HasMoreTokens() ){
+                token = tkz.GetNextToken();
+                arrExclusions.Add(token);
+            
+            }
+            if(Normalise(config->Read(cmdParser.GetParam(0) + wxT("/1"))) == wxEmptyString){
+                cout<<_("There was an error processing the first portable variable");
+                return false;
+            }
+            if(Normalise(config->Read(cmdParser.GetParam(0) + wxT("/2"))) == wxEmptyString){
+                cout<<_("There was an error processing the second portable variable");
+                return false;
+            }            
+            
+            bool blAttribs = config->Read(cmdParser.GetParam(0) + wxT("/Attributes"));
+            Sync(config->Read(cmdParser.GetParam(0) + wxT("/1")), config->Read(cmdParser.GetParam(0) + wxT("/2")), config->Read(cmdParser.GetParam(0) + wxT("/Function")), arrExclusions, false, blAttribs, false);
+            return false;
+        }
+        else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
+            //Split the exclusions using a string tokeniser
+            wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Exclusions"));
+            wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+            wxString token;
+            wxArrayString arrExclusions;
+            while ( tkz.HasMoreTokens() ){
+                token = tkz.GetNextToken();
+                arrExclusions.Add(token);
+            
+            }
+            wxString strFirst = Normalise(config->Read(cmdParser.GetParam(0) + wxT("/1")));
+            strFirst = Normalise(strFirst);
+            if(strFirst == wxEmptyString){
+                cout<<_("There was an error processing the second portable variable");
+            }
+            wxString strSecond = Normalise(config->Read(cmdParser.GetParam(0) + wxT("/2")));
+            strSecond = Normalise(strSecond);
+            if(strSecond == wxEmptyString){
+                cout<<_("There was an error processing the second portable variable");
+            }
 
-                case 3:
-                default:
-                        cout << "Bye!" << endl;
-                break;
-
-        };
-
-        return 0;
+            //Clears up text file for new exclusions
+            wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("App") + wxFILE_SEP_PATH + wxT("temp-exclusions.txt");
+            PrepareTextFile(strPath);
+            //Generate the exclusion file list
+            GenerateExclusions(strFirst, arrExclusions, false);
+            //Cut the beginnings off the files so that they are 7zip compatible
+            CutStart(strFirst, false);
+            //Run the backup
+            Backup(strFirst,strSecond, config->Read(cmdParser.GetParam(0) + wxT("/Function")), config->Read(cmdParser.GetParam(0) + wxT("/Format")), config->Read(cmdParser.GetParam(0) + wxT("/Ratio")), false, wxEmptyString);        
+            //wxMessageBox(_("Returning Now"));
+            return false;
+        }
+        else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
+            //Split the files and folders usig a string tokeniser
+            wxString strToSplit = config->Read(cmdParser.GetParam(0) + wxT("/Files"));
+            wxStringTokenizer tkz(strToSplit, wxT("|"), wxTOKEN_STRTOK);
+            wxString token;
+            wxArrayString arrFiles;
+            while ( tkz.HasMoreTokens() ){
+                token = tkz.GetNextToken();
+                if(Normalise(token) != wxEmptyString){
+                arrFiles.Add(token);
+                }
+                else{
+                cout<< _("There was an error processing the following portable variable so it not be en/decrypted: ") + token;
+                }
+            }
+            Secure(arrFiles, config->Read(cmdParser.GetParam(0) + wxT("/Function")), cmdParser.GetParam(1), false, wxT("AES"));
+           // wxPrintF(_("Fired Secure"));
+        return false;
+       }
+    }
+    return 0;
 }

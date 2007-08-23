@@ -30,17 +30,13 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
         SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
         wxString command;
 		if(strRoutine == wxT("AES"))  {       
-			command = wxT("App\\toucan\\ccrypt -e -k\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
+			command = wxT("App\\toucan\\ccrypt -e -K\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
 		}
 		else{		
 			command = wxT("App\\toucan\\burp -eo -k\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
 		}
 		//Execute the process 
 		long lgReturn = wxExecute(command, arrErrors,arrOutput, wxEXEC_NODISABLE|wxEXEC_SYNC);
-		//If AES was used then remove the original file as after encryption a new file is creted with a new filename
-		if(strFunction == wxT("AES")){
-			wxRemoveFile(strFile);
-		}
 		//Put the original attributes back
 		SetFileAttributes(strFile,filearrtibs);
 		if(lgReturn == 0){        
@@ -64,7 +60,7 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
 			command = wxT("App\\toucan\\burp -d -k\"") + strPass + wxT("\" \"") + strFile + wxT("\" \"") + wxPathOnly(strFile) + wxT("\\") + wxT("1.tmp\"");
 		}	
 		else{
-			command = wxT("App\\toucan\\ccrypt -d -k\"") + strPass + wxT("\" \"") + strFile + wxT("\" ");
+			command = wxT("App\\toucan\\ccrypt -d -K\"") + strPass + wxT("\" \"") + strFile + wxT("\" ");
 		}
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_NODISABLE);
 		//If Blowfish is used then the decryped file (1.tmp) is renamed to the correct name and then 1.tmp is removed

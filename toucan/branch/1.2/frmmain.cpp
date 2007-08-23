@@ -31,6 +31,7 @@
 #include "sync.h"
 #include "basicops.h"
 #include "backup-func.h"
+#include "dragndrop.h"
 
 #include <wx/dir.h>
 #include <wx/fileconf.h>
@@ -675,6 +676,12 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
 
 	////\@end frmMain content construction
 
+    //Set the correct drop targets
+    m_ListSecure->SetDropTarget(new DnDFileList(m_ListSecure));
+    m_Sync_First->SetDropTarget(new DnDFileText(m_Sync_First));
+    m_Sync_Second->SetDropTarget(new DnDFileText(m_Sync_Second));
+    m_Backup_First->SetDropTarget(new DnDFileText(m_Backup_First));
+    m_Backup_Second->SetDropTarget(new DnDFileText(m_Backup_Second));
 	
 	m_Tree = new wxGenericDirCtrl( itemPanel66, ID_TREECTRL1, wxDirDialogDefaultFolderStr, wxDefaultPosition, wxSize(300, 450), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
 	m_GenericBox->Add(m_Tree, 0, wxALIGN_LEFT|wxALL, 5);
