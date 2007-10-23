@@ -3,9 +3,9 @@
 // Purpose:     
 // Author:      Steven Lamerton
 // Modified by: 
-// Created:     20/08/2007 16:41:25
+// Created:     28/09/2007 20:20:52
 // RCS-ID:      
-// Copyright:   Copyright (C)  2007 Steven Lamerton
+// Copyright:   Copyright (c) Steven Lamerton 2006-2007
 // Licence:     
 /////////////////////////////////////////////////////////////////////////////
 
@@ -24,14 +24,14 @@
 ////@end includes
 
 #include "toucan.h"
-
+#include "frmmain.h"
 ////@begin XPM images
 ////@end XPM images
 
 
 /*!
- * Application instance implementation
- */
+* Application instance implementation
+*/
 
 ////@begin implement app
 IMPLEMENT_APP( Toucan )
@@ -39,15 +39,15 @@ IMPLEMENT_APP( Toucan )
 
 
 /*!
- * Toucan type definition
- */
+* Toucan type definition
+*/
 
 IMPLEMENT_CLASS( Toucan, wxApp )
 
 
 /*!
- * Toucan event table definition
- */
+* Toucan event table definition
+*/
 
 BEGIN_EVENT_TABLE( Toucan, wxApp )
 
@@ -58,32 +58,32 @@ END_EVENT_TABLE()
 
 
 /*!
- * Constructor for Toucan
- */
+* Constructor for Toucan
+*/
 
 Toucan::Toucan()
 {
-    Init();
+	Init();
 }
 
 
 /*!
- * Member initialisation
- */
+* Member initialisation
+*/
 
 void Toucan::Init()
 {
-////@begin Toucan member initialisation
-////@end Toucan member initialisation
+	////@begin Toucan member initialisation
+	////@end Toucan member initialisation
 }
 
 /*!
- * Initialisation for Toucan
- */
+* Initialisation for Toucan
+*/
 
 bool Toucan::OnInit()
 {    
-////@begin Toucan initialisation
+	////@begin Toucan initialisation
 	// Remove the comment markers above and below this block
 	// to make permanent changes to the code.
 
@@ -99,22 +99,22 @@ bool Toucan::OnInit()
 #if wxUSE_GIF
 	wxImage::AddHandler(new wxGIFHandler);
 #endif
-	frmMain* mainWindow = new frmMain( NULL, ID_FRMMAIN );
+	frmMain* mainWindow = new frmMain( NULL, ID_AUIFRAME );
 	mainWindow->Show(true);
-////@end Toucan initialisation
+	////@end Toucan initialisation
 
-    return true;
+	return true;
 }
 
 
 /*!
- * Cleanup for Toucan
- */
+* Cleanup for Toucan
+*/
 
 int Toucan::OnExit()
 {    
-////@begin Toucan cleanup
+	////@begin Toucan cleanup
 	return wxApp::OnExit();
-////@end Toucan cleanup
+	////@end Toucan cleanup
 }
 

@@ -1,1 +1,0 @@
-1.5 will be the version with the GUI rewrite.

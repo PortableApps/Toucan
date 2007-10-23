@@ -10,7 +10,7 @@ CONFIG=unicoderelease
 
 # unicoderelease
 ifeq ($(CONFIG),unicoderelease)
-WXWIN=E:/widgets/wxWidgets-2.8.4
+WXWIN=I:/wxWidgets-2.8.5
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
@@ -24,17 +24,17 @@ CPPFLAGS= -fno-rtti -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 DEBUGFLAGS=
-LINKERFLAGS=-Wl,--allow-multiple-definition, --subsystem,windows
+LINKERFLAGS=-Wl,--subsystem,windows -mwindows
 LIBS=-lwxmsw28u_xrc -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u_html -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxbase28u_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswu"
 LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
 PROGRAM=Toucan.exe
-RCFILEOBJ=toucan_rc.o
-RCFILESRC=toucan.rc
+RCFILEOBJ=Toucan_rc.o
+RCFILESRC=Toucan.rc
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/frmsave.o $(OBJECTPATH)/frmopen.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 all:	$(BUILDPATHS) $(OUTPUTPATH)/$(PROGRAM)
 
@@ -55,23 +55,11 @@ $(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
 $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
 
-$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h sync.h normalise.h frmprogress.h sync-file.h sync-mirror.h backup.h backup-func.h secure.h secure-file.h basicops.h
+$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmsave.h frmopen.h toucan.h frmmain.h secure.h normalise.h frmprogress.h secure-file.h backup.h backup-func.h sync.h sync-file.h sync-mirror.h basicops.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
-
-$(OBJECTPATH)/frmvariable.o:	frmvariable.cpp frmvariable.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
-
-$(OBJECTPATH)/frmsave.o:	frmsave.cpp frmsave.h toucan.h frmmain.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmsave.cpp
-
-$(OBJECTPATH)/frmopen.o:	frmopen.cpp frmopen.h toucan.h frmmain.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmopen.cpp
-
-$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h toucan.h frmmain.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmprogress.cpp
 
 .PHONY:	all clean
 ### End DialogBlocks generated body

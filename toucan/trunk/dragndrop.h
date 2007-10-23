@@ -24,7 +24,7 @@ class DnDFileText : public wxFileDropTarget
         DnDFileText(wxTextCtrl *parent) {m_Parent = parent;}
         
         virtual bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
-                m_Parent->WriteText(arrFilenames.Item(0));
+                m_Parent->SetValue(arrFilenames.Item(0));
                 return true;
         }
     private:

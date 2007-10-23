@@ -1,13 +1,8 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        toucan.h
-// Purpose:     
+/////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Modified by: 
-// Created:     08/02/2007 19:08:06
-// RCS-ID:      
-// Copyright:   Copyright (C)  2006 Steven Lamerton
-// Licence:     
-/////////////////////////////////////////////////////////////////////////////
+// Copyright:   Copyright (C) 2006-2007 Steven Lamerton
+// Licence:     GNU GPL 2 (See readme for more info
+/////////////////////////////////////////////////////////////////////////////////
 
 #ifndef _Toucan_H_
 #define _Toucan_H_
@@ -45,8 +40,8 @@
 
 class Toucan: public wxApp
 {    
-	DECLARE_CLASS( Toucan )
-	DECLARE_EVENT_TABLE()
+    //DECLARE_CLASS( Toucan )
+	//DECLARE_EVENT_TABLE()
 
 public:
 	/// Constructor
@@ -58,7 +53,7 @@ public:
 	/// Called on exit
 	virtual int OnExit();
 		
-        void SelectLanguage(int lang) ;
+    void SelectLanguage() ;
        
 
 	////@begin Toucan event handler declarations
@@ -67,55 +62,31 @@ public:
 
 	////\@begin Toucan member function declarations
 
-	wxString GetStrTemp() const { return strTemp ; }
-	void SetStrTemp(wxString value) { strTemp = value ; }
-
-	wxString GetStrFirst() const { return strFirst ; }
-	void SetStrFirst(wxString value) { strFirst = value ; }
-
-	wxString GetStrSecond() const { return strSecond ; }
-	void SetStrSecond(wxString value) { strSecond = value ; }
-
-	wxString GetStrFunction() const { return strFunction ; }
-	void SetStrFunction(wxString value) { strFunction = value ; }
-
-	wxString GetStrFormat() const { return strFormat ; }
-	void SetStrFormat(wxString value) { strFormat = value ; }
-
-	wxString GetStrRatio() const { return strRatio ; }
-	void SetStrRatio(wxString value) { strRatio = value ; }
-
-	wxString GetStrExclusions() const { return strExclusions ; }
-	void SetStrExclusions(wxString value) { strExclusions = value ; }
-
+	wxString GetStrCommand() const { return strCommand ; }
+	void SetStrCommand(wxString value) { strCommand = value ; }
+    
 	wxString GetStrAbort() const { return strAbort ; }
 	void SetStrAbort(wxString value) { strAbort = value ; }
 
-	wxString GetStrType() const { return strType ; }
-	void SetStrType(wxString value) { strType = value ; }
+	wxString GetStrTemp() const { return strTemp ; }
+	void SetStrTemp(wxString value) { strTemp = value ; }
 
 	long GetlngPID() const { return lngPID ; }
 	void SetlngPID(long value) { lngPID = value ; }
     
-	bool GetBlFinished() const { return blFinished ; }
-	void SetBlFinished(bool value) { blFinished = value ; }
+	bool GetBlVisible() const { return blVisible ; }
+	void SetBlVisible(bool value) { blVisible = value ; }
 
 	////\@end Toucan member function declarations
 
-	////@begin Toucan member variables
-	wxString strFirst;
-	wxString strSecond;
-	wxString strFunction;
-	wxString strFormat;
-	wxString strRatio;
-	wxString strExclusions;
+	////\@begin Toucan member variables
 	wxString strAbort;
-	wxString strType;
 	long lngPID;
-	bool blFinished;
+	bool blVisible;
+	wxString strCommand;
 public:
 	wxString strTemp;
-	////@end Toucan member variables
+	////\@end Toucan member variables
 private:
 	wxLocale* m_locale; // 'our' locale
 };

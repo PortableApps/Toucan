@@ -29,6 +29,8 @@ WX_DEFINE_ARRAY_PTR(MyPipedProcess *, MyProcessesArray);
 ////@end includes
 #include "wx/txtstrm.h"
 #include "wx/process.h"
+
+
 #include "toucan.h"
 
 /*!
@@ -45,7 +47,7 @@ WX_DEFINE_ARRAY_PTR(MyPipedProcess *, MyProcessesArray);
 ////@begin control identifiers
 #define ID_FRMPROGRESS 10036
 #define ID_TEXTCTRL1 10054
-#define SYMBOL_FRMPROGRESS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxDIALOG_MODAL
+#define SYMBOL_FRMPROGRESS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX
 #define SYMBOL_FRMPROGRESS_TITLE _("Progress")
 #define SYMBOL_FRMPROGRESS_IDNAME ID_FRMPROGRESS
 #define SYMBOL_FRMPROGRESS_SIZE wxSize(400, 300)
@@ -132,7 +134,7 @@ private:
             // we want to start getting the timer events to ensure that a
             // steady stream of idle events comes in -- otherwise we
             // wouldn't be able to poll the child process input
-            m_timerIdleWakeUp.Start(100);
+            m_timerIdleWakeUp.Start(20);
         }
         //else: the timer is already running
 
@@ -148,7 +150,6 @@ private:
         }
     }
 };
-
 class MyProcess : public wxProcess
 {
 public:
@@ -191,75 +192,78 @@ void MyProcess::OnTerminate(int pid, int status)
     // we're not needed any more
     delete this;
 }
-
 // ----------------------------------------------------------------------------
 // MyPipedProcess
 // ----------------------------------------------------------------------------
-
+#include "basicops.h"
+wxFFileOutputStream newoutput( stderr );
+wxTextOutputStream newcout( newoutput );
 bool MyPipedProcess::HasInput()
 {
     bool hasInput = false;
    
-
     if ( IsInputAvailable() )
     {
-        //if(wxGetApp().GetStrAbort() == wxT("ABORT"))
-        //{
-            //KillProcess();
-        //}
-        wxTextInputStream tis(*GetInputStream());
 
+        wxTextInputStream tis(*GetInputStream());
         // this assumes that the output is always line buffered
         wxString msg;
-        msg = wxT("\n") + tis.ReadLine();
-
-        m_parent->m_Progress_Text->AppendText(msg);
-        m_parent->Update();
-        wxMilliSleep(50);
-
+        msg = tis.ReadLine();
+        //wxMessageBox(_("has input"));
+        if(wxGetApp().GetBlVisible()){
+            m_parent->m_Progress_Text->AppendText(msg + wxT("\n"));
+            wxMilliSleep(50);
+        }
+        else{
+           // wxMessageBox(_("Outputting"));
+           newcout<<msg + wxT("\n");
+        }
         hasInput = true;
     }
 
     if ( IsErrorAvailable() )
     {
         wxTextInputStream tis(*GetErrorStream());
-
         // this assumes that the output is always line buffered
         wxString msg;
-        msg = wxT("\n") + tis.ReadLine();
-
-        m_parent->m_Progress_Text->AppendText(msg);
-        wxMilliSleep(50);
-        m_parent->Update();
-
+        msg = tis.ReadLine();
+        if(wxGetApp().GetBlVisible()){
+            m_parent->m_Progress_Text->AppendText(msg + wxT("\n"));
+            wxMilliSleep(50);
+        }
+        else{
+            newcout<<msg + wxT("\n");
+        }
         hasInput = true;
     }
-
     return hasInput;
 }
 
 void MyPipedProcess::OnTerminate(int pid, int status)
 {
     // show the rest of the output
-    while ( HasInput() )
+    while(HasInput())
         ;
 
     m_parent->OnProcessTerminated(this);
 
-    MyProcess::OnTerminate(pid, status);
-    if(wxGetApp().GetStrAbort() == wxT("ABORT"))
-    {
-    
-        m_parent->m_Progress_Text->AppendText(_("\nAborted..."));
-    
+    //MyProcess::OnTerminate(pid, status);
+    if(wxGetApp().GetStrAbort() == wxT("ABORT")){
+        m_parent->m_Progress_Text->AppendText(_("Aborted...\n"));
     }
     m_parent->m_OK->Enable(true);
     m_parent->m_Save->Enable(true);
     m_parent->m_Abort->Enable(false);
+    //wxMessageBox(_("Abort code"));
+
+    if(!wxGetApp().GetBlVisible()){
+        m_parent->EndModal(wxID_OK);
+    }
 }
 
 void frmProgress::OnIdle(wxIdleEvent& event)
-{
+{    wxYield();
+    
     size_t count = m_running.GetCount();
     for ( size_t n = 0; n < count; n++ )
     {
@@ -272,7 +276,8 @@ void frmProgress::OnIdle(wxIdleEvent& event)
 
 void frmProgress::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
-
+    wxYield();
+    
     wxWakeUpIdle();
 }
 
@@ -281,6 +286,7 @@ void frmProgress::OnProcessTerminated(MyPipedProcess *process)
     RemoveAsyncProcess(process);
 
 }
+
 
 #endif
     // _FRMPROGRESS_H_
