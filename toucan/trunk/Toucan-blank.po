@@ -1,0 +1,701 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-11-25 18:46-0000\n"
+"Last-Translator: Steven Lamerton\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: S:\\Development\\Toucan\\Toucan-Dev-1.2\n"
+"X-Poedit-SearchPath-0: S:\\Development\\Toucan\\Toucan-Dev-1.2\n"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.cpp:128
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:117
+msgid "Please Select One"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.cpp:138
+msgid "&Open"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.cpp:141
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:133
+msgid "&Cancel"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.cpp:215
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:207
+msgid "Please select one."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:148
+msgid "&OK"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:151
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:127
+msgid "&Save"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:154
+msgid "Abort"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:160
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:242
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:500
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:504
+# S:\Development\Toucan\Toucan-Dev-1.2/backup.h:13
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:189
+msgid "Backup"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:221
+msgid "Save the Log"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:245
+msgid ""
+"\n"
+"Finishing..."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:130
+msgid "&New"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:217
+msgid "Please enter the name for your new job"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:217
+msgid "New"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:199
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:349
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:502
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:589
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:638
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:687
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:697
+msgid "Icons + Text"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:242
+msgid "Source"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:272
+msgid "Destination"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:292
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:125
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:144
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:151
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:156
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:28
+msgid "Copy"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:293
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:417
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1008
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1497
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:125
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:200
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:236
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:125
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:163
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:170
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:175
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:181
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:183
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:189
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:191
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:39
+msgid "Update"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:294
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1393
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:141
+msgid "Mirror (Copy)"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:295
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:160
+msgid "Mirror (Update)"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:296
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:179
+msgid "Equalise"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:298
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:556
+msgid "Function"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:304
+msgid "Others"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:309
+msgid "Retain Attributes"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:313
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:127
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:143
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:162
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:180
+msgid "Preview"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:321
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:469
+msgid "Folders + Extensions to Exclude"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:342
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:496
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:582
+msgid "Go"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:345
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:498
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:585
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:634
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:686
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:693
+msgid "Text"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:347
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:351
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:168
+msgid "Sync"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:364
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1005
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1009
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1017
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1025
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1493
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1500
+msgid "Source Folder"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:394
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1006
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1010
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1013
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1032
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1075
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1494
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1501
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1507
+msgid "Backup File"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:416
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1004
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1490
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:121
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:192
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:228
+msgid "Complete"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:418
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:976
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1012
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1504
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:128
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:208
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:244
+msgid "Restore"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:419
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1016
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:132
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:216
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:252
+msgid "Incremental"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:421
+msgid "Backup Type"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:431
+msgid "Backup Format"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:438
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:107
+msgid "Normal"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:439
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:110
+msgid "Maximum"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:442
+msgid "Compression Ratio"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:450
+msgid "Password (If Required)"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:553
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:25
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:34
+msgid "Encrypt"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:554
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:28
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:61
+msgid "Decrypt"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:564
+msgid "Routine"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:566
+msgid ""
+"You can choose either Rijndael or Blowfish encryption. Rijndael is recommended as it is faster and more secure. \n"
+"Files encrypted using Toucan 1.1 or previous used Blowfish and therefore Blowfish must be used to decrypt them. \n"
+"Rijndael also has the benefit of appending an extension to encrypted files so you can be sure they are encrypted."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:570
+msgid "Password"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:576
+msgid "Re-enter Password"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:587
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:591
+msgid "Secure"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:636
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:640
+msgid "Portable Variables"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:657
+msgid "About"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:659
+msgid "Help"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:670
+msgid "Language (Restart Required)"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:677
+msgid "Enabled"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:678
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:741
+msgid "Disabled"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:682
+msgid "Tooltips (Requires Restart)"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:685
+msgid "Icons"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:689
+msgid "Tab Style (Requires Restart)"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:695
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:699
+msgid "Help + Settings"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:749
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:752
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:758
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:761
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:771
+msgid "Add portable variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:750
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:759
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:768
+msgid "Save your settings"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:751
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:760
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:769
+msgid "Load your settings"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:753
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:762
+msgid "Add an exclusion"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:754
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:763
+msgid "Remove the exclusion"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:766
+msgid "Add file/folder"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:767
+msgid "Remove file/folder"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:770
+msgid "Make relative to @drive@"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:774
+msgid "Add a portable variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:775
+msgid "Remove a portable variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:776
+msgid "Add a location"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:777
+msgid "Remove a location"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:930
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:261
+msgid "The password must be  equal to or between eight and sixteen characters"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:930
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:950
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:985
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:989
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:993
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1114
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1459
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1544
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:112
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:118
+msgid "Error"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:232
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:268
+msgid "The passwords are not the same"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:950
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:993
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1114
+msgid "You are missing a required field please try again"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:985
+msgid "The portable variable in the second box could not be expanded"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:989
+msgid "The portable variable in the first box could not be expanded"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1014
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1055
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1508
+msgid "Restore Into"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1018
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1065
+msgid "Backups Folder"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1026
+msgid "Please Select the Source Folder."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1034
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1079
+msgid "Create a Backup File."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1058
+msgid "Please Select the Folder to Restore Into."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1068
+msgid "Please Select the Folder to Store Backups."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1120
+msgid "Please Select the Source Folder"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1128
+msgid "Please Select the Destination Folder"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1137
+msgid "Please enter the name for the new portable variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1137
+msgid "New Portable Variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1147
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1154
+# S:\Development\Toucan\Toucan-Dev-1.2/normalise.h:57
+msgid "Other"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
+msgid "There is already a Portable Variable with this name."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1207
+msgid "Choose a directory"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1208
+msgid "All Files (*.*)|*.*"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1259
+msgid "Please insert the location you want to point to."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1259
+msgid "Location"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1324
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1336
+msgid ""
+"Please insert the folder name or extension \n"
+"that you want to exclude."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1324
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1336
+msgid "Folder or Extension"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1350
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1432
+# S:\Development\Toucan\Toucan-Dev-1.2/frmsave.h:36
+msgid "Save"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1381
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1467
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1518
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1552
+msgid "Open Settings"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1382
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1468
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1519
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1553
+# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.h:36
+msgid "Open"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1392
+msgid "Mirror"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1459
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1544
+msgid "A Job already exists with this name please try again."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:79
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:169
+msgid "Another program instance is already running, aborting."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:174
+msgid "Welcome to the Toucan command line system.\n"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:198
+msgid "There was an error processing the first portable variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:202
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:223
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:228
+msgid "There was an error processing the second portable variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:278
+msgid "There was an error processing the following portable variable so it not be en/decrypted: "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:287
+msgid "A job with that name could not be found, please note that job names are case-sensative."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:292
+msgid "Please enter the password twice"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/backup.h:19
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:96
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:133
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:150
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:169
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:188
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.h:51
+# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:57
+msgid "Progress"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/backup.h:22
+# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:64
+msgid "Starting..."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:103
+msgid "Please select the portable variable that you would like"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:103
+msgid "Insert Portable Variable"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:102
+msgid "Starting...\n"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:112
+msgid "There was an error processing the source Portable Variable."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:118
+msgid "There was an error processing the destination Portable Variable."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:129
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:146
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:165
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:184
+msgid "Preview Finished...\n"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:131
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:148
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:167
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:186
+msgid ""
+"Would you like to carry out the full operation? If you are not\n"
+" sure you can check the preview log stored in the Toucan directory"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:131
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:148
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:167
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:186
+msgid "Continue?"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:194
+msgid "Finished...\n"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.h:252
+msgid "Aborted...\n"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:21
+msgid "Skipped "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:51
+msgid "Encrypted "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
+msgid "Failed to encrypt "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:81
+msgid "Decrypted "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:85
+msgid "Failed to decrypt "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:90
+msgid "Finished..."
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:14
+msgid "Toucan tried to delete a root directory. This has been forbidden, /nif you really need to delete "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:14
+msgid " please contact me at www.portableapps.com"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:38
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:49
+msgid "Removed "
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:99
+msgid ""
+"\n"
+"Removed \t"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:37
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:60
+msgid "Copied \t"
+msgstr ""
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:51
+msgid "Overwrote \t"
+msgstr ""
+
