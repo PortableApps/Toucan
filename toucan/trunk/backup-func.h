@@ -119,14 +119,14 @@ wxString CreateCommand(wxString strFirst, wxString strSecond, wxString strType, 
    
 	wxString command;
     if(strType == _("Complete")){
-        command = wxT("7za.exe a -t") + strFormat + strPass + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"") + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath())+ wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"") ;    
+        command = wxT("7za.exe a -t") + strFormat + strPass + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"") + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath())+ wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"") + wxT(" -ms=off");    
         //wxMessageBox(command);
     }
 	else if(strType == _("Update")){
-        command = wxT("7za.exe  u -t") + strFormat + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"")  + strPass;
+        command = wxT("7za.exe  u -t") + strFormat + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"")  + strPass+ wxT(" -ms=off");
 	}
 	else if(strType == _("Restore")){
-        command = wxT("App\\toucan\\7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass;
+        command = wxT("App\\toucan\\7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + wxT(" -ms=off");
 	}
 	//With the incremental type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(strType == _("Incremental")){
@@ -135,10 +135,10 @@ wxString CreateCommand(wxString strFirst, wxString strSecond, wxString strType, 
             if (strFirst[strFirst.length()-1] != wxFILE_SEP_PATH) {
                 strFirst += wxFILE_SEP_PATH;       
             }
-             command = wxT("7za.exe u \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + strSecond + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + strFirst + wxT("*\"") + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"");
+             command = wxT("7za.exe u \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + strSecond + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + strFirst + wxT("*\"") + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"") + wxT(" -ms=off");
         }
         else{
-        		 command = wxT("7za.exe a -t") + strFormat + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"");    
+        		 command = wxT("7za.exe a -t") + strFormat + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + wxT(" -ms=off");    
 
         }
     }
