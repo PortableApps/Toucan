@@ -9,9 +9,10 @@
 // Licence:     
 /////////////////////////////////////////////////////////////////////////////
 
+
+
 #ifndef _FRMMAIN_H_
 #define _FRMMAIN_H_
-
 
 /*!
 * Includes
@@ -24,6 +25,7 @@
 #include "wx/aui/auibook.h"
 #include "wx/treectrl.h"
 #include "wx/dirctrl.h"
+#include "wx/richtext/richtextctrl.h"
 ////@end includes
 
 /*!
@@ -31,6 +33,7 @@
 */
 
 ////@begin forward declarations
+class wxAuiNotebook;
 class wxTreeCtrl;
 class wxGenericDirCtrl;
 ////@end forward declarations
@@ -69,7 +72,7 @@ class wxGenericDirCtrl;
 #define ID_BACKUP_DIRCTRL 10002
 #define ID_BACKUP_ADD 10005
 #define ID_BACKUP_REMOVE 10006
-#define ID_BACKUP_LISTBOX 10007
+#define ID_BACKUP_TREECTRL 10029
 #define ID_BACKUP_ADDVAR 10038
 #define ID_BACKUP_FUNCTION 10014
 #define ID_BACKUP_FORMAT 10015
@@ -106,6 +109,13 @@ class wxGenericDirCtrl;
 #define ID_BITMAPBUTTON20 10062
 #define ID_PANEL4 10064
 #define ID_PANEL6 10066
+#define ID_SCRIPT_COMBO 10033
+#define ID_SCRIPT_OPEN 10034
+#define ID_SCRIPT_SAVE 10035
+#define ID_SCRIPT_DELETE 10036
+#define ID_SCRIPT_RICH 10030
+#define ID_SCRIPT_CHECK 10031
+#define ID_SCRIPT_EXECUTE 10032
 #define ID_PANEL5 10065
 #define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
 #define SYMBOL_FRMMAIN_TITLE _("Toucan")
@@ -142,6 +152,15 @@ public:
 
 	////@begin frmMain event handler declarations
 
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
+ void OnBackupAddClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
+ void OnBackupRemoveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
+ void OnScriptRichTextUpdated( wxCommandEvent& event );
+
 	////@end frmMain event handler declarations
 
 	////@begin frmMain member function declarations
@@ -161,6 +180,7 @@ public:
 
 	////@begin frmMain member variables
  wxAuiManager m_auiManager;
+ wxAuiNotebook* m_Notebook;
  wxComboBox* m_Sync_Job_Select;
  wxComboBox* m_Sync_Rules;
  wxTextCtrl* m_Sync_Source_Txt;
@@ -175,7 +195,7 @@ public:
  wxComboBox* m_Backup_Job_Select;
  wxComboBox* m_Backup_Rules;
  wxGenericDirCtrl* m_Backup_DirCtrl;
- wxListBox* m_Backup_List;
+ wxTreeCtrl* m_Backup_TreeCtrl;
  wxRadioBox* m_Backup_Function;
  wxRadioBox* m_Backup_Format;
  wxRadioBox* m_Backup_Ratio;

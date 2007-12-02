@@ -9,6 +9,7 @@
 // Licence:     
 /////////////////////////////////////////////////////////////////////////////
 
+
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
@@ -23,16 +24,15 @@
 ////@begin includes
 ////@end includes
 
-
 #include "frmmain.h"
 
 #include "dragndrop.h"
+#include "treectrlfunc.h"
 
 #include <wx/srchctrl.h>
 
 ////@begin XPM images
 ////@end XPM images
-
 
 /*!
 * frmMain type definition
@@ -48,6 +48,12 @@ IMPLEMENT_CLASS( frmMain, wxFrame )
 BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
 ////@begin frmMain event table entries
+ EVT_BUTTON( ID_BACKUP_ADD, frmMain::OnBackupAddClick )
+
+ EVT_BUTTON( ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick )
+
+ EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
+
 ////@end frmMain event table entries
 
 END_EVENT_TABLE()
@@ -104,6 +110,7 @@ frmMain::~frmMain()
 void frmMain::Init()
 {
 	////@begin frmMain member initialisation
+ m_Notebook = NULL;
  m_Sync_Job_Select = NULL;
  m_Sync_Rules = NULL;
  m_Sync_Source_Txt = NULL;
@@ -118,7 +125,7 @@ void frmMain::Init()
  m_Backup_Job_Select = NULL;
  m_Backup_Rules = NULL;
  m_Backup_DirCtrl = NULL;
- m_Backup_List = NULL;
+ m_Backup_TreeCtrl = NULL;
  m_Backup_Function = NULL;
  m_Backup_Format = NULL;
  m_Backup_Ratio = NULL;
@@ -159,9 +166,9 @@ void frmMain::CreateControls()
  itemFrame1->GetAuiManager().AddPane(itemToolBar2, wxAuiPaneInfo()
   .ToolbarPane().Name(_T("Pane5")).Top().Layer(10).LeftDockable(false).RightDockable(false).BottomDockable(false).CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(false).Gripper(true).PaneBorder(false));
 
- wxAuiNotebook* itemAuiNotebook5 = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
+ m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
 
- wxPanel* itemPanel6 = new wxPanel( itemAuiNotebook5, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+ wxPanel* itemPanel6 = new wxPanel( m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
  wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
  itemPanel6->SetSizer(itemBoxSizer7);
 
@@ -248,9 +255,9 @@ void frmMain::CreateControls()
  m_Sync_Ignore_DaylightS->SetValue(false);
  itemStaticBoxSizer29->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, 5);
 
- itemAuiNotebook5->AddPage(itemPanel6, _("Sync"), false);
+ m_Notebook->AddPage(itemPanel6, _("Sync"), false);
 
- wxPanel* itemPanel34 = new wxPanel( itemAuiNotebook5, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+ wxPanel* itemPanel34 = new wxPanel( m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
  wxBoxSizer* itemBoxSizer35 = new wxBoxSizer(wxVERTICAL);
  itemPanel34->SetSizer(itemBoxSizer35);
 
@@ -283,15 +290,14 @@ void frmMain::CreateControls()
 
  wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxVERTICAL);
  itemBoxSizer43->Add(itemBoxSizer45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
- wxBitmapButton* itemBitmapButton46 = new wxBitmapButton( itemPanel34, ID_BACKUP_ADD, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton46 = new wxBitmapButton( itemPanel34, ID_BACKUP_ADD, itemFrame1->GetBitmapResource(wxT("list-add1.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer45->Add(itemBitmapButton46, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- wxBitmapButton* itemBitmapButton47 = new wxBitmapButton( itemPanel34, ID_BACKUP_REMOVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton47 = new wxBitmapButton( itemPanel34, ID_BACKUP_REMOVE, itemFrame1->GetBitmapResource(wxT("list-remove1.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer45->Add(itemBitmapButton47, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- wxArrayString m_Backup_ListStrings;
- m_Backup_List = new wxListBox( itemPanel34, ID_BACKUP_LISTBOX, wxDefaultPosition, wxDefaultSize, m_Backup_ListStrings, wxLB_SINGLE|wxSUNKEN_BORDER );
- itemBoxSizer43->Add(m_Backup_List, 1, wxGROW|wxALL, 5);
+ m_Backup_TreeCtrl = new wxTreeCtrl( itemPanel34, ID_BACKUP_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
+ itemBoxSizer43->Add(m_Backup_TreeCtrl, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer49 = new wxBoxSizer(wxVERTICAL);
  itemBoxSizer43->Add(itemBoxSizer49, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -333,9 +339,9 @@ void frmMain::CreateControls()
  m_Backup_Repass = new wxTextCtrl( itemPanel34, ID_BACKUP_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
  itemStaticBoxSizer55->Add(m_Backup_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- itemAuiNotebook5->AddPage(itemPanel34, _("Backup"), false);
+ m_Notebook->AddPage(itemPanel34, _("Backup"), false);
 
- wxPanel* itemPanel58 = new wxPanel( itemAuiNotebook5, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+ wxPanel* itemPanel58 = new wxPanel( m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
  wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxVERTICAL);
  itemPanel58->SetSizer(itemBoxSizer59);
 
@@ -368,10 +374,10 @@ void frmMain::CreateControls()
 
  wxBoxSizer* itemBoxSizer69 = new wxBoxSizer(wxVERTICAL);
  itemBoxSizer67->Add(itemBoxSizer69, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
- wxBitmapButton* itemBitmapButton70 = new wxBitmapButton( itemPanel58, ID_SECURE_ADD, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton70 = new wxBitmapButton( itemPanel58, ID_SECURE_ADD, itemFrame1->GetBitmapResource(wxT("list-add1.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer69->Add(itemBitmapButton70, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- wxBitmapButton* itemBitmapButton71 = new wxBitmapButton( itemPanel58, ID_SECURE_REMOVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton71 = new wxBitmapButton( itemPanel58, ID_SECURE_REMOVE, itemFrame1->GetBitmapResource(wxT("list-remove1.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer69->Add(itemBitmapButton71, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
  wxArrayString m_Secure_ListStrings;
@@ -411,9 +417,9 @@ void frmMain::CreateControls()
  m_Secure_Repass = new wxTextCtrl( itemPanel58, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
  itemStaticBoxSizer79->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- itemAuiNotebook5->AddPage(itemPanel58, _("Secure"), false);
+ m_Notebook->AddPage(itemPanel58, _("Secure"), false);
 
- wxPanel* itemPanel82 = new wxPanel( itemAuiNotebook5, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+ wxPanel* itemPanel82 = new wxPanel( m_Notebook, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
  wxBoxSizer* itemBoxSizer83 = new wxBoxSizer(wxVERTICAL);
  itemPanel82->SetSizer(itemBoxSizer83);
 
@@ -493,30 +499,66 @@ void frmMain::CreateControls()
  wxBitmapButton* itemBitmapButton111 = new wxBitmapButton( itemPanel82, ID_BITMAPBUTTON20, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer109->Add(itemBitmapButton111, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- itemAuiNotebook5->AddPage(itemPanel82, _("Rules"), false);
+ m_Notebook->AddPage(itemPanel82, _("Rules"), false);
 
- wxPanel* itemPanel112 = new wxPanel( itemAuiNotebook5, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+ wxPanel* itemPanel112 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 
- itemAuiNotebook5->AddPage(itemPanel112, _("Portable Variables"), false);
+ m_Notebook->AddPage(itemPanel112, _("Portable Variables"), false);
 
- wxPanel* itemPanel113 = new wxPanel( itemAuiNotebook5, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+ wxPanel* itemPanel113 = new wxPanel( m_Notebook, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+ wxBoxSizer* itemBoxSizer114 = new wxBoxSizer(wxVERTICAL);
+ itemPanel113->SetSizer(itemBoxSizer114);
 
- itemAuiNotebook5->AddPage(itemPanel113, _("Scripting"), false);
+ wxBoxSizer* itemBoxSizer115 = new wxBoxSizer(wxHORIZONTAL);
+ itemBoxSizer114->Add(itemBoxSizer115, 0, wxALIGN_LEFT|wxALL, 5);
+ wxArrayString itemComboBox116Strings;
+ wxComboBox* itemComboBox116 = new wxComboBox( itemPanel113, ID_SCRIPT_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox116Strings, wxCB_DROPDOWN );
+ itemBoxSizer115->Add(itemComboBox116, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- wxPanel* itemPanel114 = new wxPanel( itemAuiNotebook5, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+ wxBitmapButton* itemBitmapButton117 = new wxBitmapButton( itemPanel113, ID_SCRIPT_OPEN, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ itemBoxSizer115->Add(itemBitmapButton117, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- itemAuiNotebook5->AddPage(itemPanel114, _("Settings"), false);
+ wxBitmapButton* itemBitmapButton118 = new wxBitmapButton( itemPanel113, ID_SCRIPT_SAVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ itemBoxSizer115->Add(itemBitmapButton118, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- itemFrame1->GetAuiManager().AddPane(itemAuiNotebook5, wxAuiPaneInfo()
+ wxBitmapButton* itemBitmapButton119 = new wxBitmapButton( itemPanel113, ID_SCRIPT_DELETE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ itemBoxSizer115->Add(itemBitmapButton119, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+ wxBoxSizer* itemBoxSizer120 = new wxBoxSizer(wxHORIZONTAL);
+ itemBoxSizer114->Add(itemBoxSizer120, 1, wxGROW|wxALL, 5);
+ wxRichTextCtrl* itemRichTextCtrl121 = new wxRichTextCtrl( itemPanel113, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS );
+ itemBoxSizer120->Add(itemRichTextCtrl121, 1, wxGROW|wxALL, 5);
+
+ wxBoxSizer* itemBoxSizer122 = new wxBoxSizer(wxHORIZONTAL);
+ itemBoxSizer114->Add(itemBoxSizer122, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+ wxButton* itemButton123 = new wxButton( itemPanel113, ID_SCRIPT_CHECK, _("Check Script"), wxDefaultPosition, wxDefaultSize, 0 );
+ itemBoxSizer122->Add(itemButton123, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+ wxButton* itemButton124 = new wxButton( itemPanel113, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0 );
+ itemBoxSizer122->Add(itemButton124, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+ m_Notebook->AddPage(itemPanel113, _("Scripting"), false);
+
+ wxPanel* itemPanel125 = new wxPanel( m_Notebook, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+
+ m_Notebook->AddPage(itemPanel125, _("Settings"), false);
+
+ itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
   .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
 
  GetAuiManager().Update();
 
 	////@end frmMain content construction
-    m_Backup_List->SetDropTarget(new DnDFileList(m_Backup_List));
-    m_Secure_List->SetDropTarget(new DnDFileList(m_Secure_List));
-    m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt));
-    m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt));
+	//m_Backup_List->SetDropTarget(new DnDFileList(m_Backup_List));
+
+	//Set the drag and drop targets
+	m_Secure_List->SetDropTarget(new DnDFileList(m_Secure_List));
+	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt));
+	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt));
+
+	//Add the hidden roots to the wxTreeCtrls
+	m_Backup_TreeCtrl->AddRoot(wxT("Hidden Root"));
+
 }
 
 
@@ -538,6 +580,16 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 	// Bitmap retrieval
 	////@begin frmMain bitmap retrieval
  wxUnusedVar(name);
+ if (name == _T("list-add1.png"))
+ {
+  wxBitmap bitmap(_T("list-add1.png"), wxBITMAP_TYPE_PNG);
+  return bitmap;
+ }
+ else if (name == _T("list-remove1.png"))
+ {
+  wxBitmap bitmap(_T("list-remove1.png"), wxBITMAP_TYPE_PNG);
+  return bitmap;
+ }
  return wxNullBitmap;
 	////@end frmMain bitmap retrieval
 }
@@ -553,4 +605,40 @@ wxIcon frmMain::GetIconResource( const wxString& name )
  wxUnusedVar(name);
  return wxNullIcon;
 	////@end frmMain icon retrieval
+
 }
+
+
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
+*/
+
+void frmMain::OnBackupAddClick( wxCommandEvent& event )
+{
+	AddTreeToTree(m_Backup_DirCtrl->GetTreeCtrl(), m_Backup_TreeCtrl, this);
+
+}
+
+
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
+*/
+
+void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
+{
+	m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
+}
+
+
+/*!
+ * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
+ */
+
+void frmMain::OnScriptRichTextUpdated( wxCommandEvent& event )
+{
+////@begin wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain.
+ // Before editing this code, remove the block markers.
+ event.Skip();
+////@end wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain. 
+}
+

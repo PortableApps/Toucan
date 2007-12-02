@@ -58,7 +58,7 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h treectrlfunc.h toucan.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 .PHONY:	all clean
