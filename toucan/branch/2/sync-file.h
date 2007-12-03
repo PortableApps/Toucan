@@ -40,6 +40,9 @@ bool SyncFile(SyncData data, Rules rules)
 				wxDateTime tmTo = wxFileModificationTime(data.GetDest());
 				wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
 				//I.E. strFrom is newer
+				if(blIgnoreDLS){
+					tmFrom.MakeTimeZone(Local, true);
+				}
 				if(tmFrom.IsLaterThan(tmTo)){
 					wxCopyFile(data.GetSource, data.GetDest(), true);
 					OutputProgress(data);
