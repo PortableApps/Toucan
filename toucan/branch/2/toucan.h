@@ -62,9 +62,13 @@ public:
 
 	////@begin Toucan member function declarations
 
+	wxArrayString GetSecureLocations() const { return SecureLocations ; }
+	void SetSecureLocations(wxArrayString value) { SecureLocations = value ; }
+
 	////@end Toucan member function declarations
 
 	////@begin Toucan member variables
+	wxArrayString SecureLocations;
 	////@end Toucan member variables
 };
 

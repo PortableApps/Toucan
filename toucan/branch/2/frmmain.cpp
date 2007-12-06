@@ -28,6 +28,7 @@
 
 #include "dragndrop.h"
 #include "treectrlfunc.h"
+#include "securedata.h"
 
 #include <wx/srchctrl.h>
 
@@ -48,9 +49,17 @@ IMPLEMENT_CLASS( frmMain, wxFrame )
 BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
 ////@begin frmMain event table entries
+ EVT_MENU( ID_TOOL_OK, frmMain::OnToolOkClick )
+
+ EVT_BUTTON( ID_SYNC_SOURCE_BTN, frmMain::OnSyncSourceBtnClick )
+
  EVT_BUTTON( ID_BACKUP_ADD, frmMain::OnBackupAddClick )
 
  EVT_BUTTON( ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick )
+
+ EVT_BUTTON( ID_SECURE_ADD, frmMain::OnSecureAddClick )
+
+ EVT_BUTTON( ID_SECURE_REMOVE, frmMain::OnSecureRemoveClick )
 
  EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
 
@@ -134,7 +143,7 @@ void frmMain::Init()
  m_Secure_Job_Select = NULL;
  m_Secure_Rules = NULL;
  m_Secure_DirCtrl = NULL;
- m_Secure_List = NULL;
+ m_Secure_TreeCtrl = NULL;
  m_Secure_Function = NULL;
  m_Secure_Format = NULL;
  m_Secure_Pass = NULL;
@@ -158,10 +167,10 @@ void frmMain::CreateControls()
  itemToolBar2->SetToolBitmapSize(wxSize(32, 32));
  wxBitmap itemtool3Bitmap(wxNullBitmap);
  wxBitmap itemtool3BitmapDisabled;
- itemToolBar2->AddTool(ID_TOOL1, _("OK"), itemtool3Bitmap, itemtool3BitmapDisabled, wxITEM_NORMAL, _T(""), wxEmptyString);
+ itemToolBar2->AddTool(ID_TOOL_OK, _("OK"), itemtool3Bitmap, itemtool3BitmapDisabled, wxITEM_NORMAL, _T(""), wxEmptyString);
  wxBitmap itemtool4Bitmap(wxNullBitmap);
  wxBitmap itemtool4BitmapDisabled;
- itemToolBar2->AddTool(ID_TOOL2, _("Preview"), itemtool4Bitmap, itemtool4BitmapDisabled, wxITEM_NORMAL, _T(""), wxEmptyString);
+ itemToolBar2->AddTool(ID_TOOL_PREVIEW, _("Preview"), itemtool4Bitmap, itemtool4BitmapDisabled, wxITEM_NORMAL, _T(""), wxEmptyString);
  itemToolBar2->Realize();
  itemFrame1->GetAuiManager().AddPane(itemToolBar2, wxAuiPaneInfo()
   .ToolbarPane().Name(_T("Pane5")).Top().Layer(10).LeftDockable(false).RightDockable(false).BottomDockable(false).CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(false).Gripper(true).PaneBorder(false));
@@ -208,7 +217,7 @@ void frmMain::CreateControls()
  wxButton* itemButton20 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
  itemBoxSizer18->Add(itemButton20, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- m_Sync_Source_Tree = new wxTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_SINGLE );
+ m_Sync_Source_Tree = new wxTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
  itemBoxSizer17->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxVERTICAL);
@@ -380,9 +389,8 @@ void frmMain::CreateControls()
  wxBitmapButton* itemBitmapButton71 = new wxBitmapButton( itemPanel58, ID_SECURE_REMOVE, itemFrame1->GetBitmapResource(wxT("list-remove1.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer69->Add(itemBitmapButton71, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- wxArrayString m_Secure_ListStrings;
- m_Secure_List = new wxListBox( itemPanel58, ID_SECURE_LISTBOX, wxDefaultPosition, wxDefaultSize, m_Secure_ListStrings, wxLB_SINGLE|wxSUNKEN_BORDER );
- itemBoxSizer67->Add(m_Secure_List, 1, wxGROW|wxALL, 5);
+ m_Secure_TreeCtrl = new wxTreeCtrl( itemPanel58, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
+ itemBoxSizer67->Add(m_Secure_TreeCtrl, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer73 = new wxBoxSizer(wxVERTICAL);
  itemBoxSizer67->Add(itemBoxSizer73, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -552,12 +560,12 @@ void frmMain::CreateControls()
 	//m_Backup_List->SetDropTarget(new DnDFileList(m_Backup_List));
 
 	//Set the drag and drop targets
-	m_Secure_List->SetDropTarget(new DnDFileList(m_Secure_List));
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt));
 	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt));
 
 	//Add the hidden roots to the wxTreeCtrls
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden Root"));
+	m_Secure_TreeCtrl->AddRoot(wxT("Hidden Root"));
 
 }
 
@@ -616,7 +624,6 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
 	AddTreeToTree(m_Backup_DirCtrl->GetTreeCtrl(), m_Backup_TreeCtrl, this);
-
 }
 
 
@@ -631,6 +638,26 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 
 
 /*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
+ */
+
+void frmMain::OnSecureAddClick( wxCommandEvent& event )
+{
+	AddTreeToTree(m_Secure_DirCtrl->GetTreeCtrl(), m_Secure_TreeCtrl, this);
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
+ */
+
+void frmMain::OnSecureRemoveClick( wxCommandEvent& event )
+{
+	m_Secure_TreeCtrl->Delete(m_Secure_TreeCtrl->GetSelection()); 
+}
+
+
+/*!
  * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
  */
 
@@ -640,5 +667,36 @@ void frmMain::OnScriptRichTextUpdated( wxCommandEvent& event )
  // Before editing this code, remove the block markers.
  event.Skip();
 ////@end wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain. 
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
+ */
+
+void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
+{
+		wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
+		if (dialog.ShowModal() == wxID_OK){
+			AddDirToTree(dialog.GetPath(), m_Sync_Source_Tree, this);
+			m_Sync_Source_Txt->SetValue(dialog.GetPath());
+		}
+}
+
+
+/*!
+ * wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_OK
+ */
+
+void frmMain::OnToolOkClick( wxCommandEvent& event )
+{
+	//Secure
+	if(m_Notebook->GetSelection() == 2){
+		//LittleFunc();
+		SecureData data;
+		data.TransferFromForm(this);
+		data.Output();
+	}	
+	
 }
 

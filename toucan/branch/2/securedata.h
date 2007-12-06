@@ -1,6 +1,10 @@
 #ifndef H_SECUREDATA
 #define H_SECUREDATA
 
+#include "basicfunctions.h"
+#include <wx/fileconf.h>
+#include <wx/stdpaths.h>
+
 class SecureData{
 
 public:
@@ -34,7 +38,12 @@ private:
 	wxString strFormat;
 	wxString strPass;
 
+};
+
+SecureData::SecureData(){
+	wxMessageBox(_("Boo"));
 }
+
 
 bool SecureData::TransferFromFile(wxString strName){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
@@ -51,7 +60,7 @@ bool SecureData::TransferFromFile(wxString strName){
 	delete config;
 
 	if(blError){
-		ErrorMessage(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -69,7 +78,7 @@ bool SecureData::TransferToFile(wxString strName){
 	delete config;
 
 	if(blError){
-		ErrorMessage(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -77,12 +86,12 @@ bool SecureData::TransferToFile(wxString strName){
 
 /*This function takes the data in BackupData and fills in the GUI*/
 void SecureData::TransferToForm(frmMain *window){
-	winodw->m_Secure_Tree->DeleteAllItems();
-	AddDirToTree(window->m_Secure_Tree, GetLocations());
-	m_Secure_Function->SetStringSelection(GetFunction));
-	m_Secure_Format->SetStringSelection(GetFormat());
-	m_Secure_Pass->SetValue(GetPass);
-	m_Secure_Repass->SetValue(GetPass);
+	window->m_Secure_TreeCtrl->DeleteAllItems();
+	//AddDirToTree(window->m_Secure_TreeCtrl, GetLocations());
+	window->m_Secure_Function->SetStringSelection(GetFunction());
+	window->m_Secure_Format->SetStringSelection(GetFormat());
+	window->m_Secure_Pass->SetValue(GetPass());
+	window->m_Secure_Repass->SetValue(GetPass());
 	return;
 }
 
@@ -90,37 +99,43 @@ void SecureData::TransferToForm(frmMain *window){
 Main program window.*/
 bool SecureData::TransferFromForm(frmMain *window){
 	bool blNotFilled = false;
+	wxString strPass;
+	wxString strRepass;
 	SetLocations(wxGetApp().GetSecureLocations());
-	if(GetLocations.GetCount() == 0){ blNotFilled = true; }
-	if(m_Secure_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Secure_Function->GetStringSelection()); }
+	if(GetLocations().GetCount() == 0){ blNotFilled = true; }
+	if(window->m_Secure_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Secure_Function->GetStringSelection()); }
 	else{ blNotFilled = true; }
-	if(m_Secure_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Secure_Format->GetStringSelection()) ; }
+	if(window->m_Secure_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Secure_Format->GetStringSelection()) ; }
 	else{ blNotFilled = true; }
-	if(m_Secure_Pass->GetValue() != wxEmptyString){ wxString strPass = m_Secure_Pass->GetValue(); }
+	if(window->m_Secure_Pass->GetValue() != wxEmptyString){strPass = window->m_Secure_Pass->GetValue(); }
 	else{ blNotFilled = true; }
-	if(m_Secure_Repass->GetValue() != wxEmptyString){ wxString strRepass = m_Secure_Repass->GetValue(); }
+	if(window->m_Secure_Repass->GetValue() != wxEmptyString){strRepass = window->m_Secure_Repass->GetValue(); }
 	else{ blNotFilled = true; }
 	if(blNotFilled){
-		ErrorMessage(_("Not all of the required fields are filled"));
+		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}
 	if(strPass == strRepass){
 		SetPass(strPass);
 	}
 	else{
-		ErrorBox(_(The passwords to not match, please try again.));
+		ErrorBox(_("The passwords to not match, please try again."));
 		return false;
 	}
 	return true;	
 }
 
-SecureData::Output(){
-	for(int i = 0; i < GetLocations.GetCount(); i++){
-		MessageBox(GetLocations.Item(i), wxT("Location"))
+void SecureData::Output(){
+	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
+		MessageBox(GetLocations().Item(i), wxT("Location"));
 	}
-	MessageBox(GetFunction, wxT("Function"));
-	MessageBox(GetFormat, wxT("Format"));
-	MessageBox(GetPass, wxT("Pass"));
+	MessageBox(GetFunction(), wxT("Function"));
+	MessageBox(GetFormat(), wxT("Format"));
+	MessageBox(GetPass(), wxT("Pass"));
+}
+
+bool LittleFunc(){
+wxMessageBox(_("Boo"));
 }
 
 #endif

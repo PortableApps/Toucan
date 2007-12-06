@@ -217,9 +217,9 @@
           <string name="Include path">"%AUTO%"</string>
           <string name="Resource flags">"%AUTO%"</string>
           <string name="Resource path">"%AUTO%"</string>
-          <string name="wxWidgets build path">"%AUTO%"</string>
-          <string name="wxWidgets build command">"%AUTO%"</string>
-          <string name="wxWidgets clean command">"%AUTO%"</string>
+          <string name="wxWidgets build path">"%wxWidgets location%/build/msw"</string>
+          <string name="wxWidgets build command">"mingw32-make.exe -f makefile.gcc INCLUDE=&quot;E:\widgets\Mingw/include&quot; LIB=&quot;E:\widgets\Mingw/lib&quot; USE_XRC=1 BUILD=release UNICODE=1 MSLU=1 WXUNIV=0 MONOLITHIC=0 USE_EXCEPTIONS=1 USE_ODBC=0 USE_OPENGL=0 USE_GUI=1 RUNTIME_LIBS=dynamic SHARED=0 all"</string>
+          <string name="wxWidgets clean command">"mingw32-make.exe -f makefile.gcc INCLUDE=&quot;E:\widgets\Mingw/include&quot; LIB=&quot;E:\widgets\Mingw/lib&quot; USE_XRC=1 BUILD=release UNICODE=1 MSLU=1 WXUNIV=0 MONOLITHIC=0 USE_EXCEPTIONS=1 USE_ODBC=0 USE_OPENGL=0 USE_GUI=1 RUNTIME_LIBS=dynamic SHARED=0 clean"</string>
           <string name="PATH variable">"%AUTO%"</string>
           <string name="CFG">""</string>
         </document>
@@ -321,6 +321,7 @@
           <string name="id-suffix">""</string>
           <long name="use-xrc">0</long>
           <long name="working-mode">0</long>
+          <string name="variable-0">"SecureLocations|wxArrayString|SecureLocations||0|0|"</string>
           <string name="proxy-Class">"Toucan"</string>
           <string name="proxy-Base class">"wxApp"</string>
           <string name="proxy-Implementation filename">"toucan.cpp"</string>
@@ -522,7 +523,7 @@
             <long name="proxy-AUI floating width">-1</long>
             <long name="proxy-AUI floating height">-1</long>
             <document>
-              <string name="title">"OK: ID_TOOL1"</string>
+              <string name="title">"OK: ID_TOOL_OK"</string>
               <string name="type">"dialog-control-document"</string>
               <string name="filename">""</string>
               <string name="icon-name">"menuitem"</string>
@@ -532,7 +533,8 @@
               <long name="locked">0</long>
               <string name="created">"28/9/2007"</string>
               <string name="proxy-type">"wbToolBarButtonProxy"</string>
-              <string name="proxy-Id name">"ID_TOOL1"</string>
+              <string name="event-handler-0">"wxEVT_COMMAND_MENU_SELECTED|OnToolOkClick|NONE||frmMain"</string>
+              <string name="proxy-Id name">"ID_TOOL_OK"</string>
               <long name="proxy-Id value">10004</long>
               <string name="proxy-Bitmap">""</string>
               <string name="proxy-Bitmap (disabled)">""</string>
@@ -544,7 +546,7 @@
               <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
             </document>
             <document>
-              <string name="title">"Preview: ID_TOOL2"</string>
+              <string name="title">"Preview: ID_TOOL_PREVIEW"</string>
               <string name="type">"dialog-control-document"</string>
               <string name="filename">""</string>
               <string name="icon-name">"menuitem"</string>
@@ -554,7 +556,7 @@
               <long name="locked">0</long>
               <string name="created">"28/9/2007"</string>
               <string name="proxy-type">"wbToolBarButtonProxy"</string>
-              <string name="proxy-Id name">"ID_TOOL2"</string>
+              <string name="proxy-Id name">"ID_TOOL_PREVIEW"</string>
               <long name="proxy-Id value">10042</long>
               <string name="proxy-Bitmap">""</string>
               <string name="proxy-Bitmap (disabled)">""</string>
@@ -1333,6 +1335,7 @@
                           <long name="locked">0</long>
                           <string name="created">"28/9/2007"</string>
                           <string name="proxy-type">"wbButtonProxy"</string>
+                          <string name="event-handler-0">"wxEVT_COMMAND_BUTTON_CLICKED|OnSyncSourceBtnClick|NONE||frmMain"</string>
                           <string name="proxy-Id name">"ID_SYNC_SOURCE_BTN"</string>
                           <long name="proxy-Id value">10040</long>
                           <string name="proxy-Name">""</string>
@@ -1427,11 +1430,11 @@
                         <string name="proxy-Data class manager window">""</string>
                         <bool name="proxy-wxTR_EDIT_LABELS">0</bool>
                         <bool name="proxy-wxTR_NO_BUTTONS">0</bool>
-                        <bool name="proxy-wxTR_HAS_BUTTONS ">0</bool>
+                        <bool name="proxy-wxTR_HAS_BUTTONS ">1</bool>
                         <bool name="proxy-wxTR_TWIST_BUTTONS">0</bool>
                         <bool name="proxy-wxTR_NO_LINES">0</bool>
                         <bool name="proxy-wxTR_FULL_ROW_HIGHLIGHT">0</bool>
-                        <bool name="proxy-wxTR_LINES_AT_ROOT">0</bool>
+                        <bool name="proxy-wxTR_LINES_AT_ROOT">1</bool>
                         <bool name="proxy-wxTR_HIDE_ROOT">0</bool>
                         <bool name="proxy-wxTR_ROW_LINES">0</bool>
                         <bool name="proxy-wxTR_HAS_VARIABLE_ROW_HEIGHT">0</bool>
@@ -3957,10 +3960,10 @@
                     <long name="owns-file">1</long>
                     <long name="title-mode">0</long>
                     <long name="locked">0</long>
-                    <string name="created">"28/9/2007"</string>
+                    <string name="created">"4/12/2007"</string>
                     <string name="proxy-type">"wbDirCtrlProxy"</string>
                     <string name="proxy-Id name">"ID_SECURE_DIRCTRL"</string>
-                    <long name="proxy-Id value">10028</long>
+                    <long name="proxy-Id value">10101</long>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Class">"wxGenericDirCtrl"</string>
                     <string name="proxy-Base class">"wxGenericDirCtrl"</string>
@@ -4031,7 +4034,7 @@
                     <long name="owns-file">1</long>
                     <long name="title-mode">0</long>
                     <long name="locked">0</long>
-                    <string name="created">"28/9/2007"</string>
+                    <string name="created">"4/12/2007"</string>
                     <string name="proxy-type">"wbBoxSizerProxy"</string>
                     <string name="proxy-Orientation">"Vertical"</string>
                     <string name="proxy-Member variable name">""</string>
@@ -4056,10 +4059,11 @@
                       <long name="owns-file">1</long>
                       <long name="title-mode">0</long>
                       <long name="locked">0</long>
-                      <string name="created">"28/9/2007"</string>
+                      <string name="created">"4/12/2007"</string>
                       <string name="proxy-type">"wbBitmapButtonProxy"</string>
+                      <string name="event-handler-0">"wxEVT_COMMAND_BUTTON_CLICKED|OnSecureAddClick|NONE||frmMain"</string>
                       <string name="proxy-Id name">"ID_SECURE_ADD"</string>
-                      <long name="proxy-Id value">10005</long>
+                      <long name="proxy-Id value">10102</long>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Class">"wxBitmapButton"</string>
                       <string name="proxy-Base class">"wxBitmapButton"</string>
@@ -4126,10 +4130,11 @@
                       <long name="owns-file">1</long>
                       <long name="title-mode">0</long>
                       <long name="locked">0</long>
-                      <string name="created">"28/9/2007"</string>
+                      <string name="created">"4/12/2007"</string>
                       <string name="proxy-type">"wbBitmapButtonProxy"</string>
+                      <string name="event-handler-0">"wxEVT_COMMAND_BUTTON_CLICKED|OnSecureRemoveClick|NONE||frmMain"</string>
                       <string name="proxy-Id name">"ID_SECURE_REMOVE"</string>
-                      <long name="proxy-Id value">10006</long>
+                      <long name="proxy-Id value">10103</long>
                       <string name="proxy-Name">""</string>
                       <string name="proxy-Class">"wxBitmapButton"</string>
                       <string name="proxy-Base class">"wxBitmapButton"</string>
@@ -4189,28 +4194,26 @@
                     </document>
                   </document>
                   <document>
-                    <string name="title">"wxListBox: ID_SECURE_LISTBOX"</string>
+                    <string name="title">"wxTreeCtrl: ID_SECURE_TREECTRL"</string>
                     <string name="type">"dialog-control-document"</string>
                     <string name="filename">""</string>
-                    <string name="icon-name">"listbox"</string>
+                    <string name="icon-name">"treectrl"</string>
                     <long name="is-transient">0</long>
                     <long name="owns-file">1</long>
                     <long name="title-mode">0</long>
                     <long name="locked">0</long>
-                    <string name="created">"28/9/2007"</string>
-                    <string name="proxy-type">"wbListBoxProxy"</string>
-                    <string name="proxy-Id name">"ID_SECURE_LISTBOX"</string>
-                    <long name="proxy-Id value">10007</long>
+                    <string name="created">"4/12/2007"</string>
+                    <string name="proxy-type">"wbTreeCtrlProxy"</string>
+                    <string name="proxy-Id name">"ID_SECURE_TREECTRL"</string>
+                    <long name="proxy-Id value">10100</long>
                     <string name="proxy-Name">""</string>
-                    <string name="proxy-Class">"wxListBox"</string>
-                    <string name="proxy-Base class">"wxListBox"</string>
+                    <string name="proxy-Class">"wxTreeCtrl"</string>
+                    <string name="proxy-Base class">"wxTreeCtrl"</string>
                     <bool name="proxy-External implementation">1</bool>
                     <bool name="proxy-Separate files">0</bool>
                     <string name="proxy-Implementation filename">""</string>
                     <string name="proxy-Header filename">""</string>
-                    <string name="proxy-Member variable name">"m_Secure_List"</string>
-                    <string name="proxy-Strings">""</string>
-                    <string name="proxy-Initial value">""</string>
+                    <string name="proxy-Member variable name">"m_Secure_TreeCtrl"</string>
                     <string name="proxy-Help text">""</string>
                     <string name="proxy-Tooltip text">""</string>
                     <string name="proxy-Background colour">""</string>
@@ -4226,27 +4229,34 @@
                     <string name="proxy-Data class implementation filename">""</string>
                     <string name="proxy-Data class header filename">""</string>
                     <string name="proxy-Data class manager window">""</string>
-                    <bool name="proxy-wxLB_SINGLE">1</bool>
-                    <bool name="proxy-wxLB_MULTIPLE">0</bool>
-                    <bool name="proxy-wxLB_EXTENDED">0</bool>
-                    <bool name="proxy-wxLB_ALWAYS_SB">0</bool>
-                    <bool name="proxy-wxLB_NEEDED_SB">0</bool>
-                    <bool name="proxy-wxLB_HSCROLL">0</bool>
-                    <bool name="proxy-wxLB_SORT">0</bool>
+                    <bool name="proxy-wxTR_EDIT_LABELS">0</bool>
+                    <bool name="proxy-wxTR_NO_BUTTONS">0</bool>
+                    <bool name="proxy-wxTR_HAS_BUTTONS ">1</bool>
+                    <bool name="proxy-wxTR_TWIST_BUTTONS">0</bool>
+                    <bool name="proxy-wxTR_NO_LINES">0</bool>
+                    <bool name="proxy-wxTR_FULL_ROW_HIGHLIGHT">0</bool>
+                    <bool name="proxy-wxTR_LINES_AT_ROOT">1</bool>
+                    <bool name="proxy-wxTR_HIDE_ROOT">1</bool>
+                    <bool name="proxy-wxTR_ROW_LINES">0</bool>
+                    <bool name="proxy-wxTR_HAS_VARIABLE_ROW_HEIGHT">0</bool>
+                    <bool name="proxy-wxTR_SINGLE">1</bool>
+                    <bool name="proxy-wxTR_MULTIPLE">0</bool>
+                    <bool name="proxy-wxTR_EXTENDED">0</bool>
                     <bool name="proxy-wxNO_BORDER">0</bool>
                     <bool name="proxy-wxSIMPLE_BORDER">0</bool>
                     <bool name="proxy-wxDOUBLE_BORDER">0</bool>
-                    <bool name="proxy-wxSUNKEN_BORDER">1</bool>
+                    <bool name="proxy-wxSUNKEN_BORDER">0</bool>
                     <bool name="proxy-wxRAISED_BORDER">0</bool>
                     <bool name="proxy-wxSTATIC_BORDER">0</bool>
                     <bool name="proxy-wxWANTS_CHARS">0</bool>
                     <bool name="proxy-wxNO_FULL_REPAINT_ON_RESIZE">0</bool>
                     <bool name="proxy-wxFULL_REPAINT_ON_RESIZE">0</bool>
+                    <bool name="proxy-wxCLIP_CHILDREN">0</bool>
                     <string name="proxy-Custom styles">""</string>
                     <long name="proxy-X">-1</long>
                     <long name="proxy-Y">-1</long>
-                    <long name="proxy-Width">-1</long>
-                    <long name="proxy-Height">-1</long>
+                    <long name="proxy-Width">100</long>
+                    <long name="proxy-Height">100</long>
                     <string name="proxy-AlignH">"Centre"</string>
                     <string name="proxy-AlignV">"Expand"</string>
                     <long name="proxy-Stretch factor">1</long>
@@ -4260,6 +4270,7 @@
                     <bool name="proxy-wxFIXED_MINSIZE">0</bool>
                     <string name="proxy-Custom arguments">""</string>
                     <string name="proxy-Custom ctor arguments">""</string>
+                    <string name="proxy-Event sources">""</string>
                   </document>
                   <document>
                     <string name="title">"wxBoxSizer V"</string>
@@ -4270,7 +4281,7 @@
                     <long name="owns-file">1</long>
                     <long name="title-mode">0</long>
                     <long name="locked">0</long>
-                    <string name="created">"28/9/2007"</string>
+                    <string name="created">"4/12/2007"</string>
                     <string name="proxy-type">"wbBoxSizerProxy"</string>
                     <string name="proxy-Orientation">"Vertical"</string>
                     <string name="proxy-Member variable name">""</string>
@@ -4295,7 +4306,7 @@
                       <long name="owns-file">1</long>
                       <long name="title-mode">0</long>
                       <long name="locked">0</long>
-                      <string name="created">"28/9/2007"</string>
+                      <string name="created">"4/12/2007"</string>
                       <string name="proxy-type">"wbBitmapButtonProxy"</string>
                       <string name="proxy-Id name">"ID_SECURE_ADDVAR"</string>
                       <long name="proxy-Id value">10038</long>
@@ -4365,7 +4376,7 @@
                       <long name="owns-file">1</long>
                       <long name="title-mode">0</long>
                       <long name="locked">0</long>
-                      <string name="created">"28/9/2007"</string>
+                      <string name="created">"4/12/2007"</string>
                       <string name="proxy-type">"wbBitmapButtonProxy"</string>
                       <string name="proxy-Id name">"ID_SECURE_MAKERELATIVE"</string>
                       <long name="proxy-Id value">10037</long>
@@ -7149,33 +7160,9 @@
         <long name="title-mode">0</long>
         <long name="locked">1</long>
         <document>
-          <string name="title">"Makefile"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"Makefile"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"19/9/2007"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
           <string name="title">"Toucan.rc"</string>
           <string name="type">"source-editor-document"</string>
           <string name="filename">"Toucan.rc"</string>
-          <string name="icon-name">"source-editor"</string>
-          <long name="is-transient">0</long>
-          <long name="owns-file">0</long>
-          <long name="title-mode">1</long>
-          <long name="locked">0</long>
-          <string name="created">"28/9/2007"</string>
-          <string name="language">""</string>
-        </document>
-        <document>
-          <string name="title">"makefile.gcc"</string>
-          <string name="type">"source-editor-document"</string>
-          <string name="filename">"makefile.gcc"</string>
           <string name="icon-name">"source-editor"</string>
           <long name="is-transient">0</long>
           <long name="owns-file">0</long>
@@ -7308,6 +7295,18 @@
               <string name="language">""</string>
             </document>
           </document>
+        </document>
+        <document>
+          <string name="title">"makefile.gcc"</string>
+          <string name="type">"source-editor-document"</string>
+          <string name="filename">"makefile.gcc"</string>
+          <string name="icon-name">"source-editor"</string>
+          <long name="is-transient">0</long>
+          <long name="owns-file">0</long>
+          <long name="title-mode">1</long>
+          <long name="locked">0</long>
+          <string name="created">"4/12/2007"</string>
+          <string name="language">""</string>
         </document>
       </document>
       <document>

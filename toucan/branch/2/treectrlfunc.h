@@ -8,15 +8,20 @@
 bool AddTreeChildren(wxTreeItemId idParent, wxTreeItemIdValue cookie, wxTreeCtrl *from, wxTreeCtrl *to, wxTreeItemId toparent, frmMain *window){
 	wxTreeItemId id;
 
-	if (!cookie)
+	if (!cookie){
 	id = from->GetFirstChild(idParent, cookie);
-	else
+	}
+	else{
 	id = from->GetNextChild(idParent, cookie);
+	}
 
-	if (!id.IsOk())
+	if (!id.IsOk()){
 	return false;
+	}
+
 
 	wxString text = from->GetItemText(id);
+	wxMessageBox(text);
 	wxTreeItemId toid = to->AppendItem(toparent, from->GetItemText(id));
 
 	if (from->ItemHasChildren(id))
@@ -28,7 +33,7 @@ bool AddTreeChildren(wxTreeItemId idParent, wxTreeItemIdValue cookie, wxTreeCtrl
 
 bool AddTreeToTree(wxTreeCtrl *from,wxTreeCtrl *to, frmMain *window){
 	wxBusyCursor wait;
-	window->m_Notebook->Freeze();
+	//window->m_Notebook->Freeze();
 
 	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), from->GetItemText(from->GetSelection()));
 	
@@ -36,7 +41,7 @@ bool AddTreeToTree(wxTreeCtrl *from,wxTreeCtrl *to, frmMain *window){
 	AddTreeChildren(from->GetSelection(),  0,from, to, parent, window);
 	from->CollapseAllChildren(from->GetSelection());
 
-	window->m_Notebook->Thaw();
+	//window->m_Notebook->Thaw();
 	return true;
 }
 
@@ -48,7 +53,7 @@ bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeItemIdValue c
 		do {
 			wxString strOutput = strFrom + strFilename;
 			if(wxDirExists(strFrom + strFilename)){
-				strOutput = strOutput.BeforeLast(wxFILE_SEP_PATH).AfterLast(wxFILE_SEP_PATH);
+				strOutput = strOutput.AfterLast(wxFILE_SEP_PATH);
 				wxTreeItemId toid = to->AppendItem(idParent, strOutput);
 				idParent = toid;
 				AddDirChildren(strFrom + strFilename, idParent, 0, window, to);
@@ -66,6 +71,7 @@ bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeItemIdValue c
 bool AddDirToTree(wxString strFilepath, wxTreeCtrl* to, frmMain* window){
 	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), strFilepath);
 	AddDirChildren(strFilepath, parent, 0, window, to);
+	return true;
 }
 
 

@@ -34,7 +34,7 @@ RCFILEOBJ=Toucan_rc.o
 RCFILESRC=Toucan.rc
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/$(RCFILEOBJ) $(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o 
 
 all:	$(BUILDPATHS) $(OUTPUTPATH)/$(PROGRAM)
 
@@ -58,7 +58,7 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h treectrlfunc.h toucan.h
+$(OBJECTPATH)/frmmain.o:	 frmmain.cpp securedata.h frmmain.h basicfunctions.h dragndrop.h treectrlfunc.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 .PHONY:	all clean

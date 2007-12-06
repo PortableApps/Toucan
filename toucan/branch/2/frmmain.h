@@ -45,8 +45,8 @@ class wxGenericDirCtrl;
 ////@begin control identifiers
 #define ID_AUIFRAME 10000
 #define ID_TOOLBAR 10001
-#define ID_TOOL1 10004
-#define ID_TOOL2 10042
+#define ID_TOOL_OK 10004
+#define ID_TOOL_PREVIEW 10042
 #define ID_AUINOTEBOOK 10003
 #define ID_PANEL_SYNC 10009
 #define ID_SYNC_JOB_SELECT 10019
@@ -84,10 +84,10 @@ class wxGenericDirCtrl;
 #define ID_SECURE_JOB_OPEN 10025
 #define ID_SECURE_JOB_SAVE 10026
 #define ID_SECURE_RULES 10027
-#define ID_SECURE_DIRCTRL 10028
-#define ID_SECURE_ADD 10005
-#define ID_SECURE_REMOVE 10006
-#define ID_SECURE_LISTBOX 10007
+#define ID_SECURE_DIRCTRL 10101
+#define ID_SECURE_ADD 10102
+#define ID_SECURE_REMOVE 10103
+#define ID_SECURE_TREECTRL 10100
 #define ID_SECURE_ADDVAR 10038
 #define ID_SECURE_MAKERELATIVE 10037
 #define ID_SECURE_FUNCTION 10039
@@ -152,11 +152,23 @@ public:
 
 	////@begin frmMain event handler declarations
 
+ /// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_OK
+ void OnToolOkClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
+ void OnSyncSourceBtnClick( wxCommandEvent& event );
+
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
  void OnBackupAddClick( wxCommandEvent& event );
 
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
  void OnBackupRemoveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
+ void OnSecureAddClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
+ void OnSecureRemoveClick( wxCommandEvent& event );
 
  /// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
  void OnScriptRichTextUpdated( wxCommandEvent& event );
@@ -204,7 +216,7 @@ public:
  wxComboBox* m_Secure_Job_Select;
  wxComboBox* m_Secure_Rules;
  wxGenericDirCtrl* m_Secure_DirCtrl;
- wxListBox* m_Secure_List;
+ wxTreeCtrl* m_Secure_TreeCtrl;
  wxRadioBox* m_Secure_Function;
  wxRadioBox* m_Secure_Format;
  wxTextCtrl* m_Secure_Pass;
