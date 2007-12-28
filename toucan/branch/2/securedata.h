@@ -41,7 +41,7 @@ private:
 };
 
 SecureData::SecureData(){
-	wxMessageBox(_("Boo"));
+	;
 }
 
 
@@ -134,8 +134,5 @@ void SecureData::Output(){
 	MessageBox(GetPass(), wxT("Pass"));
 }
 
-bool LittleFunc(){
-wxMessageBox(_("Boo"));
-}
 
 #endif

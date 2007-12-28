@@ -62,8 +62,10 @@ public:
 
 	////@begin Toucan member function declarations
 
-	wxArrayString GetSecureLocations() const { return SecureLocations ; }
+	wxArrayString GetSecureLocations() { return SecureLocations ; }
 	void SetSecureLocations(wxArrayString value) { SecureLocations = value ; }
+	void AppendSecureLocation (wxString string) { SecureLocations.Add(string) ;}
+	void RemoveSecureLocation (int pos) { SecureLocations.RemoveAt(pos) ;}
 
 	////@end Toucan member function declarations
 

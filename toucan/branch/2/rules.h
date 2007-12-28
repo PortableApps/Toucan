@@ -1,155 +1,185 @@
 #ifndef H_RULES
 #define H_RULES
 
-//Size related stuff needs to be added to the matching routine
+#include <wx\regex.h>
+#include "basicfunctions.h"
+
+//Ssize related stuff needs to be added to the matching routine
 
 class Rules{
-
 public:
 	//Constructor
-	Rules();
+	//Rules();
 
 	//Functions
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
-	bool Matches(wxString strName, bool blIsDir); 
+	bool ShouldExclude(wxString strName, bool blIsDir); 
+	bool ShouldDelete(wxString strFilename);
 
 	//Inline Functions
 	void SetFilesToExclude(wxArrayString filestoexclude){ arrFilesToExclude = filestoexclude; }
 	wxArrayString GetFilesToExclude() { return arrFilesToExclude; }
 	
 	void SetFilesToInclude(wxArrayString filestoinclude){ arrFilesToInclude = filestoinclude; }
-	wxArrayString GetFilesToExclude() { return arrFilesToInclude; }
+	wxArrayString GetFilesToIncude() { return arrFilesToInclude; }
 	
 	void SetFoldersToExclude(wxArrayString folderstoexclude){ arrFoldersToExclude = folderstoexclude; }
 	wxArrayString GetFoldersToExclude() { return arrFoldersToExclude; }
 	
-	void SetRegex(wxArrayString regex){ arrRegex = regex; }
-	wxArrayString GetRegex() { return arrRegex; }
-
+	void SetDeleteFiles(wxArrayString filestodelete){ arrDeleteFiles = filestodelete; }
+	wxArrayString GetDeleteFiles(){ return arrDeleteFiles; }
 private:
 	wxArrayString arrFilesToExclude;
 	wxArrayString arrFoldersToExclude;
 	wxArrayString arrFilesToInclude;
-	wxArrayString arrRegEx;
+	wxArrayString arrDeleteFiles;
 
-}	
+};	
 
-bool Blacklist::Matches(wxString strName, bool blIsDir){
+bool Rules::ShouldExclude(wxString strName, bool blIsDir){
+	//wxMessageBox(_("Into the match"));
 	bool blMatches = false;
-	//Check to see if the file is always included, if so return true as there is no point checking the rest
-	for(int i = 0; i < arrFilesToInclude; i++){
-		if(strName.Left(arrFilesToInclude.Item(i).Length() == arrFilesToInclude.Item(i)){
-					return false; 
-				}
+	//Check to see if there are any matches for also include, if so then immediately retun as no other options need to be checked
+	for(unsigned int r = 0; r < arrFilesToInclude.Count(); r++){
+		wxRegEx regMatch; 
+		regMatch.Compile(arrFilesToInclude.Item(r));
+		if(regMatch.IsValid()){
+			if(regMatch.Matches(strName)){
+				return true; 
 			}
-			//Check to see if it matches the regex
-			for(int r = 0; r < arrRegEx; r++){
-				wxRegEx regMatch = arrRegEx.Item(r);
-				if(regMatch.Matches(strName)){
-			return true; 
 		}
 	}
 	//If the name is a directory
 	if(blIsDir){
-		for(int j = 0; j < arrFoldersToExclude; j++){
-			if(strName.Left(arrFilesToExclude.Item(j).Length() == arrFilesToExclude.Item(j)){
-						return true; 
-					}
+		//wxMessageBox(_("Tis a folder"));
+		for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
+		wxRegEx regMatch;
+		regMatch.Compile(arrFoldersToExclude.Item(j));
+			if(regMatch.IsValid()){
+				if(regMatch.Matches(strName)){
+					//wxMessageBox(_("Excluding folder"));
+					return true; 
 				}
-				for(int k = 0; k < arrFoldersToExclude; k++){
-					if(strName.BeforeLast(wxFILE_SEP_PATH).AfterLast(wxFILE_SEP_PATH) == arrFilesToExclude.Item(k)){
-				return true; 
 			}
 		}
 	}
 	//It is a file
 	else{
-		//Check to see if it is a size exclusion
-		//Check to see if it is a date exclusion
-		if(strFileName.Left(1) == wxT("<")){
-			wxFilename flName(strFileName);
-			wxDateTime Date
-			for(int m = 0; m < arrFilesToExclude; m++){
-				date.ParseDate(arrFilesToExclude.Item(m));
-				if(flName.GetModificationTime.IsEarlierThan(date)){
-					return true; 
-				}
-			}
-		}	
-		if(strFileName.Left(1) == wxT(">")){
-			wxFilename flName(strFileName);
-			wxDateTime Date
-			for(int n = 0; n < arrFilesToExclude; n++){
-				date.ParseDate(arrFilesToExclude.Item(n));
-				if(flName.GetModificationTime.IsLaterThan(date)){
-					return true; 
-				}
-			}
-		}		
-		//Run through all of the files to exclude and see if it matches either a folder location or the entire name
-		for(int j = 0; j < arrFilesToExclude; j++){
-			if(strName.Left(arrFilesToExclude.Item(j).Length() == arrFilesToExclude.Item(j)){
-						return true; 
+	//wxMessageBox(_("Tis a file"));
+		for(unsigned int j = 0; j < arrFilesToExclude.Count(); j++){
+			//Create  strExclusion and set it to the current exclusion we are checking against
+			wxString strExclusion = arrFilesToExclude.Item(j);
+			//Check to see if it is a filesize based exclusion
+			if(strExclusion.Left(1) == wxT("<") || strExclusion.Left(1) == wxT(">")){
+				if(strExclusion.Right(2) == wxT("kB") || strExclusion.Right(2) == wxT("MB") || strExclusion.Right(2) == wxT("GB")){
+					//We can now be sure that this is a size exclusion
+					wxFileName flName(strName);
+					wxString strNameSize = flName.GetHumanReadableSize();
+					double dFileSize = GetInPB(strNameSize);
+					double dExclusionSize = GetInPB(strExclusion.Right(strExclusion.Length() - 2));
+					if(strExclusion.Left(1) == wxT("<")){
+						if(dFileSize < dExclusionSize){
+							//wxMessageBox(_("Excluded by size"));
+							return true;
+						}
+					}
+					if(strExclusion.Left(1) == wxT(">")){
+						if(dFileSize > dExclusionSize){
+							//wxMessageBox(_("Excluded by size"));
+							return true;
+						}
 					}
 				}
-				//Run through files to exclude and see if it is a files name that matches
-				for(int k = 0; k < arrFilesToExclude; k++){
-					if(strName.AfterLast(wxFILE_SEP_PATH) == arrFilesToExclude.Item(k)){
-				return true; 
 			}
-		}
-		//Run through the files to exlude and see if it is an extension and it matches
-		for(int l = 0; l < arrFilesToExclude; l++){
-			wxFilename flName(strFileName);
-			if(wxT(".") + flName.GetExt() == arrFilesToExclude.Item(k)){
-				return true; 
+			//Check to see if it is a date, but NOT a size
+			if(strExclusion.Left(1) == wxT("<") && strExclusion.Right(1) != wxT("B")){
+				wxFileName flName(strName);
+				wxDateTime date;								
+				date.ParseDate(arrFilesToExclude.Item(j));
+				if(flName.GetModificationTime().IsEarlierThan(date)){
+					//wxMessageBox(_("Excluded by date"));
+					return true; 
+				}
 			}
-		}
+			//Other date direction
+			if(strExclusion.Left(1) == wxT(">") && strExclusion.Right(1) != wxT("B")){
+				wxFileName flName(strName);
+				wxDateTime date;								
+				date.ParseDate(arrFilesToExclude.Item(j));
+				if(flName.GetModificationTime().IsLaterThan(date)){
+					//wxMessageBox(_("Excluded by date"));
+					return true; 
+				}
+			}
+			//Check to see if there is a match in the filename, including any regex bits
+			wxRegEx regMatch;
+			regMatch.Compile(strExclusion, wxRE_ICASE| wxRE_EXTENDED);
+			if(regMatch.IsValid()){
+				if(regMatch.Matches(strName)){
+					//wxMessageBox(_("Excluded by regex"));
+					return true; 
+				}
+			}
+			else{
+				//wxMessageBox(_("Error with Regex"));
+			}
+		}			
 	}
+	//wxMessageBox(_("Returning as normal"));
 	return blMatches;
 }
 
 bool Rules::TransferFromFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Rules.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini"));
 	
-	bool blError;
 	wxString strTemp;
 
-	blError = config->Read(strName + wxT("/FilesToInclude"), &strTemp);
-	if(!blError){ SetFilesToInclude(StringToArrayString(strTemp, wxT("#"))); }	
-	blError = config->Read(strName + wxT("/FilesToExclude"), &strTemp);
-	if(!blError){ SetFilesToExclude(StringToArrayString(strTemp, wxT("#"))); }	
-	blError = config->Read(strName + wxT("/FoldersToExclude"), &strTemp);
-	if(!blError){ SetFoldersToExclude(StringToArrayString(strTemp, wxT("#"))); }	
-	blError = config->Read(strName + wxT("/Regex"), &strTemp);
-	if(!blError){ SetRegex(StringToArrayString(strTemp, wxT("#"))); }	
+	config->Read(strName + wxT("/FilesToInclude"), &strTemp);
+	SetFilesToInclude(StringToArrayString(strTemp, wxT("#")));	
+	config->Read(strName + wxT("/FilesToExclude"), &strTemp);
+	SetFilesToExclude(StringToArrayString(strTemp, wxT("#"))); 	
+	config->Read(strName + wxT("/FoldersToExclude"), &strTemp);
+	SetFoldersToExclude(StringToArrayString(strTemp, wxT("#"))); 
+	config->Read(strName + wxT("/FilesToDelete"), &strTemp);
+	SetDeleteFiles(StringToArrayString(strTemp, wxT("#"))); 
 	delete config;
-
-	if(blError){
-		ErrorMessage(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
-		return false;
-	}
 	return true;
-	'}
+}
 
 bool Rules::TransferToFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Rules.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini"));
 	
 	bool blError;
-
-	blError = config->DeleteGroup(strName);
-	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetFilesToInclude(), wxT("#")));	
+	config->DeleteGroup(strName);
+	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetFilesToIncude(), wxT("#")));	
 	blError = config->Write(strName + wxT("/FilesToExclude"), ArrayStringToString(GetFilesToExclude(), wxT("#")));	
-	blError = config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("#")));	
-	blError = config->Write(strName + wxT("/Regex"), ArrayStringToString(GetRegex(), wxT("#")));	
+	blError = config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("#")));
+	blError = config->Write(strName + wxT("/FilesToDelete"), ArrayStringToString(GetDeleteFiles(), wxT("#")));	
+	config->Flush();
 	delete config;
 	
-	if(blError){
-		ErrorMessage(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+	if(!blError){
+		ErrorBox(wxT("There was an error saving to the rules file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
+}
+
+bool Rules::ShouldDelete(wxString strFilename){
+	//Checks to see if it was a filepath that was passed
+	for(unsigned int i = 0; i < GetDeleteFiles().GetCount(); i++){
+		if(strFilename == GetDeleteFiles().Item(i)){
+			return true;
+		}
+	}
+	//Checks to see if it was a filename that was passed
+	for(unsigned int j = 0; j < GetDeleteFiles().GetCount(); j++){
+		if(strFilename == GetDeleteFiles().Item(j).AfterLast(wxFILE_SEP_PATH)){
+			return true;
+		}
+	}
+	return false;
 }
 
 #endif

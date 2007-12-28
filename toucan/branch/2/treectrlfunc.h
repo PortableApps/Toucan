@@ -21,7 +21,7 @@ bool AddTreeChildren(wxTreeItemId idParent, wxTreeItemIdValue cookie, wxTreeCtrl
 
 
 	wxString text = from->GetItemText(id);
-	wxMessageBox(text);
+	//wxMessageBox(text);
 	wxTreeItemId toid = to->AppendItem(toparent, from->GetItemText(id));
 
 	if (from->ItemHasChildren(id))

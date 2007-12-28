@@ -81,8 +81,9 @@ class wxGenericDirCtrl;
 #define ID_BACKUP_REPASS 10018
 #define ID_PANEL_SECURE 10023
 #define ID_SECURE_JOB_SELECT 10024
-#define ID_SECURE_JOB_OPEN 10025
-#define ID_SECURE_JOB_SAVE 10026
+#define ID_SECURE_JOB_SAVE 10300
+#define ID_SECURE_JOB_ADD 10026
+#define ID_SECURE_JOB_REMOVE 10060
 #define ID_SECURE_RULES 10027
 #define ID_SECURE_DIRCTRL 10101
 #define ID_SECURE_ADD 10102
@@ -94,25 +95,29 @@ class wxGenericDirCtrl;
 #define ID_SECURE_FORMAT 10040
 #define ID_SECURE_PASS 10041
 #define ID_SECURE_REPASS 10042
-#define ID_PANEL2 10050
-#define ID_LISTBOX2 10051
-#define ID_BITMAPBUTTON13 10052
-#define ID_BITMAPBUTTON14 10053
-#define ID_LISTBOX3 10054
-#define ID_BITMAPBUTTON15 10055
-#define ID_BITMAPBUTTON16 10056
-#define ID_LISTBOX4 10057
-#define ID_BITMAPBUTTON17 10058
-#define ID_BITMAPBUTTON18 10059
-#define ID_LISTBOX5 10060
-#define ID_BITMAPBUTTON19 10061
-#define ID_BITMAPBUTTON20 10062
+#define ID_RULES 10050
+#define ID_RULES_COMBO 10061
+#define ID_RULES_SAVE 10062
+#define ID_RULES_ADD 10069
+#define ID_RULES_REMOVE 10070
+#define ID_RULES_FILEEXCLUDE 10051
+#define ID_RULES_ADD_FILEEXCLUDE 10052
+#define ID_RULES_REMOVE_FILEEXCLUDE 10053
+#define ID_RULES_FOLDEREXCLUDE 10054
+#define ID_RULES_ADD_FOLDEREXCLUDE 10055
+#define ID_RULES_REMOVE_FOLDEREXCLUDE 10056
+#define ID_RULES_FILE_INCLUDE 10057
+#define ID_RULES_ADD_FILEINCLUDE 10058
+#define ID_RULES_REMOVE_FILEINCLUDE 10059
+#define ID_RULES_FILE_DELETE 10200
+#define ID_RULES_ADD_FILEDELETE 10201
+#define ID_RULES_REMOVE_FILEDELETE 10202
 #define ID_PANEL4 10064
 #define ID_PANEL6 10066
 #define ID_SCRIPT_COMBO 10033
-#define ID_SCRIPT_OPEN 10034
 #define ID_SCRIPT_SAVE 10035
-#define ID_SCRIPT_DELETE 10036
+#define ID_SCRIPT_ADD 10034
+#define ID_SCRIPT_REMOVE 10036
 #define ID_SCRIPT_RICH 10030
 #define ID_SCRIPT_CHECK 10031
 #define ID_SCRIPT_EXECUTE 10032
@@ -155,6 +160,9 @@ public:
  /// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_OK
  void OnToolOkClick( wxCommandEvent& event );
 
+ /// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_PREVIEW
+ void OnToolPreviewClick( wxCommandEvent& event );
+
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
  void OnSyncSourceBtnClick( wxCommandEvent& event );
 
@@ -164,11 +172,56 @@ public:
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
  void OnBackupRemoveClick( wxCommandEvent& event );
 
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE
+ void OnSecureJobSaveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD
+ void OnSecureJobAddClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE
+ void OnSecureJobRemoveClick( wxCommandEvent& event );
+
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
  void OnSecureAddClick( wxCommandEvent& event );
 
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
  void OnSecureRemoveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_RULES_COMBO
+ void OnRulesComboSelected( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_SAVE
+ void OnRulesSaveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD
+ void OnRulesAddClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE
+ void OnRulesRemoveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
+ void OnRulesAddFileexcludeClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEEXCLUDE
+ void OnRulesRemoveFileexcludeClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FOLDEREXCLUDE
+ void OnRulesAddFolderexcludeClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FOLDEREXCLUDE
+ void OnRulesRemoveFolderexcludeClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
+ void OnRulesAddFileincludeClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
+ void OnRulesRemoveFileincludeClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEDELETE
+ void OnRulesAddFiledeleteClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEDELETE
+ void OnRulesRemoveFiledeleteClick( wxCommandEvent& event );
 
  /// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
  void OnScriptRichTextUpdated( wxCommandEvent& event );
@@ -221,6 +274,11 @@ public:
  wxRadioBox* m_Secure_Format;
  wxTextCtrl* m_Secure_Pass;
  wxTextCtrl* m_Secure_Repass;
+ wxComboBox* m_Rules_Combo;
+ wxListBox* m_Rules_FileExclude;
+ wxListBox* m_Rules_FolderExclude;
+ wxListBox* m_Rules_FileInclude;
+ wxListBox* m_Rules_FileDelete;
 	////@end frmMain member variables
 };
 

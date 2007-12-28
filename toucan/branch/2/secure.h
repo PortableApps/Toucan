@@ -9,16 +9,17 @@
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <wx/log.h>
-#include "normalise.h"
-#include "frmprogress.h"
-#include "secure-file.h"
+#include <wx/stdpaths.h>
+#include <windows.h>
+
+bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress *window);
 
 /*The main loop for the Secure process. It is called by Secure initially and then either calls itself when it reaches a
 folder or CryptFile when it reaches a file.*/
-bool CryptDir(wxString strPath, SecureData data, Rules rules)
+bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window)
 {   
-	if(wxGetApp().GetStrAbort() == wxT("ABORT")){
-		return false;
+	if(rules.ShouldExclude(strPath, true)){
+		return true;
 	}
 	wxDir dir(strPath);
 	wxString filename;
@@ -27,10 +28,11 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules)
 	{
 		do {
 			if (wxDirExists(strPath + wxFILE_SEP_PATH + filename) ){
-				CryptDir(strPath + wxFILE_SEP_PATH + filename, dara, rules);
+				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
 			}
 			else{
-				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules);
+				//MessageBox(_("Called CryptFile"), _("2"));
+				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
 			}
 
 		}
@@ -39,48 +41,98 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules)
 	return true;
 }
 
-/*The main Secure function is very simple in that it iterates through the names pass to it and fires off the correct
-function, eithrr CryptDir or CryptFile*/
-bool Secure(SecureData data, Rules rules)
-{  
-	wxGetApp().SetStrTemp(wxEmptyString);
-	wxGetApp().SetStrAbort(wxEmptyString);
-	frmProgress* window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
-	//Redirect log messages to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Progress_Text);
-	delete wxLog::SetActiveTarget(logTxt);
-	//Set the correct buttons on the form 
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	OutputProgress(_("Starting..."), window, blVisible);
-	//If we are running in GUI mode we show the form
-	if(blVisible){
-		window->Show();
+
+bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* window)
+{
+	if(rules.ShouldExclude(strFile, false)){
+		return true;
 	}
-	window->Update();
-	wxGetApp().SetStrAbort(wxEmptyString);
-	unsigned int i;
-	wxArrayString arrLocation == data.GetLocations();
-	//Iterate through the entries in the array
-	for(i = 0; i < arrLocation.Count(); i++)
-	{
-		if(wxGetApp().GetStrAbort() == wxT("ABORT")){
+	//wxMessageBox(_("Cont"));
+	//Make sure that it is a 'real' file
+	wxFileName filename(strFile);
+	if(filename.IsOk() == true){
+		wxString size = filename.GetHumanReadableSize();
+		if(size == wxT("Not available")){
+			//OutputProgress(_("Skipped ") + strFile, window, blVisible);
+			return false;
+		}
+	}
+	if(filename.GetExt() == wxT("cpt") && data.GetFunction() == _("Encrypt") && data.GetFormat() == _T("Rijndael")){
 		return false;
-		}
-		//Need to add normalisation to SecureData
-		if(arrLocation.Item(i) != wxEmptyString){
-			if(wxDirExists(arrLocation.Item(i))){
-				CryptDir(arrLocation.Item(i), data, rules);
+	}
+	if(filename.GetExt() != wxT("cpt") && data.GetFunction() == _("Decrypt") && data.GetFormat() == _T("Rijndael")){
+		return false;
+	}
+
+	if(data.GetFunction() == _("Encrypt")){
+		//Set an int to the file attributes to ensure that it can be encrypted	        
+		int filearrtibs = GetFileAttributes(strFile);
+		//Set the file to have no file attributes
+		SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
+		wxString command;
+		DWORD lgReturn = 1;
+		if(data.GetFormat() == wxT("Rijndael"))  {   
+			//Use shellexecute for the moment as wxExecute must be run from the main thread
+			SHELLEXECUTEINFO sei = {0};
+			sei.cbSize = sizeof (SHELLEXECUTEINFO);
+			sei.fMask  = SEE_MASK_NOCLOSEPROCESS;
+			sei.lpVerb = wxT("open");
+			sei.nShow = SW_HIDE;
+			sei.lpFile = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("ccrypt");
+			sei.lpParameters = wxT("-e -K\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\"");
+
+			if (ShellExecuteEx (&sei)){
+				WaitForSingleObject (sei.hProcess, INFINITE);
+				GetExitCodeProcess(sei.hProcess, &lgReturn);
 			}
-			else{
-				CryptFile(arrLocation.Item(i), data, rules);
-            			}
+		
+		}
+		//Put the original attributes back
+		SetFileAttributes(strFile,filearrtibs);
+		if(lgReturn == 0){        
+			OutputProgress(_("Encrypted ") + strFile, window);
+		}
+		else{
+			OutputProgress(_("Failed to encrypt ") + strFile, window);
 		}
 	}
-	OutputProgress(_("Finished..."), window, blVisible);
-	window->m_OK->Enable(true);
-	window->m_Save->Enable(true);
-	window->m_Abort->Enable(false);
-    
+
+	else if(data.GetFunction() == _("Decrypt")){
+		//Set an int to the file attributes to ensure that it can be decrypted
+		int filearrtibs = GetFileAttributes(strFile);
+		SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL); 
+		DWORD lgReturn;
+		wxString command;
+		if(data.GetFormat() == wxT("Blowfish")){        
+			command = wxT("burp -d -k\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\" \"") + wxPathOnly(strFile) + wxT("\\") + wxT("1.tmp\"");
+		}	
+		else{
+			SHELLEXECUTEINFO sei = {0};
+
+			sei.cbSize = sizeof (SHELLEXECUTEINFO);
+			sei.fMask  = SEE_MASK_NOCLOSEPROCESS;
+			sei.lpVerb = wxT("open");
+			sei.nShow = SW_HIDE;
+			sei.lpFile = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("ccrypt");
+			sei.lpParameters = wxT("-d -K\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\"");
+
+			if (ShellExecuteEx (&sei)){
+				WaitForSingleObject (sei.hProcess, INFINITE);
+				GetExitCodeProcess(sei.hProcess, &lgReturn);
+			}
+		}
+		//If Blowfish is used then the decryped file (1.tmp) is renamed to the correct name and then 1.tmp is removed
+		if(data.GetFormat() == wxT("Blowfish")){		
+			wxCopyFile(wxPathOnly(strFile) + wxT("\\1.tmp"), strFile, true);
+			wxRemoveFile(wxPathOnly(strFile) + wxT("\\1.tmp"));
+		}
+		SetFileAttributes(strFile,filearrtibs);
+		if(lgReturn == 0){       
+ 			OutputProgress(_("Decrypted ") + strFile, window);
+		}
+		else{
+ 			OutputProgress(_("Failed to decrypt ") + strFile, window);
+		}
+	}
 	return true;
 }
