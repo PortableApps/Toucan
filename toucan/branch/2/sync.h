@@ -4,16 +4,11 @@
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "normalise.h"
-#include "frmprogress.h"
-#include "sync-file.h"
-#include "sync-mirror.h"
 #include "basicops.h"
 #include <wx/dir.h>
-#include <wx/log.h>
 
 /*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFille when a file is reached*/
-bool SyncLoop(SyncData data, Rules rules)
+bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 {
 	if(wxGetApp().GetStrAbort() == wxT("ABORT")){
 		return false;
@@ -30,8 +25,8 @@ bool SyncLoop(SyncData data, Rules rules)
 		strFrom += wxFILE_SEP_PATH;       
 	}
 	if (!wxDirExists(strTo)){
-            		if(!rules.Matches(strTo, true)){
-                		wxMkdir(strTo);
+            	if(!rules.Matches(strTo, true)){
+            		wxMkdir(strTo);
 		}
 		else{
 			return false;
@@ -76,68 +71,65 @@ bool SyncLoop(SyncData data, Rules rules)
 	
 }
 
-//The main Sync function simply calls SyncLoop with the correct arguments based on the users request
-bool Sync(SyncData data, Rules rules)
-{	
-	wxGetApp().SetStrTemp(wxEmptyString);
-	wxGetApp().SetStrAbort(wxEmptyString);
-	
-	//Create the progress form and redirect the log output to it	
-	frmProgress* window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
-    	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Progress_Text);
-    	delete wxLog::SetActiveTarget(logTxt);
-    
-	//Set the form up before the loop is run
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	OutputProgress(_("Starting...\n"));
-	
-	//Need to update this for the new command line stuff
-	if(blVisible){
-		window->Show();
+bool SyncFile(SyncData data, Rules rules, frmProgess *window)
+{
+	unsigned int i;
+	if(!rules.Matches(data.GetDest(), false)){
+		int iAttributes;
+		if(blIgnoreRO){
+			iAttributes = GetFileAttributes(data.GetDest());
+			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+		} 
+		if(data.GetFunction() == _("Copy")){	
+			if(wxCopyFile(data.GetSource(), data.GetDest(), true)){
+				OutputProgress(data.GetSource(), window);
+			}
+                }	
+		if(strFunction == _("Update")){
+			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
+			the source file is always copied*/
+			if(wxFileExists(data.GetDest())){	
+				wxDateTime tmTo = wxFileModificationTime(data.GetDest());
+				wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
+				if(blIgnoreDLS){
+					tmFrom.MakeTimeZone(Local, true);
+				}
+				//I.E. strFrom is newer
+				if(tmFrom.IsLaterThan(tmTo)){
+					wxCopyFile(data.GetSource, data.GetDest(), true);
+					OutputProgress(data.GetSource, window);
+				}
+			}
+			else{
+				wxCopyFile(data.GetSource(), data.GetDest(), true);
+				OutputProgress(data.GetSource(), window);
+			}
+		}
+		if(data.GetFunction() == _("Mirror")){	
+			if(!wxFileExists(data.GetDest()){
+				wxRemoveFile(data.GetSource());
+				OutputProgress(_("Removed ") + data.GetSource(), window);
+			}
+                }
+		//Set the old attrributes back
+		if(blIgnoreRO){
+			SetFileAttributes(data.GetDest(), iArributes); 
+		} 
+		//Code needs to be added for Linux, Mac also needs to be researched
+		if(blAttributes == true){
+			#indef(__wxMSW__)
+			int filearrtibs = GetFileAttributes(data.GetSource());
+			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
+			SetFileAttributes(data.GetDest(),filearrtibs);
+			#endif
+		}
+		if(blTimestamps){
+			wxFileName from(data.GetSource());
+			wxFileName to(data.GetDest());
+			wxDateTime access, mod, created;
+			from.GetTimes(&access ,&mod ,&created );
+			to.SetTimes(&access ,&mod , &created); 
+		}			
 	}
-	window->Update();
-	
-	//Launch the correct set of loops
-	if(data.GetFunction()== _("Copy") || data.GetFunction() == _("Update")){
-		SyncLoop(data, rules);
-	}
-	else if(data.GetFunction() ==  _("Mirror (Copy)")){
-		data.SetFunction(_("Copy"));
-		SyncLoop(data, rules);
-		//Swap the source and dest around for the mirror routine
-		wxString strTemp = data.GetSource();
-		data.SetSource(data.GetDest());
-		data.SetDest(strTemp);
-		//Run the mirror loop
-		data.SetFunction(_("Mirror"));
-		SyncLoop(data, rules);
-	}
-	else if(data.GetFunction() ==  _("Mirror (Copy)")){
-		data.SetFunction(_("Update"));
-		SyncLoop(data, rules);
-		//Swap the source and dest around for the mirror routine
-		wxString strTemp = data.GetSource();
-		data.SetSource(data.GetDest());
-		data.SetDest(strTemp);
-		//Run the mirror loop
-		data.SetFunction(_("Mirror"));
-		SyncLoop(data, rules);
-	}
-	else if(data.GetFunction() ==  _("Equalise")){
-		data.SetFunction(_("Update"));
-		wxString strTemp = data.GetSource();
-		data.SetSource(data.GetDest());
-		data.SetDest(strTemp);
-		data.SetFunction(_("Update"));
-		SyncLoop(data, rules);
-	}
-
-	//Set up the progress window once the loop has finished
-	OutputProgress(_("Finished...\n"));
-	window->m_OK->Enable();
-	window->m_Save->Enable();
-	window->m_Abort->Enable(false);
-	
 	return true;
 }

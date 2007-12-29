@@ -997,10 +997,14 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 
 void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE in frmMain.
- // Before editing this code, remove the block markers.
- event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE in frmMain. 
+	SecureData data;
+	data.TransferFromForm(this);
+	if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString){
+		data.TransferToFile(m_Secure_Job_Select->GetStringSelection());
+	}
+	else{
+		ErrorBox(_("Please chose a job to save to"));
+	}
 }
 
 
@@ -1010,10 +1014,11 @@ void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
 
 void frmMain::OnSecureJobAddClick( wxCommandEvent& event )
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD in frmMain.
- // Before editing this code, remove the block markers.
- event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD in frmMain. 
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
+	if(dialog->ShowModal() == wxID_OK){
+		m_Secure_Job_Select->Append(dialog->GetValue());
+	}
+	delete dialog;
 }
 
 
@@ -1023,9 +1028,10 @@ void frmMain::OnSecureJobAddClick( wxCommandEvent& event )
 
 void frmMain::OnSecureJobRemoveClick( wxCommandEvent& event )
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE in frmMain.
- // Before editing this code, remove the block markers.
- event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE in frmMain. 
+	if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString){
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+		config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
+		m_Secure_Job_Select->Delete(m_Secure_Job_Select->GetSelection());
+	}
 }
 

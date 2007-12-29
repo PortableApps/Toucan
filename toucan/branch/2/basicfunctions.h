@@ -72,4 +72,5 @@ bool SetRulesBox(wxComboBox *box){
 	}
 	return true;
 }
+
 #endif
