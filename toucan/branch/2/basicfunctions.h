@@ -73,4 +73,19 @@ bool SetRulesBox(wxComboBox *box){
 	return true;
 }
 
+bool SetJobsBox(wxComboBox *box, wxString strType){
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+	bool blCont;
+	wxString strValue;
+	long dummy;
+	blCont = config->GetFirstGroup(strValue, dummy);
+	while (blCont){
+		if(config->Read(strValue + wxT("/Type")) == strType){
+			box->Append(strValue);
+		}
+		blCont = config->GetNextGroup(strValue, dummy);
+	}
+	return true;
+}
+
 #endif

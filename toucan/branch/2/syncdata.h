@@ -1,6 +1,8 @@
 #ifndef H_SYNCDATA
 #define H_SYNCDATA
 
+#include <wx/variant.h>
+
 class SyncData{
 
 public:
@@ -45,7 +47,7 @@ private:
 	bool blIgnoreRO;
 	bool blIgnoreDLS;
 
-}
+};
 
 bool SyncData::TransferFromFile(wxString strName){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
@@ -63,7 +65,7 @@ bool SyncData::TransferFromFile(wxString strName){
 	blError = config->Read(strName + wxT("/TimeStamps"), &blTemp);
 	if(!blError){ SetTimeStamps(blTemp); }
 	blError = config->Read(strName + wxT("/Attributes"), &blTemp);
-	if(!blError){ SetAttributes(blTemp) }
+	if(!blError){ SetAttributes(blTemp); }
 	blError = config->Read(strName + wxT("/IgnoreReadOnly"), &blTemp);
 	if(!blError){ SetIgnoreRO(blTemp); }
 	blError = config->Read(strName + wxT("/IgnoreDaylightSavings"), &blTemp);
@@ -71,7 +73,7 @@ bool SyncData::TransferFromFile(wxString strName){
 	delete config;
 	
 	if(blError){
-		ErrorMessage(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -92,7 +94,7 @@ bool SyncData::TransferToFile(wxString strName){
 	blError = config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
 	delete config;
 	if(blError){
-		ErrorMessage(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -102,14 +104,14 @@ bool SyncData::TransferToFile(wxString strName){
 void SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
-	AddDirToTree(window->m_Sync_Source_Tree, GetSource());
+	AddDirToTree(GetSource(), window->m_Sync_Source_Tree, window);
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
-	AddDirToTree(window->m_Sync_Dest_Tree, GetDest());
+	AddDirToTree(GetDest(), window->m_Sync_Dest_Tree, window);
 	window->m_Sync_Function->SetStringSelection(GetFunction());
-	window->m_Sync_TimeStamps->SetValue(GetTimeStamps());
+	window->m_Sync_Timestamp->SetValue(GetTimeStamps());
 	window->m_Sync_Attributes->SetValue(GetAttributes());
-	window->m_Sync_Ignore_ReadOnly->SetValue(GetIgnoreRO());
+	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
 	window->m_Sync_Ignore_DaylightS->SetValue(GetIgnoreDLS());
 	return;
 }
@@ -118,28 +120,28 @@ void SyncData::TransferToForm(frmMain *window){
 Main program window.*/
 bool SyncData::TransferFromForm(frmMain *window){
 	bool blNotFilled = false;
-	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){ SetSource(window->m_Sync_Source_Txt->GetValue()); }
+	if(window->m_Sync_Source_Txt->GetValue() != wxEmptyString){ SetSource(window->m_Sync_Source_Txt->GetValue()); }
 	else{ blNotFilled = true; }
-	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){ SetDest(window->m_Sync_Dest_Txt->GetValue()); }
+	if(window->m_Sync_Dest_Txt->GetValue() != wxEmptyString){ SetDest(window->m_Sync_Dest_Txt->GetValue()); }
 	else{ blNotFilled = true; }
-	if(m_Sync_Function->GetValue() != wxEmptyString){ SetFunction(window->m_Sync_Function->GetStringSelection()); }
+	if(window->m_Sync_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Sync_Function->GetStringSelection()); }
 	else{ blNotFilled = true; }
-	SetTimeStamps(window->m_Sync_TimeStamps->GetValue());
+	SetTimeStamps(window->m_Sync_Timestamp->GetValue());
 	SetAttributes(window->m_Sync_Attributes->GetValue());
-	SetIgnoreRO(window->m_Sync_Ignore_ReadOnly->GetValue());
+	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
 	if(blNotFilled){
-		ErrorMessage(_("Not all of the required fields are filled"));
+		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}
 	return true;	
 }
 
-BackupData::Output(){
+void SyncData::Output(){
 	MessageBox (GetSource(), wxT("Source"));
 	MessageBox(GetDest(), wxT("Destination"));
 	MessageBox(GetFunction(), wxT("Function"));
-	wxVarient varTemp;
+	wxVariant varTemp;
 	varTemp = GetTimeStamps();
 	MessageBox(varTemp.GetString(), wxT("Timestamps?"));
 	varTemp = GetAttributes();

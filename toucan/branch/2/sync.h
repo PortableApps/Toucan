@@ -4,15 +4,15 @@
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "basicops.h"
+#include "basicfunctions.h"
+#include "frmprogress.h"
 #include <wx/dir.h>
+
+bool SyncFile(SyncData data, Rules rules, frmProgress *window);
 
 /*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFille when a file is reached*/
 bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 {
-	if(wxGetApp().GetStrAbort() == wxT("ABORT")){
-		return false;
-	}
 	wxString strTo = data.GetDest();
 	wxString strFrom = data.GetSource();
 	//This section need to be updated for the new data stuff
@@ -25,7 +25,7 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 		strFrom += wxFILE_SEP_PATH;       
 	}
 	if (!wxDirExists(strTo)){
-            	if(!rules.Matches(strTo, true)){
+            	if(!rules.ShouldExclude(strTo, true)){
             		wxMkdir(strTo);
 		}
 		else{
@@ -39,22 +39,22 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 		do {
 			if(wxDirExists(strFrom + strFilename))
 			{
-				if(!rules.Matches(strTo + strFilename, true))
+				if(!rules.ShouldExclude(strTo + strFilename, true))
 				{ 
 					if (wxDirExists(strTo + strFilename)){
 						data.SetSource(strFrom + strFilename);
 						data.SetDest(strTo + strFilename);
-						SyncLoop(data, rules);
+						SyncLoop(data, rules, window);
 					}
 					else{
-						if(data.GetFunction == _("Mirror")){
+						if(data.GetFunction() == _("Mirror")){
 							RemoveDirectory(strTo + strFilename);
 						}
 						else{
 							wxMkdir(strTo + strFilename);
 							data.SetSource(strFrom + strFilename);
 							data.SetDest(strTo + strFilename);
-							SyncLoop(data, rules);
+							SyncLoop(data, rules, window);
 						}
 					}
 				}
@@ -62,7 +62,7 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 			else{
 				data.SetSource(strFrom + strFilename);
 				data.SetDest(strTo + strFilename);
-				SyncFile(data, rules);
+				SyncFile(data, rules, window);
 			}
 		}
 		while (dir.GetNext(&strFilename) );
@@ -71,12 +71,11 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 	
 }
 
-bool SyncFile(SyncData data, Rules rules, frmProgess *window)
+bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 {
-	unsigned int i;
-	if(!rules.Matches(data.GetDest(), false)){
-		int iAttributes;
-		if(blIgnoreRO){
+	int iAttributes;
+	if(!rules.ShouldExclude(data.GetDest(), false)){
+		if(data.GetIgnoreRO()){
 			iAttributes = GetFileAttributes(data.GetDest());
 			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
 		} 
@@ -84,20 +83,20 @@ bool SyncFile(SyncData data, Rules rules, frmProgess *window)
 			if(wxCopyFile(data.GetSource(), data.GetDest(), true)){
 				OutputProgress(data.GetSource(), window);
 			}
-                }	
-		if(strFunction == _("Update")){
+		}	
+		if(data.GetFunction() == _("Update")){
 			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
 			the source file is always copied*/
 			if(wxFileExists(data.GetDest())){	
 				wxDateTime tmTo = wxFileModificationTime(data.GetDest());
 				wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
-				if(blIgnoreDLS){
-					tmFrom.MakeTimeZone(Local, true);
+				if(data.GetIgnoreDLS()){
+					tmFrom.MakeTimezone(wxDateTime::Local, true);
 				}
 				//I.E. strFrom is newer
 				if(tmFrom.IsLaterThan(tmTo)){
-					wxCopyFile(data.GetSource, data.GetDest(), true);
-					OutputProgress(data.GetSource, window);
+					wxCopyFile(data.GetSource(), data.GetDest(), true);
+					OutputProgress(data.GetSource(), window);
 				}
 			}
 			else{
@@ -106,24 +105,24 @@ bool SyncFile(SyncData data, Rules rules, frmProgess *window)
 			}
 		}
 		if(data.GetFunction() == _("Mirror")){	
-			if(!wxFileExists(data.GetDest()){
+			if(!wxFileExists(data.GetDest())){
 				wxRemoveFile(data.GetSource());
 				OutputProgress(_("Removed ") + data.GetSource(), window);
 			}
-                }
+		}
 		//Set the old attrributes back
-		if(blIgnoreRO){
-			SetFileAttributes(data.GetDest(), iArributes); 
+		if(data.GetIgnoreRO()){
+			SetFileAttributes(data.GetDest(), iAttributes); 
 		} 
 		//Code needs to be added for Linux, Mac also needs to be researched
-		if(blAttributes == true){
-			#indef(__wxMSW__)
+		if(data.GetAttributes() == true){
+			//#ifdef(__WXMSW__)
 			int filearrtibs = GetFileAttributes(data.GetSource());
 			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
 			SetFileAttributes(data.GetDest(),filearrtibs);
-			#endif
+			//#endif
 		}
-		if(blTimestamps){
+		if(data.GetTimeStamps()){
 			wxFileName from(data.GetSource());
 			wxFileName to(data.GetDest());
 			wxDateTime access, mod, created;

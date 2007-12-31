@@ -13,9 +13,9 @@ public:
 
 	//Functions
 	bool TransferToFile(wxString strName);
-	bool TransferFromFile(wxString strName);
+	bool TransferFromFile(wxString strName, bool blShowError);
 	void TransferToForm(frmMain *window);
-	bool TransferFromForm(frmMain*window);
+	bool TransferFromForm(frmMain*window, bool blShowError);
 	void Output();
 
 	//Inline functions
@@ -45,21 +45,21 @@ SecureData::SecureData(){
 }
 
 
-bool SecureData::TransferFromFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
+bool SecureData::TransferFromFile(wxString strName, bool blShowError){
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath())+ wxFILE_SEP_PATH + wxT("Jobs.ini") );
 	
 	bool blError;
 	wxString strTemp;
 
 	blError = config->Read(strName + wxT("/Locations"), &strTemp);
-	if(!blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
+	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
 	blError = config->Read(strName + wxT("/Function"), &strTemp);
-	if(!blError){ SetFunction(strTemp); }
+	if(blError){ SetFunction(strTemp); }
 	blError = config->Read(strName + wxT("/Format"), &strTemp);
-	if(!blError){ SetFormat(strTemp); }
+	if(blError){ SetFormat(strTemp); }
 	delete config;
 
-	if(blError){
+	if(!blError && blShowError){
 		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
@@ -67,17 +67,19 @@ bool SecureData::TransferFromFile(wxString strName){
 }
 
 bool SecureData::TransferToFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 	
 	bool blError;
 
 	blError = config->DeleteGroup(strName);
+	wxMessageBox(ArrayStringToString(GetLocations(), wxT("#")));
 	blError = config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
 	blError = config->Write(strName + wxT("/Function"), GetFunction());	
 	blError = config->Write(strName + wxT("/Format"), GetFormat());	
+	
 	delete config;
 
-	if(blError){
+	if(!blError){
 		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
@@ -87,6 +89,12 @@ bool SecureData::TransferToFile(wxString strName){
 /*This function takes the data in BackupData and fills in the GUI*/
 void SecureData::TransferToForm(frmMain *window){
 	window->m_Secure_TreeCtrl->DeleteAllItems();
+	for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
+		wxGetApp().RemoveSecureLocation(i);
+	}
+	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
+		AddDirToTree(GetLocations().Item(j), window->m_Secure_TreeCtrl, window);
+	}
 	//AddDirToTree(window->m_Secure_TreeCtrl, GetLocations());
 	window->m_Secure_Function->SetStringSelection(GetFunction());
 	window->m_Secure_Format->SetStringSelection(GetFormat());
@@ -97,7 +105,7 @@ void SecureData::TransferToForm(frmMain *window){
 
 /* This function sets all of the fields in SyncData based on the user inputted data in the
 Main program window.*/
-bool SecureData::TransferFromForm(frmMain *window){
+bool SecureData::TransferFromForm(frmMain *window, bool blShowError){
 	bool blNotFilled = false;
 	wxString strPass;
 	wxString strRepass;
@@ -111,7 +119,7 @@ bool SecureData::TransferFromForm(frmMain *window){
 	else{ blNotFilled = true; }
 	if(window->m_Secure_Repass->GetValue() != wxEmptyString){strRepass = window->m_Secure_Repass->GetValue(); }
 	else{ blNotFilled = true; }
-	if(blNotFilled){
+	if(blNotFilled && blShowError){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}

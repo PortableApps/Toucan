@@ -32,6 +32,8 @@
 #include "securethread.h"
 #include "frmprogress.h"
 #include "securefunctions.h"
+#include "syncdata.h"
+#include "syncthread.h"
 
 #include <wx/srchctrl.h>
 
@@ -61,6 +63,8 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
  EVT_BUTTON( ID_BACKUP_ADD, frmMain::OnBackupAddClick )
 
  EVT_BUTTON( ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick )
+
+ EVT_COMBOBOX( ID_SECURE_JOB_SELECT, frmMain::OnSecureJobSelectSelected )
 
  EVT_BUTTON( ID_SECURE_JOB_SAVE, frmMain::OnSecureJobSaveClick )
 
@@ -403,13 +407,13 @@ void frmMain::CreateControls()
  m_Secure_Job_Select = new wxComboBox( itemPanel58, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN );
  itemStaticBoxSizer61->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- wxBitmapButton* itemBitmapButton63 = new wxBitmapButton( itemPanel58, ID_SECURE_JOB_SAVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton63 = new wxBitmapButton( itemPanel58, ID_SECURE_JOB_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemStaticBoxSizer61->Add(itemBitmapButton63, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- wxBitmapButton* itemBitmapButton64 = new wxBitmapButton( itemPanel58, ID_SECURE_JOB_ADD, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton64 = new wxBitmapButton( itemPanel58, ID_SECURE_JOB_ADD, itemFrame1->GetBitmapResource(wxT("list-add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemStaticBoxSizer61->Add(itemBitmapButton64, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- wxBitmapButton* itemBitmapButton65 = new wxBitmapButton( itemPanel58, ID_SECURE_JOB_REMOVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton65 = new wxBitmapButton( itemPanel58, ID_SECURE_JOB_REMOVE, itemFrame1->GetBitmapResource(wxT("list-remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemStaticBoxSizer61->Add(itemBitmapButton65, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
  wxStaticBox* itemStaticBoxSizer66Static = new wxStaticBox(itemPanel58, wxID_ANY, _("Rules"));
@@ -635,6 +639,11 @@ void frmMain::CreateControls()
 	SetRulesBox(m_Backup_Rules);
 	SetRulesBox(m_Secure_Rules);
 	SetRulesBox(m_Rules_Combo);
+	
+	//Set up the jobs boxes
+	SetJobsBox(m_Sync_Job_Select, _("Sync"));
+	SetJobsBox(m_Backup_Job_Select, _("Backup"));
+	SetJobsBox(m_Secure_Job_Select, _("Secure"));
 
 }
 
@@ -767,7 +776,7 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 		window->Show();
 		SecureData data;
-		data.TransferFromForm(this);
+		data.TransferFromForm(this, true);
 		Rules rules;
 		if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
@@ -998,13 +1007,19 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
 {
 	SecureData data;
-	data.TransferFromForm(this);
-	if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString){
-		data.TransferToFile(m_Secure_Job_Select->GetStringSelection());
+	if(data.TransferFromForm(this, false)){
+		if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString){
+			data.TransferToFile(m_Secure_Job_Select->GetStringSelection());
+		}
+		else{
+			ErrorBox(_("Please chose a job to save to"));
+		}
 	}
-	else{
-		ErrorBox(_("Please chose a job to save to"));
-	}
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Secure_Job_Select->GetStringSelection());	
+	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Type"),  _("Secure"));	
+	delete config;
+
 }
 
 
@@ -1033,5 +1048,23 @@ void frmMain::OnSecureJobRemoveClick( wxCommandEvent& event )
 		config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
 		m_Secure_Job_Select->Delete(m_Secure_Job_Select->GetSelection());
 	}
+}
+
+
+/*!
+ * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
+ */
+
+void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
+{
+	SecureData data;
+	if(data.TransferFromFile(m_Secure_Job_Select->GetStringSelection(), true)){
+		data.Output();
+		data.TransferToForm(this);	
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+		m_Secure_Rules->SetStringSelection(config->Read(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules")));	
+		delete config;
+	}
+		
 }
 

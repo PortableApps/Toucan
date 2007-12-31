@@ -172,6 +172,9 @@ public:
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
  void OnBackupRemoveClick( wxCommandEvent& event );
 
+ /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
+ void OnSecureJobSelectSelected( wxCommandEvent& event );
+
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE
  void OnSecureJobSaveClick( wxCommandEvent& event );
 
