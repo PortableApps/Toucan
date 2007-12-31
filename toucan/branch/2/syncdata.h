@@ -49,6 +49,10 @@ private:
 
 };
 
+SyncData::SyncData(){
+	;
+}
+
 bool SyncData::TransferFromFile(wxString strName){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
 	

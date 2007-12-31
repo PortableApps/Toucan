@@ -50,8 +50,9 @@ class wxGenericDirCtrl;
 #define ID_AUINOTEBOOK 10003
 #define ID_PANEL_SYNC 10009
 #define ID_SYNC_JOB_SELECT 10019
-#define ID_SYNC_JOB_OPEN 10020
-#define ID_SYNC_JOB_SAVE 10021
+#define ID_SYNC_JOB_SAVE 10020
+#define ID_SYNC_JOB_ADD 10021
+#define ID_SYNC_JOB_REMOVE 10025
 #define ID_SYNC_RULES 10022
 #define ID_SYNC_SOURCE_TXT 10039
 #define ID_SYNC_SOURCE_BTN 10040
@@ -165,6 +166,9 @@ public:
 
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
  void OnSyncSourceBtnClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
+ void OnSyncDestBtnClick( wxCommandEvent& event );
 
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
  void OnBackupAddClick( wxCommandEvent& event );
