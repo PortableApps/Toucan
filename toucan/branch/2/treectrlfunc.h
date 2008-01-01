@@ -9,14 +9,14 @@ bool AddTreeChildren(wxTreeItemId idParent, wxTreeItemIdValue cookie, wxTreeCtrl
 	wxTreeItemId id;
 
 	if (!cookie){
-	id = from->GetFirstChild(idParent, cookie);
+		id = from->GetFirstChild(idParent, cookie);
 	}
 	else{
-	id = from->GetNextChild(idParent, cookie);
+		id = from->GetNextChild(idParent, cookie);
 	}
 
 	if (!id.IsOk()){
-	return false;
+		return false;
 	}
 
 
@@ -45,15 +45,21 @@ bool AddTreeToTree(wxTreeCtrl *from,wxTreeCtrl *to, frmMain *window){
 	return true;
 }
 
-bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeItemIdValue cookie, frmMain* window, wxTreeCtrl* to){
+bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeCtrl* to){
+	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
+		strFrom += wxFILE_SEP_PATH;       
+	}
 	wxDir dir(strFrom);
 	wxString strFilename;
 	bool blDir = dir.GetFirst(&strFilename);
+
 	if(blDir){
 		do {
+			//wxMessageBox(strFrom);
+	//wxMessageBox(strFilename);
 			if(wxDirExists(strFrom + strFilename)){
-				wxTreeItemId toid = to->AppendItem(idParent, strFilename);
-				AddDirChildren(strFrom + strFilename, toid, 0, window, to);
+				wxTreeItemId toid = to->AppendItem(idParent, strFilename.AfterLast(wxFILE_SEP_PATH));
+				AddDirChildren(strFrom + strFilename, toid, to);
 			}
 			else{
 				to->AppendItem(idParent, strFilename);
@@ -64,9 +70,9 @@ bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeItemIdValue c
 	return true;	
 }
 
-bool AddDirToTree(wxString strFilepath, wxTreeCtrl* to, frmMain* window){
+bool AddDirToTree(wxString strFilepath, wxTreeCtrl* to){
 	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), strFilepath.AfterLast(wxFILE_SEP_PATH));
-	AddDirChildren(strFilepath, parent, 0, window, to);
+	AddDirChildren(strFilepath, parent,  to);
 	return true;
 }
 

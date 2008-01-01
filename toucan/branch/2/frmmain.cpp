@@ -279,7 +279,7 @@ void frmMain::CreateControls()
  wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
  itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- m_Sync_Dest_Tree = new wxTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_SINGLE );
+ m_Sync_Dest_Tree = new wxTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
  itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
@@ -764,7 +764,7 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 {
 		wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
-			AddDirToTree(dialog.GetPath(), m_Sync_Source_Tree, this);
+			AddDirToTree(dialog.GetPath(), m_Sync_Source_Tree);
 			m_Sync_Source_Txt->SetValue(dialog.GetPath());
 		}
 }
@@ -777,7 +777,7 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 {
 		wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
-			AddDirToTree(dialog.GetPath(), m_Sync_Dest_Tree, this);
+			AddDirToTree(dialog.GetPath(), m_Sync_Dest_Tree);
 			m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 		}
 }
@@ -788,23 +788,21 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 
 void frmMain::OnToolOkClick( wxCommandEvent& event )
 {
+	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	window->Show();
 	if(m_Notebook->GetSelection() == 0){
-		frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
-		window->Show();
 		SyncData data;
 		data.TransferFromForm(this);
 		Rules rules;
 		if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
 		}
-		SyncThread *thread = new SyncThread(data, rules, window);
+		SyncThread *thread = new SyncThread(data, rules, window, this);
 		thread->Create();
 		thread->Run();
 	}
 	//Secure
 	if(m_Notebook->GetSelection() == 2){
-		frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
-		window->Show();
 		SecureData data;
 		data.TransferFromForm(this, true);
 		Rules rules;
@@ -814,7 +812,8 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		SecureThread *thread = new SecureThread(data, rules, window);
 		thread->Create();
 		thread->Run();
-	}	
+	}
+
 }
 
 
@@ -1062,6 +1061,7 @@ void frmMain::OnSecureJobAddClick( wxCommandEvent& event )
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
 	if(dialog->ShowModal() == wxID_OK){
 		m_Secure_Job_Select->Append(dialog->GetValue());
+		m_Secure_Job_Select->SetStringSelection(dialog->GetValue());
 	}
 	delete dialog;
 }

@@ -90,6 +90,9 @@ public:
 
 ////@begin frmProgress member variables
  wxTextCtrl* m_Text;
+ wxButton* m_OK;
+ wxButton* m_Cancel;
+ wxButton* m_Save;
 ////@end frmProgress member variables
 };
 

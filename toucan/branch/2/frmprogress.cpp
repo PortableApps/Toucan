@@ -101,6 +101,9 @@ void frmProgress::Init()
 {
 ////@begin frmProgress member initialisation
  m_Text = NULL;
+ m_OK = NULL;
+ m_Cancel = NULL;
+ m_Save = NULL;
 ////@end frmProgress member initialisation
 }
 
@@ -125,14 +128,14 @@ void frmProgress::CreateControls()
  wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
  itemBoxSizer3->Add(itemBoxSizer5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- wxButton* itemButton6 = new wxButton( itemPanel2, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
- itemBoxSizer5->Add(itemButton6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+ m_OK = new wxButton( itemPanel2, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+ itemBoxSizer5->Add(m_OK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- wxButton* itemButton7 = new wxButton( itemPanel2, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
- itemBoxSizer5->Add(itemButton7, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+ m_Cancel = new wxButton( itemPanel2, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+ itemBoxSizer5->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- wxButton* itemButton8 = new wxButton( itemPanel2, wxID_SAVE, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
- itemBoxSizer5->Add(itemButton8, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+ m_Save = new wxButton( itemPanel2, wxID_SAVE, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+ itemBoxSizer5->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 ////@end frmProgress content construction
 }
