@@ -164,6 +164,18 @@ public:
  /// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_PREVIEW
  void OnToolPreviewClick( wxCommandEvent& event );
 
+ /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
+ void OnSyncJobSelectSelected( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
+ void OnSyncJobSaveClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
+ void OnSyncJobAddClick( wxCommandEvent& event );
+
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
+ void OnSyncJobRemoveClick( wxCommandEvent& event );
+
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
  void OnSyncSourceBtnClick( wxCommandEvent& event );
 

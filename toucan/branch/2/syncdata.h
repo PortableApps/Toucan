@@ -54,29 +54,29 @@ SyncData::SyncData(){
 }
 
 bool SyncData::TransferFromFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 	
 	bool blError;
 	wxString strTemp;
 	bool blTemp;
 
 	blError = config->Read(strName + wxT("/Source"), &strTemp);
-	if(!blError){ SetSource(strTemp); }	
+	if(blError){ SetSource(strTemp); }	
 	blError = config->Read(strName + wxT("/Dest"), &strTemp);
-	if(!blError){ SetDest(strTemp); }	
+	if(blError){ SetDest(strTemp); }	
 	blError = config->Read(strName + wxT("/Function"), &strTemp);
-	if(!blError){ SetFunction(strTemp); }
+	if(blError){ SetFunction(strTemp); }
 	blError = config->Read(strName + wxT("/TimeStamps"), &blTemp);
-	if(!blError){ SetTimeStamps(blTemp); }
+	if(blError){ SetTimeStamps(blTemp); }
 	blError = config->Read(strName + wxT("/Attributes"), &blTemp);
-	if(!blError){ SetAttributes(blTemp); }
+	if(blError){ SetAttributes(blTemp); }
 	blError = config->Read(strName + wxT("/IgnoreReadOnly"), &blTemp);
-	if(!blError){ SetIgnoreRO(blTemp); }
+	if(blError){ SetIgnoreRO(blTemp); }
 	blError = config->Read(strName + wxT("/IgnoreDaylightSavings"), &blTemp);
-	if(!blError){ SetIgnoreDLS(blTemp); }
+	if(blError){ SetIgnoreDLS(blTemp); }
 	delete config;
 	
-	if(blError){
+	if(!blError){
 		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
@@ -84,7 +84,7 @@ bool SyncData::TransferFromFile(wxString strName){
 }
 
 bool SyncData::TransferToFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 	
 	bool blError;
 
@@ -97,7 +97,7 @@ bool SyncData::TransferToFile(wxString strName){
 	blError = config->Write(strName + wxT("/IgnoreReadOnly"), GetIgnoreRO());
 	blError = config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
 	delete config;
-	if(blError){
+	if(!blError){
 		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}

@@ -58,6 +58,14 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
  EVT_MENU( ID_TOOL_PREVIEW, frmMain::OnToolPreviewClick )
 
+ EVT_COMBOBOX( ID_SYNC_JOB_SELECT, frmMain::OnSyncJobSelectSelected )
+
+ EVT_BUTTON( ID_SYNC_JOB_SAVE, frmMain::OnSyncJobSaveClick )
+
+ EVT_BUTTON( ID_SYNC_JOB_ADD, frmMain::OnSyncJobAddClick )
+
+ EVT_BUTTON( ID_SYNC_JOB_REMOVE, frmMain::OnSyncJobRemoveClick )
+
  EVT_BUTTON( ID_SYNC_SOURCE_BTN, frmMain::OnSyncSourceBtnClick )
 
  EVT_BUTTON( ID_SYNC_DEST_BTN, frmMain::OnSyncDestBtnClick )
@@ -958,6 +966,11 @@ void frmMain::OnRulesSaveClick( wxCommandEvent& event )
 	else{
 		ErrorBox(_("You must select a name for this set of Rules"));
 	}
+	//Set up the rules boxes
+	SetRulesBox(m_Sync_Rules);
+	SetRulesBox(m_Backup_Rules);
+	SetRulesBox(m_Secure_Rules);
+
 }
 
 
@@ -1089,7 +1102,7 @@ void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
 {
 	SecureData data;
 	if(data.TransferFromFile(m_Secure_Job_Select->GetStringSelection(), true)){
-		data.Output();
+		//data.Output();
 		data.TransferToForm(this);	
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 		m_Secure_Rules->SetStringSelection(config->Read(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules")));	
@@ -1099,4 +1112,72 @@ void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
 }
 
 
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
+ */
+
+void frmMain::OnSyncJobSaveClick( wxCommandEvent& event )
+{
+	SyncData data;
+	if(data.TransferFromForm(this)){
+		if(m_Sync_Job_Select->GetStringSelection() != wxEmptyString){
+			data.TransferToFile(m_Sync_Job_Select->GetStringSelection());
+		}
+		else{
+			ErrorBox(_("Please chose a job to save to"));
+		}
+	}
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Sync_Job_Select->GetStringSelection());	
+	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Type"),  _("Sync"));	
+	delete config;
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
+ */
+
+void frmMain::OnSyncJobAddClick( wxCommandEvent& event )
+{
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
+	if(dialog->ShowModal() == wxID_OK){
+		m_Sync_Job_Select->Append(dialog->GetValue());
+		m_Sync_Job_Select->SetStringSelection(dialog->GetValue());
+	}
+	delete dialog;
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
+ */
+
+void frmMain::OnSyncJobRemoveClick( wxCommandEvent& event )
+{
+	if(m_Sync_Job_Select->GetStringSelection() != wxEmptyString){
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+		config->DeleteGroup(m_Sync_Job_Select->GetStringSelection());
+		m_Sync_Job_Select->Delete(m_Sync_Job_Select->GetSelection());
+	}
+}
+
+
+/*!
+ * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
+ */
+
+void frmMain::OnSyncJobSelectSelected( wxCommandEvent& event )
+{
+	SyncData data;
+	if(data.TransferFromFile(m_Sync_Job_Select->GetStringSelection())){
+		//data.Output();
+		data.TransferToForm(this);	
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+		m_Sync_Rules->SetStringSelection(config->Read(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules")));	
+		delete config;
+	}
+}
 

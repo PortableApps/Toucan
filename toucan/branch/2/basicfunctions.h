@@ -61,6 +61,7 @@ double GetInPB(wxString strValue){
 
 //Needs error checking code
 bool SetRulesBox(wxComboBox *box){
+	box->Clear();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini"));
 	bool blCont;
 	wxString strValue;
