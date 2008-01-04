@@ -2,20 +2,25 @@
 #define H_SECUREFUNCTIONS
 
 bool PreviewSecureLoop(wxString strFrom, Rules rules, wxTreeCtrl* to, wxTreeItemId idParent){
+	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
+		strFrom += wxFILE_SEP_PATH;       
+	}
 	wxDir dir(strFrom);
 	wxString strFilename;
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {
 			if(wxDirExists(strFrom + strFilename)){
-				if(!rules.ShouldExclude(strFrom+strFilename, true)){
-       					idParent = to->AppendItem(idParent, strFilename.AfterLast(wxFILE_SEP_PATH));
-					PreviewSecureLoop(strFrom + strFilename, rules, to, idParent);
+				wxTreeItemId tempidParent = to->AppendItem(idParent, strFilename.AfterLast(wxFILE_SEP_PATH));
+				if(rules.ShouldExclude(strFrom+strFilename, true)){
+					to->SetItemTextColour(tempidParent, wxColour(wxT("Red")));
 				}
+				PreviewSecureLoop(strFrom + strFilename, rules, to, tempidParent);
 			}
 			else{
-				if(!rules.ShouldExclude(strFrom+strFilename, false)){
-					to->AppendItem(idParent, strFilename);
+				wxTreeItemId tempidParent = to->AppendItem(idParent, strFilename);
+				if(rules.ShouldExclude(strFrom+strFilename, false)){
+					to->SetItemTextColour(tempidParent, wxColour(wxT("Red")));
 				}
 			}	
 		}

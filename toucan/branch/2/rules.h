@@ -46,7 +46,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 		regMatch.Compile(arrFilesToInclude.Item(r));
 		if(regMatch.IsValid()){
 			if(regMatch.Matches(strName)){
-				return true; 
+				return false; 
 			}
 		}
 	}
@@ -124,7 +124,20 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 			else{
 				//wxMessageBox(_("Error with Regex"));
 			}
-		}			
+		}
+		//Need to check to see if it is in an excluded folder as in this case it still needs to be excluded
+		for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
+			wxRegEx regMatch;
+			regMatch.Compile(arrFoldersToExclude.Item(j));
+			//wxMessageBox(strName);
+			//wxMessageBox(arrFoldersToExclude.Item(j));
+				if(regMatch.IsValid()){
+					if(regMatch.Matches(strName)){
+						//wxMessageBox(_("Excluding folder"));
+						return true; 
+					}
+				}
+			}
 	}
 	//wxMessageBox(_("Returning as normal"));
 	return blMatches;
