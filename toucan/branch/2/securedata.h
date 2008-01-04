@@ -92,6 +92,9 @@ void SecureData::TransferToForm(frmMain *window){
 	for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
 		wxGetApp().RemoveSecureLocation(i);
 	}
+	for(unsigned int k = 0; k < GetLocations().Count(); k++){
+		wxGetApp().AppendSecureLocation(GetLocations().Item(k));
+	}
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		AddDirToTree(GetLocations().Item(j), window->m_Secure_TreeCtrl);
 	}

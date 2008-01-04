@@ -1058,7 +1058,7 @@ void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
 		}
 	}
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
-	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Secure_Job_Select->GetStringSelection());	
+	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());	
 	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Type"),  _("Secure"));	
 	delete config;
 
