@@ -102,9 +102,9 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
  EVT_BUTTON( ID_RULES_REMOVE_FOLDEREXCLUDE, frmMain::OnRulesRemoveFolderexcludeClick )
 
- EVT_BUTTON( ID_RULES_ADD_FILEINCLUDE, frmMain::OnRulesAddFileincludeClick )
+ EVT_BUTTON( ID_RULES_ADD_LOCATIONINCLUDE, frmMain::OnRulesAddLocationincludeClick )
 
- EVT_BUTTON( ID_RULES_REMOVE_FILEINCLUDE, frmMain::OnRulesRemoveFileincludeClick )
+ EVT_BUTTON( ID_RULES_REMOVE_LOCATIONINCLUDE, frmMain::OnRulesRemoveLocationincludeClick )
 
  EVT_BUTTON( ID_RULES_ADD_FILEDELETE, frmMain::OnRulesAddFiledeleteClick )
 
@@ -200,7 +200,7 @@ void frmMain::Init()
  m_Rules_Combo = NULL;
  m_Rules_FileExclude = NULL;
  m_Rules_FolderExclude = NULL;
- m_Rules_FileInclude = NULL;
+ m_Rules_LocationInclude = NULL;
  m_Rules_FileDelete = NULL;
 	////@end frmMain member initialisation
 }
@@ -229,7 +229,7 @@ void frmMain::CreateControls()
  itemFrame1->GetAuiManager().AddPane(itemToolBar2, wxAuiPaneInfo()
   .ToolbarPane().Name(_T("Pane5")).Top().Layer(10).LeftDockable(false).RightDockable(false).BottomDockable(false).CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(false).Gripper(true).PaneBorder(false));
 
- m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
+ m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_MOVE|wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
 
  wxPanel* itemPanel6 = new wxPanel( m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
  wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
@@ -519,7 +519,7 @@ void frmMain::CreateControls()
  wxBoxSizer* itemBoxSizer95 = new wxBoxSizer(wxHORIZONTAL);
  itemBoxSizer93->Add(itemBoxSizer95, 1, wxGROW|wxALL, 5);
  wxArrayString m_Rules_FileExcludeStrings;
- m_Rules_FileExclude = new wxListBox( itemPanel84, ID_RULES_FILEEXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FileExcludeStrings, wxLB_SINGLE );
+ m_Rules_FileExclude = new wxListBox( itemPanel84, ID_RULE_FILE_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FileExcludeStrings, wxLB_SINGLE );
  itemBoxSizer95->Add(m_Rules_FileExclude, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
@@ -538,7 +538,7 @@ void frmMain::CreateControls()
  wxBoxSizer* itemBoxSizer102 = new wxBoxSizer(wxHORIZONTAL);
  itemBoxSizer100->Add(itemBoxSizer102, 1, wxGROW|wxALL, 5);
  wxArrayString m_Rules_FolderExcludeStrings;
- m_Rules_FolderExclude = new wxListBox( itemPanel84, ID_RULES_FOLDEREXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FolderExcludeStrings, wxLB_SINGLE );
+ m_Rules_FolderExclude = new wxListBox( itemPanel84, ID_RULES_FOLDER_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FolderExcludeStrings, wxLB_SINGLE );
  itemBoxSizer102->Add(m_Rules_FolderExclude, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer104 = new wxBoxSizer(wxVERTICAL);
@@ -551,21 +551,21 @@ void frmMain::CreateControls()
 
  wxBoxSizer* itemBoxSizer107 = new wxBoxSizer(wxVERTICAL);
  itemBoxSizer85->Add(itemBoxSizer107, 1, wxGROW|wxALL, 5);
- wxStaticText* itemStaticText108 = new wxStaticText( itemPanel84, wxID_STATIC, _("Files to always include (file name, path or extension)"), wxDefaultPosition, wxDefaultSize, 0 );
+ wxStaticText* itemStaticText108 = new wxStaticText( itemPanel84, wxID_STATIC, _("Locations to always include (file/folder name, path or  file extension)"), wxDefaultPosition, wxDefaultSize, 0 );
  itemBoxSizer107->Add(itemStaticText108, 0, wxALIGN_LEFT|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer109 = new wxBoxSizer(wxHORIZONTAL);
  itemBoxSizer107->Add(itemBoxSizer109, 1, wxGROW|wxALL, 5);
- wxArrayString m_Rules_FileIncludeStrings;
- m_Rules_FileInclude = new wxListBox( itemPanel84, ID_RULES_FILE_INCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FileIncludeStrings, wxLB_SINGLE );
- itemBoxSizer109->Add(m_Rules_FileInclude, 1, wxGROW|wxALL, 5);
+ wxArrayString m_Rules_LocationIncludeStrings;
+ m_Rules_LocationInclude = new wxListBox( itemPanel84, ID_RULES_LOCATION_INCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_LocationIncludeStrings, wxLB_SINGLE );
+ itemBoxSizer109->Add(m_Rules_LocationInclude, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer111 = new wxBoxSizer(wxVERTICAL);
  itemBoxSizer109->Add(itemBoxSizer111, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
- wxBitmapButton* itemBitmapButton112 = new wxBitmapButton( itemPanel84, ID_RULES_ADD_FILEINCLUDE, itemFrame1->GetBitmapResource(wxT("list-add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton112 = new wxBitmapButton( itemPanel84, ID_RULES_ADD_LOCATIONINCLUDE, itemFrame1->GetBitmapResource(wxT("list-add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer111->Add(itemBitmapButton112, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- wxBitmapButton* itemBitmapButton113 = new wxBitmapButton( itemPanel84, ID_RULES_REMOVE_FILEINCLUDE, itemFrame1->GetBitmapResource(wxT("list-remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+ wxBitmapButton* itemBitmapButton113 = new wxBitmapButton( itemPanel84, ID_RULES_REMOVE_LOCATIONINCLUDE, itemFrame1->GetBitmapResource(wxT("list-remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer111->Add(itemBitmapButton113, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer114 = new wxBoxSizer(wxVERTICAL);
@@ -798,7 +798,7 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 {
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 	window->Show();
-	if(m_Notebook->GetSelection() == 0){
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")){
 		SyncData data;
 		data.TransferFromForm(this);
 		Rules rules;
@@ -810,7 +810,7 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		thread->Run();
 	}
 	//Secure
-	if(m_Notebook->GetSelection() == 2){
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
 		SecureData data;
 		data.TransferFromForm(this, true);
 		Rules rules;
@@ -887,7 +887,7 @@ void frmMain::OnRulesRemoveFolderexcludeClick( wxCommandEvent& event )
 
 
 /*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_LocationInclude
  */
 
 void frmMain::OnRulesAddFiledeleteClick( wxCommandEvent& event )
@@ -901,37 +901,14 @@ void frmMain::OnRulesAddFiledeleteClick( wxCommandEvent& event )
 
 
 /*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_LocationInclude
  */
 
 void frmMain::OnRulesRemoveFiledeleteClick( wxCommandEvent& event )
 {
-	m_Rules_FileInclude->Delete(m_Rules_FileDelete->GetSelection());
+	m_Rules_LocationInclude->Delete(m_Rules_FileDelete->GetSelection());
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
- */
-
-void frmMain::OnRulesAddFileincludeClick( wxCommandEvent& event )
-{
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), _("This dialog needs to be replaced"));
-	if(dialog->ShowModal() == wxID_OK){
-		m_Rules_FileInclude->Append(dialog->GetValue());
-	}
-	delete dialog; 
-}
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
- */
-
-void frmMain::OnRulesRemoveFileincludeClick( wxCommandEvent& event )
-{
-	m_Rules_FileDelete->Delete(m_Rules_FileInclude->GetSelection());
-}
 
 
 /*!
@@ -941,9 +918,9 @@ void frmMain::OnRulesRemoveFileincludeClick( wxCommandEvent& event )
 void frmMain::OnRulesSaveClick( wxCommandEvent& event )
 {
 	//Get all of the form data into arraystrings
-	wxArrayString arrFileInclude, arrFolderExclude, arrFileExclude, arrFileDelete;
-	for(unsigned int i = 0; i < m_Rules_FileInclude->GetCount(); i++){
-		arrFileInclude.Add(m_Rules_FileInclude->GetString(i));
+	wxArrayString arrLocationsInclude, arrFolderExclude, arrFileExclude, arrFileDelete;
+	for(unsigned int i = 0; i < m_Rules_LocationInclude->GetCount(); i++){
+		arrLocationsInclude.Add(m_Rules_LocationInclude->GetString(i));
 	}
 	for(unsigned int j = 0; j < m_Rules_FolderExclude->GetCount(); j++){
 		arrFolderExclude.Add(m_Rules_FolderExclude->GetString(j));
@@ -956,10 +933,10 @@ void frmMain::OnRulesSaveClick( wxCommandEvent& event )
 	}
 	
 	Rules rules;
-	rules.SetFilesToInclude(arrFileInclude);
+	rules.SetLocationsToInclude(arrLocationsInclude);
 	rules.SetFilesToExclude(arrFileExclude);
 	rules.SetFoldersToExclude(arrFolderExclude);
-	rules.SetDeleteFiles(arrFileDelete);
+	rules.SetFilesToDelete(arrFileDelete);
 	if(m_Rules_Combo->GetStringSelection() != wxEmptyString){
 		rules.TransferToFile(m_Rules_Combo->GetStringSelection());
 	}
@@ -1008,8 +985,8 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 {
 	Rules rules;
 	if(rules.TransferFromFile(m_Rules_Combo->GetStringSelection())){
-	for(unsigned int i = 0; i < rules.GetFilesToIncude().GetCount(); i++){
-		m_Rules_FileInclude->Append(rules.GetFilesToIncude().Item(i));
+	for(unsigned int i = 0; i < rules.GetLocationsToIncude().GetCount(); i++){
+		m_Rules_LocationInclude->Append(rules.GetLocationsToIncude().Item(i));
 	}
 	for(unsigned int j = 0; j < rules.GetFilesToExclude().GetCount(); j++){
 		m_Rules_FileExclude->Append(rules.GetFilesToExclude().Item(j));		
@@ -1017,8 +994,8 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 	for(unsigned int k = 0; k < rules.GetFoldersToExclude().GetCount(); k++){
 		m_Rules_FolderExclude->Append(rules.GetFoldersToExclude().Item(k));
 	}
-	for(unsigned int l = 0; l < rules.GetDeleteFiles().GetCount(); l++){
-		m_Rules_FileDelete->Append(rules.GetDeleteFiles().Item(l));
+	for(unsigned int l = 0; l < rules.GetFilesToDelete().GetCount(); l++){
+		m_Rules_FileDelete->Append(rules.GetFilesToDelete().Item(l));
 	}
 	}
 	
@@ -1179,5 +1156,29 @@ void frmMain::OnSyncJobSelectSelected( wxCommandEvent& event )
 		m_Sync_Rules->SetStringSelection(config->Read(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules")));	
 		delete config;
 	}
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
+ */
+
+void frmMain::OnRulesAddLocationincludeClick( wxCommandEvent& event )
+{
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"), _("This dialog needs to be replaced"));
+	if(dialog->ShowModal() == wxID_OK){
+		m_Rules_LocationInclude->Append(dialog->GetValue());
+	}
+	delete dialog; 
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
+ */
+
+void frmMain::OnRulesRemoveLocationincludeClick( wxCommandEvent& event )
+{
+	m_Rules_FileDelete->Delete(m_Rules_LocationInclude->GetSelection());
 }
 

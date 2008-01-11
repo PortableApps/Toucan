@@ -21,19 +21,20 @@ public:
 	void SetFilesToExclude(wxArrayString filestoexclude){ arrFilesToExclude = filestoexclude; }
 	wxArrayString GetFilesToExclude() { return arrFilesToExclude; }
 	
-	void SetFilesToInclude(wxArrayString filestoinclude){ arrFilesToInclude = filestoinclude; }
-	wxArrayString GetFilesToIncude() { return arrFilesToInclude; }
+	void SetLocationsToInclude(wxArrayString locationstoinclude){ arrLocationsToInclude = locationstoinclude; }
+	wxArrayString GetLocationsToIncude() { return arrLocationsToInclude; }
 	
 	void SetFoldersToExclude(wxArrayString folderstoexclude){ arrFoldersToExclude = folderstoexclude; }
 	wxArrayString GetFoldersToExclude() { return arrFoldersToExclude; }
 	
-	void SetDeleteFiles(wxArrayString filestodelete){ arrDeleteFiles = filestodelete; }
-	wxArrayString GetDeleteFiles(){ return arrDeleteFiles; }
+	void SetFilesToDelete(wxArrayString filestodelete){ arrFilesToDelete = filestodelete; }
+	wxArrayString GetFilesToDelete(){ return arrFilesToDelete; }
 private:
-	wxArrayString arrFilesToExclude;
+
 	wxArrayString arrFoldersToExclude;
-	wxArrayString arrFilesToInclude;
-	wxArrayString arrDeleteFiles;
+	wxArrayString arrLocationsToInclude;
+	wxArrayString arrFilesToDelete;
+	wxArrayString arrFilesToExclude;
 
 };	
 
@@ -41,9 +42,9 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 	//wxMessageBox(_("Into the match"));
 	bool blMatches = false;
 	//Check to see if there are any matches for also include, if so then immediately retun as no other options need to be checked
-	for(unsigned int r = 0; r < arrFilesToInclude.Count(); r++){
+	for(unsigned int r = 0; r < arrLocationsToInclude.Count(); r++){
 		wxRegEx regMatch; 
-		regMatch.Compile(arrFilesToInclude.Item(r));
+		regMatch.Compile(arrLocationsToInclude.Item(r));
 		if(regMatch.IsValid()){
 			if(regMatch.Matches(strName)){
 				return false; 
@@ -149,13 +150,13 @@ bool Rules::TransferFromFile(wxString strName){
 	wxString strTemp;
 
 	config->Read(strName + wxT("/FilesToInclude"), &strTemp);
-	SetFilesToInclude(StringToArrayString(strTemp, wxT("#")));	
+	SetLocationsToInclude(StringToArrayString(strTemp, wxT("#")));	
 	config->Read(strName + wxT("/FilesToExclude"), &strTemp);
 	SetFilesToExclude(StringToArrayString(strTemp, wxT("#"))); 	
 	config->Read(strName + wxT("/FoldersToExclude"), &strTemp);
 	SetFoldersToExclude(StringToArrayString(strTemp, wxT("#"))); 
 	config->Read(strName + wxT("/FilesToDelete"), &strTemp);
-	SetDeleteFiles(StringToArrayString(strTemp, wxT("#"))); 
+	SetFilesToDelete(StringToArrayString(strTemp, wxT("#"))); 
 	delete config;
 	return true;
 }
@@ -165,10 +166,10 @@ bool Rules::TransferToFile(wxString strName){
 	
 	bool blError;
 	config->DeleteGroup(strName);
-	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetFilesToIncude(), wxT("#")));	
+	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetLocationsToIncude(), wxT("#")));	
 	blError = config->Write(strName + wxT("/FilesToExclude"), ArrayStringToString(GetFilesToExclude(), wxT("#")));	
 	blError = config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("#")));
-	blError = config->Write(strName + wxT("/FilesToDelete"), ArrayStringToString(GetDeleteFiles(), wxT("#")));	
+	blError = config->Write(strName + wxT("/FilesToDelete"), ArrayStringToString(GetFilesToDelete(), wxT("#")));	
 	config->Flush();
 	delete config;
 	
@@ -181,14 +182,14 @@ bool Rules::TransferToFile(wxString strName){
 
 bool Rules::ShouldDelete(wxString strFilename){
 	//Checks to see if it was a filepath that was passed
-	for(unsigned int i = 0; i < GetDeleteFiles().GetCount(); i++){
-		if(strFilename == GetDeleteFiles().Item(i)){
+	for(unsigned int i = 0; i < GetFilesToDelete().GetCount(); i++){
+		if(strFilename == GetFilesToDelete().Item(i)){
 			return true;
 		}
 	}
 	//Checks to see if it was a filename that was passed
-	for(unsigned int j = 0; j < GetDeleteFiles().GetCount(); j++){
-		if(strFilename == GetDeleteFiles().Item(j).AfterLast(wxFILE_SEP_PATH)){
+	for(unsigned int j = 0; j < GetFilesToDelete().GetCount(); j++){
+		if(strFilename == GetFilesToDelete().Item(j).AfterLast(wxFILE_SEP_PATH)){
 			return true;
 		}
 	}

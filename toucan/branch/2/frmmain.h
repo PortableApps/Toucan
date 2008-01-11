@@ -101,15 +101,15 @@ class wxGenericDirCtrl;
 #define ID_RULES_SAVE 10062
 #define ID_RULES_ADD 10069
 #define ID_RULES_REMOVE 10070
-#define ID_RULES_FILEEXCLUDE 10051
+#define ID_RULE_FILE_EXCLUDE 10051
 #define ID_RULES_ADD_FILEEXCLUDE 10052
 #define ID_RULES_REMOVE_FILEEXCLUDE 10053
-#define ID_RULES_FOLDEREXCLUDE 10054
+#define ID_RULES_FOLDER_EXCLUDE 10054
 #define ID_RULES_ADD_FOLDEREXCLUDE 10055
 #define ID_RULES_REMOVE_FOLDEREXCLUDE 10056
-#define ID_RULES_FILE_INCLUDE 10057
-#define ID_RULES_ADD_FILEINCLUDE 10058
-#define ID_RULES_REMOVE_FILEINCLUDE 10059
+#define ID_RULES_LOCATION_INCLUDE 10057
+#define ID_RULES_ADD_LOCATIONINCLUDE 10058
+#define ID_RULES_REMOVE_LOCATIONINCLUDE 10059
 #define ID_RULES_FILE_DELETE 10200
 #define ID_RULES_ADD_FILEDELETE 10201
 #define ID_RULES_REMOVE_FILEDELETE 10202
@@ -230,11 +230,11 @@ public:
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FOLDEREXCLUDE
  void OnRulesRemoveFolderexcludeClick( wxCommandEvent& event );
 
- /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
- void OnRulesAddFileincludeClick( wxCommandEvent& event );
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_LOCATIONINCLUDE
+ void OnRulesAddLocationincludeClick( wxCommandEvent& event );
 
- /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
- void OnRulesRemoveFileincludeClick( wxCommandEvent& event );
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_LOCATIONINCLUDE
+ void OnRulesRemoveLocationincludeClick( wxCommandEvent& event );
 
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEDELETE
  void OnRulesAddFiledeleteClick( wxCommandEvent& event );
@@ -296,7 +296,7 @@ public:
  wxComboBox* m_Rules_Combo;
  wxListBox* m_Rules_FileExclude;
  wxListBox* m_Rules_FolderExclude;
- wxListBox* m_Rules_FileInclude;
+ wxListBox* m_Rules_LocationInclude;
  wxListBox* m_Rules_FileDelete;
 	////@end frmMain member variables
 };
