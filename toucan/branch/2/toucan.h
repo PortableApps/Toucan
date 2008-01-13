@@ -28,6 +28,12 @@
 ////@begin forward declarations
 ////@end forward declarations
 
+
+//WX_DEFINE_LIST(m_processes);
+
+
+
+
 /*!
 * Control identifiers
 */
@@ -72,6 +78,32 @@ public:
 	////@begin Toucan member variables
 	wxArrayString SecureLocations;
 	////@end Toucan member variables
+	
+    /// Handle any pending input, in idle time
+    bool HandleProcessInput();
+
+    /// Register a process with the application, and start
+    /// idle timer if necessary
+    bool RegisterProcess(wxProcess* process);
+
+    /// UnregisterProcess
+    bool UnregisterProcess(wxProcess* process);
+
+    /// Are there processes?
+    bool HasProcesses() { return m_Processes.GetCount() > 0; }
+
+    /// Handle idle events
+    void OnIdle(wxIdleEvent& event);
+	
+	//Handle timer events
+    void OnTimer(wxTimerEvent& event);
+	
+protected:
+    // List of processes that the app knows about
+    wxList m_Processes;
+
+    // Timer to wake up idle processing
+    wxTimer m_wakeUpTimer;
 };
 
 /*!

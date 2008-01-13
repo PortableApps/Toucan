@@ -1,18 +1,49 @@
-class MyPipedProcess : public wxThread
+#ifndef H_BACKUPPROCESS
+#define H_BACKUPPROCESS
+
+#include <wx/process.h>
+#include <wx/txtstrm.h>
+#include "frmprogress.h"
+
+
+
+class BaseProcess : public wxProcess
+{
+    DECLARE_CLASS(BaseProcess)
+public:
+    BaseProcess(wxWindow* win): wxProcess(win, wxPROCESS_REDIRECT) {}
+
+    virtual bool HasInput() = 0;
+};
+
+class PipedProcess : public BaseProcess
 {
 public:
-    MyPipedProcess(frmProgress *parent, const wxString& cmd)
-	{
-		Redirect();
-	}
+    DECLARE_CLASS(PipedProcess)
+
+    PipedProcess(frmProgress* window): BaseProcess(window), m_Window(window)
+    {
+        Redirect();
+    }
 
     virtual void OnTerminate(int pid, int status);
 
     virtual bool HasInput();
+
+    /// Feed it some input
+    void SendInput(const wxString& text);
+
+protected:
+    frmProgress*   m_Window;
+    wxString          m_input; // to send to process
 };
 
+//Implement the class and define the list
+IMPLEMENT_CLASS(PipedProcess, BaseProcess)
+WX_DECLARE_LIST(PipedProcess, m_Processes);
 
-bool MyPipedProcess::HasInput()
+
+bool PipedProcess::HasInput()
 {
     bool hasInput = false;
    
@@ -20,17 +51,9 @@ bool MyPipedProcess::HasInput()
     {
 
         wxTextInputStream tis(*GetInputStream());
-        // this assumes that the output is always line buffered
         wxString msg;
         msg = tis.ReadLine();
-        //wxMessageBox(_("has input"));
-        if(wxGetApp().GetBlVisible()){
-            m_parent->m_Progress_Text->AppendText(msg + wxT("\n"));
-            wxMilliSleep(50);
-        }
-        else{
-           newcout<<msg + wxT("\n");
-        }
+		wxMessageBox(msg);
         hasInput = true;
     }
 
@@ -40,36 +63,18 @@ bool MyPipedProcess::HasInput()
         // this assumes that the output is always line buffered
         wxString msg;
         msg = tis.ReadLine();
-        if(wxGetApp().GetBlVisible()){
-            m_parent->m_Progress_Text->AppendText(msg + wxT("\n"));
-            wxMilliSleep(50);
-        }
-        else{
-            newcout<<msg + wxT("\n");
-        }
         hasInput = true;
     }
     return hasInput;
 }
 
-void MyPipedProcess::OnTerminate(int pid, int status)
+void PipedProcess::OnTerminate(int pid, int status)
 {
     // show the rest of the output
     while(HasInput())
         ;
 
-    m_parent->OnProcessTerminated(this);
-
-    //MyProcess::OnTerminate(pid, status);
-    if(wxGetApp().GetStrAbort() == wxT("ABORT")){
-        m_parent->m_Progress_Text->AppendText(_("Aborted...\n"));
-    }
-    m_parent->m_OK->Enable(true);
-    m_parent->m_Save->Enable(true);
-    m_parent->m_Abort->Enable(false);
-    //wxMessageBox(_("Abort code"));
-
-    if(!wxGetApp().GetBlVisible()){
-        m_parent->EndModal(wxID_OK);
-    }
+//    wxGetApp().RemoveProcess(this);
 }
+
+#endif

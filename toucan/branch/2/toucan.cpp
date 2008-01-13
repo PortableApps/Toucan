@@ -24,9 +24,12 @@
 ////@begin includes
 ////@end includes
 
+#include <wx/list.h>
+#include <wx/listimpl.cpp> 
+
 #include "toucan.h"
 #include "frmmain.h"
-
+#include "backupprocess.h"
 ////@begin XPM images
 ////@end XPM images
 
@@ -47,6 +50,12 @@ IMPLEMENT_APP( Toucan )
 IMPLEMENT_CLASS( Toucan, wxApp )
 
 
+/*
+*Define the list that holds PipedProecesses
+*/
+WX_DEFINE_LIST(m_Processes);
+
+
 /*!
 * Toucan event table definition
 */
@@ -55,7 +64,8 @@ BEGIN_EVENT_TABLE( Toucan, wxApp )
 
 ////@begin Toucan event table entries
 ////@end Toucan event table entries
-
+	EVT_IDLE(Toucan::OnIdle)
+    EVT_TIMER(wxID_ANY, Toucan::OnTimer)
 END_EVENT_TABLE()
 
 
@@ -107,6 +117,61 @@ bool Toucan::OnInit()
 
 	return true;
 }
+
+
+bool Toucan::RegisterProcess(wxProcess* process)
+{
+    if (!m_Processes.Find(process))
+        m_Processes.Append(process);
+
+    if (!m_wakeUpTimer.IsRunning())
+        m_wakeUpTimer.Start(100);
+    return true;
+}
+
+/// UnregisterProcess
+bool Toucan::UnregisterProcess(wxProcess* process)
+{
+    bool success = m_Processes.DeleteObject(process);
+    if (!HasProcesses())
+    {
+        if (m_wakeUpTimer.IsRunning())
+            m_wakeUpTimer.Stop();
+    }
+    return success;
+}
+
+void Toucan::OnTimer(wxTimerEvent& WXUNUSED(event))
+{
+    wxWakeUpIdle();
+}
+
+/// Handle any pending input, in idle time
+bool Toucan::HandleProcessInput()
+{
+    if (!HasProcesses())
+        return false;
+
+    bool hasInput = false;
+
+    wxNode* node = m_Processes.GetFirst();
+    while (node)
+    {
+        PipedProcess* process = wxDynamicCast(node->GetData(), PipedProcess);
+        if (process && process->HasInput())
+            hasInput = true;
+        node = node->GetNext();
+    }
+    return hasInput;
+}
+
+void Toucan::OnIdle(wxIdleEvent& event)
+{
+    if (HandleProcessInput())
+        event.RequestMore();
+    event.Skip();
+}
+
 
 
 /*!
