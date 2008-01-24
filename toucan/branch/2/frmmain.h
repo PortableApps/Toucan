@@ -70,6 +70,8 @@ class wxGenericDirCtrl;
 #define ID_BACKUP_JOB_OPEN 10011
 #define ID_BACKUP_JOB_SAVE 10012
 #define ID_BACKUP_RULES 10013
+#define ID_TEXTCTRL1 10071
+#define ID_BACKUP_LOCATION 10068
 #define ID_BACKUP_DIRCTRL 10002
 #define ID_BACKUP_ADD 10005
 #define ID_BACKUP_REMOVE 10006
@@ -81,11 +83,11 @@ class wxGenericDirCtrl;
 #define ID_BACKUP_PASS 10017
 #define ID_BACKUP_REPASS 10018
 #define ID_PANEL_SECURE 10023
+#define ID_SECURE_RULES 10027
 #define ID_SECURE_JOB_SELECT 10024
 #define ID_SECURE_JOB_SAVE 10300
 #define ID_SECURE_JOB_ADD 10026
 #define ID_SECURE_JOB_REMOVE 10060
-#define ID_SECURE_RULES 10027
 #define ID_SECURE_DIRCTRL 10101
 #define ID_SECURE_ADD 10102
 #define ID_SECURE_REMOVE 10103
@@ -285,8 +287,8 @@ public:
  wxRadioBox* m_Backup_Ratio;
  wxTextCtrl* m_Backup_Pass;
  wxTextCtrl* m_Backup_Repass;
- wxComboBox* m_Secure_Job_Select;
  wxComboBox* m_Secure_Rules;
+ wxComboBox* m_Secure_Job_Select;
  wxGenericDirCtrl* m_Secure_DirCtrl;
  wxTreeCtrl* m_Secure_TreeCtrl;
  wxRadioBox* m_Secure_Function;

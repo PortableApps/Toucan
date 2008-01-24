@@ -16,6 +16,8 @@ public:
     virtual bool HasInput() = 0;
 };
 
+IMPLEMENT_CLASS(BaseProcess, wxProcess)
+
 class PipedProcess : public BaseProcess
 {
 public:
@@ -30,15 +32,13 @@ public:
 
     virtual bool HasInput();
 
-    /// Feed it some input
-    void SendInput(const wxString& text);
-
 protected:
     frmProgress*   m_Window;
     wxString          m_input; // to send to process
 };
 
 //Implement the class and define the list
+
 IMPLEMENT_CLASS(PipedProcess, BaseProcess)
 WX_DECLARE_LIST(PipedProcess, m_Processes);
 
