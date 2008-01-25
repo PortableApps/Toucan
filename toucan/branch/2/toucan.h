@@ -73,11 +73,19 @@ public:
 	void AppendSecureLocation (wxString string) { SecureLocations.Add(string) ;}
 	void RemoveSecureLocation (int pos) { SecureLocations.RemoveAt(pos) ;}
 
+
+
 	////@end Toucan member function declarations
 
+	wxArrayString GetBackupLocations() { return BackupLocations ; }
+	void SetBackupLocations(wxArrayString value) { BackupLocations = value ; }
+	void AppendBackupLocation (wxString string) { BackupLocations.Add(string) ;}
+	void RemoveBackupLocation (int pos) { BackupLocations.RemoveAt(pos) ;}
+	
 	////@begin Toucan member variables
 	wxArrayString SecureLocations;
 	////@end Toucan member variables
+	wxArrayString BackupLocations;
 	
     /// Handle any pending input, in idle time
     bool HandleProcessInput();

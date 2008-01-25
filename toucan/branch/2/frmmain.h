@@ -184,6 +184,9 @@ public:
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
  void OnSyncDestBtnClick( wxCommandEvent& event );
 
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_LOCATION
+ void OnBackupLocationClick( wxCommandEvent& event );
+
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
  void OnBackupAddClick( wxCommandEvent& event );
 
@@ -280,6 +283,7 @@ public:
  wxCheckBox* m_Sync_Ignore_DaylightS;
  wxComboBox* m_Backup_Job_Select;
  wxComboBox* m_Backup_Rules;
+ wxTextCtrl* m_Backup_Location;
  wxGenericDirCtrl* m_Backup_DirCtrl;
  wxTreeCtrl* m_Backup_TreeCtrl;
  wxRadioBox* m_Backup_Function;

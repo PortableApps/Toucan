@@ -24,16 +24,23 @@
 ////@begin includes
 ////@end includes
 
-#include "frmmain.h"
+
 
 #include "dragndrop.h"
 #include "treectrlfunc.h"
+
+#include "frmmain.h"
+#include "frmprogress.h"
+
 #include "securedata.h"
 #include "securethread.h"
-#include "frmprogress.h"
 #include "securefunctions.h"
+
+
 #include "syncdata.h"
 #include "syncthread.h"
+
+#include "backupdata.h"
 
 #include <wx/srchctrl.h>
 
@@ -69,6 +76,8 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
  EVT_BUTTON( ID_SYNC_SOURCE_BTN, frmMain::OnSyncSourceBtnClick )
 
  EVT_BUTTON( ID_SYNC_DEST_BTN, frmMain::OnSyncDestBtnClick )
+
+ EVT_BUTTON( ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick )
 
  EVT_BUTTON( ID_BACKUP_ADD, frmMain::OnBackupAddClick )
 
@@ -182,6 +191,7 @@ void frmMain::Init()
  m_Sync_Ignore_DaylightS = NULL;
  m_Backup_Job_Select = NULL;
  m_Backup_Rules = NULL;
+ m_Backup_Location = NULL;
  m_Backup_DirCtrl = NULL;
  m_Backup_TreeCtrl = NULL;
  m_Backup_Function = NULL;
@@ -358,8 +368,8 @@ void frmMain::CreateControls()
 
  wxBoxSizer* itemBoxSizer47 = new wxBoxSizer(wxHORIZONTAL);
  itemBoxSizer45->Add(itemBoxSizer47, 1, wxGROW|wxALL, 0);
- wxTextCtrl* itemTextCtrl48 = new wxTextCtrl( itemPanel35, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
- itemBoxSizer47->Add(itemTextCtrl48, 1, wxGROW|wxALL, 5);
+ m_Backup_Location = new wxTextCtrl( itemPanel35, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+ itemBoxSizer47->Add(m_Backup_Location, 1, wxGROW|wxALL, 5);
 
  wxButton* itemButton49 = new wxButton( itemPanel35, ID_BACKUP_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
  itemBoxSizer47->Add(itemButton49, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -1202,5 +1212,18 @@ void frmMain::OnRulesAddLocationincludeClick( wxCommandEvent& event )
 void frmMain::OnRulesRemoveLocationincludeClick( wxCommandEvent& event )
 {
 	m_Rules_FileDelete->Delete(m_Rules_LocationInclude->GetSelection());
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_LOCATION
+ */
+
+void frmMain::OnBackupLocationClick( wxCommandEvent& event )
+{
+		wxDirDialog dialog(this,_("Need to change this dialog."), wxEmptyString);
+		if (dialog.ShowModal() == wxID_OK){
+			m_Backup_Location->SetValue(dialog.GetPath());
+		}
 }
 
