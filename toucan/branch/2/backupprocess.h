@@ -53,16 +53,7 @@ bool PipedProcess::HasInput()
         wxTextInputStream tis(*GetInputStream());
         wxString msg;
         msg = tis.ReadLine();
-		wxMessageBox(msg);
-        hasInput = true;
-    }
-
-    if ( IsErrorAvailable() )
-    {
-        wxTextInputStream tis(*GetErrorStream());
-        // this assumes that the output is always line buffered
-        wxString msg;
-        msg = tis.ReadLine();
+		m_Window->m_Text->AppendText(msg + wxT("\n"));
         hasInput = true;
     }
     return hasInput;
@@ -73,7 +64,9 @@ void PipedProcess::OnTerminate(int pid, int status)
     // show the rest of the output
     while(HasInput())
         ;
-
+	m_Window->m_OK->Enable(true);
+	m_Window->m_Save->Enable(true);
+	m_Window->m_Cancel->Enable(false);
 //    wxGetApp().RemoveProcess(this);
 }
 

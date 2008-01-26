@@ -41,6 +41,7 @@
 #include "syncthread.h"
 
 #include "backupdata.h"
+#include "backupprocess.h"
 
 #include <wx/srchctrl.h>
 
@@ -752,6 +753,7 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
 	AddTreeToTree(m_Backup_DirCtrl->GetTreeCtrl(), m_Backup_TreeCtrl, this);
+	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
 }
 
 
@@ -852,6 +854,20 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		SecureThread *thread = new SecureThread(data, rules, window);
 		thread->Create();
 		thread->Run();
+	}
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
+		window->m_OK->Enable(false);
+		window->m_Save->Enable(false);
+		BackupData data;
+		data.TransferFromForm(this);
+		Rules rules;
+		if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
+			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
+		}
+		wxString strCommand = data.CreateCommand();
+		PipedProcess *process = new PipedProcess(window);
+        long lngPID  = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+		wxGetApp().RegisterProcess(process);
 	}
 
 }
@@ -1221,7 +1237,7 @@ void frmMain::OnRulesRemoveLocationincludeClick( wxCommandEvent& event )
 
 void frmMain::OnBackupLocationClick( wxCommandEvent& event )
 {
-		wxDirDialog dialog(this,_("Need to change this dialog."), wxEmptyString);
+		wxFileDialog dialog(this,_("Need to change this dialog."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
 			m_Backup_Location->SetValue(dialog.GetPath());
 		}

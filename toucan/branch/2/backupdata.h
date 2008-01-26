@@ -5,7 +5,7 @@ class BackupData{
 
 public:
 	//Constuctor
-	BackupData();
+	//BackupData();
 
 	//Functions
 	bool TransferToFile(wxString strName);
@@ -29,7 +29,7 @@ public:
 	wxString GetFormat() { return strFormat; }
 
 	void SetRatio(wxString ratio) { strRatio = ratio; }
-	wxString GetRatio() { return strFunction; }
+	wxString GetRatio() { return strRatio; }
 
 	void SetPass(wxString pass) { strPass = pass; }
 	wxString GetPass() { return strPass; }
@@ -120,10 +120,9 @@ bool BackupData::TransferFromForm(frmMain *window){
 	else{ blNotFilled = true; }
 	if(window->m_Backup_Ratio->GetStringSelection() != wxEmptyString){ SetRatio(window->m_Backup_Ratio->GetStringSelection()); }
 	else{ blNotFilled = true; }
+	//Do not worry if a password is not added as it is not complusory
 	if(window->m_Backup_Pass->GetValue() != wxEmptyString){ strPass = window->m_Backup_Pass->GetValue(); }
-	else{ blNotFilled = true; }
 	if(window->m_Backup_Repass->GetValue() != wxEmptyString){ strRepass = window->m_Backup_Repass->GetValue(); }
-	else{ blNotFilled = true; }
 	if(blNotFilled){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
@@ -179,7 +178,7 @@ wxString BackupData::CreateCommand(){
 	//Checking to see if there is a password used
 	if(GetPass() != wxEmptyString){
 		SetPass(wxT(" -p") + GetPass());
-        if(GetFormat() = wxT("7z")){
+        if(GetFormat() == wxT("7z")){
 			SetPass(GetPass() + wxT(" -mhe=on"));
         }
 	}
