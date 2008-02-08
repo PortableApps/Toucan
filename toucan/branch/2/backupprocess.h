@@ -7,13 +7,13 @@
 
 
 
+
 class BaseProcess : public wxProcess
 {
     DECLARE_CLASS(BaseProcess)
 public:
-    BaseProcess(wxWindow* win): wxProcess(win, wxPROCESS_REDIRECT) {}
+    BaseProcess(wxWindow* win): wxProcess(win) {}
 
-    virtual bool HasInput() = 0;
 };
 
 IMPLEMENT_CLASS(BaseProcess, wxProcess)
@@ -34,26 +34,25 @@ public:
 
 protected:
     frmProgress*   m_Window;
-    wxString          m_input; // to send to process
 };
 
-//Implement the class and define the list
-
 IMPLEMENT_CLASS(PipedProcess, BaseProcess)
-WX_DECLARE_LIST(PipedProcess, m_Processes);
 
 
 bool PipedProcess::HasInput()
 {
-    bool hasInput = false;
+    //wxMessageBox(_("Has input"));
+	bool hasInput = false;
    
     if ( IsInputAvailable() )
     {
-
+		//wxMessageBox(_("Output"));
         wxTextInputStream tis(*GetInputStream());
         wxString msg;
         msg = tis.ReadLine();
 		m_Window->m_Text->AppendText(msg + wxT("\n"));
+		m_Window->Refresh();
+		m_Window->Update();
         hasInput = true;
     }
     return hasInput;
@@ -67,7 +66,7 @@ void PipedProcess::OnTerminate(int pid, int status)
 	m_Window->m_OK->Enable(true);
 	m_Window->m_Save->Enable(true);
 	m_Window->m_Cancel->Enable(false);
-//    wxGetApp().RemoveProcess(this);
+    wxGetApp().UnregisterProcess(this);
 }
 
 #endif

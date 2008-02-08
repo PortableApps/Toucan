@@ -21,6 +21,8 @@
 #include "frmmain.h"
 ////@end includes
 
+#include <wx\process.h>
+
 /*!
 * Forward declarations
 */
@@ -31,7 +33,8 @@
 
 //WX_DEFINE_LIST(m_processes);
 
-
+class PipedProcess;
+WX_DEFINE_ARRAY_PTR(PipedProcess *, ProcessArray);
 
 
 /*!
@@ -82,23 +85,26 @@ public:
 	void AppendBackupLocation (wxString string) { BackupLocations.Add(string) ;}
 	void RemoveBackupLocation (int pos) { BackupLocations.RemoveAt(pos) ;}
 	
+	//void SetProcess(wxProcess process) { m_Process = process; }
+	
 	////@begin Toucan member variables
 	wxArrayString SecureLocations;
 	////@end Toucan member variables
 	wxArrayString BackupLocations;
 	
-    /// Handle any pending input, in idle time
-    bool HandleProcessInput();
+	ProcessArray m_Running;
+	
+    //bool HandleProcessInput();
 
     /// Register a process with the application, and start
     /// idle timer if necessary
-    bool RegisterProcess(wxProcess* process);
+    bool RegisterProcess(PipedProcess *process);
 
     /// UnregisterProcess
-    bool UnregisterProcess(wxProcess* process);
+    bool UnregisterProcess(PipedProcess *process);
 
     /// Are there processes?
-    bool HasProcesses() { return m_Processes.GetCount() > 0; }
+    //bool HasProcesses() { return m_Processes.GetCount() > 0; }
 
     /// Handle idle events
     void OnIdle(wxIdleEvent& event);
@@ -106,12 +112,15 @@ public:
 	//Handle timer events
     void OnTimer(wxTimerEvent& event);
 	
+
+	
 protected:
     // List of processes that the app knows about
-    wxList m_Processes;
+    //wxList m_Processes;
 
     // Timer to wake up idle processing
     wxTimer m_wakeUpTimer;
+	
 };
 
 /*!

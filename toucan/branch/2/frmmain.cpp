@@ -43,6 +43,8 @@
 #include "backupdata.h"
 #include "backupprocess.h"
 
+#include "toucan.h"
+
 #include <wx/srchctrl.h>
 
 ////@begin XPM images

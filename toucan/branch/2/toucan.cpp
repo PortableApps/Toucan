@@ -53,7 +53,7 @@ IMPLEMENT_CLASS( Toucan, wxApp )
 /*
 *Define the list that holds PipedProecesses
 */
-WX_DEFINE_LIST(m_Processes);
+//WX_DEFINE_LIST(m_Processes);
 
 
 /*!
@@ -119,26 +119,21 @@ bool Toucan::OnInit()
 }
 
 
-bool Toucan::RegisterProcess(wxProcess* process)
+bool Toucan::RegisterProcess(PipedProcess *process)
 {
-    if (!m_Processes.Find(process))
-        m_Processes.Append(process);
-
-    if (!m_wakeUpTimer.IsRunning())
-        m_wakeUpTimer.Start(100);
-    return true;
+	if ( m_Running.IsEmpty() ){
+		m_wakeUpTimer.Start(100);
+	}
+	m_Running.Add(process);
 }
 
 /// UnregisterProcess
-bool Toucan::UnregisterProcess(wxProcess* process)
+bool Toucan::UnregisterProcess(PipedProcess *process)
 {
-    bool success = m_Processes.DeleteObject(process);
-    if (!HasProcesses())
-    {
-        if (m_wakeUpTimer.IsRunning())
-            m_wakeUpTimer.Stop();
-    }
-    return success;
+	m_Running.Remove(process);
+	if ( m_Running.IsEmpty() ){
+		m_wakeUpTimer.Stop();
+	}
 }
 
 void Toucan::OnTimer(wxTimerEvent& WXUNUSED(event))
@@ -146,30 +141,18 @@ void Toucan::OnTimer(wxTimerEvent& WXUNUSED(event))
     wxWakeUpIdle();
 }
 
-/// Handle any pending input, in idle time
-bool Toucan::HandleProcessInput()
-{
-    if (!HasProcesses())
-        return false;
-
-    bool hasInput = false;
-
-    wxNode* node = m_Processes.GetFirst();
-    while (node)
-    {
-        PipedProcess* process = wxDynamicCast(node->GetData(), PipedProcess);
-        if (process && process->HasInput())
-            hasInput = true;
-        node = node->GetNext();
-    }
-    return hasInput;
-}
 
 void Toucan::OnIdle(wxIdleEvent& event)
 {
-    if (HandleProcessInput())
-        event.RequestMore();
-    event.Skip();
+	wxYield();
+    size_t count = m_Running.GetCount();
+    for ( size_t n = 0; n < count; n++ )
+    {
+        if ( m_Running[n]->HasInput())
+        {
+            event.RequestMore();
+        }
+    }
 }
 
 
