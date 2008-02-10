@@ -37,6 +37,7 @@ public:
 
 	void SetIgnoreDLS(bool ignoredls) { blIgnoreDLS = ignoredls; }
 	bool  GetIgnoreDLS() { return blIgnoreDLS; }
+	
 
 private:
 	wxString strSource;

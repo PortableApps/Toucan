@@ -38,7 +38,7 @@
 
 
 #include "syncdata.h"
-#include "syncthread.h"
+#include "sync.h"
 
 #include "backupdata.h"
 #include "backupprocess.h"
@@ -1058,7 +1058,7 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 
 void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 {
-	if(m_Notebook->GetSelection() == 2){
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
 		Rules rules;
 		if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
@@ -1066,7 +1066,19 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 		PreviewSecure(rules, m_Secure_TreeCtrl);
 
 	}
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")){
+		SyncData data;
+		data.TransferFromForm(this);
+		Rules rules;
+		if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		}
+		//SyncThread *thread = new SyncThread(data, rules, NULL, this);
+		//thread->Create();
+		//thread->Run();
+	}
 }
+
 
 
 /*!

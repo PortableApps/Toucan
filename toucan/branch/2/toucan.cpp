@@ -125,6 +125,7 @@ bool Toucan::RegisterProcess(PipedProcess *process)
 		m_wakeUpTimer.Start(100);
 	}
 	m_Running.Add(process);
+	return true;
 }
 
 /// UnregisterProcess
@@ -134,6 +135,7 @@ bool Toucan::UnregisterProcess(PipedProcess *process)
 	if ( m_Running.IsEmpty() ){
 		m_wakeUpTimer.Stop();
 	}
+	return true;
 }
 
 void Toucan::OnTimer(wxTimerEvent& WXUNUSED(event))
