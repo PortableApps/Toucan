@@ -39,6 +39,7 @@
 
 #include "syncdata.h"
 #include "sync.h"
+#include "syncpreview.h"
 
 #include "backupdata.h"
 #include "backupprocess.h"
@@ -1073,9 +1074,9 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 		if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
 		}
-		//SyncThread *thread = new SyncThread(data, rules, NULL, this);
-		//thread->Create();
-		//thread->Run();
+		PreviewSyncThread *thread = new PreviewSyncThread(data, rules, this);
+		thread->Create();
+		thread->Run();
 	}
 }
 
