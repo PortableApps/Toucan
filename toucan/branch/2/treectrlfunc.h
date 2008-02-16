@@ -5,46 +5,6 @@
 #include <wx/dir.h>
 #include "toucan.h"
 
-bool AddTreeChildren(wxTreeItemId idParent, wxTreeItemIdValue cookie, wxTreeCtrl *from, wxTreeCtrl *to, wxTreeItemId toparent, frmMain *window){
-	wxTreeItemId id;
-
-	if (!cookie){
-		id = from->GetFirstChild(idParent, cookie);
-	}
-	else{
-		id = from->GetNextChild(idParent, cookie);
-	}
-
-	if (!id.IsOk()){
-		return false;
-	}
-
-
-	wxString text = from->GetItemText(id);
-	//wxMessageBox(text);
-	wxTreeItemId toid = to->AppendItem(toparent, from->GetItemText(id));
-
-	if (from->ItemHasChildren(id))
-	AddTreeChildren(id, 0, from, to, toid, window);
-
-	AddTreeChildren(idParent, cookie, from, to, toparent, window);
-	return true;
-}
-
-bool AddTreeToTree(wxTreeCtrl *from,wxTreeCtrl *to, frmMain *window){
-	wxBusyCursor wait;
-	//window->m_Notebook->Freeze();
-
-	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), from->GetItemText(from->GetSelection()));
-	
-	from->ExpandAllChildren(from->GetSelection());
-	AddTreeChildren(from->GetSelection(),  0,from, to, parent, window);
-	from->CollapseAllChildren(from->GetSelection());
-
-	//window->m_Notebook->Thaw();
-	return true;
-}
-
 bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeCtrl* to){
 	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
 		strFrom += wxFILE_SEP_PATH;       
@@ -58,11 +18,15 @@ bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeCtrl* to){
 			//wxMessageBox(strFrom);
 	//wxMessageBox(strFilename);
 			if(wxDirExists(strFrom + strFilename)){
+				wxMutexGuiEnter();
 				wxTreeItemId toid = to->AppendItem(idParent, strFilename.AfterLast(wxFILE_SEP_PATH));
+				wxMutexGuiLeave();
 				AddDirChildren(strFrom + strFilename, toid, to);
 			}
 			else{
+				wxMutexGuiEnter();
 				to->AppendItem(idParent, strFilename);
+				wxMutexGuiLeave();
 			}	
 		}
 		while (dir.GetNext(&strFilename));
@@ -71,10 +35,32 @@ bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeCtrl* to){
 }
 
 bool AddDirToTree(wxString strFilepath, wxTreeCtrl* to){
+	wxMutexGuiEnter();
 	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), strFilepath.AfterLast(wxFILE_SEP_PATH));
+	wxMutexGuiLeave();
 	AddDirChildren(strFilepath, parent,  to);
 	return true;
 }
 
+class AddDirectoryThread : public wxThread
+{
+public:
+	//Constructor
+	AddDirectoryThread(wxString strFilePath, wxTreeCtrl* to){
+		m_FilePath = strFilePath;
+		m_Tree = to;
+	}
+	//Main function, all stuff goes in here
+	virtual void *Entry();
+
+private:
+	wxString m_FilePath;
+	wxTreeCtrl* m_Tree;
+};
+
+void *AddDirectoryThread::Entry(){
+	AddDirToTree(m_FilePath, m_Tree);
+	return NULL;
+}
 
 #endif

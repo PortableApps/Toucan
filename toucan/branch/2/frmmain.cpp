@@ -755,8 +755,10 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 
 void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
-	AddTreeToTree(m_Backup_DirCtrl->GetTreeCtrl(), m_Backup_TreeCtrl, this);
 	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
+	AddDirectoryThread *thread = new AddDirectoryThread(m_Backup_DirCtrl->GetTreeCtrl()->GetItemText(m_Backup_DirCtrl->GetTreeCtrl()->GetSelection()),m_Backup_TreeCtrl);
+	thread->Create();
+	thread->Run();
 }
 
 
@@ -777,8 +779,10 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 
 void frmMain::OnSecureAddClick( wxCommandEvent& event )
 {
-	AddTreeToTree(m_Secure_DirCtrl->GetTreeCtrl(), m_Secure_TreeCtrl, this);
 	wxGetApp().AppendSecureLocation(m_Secure_DirCtrl->GetPath());
+	AddDirectoryThread *thread = new AddDirectoryThread(m_Secure_DirCtrl->GetTreeCtrl()->GetItemText(m_Secure_DirCtrl->GetTreeCtrl()->GetSelection()),m_Secure_TreeCtrl);
+	thread->Create();
+	thread->Run();
 }
 
 
@@ -809,7 +813,9 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 {
 		wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
-			AddDirToTree(dialog.GetPath(), m_Sync_Source_Tree);
+			AddDirectoryThread *thread = new AddDirectoryThread(dialog.GetPath(),m_Sync_Source_Tree);
+			thread->Create();
+			thread->Run();
 			m_Sync_Source_Txt->SetValue(dialog.GetPath());
 		}
 }
@@ -822,7 +828,9 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 {
 		wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
-			AddDirToTree(dialog.GetPath(), m_Sync_Dest_Tree);
+			AddDirectoryThread *thread = new AddDirectoryThread(dialog.GetPath(),m_Sync_Dest_Tree);
+			thread->Create();
+			thread->Run();
 			m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 		}
 }

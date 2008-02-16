@@ -9,8 +9,8 @@
 #include <wx/dir.h>
 
 
-bool PreviewSyncLoop(SyncData data, Rules rules, wxTreeCtrl *treeDest, wxTreeItemId idParent);
-bool PreviewSyncFile(SyncData data, Rules rules, wxTreeCtrl *treeDest, wxTreeItemId idParent);
+bool PreviewSyncLoop(SyncData data, Rules rules, wxTreeCtrl * treeSource, wxTreeCtrl *treeDest, wxTreeItemId idSourceParent, wxTreeItemId idDestParent, wxTreeItemIdValue cookie);
+bool PreviewSyncFile(SyncData data, Rules rules, wxTreeCtrl * treeSource, wxTreeCtrl *treeDest, wxTreeItemId idSourceParent, wxTreeItemId idDestParent);
 
 
 class PreviewSyncThread : public wxThread
@@ -34,9 +34,9 @@ private:
 void *PreviewSyncThread::Entry(){
 	//Launch the correct set of loops
 	if(m_Data.GetFunction() == _("Copy") || m_Data.GetFunction() == _("Update")){
-		m_Main->m_Sync_Dest_Tree->DeleteAllItems();
-		wxTreeItemId parent = m_Main->m_Sync_Dest_Tree->AppendItem(m_Main->m_Sync_Dest_Tree->GetRootItem(), m_Data.GetDest().AfterLast(wxFILE_SEP_PATH));
-		PreviewSyncLoop(m_Data, m_Rules, m_Main->m_Sync_Dest_Tree, parent);
+		//m_Main->m_Sync_Dest_Tree->DeleteAllItems();
+		//wxTreeItemId parent = m_Main->m_Sync_Dest_Tree->AppendItem(m_Main->m_Sync_Dest_Tree->GetRootItem(), m_Data.GetDest().AfterLast(wxFILE_SEP_PATH));
+		PreviewSyncLoop(m_Data, m_Rules, m_Main->m_Sync_Source_Tree, m_Main->m_Sync_Dest_Tree,m_Main->m_Sync_Source_Tree->GetRootItem(),m_Main->m_Sync_Dest_Tree->GetRootItem(), 0);
 		m_Main->m_Sync_Dest_Tree->Refresh();
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
@@ -85,131 +85,63 @@ void *PreviewSyncThread::Entry(){
 
 }
 
-bool PreviewSyncLoop(SyncData data, Rules rules, wxTreeCtrl *treeDest, wxTreeItemId idParent)
+bool PreviewSyncLoop(SyncData data, Rules rules, wxTreeCtrl * treeSource, wxTreeCtrl *treeDest, wxTreeItemId idSource, wxTreeItemId idDest, wxTreeItemIdValue cookie)
 {
-	//wxMessageBox(_("In the loop"));
-	wxString strTo = data.GetDest();
-	wxString strFrom = data.GetSource();
-	//This section need to be updated for the new data stuff
-	//Append a slash in case of an incorrect pass
-	if (strTo[strTo.length()-1] != wxFILE_SEP_PATH) {
-		strTo += wxFILE_SEP_PATH;       
+	wxMessageBox(treeDest->GetItemText(idDest), _("ID Dest"));
+	wxTreeItemId tempidSource, tempidDest;
+    if (!cookie){
+        tempidSource = treeSource->GetFirstChild(idSource, cookie);
 	}
-	// for both dirs
-	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
-		strFrom += wxFILE_SEP_PATH;       
+    else{
+        tempidSource = treeSource->GetNextChild(idSource, cookie);
 	}
-	if (!wxDirExists(strTo)){
-            	if(!rules.ShouldExclude(strTo, true)){
-            		//wxMkdir(strTo);
+    if (!tempidSource.IsOk()){
+        return false;
+	}
+	//wxMessageBox(treeSource->GetItemText(tempidSource), _("Source text"));
+    if (treeSource->ItemHasChildren(tempidSource)){
+		//wxMessageBox(_("Has children"));
+		bool blExists = false;
+		wxTreeItemIdValue destcookie;
+		tempidDest = treeDest->GetFirstChild(idDest, destcookie);
+		//wxMessageBox(treeDest->GetItemText(tempidDest), _("Dest loop text"));
+		if(treeSource->GetItemText(tempidSource) == treeDest->GetItemText(tempidDest)){
+			//There is already a directory in the destination
+			blExists = true;
+			wxMessageBox(treeDest->GetItemText(tempidDest), _("Calling with"));
+			PreviewSyncLoop(data, rules, treeSource, treeDest, tempidSource, tempidDest, 0);
 		}
 		else{
-			return false;
+			do{
+				tempidDest = treeDest->GetNextChild(idDest, destcookie);
+				//wxMessageBox(treeDest->GetItemText(tempidDest), _("Dest loop text"));
+				if(treeSource->GetItemText(tempidSource) == treeDest->GetItemText(tempidDest)){
+					//There is already a directory in the destination
+					blExists = true;
+					wxMessageBox(treeDest->GetItemText(tempidDest), _("Calling with"));
+					PreviewSyncLoop(data, rules, treeSource, treeDest, tempidSource, tempidDest, 0);
+					break;
+				}
+			}while(tempidDest.IsOk());
+		}
+		if(!blExists){
+			//wxMessageBox(_("Appending folder"));
+			//Need to add a folder to the dest tree and call the loop again
+			tempidDest = treeDest->AppendItem(idDest, treeSource->GetItemText(tempidSource));
+			PreviewSyncLoop(data, rules, treeSource, treeDest, tempidSource, idDest, 0);			
 		}
 	}
-	wxDir dir(strFrom);
-	wxString strFilename;
-	bool blDir = dir.GetFirst(&strFilename);
-	if(blDir){
-		do {
-			if(wxDirExists(strFrom + strFilename))
-			{
-				if(!rules.ShouldExclude(strTo + strFilename, true))
-				{ 
-					if (wxDirExists(strTo + strFilename)){
-						data.SetSource(strFrom + strFilename);
-						data.SetDest(strTo + strFilename);
-						wxTreeItemId tempidParent = treeDest->AppendItem(idParent, strFilename.AfterLast(wxFILE_SEP_PATH));
-						PreviewSyncLoop(data, rules, treeDest, tempidParent);
-					}
-					else{
-						if(data.GetFunction() == _("Mirror")){
-							//PreivewRemoveDirectory(strTo + strFilename);
-						}
-						else{
-							//wxMkdir(strTo + strFilename);
-							data.SetSource(strFrom + strFilename);
-							data.SetDest(strTo + strFilename);
-							wxTreeItemId tempidParent = treeDest->AppendItem(idParent, strFilename.AfterLast(wxFILE_SEP_PATH));
-							PreviewSyncLoop(data, rules, treeDest, tempidParent);
-						}
-					}
-				}
-			}
-			else{
-				data.SetSource(strFrom + strFilename);
-				data.SetDest(strTo + strFilename);
-				PreviewSyncFile(data, rules, treeDest, idParent);
-			}
-		}
-		while (dir.GetNext(&strFilename) );
-	}  
-	return true;
-	
+	else{
+		//It is a file
+		//Preview sync file
+		PreviewSyncFile(data, rules, treeSource, treeDest, tempidSource, idDest);
+	}
+	PreviewSyncLoop(data, rules, treeSource, treeDest, idSource, idDest, cookie);	
 }
 
-bool PreviewSyncFile(SyncData data, Rules rules, wxTreeCtrl *treeDest, wxTreeItemId idParent)
+bool PreviewSyncFile(SyncData data, Rules rules, wxTreeCtrl * treeSource, wxTreeCtrl *treeDest, wxTreeItemId idSource, wxTreeItemId idDest)
 {
-	//int iAttributes = FILE_ATTRIBUTE_NORMAL;
-	if(!rules.ShouldExclude(data.GetDest(), false)){
-		/*if(data.GetIgnoreRO()){
-			iAttributes = GetFileAttributes(data.GetDest());
-			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
-		} */
-		if(data.GetFunction() == _("Copy")){	
-			//if(wxCopyFile(data.GetSource(), data.GetDest(), true)){
-				//OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" to ") + data.GetSource(), window);
-				wxTreeItemId tempidParent = treeDest->AppendItem(idParent, data.GetSource().AfterLast(wxFILE_SEP_PATH));
-			//}
-		}	
-		if(data.GetFunction() == _("Update")){
-			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
-			the source file is always copied*/
-			if(wxFileExists(data.GetDest())){	
-				wxDateTime tmTo = wxFileModificationTime(data.GetDest());
-				wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
-				if(data.GetIgnoreDLS()){
-					tmFrom.MakeTimezone(wxDateTime::Local, true);
-				}
-				//I.E. strFrom is newer
-				if(tmFrom.IsLaterThan(tmTo)){
-					//wxCopyFile(data.GetSource(), data.GetDest(), true);
-					//OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetSource(), window);
-					wxTreeItemId tempidParent = treeDest->AppendItem(idParent, data.GetSource().AfterLast(wxFILE_SEP_PATH));
-				}
-			}
-			else{
-				//wxCopyFile(data.GetSource(), data.GetDest(), true);
-				//OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH)+  _(" to ") + data.GetSource(), window);
-				wxTreeItemId tempidParent = treeDest->AppendItem(idParent, data.GetSource().AfterLast(wxFILE_SEP_PATH));
-			}
-		}
-		if(data.GetFunction() == _("Mirror")){	
-			if(!wxFileExists(data.GetDest())){
-				//wxRemoveFile(data.GetSource());
-				//OutputProgress(_("Removed ") + data.GetSource(), window);
-				wxTreeItemId tempidParent = treeDest->AppendItem(idParent, data.GetSource().AfterLast(wxFILE_SEP_PATH));
-			}
-		}
-		//Set the old attrributes back
-		/*if(data.GetIgnoreRO()){
-			SetFileAttributes(data.GetDest(), iAttributes); 
-		} 
-		//Code needs to be added for Linux, Mac also needs to be researched
-		if(data.GetAttributes() == true){
-			//#ifdef(__WXMSW__)
-			int filearrtibs = GetFileAttributes(data.GetSource());
-			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
-			SetFileAttributes(data.GetDest(),filearrtibs);
-			//#endif
-		}
-		if(data.GetTimeStamps()){
-			wxFileName from(data.GetSource());
-			wxFileName to(data.GetDest());
-			wxDateTime access, mod, created;
-			from.GetTimes(&access ,&mod ,&created );
-			to.SetTimes(&access ,&mod , &created); 
-		}	*/		
-	}
-	return true;
+	wxMessageBox(treeDest->GetItemText(idDest), _("appending too"));
+	treeDest->AppendItem(idDest, treeSource->GetItemText(idSource));
+	//wxMessageBox(_("At file"));
 }

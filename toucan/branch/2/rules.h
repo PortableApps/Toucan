@@ -59,7 +59,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 		regMatch.Compile(arrFoldersToExclude.Item(j));
 			if(regMatch.IsValid()){
 				if(regMatch.Matches(strName)){
-					//wxMessageBox(_("Excluding folder"));
+					wxMessageBox(_("Excluding folder"), strName);
 					return true; 
 				}
 			}
@@ -81,13 +81,13 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 					double dExclusionSize = GetInPB(strExclusion.Right(strExclusion.Length() - 2));
 					if(strExclusion.Left(1) == wxT("<")){
 						if(dFileSize < dExclusionSize){
-							//wxMessageBox(_("Excluded by size"));
+							wxMessageBox(_("Excluded by size"));
 							return true;
 						}
 					}
 					if(strExclusion.Left(1) == wxT(">")){
 						if(dFileSize > dExclusionSize){
-							//wxMessageBox(_("Excluded by size"));
+							wxMessageBox(_("Excluded by size"));
 							return true;
 						}
 					}
@@ -109,7 +109,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 				wxDateTime date;								
 				date.ParseDate(arrFilesToExclude.Item(j));
 				if(flName.GetModificationTime().IsLaterThan(date)){
-					//wxMessageBox(_("Excluded by date"));
+					wxMessageBox(_("Excluded by date"));
 					return true; 
 				}
 			}
@@ -118,12 +118,12 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 			regMatch.Compile(strExclusion, wxRE_ICASE| wxRE_EXTENDED);
 			if(regMatch.IsValid()){
 				if(regMatch.Matches(strName)){
-					//wxMessageBox(_("Excluded by regex"));
+					wxMessageBox(_("Excluded by regex"));
 					return true; 
 				}
 			}
 			else{
-				//wxMessageBox(_("Error with Regex"));
+				wxMessageBox(_("Error with Regex"));
 			}
 		}
 		//Need to check to see if it is in an excluded folder as in this case it still needs to be excluded
@@ -134,7 +134,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 			//wxMessageBox(arrFoldersToExclude.Item(j));
 				if(regMatch.IsValid()){
 					if(regMatch.Matches(strName)){
-						//wxMessageBox(_("Excluding folder"));
+						wxMessageBox(_("Excluding folder"));
 						return true; 
 					}
 				}
