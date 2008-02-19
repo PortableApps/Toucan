@@ -36,7 +36,7 @@ bool AddDirChildren(wxString strFrom, wxTreeItemId idParent, wxTreeCtrl* to){
 
 bool AddDirToTree(wxString strFilepath, wxTreeCtrl* to){
 	wxMutexGuiEnter();
-	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), strFilepath.AfterLast(wxFILE_SEP_PATH));
+	wxTreeItemId parent = to->AppendItem(to->GetRootItem(), strFilepath);
 	wxMutexGuiLeave();
 	AddDirChildren(strFilepath, parent,  to);
 	return true;
