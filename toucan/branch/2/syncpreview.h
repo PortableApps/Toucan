@@ -47,6 +47,7 @@ void *PreviewSyncThread::Entry(){
 		m_Main->m_Sync_Dest_Tree->DeleteAllItems();
 		m_Main->m_Sync_Dest_Tree->AppendItem(m_Main->m_Sync_Dest_Tree->GetRootItem(), m_Data.GetDest());
 		PreviewReAdd(m_Data, m_Main->m_Sync_Dest_Tree, m_Data.GetDest().Length());
+		wxMessageBox(_("Done"));
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
 		m_Data.SetFunction(_("Copy"));
@@ -131,6 +132,7 @@ bool PreviewCheckAll(wxString strPath, SyncData data){
 	file->Write();
 	file->Close();
 	delete file;
+	return true;
 	
 }
 
@@ -143,23 +145,32 @@ bool PreviewCheckAllLoop(wxString strPath, wxTextFile *file, SyncData data){
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {
+			//wxMessageBox(strFilename);
 			if(wxDirExists(strPath + strFilename))
 			{
+				file->AddLine(strPath + strFilename + wxT("%"));
 				PreviewCheckAllLoop(strPath + strFilename, file, data);
 			}
 			else{
+				bool blFound = false;
 				for(unsigned int i = 0; i < file->GetLineCount(); i++){
 					if(strPath + strFilename == file->GetLine(i)){
 						if(PreviewCompareFiles(strPath + strFilename, file->GetLine(i), data)){
+							blFound = true;
 							wxMessageBox(_("appending"));
 							wxString strTemp = file->GetLine(i);
 							wxMessageBox(strTemp);
 							file->RemoveLine(i);
 							file->AddLine(strTemp + wxT("#"));
+							file->Write();
 							//wxMessageBox(arrList.Item(i));
 						}
 					}
 				}
+				if(!blFound){
+					file->AddLine(strPath + strFilename + wxT("&"));
+				}
+				
 			}
 		}
 		while (dir.GetNext(&strFilename) );
@@ -191,9 +202,10 @@ bool PreviewReAdd(SyncData data, wxTreeCtrl *treeDest, int iLength){
 		while (tkz.HasMoreTokens())
 		{
 			wxString strToken = tkz.GetNextToken();
+			//wxMessageBox(strToken);
 			wxTreeItemIdValue cookie;
 			wxTreeItemId tempidParent, idFinal;
-			bool blFound;
+			bool blFound = false;
 			tempidParent = treeDest->GetFirstChild(idParent, cookie);
 			if(treeDest->GetItemText(tempidParent) == strToken){
 				blFound = true;
@@ -206,6 +218,7 @@ bool PreviewReAdd(SyncData data, wxTreeCtrl *treeDest, int iLength){
 				}	
 			}
 			if(!blFound){
+				//wxMessageBox(_("blnotfound"));
 				idFinal = treeDest->AppendItem(idParent, strToken);
 			}
 			idParent = idFinal;		

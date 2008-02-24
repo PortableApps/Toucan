@@ -46,6 +46,8 @@
 
 #include "toucan.h"
 
+#include "virtualdirtreectrl.h"
+
 #include <wx/srchctrl.h>
 
 ////@begin XPM images
@@ -288,7 +290,7 @@ void frmMain::CreateControls()
  wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
  itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- m_Sync_Source_Tree = new wxTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
+ m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
  itemBoxSizer18->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
@@ -301,7 +303,7 @@ void frmMain::CreateControls()
  wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
  itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
- m_Sync_Dest_Tree = new wxTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
+ m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
  itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
@@ -485,7 +487,7 @@ void frmMain::CreateControls()
  wxBitmapButton* itemBitmapButton82 = new wxBitmapButton( itemPanel68, ID_SECURE_REMOVE, itemFrame1->GetBitmapResource(wxT("list-remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
  itemBoxSizer80->Add(itemBitmapButton82, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
- m_Secure_TreeCtrl = new wxTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
+ m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
  itemBoxSizer78->Add(m_Secure_TreeCtrl, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer84 = new wxBoxSizer(wxVERTICAL);
@@ -678,10 +680,6 @@ void frmMain::CreateControls()
 	//Set the drag and drop targets
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt));
 	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt));
-
-	//Add the hidden roots to the wxTreeCtrls
-	m_Backup_TreeCtrl->AddRoot(wxT("Hidden Root"));
-	m_Secure_TreeCtrl->AddRoot(wxT("Hidden Root"));
 	
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
@@ -693,7 +691,6 @@ void frmMain::CreateControls()
 	SetJobsBox(m_Sync_Job_Select, _("Sync"));
 	SetJobsBox(m_Backup_Job_Select, _("Backup"));
 	SetJobsBox(m_Secure_Job_Select, _("Secure"));
-
 }
 
 
@@ -780,9 +777,9 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 void frmMain::OnSecureAddClick( wxCommandEvent& event )
 {
 	wxGetApp().AppendSecureLocation(m_Secure_DirCtrl->GetPath());
-	AddDirectoryThread *thread = new AddDirectoryThread(m_Secure_DirCtrl->GetTreeCtrl()->GetItemText(m_Secure_DirCtrl->GetTreeCtrl()->GetSelection()),m_Secure_TreeCtrl);
-	thread->Create();
-	thread->Run();
+	wxMessageBox(m_Secure_DirCtrl->GetPath());
+	m_Secure_DirCtrl->ExpandPath(m_Secure_DirCtrl->GetPath());
+	m_Secure_TreeCtrl->SetRootPath(m_Secure_DirCtrl->GetPath() + wxFILE_SEP_PATH);
 }
 
 
@@ -813,10 +810,7 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 {
 		wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
-			AddDirectoryThread *thread = new AddDirectoryThread(dialog.GetPath(),m_Sync_Source_Tree);
-			thread->Create();
-			thread->Run();
-			m_Sync_Source_Txt->SetValue(dialog.GetPath());
+			m_Sync_Source_Tree->SetRootPath(dialog.GetPath());
 		}
 }
 
@@ -828,10 +822,7 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 {
 		wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
 		if (dialog.ShowModal() == wxID_OK){
-			AddDirectoryThread *thread = new AddDirectoryThread(dialog.GetPath(),m_Sync_Dest_Tree);
-			thread->Create();
-			thread->Run();
-			m_Sync_Dest_Txt->SetValue(dialog.GetPath());
+			m_Sync_Dest_Tree->SetRootPath(dialog.GetPath());
 		}
 }
 
@@ -877,7 +868,7 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		}
 		wxString strCommand = data.CreateCommand();
 		PipedProcess *process = new PipedProcess(window);
-        long lngPID  = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+        wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 		wxGetApp().RegisterProcess(process);
 	}
 
@@ -1042,6 +1033,10 @@ void frmMain::OnRulesRemoveClick( wxCommandEvent& event )
 
 void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 {
+	m_Rules_LocationInclude->Clear();
+	m_Rules_FileExclude->Clear();
+	m_Rules_FolderExclude->Clear();
+	m_Rules_FileDelete->Clear();
 	Rules rules;
 	if(rules.TransferFromFile(m_Rules_Combo->GetStringSelection())){
 	for(unsigned int i = 0; i < rules.GetLocationsToIncude().GetCount(); i++){
@@ -1072,8 +1067,9 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 		if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
 		}
-		PreviewSecure(rules, m_Secure_TreeCtrl);
-
+		m_Secure_TreeCtrl->SetPreview(true);
+		m_Secure_TreeCtrl->SetRules(rules);
+		m_Secure_TreeCtrl->SetRootPath(wxGetApp().GetSecureLocations().Item(0));
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")){
 		SyncData data;

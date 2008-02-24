@@ -28,6 +28,8 @@
 #include "wx/richtext/richtextctrl.h"
 ////@end includes
 
+#include "virtualdirtreectrl.h"
+
 /*!
 * Forward declarations
 */
@@ -273,9 +275,9 @@ public:
  wxComboBox* m_Sync_Job_Select;
  wxComboBox* m_Sync_Rules;
  wxTextCtrl* m_Sync_Source_Txt;
- wxTreeCtrl* m_Sync_Source_Tree;
+ wxVirtualDirTreeCtrl* m_Sync_Source_Tree;
  wxTextCtrl* m_Sync_Dest_Txt;
- wxTreeCtrl* m_Sync_Dest_Tree;
+ wxVirtualDirTreeCtrl* m_Sync_Dest_Tree;
  wxRadioBox* m_Sync_Function;
  wxCheckBox* m_Sync_Timestamp;
  wxCheckBox* m_Sync_Attributes;
@@ -294,7 +296,7 @@ public:
  wxComboBox* m_Secure_Rules;
  wxComboBox* m_Secure_Job_Select;
  wxGenericDirCtrl* m_Secure_DirCtrl;
- wxTreeCtrl* m_Secure_TreeCtrl;
+ wxVirtualDirTreeCtrl* m_Secure_TreeCtrl;
  wxRadioBox* m_Secure_Function;
  wxRadioBox* m_Secure_Format;
  wxTextCtrl* m_Secure_Pass;

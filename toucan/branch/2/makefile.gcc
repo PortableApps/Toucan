@@ -24,9 +24,9 @@ CPPFLAGS= -fno-rtti -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 DEBUGFLAGS=
-LINKERFLAGS=-Wl,--subsystem,windows -mwindows
+LINKERFLAGS=-Wl,--allow-multiple-definition, --subsystem,windows -mwindows
 LIBS=-lwxmsw28u_xrc -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u_html -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxbase28u_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
-CPPINC=-I"I:/MinGW/libexec/gcc/mingw32/3.4.5" -I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswu" 
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswu"
 LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
 PROGRAM=Toucan.exe
@@ -58,10 +58,10 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h treectrlfunc.h toucan.h securedata.h basicfunctions.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h treectrlfunc.h securedata.h basicfunctions.h frmprogress.h securethread.h rules.h secure.h securefunctions.h syncdata.h sync.h syncpreview.h 
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
-	
-$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h 
+
+$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmprogress.cpp
 
 .PHONY:	all clean
