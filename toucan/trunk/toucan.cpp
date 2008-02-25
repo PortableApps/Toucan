@@ -118,6 +118,12 @@ void Toucan::SelectLanguage()
 		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
 		m_locale->AddCatalog(wxT("toucan"));
 	}
+	if(lang == wxT("wxLANGUAGE_DUTCH")){
+        //wxMessageBox(_T("In loop"));
+		m_locale = new wxLocale(wxLANGUAGE_DUTCH);
+		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+		m_locale->AddCatalog(wxT("toucan"));
+	}
 }
 /*!
 //* Cleanup for toucan

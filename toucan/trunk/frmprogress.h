@@ -201,7 +201,7 @@ wxTextOutputStream newcout( newoutput );
 bool MyPipedProcess::HasInput()
 {
     bool hasInput = false;
-   
+	//static wxChar buffer[4096];
     if ( IsInputAvailable() )
     {
 
@@ -217,22 +217,6 @@ bool MyPipedProcess::HasInput()
         else{
            // wxMessageBox(_("Outputting"));
            newcout<<msg + wxT("\n");
-        }
-        hasInput = true;
-    }
-
-    if ( IsErrorAvailable() )
-    {
-        wxTextInputStream tis(*GetErrorStream());
-        // this assumes that the output is always line buffered
-        wxString msg;
-        msg = tis.ReadLine();
-        if(wxGetApp().GetBlVisible()){
-            m_parent->m_Progress_Text->AppendText(msg + wxT("\n"));
-            wxMilliSleep(50);
-        }
-        else{
-            newcout<<msg + wxT("\n");
         }
         hasInput = true;
     }

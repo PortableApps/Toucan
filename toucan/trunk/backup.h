@@ -6,6 +6,7 @@
 
 #include "frmprogress.h"
 #include "backup-func.h"
+#include <wx/variant.h>
 
 bool Backup(wxString strFirst, wxString strSecond, wxString strType, wxString strFormat, wxString strRatio, bool blBox, wxString strPass, bool blVisible)
 {	

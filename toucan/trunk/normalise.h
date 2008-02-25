@@ -71,6 +71,10 @@ wxString Normalise(wxString strFilePath)
 			strReturn += token;
 		}
 	}
+
+	if(strReturn.Length() == 2 && strReturn.Right(1) == wxT(":")){
+		strReturn += wxFILE_SEP_PATH;
+	}	
 	wxFileName flReturn(strReturn);
 	if(flReturn.IsOk()){
 		return strReturn;

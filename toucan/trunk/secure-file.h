@@ -38,7 +38,7 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
         SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
         wxString command;
 		if(strRoutine == wxT("Rijndael"))  {       
-			command = wxT("ccrypt -e -K\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
+			command = wxT("ccrypt -e -f -K\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
 		}
 		else{		
 			command = wxT("burp -eo -k\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
@@ -68,7 +68,7 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
 			command = wxT("burp -d -k\"") + strPass + wxT("\" \"") + strFile + wxT("\" \"") + wxPathOnly(strFile) + wxT("\\") + wxT("1.tmp\"");
 		}	
 		else{
-			command = wxT("ccrypt -d -K\"") + strPass + wxT("\" \"") + strFile + wxT("\" ");
+			command = wxT("ccrypt -d -f -K\"") + strPass + wxT("\" \"") + strFile + wxT("\" ");
 		}
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_NODISABLE);
 		//If Blowfish is used then the decryped file (1.tmp) is renamed to the correct name and then 1.tmp is removed

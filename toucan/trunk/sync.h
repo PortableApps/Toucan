@@ -12,7 +12,7 @@
 #include <wx/dir.h>
 #include <wx/log.h>
 
-/*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFille when a file is reached*/
+/*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFile when a file is reached*/
 bool SyncLoop(wxString strFrom, wxString strTo,  wxString strFunction, wxArrayString arrExclusions, bool blAttributes, frmProgress* window, int length1, int length2, bool blPreview, bool blVisible)
 {
 	if(wxGetApp().GetStrAbort() == wxT("ABORT")){
@@ -31,10 +31,11 @@ bool SyncLoop(wxString strFrom, wxString strTo,  wxString strFunction, wxArraySt
         {
             if(!IsExcluded(strTo, arrExclusions, true))
             {
-               // wxMessageBox(_("Making dir ") + strTo);
+                //wxMessageBox(_("Making dir ") + strTo);
                 wxMkdir(strTo);
             }
             else{
+				//wxMessageBox(_("Returning"));
                 return true;
             }
         }
@@ -114,6 +115,7 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 	}
 	strDest = Normalise(strDest);
 	strDest = Normalise(strDest);
+	//wxMessageBox(strDest);
 	if(strDest == wxEmptyString){
 		wxMessageBox(_("There was an error processing the destination Portable Variable."), _("Error"), wxICON_ERROR);
 		return false;
@@ -177,19 +179,26 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 		}
 	}
 	else if(strFunction == _("Equalise")){
-		window->SetLabel(_("Preview"));
-		SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
-		//wxMessageBox(_("Finished Copy"));
-		SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
-		window->m_Progress_Text->AppendText(_("Preview Finished...\n"));
-		window->m_Progress_Text->SaveFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxFILE_SEP_PATH + wxT("PreviewLog.txt"));
-		wxMessageDialog* dialog = new wxMessageDialog(NULL, _("Would you like to carry out the full operation? If you are not\n sure you can check the preview log stored in the Toucan directory"), _("Continue?"), wxYES_NO, wxDefaultPosition);
-		if(dialog->ShowModal() == wxID_YES){
-			window->SetLabel(_("Progress"));
-			SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+		if(blPreview){	
+			window->SetLabel(_("Preview"));
+			SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
 			//wxMessageBox(_("Finished Copy"));
-			SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+			SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
+			window->m_Progress_Text->AppendText(_("Preview Finished...\n"));
+			window->m_Progress_Text->SaveFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxFILE_SEP_PATH + wxT("PreviewLog.txt"));
+			wxMessageDialog* dialog = new wxMessageDialog(NULL, _("Would you like to carry out the full operation? If you are not\n sure you can check the preview log stored in the Toucan directory"), _("Continue?"), wxYES_NO, wxDefaultPosition);
+			if(dialog->ShowModal() == wxID_YES){
+				window->SetLabel(_("Progress"));
+				SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+				//wxMessageBox(_("Finished Copy"));
+				SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+			}
 		}
+		else{
+			SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
+			SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
+		}
+		
 	}
 	OutputProgress(_("Finished...\n"), window, blVisible);
 	window->m_OK->Enable();

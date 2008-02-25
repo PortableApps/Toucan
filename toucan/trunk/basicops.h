@@ -92,6 +92,9 @@ bool SaveSettings(frmMain* window)
     if(window->m_Lang->GetStringSelection() == wxT("Francais")){
         config->Write(wxT("General/Language") , wxT("wxLANGUAGE_FRENCH"));
     }
+    if(window->m_Lang->GetStringSelection() == wxT("Nederlands")){
+        config->Write(wxT("General/Language") , wxT("wxLANGUAGE_DUTCH"));
+    }
 	config->Flush();
     return true;
 }
@@ -135,16 +138,20 @@ bool IsExcluded(wxString strFileName, wxArrayString arrExclusions, bool blDir){
         wxString strTemp;
         if(arrExclusions.GetCount() != 0){
             for(int j = 0; j < arrExclusions.GetCount(); j++){
-                if(arrExclusions.Item(j) == strFileName.BeforeLast(wxFILE_SEP_PATH).AfterLast(wxFILE_SEP_PATH)){
-                    blExclude = true;
-                }
+				if(arrExclusions.Item(j) != wxEmptyString){		
+					if(arrExclusions.Item(j) == strFileName.BeforeLast(wxFILE_SEP_PATH).AfterLast(wxFILE_SEP_PATH)){
+						blExclude = true;
+					}
+				}
             }	
         }
         if(arrExclusions.GetCount() != 0){
             for(int j = 0; j < arrExclusions.GetCount(); j++){
-                if(arrExclusions.Item(j) == strFileName.AfterLast(wxFILE_SEP_PATH)){
-                    blExclude = true;
-                }
+				if(arrExclusions.Item(j) != wxEmptyString){	
+					if(arrExclusions.Item(j) == strFileName.AfterLast(wxFILE_SEP_PATH)){
+						blExclude = true;
+					}
+				}				
             }	
         }
 	}

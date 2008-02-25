@@ -663,7 +663,8 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
  	wxString m_LangStrings[] = {
 		_T("English"),
 		_T("Deutsch"),
-        wxT("Francais")
+        wxT("Francais"),
+		_T("Nederlands")
 	};
     
     
@@ -671,7 +672,7 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
     wxStaticBoxSizer* itemStaticBoxSizer105 = new wxStaticBoxSizer(itemStaticBoxSizer105Static, wxVERTICAL);
 
     
-	m_Lang = new wxComboBox( itemPanel97, ID_LANGUAGE, _T("English"), wxDefaultPosition, wxSize(130, -1), 3, m_LangStrings, wxCB_DROPDOWN|wxCB_READONLY );
+	m_Lang = new wxComboBox( itemPanel97, ID_LANGUAGE, _T("English"), wxDefaultPosition, wxSize(130, -1),4, m_LangStrings, wxCB_DROPDOWN|wxCB_READONLY );
 	itemStaticBoxSizer105->Add(m_Lang, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);   
 	wxString m_TooltipStrings[] = {
 		_("Enabled"),
@@ -797,6 +798,9 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
     else if(programconfig->Read(wxT("General/Language")) == wxT("wxLANGUAGE_FRENCH")){
         m_Lang->SetStringSelection(wxT("Francais"));
     }
+    else if(programconfig->Read(wxT("General/Language")) == wxT("wxLANGUAGE_DUTCH")){
+        m_Lang->SetStringSelection(wxT("Nederlands"));
+    }
     itemDialog1->Raise();
 }  
 
@@ -877,11 +881,14 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.2.0"));
-	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh"));
+	info.SetVersion(wxT("1.2.1"));
+	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh\nBURP, 7zip, ccrypt and the icon set are (C) their respective owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.AddTranslator(wxT("Simeon Kühl - German"));
 	info.AddTranslator(wxT("Audran Moulard - French"));
+	info.AddTranslator(wxT("Pieter Kerstens - Dutch"));
+	info.SetLicense(wxT("Toucan, 7zip, BURP, ccrypt and the icon set are all licensed under the GNU GPL or a compatible license."));
+
 	wxAboutBox(info);
 }
 void frmMain::OnHELPClick( wxCommandEvent& event )
@@ -917,7 +924,7 @@ void frmMain::OnBitmapbuttonSecureRemoveClick( wxCommandEvent& event )
 void frmMain::OnButtonSecureClick( wxCommandEvent& event )
 {	
     bool blContinue = true;
-	if(m_ListSecure->GetCount() != 0){
+	if(m_ListSecure->GetCount() != 0 && m_Pass->GetValue().Length() > 0){
 		//Check passwords are identical
 		if(m_Pass->GetValue() == m_RePass->GetValue()){
                 //Check passsword is longer than or equal to eight characters
@@ -1043,7 +1050,7 @@ void frmMain::OnButtonBackup1Click( wxCommandEvent& event )
 		wxString defaultDir = wxT("/");
 		wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxSAVE);
 		if (dialog.ShowModal() == wxID_OK){
-			m_Backup_First->SetValue(dialog.GetPath());
+				m_Backup_First->SetValue(dialog.GetPath());
 		}
 		
 	}
@@ -1432,8 +1439,7 @@ void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
     frmSave* window = new frmSave(this, ID_FRMSAVE, _("Save"));
     if(window->ShowModal() == wxID_OK)
     {
-        wxString strName = wxGetApp().GetStrTemp();
-        if(!JobNameExists(strName)){        
+        wxString strName = wxGetApp().GetStrTemp(); 
             wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
             wxFileConfig::Set( config );
             config->DeleteGroup(strName);
@@ -1454,10 +1460,6 @@ void frmMain::OnBitmapbuttonBackupSaveClick( wxCommandEvent& event )
             strExsisting = config->Read(strName+ wxT("/Exclusions"), wxEmptyString);
             config->Write(strName+ wxT("/Exclusions"), strExsisting + wxT("|"));
             config->Flush();
-        }
-        else{
-            wxMessageBox(_("A Job already exists with this name please try again."), _("Error"), wxICON_ERROR);
-        }   
     }
 }
 
