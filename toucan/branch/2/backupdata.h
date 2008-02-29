@@ -92,11 +92,20 @@ bool BackupData::TransferToFile(wxString strName){
 
 /*This function takes the data in BackupData and fills in the GUI*/
 void BackupData::TransferToForm(frmMain *window){
+	//Set the value of the text control
 	window->m_Backup_Location->SetValue(GetBackupLocation());
+	//Delete all of the items in the treectrl
 	window->m_Backup_TreeCtrl->DeleteAllItems();
-	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		AddDirToTree(GetLocations().Item(i), window->m_Backup_TreeCtrl);
+	//Remove all of the items in the filepath list
+	for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
+		wxGetApp().RemoveBackupLocation(i);
 	}
+	//Add the new locations to the treectrl and the list
+	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
+		wxGetApp().AppendBackupLocation(GetLocations().Item(j));
+		window->m_Backup_TreeCtrl->SetRootPath(GetLocations().Item(j));
+	}
+	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetStringSelection(GetRatio());

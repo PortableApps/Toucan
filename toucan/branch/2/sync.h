@@ -4,7 +4,7 @@
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+//#pragma once
 
 #ifndef H_SYNC
 #define H_SHYC
@@ -81,8 +81,9 @@ void *SyncThread::Entry(){
 	wxMutexGuiEnter();
 	m_Main->m_Sync_Source_Tree->DeleteAllItems();
 	m_Main->m_Sync_Dest_Tree->DeleteAllItems();
-	AddDirToTree(m_Main->m_Sync_Source_Txt->GetValue(), m_Main->m_Sync_Source_Tree);
-	AddDirToTree(m_Main->m_Sync_Dest_Txt->GetValue(), m_Main->m_Sync_Dest_Tree);
+	//NEED TO FIX
+	//AddDirToTree(m_Main->m_Sync_Source_Txt->GetValue(), m_Main->m_Sync_Source_Tree);
+	//AddDirToTree(m_Main->m_Sync_Dest_Txt->GetValue(), m_Main->m_Sync_Dest_Tree);
 	m_Window->m_OK->Enable(true);
 	m_Window->m_Save->Enable(true);
 	m_Window->m_Cancel->Enable(false);

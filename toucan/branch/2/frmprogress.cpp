@@ -122,7 +122,7 @@ void frmProgress::CreateControls()
  wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
  itemPanel2->SetSizer(itemBoxSizer3);
 
- m_Text = new wxTextCtrl( itemPanel2, ID_TEXTCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+ m_Text = new wxTextCtrl( itemPanel2, ID_TEXTCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
  itemBoxSizer3->Add(m_Text, 1, wxGROW|wxALL, 5);
 
  wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);

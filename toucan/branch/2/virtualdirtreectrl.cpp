@@ -40,7 +40,7 @@ wxVirtualDirTreeCtrl::wxVirtualDirTreeCtrl(wxWindow* parent, wxWindowID id, cons
 	// create an icon list for the tree ctrl
 	_iconList = new wxImageList(16,16);
 
-	this->AddRoot(wxT("Hidden root"));
+	this->AddRoot(wxT("Hidden - you wont see this"));
 
 	// reset to default extension list
 	ResetExtensions();
@@ -97,13 +97,14 @@ bool wxVirtualDirTreeCtrl::SetRootPath(const wxString &root, int flags)
 			{
 				// add this item to the tree, with info of the developer
 				wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
-
+				//wxMessageBox(_("Appending"));
 				// show a busy dialog
 				if(_flags & (wxVDTC_RELOAD_ALL | wxVDTC_SHOW_BUSYDLG))
 					bsy = new wxBusyInfo(wxT("Please wait, scanning directory..."), 0);
 
 				// scan directory, either the smart way or not at all
 				ScanFromDir(start, path, (wxVDTC_RELOAD_ALL & _flags ? -1 : VDTC_MIN_SCANDEPTH));
+				//wxMessageBox(_("Finished Scan"));
 
 				// expand root when allowed
 				if(!(_flags & wxVDTC_NO_EXPAND))
@@ -118,7 +119,7 @@ bool wxVirtualDirTreeCtrl::SetRootPath(const wxString &root, int flags)
 	if(bsy)
 		delete bsy;
 
-	wxMessageBox(this->GetItemText(this->GetRootItem()));
+	//wxMessageBox(this->GetItemText(this->GetRootItem()));
 	return value;
 }
 
@@ -139,6 +140,7 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 		// if no items, then go iterate and get everything in this branch
 		if(GetChildrenCount(item->GetId()) == 0)
 		{
+			//wxMessageBox(_("Creatin array"));
 			VdtcTreeItemBaseArray addedItems;
 
 			// now call handler, if allowed, scan this dir
@@ -154,13 +156,13 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 				// call handler that can do a last thing
 				// before sort and anything else
 				OnDirectoryScanEnd(addedItems, path);
-
+				//wxMessageBox(_("Sortin"));
 				// sort items
 				if(addedItems.GetCount() > 0 && (_flags & wxVDTC_NO_SORT) == 0)
 					SortItems(addedItems, 0, addedItems.GetCount()-1);
-
+				//wxMessageBox(_("About to add"));
 				AddItemsToTreeCtrl(item, addedItems);
-
+				//wxMessageBox(_("Finished adding"));
 				
 				// call handler to tell that the items are on the tree ctrl
 				//OnAddedItems(item->GetId());
@@ -176,7 +178,7 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 
 		wxTreeItemIdValue cookie = 0;
 		VdtcTreeItemBase *b;
-
+		//wxMessageBox(_("Further"));
 		wxTreeItemId child = GetFirstChild(item->GetId(), cookie);
 		while(child.IsOk())
 		{
@@ -614,7 +616,7 @@ void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 	wxFileName name = this->GetFullPath(parent);
 	if(_Preview){
 		//wxMessageBox(_("Preview"));
-		wxMessageBox(name.GetFullPath());
+		//wxMessageBox(name.GetFullPath());
 		if(_Rules.ShouldExclude(name.GetFullPath(), false)){
 			this->SetItemTextColour(parent, wxColour(wxT("Red")));
 		}

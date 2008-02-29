@@ -36,9 +36,9 @@ void ErrorBox(wxString strMessage){
 
 void OutputProgress(wxString strValue, frmProgress *window){
 	//frmProgress* window = wxDynamicCast(wxWindow::FindWindow(ID_FRMPROGRESS), frmProgress);
-	wxMutexGuiEnter();
+	//wxMutexGuiEnter();
 	window->m_Text->AppendText(strValue + wxT("\n"));
-	wxMutexGuiLeave();
+	//wxMutexGuiLeave();
 }
 
 double GetInPB(wxString strValue){

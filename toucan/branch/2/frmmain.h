@@ -287,7 +287,7 @@ public:
  wxComboBox* m_Backup_Rules;
  wxTextCtrl* m_Backup_Location;
  wxGenericDirCtrl* m_Backup_DirCtrl;
- wxTreeCtrl* m_Backup_TreeCtrl;
+ wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
  wxRadioBox* m_Backup_Function;
  wxRadioBox* m_Backup_Format;
  wxRadioBox* m_Backup_Ratio;

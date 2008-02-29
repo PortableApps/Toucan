@@ -109,10 +109,12 @@ bool SyncData::TransferToFile(wxString strName){
 void SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
-	AddDirToTree(GetSource(), window->m_Sync_Source_Tree);
+	//NEED TO FIX
+	//AddDirToTree(GetSource(), window->m_Sync_Source_Tree);
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
-	AddDirToTree(GetDest(), window->m_Sync_Dest_Tree);
+	//NEED TO FIX
+	//AddDirToTree(GetDest(), window->m_Sync_Dest_Tree);
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_Sync_Timestamp->SetValue(GetTimeStamps());
 	window->m_Sync_Attributes->SetValue(GetAttributes());

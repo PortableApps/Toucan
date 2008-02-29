@@ -80,8 +80,9 @@ enum
 class VdtcTreeItemBase : public wxTreeItemData
 {
 protected:
-	wxString _name;
 	int _type;
+	wxString _name;
+
 
 public:
 	/** Default constructor. Pass the parent of this node as a VdtcTreeItemBase object, the type

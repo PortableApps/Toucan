@@ -21,6 +21,8 @@
 #include "wx/frame.h"
 ////@end includes
 
+#include "wx/wx.h"
+
 /*!
  * Forward declarations
  */

@@ -2,6 +2,7 @@
 #define H_SECUREDATA
 
 #include "basicfunctions.h"
+#include "toucan.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
@@ -88,17 +89,18 @@ bool SecureData::TransferToFile(wxString strName){
 
 /*This function takes the data in BackupData and fills in the GUI*/
 void SecureData::TransferToForm(frmMain *window){
+	//Delete all of the existing items in the treectrl
 	window->m_Secure_TreeCtrl->DeleteAllItems();
+	//Remove all of the filepaths from the list
 	for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
 		wxGetApp().RemoveSecureLocation(i);
 	}
+	//Add the new filepaths to the list and the treectrl
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
 		wxGetApp().AppendSecureLocation(GetLocations().Item(k));
+		window->m_Secure_TreeCtrl->SetRootPath(GetLocations().Item(k));
 	}
-	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
-		AddDirToTree(GetLocations().Item(j), window->m_Secure_TreeCtrl);
-	}
-	//AddDirToTree(window->m_Secure_TreeCtrl, GetLocations());
+	//Set up the rest of the window
 	window->m_Secure_Function->SetStringSelection(GetFunction());
 	window->m_Secure_Format->SetStringSelection(GetFormat());
 	window->m_Secure_Pass->SetValue(GetPass());
