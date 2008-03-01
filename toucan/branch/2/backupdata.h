@@ -12,7 +12,7 @@ public:
 	bool TransferFromFile(wxString strName);
 	void TransferToForm(frmMain *window);
 	bool TransferFromForm(frmMain*window);
-	wxString CreateCommand();
+	wxString CreateCommand(int i);
 	void Output();
 
 	//Inline functions
@@ -159,7 +159,7 @@ void BackupData::Output(){
 	MessageBox(GetPass(), wxT("Pass"));
 }
 
-wxString BackupData::CreateCommand(){
+wxString BackupData::CreateCommand(int i){
 	
 	//General string until this gets setup to use the class
 	wxString strFormat, strRatio, strPass, strCommand;
@@ -198,7 +198,7 @@ wxString BackupData::CreateCommand(){
         strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + wxT(" \"") + GetBackupLocation() + wxT("\" \"") + GetLocations().Item(0) + wxT("\\*\"") + strSolid;    
         //wxMessageBox(command);
     }
-	else if(GetFunction() == _("Update")){
+	/*else if(GetFunction() == _("Update")){
         strCommand = wxT("7za.exe  u -t") + strFormat + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"")  + strPass+ strSolid;
 	}
 	else if(GetFunction() == _("Restore")){
@@ -216,7 +216,7 @@ wxString BackupData::CreateCommand(){
         else{
 			strCommand = wxT("7za.exe a -t") + strFormat + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strSolid + strPass;    
         }
-    }
+    }*/
     return strCommand;
 }
 #endif

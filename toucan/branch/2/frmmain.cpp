@@ -33,7 +33,6 @@
 
 #include "secure.h"
 #include "securedata.h"
-#include "securefunctions.h"
 
 
 #include "syncdata.h"
@@ -42,6 +41,7 @@
 
 #include "backupdata.h"
 #include "backupprocess.h"
+#include "backupfunctions.h"
 
 #include "toucan.h"
 
@@ -870,12 +870,12 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
 			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 		}
-		
+		wxString strCommand;
 		for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
 			wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
 			file->Open();
-			wxString strCommand = data.CreateCommand(i);
-			CreateList(rules, data.GetLocations().Item(i));
+			strCommand = data.CreateCommand(i);
+			CreateList(file, rules, data.GetLocations().Item(i));
 		}
 		PipedProcess *process = new PipedProcess(window);
 		wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
