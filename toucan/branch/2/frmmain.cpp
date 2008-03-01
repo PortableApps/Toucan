@@ -870,7 +870,13 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
 			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 		}
-		wxString strCommand = data.CreateCommand();
+		
+		for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
+			wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
+			file->Open();
+			wxString strCommand = data.CreateCommand(i);
+			CreateList(rules, data.GetLocations().Item(i));
+		}
 		PipedProcess *process = new PipedProcess(window);
 		wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 		wxGetApp().RegisterProcess(process);

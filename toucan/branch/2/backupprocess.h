@@ -6,8 +6,6 @@
 #include "frmprogress.h"
 
 
-
-
 class BaseProcess : public wxProcess
 {
     DECLARE_CLASS(BaseProcess)

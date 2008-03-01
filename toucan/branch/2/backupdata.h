@@ -136,6 +136,7 @@ bool BackupData::TransferFromForm(frmMain *window){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}
+	//Make sure that the two passwords are the same
 	if(strPass == strRepass){
 		SetPass(strPass);
 	}
@@ -146,6 +147,7 @@ bool BackupData::TransferFromForm(frmMain *window){
 	return true;	
 }
 
+/*This is a debugging tool only, not for use in release  versions of Toucan */
 void BackupData::Output(){
 	MessageBox(GetBackupLocation(), wxT("Backup Location"));
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
@@ -196,7 +198,7 @@ wxString BackupData::CreateCommand(){
         strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + wxT(" \"") + GetBackupLocation() + wxT("\" \"") + GetLocations().Item(0) + wxT("\\*\"") + strSolid;    
         //wxMessageBox(command);
     }
-	/*else if(GetFunction() == _("Update")){
+	else if(GetFunction() == _("Update")){
         strCommand = wxT("7za.exe  u -t") + strFormat + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"")  + strPass+ strSolid;
 	}
 	else if(GetFunction() == _("Restore")){
@@ -214,7 +216,7 @@ wxString BackupData::CreateCommand(){
         else{
 			strCommand = wxT("7za.exe a -t") + strFormat + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strSolid + strPass;    
         }
-    }*/
+    }
     return strCommand;
 }
 #endif

@@ -8,10 +8,6 @@
 #ifndef __WXVIRTUALDIRTREECTRL_H__
 #define __WXVIRTUALDIRTREECTRL_H__
 
-//#ifdef __GNUG__
-//    #pragma interface "virtualdirtreectrl.cpp"
-//#endif
-
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
 #endif
@@ -22,7 +18,6 @@
 #include <wx/imaglist.h>
 
 #include "rules.h"
-
 
 enum
 {
