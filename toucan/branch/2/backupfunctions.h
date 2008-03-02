@@ -8,6 +8,7 @@ bool CreateList(wxTextFile *file, Rules rules, wxString strPath){
 	}
 	wxDir dir(strPath);
 	wxString strFilename;
+	wxMessageBox(strPath);
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {

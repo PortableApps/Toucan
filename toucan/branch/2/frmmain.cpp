@@ -874,12 +874,18 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
 			wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
 			file->Open();
+			file->Clear();
+			file->Write();
 			strCommand = data.CreateCommand(i);
+			wxMessageBox(_("Creating List"));
 			CreateList(file, rules, data.GetLocations().Item(i));
+			wxMessageBox(_("Created List"));
+			file->Write();
+			PipedProcess *process = new PipedProcess(window);
+			wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+			wxGetApp().RegisterProcess(process);
 		}
-		PipedProcess *process = new PipedProcess(window);
-		wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-		wxGetApp().RegisterProcess(process);
+
 	}
 
 }

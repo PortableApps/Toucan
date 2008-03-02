@@ -195,7 +195,7 @@ wxString BackupData::CreateCommand(int i){
 	}
    
     if(GetFunction() == _("Complete")){
-        strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + wxT(" \"") + GetBackupLocation() + wxT("\" \"") + GetLocations().Item(0) + wxT("\\*\"") + strSolid;    
+        strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + wxT(" \"") + GetBackupLocation() + wxT("\" ") + strSolid + wxT(" -i@C:\\test.txt");    
         //wxMessageBox(command);
     }
 	/*else if(GetFunction() == _("Update")){
