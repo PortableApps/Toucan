@@ -651,9 +651,13 @@ void frmMain::CreateControls()
 
 	GetAuiManager().Update();
 
-//Set the drag and drop targets
+	//Set the drag and drop targets
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt, m_Sync_Source_Tree));
 	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt, m_Sync_Dest_Tree));
+	
+	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
+	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
+
 
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
@@ -715,7 +719,7 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
 	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
-	m_Backup_TreeCtrl->SetRootPath(m_Backup_DirCtrl->GetPath());
+	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
 }
 
 
@@ -749,7 +753,7 @@ void frmMain::OnSecureAddClick( wxCommandEvent& event )
 {
 	wxGetApp().AppendSecureLocation(m_Secure_DirCtrl->GetPath());
 	m_Secure_DirCtrl->ExpandPath(m_Secure_DirCtrl->GetPath());
-	m_Secure_TreeCtrl->SetRootPath(m_Secure_DirCtrl->GetPath() + wxFILE_SEP_PATH);
+	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath() + wxFILE_SEP_PATH);
 }
 
 
@@ -780,7 +784,7 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 {
 	wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
 	if (dialog.ShowModal() == wxID_OK) {
-		m_Sync_Source_Tree->SetRootPath(dialog.GetPath());
+		m_Sync_Source_Tree->AddNewPath(dialog.GetPath());
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
 }
@@ -793,7 +797,7 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 {
 	wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
 	if (dialog.ShowModal() == wxID_OK) {
-		m_Sync_Dest_Tree->SetRootPath(dialog.GetPath());
+		m_Sync_Dest_Tree->AddNewPath(dialog.GetPath());
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
 }
@@ -1074,7 +1078,7 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 		for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++) {
 			//Loop through all the the filenames listed in the array and read them to the tree
-			m_Backup_TreeCtrl->SetRootPath(wxGetApp().GetBackupLocations().Item(i));
+			m_Backup_TreeCtrl->AddNewPath(wxGetApp().GetBackupLocations().Item(i));
 		}
 	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")) {
@@ -1091,7 +1095,7 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 		for (unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++) {
 			//Loop through all the the filenames listed in the array and readd them to the tree
-			m_Secure_TreeCtrl->SetRootPath(wxGetApp().GetSecureLocations().Item(i));
+			m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
 		}
 	}
 }

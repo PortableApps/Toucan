@@ -103,7 +103,7 @@ void BackupData::TransferToForm(frmMain *window){
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		wxGetApp().AppendBackupLocation(GetLocations().Item(j));
-		window->m_Backup_TreeCtrl->SetRootPath(GetLocations().Item(j));
+		window->m_Backup_TreeCtrl->AddNewPath(GetLocations().Item(j));
 	}
 	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());

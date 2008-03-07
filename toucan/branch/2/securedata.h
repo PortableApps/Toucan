@@ -98,7 +98,7 @@ void SecureData::TransferToForm(frmMain *window){
 	//Add the new filepaths to the list and the treectrl
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
 		wxGetApp().AppendSecureLocation(GetLocations().Item(k));
-		window->m_Secure_TreeCtrl->SetRootPath(GetLocations().Item(k));
+		window->m_Secure_TreeCtrl->AddNewPath(GetLocations().Item(k));
 	}
 	//Set up the rest of the window
 	window->m_Secure_Function->SetStringSelection(GetFunction());

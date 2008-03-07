@@ -111,12 +111,12 @@ void SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
 	window->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
-	window->m_Sync_Source_Tree->SetRootPath(GetSource());
+	window->m_Sync_Source_Tree->AddNewPath(GetSource());
 	
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
 	window->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
-	window->m_Sync_Dest_Tree->SetRootPath(GetDest());
+	window->m_Sync_Dest_Tree->AddNewPath(GetDest());
 	
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_Sync_Timestamp->SetValue(GetTimeStamps());

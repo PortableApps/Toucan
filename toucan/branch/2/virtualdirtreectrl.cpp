@@ -55,7 +55,7 @@ wxVirtualDirTreeCtrl::~wxVirtualDirTreeCtrl()
 	delete _iconList;
 }
 
-bool wxVirtualDirTreeCtrl::SetRootPath(const wxString &root, int flags)
+bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 {
 	bool value;
 	wxBusyInfo *bsy = 0;
@@ -114,7 +114,19 @@ bool wxVirtualDirTreeCtrl::SetRootPath(const wxString &root, int flags)
 				delete start; // sorry not succeeded
 		}
 	}
+	else{
+		OnSetRootPath(root);
+		
+		wxFileName path(root);
 
+		
+		start = OnCreateTreeItem(VDTC_TI_FILE, root);
+		if(OnAddFile(*start, path))
+		{
+			// add this item to the tree, with info of the developer
+			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
+		}
+	}
 	// delete busy info if present
 	if(bsy)
 		delete bsy;

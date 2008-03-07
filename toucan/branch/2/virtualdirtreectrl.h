@@ -270,7 +270,7 @@ public:
 		- wxVDTC_SHOW_BUSYDLG
 		- wxVDTC_NO_SORT
 		- wxVDTC_NO_FILES */
-	bool SetRootPath(const wxString &root, int flags = wxVDTC_DEFAULT);
+	bool AddNewPath(const wxString &root, int flags = wxVDTC_DEFAULT);
 
 	/** Resets the extensions to "*.*" as default (or "*" under linux). The extension will be used
 		upon next reload of the directory tree. In between extensions can be changed but will have
