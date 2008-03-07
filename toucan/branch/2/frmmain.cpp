@@ -21,11 +21,9 @@
 #include "wx/wx.h"
 #endif
 
-////@begin includes
-////@end includes
 
-
-
+#include "toucan.h"
+#include "virtualdirtreectrl.h"
 #include "dragndrop.h"
 
 #include "frmmain.h"
@@ -43,15 +41,6 @@
 #include "backupprocess.h"
 #include "backupfunctions.h"
 
-#include "toucan.h"
-
-#include "virtualdirtreectrl.h"
-
-#include <wx/srchctrl.h>
-
-////@begin XPM images
-////@end XPM images
-
 /*!
 * frmMain type definition
 */
@@ -65,7 +54,6 @@ IMPLEMENT_CLASS( frmMain, wxFrame )
 
 BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
-	////@begin frmMain event table entries
 	EVT_MENU( ID_TOOL_OK, frmMain::OnToolOkClick )
 
 	EVT_MENU( ID_TOOL_PREVIEW, frmMain::OnToolPreviewClick )
@@ -126,8 +114,6 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
 	EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
 
-	////@end frmMain event table entries
-
 END_EVENT_TABLE()
 
 
@@ -153,12 +139,9 @@ frmMain::frmMain( wxWindow* parent, wxWindowID id, const wxString& caption, cons
 
 bool frmMain::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-	////@begin frmMain creation
 	wxFrame::Create( parent, id, caption, pos, size, style );
-
 	CreateControls();
 	Centre();
-	////@end frmMain creation
 	return true;
 }
 
@@ -169,9 +152,7 @@ bool frmMain::Create( wxWindow* parent, wxWindowID id, const wxString& caption, 
 
 frmMain::~frmMain()
 {
-	////@begin frmMain destruction
 	GetAuiManager().UnInit();
-	////@end frmMain destruction
 }
 
 
@@ -181,7 +162,6 @@ frmMain::~frmMain()
 
 void frmMain::Init()
 {
-	////@begin frmMain member initialisation
 	m_Notebook = NULL;
 	m_Sync_Job_Select = NULL;
 	m_Sync_Rules = NULL;
@@ -217,7 +197,6 @@ void frmMain::Init()
 	m_Rules_FolderExclude = NULL;
 	m_Rules_LocationInclude = NULL;
 	m_Rules_FileDelete = NULL;
-	////@end frmMain member initialisation
 }
 
 
@@ -227,7 +206,6 @@ void frmMain::Init()
 
 void frmMain::CreateControls()
 {
-	////@begin frmMain content construction
 	frmMain* itemFrame1 = this;
 
 	GetAuiManager().SetManagedWindow(this);
@@ -289,7 +267,7 @@ void frmMain::CreateControls()
 	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
 	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
+	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
 	itemBoxSizer18->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
@@ -302,7 +280,7 @@ void frmMain::CreateControls()
 	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
 	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_SINGLE );
+	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
 	itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
@@ -673,12 +651,9 @@ void frmMain::CreateControls()
 
 	GetAuiManager().Update();
 
-	////@end frmMain content construction
-	//m_Backup_List->SetDropTarget(new DnDFileList(m_Backup_List));
-
-	//Set the drag and drop targets
-	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt));
-	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt));
+//Set the drag and drop targets
+	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt, m_Sync_Source_Tree));
+	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt, m_Sync_Dest_Tree));
 
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
@@ -708,8 +683,6 @@ bool frmMain::ShowToolTips()
 
 wxBitmap frmMain::GetBitmapResource( const wxString& name )
 {
-	// Bitmap retrieval
-	////@begin frmMain bitmap retrieval
 	wxUnusedVar(name);
 	if (name == _T("save.png")) {
 		wxBitmap bitmap(_T("save.png"), wxBITMAP_TYPE_PNG);
@@ -722,7 +695,6 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 		return bitmap;
 	}
 	return wxNullBitmap;
-	////@end frmMain bitmap retrieval
 }
 
 /*!
@@ -731,12 +703,8 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 
 wxIcon frmMain::GetIconResource( const wxString& name )
 {
-	// Icon retrieval
-	////@begin frmMain icon retrieval
 	wxUnusedVar(name);
 	return wxNullIcon;
-	////@end frmMain icon retrieval
-
 }
 
 
@@ -760,7 +728,6 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 
 	if (m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection())) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetRootItem())) {
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
-//		wxGetApp().RemoveBackupLocation(m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection()));
 		for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().Count(); i++) {
 			if (wxGetApp().GetBackupLocations().Item(i) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
 				
@@ -781,7 +748,6 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 void frmMain::OnSecureAddClick( wxCommandEvent& event )
 {
 	wxGetApp().AppendSecureLocation(m_Secure_DirCtrl->GetPath());
-	//wxMessageBox(m_Secure_DirCtrl->GetPath());
 	m_Secure_DirCtrl->ExpandPath(m_Secure_DirCtrl->GetPath());
 	m_Secure_TreeCtrl->SetRootPath(m_Secure_DirCtrl->GetPath() + wxFILE_SEP_PATH);
 }
@@ -815,6 +781,7 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 	wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
 	if (dialog.ShowModal() == wxID_OK) {
 		m_Sync_Source_Tree->SetRootPath(dialog.GetPath());
+		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
 }
 
@@ -827,6 +794,7 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 	wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
 	if (dialog.ShowModal() == wxID_OK) {
 		m_Sync_Dest_Tree->SetRootPath(dialog.GetPath());
+		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
 }
 

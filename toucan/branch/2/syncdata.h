@@ -107,14 +107,17 @@ bool SyncData::TransferToFile(wxString strName){
 
 /*This function takes the data in SyncData and fills in the GUI*/
 void SyncData::TransferToForm(frmMain *window){
+	
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
-	//NEED TO FIX
-	//AddDirToTree(GetSource(), window->m_Sync_Source_Tree);
+	window->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
+	window->m_Sync_Source_Tree->SetRootPath(GetSource());
+	
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
-	//NEED TO FIX
-	//AddDirToTree(GetDest(), window->m_Sync_Dest_Tree);
+	window->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
+	window->m_Sync_Dest_Tree->SetRootPath(GetDest());
+	
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_Sync_Timestamp->SetValue(GetTimeStamps());
 	window->m_Sync_Attributes->SetValue(GetAttributes());

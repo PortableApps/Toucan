@@ -1,35 +1,26 @@
 #include <wx/dnd.h>
 #include <wx/filename.h>
 
-/*File droptarget to a wxListCtrl*/
-class DnDFileList : public wxFileDropTarget
-{
-public:
-	DnDFileList(wxListBox *parent) {m_Parent = parent;}
-	
-	virtual bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
-		size_t sFiles = arrFilenames.GetCount();
-		for(size_t n = 0; n < sFiles; n++){
-			m_Parent->Append(arrFilenames.Item(n));
-		}
-		return true;
-	}
-private:
-	wxListBox *m_Parent;
-};
 
-/*File droptarget to a wxTextCtrl, needs some code adding so that it only accepts folders as it is only used in Sync*/
+/*File droptarget to a wxTextCtrl needs code to add */
 class DnDFileText : public wxFileDropTarget
 {
 public:
-	DnDFileText(wxTextCtrl *parent) {m_Parent = parent;}
+	DnDFileText(wxTextCtrl *text, wxVirtualDirTreeCtrl *tree) {
+		m_Text = text; 
+		m_Tree = tree;
+	}
 	
 	virtual bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
 		if(wxFileName::DirExists(arrFilenames.Item(0))){
-			m_Parent->SetValue(arrFilenames.Item(0));
+			m_Text->SetValue(arrFilenames.Item(0));
+			m_Tree->DeleteAllItems();
+			m_Tree->AddRoot(_("Hidden root"));
+			m_Tree->SetRootPath(arrFilenames.Item(0));
 		}
 		return true;
 	}
 private:
-	wxTextCtrl *m_Parent;
+	wxTextCtrl *m_Text;
+	wxVirtualDirTreeCtrl *m_Tree;
 };

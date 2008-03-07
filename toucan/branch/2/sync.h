@@ -81,7 +81,12 @@ void *SyncThread::Entry(){
 	wxMutexGuiEnter();
 	m_Main->m_Sync_Source_Tree->DeleteAllItems();
 	m_Main->m_Sync_Dest_Tree->DeleteAllItems();
-	//NEED TO FIX
+	
+	m_Main->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
+	m_Main->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
+	
+	m_Main->m_Sync_Source_Tree->SetRootPath(m_Main->m_Sync_Source_Txt->GetValue());
+	m_Main->m_Sync_Dest_Tree->SetRootPath(m_Main->m_Sync_Dest_Txt->GetValue());	
 	//AddDirToTree(m_Main->m_Sync_Source_Txt->GetValue(), m_Main->m_Sync_Source_Tree);
 	//AddDirToTree(m_Main->m_Sync_Dest_Txt->GetValue(), m_Main->m_Sync_Dest_Tree);
 	m_Window->m_OK->Enable(true);

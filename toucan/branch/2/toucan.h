@@ -44,11 +44,9 @@ public:
 	/// Called on exit
 	virtual int OnExit();
 
-
-	wxArrayString SecureLocations;
-	wxArrayString BackupLocations;
+	//The process storage array
 	ProcessArray m_Running;
-
+	
 	wxArrayString GetSecureLocations() { return SecureLocations ; }
 	void SetSecureLocations(wxArrayString value) { SecureLocations = value ; }
 	void AppendSecureLocation (wxString string) { SecureLocations.Add(string) ;}
@@ -58,6 +56,7 @@ public:
 	void SetBackupLocations(wxArrayString value) { BackupLocations = value ; }
 	void AppendBackupLocation (wxString string) { BackupLocations.Add(string) ;}
 	void RemoveBackupLocation (int pos) { BackupLocations.RemoveAt(pos) ;}
+	
 		
     bool RegisterProcess(PipedProcess *process);
     bool UnregisterProcess(PipedProcess *process);
@@ -71,6 +70,8 @@ public:
 protected:
     // Timer to wake up idle processing
     wxTimer m_wakeUpTimer;
+	wxArrayString SecureLocations;
+	wxArrayString BackupLocations;
 	
 };
 
