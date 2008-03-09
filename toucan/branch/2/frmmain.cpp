@@ -652,8 +652,11 @@ void frmMain::CreateControls()
 	GetAuiManager().Update();
 
 	//Set the drag and drop targets
-	m_Sync_Source_Txt->SetDropTarget(new DnDFileText(m_Sync_Source_Txt, m_Sync_Source_Tree));
-	m_Sync_Dest_Txt->SetDropTarget(new DnDFileText(m_Sync_Dest_Txt, m_Sync_Dest_Tree));
+	m_Sync_Source_Txt->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
+	m_Sync_Dest_Txt->SetDropTarget(new DnDFileTreeText(m_Sync_Dest_Txt, m_Sync_Dest_Tree));
+	
+	m_Sync_Source_Tree->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
+	m_Sync_Dest_Tree->SetDropTarget(new DnDFileTreeText(m_Sync_Dest_Txt, m_Sync_Dest_Tree));
 	
 	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
 	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
@@ -1080,6 +1083,8 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 			//Loop through all the the filenames listed in the array and read them to the tree
 			m_Backup_TreeCtrl->AddNewPath(wxGetApp().GetBackupLocations().Item(i));
 		}
+		//Turn off preview
+		m_Secure_TreeCtrl->SetPreview(false);
 	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")) {
 		//Create a new rule set and populate it from the form
@@ -1097,6 +1102,8 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 			//Loop through all the the filenames listed in the array and readd them to the tree
 			m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
 		}
+		//Turn off preview
+		m_Secure_TreeCtrl->SetPreview(false);
 	}
 }
 
@@ -1160,8 +1167,7 @@ void frmMain::OnSecureJobRemoveClick( wxCommandEvent& event )
 void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
 {
 	SecureData data;
-	if (data.TransferFromFile(m_Secure_Job_Select->GetStringSelection(), true)) {
-		//data.Output();
+	if (data.TransferFromFile(m_Secure_Job_Select->GetStringSelection())) {
 		data.TransferToForm(this);
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 		m_Secure_Rules->SetStringSelection(config->Read(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules")));

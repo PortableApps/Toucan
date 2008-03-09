@@ -1,10 +1,12 @@
 #ifndef H_BACKUPDATA
 #define H_BACKUPDATA
 
+/*The backupdata class contains all of the information needed for backups, except the ruels. Includes
+functiosn for writing the data to and from the gui and an ini file*/
 class BackupData{
 
 public:
-	//Constuctor
+	//Constuctor not yet needed
 	//BackupData();
 
 	//Functions
@@ -36,21 +38,30 @@ public:
 
 
 private:
+	//Contains the filepath to the backup file
 	wxString strBackupLocation;
+	//A list of paths to be used for backup
 	wxArrayString arrLocations;
+	//Complete, update, incremental, restore
 	wxString strFunction;
+	//7zip, zip
 	wxString strFormat;
+	//Need to change this to a sliding scale from 1 to 5
 	wxString strRatio;
+	//A password if one is used	
 	wxString strPass;
 
 };
 
 bool BackupData::TransferFromFile(wxString strName){
+	//Create a new fileconfig object
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
 	
 	bool blError;
 	wxString strTemp;
 	
+	/*Read all of the values from the ini file, and if there are not read erros add them to the data
+	Password is not stored in the text file*/
 	blError = config->Read(strName + wxT("/BackupLocation"), &strTemp);
 	if(!blError){ SetBackupLocation(strTemp); }
 	blError = config->Read(strName + wxT("/Locations"), &strTemp);
@@ -61,8 +72,11 @@ bool BackupData::TransferFromFile(wxString strName){
 	if(!blError){ SetFormat(strTemp); }
 	blError = config->Read(strName + wxT("/Ratio"), &strTemp);
 	if(!blError){ SetRatio(strTemp); }
+
+	//Delete the fileconfig object
 	delete config;
 
+	//Output an error massage if needed
 	if(blError){
 		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
@@ -71,16 +85,23 @@ bool BackupData::TransferFromFile(wxString strName){
 }
 
 bool BackupData::TransferToFile(wxString strName){
+	//Create a new fileconfig object
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
 	
 	bool blError;
 
+	//Delete any existing jobs with this name to ensure correct settings are retained
 	blError = config->DeleteGroup(strName);
+
+	//Add the files to be written
 	blError = config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation());	
 	blError = config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
 	blError = config->Write(strName + wxT("/Function"), GetFunction());	
 	blError = config->Write(strName + wxT("/Format"), GetFormat());	
 	blError = config->Write(strName + wxT("/Ratio"), GetRatio());
+	
+	//Write the files and delete the fileconfig object
+	config->Flush();
 	delete config;
 	
 	if(blError){
@@ -94,8 +115,9 @@ bool BackupData::TransferToFile(wxString strName){
 void BackupData::TransferToForm(frmMain *window){
 	//Set the value of the text control
 	window->m_Backup_Location->SetValue(GetBackupLocation());
-	//Delete all of the items in the treectrl
+	//Delete all of the items in the treectrl and readd the root
 	window->m_Backup_TreeCtrl->DeleteAllItems();
+	window->m_Backup_TreeCtrl->AddRoot(_("Hidden root"));
 	//Remove all of the items in the filepath list
 	for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
 		wxGetApp().RemoveBackupLocation(i);
@@ -120,9 +142,13 @@ bool BackupData::TransferFromForm(frmMain *window){
 	wxString strPass, strRepass;
 	
 	bool blNotFilled = false;
+	//Set the intenal file list as the global list, ensuring that there are items to backup
 	SetLocations(wxGetApp().GetBackupLocations());
 	if(GetLocations().GetCount() == 0){ blNotFilled = true; }
+
+	//Get the items from the form, ensuring that they are filled
 	if(window->m_Backup_Location->GetValue() != wxEmptyString){ SetBackupLocation(window->m_Backup_Location->GetValue()); }
+	else{ blNotFilled = true; }	
 	if(window->m_Backup_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Backup_Function->GetStringSelection()); }
 	else{ blNotFilled = true; }
 	if(window->m_Backup_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Backup_Format->GetStringSelection()) ; }
@@ -132,6 +158,8 @@ bool BackupData::TransferFromForm(frmMain *window){
 	//Do not worry if a password is not added as it is not complusory
 	if(window->m_Backup_Pass->GetValue() != wxEmptyString){ strPass = window->m_Backup_Pass->GetValue(); }
 	if(window->m_Backup_Repass->GetValue() != wxEmptyString){ strRepass = window->m_Backup_Repass->GetValue(); }
+	
+	//Output an error message if the fields are not filled
 	if(blNotFilled){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
@@ -164,45 +192,47 @@ wxString BackupData::CreateCommand(int i){
 	//General string until this gets setup to use the class
 	wxString strFormat, strRatio, strPass, strCommand;
 	//Setting up to use the first item in the array.
-	wxString strSecond = GetLocations().Item(0);
+	wxString strSecond = GetLocations().Item(i);
 	
 	//strSolid is only used if 7zip is chosen to allow updating
 	wxString strSolid = wxEmptyString;
 
-	//Format based stuff
+	//Turn the inputted format into one 7zip will understand
 	if (GetFormat() == wxT("Zip")){
-        SetFormat(wxT("zip"));
-    }
-    else if (GetFormat() == wxT("7 Zip")){
-        SetFormat(wxT("7z"));
+        	SetFormat(wxT("zip"));
+    	}
+   	else if (GetFormat() == wxT("7 Zip")){
+        	SetFormat(wxT("7z"));
+		//Make sure solid mode is turned off so updating works
 		strSolid = wxT(" -ms=off");
-    }
+    	}
     
-	//Ratio stuff, will need to be updated for 
-    if (GetRatio() == _("Normal")){
-        SetRatio(wxT(" -mx5"));
-    }
-    else if (GetRatio() == _("Maximum")){
-        SetRatio(wxT(" -mx9"));
-    }
+	//Ratio stuff, will need to be updated for new sliding scale
+    	if (GetRatio() == _("Normal")){
+        	SetRatio(wxT(" -mx5"));
+    	}
+    	else if (GetRatio() == _("Maximum")){
+        	SetRatio(wxT(" -mx9"));
+    	}
 	
 	//Checking to see if there is a password used
 	if(GetPass() != wxEmptyString){
 		SetPass(wxT(" -p") + GetPass());
-        if(GetFormat() == wxT("7z")){
+		//If 7zip is used then make sure headers are encrypted
+        	if(GetFormat() == wxT("7z")){
 			SetPass(GetPass() + wxT(" -mhe=on"));
-        }
+        	}
 	}
    
-    if(GetFunction() == _("Complete")){
-        strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + wxT(" \"") + GetBackupLocation() + wxT("\" ") + strSolid + wxT(" -i@C:\\test.txt");    
-        //wxMessageBox(command);
-    }
-	/*else if(GetFunction() == _("Update")){
-        strCommand = wxT("7za.exe  u -t") + strFormat + wxT(" \"") + strSecond + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"")  + strPass+ strSolid;
+    	if(GetFunction() == _("Complete")){
+        	strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" -i@C:\\test.txt");    
+       		//wxMessageBox(command);
+    	}
+	else if(GetFunction() == _("Update")){
+        	strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -i@C:\\test.txt"); 
 	}
-	else if(GetFunction() == _("Restore")){
-        strCommand = wxT("7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + strSolid;
+	/*else if(GetFunction() == _("Restore")){
+        	strCommand = wxT("7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + strSolid;
 	}
 	//With the incremental type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Incremental")){

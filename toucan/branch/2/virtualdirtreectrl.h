@@ -348,7 +348,7 @@ public:
 		the following criteria is true:
 		- The tree is completely empty
 		- The path parameter is valid. When it's not valid this call is not made */
-	void OnSetRootPath(const wxString &root);
+	void OnAddNewPath(const wxString &root);
 
 	/** This virtual handler is used to allow the developer to assign custom icons to the
 	    image list. Override this method to assign your own icons to the wxTreeCtrl. The default method

@@ -5,7 +5,7 @@
 #include <wx/txtstrm.h>
 #include "frmprogress.h"
 
-
+//The base process
 class BaseProcess : public wxProcess
 {
     DECLARE_CLASS(BaseProcess)
@@ -16,6 +16,7 @@ public:
 
 IMPLEMENT_CLASS(BaseProcess, wxProcess)
 
+//The actual piped process, this could be merged with the base process
 class PipedProcess : public BaseProcess
 {
 public:
@@ -23,6 +24,7 @@ public:
 
     PipedProcess(frmProgress* window): BaseProcess(window), m_Window(window)
     {
+	//Redirect the process input and output
         Redirect();
     }
 
@@ -39,32 +41,29 @@ IMPLEMENT_CLASS(PipedProcess, BaseProcess)
 
 bool PipedProcess::HasInput()
 {
-    //wxMessageBox(_("Has input"));
 	bool hasInput = false;
-   
-    if ( IsInputAvailable() )
-    {
-		//wxMessageBox(_("Output"));
-        wxTextInputStream tis(*GetInputStream());
-        wxString msg;
-        msg = tis.ReadLine();
+	if ( IsInputAvailable() ){
+        	wxTextInputStream tis(*GetInputStream());
+        	wxString msg = tis.ReadLine();
+		//Need to change this to OutputProgress
 		m_Window->m_Text->AppendText(msg + wxT("\n"));
-		m_Window->Refresh();
-		m_Window->Update();
-        hasInput = true;
-    }
-    return hasInput;
+		//Need a window update or refresh in here
+        	hasInput = true;
+    	}
+	return hasInput;
 }
 
 void PipedProcess::OnTerminate(int pid, int status)
 {
-    // show the rest of the output
-    while(HasInput())
+	// show the rest of the output
+	while(HasInput())
         ;
+	//Set the correct buttons
 	m_Window->m_OK->Enable(true);
 	m_Window->m_Save->Enable(true);
 	m_Window->m_Cancel->Enable(false);
-    wxGetApp().UnregisterProcess(this);
+	//Unregister the process as we are now done
+	wxGetApp().UnregisterProcess(this);
 }
 
 #endif

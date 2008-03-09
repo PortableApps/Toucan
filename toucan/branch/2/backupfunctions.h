@@ -8,9 +8,10 @@ bool CreateList(wxTextFile *file, Rules rules, wxString strPath){
 	}
 	wxDir dir(strPath);
 	wxString strFilename;
-	wxMessageBox(strPath);
 	bool blDir = dir.GetFirst(&strFilename);
+	//If the path is ok
 	if(blDir){
+		//Loop through all of the files and folders in the directory
 		do {
 			//If it is a directory
 			if(wxDirExists(strPath + strFilename))
@@ -19,7 +20,7 @@ bool CreateList(wxTextFile *file, Rules rules, wxString strPath){
 				if(!rules.ShouldExclude(strPath + strFilename, true)){
 					file->AddLine(strPath + strFilename);
 				}
-				//Always call the function again to exsure that ALL files and folders are processed
+				//Always call the function again to ensure that ALL files and folders are processed
 				CreateList(file, rules, strPath + strFilename);
 			}
 			//If it is a file

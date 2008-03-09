@@ -81,7 +81,7 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 	if(value)
 	{
 		// call virtual handler to notify the derived class
-		OnSetRootPath(root);
+		OnAddNewPath(root);
 
 		// create a root item
 		start = OnCreateTreeItem(VDTC_TI_ROOT, root);
@@ -115,7 +115,7 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 		}
 	}
 	else{
-		OnSetRootPath(root);
+		OnAddNewPath(root);
 		
 		wxFileName path(root);
 
@@ -614,7 +614,7 @@ bool wxVirtualDirTreeCtrl::OnAddDirectory(VdtcTreeItemBase &item, const wxFileNa
 	return true;
 }
 
-void wxVirtualDirTreeCtrl::OnSetRootPath(const wxString &root)
+void wxVirtualDirTreeCtrl::OnAddNewPath(const wxString &root)
 {
 	// do nothing here, but it can be used to start initialisation
 	// based upon the setting of the root (which means a renewal from the tree)
