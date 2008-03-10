@@ -225,12 +225,12 @@ wxString BackupData::CreateCommand(int i){
 	}
    
     	if(GetFunction() == _("Complete")){
-        	strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" -i@C:\\test.txt");    
+        	strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@C:\\test.txt");    
        		//wxMessageBox(command);
     	}
-	else if(GetFunction() == _("Update")){
-        	strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -i@C:\\test.txt"); 
-	}
+		else if(GetFunction() == _("Update")){
+				strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@C:\\test.txt"); 
+		}
 	/*else if(GetFunction() == _("Restore")){
         	strCommand = wxT("7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + strSolid;
 	}

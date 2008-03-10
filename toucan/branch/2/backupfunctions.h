@@ -1,7 +1,7 @@
 #ifndef H_BACKUPFUNCTIONS
 #define H_BACKUPFUNCTIONS
 
-bool CreateList(wxTextFile *file, Rules rules, wxString strPath){
+bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
 	//Clean up the path passed
 	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
 		strPath += wxFILE_SEP_PATH;       
@@ -16,17 +16,16 @@ bool CreateList(wxTextFile *file, Rules rules, wxString strPath){
 			//If it is a directory
 			if(wxDirExists(strPath + strFilename))
 			{
-				//It the folder is not excluded then add it to the file
-				if(!rules.ShouldExclude(strPath + strFilename, true)){
-					file->AddLine(strPath + strFilename);
-				}
 				//Always call the function again to ensure that ALL files and folders are processed
-				CreateList(file, rules, strPath + strFilename);
+				CreateList(file, rules, strPath + strFilename, iRootLength);
 			}
 			//If it is a file
 			else{
-				if(!rules.ShouldExclude(strPath + strFilename, true)){
-					file->AddLine(strPath + strFilename);
+				if(rules.ShouldExclude(strPath + strFilename, false)){
+				//	wxMessageBox(_("Excluding"));
+					wxString strCombined = strPath + strFilename;
+					strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
+					file->AddLine(strCombined);
 				}
 			}
 		}

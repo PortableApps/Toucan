@@ -858,14 +858,31 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 			file->Write();
 			//Create the command to execute
 			strCommand = data.CreateCommand(i);
+			wxString strPath = data.GetLocations().Item(i);
+			if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+				strPath += wxFILE_SEP_PATH;       
+			}
+			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+			wxMessageBox(strPath);
 			//Create the list of files to backup
-			CreateList(file, rules, data.GetLocations().Item(i));
+			CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
 			//Commit the file changes
 			file->Write();
 			//Cretae the process, execute it and register it
 			PipedProcess *process = new PipedProcess(window);
-			wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 			wxGetApp().RegisterProcess(process);
+			long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+			DWORD dwExitCode;
+			HANDLE hProcess=OpenProcess(PROCESS_ALL_ACCESS,TRUE, lgPID);
+			GetExitCodeProcess( hProcess, &dwExitCode );
+			while(dwExitCode == STILL_ACTIVE ){
+				//wxMessageBox(_("Sleeping"));
+				GetExitCodeProcess( hProcess, &dwExitCode );
+				wxMilliSleep(50);
+				this->Refresh();
+				window->UpdateWindowUI();
+        	}
 			//Need to add code to wait here to stop simultaneous reads on the text file
 		}
 

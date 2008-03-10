@@ -10,12 +10,7 @@
 #include <wx/dir.h>
 #include <wx/textfile.h>
 
-bool PreviewExistingList(wxTreeCtrl *treeSource);
-bool PreviewExistingListLoop(wxTextFile *file, wxTreeCtrl *treeSource,  wxTreeItemId idParent, wxTreeItemIdValue cookie);
-bool PreviewCheckAll(wxString strPath, SyncData data);
-bool PreviewCheckAllLoop(wxString strPath, wxTextFile *file, SyncData data);
-bool PreviewCompareFiles(wxString strA, wxString strB, SyncData data);
-bool PreviewReAdd(SyncData data, wxTreeCtrl *treeDest, int iLength);
+bool PreviewSyncLoop(wxString strPath, wxVirtualDirTreeCtrl *window, Rules rules);
 
 class PreviewSyncThread : public wxThread
 {
@@ -41,14 +36,15 @@ void *PreviewSyncThread::Entry(){
 		//m_Main->m_Sync_Dest_Tree->DeleteAllItems();
 		//wxTreeItemId parent = m_Main->m_Sync_Dest_Tree->AppendItem(m_Main->m_Sync_Dest_Tree->GetRootItem(), m_Data.GetDest().AfterLast(wxFILE_SEP_PATH));
 		//PreviewSyncLoop(m_Data, m_Rules, m_Main->m_Sync_Source_Tree, m_Main->m_Sync_Dest_Tree,m_Main->m_Sync_Source_Tree->GetRootItem(),m_Main->m_Sync_Dest_Tree->GetRootItem(), 0);
-		m_Main->m_Sync_Dest_Tree->Refresh();
-		PreviewExistingList(m_Main->m_Sync_Dest_Tree);
-		PreviewCheckAll(m_Data.GetSource() ,m_Data);
-		m_Main->m_Sync_Dest_Tree->DeleteAllItems();
-		m_Main->m_Sync_Dest_Tree->AppendItem(m_Main->m_Sync_Dest_Tree->GetRootItem(), m_Data.GetDest());
-		PreviewReAdd(m_Data, m_Main->m_Sync_Dest_Tree, m_Data.GetDest().Length());
-		wxMessageBox(_("Done"));
-	}
+		//m_Main->m_Sync_Dest_Tree->Refresh();
+		//PreviewExistingList(m_Main->m_Sync_Dest_Tree);
+		//PreviewCheckAll(m_Data.GetSource() ,m_Data);
+		//m_Main->m_Sync_Dest_Tree->DeleteAllItems();
+		//m_Main->m_Sync_Dest_Tree->AppendItem(m_Main->m_Sync_Dest_Tree->GetRootItem(), m_Data.GetDest());
+		//PreviewReAdd(m_Data, m_Main->m_Sync_Dest_Tree, m_Data.GetDest().Length());
+		//wxMessageBox(_("Done"));
+		PreviewSyncLoop(m_Data.GetSource(), m_Main->m_Sync_Dest_Tree, m_Rules);
+	}/*
 	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
 		m_Data.SetFunction(_("Copy"));
 		//PreviewSyncLoop(m_Data, m_Rules, m_Window, parent);
@@ -79,150 +75,41 @@ void *PreviewSyncThread::Entry(){
 		m_Data.SetDest(strTemp);
 		m_Data.SetFunction(_("Update"));
 		//PreviewSyncLoop(m_Data, m_Rules, m_Window, parent);
-	}
+	}*/
 	return NULL;
 
 }
 
-bool PreviewExistingList(wxTreeCtrl *treeSource){
-	wxMessageBox(_("Launching loop"));
-	wxArrayString arrList;
-	wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
-	file->Create();
-	PreviewExistingListLoop(file, treeSource, treeSource->GetRootItem(), 0);
-	file->Write();
-	file->Close();
-	delete file;
-	return true;
-}
-
-bool PreviewExistingListLoop(wxTextFile *file, wxTreeCtrl *treeSource,  wxTreeItemId idParent, wxTreeItemIdValue cookie){
-	wxTreeItemId tempidParent, loopidParent;
-
-    if (!cookie){
-        tempidParent = treeSource->GetFirstChild(idParent, cookie);
-	}
-    else{
-        tempidParent = treeSource->GetNextChild(idParent, cookie);
-	}
-    if (!tempidParent.IsOk())
-        return true;
-	
-	wxString strPath = treeSource->GetItemText(tempidParent);
-	loopidParent = tempidParent;
-	while(treeSource->GetItemParent(loopidParent) != treeSource->GetRootItem()){
-		loopidParent = treeSource->GetItemParent(loopidParent);
-		strPath = treeSource->GetItemText(loopidParent) + wxFILE_SEP_PATH + strPath;
-	}
-	strPath = treeSource->GetItemText(treeSource->GetRootItem()) + wxFILE_SEP_PATH + strPath;
-	file->AddLine(strPath);
-
-    if (treeSource->ItemHasChildren(tempidParent)){
-        PreviewExistingListLoop(file, treeSource, tempidParent, 0);
-	}
-
-    PreviewExistingListLoop(file, treeSource, idParent, cookie);
-	return true;
-}
-
-bool PreviewCheckAll(wxString strPath, SyncData data){
-	wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
-	file->Open();
-	PreviewCheckAllLoop(strPath, file, data);
-	file->Write();
-	file->Close();
-	delete file;
-	return true;
-	
-}
-
-bool PreviewCheckAllLoop(wxString strPath, wxTextFile *file, SyncData data){
+bool PreviewSyncLoop(wxString strPath, wxVirtualDirTreeCtrl *window, Rules rules){
 	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
 		strPath += wxFILE_SEP_PATH;       
 	}
 	wxDir dir(strPath);
 	wxString strFilename;
 	bool blDir = dir.GetFirst(&strFilename);
+	//If the path is ok
 	if(blDir){
+		//Loop through all of the files and folders in the directory
 		do {
-			//wxMessageBox(strFilename);
+			//If it is a directory
 			if(wxDirExists(strPath + strFilename))
 			{
-				file->AddLine(strPath + strFilename + wxT("%"));
-				PreviewCheckAllLoop(strPath + strFilename, file, data);
+				//It the folder is not excluded then add it to the file
+				if(!rules.ShouldExclude(strPath + strFilename, true)){
+					//file->AddLne(strPath + strFilename);
+					window->AddFileItem(strPath + strFilename);
+				}
+				//Always call the function again to ensure that ALL files and folders are processed
+				PreviewSyncLoop(strPath + strFilename, window, rules);
 			}
+			//If it is a file
 			else{
-				bool blFound = false;
-				for(unsigned int i = 0; i < file->GetLineCount(); i++){
-					if(strPath + strFilename == file->GetLine(i)){
-						if(PreviewCompareFiles(strPath + strFilename, file->GetLine(i), data)){
-							blFound = true;
-							wxMessageBox(_("appending"));
-							wxString strTemp = file->GetLine(i);
-							wxMessageBox(strTemp);
-							file->RemoveLine(i);
-							file->AddLine(strTemp + wxT("#"));
-							file->Write();
-							//wxMessageBox(arrList.Item(i));
-						}
-					}
+				if(!rules.ShouldExclude(strPath + strFilename, true)){
+					//file->AddLine(strPath + strFilename);
 				}
-				if(!blFound){
-					file->AddLine(strPath + strFilename + wxT("&"));
-				}
-				
 			}
 		}
 		while (dir.GetNext(&strFilename) );
 	}  
-	return true;
-}
-
-bool PreviewCompareFiles(wxString strA, wxString strB, SyncData data){
-	wxFileName flA(strA);
-	wxFileName flB(strB);
-	return true;
-	
-}
-
-bool PreviewReAdd(SyncData data, wxTreeCtrl *treeDest, int iLength){
-	wxArrayString arrList;
-	wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
-	file->Open();
-	for(unsigned int i = 0; i < file->GetLineCount(); i++){
-		arrList.Add(file->GetLine(i));
-	}
-	for(unsigned int j = 0; j < arrList.GetCount(); j++){
-		arrList.Item(j) = arrList.Item(j).Right(arrList.Item(j).Length() - iLength);
-	}
-	for(unsigned int k = 0; k < arrList.GetCount(); k++){
-		wxStringTokenizer tkz(arrList.Item(k), wxFILE_SEP_PATH, wxTOKEN_STRTOK);
-		wxTreeItemId idParent;
-		idParent = treeDest->GetRootItem();
-		while (tkz.HasMoreTokens())
-		{
-			wxString strToken = tkz.GetNextToken();
-			//wxMessageBox(strToken);
-			wxTreeItemIdValue cookie;
-			wxTreeItemId tempidParent, idFinal;
-			bool blFound = false;
-			tempidParent = treeDest->GetFirstChild(idParent, cookie);
-			if(treeDest->GetItemText(tempidParent) == strToken){
-				blFound = true;
-				idFinal = tempidParent;
-			}
-			while(tempidParent = treeDest->GetNextChild(idParent, cookie)){
-				if(treeDest->GetItemText(tempidParent) == strToken){
-					blFound = true;
-					idFinal = tempidParent;
-				}	
-			}
-			if(!blFound){
-				//wxMessageBox(_("blnotfound"));
-				idFinal = treeDest->AppendItem(idParent, strToken);
-			}
-			idParent = idFinal;		
-		}
-	}
 	return true;
 }
