@@ -62,6 +62,7 @@ class wxGenericDirCtrl;
 #define ID_BACKUP_JOB_REMOVE 20013
 #define ID_BACKUP_RULES 10013
 #define ID_TEXTCTRL1 10071
+#define ID_BACKUP_STATIC 20014
 #define ID_BACKUP_LOCATION 10068
 #define ID_BACKUP_DIRCTRL 10002
 #define ID_BACKUP_ADD 10005
@@ -193,6 +194,8 @@ public:
 	 /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_BACKUP_JOB_SELECT
 	 void OnBackupJobSelectSelected( wxCommandEvent& event );
 
+	/// wxEVT_COMMAND_RADIOBOX_SELECTED event handler for ID_BACKUP_FUNCTION
+	void OnBackupFunctionSelected( wxCommandEvent& event );
 	
 	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_SAVE
 	 void OnBackupJobSaveClick( wxCommandEvent& event );
@@ -287,6 +290,7 @@ public:
 	 wxCheckBox* m_Sync_Ignore_DaylightS;
 	 wxComboBox* m_Backup_Job_Select;
 	 wxComboBox* m_Backup_Rules;
+	 wxStaticText* m_Backup_Location_Txt;
 	 wxTextCtrl* m_Backup_Location;
 	 wxGenericDirCtrl* m_Backup_DirCtrl;
 	 wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;

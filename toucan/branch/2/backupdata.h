@@ -196,7 +196,7 @@ bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
 			ErrorBox(_("The passwords to not match, please try again."));
 		}
 	}
-	wxMessageBox(_("Returning"));
+	//wxMessageBox(_("Returning"));
 	return true;	
 }
 
@@ -214,8 +214,7 @@ void BackupData::Output(){
 
 wxString BackupData::CreateCommand(int i){
 	
-	//General string until this gets setup to use the class
-	wxString strFormat, strRatio, strPass, strCommand;
+	wxString strCommand;
 	//Setting up to use the first item in the array.
 	wxString strSecond = GetLocations().Item(i);
 	
@@ -224,54 +223,51 @@ wxString BackupData::CreateCommand(int i){
 
 	//Turn the inputted format into one 7zip will understand
 	if (GetFormat() == wxT("Zip")){
-        	SetFormat(wxT("zip"));
-    	}
+		SetFormat(wxT("zip"));
+	}
    	else if (GetFormat() == wxT("7 Zip")){
-        	SetFormat(wxT("7z"));
+		SetFormat(wxT("7z"));
 		//Make sure solid mode is turned off so updating works
 		strSolid = wxT(" -ms=off");
-    	}
-    
+	}
 	//Ratio stuff, will need to be updated for new sliding scale
-    	if (GetRatio() == _("Normal")){
-        	SetRatio(wxT(" -mx5"));
-    	}
-    	else if (GetRatio() == _("Maximum")){
-        	SetRatio(wxT(" -mx9"));
-    	}
-	
+	if (GetRatio() == _("Normal")){
+		SetRatio(wxT(" -mx5"));
+	}
+	else if (GetRatio() == _("Maximum")){
+		SetRatio(wxT(" -mx9"));
+	}
 	//Checking to see if there is a password used
 	if(GetPass() != wxEmptyString){
 		SetPass(wxT(" -p") + GetPass());
 		//If 7zip is used then make sure headers are encrypted
-        	if(GetFormat() == wxT("7z")){
+		if(GetFormat() == wxT("7z")){
 			SetPass(GetPass() + wxT(" -mhe=on"));
-        	}
+		}
 	}
    
-    	if(GetFunction() == _("Complete")){
-        	strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@C:\\test.txt");    
-       		//wxMessageBox(command);
-    	}
-		else if(GetFunction() == _("Update")){
-				strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@C:\\test.txt"); 
-		}
-	/*else if(GetFunction() == _("Restore")){
-        	strCommand = wxT("7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + strSolid;
+	if(GetFunction() == _("Complete")){
+		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@C:\\test.txt");
 	}
+	else if(GetFunction() == _("Update")){
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@C:\\test.txt"); 
+	}
+	/*else if(GetFunction() == _("Restore")){
+		strCommand = wxT("7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + strSolid;
+	}*/
 	//With the incremental type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Incremental")){
-        if(wxFileExists(strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat)){
-            wxDateTime now = wxDateTime::Now();
-            if (strFirst[strFirst.length()-1] != wxFILE_SEP_PATH) {
-                strFirst += wxFILE_SEP_PATH;       
-            }
-			strCommand = wxT("7za.exe u \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + strSecond + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + strFirst + wxT("*\"") + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("temp-exclusions.txt") + wxT("\"") + strSolid + strPass;
-        }
-        else{
-			strCommand = wxT("7za.exe a -t") + strFormat + wxT(" -mx") + strRatio + wxT(" \"") + strSecond + wxFILE_SEP_PATH + wxT("BaseFile.") + strFormat + wxT("\" \"") + strFirst + wxT("\\*\"")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strSolid + strPass;    
-        }
-    }*/
-    return strCommand;
+		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {
+			GetBackupLocation() += wxFILE_SEP_PATH;       
+		}
+		if(wxFileExists(GetBackupLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
+			wxDateTime now = wxDateTime::Now();
+			strCommand = wxT("7za.exe u") + GetPass() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("\"") + wxT(" -x@C:\\test.txt");
+		}
+		else{
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@C:\\test.txt");
+		}
+	}
+	return strCommand;
 }
 #endif

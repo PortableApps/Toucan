@@ -348,7 +348,7 @@ void frmMain::CreateControls()
 	itemBoxSizer44->Add(itemBoxSizer45, 1, wxGROW|wxALL, 5);
 	
 	//Backup location
-	wxStaticText* itemStaticText46 = new wxStaticText( itemPanel35, wxID_STATIC, _("Backup Location"), wxDefaultPosition, wxDefaultSize, 0 );
+	wxStaticText* itemStaticText46 = new wxStaticText( itemPanel35, ID_BACKUP_STATIC, _("Backup Location"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer45->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer47 = new wxBoxSizer(wxHORIZONTAL);
@@ -926,7 +926,7 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 			}
 			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
 			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			wxMessageBox(strPath);
+			//wxMessageBox(strPath);
 			//Create the list of files to backup
 			CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
 			//Commit the file changes
@@ -1318,7 +1318,7 @@ void frmMain::OnBackupJobSaveClick( wxCommandEvent& event )
 	BackupData data;
 	if (data.TransferFromForm(this, false)) {
 		if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
-			wxMessageBox(_("About to write"));
+			//wxMessageBox(_("About to write"));
 			data.TransferToFile(m_Backup_Job_Select->GetStringSelection());
 		} 
 		else {
@@ -1415,9 +1415,17 @@ void frmMain::OnRulesRemoveLocationincludeClick( wxCommandEvent& event )
 
 void frmMain::OnBackupLocationClick( wxCommandEvent& event )
 {
-	wxFileDialog dialog(this,_("Need to change this dialog."), wxEmptyString);
-	if (dialog.ShowModal() == wxID_OK) {
-		m_Backup_Location->SetValue(dialog.GetPath());
+	if(m_Backup_Function->GetStringSelection() == _("Incremental")){
+		wxDirDialog dialog(this,_("Please select the folder to store your backups"),wxEmptyString);
+		if (dialog.ShowModal() == wxID_OK){
+			m_Backup_Location->SetValue(dialog.GetPath());
+		}
+	}
+	else{
+		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxEmptyString, wxEmptyString, wxT("7 Zip (*.7z)|*.7z|Zip Files (*.zip)|*.zip|All Files (*.*)|*.*"), wxFD_SAVE);
+		if (dialog.ShowModal() == wxID_OK) {
+			m_Backup_Location->SetValue(dialog.GetPath());
+		}
 	}
 }
 
