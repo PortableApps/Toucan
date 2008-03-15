@@ -13,7 +13,7 @@ public:
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
 	void TransferToForm(frmMain *window);
-	bool TransferFromForm(frmMain*window);
+	bool TransferFromForm(frmMain*window, bool blShowErrors);
 	wxString CreateCommand(int i);
 	void Output();
 
@@ -55,23 +55,37 @@ private:
 
 bool BackupData::TransferFromFile(wxString strName){
 	//Create a new fileconfig object
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 	
-	bool blError;
+	bool blError = true;
 	wxString strTemp;
 	
 	/*Read all of the values from the ini file, and if there are not read erros add them to the data
 	Password is not stored in the text file*/
-	blError = config->Read(strName + wxT("/BackupLocation"), &strTemp);
-	if(!blError){ SetBackupLocation(strTemp); }
-	blError = config->Read(strName + wxT("/Locations"), &strTemp);
-	if(!blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
-	blError = config->Read(strName + wxT("/Function"), &strTemp);
-	if(!blError){ SetFunction(strTemp); }
-	blError = config->Read(strName + wxT("/Format"), &strTemp);
-	if(!blError){ SetFormat(strTemp); }
-	blError = config->Read(strName + wxT("/Ratio"), &strTemp);
-	if(!blError){ SetRatio(strTemp); }
+	if(config->Read(strName + wxT("/BackupLocation"), &strTemp)){
+		SetBackupLocation(strTemp);
+		blError = false;
+	}
+
+	if(config->Read(strName + wxT("/Locations"), &strTemp)){
+		SetLocations(StringToArrayString(strTemp, wxT("#")));
+		blError = false;
+	}
+
+	if(config->Read(strName + wxT("/Function"), &strTemp)){
+		SetFunction(strTemp);
+		blError = false;
+	}
+
+	if(config->Read(strName + wxT("/Format"), &strTemp)){
+		SetFormat(strTemp);
+		blError = false;
+	}
+
+	if(config->Read(strName + wxT("/Ratio"), &strTemp)){
+		SetRatio(strTemp);
+		blError = false;
+	}
 
 	//Delete the fileconfig object
 	delete config;
@@ -86,7 +100,7 @@ bool BackupData::TransferFromFile(wxString strName){
 
 bool BackupData::TransferToFile(wxString strName){
 	//Create a new fileconfig object
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + wxT("\\Data\\Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
 	
 	bool blError;
 
@@ -94,17 +108,27 @@ bool BackupData::TransferToFile(wxString strName){
 	blError = config->DeleteGroup(strName);
 
 	//Add the files to be written
-	blError = config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation());	
-	blError = config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
-	blError = config->Write(strName + wxT("/Function"), GetFunction());	
-	blError = config->Write(strName + wxT("/Format"), GetFormat());	
-	blError = config->Write(strName + wxT("/Ratio"), GetRatio());
+	if(!config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
+		blError = false;
+	}
+	if(!config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")))){
+		blError = false;
+	}		
+	if(!config->Write(strName + wxT("/Function"), GetFunction())){
+		blError = false;
+	}
+	if(!config->Write(strName + wxT("/Format"), GetFormat())){
+		blError = false;
+	}
+	if(!config->Write(strName + wxT("/Ratio"), GetRatio())){
+		blError = false;
+	}
 	
 	//Write the files and delete the fileconfig object
 	config->Flush();
 	delete config;
 	
-	if(blError){
+	if(!blError){
 		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
@@ -138,8 +162,8 @@ void BackupData::TransferToForm(frmMain *window){
 
 /* This function sets all of the fields in SyncData based on the user inputted data in the
 Main program window.*/
-bool BackupData::TransferFromForm(frmMain *window){
-	wxString strPass, strRepass;
+bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
+	wxString strPass, strRepass = wxEmptyString;
 	
 	bool blNotFilled = false;
 	//Set the intenal file list as the global list, ensuring that there are items to backup
@@ -158,9 +182,8 @@ bool BackupData::TransferFromForm(frmMain *window){
 	//Do not worry if a password is not added as it is not complusory
 	if(window->m_Backup_Pass->GetValue() != wxEmptyString){ strPass = window->m_Backup_Pass->GetValue(); }
 	if(window->m_Backup_Repass->GetValue() != wxEmptyString){ strRepass = window->m_Backup_Repass->GetValue(); }
-	
 	//Output an error message if the fields are not filled
-	if(blNotFilled){
+	if(blNotFilled && blShowErrors){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}
@@ -169,9 +192,11 @@ bool BackupData::TransferFromForm(frmMain *window){
 		SetPass(strPass);
 	}
 	else{
-		ErrorBox(_("The passwords to not match, please try again."));
-		return false;
+		if(blShowErrors){
+			ErrorBox(_("The passwords to not match, please try again."));
+		}
 	}
+	wxMessageBox(_("Returning"));
 	return true;	
 }
 

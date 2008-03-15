@@ -97,6 +97,7 @@ bool SyncData::TransferToFile(wxString strName){
 	blError = config->Write(strName + wxT("/Attributes"), GetAttributes());
 	blError = config->Write(strName + wxT("/IgnoreReadOnly"), GetIgnoreRO());
 	blError = config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
+	config->Flush();
 	delete config;
 	if(!blError){
 		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));

@@ -57,8 +57,9 @@ class wxGenericDirCtrl;
 //Backup
 #define ID_PANEL_BACKUP 10010
 #define ID_BACKUP_JOB_SELECT 10008
-#define ID_BACKUP_JOB_OPEN 10011
-#define ID_BACKUP_JOB_SAVE 10012
+#define ID_BACKUP_JOB_SAVE 20011
+#define ID_BACKUP_JOB_ADD 20012
+#define ID_BACKUP_JOB_REMOVE 20013
 #define ID_BACKUP_RULES 10013
 #define ID_TEXTCTRL1 10071
 #define ID_BACKUP_LOCATION 10068
@@ -182,6 +183,19 @@ public:
 
 	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
 	 void OnBackupAddClick( wxCommandEvent& event );
+	
+	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
+	 void OnBackupJobAddClick( wxCommandEvent& event );
+
+	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
+	 void OnBackupJobRemoveClick( wxCommandEvent& event );
+	
+	 /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_BACKUP_JOB_SELECT
+	 void OnBackupJobSelectSelected( wxCommandEvent& event );
+
+	
+	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_SAVE
+	 void OnBackupJobSaveClick( wxCommandEvent& event );
 
 	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
 	 void OnBackupRemoveClick( wxCommandEvent& event );
