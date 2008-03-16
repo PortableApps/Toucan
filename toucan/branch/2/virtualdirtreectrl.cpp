@@ -13,7 +13,7 @@
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__
-    #pragma hdrstop
+#pragma hdrstop
 #endif
 
 #include <wx/dir.h>
@@ -34,12 +34,13 @@ BEGIN_EVENT_TABLE(wxVirtualDirTreeCtrl, wxTreeCtrl)
 END_EVENT_TABLE()
 
 wxVirtualDirTreeCtrl::wxVirtualDirTreeCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name)
-	: wxTreeCtrl(parent, id, pos, size, style, validator, name)
-	, _flags(wxVDTC_DEFAULT)
+		: wxTreeCtrl(parent, id, pos, size, style, validator, name)
+		, _flags(wxVDTC_DEFAULT)
 {
 	// create an icon list for the tree ctrl
 	_iconList = new wxImageList(16,16);
 
+	_Preview = false;
 	this->AddRoot(wxT("Hidden - you wont see this"));
 
 	// reset to default extension list
@@ -78,28 +79,25 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 	SetImageList(_iconList);
 
 	value = ::wxDirExists(root);
-	if(value)
-	{
+	if (value) {
 		// call virtual handler to notify the derived class
 		OnAddNewPath(root);
 
 		// create a root item
 		start = OnCreateTreeItem(VDTC_TI_ROOT, root);
-		if(start)
-		{
+		if (start) {
 			wxFileName path;
 			path.AssignDir(root);
 
 			// call the add callback and find out if this root
 			// may be added (later on)
 
-			if(OnAddRoot(*start, path))
-			{
+			if (OnAddRoot(*start, path)) {
 				// add this item to the tree, with info of the developer
 				wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
 				//wxMessageBox(_("Appending"));
 				// show a busy dialog
-				if(_flags & (wxVDTC_RELOAD_ALL | wxVDTC_SHOW_BUSYDLG))
+				if (_flags & (wxVDTC_RELOAD_ALL | wxVDTC_SHOW_BUSYDLG))
 					bsy = new wxBusyInfo(wxT("Please wait, scanning directory..."), 0);
 
 				// scan directory, either the smart way or not at all
@@ -107,28 +105,25 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 				//wxMessageBox(_("Finished Scan"));
 
 				// expand root when allowed
-				if(!(_flags & wxVDTC_NO_EXPAND))
+				if (!(_flags & wxVDTC_NO_EXPAND))
 					Expand(id);
-			}
-			else
+			} else
 				delete start; // sorry not succeeded
 		}
-	}
-	else{
+	} else {
 		OnAddNewPath(root);
-		
+
 		wxFileName path(root);
 
-		
+
 		start = OnCreateTreeItem(VDTC_TI_FILE, root);
-		if(OnAddFile(*start, path))
-		{
+		if (OnAddFile(*start, path)) {
 			// add this item to the tree, with info of the developer
 			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
 		}
 	}
 	// delete busy info if present
-	if(bsy)
+	if (bsy)
 		delete bsy;
 
 	//wxMessageBox(this->GetItemText(this->GetRootItem()));
@@ -144,25 +139,22 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 	wxLogNull log;
 
 	// when we can still scan, do so
-	if(level == -1 || level > 0)
-	{
+	if (level == -1 || level > 0) {
 		// TODO: Maybe when a reload is issued, delete all items that are no longer present
 		// in the tree (on disk) and check if all new items are present, else add them
 
 		// if no items, then go iterate and get everything in this branch
-		if(GetChildrenCount(item->GetId()) == 0)
-		{
+		if (GetChildrenCount(item->GetId()) == 0) {
 			//wxMessageBox(_("Creatin array"));
 			VdtcTreeItemBaseArray addedItems;
 
 			// now call handler, if allowed, scan this dir
-			if(OnDirectoryScanBegin(path))
-			{
+			if (OnDirectoryScanBegin(path)) {
 				// get directories
 				GetDirectories(item, addedItems, path);
 
 				// get files
-				if(!(_flags & wxVDTC_NO_FILES))
+				if (!(_flags & wxVDTC_NO_FILES))
 					GetFiles(item, addedItems, path);
 
 				// call handler that can do a last thing
@@ -170,12 +162,12 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 				OnDirectoryScanEnd(addedItems, path);
 				//wxMessageBox(_("Sortin"));
 				// sort items
-				if(addedItems.GetCount() > 0 && (_flags & wxVDTC_NO_SORT) == 0)
+				if (addedItems.GetCount() > 0 && (_flags & wxVDTC_NO_SORT) == 0)
 					SortItems(addedItems, 0, addedItems.GetCount()-1);
 				//wxMessageBox(_("About to add"));
 				AddItemsToTreeCtrl(item, addedItems);
 				//wxMessageBox(_("Finished adding"));
-				
+
 				// call handler to tell that the items are on the tree ctrl
 				//OnAddedItems(item->GetId());
 			}
@@ -192,11 +184,9 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 		VdtcTreeItemBase *b;
 		//wxMessageBox(_("Further"));
 		wxTreeItemId child = GetFirstChild(item->GetId(), cookie);
-		while(child.IsOk())
-		{
+		while (child.IsOk()) {
 			b = (VdtcTreeItemBase *)GetItemData(child);
-			if(b && b->IsDir())
-			{
+			if (b && b->IsDir()) {
 				wxFileName tp = path;
 				tp.AppendDir(b->GetName());
 				value += ScanFromDir(b, tp, (level == -1 ? -1 : level-1));
@@ -220,23 +210,19 @@ void wxVirtualDirTreeCtrl::GetFiles(VdtcTreeItemBase *parent, VdtcTreeItemBaseAr
 	// no nodes present yet, we should start scanning this dir
 	// scan files first in this directory, with all extensions in this array
 
-	for(size_t i = 0; i < _extensions.Count(); i++)
-	{
+	for (size_t i = 0; i < _extensions.Count(); i++) {
 		wxDir fdir(path.GetFullPath());
 
-		if(fdir.IsOpened())
-		{
+		if (fdir.IsOpened()) {
 			bool bOk = fdir.GetFirst(&fname, _extensions[i], wxDIR_FILES | wxDIR_HIDDEN);
-			while(bOk)
-			{
+			while (bOk) {
 				// TODO: Flag for double items
-										
+
 				item = AddFileItem(fname);
-				if(item)
-				{						
+				if (item) {
 					// fill it in, and marshall it by the user for info
 					fpath.SetFullName(fname);
-					if(OnAddFile(*item, fpath))
+					if (OnAddFile(*item, fpath))
 						items.Add(item);
 					else
 						delete item;
@@ -258,20 +244,17 @@ void wxVirtualDirTreeCtrl::GetDirectories(VdtcTreeItemBase *parent, VdtcTreeItem
 	// scan files first in this directory, with all extensions in this array
 
 	wxDir fdir(path.GetFullPath());
-	if(fdir.IsOpened())
-	{
+	if (fdir.IsOpened()) {
 		bool bOk = fdir.GetFirst(&fname, VDTC_DIR_FILESPEC, wxDIR_DIRS | wxDIR_HIDDEN);
-		while(bOk)
-		{
+		while (bOk) {
 			// TODO: Flag for double items
 			item = AddDirItem(fname);
-			if(item)
-			{						
+			if (item) {
 				// fill it in, and marshall it by the user for info
 				fpath = path;
 				fpath.AppendDir(fname);
 
-				if(OnAddDirectory(*item, fpath))
+				if (OnAddDirectory(*item, fpath))
 					items.Add(item);
 				else
 					delete item;
@@ -286,8 +269,8 @@ int wxVirtualDirTreeCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTree
 {
 	// used for SortChildren, reroute to our sort routine
 	VdtcTreeItemBase *a = (VdtcTreeItemBase *)GetItemData(item1),
-		            *b = (VdtcTreeItemBase *)GetItemData(item2);
-	if(a && b)
+	                      *b = (VdtcTreeItemBase *)GetItemData(item2);
+	if (a && b)
 		return OnCompareItems(a,b);
 
 	return 0;
@@ -296,9 +279,9 @@ int wxVirtualDirTreeCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTree
 int wxVirtualDirTreeCtrl::OnCompareItems(const VdtcTreeItemBase *a, const VdtcTreeItemBase *b)
 {
 	// if dir and other is not, dir has preference
-	if(a->IsDir() && b->IsFile())
+	if (a->IsDir() && b->IsFile())
 		return -1;
-	else if(a->IsFile() && b->IsDir())
+	else if (a->IsFile() && b->IsDir())
 		return 1;
 
 	// else let ascii fight it out
@@ -317,19 +300,17 @@ void wxVirtualDirTreeCtrl::SortItems(VdtcTreeItemBaseArray &items, int left, int
 	VdtcTreeItemBase *a, *b;
 	int i, last;
 
-	if(left >= right)
+	if (left >= right)
 		return;
 
 	SwapItem(items, left, (left + right)/2);
 
 	last = left;
-	for(i = left+1; i <= right; i++)
-	{
+	for (i = left+1; i <= right; i++) {
 		a = items[i];
 		b = items[left];
-		if(a && b)
-		{
-			if(OnCompareItems(a, b) < 0)
+		if (a && b) {
+			if (OnCompareItems(a, b) < 0)
 				SwapItem(items, ++last, i);
 		}
 	}
@@ -349,14 +330,13 @@ void wxVirtualDirTreeCtrl::AddItemsToTreeCtrl(VdtcTreeItemBase *item, VdtcTreeIt
 
 	VdtcTreeItemBase *t;
 	wxTreeItemId id = item->GetId();
-	for(size_t i = 0; i < items.GetCount(); i++)
-	{
+	for (size_t i = 0; i < items.GetCount(); i++) {
 		t = items[i];
-		if(t){
+		if (t) {
 			wxTreeItemId idTemp = AppendItem(id, t->GetCaption(), t->GetIconId(), t->GetSelectedIconId(), t);
 			OnAddedItems(idTemp);
 		}
-			
+
 	}
 }
 
@@ -399,31 +379,26 @@ wxTreeItemId wxVirtualDirTreeCtrl::ExpandToPath(const wxFileName &path)
 	// match the sequence
 
 	wxTreeItemId root = GetRootItem();
-	if(root.IsOk())
-	{
+	if (root.IsOk()) {
 		wxTreeItemId curr = root, id;
-		for(size_t i = 0; i < paths.GetCount(); i++)
-		{
+		for (size_t i = 0; i < paths.GetCount(); i++) {
 			// scan for name on this level of children
 			wxString currpath = paths[i];
 			bool not_found = true;
 			wxTreeItemIdValue cookie;
 
 			id = GetFirstChild(curr, cookie);
-			while(not_found && id.IsOk())
-			{
+			while (not_found && id.IsOk()) {
 				ptr = (VdtcTreeItemBase *)GetItemData(id);
 				not_found = !ptr->GetName().IsSameAs(currpath, false);
 
 				// prevent overwriting id
-				if(!not_found)
-				{
+				if (!not_found) {
 					// we found the name, now to ensure there are more
 					// names loaded from disk, we call ScanFromDir (it will abort anywayz
 					// when there are items in the dir)
 
-					if(ptr->IsDir())
-					{
+					if (ptr->IsDir()) {
 						// TODO: This getfullpath might be a too high load, we can also
 						// walk along with the path, but that is a bit more tricky.
 						seekpath = GetFullPath(id);
@@ -431,13 +406,12 @@ wxTreeItemId wxVirtualDirTreeCtrl::ExpandToPath(const wxFileName &path)
 					}
 
 					curr = id;
-				}
-				else
+				} else
 					id = GetNextChild(curr, cookie);
 			}
 
 			// now, if not found we break out
-			if(not_found)
+			if (not_found)
 				return value;
 		}
 
@@ -456,7 +430,7 @@ bool wxVirtualDirTreeCtrl::IsRootNode(const wxTreeItemId &id)
 	wxCHECK(id.IsOk(), value);
 
 	VdtcTreeItemBase *b = (VdtcTreeItemBase *)GetItemData(id);
-	if(b)
+	if (b)
 		value = b->IsRoot();
 
 	return value;
@@ -468,7 +442,7 @@ bool wxVirtualDirTreeCtrl::IsDirNode(const wxTreeItemId &id)
 	wxCHECK(id.IsOk(), value);
 
 	VdtcTreeItemBase *b = (VdtcTreeItemBase *)GetItemData(id);
-	if(b)
+	if (b)
 		value = b->IsDir();
 
 	return value;
@@ -480,7 +454,7 @@ bool wxVirtualDirTreeCtrl::IsFileNode(const wxTreeItemId &id)
 	wxCHECK(id.IsOk(), value);
 
 	VdtcTreeItemBase *b = (VdtcTreeItemBase *)GetItemData(id);
-	if(b)
+	if (b)
 		value = b->IsFile();
 
 	return value;
@@ -488,25 +462,24 @@ bool wxVirtualDirTreeCtrl::IsFileNode(const wxTreeItemId &id)
 
 /** Appends subdirs up until root. This is done by finding the root first and
     going back down to the original caller. This is faster because no copying takes place */
-void wxVirtualDirTreeCtrl::AppendPathRecursively(VdtcTreeItemBase *b, wxFileName &dir, bool useRoot) 
+void wxVirtualDirTreeCtrl::AppendPathRecursively(VdtcTreeItemBase *b, wxFileName &dir, bool useRoot)
 {
-	wxCHECK2(b, return); 
-	
+	wxCHECK2(b, return);
+
 	VdtcTreeItemBase *parent = GetParent(b);
-	if(parent)
+	if (parent)
 		AppendPathRecursively(parent, dir, useRoot);
-	else
-	{
+	else {
 		// no parent assume top node
-		if(b->IsRoot() && useRoot)
+		if (b->IsRoot() && useRoot)
 			dir.AssignDir(b->GetName());
 		return;
 	}
-	
+
 	// now we are unwinding the other way around
-	if(b->IsDir())
+	if (b->IsDir())
 		dir.AppendDir(b->GetName());
-	else if(b->IsFile())
+	else if (b->IsFile())
 		dir.SetFullName(b->GetName());
 };
 
@@ -516,11 +489,9 @@ void wxVirtualDirTreeCtrl::OnExpanding(wxTreeEvent &event)
 {
 	// check for collapsing item, and scan from there
 	wxTreeItemId id = event.GetItem();
-	if(id.IsOk())
-	{
+	if (id.IsOk()) {
 		VdtcTreeItemBase *t = (VdtcTreeItemBase *)GetItemData(id);
-		if(t && t->IsDir())
-		{
+		if (t && t->IsDir()) {
 			// extract data element belonging to it, and scan.
 			ScanFromDir(t, GetFullPath(id), VDTC_MIN_SCANDEPTH);
 
@@ -640,20 +611,83 @@ void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 
 void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
-	for(unsigned int i = 0; i < items.GetCount(); i++){
+	
+	//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
+	for (unsigned int i = 0; i < items.GetCount(); i++) {
 		//wxMessageBox(items.Item(i)->GetName());
 		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
-		if(_Rules.ShouldExclude(strComplete, false)){
+		if (_Rules.ShouldExclude(strComplete, false)) {
 			items.Item(i)->SetColour(wxColour(wxT("Red")));
-		}
-		else{
+		} else {
 			items.Item(i)->SetColour(wxColour(wxT("Black")));
 		}
 	}
 	//wxMessageBox(path.GetPath());
-	if(_IsSync){
-		wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
-		wxMessageBox(strPathNoRoot);
+	if (_IsSync) {
+		if (_Preview) {
+			//wxMessageBox(_Root);
+			//wxMessageBox(_RootOpp, _("This is th eopposite root"));
+			wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
+			//wxMessageBox(strPathNoRoot, _("Path no root"));
+			wxFileName name(_RootOpp + strPathNoRoot);
+			//wxMessageBox(name.GetFullPath(), _("Finisished path"));
+			if (wxDirExists(name.GetFullPath())) {
+				wxString strFilename;
+				wxDir dir(name.GetFullPath());
+				bool blDir = dir.GetFirst(&strFilename);
+				//If the path is ok
+				if (blDir) {
+					//Loop through all of the files and folders in the directory
+					do {
+						//wxMessageBox(name.GetFullPath() + wxFILE_SEP_PATH + strFilename, _("We are here"));
+						//wxMessageBox(_("Looping"));
+						//If it is a directory
+						if (wxDirExists(name.GetFullPath() + wxFILE_SEP_PATH + strFilename)) {
+							bool blExists = false;
+							unsigned int j;
+							//wxMessageBox(name.GetFullPath() + strFilename, _("Directory"));
+							for(unsigned int i = 0; i < items.GetCount(); i++){
+								if(items.Item(i)->GetName() == strFilename){
+									blExists = true;
+									j = i;
+								}
+							}
+							if(blExists){
+								items.Item(j)->SetColour(wxColour(wxT("Red")));
+							}
+							else{
+								VdtcTreeItemBase *t = this->AddDirItem(strFilename);
+								t->SetColour(wxColour(wxT("Blue")));
+								items.Add(t);	
+							}
+								
+						}
+						//If it is a file
+						else {
+							//wxMessageBox(_("File"));
+							bool blExists = false;
+							unsigned int j;
+							for(unsigned int i = 0; i < items.GetCount(); i++){
+								if(items.Item(i)->GetName() == strFilename){
+									blExists = true;
+									j = i;
+								}
+							}
+							if(blExists){
+								items.Item(j)->SetColour(wxColour(wxT("Red")));
+							}
+							else{
+								VdtcTreeItemBase *t = this->AddFileItem(strFilename);
+								t->SetColour(wxColour(wxT("Blue")));
+								items.Add(t);	
+							}
+							//wxMessageBox(_("End file"));
+							
+						}
+					} while (dir.GetNext(&strFilename) );
+				}
+			}
+		}
+		return;
 	}
-	return;
 }

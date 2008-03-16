@@ -211,6 +211,8 @@ private:
 	wxString _Root;
 	
 	wxString _RootOpp;
+	
+	wxString _Mode;
 
 	/** Scans from given dir, for 'level' depth and with present extensions. This will
 	    reload the directory on that level. If there are tree items associated with the 'reloaded'
@@ -472,6 +474,7 @@ public:
 	void SetSync(bool sync) {_IsSync = sync; }
 	void SetRoot(wxString root) {_Root = root; }
 	void SetRootOpp(wxString rootopp) {_RootOpp = rootopp; }
+	void SetMode(wxString mode) {_Mode = mode; }
 
 private:
     // WDR: member variable declarations for wxVirtualDirTreeCtrl

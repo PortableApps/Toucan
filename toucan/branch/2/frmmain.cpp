@@ -831,8 +831,8 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 		this->SetCursor(cursor);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(dialog.GetPath());
 		m_Sync_Source_Tree->SetRoot(dialog.GetPath());
+		m_Sync_Source_Tree->AddNewPath(dialog.GetPath());
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 		wxCursor cursorstd(wxCURSOR_ARROW);
 		this->SetCursor(cursorstd);
@@ -1149,21 +1149,13 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 {
 	/*Not using index based choosing here as the tabs can be reordered*/
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")) {
-		//Create the sync data and ensure it is filled		
-		SyncData data;
-		if(!data.TransferFromForm(this)){
-			return;
-		}
-		Rules rules;
-		//Create a new rule set and populate it from the form
-		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-		}
-		//Set up a previewing thread
-		PreviewSyncThread *thread = new PreviewSyncThread(data, rules, this);
-		//Run the thread, note this is asyncronus at the moment
-		thread->Create();
-		thread->Run();
+			m_Sync_Dest_Tree->DeleteAllItems();
+			m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
+			m_Sync_Dest_Tree->SetRoot(m_Sync_Dest_Txt->GetValue());
+			m_Sync_Dest_Tree->SetRootOpp(m_Sync_Source_Txt->GetValue());
+			m_Sync_Dest_Tree->SetPreview(true);
+			m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
+			m_Sync_Dest_Tree->AddNewPath(m_Sync_Dest_Txt->GetValue());
 	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")) {
 		//Create a new rule set and populate it from the form
