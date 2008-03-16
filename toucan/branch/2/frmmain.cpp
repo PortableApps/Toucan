@@ -672,7 +672,9 @@ void frmMain::CreateControls()
 	
 	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
 	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
-
+	
+	m_Sync_Source_Tree->SetSync(true);
+	m_Sync_Dest_Tree->SetSync(true);
 
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
@@ -830,6 +832,7 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
 		m_Sync_Source_Tree->AddNewPath(dialog.GetPath());
+		m_Sync_Source_Tree->SetRoot(dialog.GetPath());
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 		wxCursor cursorstd(wxCURSOR_ARROW);
 		this->SetCursor(cursorstd);
@@ -849,6 +852,7 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 		this->SetCursor(cursor);
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
+		m_Sync_Dest_Tree->SetRoot(dialog.GetPath());
 		m_Sync_Dest_Tree->AddNewPath(dialog.GetPath());
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 		wxCursor stdcursor(wxCURSOR_ARROW);

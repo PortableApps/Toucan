@@ -622,7 +622,7 @@ void wxVirtualDirTreeCtrl::OnAddNewPath(const wxString &root)
 
 void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 {
-	if(parent.IsOk()){
+	/*if(parent.IsOk()){
 		//wxMessageBox(_("OK"));
 	}
 	wxFileName name = this->GetFullPath(parent);
@@ -632,11 +632,28 @@ void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 		if(_Rules.ShouldExclude(name.GetFullPath(), false)){
 			this->SetItemTextColour(parent, wxColour(wxT("Red")));
 		}
-	}
+	}*/
+	VdtcTreeItemBase *t = (VdtcTreeItemBase *)GetItemData(parent);
+	this->SetItemTextColour(parent, t->GetColour());
 	return;
 }
 
 void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
+	for(unsigned int i = 0; i < items.GetCount(); i++){
+		//wxMessageBox(items.Item(i)->GetName());
+		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
+		if(_Rules.ShouldExclude(strComplete, false)){
+			items.Item(i)->SetColour(wxColour(wxT("Red")));
+		}
+		else{
+			items.Item(i)->SetColour(wxColour(wxT("Black")));
+		}
+	}
+	//wxMessageBox(path.GetPath());
+	if(_IsSync){
+		wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
+		wxMessageBox(strPathNoRoot);
+	}
 	return;
 }

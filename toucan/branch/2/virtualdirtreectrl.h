@@ -77,6 +77,7 @@ class VdtcTreeItemBase : public wxTreeItemData
 protected:
 	int _type;
 	wxString _name;
+	wxColour _colour;
 
 
 public:
@@ -103,6 +104,7 @@ public:
 		: _type(type)
 		, _name(name)
 	{
+		_colour = wxColour(wxT("Black"));
 	};
 
 	/** Default destructor */
@@ -140,6 +142,9 @@ public:
 		}
 		return -1;
 	};
+	
+	wxColour &GetColour() { return _colour; }
+	void SetColour(wxColour colour) {_colour = colour; return;}
 
 	/** Virtual function to return the selected icon ID this node should get. Per default there is no icon
 	    associated with a selection. If you would like a selection, inherit this class and redefine this function
@@ -200,6 +205,12 @@ private:
 	bool _Preview;
 	
 	Rules _Rules;
+	
+	bool _IsSync;
+	
+	wxString _Root;
+	
+	wxString _RootOpp;
 
 	/** Scans from given dir, for 'level' depth and with present extensions. This will
 	    reload the directory on that level. If there are tree items associated with the 'reloaded'
@@ -458,7 +469,9 @@ public:
 	
 	void SetPreview(bool preview) {_Preview = preview;}
 	void SetRules(Rules rules) {_Rules = rules;}
-
+	void SetSync(bool sync) {_IsSync = sync; }
+	void SetRoot(wxString root) {_Root = root; }
+	void SetRootOpp(wxString rootopp) {_RootOpp = rootopp; }
 
 private:
     // WDR: member variable declarations for wxVirtualDirTreeCtrl
