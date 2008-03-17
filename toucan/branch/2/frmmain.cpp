@@ -1149,6 +1149,21 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 {
 	/*Not using index based choosing here as the tabs can be reordered*/
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")) {
+			wxString strPath = m_Sync_Source_Txt->GetValue();
+			//wxMessageBox(strPath);
+			/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
+			in the future in the vdtc code*/
+			if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+				strPath = strPath.Left(strPath.Length() - 1); 
+			}
+			//wxMessageBox(strPath);
+			m_Sync_Source_Txt->SetValue(strPath);
+			strPath = m_Sync_Dest_Txt->GetValue();
+			if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+				strPath = strPath.Left(strPath.Length() - 1); 
+			}
+			//wxMessageBox(strPath);
+			m_Sync_Dest_Txt->SetValue(strPath);
 			m_Sync_Dest_Tree->DeleteAllItems();
 			m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
 			m_Sync_Dest_Tree->SetRoot(m_Sync_Dest_Txt->GetValue());

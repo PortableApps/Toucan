@@ -600,7 +600,6 @@ void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 
 void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
-	
 	//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
 	for (unsigned int i = 0; i < items.GetCount(); i++) {
 		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
@@ -645,7 +644,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 							//If there is a match
 							if(blExists){
 								//If we shouldn't exclude it then set the item colour red to show it has been overwritten
-								if(!_Rules->ShouldExclude(strPath + strFilename){
+								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									items.Item(j)->SetColour(wxColour(wxT("Red")));
 								}
 							}
@@ -655,8 +654,8 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									strFilename = strFilename.Right(strFilename.Length() - 1);    
 									
 								}
-								wxMessageBox(strFilename);
-								if(!_Rules->ShouldExclude(strPath + strFilename){
+								//wxMessageBox(strFilename);
+								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									VdtcTreeItemBase *t = this->AddDirItem(strFilename);
 									t->SetColour(wxColour(wxT("Blue")));
 									items.Add(t);	
@@ -676,12 +675,12 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 								}
 							}
 							if(blExists){
-								if(!_Rules->ShouldExclude(strPath + strFilename){
+								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									if(_Mode == _("Complete")){
 										items.Item(j)->SetColour(wxColour(wxT("Red")));
 									}
 									else if(_Mode == _("Update")){
-										wxDateTime tmTo = wxFileModificationTime(data.GetDest());
+										/*wxDateTime tmTo = wxFileModificationTime(data.GetDest());
 										wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
 										if(data.GetIgnoreDLS()){
 											tmFrom.MakeTimezone(wxDateTime::Local, true);
@@ -691,12 +690,12 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 											VdtcTreeItemBase *t = this->AddFileItem(strFilename);
 											t->SetColour(wxColour(wxT("Green")));
 											items.Add(t);	
-										}
+										}*/
 									}
 								}
 							}
 							else{
-								if(!_Rules->ShouldExclude(strPath + strFilename){
+								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
 									t->SetColour(wxColour(wxT("Blue")));
 									items.Add(t);	
