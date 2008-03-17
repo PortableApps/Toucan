@@ -593,17 +593,6 @@ void wxVirtualDirTreeCtrl::OnAddNewPath(const wxString &root)
 
 void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 {
-	/*if(parent.IsOk()){
-		//wxMessageBox(_("OK"));
-	}
-	wxFileName name = this->GetFullPath(parent);
-	if(_Preview){
-		//wxMessageBox(_("Preview"));
-		//wxMessageBox(name.GetFullPath());
-		if(_Rules.ShouldExclude(name.GetFullPath(), false)){
-			this->SetItemTextColour(parent, wxColour(wxT("Red")));
-		}
-	}*/
 	VdtcTreeItemBase *t = (VdtcTreeItemBase *)GetItemData(parent);
 	this->SetItemTextColour(parent, t->GetColour());
 	return;
@@ -614,7 +603,6 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 	
 	//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
 	for (unsigned int i = 0; i < items.GetCount(); i++) {
-		//wxMessageBox(items.Item(i)->GetName());
 		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
 		if (_Rules.ShouldExclude(strComplete, false)) {
 			items.Item(i)->SetColour(wxColour(wxT("Red")));
@@ -622,43 +610,57 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 			items.Item(i)->SetColour(wxColour(wxT("Black")));
 		}
 	}
-	//wxMessageBox(path.GetPath());
+	//Make sure that we a in sync and that we are actually supposed to preview!
 	if (_IsSync) {
 		if (_Preview) {
-			//wxMessageBox(_Root);
-			//wxMessageBox(_RootOpp, _("This is th eopposite root"));
+			//Grab the path that we are in without the root
 			wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
-			//wxMessageBox(strPathNoRoot, _("Path no root"));
+			//Create a wxFilename ut of the path we are in, but the opposite root
 			wxFileName name(_RootOpp + strPathNoRoot);
-			//wxMessageBox(name.GetFullPath(), _("Finisished path"));
+			//Check if it is actually a directory
 			if (wxDirExists(name.GetFullPath())) {
 				wxString strFilename;
 				wxDir dir(name.GetFullPath());
 				bool blDir = dir.GetFirst(&strFilename);
-				//If the path is ok
+				//If the path is ok, it should because because it was earlier, but you never can tell if you are going to get hit by a pesky neutrino!
 				if (blDir) {
 					//Loop through all of the files and folders in the directory
 					do {
-						//wxMessageBox(name.GetFullPath() + wxFILE_SEP_PATH + strFilename, _("We are here"));
-						//wxMessageBox(_("Looping"));
-						//If it is a directory
-						if (wxDirExists(name.GetFullPath() + wxFILE_SEP_PATH + strFilename)) {
+						//Set the path to the array items name, ensuring that it has a trailing slash
+						wxString strPath = name.GetFullPath();
+						if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+							strPath += wxFILE_SEP_PATH;       
+						}
+						//If the item in the array is a folder
+						if (wxDirExists(strPath + strFilename)) {
 							bool blExists = false;
 							unsigned int j;
-							//wxMessageBox(name.GetFullPath() + strFilename, _("Directory"));
+							//Loop through the whole array, seeing if any of them are the same as in the folder in the opp dir
 							for(unsigned int i = 0; i < items.GetCount(); i++){
 								if(items.Item(i)->GetName() == strFilename){
 									blExists = true;
 									j = i;
 								}
 							}
+							//If there is a match
 							if(blExists){
-								items.Item(j)->SetColour(wxColour(wxT("Red")));
+								//If we shouldn't exclude it then set the item colour red to show it has been overwritten
+								if(!_Rules->ShouldExclude(strPath + strFilename){
+									items.Item(j)->SetColour(wxColour(wxT("Red")));
+								}
 							}
+							//There isnt a match so we need to add the new folderr, this is where the error occurs I think!!!
 							else{
-								VdtcTreeItemBase *t = this->AddDirItem(strFilename);
-								t->SetColour(wxColour(wxT("Blue")));
-								items.Add(t);	
+								if (strFilename[strFilename.length()-1] == wxFILE_SEP_PATH) {
+									strFilename = strFilename.Right(strFilename.Length() - 1);    
+									
+								}
+								wxMessageBox(strFilename);
+								if(!_Rules->ShouldExclude(strPath + strFilename){
+									VdtcTreeItemBase *t = this->AddDirItem(strFilename);
+									t->SetColour(wxColour(wxT("Blue")));
+									items.Add(t);	
+								}
 							}
 								
 						}
@@ -674,15 +676,32 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 								}
 							}
 							if(blExists){
-								items.Item(j)->SetColour(wxColour(wxT("Red")));
+								if(!_Rules->ShouldExclude(strPath + strFilename){
+									if(_Mode == _("Complete")){
+										items.Item(j)->SetColour(wxColour(wxT("Red")));
+									}
+									else if(_Mode == _("Update")){
+										wxDateTime tmTo = wxFileModificationTime(data.GetDest());
+										wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
+										if(data.GetIgnoreDLS()){
+											tmFrom.MakeTimezone(wxDateTime::Local, true);
+										}
+											//I.E. strFrom is newer
+										if(tmFrom.IsLaterThan(tmTo)){
+											VdtcTreeItemBase *t = this->AddFileItem(strFilename);
+											t->SetColour(wxColour(wxT("Green")));
+											items.Add(t);	
+										}
+									}
+								}
 							}
 							else{
-								VdtcTreeItemBase *t = this->AddFileItem(strFilename);
-								t->SetColour(wxColour(wxT("Blue")));
-								items.Add(t);	
+								if(!_Rules->ShouldExclude(strPath + strFilename){
+									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
+									t->SetColour(wxColour(wxT("Blue")));
+									items.Add(t);	
+								}
 							}
-							//wxMessageBox(_("End file"));
-							
 						}
 					} while (dir.GetNext(&strFilename) );
 				}
