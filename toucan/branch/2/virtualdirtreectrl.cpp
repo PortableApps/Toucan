@@ -648,13 +648,8 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									items.Item(j)->SetColour(wxColour(wxT("Red")));
 								}
 							}
-							//There isnt a match so we need to add the new folderr, this is where the error occurs I think!!!
+							//There isnt a match so we need to add the new folder
 							else{
-								if (strFilename[strFilename.length()-1] == wxFILE_SEP_PATH) {
-									strFilename = strFilename.Right(strFilename.Length() - 1);    
-									
-								}
-								//wxMessageBox(strFilename);
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									VdtcTreeItemBase *t = this->AddDirItem(strFilename);
 									t->SetColour(wxColour(wxT("Blue")));
@@ -665,7 +660,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 						}
 						//If it is a file
 						else {
-							//wxMessageBox(_("File"));
+							//Check to see if there is already a file with that name
 							bool blExists = false;
 							unsigned int j;
 							for(unsigned int i = 0; i < items.GetCount(); i++){
@@ -674,27 +669,32 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									j = i;
 								}
 							}
+							//If there is
 							if(blExists){
+								//Make sure it shouldnt be excluded
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									if(_Mode == _("Complete")){
 										items.Item(j)->SetColour(wxColour(wxT("Red")));
 									}
 									else if(_Mode == _("Update")){
-										/*wxDateTime tmTo = wxFileModificationTime(data.GetDest());
-										wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
-										if(data.GetIgnoreDLS()){
-											tmFrom.MakeTimezone(wxDateTime::Local, true);
-										}
-											//I.E. strFrom is newer
+										wxDateTime tmTo = wxFileModificationTime(_Root + items.Item(j)->GetName());
+										wxDateTime tmFrom = wxFileModificationTime(strPath + strFilename);
+										//Need to put in code to account for timezone settings
+										//if(data.GetIgnoreDLS()){
+										//	tmFrom.MakeTimezone(wxDateTime::Local, true);
+										//}
+										//I.E. strFrom is newer
 										if(tmFrom.IsLaterThan(tmTo)){
 											VdtcTreeItemBase *t = this->AddFileItem(strFilename);
 											t->SetColour(wxColour(wxT("Green")));
 											items.Add(t);	
-										}*/
+										}
 									}
 								}
 							}
+							//If there isnt
 							else{
+								//Make sure it shouldnt be excluded
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
 									t->SetColour(wxColour(wxT("Blue")));

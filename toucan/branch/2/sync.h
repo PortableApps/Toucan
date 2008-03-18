@@ -104,6 +104,8 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 {
 	wxString strTo = data.GetDest();
 	wxString strFrom = data.GetSource();
+	wxMessageBox(strTo, _("To"));
+	wxMessageBox(strFrom, _("From"));
 	//This section need to be updated for the new data stuff
 	//Append a slash in case of an incorrect pass
 	if (strTo[strTo.length()-1] != wxFILE_SEP_PATH) {
@@ -131,20 +133,20 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 				if(!rules.ShouldExclude(strTo + strFilename, true))
 				{ 
 					if (wxDirExists(strTo + strFilename)){
-						data.SetSource(strFrom + strFilename);
-						data.SetDest(strTo + strFilename);
-						SyncLoop(data, rules, window);
-					}
-					else{
-						if(data.GetFunction() == _("Mirror")){
+						if(ata.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){
 							RemoveDirectory(strTo + strFilename);
 						}
 						else{
-							wxMkdir(strTo + strFilename);
 							data.SetSource(strFrom + strFilename);
 							data.SetDest(strTo + strFilename);
 							SyncLoop(data, rules, window);
 						}
+					}
+					else{
+						wxMkdir(strTo + strFilename);
+						data.SetSource(strFrom + strFilename);
+						data.SetDest(strTo + strFilename);
+						SyncLoop(data, rules, window);
 					}
 				}
 			}
@@ -170,7 +172,7 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 		} 
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), data.GetDest(), true)){
-				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" to ") + data.GetSource(), window);
+				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" to ") + data.GetDest(), window);
 			}
 		}	
 		if(data.GetFunction() == _("Update")){
@@ -185,15 +187,17 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 				//I.E. strFrom is newer
 				if(tmFrom.IsLaterThan(tmTo)){
 					wxCopyFile(data.GetSource(), data.GetDest(), true);
-					OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetSource(), window);
+					OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetDest(), window);
 				}
 			}
 			else{
 				wxCopyFile(data.GetSource(), data.GetDest(), true);
-				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH)+  _(" to ") + data.GetSource(), window);
+				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH)+  _(" to ") + data.GetDest(), window);
 			}
 		}
-		if(data.GetFunction() == _("Mirror")){	
+		if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){	
+			wxMessageBox(data.GetDest(), _("Dest"));
+			wxMessageBox(data.GetSource(), _("Source"));
 			if(!wxFileExists(data.GetDest())){
 				wxRemoveFile(data.GetSource());
 				OutputProgress(_("Removed ") + data.GetSource(), window);
