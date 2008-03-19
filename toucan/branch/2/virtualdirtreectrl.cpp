@@ -110,16 +110,29 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 			} else
 				delete start; // sorry not succeeded
 		}
-	} else {
-		OnAddNewPath(root);
+	} 
+	else{
+		wxMessageBox(root, _("Else"));
+				wxMessageBox(root + wxT(".cpt"), _("We could be .cpt"));
+		if(wxFileExists(root)){
+			OnAddNewPath(root);
+			wxFileName path(root);
+			start = OnCreateTreeItem(VDTC_TI_FILE, root);
+			if (OnAddFile(*start, path)) {
+				// add this item to the tree, with info of the developer
+				wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
+			}
+		}
+		else if(wxFileExists(root + wxT(".cpt"))){
 
-		wxFileName path(root);
-
-
-		start = OnCreateTreeItem(VDTC_TI_FILE, root);
-		if (OnAddFile(*start, path)) {
-			// add this item to the tree, with info of the developer
-			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
+			wxString strNewRoot = root +  wxT(".cpt");
+			OnAddNewPath(strNewRoot);
+			wxFileName path(strNewRoot);
+			start = OnCreateTreeItem(VDTC_TI_FILE, strNewRoot);
+			if (OnAddFile(*start, path)) {
+				// add this item to the tree, with info of the developer
+				wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
+			}
 		}
 	}
 	// delete busy info if present
@@ -673,10 +686,10 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 							if(blExists){
 								//Make sure it shouldnt be excluded
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
-									if(_Mode == _("Complete")){
+									if(_Mode == _("Complete") || _Mode == _("Mirror (Copy)")){
 										items.Item(j)->SetColour(wxColour(wxT("Red")));
 									}
-									else if(_Mode == _("Update")){
+									else if(_Mode == _("Update") || _Mode == _("Mirror (Update)")){
 										wxDateTime tmTo = wxFileModificationTime(_Root + items.Item(j)->GetName());
 										wxDateTime tmFrom = wxFileModificationTime(strPath + strFilename);
 										//Need to put in code to account for timezone settings
@@ -706,6 +719,17 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 				}
 			}
 		}
-		return;
 	}
+
+	if(_Mode == _("Mirror (Copy)") || _Mode == _("Mirror (Update)")){
+		//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
+		for (unsigned int i = 0; i < items.GetCount(); i++) {
+		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
+			if(items.Item(i)->GetColour() == wxColour(wxT("Black"))){
+				items.Item(i)->SetColour(wxColour(wxT("Grey")));
+				//Set colour to grey
+			}
+		}
+	}
+	return;
 }

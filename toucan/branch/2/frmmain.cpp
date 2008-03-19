@@ -416,10 +416,10 @@ void frmMain::CreateControls()
 	wxStaticBox* itemStaticBoxSizer65Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Password (If Required)"));
 	wxStaticBoxSizer* itemStaticBoxSizer65 = new wxStaticBoxSizer(itemStaticBoxSizer65Static, wxVERTICAL);
 	itemBoxSizer61->Add(itemStaticBoxSizer65, 0, wxALIGN_TOP|wxALL, 5);
-	m_Backup_Pass = new wxTextCtrl( itemPanel35, ID_BACKUP_PASS, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Backup_Pass = new wxTextCtrl( itemPanel35, ID_BACKUP_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	itemStaticBoxSizer65->Add(m_Backup_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	m_Backup_Repass = new wxTextCtrl( itemPanel35, ID_BACKUP_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Backup_Repass = new wxTextCtrl( itemPanel35, ID_BACKUP_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	itemStaticBoxSizer65->Add(m_Backup_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	m_Notebook->AddPage(itemPanel35, _("Backup"), false, GetBitmapResource(wxT("backup.png")));
@@ -789,7 +789,7 @@ void frmMain::OnSecureAddClick( wxCommandEvent& event )
 	this->SetCursor(cursor);
 	//Add path to the global list and to the virtualdirtreectrl
 	wxGetApp().AppendSecureLocation(m_Secure_DirCtrl->GetPath());
-	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath() + wxFILE_SEP_PATH);
+	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
 }
@@ -903,6 +903,29 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		}
 		//Call the secure function
 		Secure(data, rules, window);
+		m_Secure_TreeCtrl->DeleteAllItems();
+		m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
+		for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
+				if(wxDirExists(wxGetApp().GetSecureLocations().Item(i))){
+					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+				}
+				else if(wxFileExists(wxGetApp().GetSecureLocations().Item(i))){
+					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+				}
+				else if(wxFileExists(wxGetApp().GetSecureLocations().Item(i) + wxT(".cpt"))){
+					wxGetApp().GetSecureLocations().Item(i) += wxT(".cpt");
+					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+				}
+				else if(wxFileExists(wxGetApp().GetSecureLocations().Item(i).Left(wxGetApp().GetSecureLocations().Item(i).Length() - 4))){
+					wxGetApp().GetSecureLocations().Item(i) = wxGetApp().GetSecureLocations().Item(i).Left(wxGetApp().GetSecureLocations().Item(i).Length() - 4);
+					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+				}
+					
+		}
+		
+		window->m_OK->Enable(true);
+		window->m_Save->Enable(true);
+		window->m_Cancel->Enable(false);
 	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")) {
 		//Create the data sets and fill them
@@ -949,7 +972,9 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 				this->Refresh();
 				window->UpdateWindowUI();
         	}
-			//Need to add code to wait here to stop simultaneous reads on the text file
+			window->m_OK->Enable(true);
+			window->m_Save->Enable(true);
+			window->m_Cancel->Enable(false);
 		}
 
 	}

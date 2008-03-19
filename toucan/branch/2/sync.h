@@ -15,6 +15,7 @@
 
 bool SyncLoop(SyncData data, Rules rules, frmProgress *window);
 bool SyncFile(SyncData data, Rules rules, frmProgress *window);
+bool DirectoryRemove(wxString strPath, frmProgress *window);
 
 
 class SyncThread : public wxThread
@@ -55,7 +56,7 @@ void *SyncThread::Entry(){
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
 		//Run the mirror loop
-		m_Data.SetFunction(_("Mirror"));
+		m_Data.SetFunction(_("Mirror (Copy)"));
 		SyncLoop(m_Data, m_Rules, m_Window);
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
@@ -66,7 +67,7 @@ void *SyncThread::Entry(){
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
 		//Run the mirror loop
-		m_Data.SetFunction(_("Mirror"));
+		m_Data.SetFunction(_("Mirror (Update)"));
 		SyncLoop(m_Data, m_Rules, m_Window);
 	}
 	else if(m_Data.GetFunction() ==  _("Equalise")){
@@ -104,8 +105,8 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 {
 	wxString strTo = data.GetDest();
 	wxString strFrom = data.GetSource();
-	wxMessageBox(strTo, _("To"));
-	wxMessageBox(strFrom, _("From"));
+	//wxMessageBox(strTo, _("To"));
+	//wxMessageBox(strFrom, _("From"));
 	//This section need to be updated for the new data stuff
 	//Append a slash in case of an incorrect pass
 	if (strTo[strTo.length()-1] != wxFILE_SEP_PATH) {
@@ -133,20 +134,21 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 				if(!rules.ShouldExclude(strTo + strFilename, true))
 				{ 
 					if (wxDirExists(strTo + strFilename)){
-						if(ata.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){
-							RemoveDirectory(strTo + strFilename);
-						}
-						else{
-							data.SetSource(strFrom + strFilename);
-							data.SetDest(strTo + strFilename);
-							SyncLoop(data, rules, window);
-						}
+						data.SetSource(strFrom + strFilename);
+						data.SetDest(strTo + strFilename);
+						SyncLoop(data, rules, window);
 					}
 					else{
+						//wxMessageBox(_("Doesnt exists"));
+						if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){
+							DirectoryRemove(strFrom + strFilename, window);
+						}
+						else{
 						wxMkdir(strTo + strFilename);
 						data.SetSource(strFrom + strFilename);
 						data.SetDest(strTo + strFilename);
 						SyncLoop(data, rules, window);
+						}
 					}
 				}
 			}
@@ -226,5 +228,46 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 	return true;
 }
 
+
+bool DirectoryRemove(wxString strLocation, frmProgress *window){
+	wxMessageBox(_("Removing"));
+{
+	// if it's a possible root directory
+	if (strLocation.length() <= 3) {
+		wxLogError(_("Toucan tried to delete a root directory. This has been forbidden for your own safety"));
+		return false;
+	}
+	//Make sure that the correct ending is appended
+	if (strLocation[strLocation.length()-1] != wxFILE_SEP_PATH) {
+		strLocation += wxFILE_SEP_PATH;       
+	}
+	
+	wxDir* dir = new wxDir(strLocation);
+	wxString strFilename;
+	bool blDir = dir->GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxDirExists(strLocation + strFilename)){
+				DirectoryRemove(strLocation + strFilename, window);
+			}
+			else{
+				if(wxRemoveFile(strLocation + strFilename)){
+                    OutputProgress(_("Removed ") + strLocation + strFilename, window);
+                }
+            }
+	
+		}
+		while (dir->GetNext(&strFilename) );
+	} 
+	delete dir;
+  	wxLogNull log;
+    //wxMessageBox(_("About to try and remove ") + strLocation);
+	if(wxFileName::Rmdir(strLocation)){
+        OutputProgress(_("Removed ") + strLocation, window);
+    }
+    
+	return true;
+}
+}
 
 #endif
