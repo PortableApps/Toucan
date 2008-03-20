@@ -95,7 +95,8 @@ void *SyncThread::Entry(){
 	m_Window->m_Cancel->Enable(false);
 	wxMutexGuiLeave();
 	OutputProgress(_("Finished..."), m_Window);
-	
+	//As we are finished cancel any aborts
+	wxGetApp().SetAbort(false);
 	return NULL;
 
 }
@@ -103,11 +104,11 @@ void *SyncThread::Entry(){
 /*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFille when a file is reached*/
 bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 {
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	wxString strTo = data.GetDest();
 	wxString strFrom = data.GetSource();
-	//wxMessageBox(strTo, _("To"));
-	//wxMessageBox(strFrom, _("From"));
-	//This section need to be updated for the new data stuff
 	//Append a slash in case of an incorrect pass
 	if (strTo[strTo.length()-1] != wxFILE_SEP_PATH) {
 		strTo += wxFILE_SEP_PATH;       
@@ -129,6 +130,9 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {
+			if(wxGetApp().ShouldAbort()){
+				return true;
+			}
 			if(wxDirExists(strFrom + strFilename))
 			{
 				if(!rules.ShouldExclude(strTo + strFilename, true))
@@ -173,6 +177,9 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 
 bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 {
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	int iAttributes = FILE_ATTRIBUTE_NORMAL;
 	if(!rules.ShouldExclude(data.GetDest(), false)){
 		if(data.GetIgnoreRO()){
@@ -212,6 +219,9 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 				OutputProgress(_("Removed ") + data.GetSource(), window);
 			}
 		}
+		if(wxGetApp().ShouldAbort()){
+			return true;
+		}
 		//Set the old attrributes back
 		if(data.GetIgnoreRO()){
 			SetFileAttributes(data.GetDest(), iAttributes); 
@@ -237,8 +247,9 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 
 
 bool DirectoryRemove(wxString strLocation, frmProgress *window){
-	wxMessageBox(_("Removing"));
-{
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	// if it's a possible root directory
 	if (strLocation.length() <= 3) {
 		wxLogError(_("Toucan tried to delete a root directory. This has been forbidden for your own safety"));
@@ -254,6 +265,9 @@ bool DirectoryRemove(wxString strLocation, frmProgress *window){
 	bool blDir = dir->GetFirst(&strFilename);
 	if(blDir){
 		do {
+			if(wxGetApp().ShouldAbort()){
+				return true;
+			}
 			if(wxDirExists(strLocation + strFilename)){
 				DirectoryRemove(strLocation + strFilename, window);
 			}
@@ -268,13 +282,10 @@ bool DirectoryRemove(wxString strLocation, frmProgress *window){
 	} 
 	delete dir;
   	wxLogNull log;
-    //wxMessageBox(_("About to try and remove ") + strLocation);
 	if(wxFileName::Rmdir(strLocation)){
         OutputProgress(_("Removed ") + strLocation, window);
     }
-    
 	return true;
-}
 }
 
 #endif

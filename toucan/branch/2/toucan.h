@@ -60,6 +60,9 @@ public:
 		
     bool RegisterProcess(PipedProcess *process);
     bool UnregisterProcess(PipedProcess *process);
+	
+	bool ShouldAbort() { return blAbort; }
+	void SetAbort(bool abort) { blAbort = abort; }
 
 
     void OnIdle(wxIdleEvent& event);
@@ -72,7 +75,7 @@ protected:
     wxTimer m_wakeUpTimer;
 	wxArrayString SecureLocations;
 	wxArrayString BackupLocations;
-	
+	bool blAbort;
 };
 
 DECLARE_APP(Toucan)

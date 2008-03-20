@@ -23,6 +23,7 @@
 ////@begin includes
 ////@end includes
 
+#include "toucan.h"
 #include "frmprogress.h"
 
 ////@begin XPM images
@@ -199,7 +200,7 @@ void frmProgress::OnOkClick( wxCommandEvent& event )
 
 void frmProgress::OnCancelClick( wxCommandEvent& event )
 {
-	//Need to add abort code
+	wxGetApp().SetAbort(true);
 }
 
 
