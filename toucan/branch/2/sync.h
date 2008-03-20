@@ -150,6 +150,13 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 						SyncLoop(data, rules, window);
 						}
 					}
+					if(data.GetTimeStamps()){
+						wxFileName from(strFrom + strFilename);
+						wxFileName to(strTo + strFilename);
+						wxDateTime access, mod, created;
+						from.GetTimes(&access ,&mod ,&created );
+						to.SetTimes(&access ,&mod , &created); 
+					}		
 				}
 			}
 			else{

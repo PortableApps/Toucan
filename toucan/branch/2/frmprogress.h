@@ -75,6 +75,12 @@ public:
 
  /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  void OnOkClick( wxCommandEvent& event );
+ 
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL
+ void OnCancelClick( wxCommandEvent& event );
+ 
+ /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_SAVE
+ void OnSaveClick( wxCommandEvent& event ); 
 
 ////@end frmProgress event handler declarations
 

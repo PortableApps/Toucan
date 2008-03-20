@@ -25,7 +25,6 @@
 
 #include "syncdata.h"
 #include "sync.h"
-#include "syncpreview.h"
 
 #include "backupdata.h"
 #include "backupprocess.h"
@@ -595,7 +594,7 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton122 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_LOCATIONINCLUDE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer120->Add(itemBitmapButton122, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer123 = new wxBoxSizer(wxVERTICAL);
+	/*wxBoxSizer* itemBoxSizer123 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer94->Add(itemBoxSizer123, 1, wxGROW|wxALL, 5);
 	wxStaticText* itemStaticText124 = new wxStaticText( itemPanel93, wxID_STATIC, _("Files to delete"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer123->Add(itemStaticText124, 0, wxALIGN_LEFT|wxALL, 5);
@@ -612,7 +611,7 @@ void frmMain::CreateControls()
 	itemBoxSizer127->Add(itemBitmapButton128, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton129 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_FILEDELETE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer127->Add(itemBitmapButton129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	itemBoxSizer127->Add(itemBitmapButton129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);*/
 
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
 
@@ -868,10 +867,14 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 {
 	//Create a new progress form and show it
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
-	window->Show();
+	//Send all errors to the text control
+	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
+    delete wxLog::SetActiveTarget(logTxt);
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
+	//Show the window
+	window->Show();
 	//Sync
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")) {
 		//Create the data sets and fill them		
@@ -1196,6 +1199,18 @@ void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 			m_Sync_Dest_Tree->SetPreview(true);
 			m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
 			m_Sync_Dest_Tree->AddNewPath(m_Sync_Dest_Txt->GetValue());
+			
+			//Code for equalise function
+			if(m_Sync_Function->GetStringSelection() == _("Equilise")){
+				m_Sync_Source_Tree->DeleteAllItems();
+				m_Sync_Source_Tree->AddRoot(_("Hidden root"));
+				m_Sync_Source_Tree->SetRoot(m_Sync_Source_Txt->GetValue());
+				m_Sync_Source_Tree->SetRootOpp(m_Sync_Dest_Txt->GetValue());
+				m_Sync_Source_Tree->SetPreview(true);
+				m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
+				m_Sync_Source_Tree->AddNewPath(m_Sync_Source_Txt->GetValue());
+			}
+			
 	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")) {
 		//Create a new rule set and populate it from the form

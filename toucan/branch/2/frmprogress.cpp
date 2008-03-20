@@ -42,10 +42,11 @@ IMPLEMENT_CLASS( frmProgress, wxFrame )
 
 BEGIN_EVENT_TABLE( frmProgress, wxFrame )
 
-////@begin frmProgress event table entries
  EVT_BUTTON( wxID_OK, frmProgress::OnOkClick )
 
-////@end frmProgress event table entries
+ EVT_BUTTON( wxID_CANCEL, frmProgress::OnCancelClick )
+
+ EVT_BUTTON( wxID_SAVE, frmProgress::OnSaveClick )
 
 END_EVENT_TABLE()
 
@@ -190,4 +191,34 @@ void frmProgress::OnOkClick( wxCommandEvent& event )
  Destroy();
 ////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK in frmProgress. 
 }
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANEL
+ */
+
+void frmProgress::OnCancelClick( wxCommandEvent& event )
+{
+	//Need to add abort code
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_SAVE
+ */
+
+void frmProgress::OnSaveClick( wxCommandEvent& event )
+{
+	wxString strCaption = _("Save");
+	wxString strWildcard;
+	strWildcard = wxT("Text Files (*.txt)|*.txt");
+	wxString defaultFilename = wxEmptyString;
+	wxString defaultDir = wxT("/");
+	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxSAVE);
+	if (dialog.ShowModal() == wxID_OK)
+	{
+		m_Text->SaveFile(dialog.GetPath());
+	}
+}
+
 
