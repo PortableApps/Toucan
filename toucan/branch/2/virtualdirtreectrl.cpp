@@ -112,23 +112,10 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 		}
 	} 
 	else{
-		wxMessageBox(root, _("Else"));
-				wxMessageBox(root + wxT(".cpt"), _("We could be .cpt"));
 		if(wxFileExists(root)){
 			OnAddNewPath(root);
 			wxFileName path(root);
 			start = OnCreateTreeItem(VDTC_TI_FILE, root);
-			if (OnAddFile(*start, path)) {
-				// add this item to the tree, with info of the developer
-				wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
-			}
-		}
-		else if(wxFileExists(root + wxT(".cpt"))){
-
-			wxString strNewRoot = root +  wxT(".cpt");
-			OnAddNewPath(strNewRoot);
-			wxFileName path(strNewRoot);
-			start = OnCreateTreeItem(VDTC_TI_FILE, strNewRoot);
 			if (OnAddFile(*start, path)) {
 				// add this item to the tree, with info of the developer
 				wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);

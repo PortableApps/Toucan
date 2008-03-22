@@ -23,6 +23,8 @@
 
 #include <wx/list.h>
 #include <wx/listimpl.cpp> 
+#include <wx/snglinst.h>
+#include <wx/splash.h>
 
 #include "toucan.h"
 #include "frmmain.h"
@@ -75,11 +77,12 @@ void Toucan::Init()
 
 bool Toucan::OnInit()
 {    
-	wxImage::AddHandler(new wxPNGHandler);
 
+	wxInitAllImageHandlers();
 	frmMain* mainWindow = new frmMain( NULL, ID_AUIFRAME );
-	mainWindow->Show(true);
-
+	mainWindow->Show();
+	mainWindow->Raise();
+	mainWindow->Update();
 	return true;
 }
 
@@ -87,7 +90,7 @@ bool Toucan::OnInit()
 bool Toucan::RegisterProcess(PipedProcess *process)
 {
 	if ( m_Running.IsEmpty() ){
-		m_wakeUpTimer.Start(100);
+		m_wakeUpTimer.Start(20);
 	}
 	m_Running.Add(process);
 	return true;

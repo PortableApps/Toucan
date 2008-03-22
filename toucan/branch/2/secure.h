@@ -18,26 +18,23 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
-	//Need to put in a date here
-	OutputProgress(_("Starting..."), window);
-
 	wxArrayString arrLocation = data.GetLocations();
 	//Iterate through the entries in the array
 	for(unsigned int i = 0; i < arrLocation.Count(); i++)
 	{
+		if(wxGetApp().ShouldAbort()){
+			return true;
+		}
 		//Need to add normalisation to SecureData
 		if(arrLocation.Item(i) != wxEmptyString){
 			if(wxDirExists(arrLocation.Item(i))){
-
 				CryptDir(arrLocation.Item(i), data, rules, window);
 			}
-			else{
+			else if(wxFileExists(arrLocation.Item(i))){
 				CryptFile(arrLocation.Item(i), data, rules, window);
-            		}
+			}
 		}
 	}
-	//Need to put in a date
-	OutputProgress(_("Finished..."), window);
 	return true;
 }
 
@@ -46,12 +43,18 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 folder or CryptFile when it reaches a file.*/
 bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window)
 {   
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	wxDir dir(strPath);
 	wxString filename;
 	bool blDir = dir.GetFirst(&filename);
 	if (blDir)
 	{
 		do {
+			if(wxGetApp().ShouldAbort()){
+				return true;
+			}
 			if (wxDirExists(strPath + wxFILE_SEP_PATH + filename) ){
 				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
 			}
@@ -67,6 +70,9 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 
 bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* window)
 {
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	//Check to see it the file should be excluded	
 	if(rules.ShouldExclude(strFile, false)){
 		return true;

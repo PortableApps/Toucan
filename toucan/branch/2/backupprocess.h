@@ -43,12 +43,18 @@ bool PipedProcess::HasInput()
 {
 	bool hasInput = false;
 	if ( IsInputAvailable() ){
-        	wxTextInputStream tis(*GetInputStream());
-        	wxString msg = tis.ReadLine();
+		if(wxGetApp().ShouldAbort()){
+			//wxMessageBox(_("Abort"));
+			HANDLE hProcess=OpenProcess(PROCESS_ALL_ACCESS,TRUE,wxGetApp().GetPID());
+			TerminateProcess(hProcess,0);
+		}
+		wxTextInputStream tis(*GetInputStream());
+		wxString msg = tis.ReadLine();
 		//Need to change this to OutputProgress
 		m_Window->m_Text->AppendText(msg + wxT("\n"));
 		//Need a window update or refresh in here
-        	hasInput = true;
+		wxMilliSleep(50);
+		hasInput = true;
     	}
 	return hasInput;
 }
@@ -62,6 +68,10 @@ void PipedProcess::OnTerminate(int pid, int status)
 	m_Window->m_OK->Enable(true);
 	m_Window->m_Save->Enable(true);
 	m_Window->m_Cancel->Enable(false);
+	wxDateTime now = wxDateTime::Now();
+	m_Window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	m_Window->m_Text->AppendText(_("Finished"));
+	wxGetApp().SetAbort(false);
 	//Unregister the process as we are now done
 	wxGetApp().UnregisterProcess(this);
 }

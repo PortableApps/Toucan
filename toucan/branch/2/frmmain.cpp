@@ -685,6 +685,8 @@ void frmMain::CreateControls()
 	SetJobsBox(m_Sync_Job_Select, _("Sync"));
 	SetJobsBox(m_Backup_Job_Select, _("Backup"));
 	SetJobsBox(m_Secure_Job_Select, _("Secure"));
+	
+	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 //Show tooltips
@@ -748,6 +750,8 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
+	wxGetApp().GetBackupLocations().Clear();
+	m_Backup_TreeCtrl->DeleteAllItems();
 	//Add the path to the global list and to the virtualdirtreectrl
 	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
@@ -763,7 +767,7 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 {
 	//Checks to see if it is a top level item that is being removed
-	if (m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection())) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetRootItem())) {
+	if (m_Backup_TreeCtrl->GetSelection() == m_Backup_TreeCtrl->GetRootItem()) {
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
 		//Iterate throught the global list and remove the item
 		for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().Count(); i++) {
@@ -873,7 +877,12 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
+	
+	window->m_Text->AppendText(_("Starting...\n"));
+	wxDateTime now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	//Show the window
+	window->Update();
 	window->Show();
 	//Sync
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")) {
@@ -881,7 +890,14 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		SyncData data;
 		//Ensure that the data is filled
 		if(!data.TransferFromForm(this)){
+			window->m_OK->Enable(true);
+			window->m_Save->Enable(true);
+			window->m_Cancel->Enable(false);
+			now = wxDateTime::Now();
+			window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+			window->m_Text->AppendText(_("Finished"));
 			return;
+			
 		}
 		Rules rules;
 		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
@@ -897,90 +913,73 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 		//Create the data sets and fill them		
 		SecureData data;
 		//Ensure the data is filled
-		if(!data.TransferFromForm(this, true)){
-			return;
+		if(data.TransferFromForm(this, true)){
+			Rules rules;
+			if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
+				rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+			}
+			//Call the secure function
+			Secure(data, rules, window);
+			m_Secure_TreeCtrl->DeleteAllItems();
+			m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
+			for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
+				m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+			}
 		}
-		Rules rules;
-		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-		}
-		//Call the secure function
-		Secure(data, rules, window);
-		m_Secure_TreeCtrl->DeleteAllItems();
-		m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
-		for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
-				if(wxDirExists(wxGetApp().GetSecureLocations().Item(i))){
-					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
-				}
-				else if(wxFileExists(wxGetApp().GetSecureLocations().Item(i))){
-					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
-				}
-				else if(wxFileExists(wxGetApp().GetSecureLocations().Item(i) + wxT(".cpt"))){
-					wxGetApp().GetSecureLocations().Item(i) += wxT(".cpt");
-					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
-				}
-				else if(wxFileExists(wxGetApp().GetSecureLocations().Item(i).Left(wxGetApp().GetSecureLocations().Item(i).Length() - 4))){
-					wxGetApp().GetSecureLocations().Item(i) = wxGetApp().GetSecureLocations().Item(i).Left(wxGetApp().GetSecureLocations().Item(i).Length() - 4);
-					m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
-				}
-					
-		}
-		
 		window->m_OK->Enable(true);
 		window->m_Save->Enable(true);
 		window->m_Cancel->Enable(false);
+		now = wxDateTime::Now();
+		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+		window->m_Text->AppendText(_("Finished"));
 	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")) {
 		//Create the data sets and fill them
 		BackupData data;
-		if(!data.TransferFromForm(this, true)){
-			return;
-		}
-		Rules rules;
-		if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
-		}
-		wxString strCommand;
-		//Loop through all of the paths to backup 
-		for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
-			//Open the text file for the file paths and clear it
-			wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
-			file->Open();
-			file->Clear();
-			file->Write();
-			//Create the command to execute
-			strCommand = data.CreateCommand(i);
-			wxString strPath = data.GetLocations().Item(i);
-			if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-				strPath += wxFILE_SEP_PATH;       
+		if(data.TransferFromForm(this, true)){
+			Rules rules;
+			if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
+				rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 			}
-			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			//wxMessageBox(strPath);
-			//Create the list of files to backup
-			CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
-			//Commit the file changes
-			file->Write();
-			//Cretae the process, execute it and register it
-			PipedProcess *process = new PipedProcess(window);
-			wxGetApp().RegisterProcess(process);
-			long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-			DWORD dwExitCode;
-			HANDLE hProcess=OpenProcess(PROCESS_ALL_ACCESS,TRUE, lgPID);
-			GetExitCodeProcess( hProcess, &dwExitCode );
-			while(dwExitCode == STILL_ACTIVE ){
-				//wxMessageBox(_("Sleeping"));
-				GetExitCodeProcess( hProcess, &dwExitCode );
-				wxMilliSleep(50);
-				this->Refresh();
-				window->UpdateWindowUI();
-        	}
-			window->m_OK->Enable(true);
-			window->m_Save->Enable(true);
-			window->m_Cancel->Enable(false);
+			wxString strCommand;
+			//Loop through all of the paths to backup 
+			for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
+				//Open the text file for the file paths and clear it
+				wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
+				file->Open();
+				file->Clear();
+				file->Write();
+				//Create the command to execute
+				strCommand = data.CreateCommand(i);
+				wxString strPath = data.GetLocations().Item(i);
+				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+					strPath += wxFILE_SEP_PATH;       
+				}
+				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+				//wxMessageBox(strPath);
+				//Create the list of files to backup
+				CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
+				//Commit the file changes
+				file->Write();
+				//Cretae the process, execute it and register it
+				PipedProcess *process = new PipedProcess(window);
+				wxGetApp().RegisterProcess(process);
+				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+				wxGetApp().SetPID(lgPID);
+				/*while(dwExitCode == STILL_ACTIVE ){
+					//wxMessageBox(_("Sleeping"));
+					GetExitCodeProcess( hProcess, &dwExitCode );
+					wxSleep(5);
+					if(wxGetApp().ShouldAbort()){
+						wxProcess::Kill(lgPID);
+					}
+				}*/
+			}
 		}
 
 	}
+	wxGetApp().SetAbort(false);
 
 }
 

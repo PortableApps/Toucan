@@ -63,6 +63,10 @@ public:
 	
 	bool ShouldAbort() { return blAbort; }
 	void SetAbort(bool abort) { blAbort = abort; }
+	
+	
+	long GetPID() { return lgPID; }
+	void SetPID(long pid) { lgPID = pid; }
 
 
     void OnIdle(wxIdleEvent& event);
@@ -76,6 +80,7 @@ protected:
 	wxArrayString SecureLocations;
 	wxArrayString BackupLocations;
 	bool blAbort;
+	long lgPID;
 };
 
 DECLARE_APP(Toucan)

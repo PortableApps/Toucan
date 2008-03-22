@@ -43,7 +43,6 @@ void *SyncThread::Entry(){
 	m_Window->m_OK->Enable(false);
 	m_Window->m_Save->Enable(false);
 	wxMutexGuiLeave();
-	OutputProgress(_("Starting..."), m_Window);
 	//Launch the correct set of loops
 	if(m_Data.GetFunction() == _("Copy") || m_Data.GetFunction() == _("Update")){
 		SyncLoop(m_Data, m_Rules, m_Window);
@@ -93,8 +92,10 @@ void *SyncThread::Entry(){
 	m_Window->m_OK->Enable(true);
 	m_Window->m_Save->Enable(true);
 	m_Window->m_Cancel->Enable(false);
+	wxDateTime now = wxDateTime::Now();
+	m_Window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	OutputProgress(_("Finished"), m_Window);
 	wxMutexGuiLeave();
-	OutputProgress(_("Finished..."), m_Window);
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
 	return NULL;
@@ -212,8 +213,8 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 			}
 		}
 		if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){	
-			wxMessageBox(data.GetDest(), _("Dest"));
-			wxMessageBox(data.GetSource(), _("Source"));
+			//wxMessageBox(data.GetDest(), _("Dest"));
+			//wxMessageBox(data.GetSource(), _("Source"));
 			if(!wxFileExists(data.GetDest())){
 				wxRemoveFile(data.GetSource());
 				OutputProgress(_("Removed ") + data.GetSource(), window);

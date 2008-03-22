@@ -225,7 +225,7 @@ wxString BackupData::CreateCommand(int i){
 	if (GetFormat() == wxT("Zip")){
 		SetFormat(wxT("zip"));
 	}
-   	else if (GetFormat() == wxT("7 Zip")){
+   	else if (GetFormat() == wxT("7-Zip")){
 		SetFormat(wxT("7z"));
 		//Make sure solid mode is turned off so updating works
 		strSolid = wxT(" -ms=off");
