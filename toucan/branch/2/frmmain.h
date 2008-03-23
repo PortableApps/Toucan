@@ -37,6 +37,8 @@ class wxGenericDirCtrl;
 #define ID_PANEL_SYNC 10009
 
 //Sync
+#define ID_SYNC_OK 20019
+#define ID_SYNC_PREVIEW 20020
 #define ID_SYNC_JOB_SELECT 10019
 #define ID_SYNC_JOB_SAVE 10020
 #define ID_SYNC_JOB_ADD 10021

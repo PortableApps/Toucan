@@ -80,7 +80,7 @@ bool Toucan::OnInit()
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
 	frmMain* mainWindow = new frmMain( NULL, ID_AUIFRAME );
-	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")))
+	/*if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")))
 	{
 		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
 		wxSplashScreen *scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, mainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
@@ -89,7 +89,7 @@ bool Toucan::OnInit()
 		wxSleep(2);
 		//Now destroy the splashscreen
 		scrn->Destroy(); 
-	}
+	}*/
 	mainWindow->Show();
 	mainWindow->Maximize();
 	return true;
