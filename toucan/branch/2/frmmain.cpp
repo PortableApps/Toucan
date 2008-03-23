@@ -187,7 +187,7 @@ void frmMain::CreateControls()
 	GetAuiManager().SetManagedWindow(this);
 
 	//Create the toolbar, need to add images
-	wxToolBar* itemToolBar2 = new wxToolBar( itemFrame1, ID_TOOLBAR, wxDefaultPosition, wxSize(120, -1), wxTB_FLAT|wxTB_HORIZONTAL|wxTB_TEXT|wxTB_NODIVIDER|wxTB_NOALIGN|wxNO_BORDER );
+	/*wxToolBar* itemToolBar2 = new wxToolBar( itemFrame1, ID_TOOLBAR, wxDefaultPosition, wxSize(120, -1), wxTB_FLAT|wxTB_HORIZONTAL|wxTB_TEXT|wxTB_NODIVIDER|wxTB_NOALIGN|wxNO_BORDER );
 	itemToolBar2->SetToolBitmapSize(wxSize(32, 32));
 	wxBitmap itemtool3Bitmap = GetBitmapResource(wxT("ok.png"));
 	wxBitmap itemtool3BitmapDisabled;
@@ -199,9 +199,11 @@ void frmMain::CreateControls()
 	itemFrame1->GetAuiManager().AddPane(itemToolBar2, wxAuiPaneInfo()
 	                                    .ToolbarPane().Name(_T("Pane5")).Top().Layer(10).LeftDockable(false).RightDockable(false).BottomDockable(false).CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(false).Gripper(true).PaneBorder(false));
 
-	
+	*/
 	//Cretae the root AUI notebook
 	m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_MOVE|wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
+
+
 
 	//The sync panel
 	wxPanel* itemPanel6 = new wxPanel( m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
@@ -367,7 +369,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer53 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer36->Add(itemBoxSizer53, 1, wxGROW|wxALL, 5);
-	m_Backup_DirCtrl = new wxGenericDirCtrl( itemPanel35, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER, _T("All files (*.*)|*.*"), 0 );
+	m_Backup_DirCtrl = new wxGenericDirCtrl( itemPanel35, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME, _T("All files (*.*)|*.*"), 0 );
 	itemBoxSizer53->Add(m_Backup_DirCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer55 = new wxBoxSizer(wxVERTICAL);
@@ -392,7 +394,6 @@ void frmMain::CreateControls()
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
 	m_Backup_FunctionStrings.Add(_("Incremental"));
-	m_Backup_FunctionStrings.Add(_("Resotre"));
 	m_Backup_Function = new wxRadioBox( itemPanel35, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Function->SetSelection(0);
 	itemBoxSizer61->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
@@ -464,7 +465,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer78 = new wxBoxSizer(wxHORIZONTAL);
 		
 	itemBoxSizer69->Add(itemBoxSizer78, 1, wxGROW|wxALL, 5);
-	m_Secure_DirCtrl = new wxGenericDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize);
+	m_Secure_DirCtrl = new wxGenericDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	itemBoxSizer78->Add(m_Secure_DirCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);
@@ -519,7 +520,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer95 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer94->Add(itemBoxSizer95, 0, wxALIGN_LEFT|wxALL, 5);
-	wxStaticText* itemStaticText96 = new wxStaticText( itemPanel93, wxID_STATIC, _("Rule set name"), wxDefaultPosition, wxDefaultSize, 0 );
+	wxStaticText* itemStaticText96 = new wxStaticText( itemPanel93, wxID_STATIC, _("Rules name"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer95->Add(itemStaticText96, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxHORIZONTAL);
@@ -724,8 +725,8 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 		return bitmap;
 	}
 	else if (name == _T("backup.png")) {
-		//wxBitmap bitmap(_T("backup.png"), wxBITMAP_TYPE_PNG);
-		return wxNullBitmap;
+		wxBitmap bitmap(_T("backup.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
 	}
 	else if (name == _T("secure.png")) {
 		wxBitmap bitmap(_T("secure.png"), wxBITMAP_TYPE_PNG);
