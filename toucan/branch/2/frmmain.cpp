@@ -199,38 +199,6 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer8->Add(itemBoxSizer9, 0, wxGROW|wxALL, 5);
 
-
-	wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer8->Add(itemBoxSizer17, 1, wxGROW|wxALL, 5);
-	wxBoxSizer* itemBoxSizer18 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer17->Add(itemBoxSizer18, 1, wxGROW|wxALL, 5);
-	wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer18->Add(itemBoxSizer19, 0, wxGROW|wxALL, 5);
-	
-	//Source section
-	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer19->Add(m_Sync_Source_Txt, 1, wxALIGN_TOP|wxALL, 5);
-
-	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
-	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
-	itemBoxSizer18->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
-
-	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer17->Add(itemBoxSizer23, 1, wxGROW|wxALL, 5);
-	wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer23->Add(itemBoxSizer24, 0, wxGROW|wxALL, 5);
-
-	//Destination section
-	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer24->Add(m_Sync_Dest_Txt, 1, wxALIGN_TOP|wxALL, 5);
-
-	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
-	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
-	itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 	//Top sizer
 	
 	wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
@@ -303,7 +271,38 @@ void frmMain::CreateControls()
 	
 	wxButton* itemButtonSyncPreview = new wxButton( itemPanel6, ID_SYNC_PREVIEW , _("Preview"));
 	itemBoxSizer002->Add(itemButtonSyncPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer8->Add(itemBoxSizer17, 1, wxGROW|wxALL, 5);
+	wxBoxSizer* itemBoxSizer18 = new wxBoxSizer(wxVERTICAL);
+	itemBoxSizer17->Add(itemBoxSizer18, 1, wxGROW|wxALL, 5);
+	wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer18->Add(itemBoxSizer19, 0, wxGROW|wxALL, 5);
 	
+	//Source section
+	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer19->Add(m_Sync_Source_Txt, 1, wxALIGN_TOP|wxALL, 5);
+
+	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
+	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
+	itemBoxSizer18->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
+
+	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
+	itemBoxSizer17->Add(itemBoxSizer23, 1, wxGROW|wxALL, 5);
+	wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer23->Add(itemBoxSizer24, 0, wxGROW|wxALL, 5);
+
+	//Destination section
+	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer24->Add(m_Sync_Dest_Txt, 1, wxALIGN_TOP|wxALL, 5);
+
+	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
+	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
+	itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 
 	//Add the panel
 	m_Notebook->AddPage(itemPanel6, _("Sync"), false, GetBitmapResource(wxT("sync.png")));
@@ -652,11 +651,11 @@ void frmMain::CreateControls()
 	wxButton* itemButton142 = new wxButton( itemPanel131, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);
+	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);*/
 
 	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
-	//m_Notebook->AddPage(itemPanel143, _("Settings"), false);*/
+	m_Notebook->AddPage(itemPanel143, _("Settings"), false,  GetBitmapResource(wxT("settings.png")));
 
 	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
 	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
@@ -730,6 +729,10 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 	}
 	else if (name == _T("secure.png")) {
 		wxBitmap bitmap(_T("secure.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
+	else if (name == _T("settings.png")) {
+		wxBitmap bitmap(_T("settings.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	return wxNullBitmap;
