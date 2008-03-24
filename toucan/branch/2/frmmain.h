@@ -165,6 +165,13 @@ public:
 
 	 /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
 	 void OnSyncJobSelectSelected( wxCommandEvent& event );
+	
+	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
+	 void OnSyncOKClick( wxCommandEvent& event );
+
+	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
+	 void OnSyncPreviewClick( wxCommandEvent& event );
+
 
 	 /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
 	 void OnSyncJobSaveClick( wxCommandEvent& event );

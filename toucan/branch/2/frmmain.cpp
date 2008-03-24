@@ -44,6 +44,10 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
 	EVT_COMBOBOX( ID_SYNC_JOB_SELECT, frmMain::OnSyncJobSelectSelected )
 
+	EVT_BUTTON( ID_SYNC_OK, frmMain::OnSyncOKClick )
+	
+	EVT_BUTTON( ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick )
+
 	EVT_BUTTON( ID_SYNC_JOB_SAVE, frmMain::OnSyncJobSaveClick )
 	
 	EVT_BUTTON( ID_BACKUP_JOB_SAVE, frmMain::OnBackupJobSaveClick )
@@ -888,30 +892,6 @@ void frmMain::OnToolOkClick( wxCommandEvent& event )
 	//Show the window
 	window->Update();
 	window->Show();
-	//Sync
-	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")) {
-		//Create the data sets and fill them		
-		SyncData data;
-		//Ensure that the data is filled
-		if(!data.TransferFromForm(this)){
-			window->m_OK->Enable(true);
-			window->m_Save->Enable(true);
-			window->m_Cancel->Enable(false);
-			now = wxDateTime::Now();
-			window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-			window->m_Text->AppendText(_("Finished"));
-			return;
-			
-		}
-		Rules rules;
-		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-		}
-		//Create a new Sync thread and run it (needs to use Wait())
-		SyncThread *thread = new SyncThread(data, rules, window, this);
-		thread->Create();
-		thread->Run();
-	}
 	//Secure
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")) {
 		//Create the data sets and fill them		
@@ -1179,42 +1159,6 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 void frmMain::OnToolPreviewClick( wxCommandEvent& event )
 {
 	/*Not using index based choosing here as the tabs can be reordered*/
-	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")) {
-			wxString strPath = m_Sync_Source_Txt->GetValue();
-			//wxMessageBox(strPath);
-			/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
-			in the future in the vdtc code*/
-			if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-				strPath = strPath.Left(strPath.Length() - 1); 
-			}
-			//wxMessageBox(strPath);
-			m_Sync_Source_Txt->SetValue(strPath);
-			strPath = m_Sync_Dest_Txt->GetValue();
-			if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-				strPath = strPath.Left(strPath.Length() - 1); 
-			}
-			//wxMessageBox(strPath);
-			m_Sync_Dest_Txt->SetValue(strPath);
-			m_Sync_Dest_Tree->DeleteAllItems();
-			m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
-			m_Sync_Dest_Tree->SetRoot(m_Sync_Dest_Txt->GetValue());
-			m_Sync_Dest_Tree->SetRootOpp(m_Sync_Source_Txt->GetValue());
-			m_Sync_Dest_Tree->SetPreview(true);
-			m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
-			m_Sync_Dest_Tree->AddNewPath(m_Sync_Dest_Txt->GetValue());
-			
-			//Code for equalise function
-			if(m_Sync_Function->GetStringSelection() == _("Equilise")){
-				m_Sync_Source_Tree->DeleteAllItems();
-				m_Sync_Source_Tree->AddRoot(_("Hidden root"));
-				m_Sync_Source_Tree->SetRoot(m_Sync_Source_Txt->GetValue());
-				m_Sync_Source_Tree->SetRootOpp(m_Sync_Dest_Txt->GetValue());
-				m_Sync_Source_Tree->SetPreview(true);
-				m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
-				m_Sync_Source_Tree->AddNewPath(m_Sync_Source_Txt->GetValue());
-			}
-			
-	}
 	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")) {
 		//Create a new rule set and populate it from the form
 		Rules rules;
@@ -1530,4 +1474,89 @@ void frmMain::OnBackupJobSelectSelected( wxCommandEvent& event )
 	}
 	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(stdcursor);
+}
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_OK
+ */
+
+void frmMain::OnSyncOKClick( wxCommandEvent& event )
+{
+	//Create a new progress form and show it
+	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	//Send all errors to the text control
+	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
+    delete wxLog::SetActiveTarget(logTxt);
+	//Set up the buttons on the progress box
+	window->m_OK->Enable(false);
+	window->m_Save->Enable(false);
+	window->m_Text->AppendText(_("Starting...\n"));
+	wxDateTime now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	//Show the window
+	window->Update();
+	window->Show();
+	//Sync
+	//Create the data sets and fill them		
+	SyncData data;
+	//Ensure that the data is filled
+	if(!data.TransferFromForm(this)){
+		window->m_OK->Enable(true);
+		window->m_Save->Enable(true);
+		window->m_Cancel->Enable(false);
+		now = wxDateTime::Now();
+		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+		window->m_Text->AppendText(_("Finished"));
+		return;
+			
+	}
+	Rules rules;
+	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+	}
+	//Create a new Sync thread and run it (needs to use Wait())
+	SyncThread *thread = new SyncThread(data, rules, window, this);
+	thread->Create();
+	thread->Run();
+}
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_PREVIEW
+ */
+
+void frmMain::OnSyncPreviewClick( wxCommandEvent& event )
+{
+	wxString strPath = m_Sync_Source_Txt->GetValue();
+	//wxMessageBox(strPath);
+	/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
+	in the future in the vdtc code*/
+	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+		strPath = strPath.Left(strPath.Length() - 1); 
+	}
+	//wxMessageBox(strPath);
+	m_Sync_Source_Txt->SetValue(strPath);
+	strPath = m_Sync_Dest_Txt->GetValue();
+	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+		strPath = strPath.Left(strPath.Length() - 1); 
+	}
+	//wxMessageBox(strPath);
+	m_Sync_Dest_Txt->SetValue(strPath);
+	m_Sync_Dest_Tree->DeleteAllItems();
+	m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
+	m_Sync_Dest_Tree->SetRoot(m_Sync_Dest_Txt->GetValue());
+	m_Sync_Dest_Tree->SetRootOpp(m_Sync_Source_Txt->GetValue());
+	m_Sync_Dest_Tree->SetPreview(true);
+	m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
+	m_Sync_Dest_Tree->AddNewPath(m_Sync_Dest_Txt->GetValue());
+			
+	//Code for equalise function
+	if(m_Sync_Function->GetStringSelection() == _("Equilise")){
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
+		m_Sync_Source_Tree->SetRoot(m_Sync_Source_Txt->GetValue());
+		m_Sync_Source_Tree->SetRootOpp(m_Sync_Dest_Txt->GetValue());
+		m_Sync_Source_Tree->SetPreview(true);
+		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
+		m_Sync_Source_Tree->AddNewPath(m_Sync_Source_Txt->GetValue());
+	}
 }
