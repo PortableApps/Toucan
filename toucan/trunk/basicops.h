@@ -95,6 +95,15 @@ bool SaveSettings(frmMain* window)
     if(window->m_Lang->GetStringSelection() == wxT("Nederlands")){
         config->Write(wxT("General/Language") , wxT("wxLANGUAGE_DUTCH"));
     }
+    if(window->m_Lang->GetStringSelection() == wxT("Eesti")){
+        config->Write(wxT("General/Language") , wxT("wxLANGUAGE_ESTONIAN"));
+    }
+    if(window->m_Lang->GetStringSelection() == wxT("Espanol")){
+        config->Write(wxT("General/Language") , wxT("wxLANGUAGE_SPANISH"));
+    }
+    if(window->m_Lang->GetStringSelection() == wxT("Nihongo")){
+        config->Write(wxT("General/Language") , wxT("wxLANGUAGE_JAPANESE"));
+    }
 	config->Flush();
     return true;
 }

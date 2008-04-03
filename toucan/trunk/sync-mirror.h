@@ -81,6 +81,9 @@ bool MirrorDir(wxString strOriginal, wxString strNew, frmProgress* window, int l
                     					RemoveDirectory(strNew + strFilename, blVisible, window);
                                         
                     				}
+                    				wxString both1 = strNew + strFilename;
+                    				both1 = both1.Right(both1.Length() - length1);
+                    				OutputProgress(_("\nRemoved \t") + both1, window, blVisible);
                 			}
                 			else{
                     				MirrorDir(strOriginal+ strFilename, strNew+ strFilename,window, length1, length2, blPreview, blVisible);

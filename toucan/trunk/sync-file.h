@@ -26,15 +26,18 @@ bool SyncFile(wxString strFrom, wxString strTo, wxString strFunction, wxArrayStr
 	//I.E. it is not equal to one of the excluded filenames
 	if(!IsExcluded(strTo, arrExclusions, false)){
 		if(strFunction == _("Copy")){
+			bool blCopy;
 			if(!blPreview){
 				if(wxFileExists(strFrom)){
 					wxRemoveFile(strTo);
-					wxCopyFile(strFrom, strTo, true);
+					blCopy = wxCopyFile(strFrom, strTo, true);
                 }
 			}	
-			wxString both1 = strFrom ;
-			both1 = both1.Right(both1.Length() - length1);
-			OutputProgress(_("Copied \t") + both1, window, blVisible);
+			if(blCopy || !blPreview){
+				wxString both1 = strFrom ;
+				both1 = both1.Right(both1.Length() - length1);
+				OutputProgress(_("Copied \t") + both1, window, blVisible);
+			}			
 		}
 		if(strFunction == _("Update")){
 			if(wxFileExists(strTo)){
@@ -52,12 +55,15 @@ bool SyncFile(wxString strFrom, wxString strTo, wxString strFunction, wxArrayStr
 				}
 			}
 			else{
+				bool blCopy;	
 				if(!blPreview){
-					wxCopyFile(strFrom, strTo, true);
+					blCopy = wxCopyFile(strFrom, strTo, true);
 				}
 				wxString both1 = strFrom ;
 				both1 = both1.Right(both1.Length() - length1);
-				OutputProgress(_("Copied \t") + both1, window, blVisible);
+				if(blCopy || !blPreview){
+					OutputProgress(_("Copied \t") + both1, window, blVisible);
+				}				
 			}
 		}
 		//Copy the file attributes and timestamps as required

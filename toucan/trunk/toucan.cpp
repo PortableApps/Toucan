@@ -42,8 +42,6 @@
 #include <wx/splash.h>
 #include <iostream>
 #include <stdio.h>
-using namespace std;
-
 //declare the main wxWidgets application,
 //but don't create an entry point for the application
 IMPLEMENT_APP_NO_MAIN(Toucan)
@@ -124,6 +122,23 @@ void Toucan::SelectLanguage()
 		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
 		m_locale->AddCatalog(wxT("toucan"));
 	}
+	if(lang == wxT("wxLANGUAGE_ESTONIAN")){
+			//wxMessageBox(_T("In loop"));
+		m_locale = new wxLocale(wxLANGUAGE_ESTONIAN);
+		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+		m_locale->AddCatalog(wxT("toucan"));
+	}
+	if(lang == wxT("wxLANGUAGE_SPANISH")){
+			//wxMessageBox(_T("In loop"));
+		m_locale = new wxLocale(wxLANGUAGE_SPANISH);
+		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+		m_locale->AddCatalog(wxT("toucan"));
+	}
+	if(lang == wxT("wxLANGUAGE_JAPANESE")){
+		m_locale = new wxLocale(wxLANGUAGE_JAPANESE);
+		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+		m_locale->AddCatalog(wxT("toucan"));
+	}
 }
 /*!
 //* Cleanup for toucan
@@ -156,19 +171,43 @@ int main(int argc, char* argv[])
         //wxMessageBox(_T("Reading"));
         wxLocale* m_locale;
         bool blLang = programconfig->Read(wxT("General/Language"), &lang);
-        if(lang == wxT("wxLANGUAGE_GERMAN")){
-            //wxMessageBox(_T("In loop"));
-            m_locale = new wxLocale(wxLANGUAGE_GERMAN);
-            m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang"));
-            m_locale->AddCatalog(wxT("toucan"));
-        }
-	if(lang == wxT("wxLANGUAGE_FRENCH")){
-        //wxMessageBox(_T("In loop"));
-		m_locale = new wxLocale(wxLANGUAGE_FRENCH);
-		m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang"));
-		m_locale->AddCatalog(wxT("toucan"));
-	}
-        
+		if(lang == wxT("wxLANGUAGE_GERMAN")){
+			//wxMessageBox(_T("In loop"));
+			m_locale = new wxLocale(wxLANGUAGE_GERMAN);
+			m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang"));
+			m_locale->AddCatalog(wxT("toucan"));
+		}
+		if(lang == wxT("wxLANGUAGE_FRENCH")){
+			//wxMessageBox(_T("In loop"));
+			m_locale = new wxLocale(wxLANGUAGE_FRENCH);
+			m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+			m_locale->AddCatalog(wxT("toucan"));
+		}
+		if(lang == wxT("wxLANGUAGE_DUTCH")){
+			//wxMessageBox(_T("In loop"));
+			m_locale = new wxLocale(wxLANGUAGE_DUTCH);
+			m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+			m_locale->AddCatalog(wxT("toucan"));
+		}
+	
+		if(lang == wxT("wxLANGUAGE_ESTONIAN")){
+				//wxMessageBox(_T("In loop"));
+			m_locale = new wxLocale(wxLANGUAGE_ESTONIAN);
+			m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+			m_locale->AddCatalog(wxT("toucan"));
+		}
+		if(lang == wxT("wxLANGUAGE_SPANISH")){
+				//wxMessageBox(_T("In loop"));
+			m_locale = new wxLocale(wxLANGUAGE_SPANISH);
+			m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+			m_locale->AddCatalog(wxT("toucan"));
+		}
+		if(lang == wxT("wxLANGUAGE_JAPANESE")){
+				//wxMessageBox(_T("In loop"));
+			m_locale = new wxLocale(wxLANGUAGE_JAPANESE);
+			m_locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) +  wxFILE_SEP_PATH + wxT("lang"));
+			m_locale->AddCatalog(wxT("toucan"));
+		}
         //Single instance check
 		wxSingleInstanceChecker* m_checker = new wxSingleInstanceChecker(wxT("Toucan"));
 		if(m_checker->IsAnotherRunning()){

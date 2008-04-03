@@ -452,9 +452,9 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
 
     
 
-	m_Backup_Pass = new wxTextCtrl( itemPanel33, ID_BACKUPPASS, _T(""), wxDefaultPosition, wxSize(110, -1), wxTE_PASSWORD );
+	m_Backup_Pass = new wxTextCtrl( itemPanel33, ID_BACKUPPASS, _T(""), wxDefaultPosition, wxSize(150, -1), wxTE_PASSWORD );
 	itemStaticBoxSizer100->Add(m_Backup_Pass, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	m_Backup_Pass2 = new wxTextCtrl( itemPanel33, ID_BACKUPPASS2, _T(""), wxDefaultPosition, wxSize(110, -1), wxTE_PASSWORD );
+	m_Backup_Pass2 = new wxTextCtrl( itemPanel33, ID_BACKUPPASS2, _T(""), wxDefaultPosition, wxSize(150, -1), wxTE_PASSWORD );
 	itemStaticBoxSizer100->Add(m_Backup_Pass2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
     
     itemBoxSizer101->Add(itemStaticBoxSizer100, 0, wxALIGN_TOP|wxALL, 5);
@@ -664,7 +664,10 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
 		_T("English"),
 		_T("Deutsch"),
         wxT("Francais"),
-		_T("Nederlands")
+		_T("Nederlands"),
+		_T("Eesti"),
+		_T("Espanol"),
+		_T("Nihongo")
 	};
     
     
@@ -672,7 +675,7 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
     wxStaticBoxSizer* itemStaticBoxSizer105 = new wxStaticBoxSizer(itemStaticBoxSizer105Static, wxVERTICAL);
 
     
-	m_Lang = new wxComboBox( itemPanel97, ID_LANGUAGE, _T("English"), wxDefaultPosition, wxSize(130, -1),4, m_LangStrings, wxCB_DROPDOWN|wxCB_READONLY );
+	m_Lang = new wxComboBox( itemPanel97, ID_LANGUAGE, _T("English"), wxDefaultPosition, wxSize(130, -1),7, m_LangStrings, wxCB_DROPDOWN|wxCB_READONLY );
 	itemStaticBoxSizer105->Add(m_Lang, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);   
 	wxString m_TooltipStrings[] = {
 		_("Enabled"),
@@ -801,6 +804,15 @@ m_Backup_Text_2->SetMinSize(wxSize(100,-1));
     else if(programconfig->Read(wxT("General/Language")) == wxT("wxLANGUAGE_DUTCH")){
         m_Lang->SetStringSelection(wxT("Nederlands"));
     }
+    else if(programconfig->Read(wxT("General/Language")) == wxT("wxLANGUAGE_ESTONIAN")){
+        m_Lang->SetStringSelection(wxT("Eesti"));
+    }
+    else if(programconfig->Read(wxT("General/Language")) == wxT("wxLANGUAGE_SPANISH")){
+        m_Lang->SetStringSelection(wxT("Espanol"));
+    }
+    else if(programconfig->Read(wxT("General/Language")) == wxT("wxLANGUAGE_JAPANESE")){
+        m_Lang->SetStringSelection(wxT("Nihongo"));
+    }
     itemDialog1->Raise();
 }  
 
@@ -881,12 +893,15 @@ void frmMain::OnABOUTClick( wxCommandEvent& event )
 {	
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("1.2.1"));
+	info.SetVersion(wxT("1.2.2.0"));
 	info.SetCopyright(wxT("(C) 2006-2007 Steven Lamerton \nName by Danny Mensingh\nBURP, 7zip, ccrypt and the icon set are (C) their respective owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.AddTranslator(wxT("Simeon Kühl - German"));
 	info.AddTranslator(wxT("Audran Moulard - French"));
 	info.AddTranslator(wxT("Pieter Kerstens - Dutch"));
+	info.AddTranslator(wxT("Nardog - Japanese"));
+	info.AddTranslator(wxT("Ravio Valba - Estonian"));
+	info.AddTranslator(wxT("Nicolas Procak - Spanish"));
 	info.SetLicense(wxT("Toucan, 7zip, BURP, ccrypt and the icon set are all licensed under the GNU GPL or a compatible license."));
 
 	wxAboutBox(info);

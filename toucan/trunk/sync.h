@@ -12,6 +12,8 @@
 #include <wx/dir.h>
 #include <wx/log.h>
 
+bool FolderTimeLoop(wxString strFrom, wxString strTo, wxArrayString arrExclusions);
+
 /*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFile when a file is reached*/
 bool SyncLoop(wxString strFrom, wxString strTo,  wxString strFunction, wxArrayString arrExclusions, bool blAttributes, frmProgress* window, int length1, int length2, bool blPreview, bool blVisible)
 {
@@ -134,10 +136,16 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 			if(dialog->ShowModal() == wxID_YES){
 				window->SetLabel(_("Progress"));
 				SyncLoop(strSource, strDest, strFunction, arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+				if(blAttributes){
+					FolderTimeLoop(strSource, strDest, arrExclusion);
+				}
 			}
 		}
 		else{
 			SyncLoop(strSource, strDest, strFunction, arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
+			if(blAttributes){
+				FolderTimeLoop(strSource, strDest, arrExclusion);
+			}
 		}
 	}
 	else if(strFunction == _("Mirror (Copy)")){
@@ -152,11 +160,17 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 				window->SetLabel(_("Progress"));
 				SyncLoop(strSource, strDest, _("Copy"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
 				MirrorDir(strSource,strDest, window,length1, length2, false, blVisible);
+				if(blAttributes){
+					FolderTimeLoop(strSource, strDest, arrExclusion);
+				}
 			}
 		}
 		else{
 			SyncLoop(strSource, strDest, _("Copy"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
 			MirrorDir(strSource,strDest, window,length1, length2, false, blVisible);
+			if(blAttributes){
+				FolderTimeLoop(strSource, strDest, arrExclusion);
+			}
 		}
 	}
 	else if(strFunction == _("Mirror (Update)")){
@@ -171,11 +185,17 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 				window->SetLabel(_("Progress"));
 				SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
 				MirrorDir(strSource,strDest, window,length1, length2, false, blVisible);
+				if(blAttributes){
+					FolderTimeLoop(strSource, strDest, arrExclusion);
+				}
 			}
 		}
 		else{
 			SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
 			MirrorDir(strSource,strDest, window,length1, length2, false, blVisible);
+			if(blAttributes){
+				FolderTimeLoop(strSource, strDest, arrExclusion);
+			}
 		}
 	}
 	else if(strFunction == _("Equalise")){
@@ -190,13 +210,25 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 			if(dialog->ShowModal() == wxID_YES){
 				window->SetLabel(_("Progress"));
 				SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+				if(blAttributes){
+					FolderTimeLoop(strSource, strDest, arrExclusion);
+				}
 				//wxMessageBox(_("Finished Copy"));
 				SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, false, blVisible);
+				if(blAttributes){
+					FolderTimeLoop(strDest, strSource, arrExclusion);
+				}
 			}
 		}
 		else{
 			SyncLoop(strSource, strDest, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
+			if(blAttributes){
+				FolderTimeLoop(strSource, strDest, arrExclusion);
+			}
 			SyncLoop(strDest, strSource, _("Update"), arrExclusion,  blAttributes, window,length1, length2, blPreview, blVisible);
+			if(blAttributes){
+				FolderTimeLoop(strDest, strSource, arrExclusion);
+			}
 		}
 		
 	}
@@ -204,5 +236,61 @@ bool Sync(wxString strSource, wxString strDest, wxString strFunction, wxArrayStr
 	window->m_OK->Enable();
 	window->m_Save->Enable();
 	window->m_Abort->Enable(false);
+	return true;
+}
+
+bool FolderTimeLoop(wxString strFrom, wxString strTo, wxArrayString arrExclusions){
+	if(wxGetApp().GetStrAbort() == wxT("ABORT")){
+		return false;
+	}
+	//Make sure that the correct ending is appended
+	if (strTo[strTo.length()-1] != wxFILE_SEP_PATH) {
+		strTo += wxFILE_SEP_PATH;       
+	}
+	// for both dirs
+	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
+		strFrom += wxFILE_SEP_PATH;       
+	}
+	
+	wxDir* dir = new wxDir(strFrom);
+	wxString strFilename;
+	bool blDir = dir->GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxGetApp().GetStrAbort() == wxT("ABORT")){
+				return false;	
+			}
+			if(wxDirExists(strTo + strFilename)){
+				FolderTimeLoop(strFrom + strFilename, strTo + strFilename, arrExclusions);
+			}
+		}
+		while (dir->GetNext(&strFilename) );
+	} 
+	delete dir;
+	if (wxDirExists(strTo)){
+		FILETIME ftCreated,ftAccessed,ftModified;
+		HANDLE hFrom = CreateFile(strFrom,
+			GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,
+			NULL,
+			OPEN_EXISTING,
+			FILE_FLAG_BACKUP_SEMANTICS,
+			NULL);
+
+		if(hFrom == INVALID_HANDLE_VALUE)
+		  return false;
+		GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
+		CloseHandle(hFrom);
+		HANDLE hTo = CreateFile(strTo,
+			GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,
+			NULL,
+			OPEN_EXISTING,
+			FILE_FLAG_BACKUP_SEMANTICS,
+			NULL);
+
+		if(hTo == INVALID_HANDLE_VALUE)
+		  return false;
+		SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
+		CloseHandle(hTo);
+		}	
 	return true;
 }

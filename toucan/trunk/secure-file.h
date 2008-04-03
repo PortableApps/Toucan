@@ -44,18 +44,19 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
 			command = wxT("burp -eo -k\"") + strPass + wxT("\" \"") + strFile + wxT("\"");
 		}
 		//Execute the process 
-		long lgReturn = wxExecute(command, arrErrors,arrOutput, wxEXEC_NODISABLE|wxEXEC_SYNC);
+		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
+		//long lgReturn = 0;
 		//Put the original attributes back
-		SetFileAttributes(strFile,filearrtibs);
+		//SetFileAttributes(strFile,filearrtibs);
 		if(lgReturn == 0){        
             OutputProgress(_("Encrypted ") + strFile, window,  blVisible);
-        	window->Update();
+        	//window->Update();
 		}
 		else{
             OutputProgress(_("Failed to encrypt ") + strFile, window, blVisible);
-        	window->Update();
+        	//window->Update();
 		}
-        		wxGetApp().Yield(true);
+        		//wxGetApp().Yield(true);
 	}
 
 	else if(strFunction == _("Decrypt"))
@@ -70,7 +71,7 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
 		else{
 			command = wxT("ccrypt -d -f -K\"") + strPass + wxT("\" \"") + strFile + wxT("\" ");
 		}
-		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_NODISABLE);
+		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		//If Blowfish is used then the decryped file (1.tmp) is renamed to the correct name and then 1.tmp is removed
 		if(strRoutine == wxT("Blowfish")){		
 			wxCopyFile(wxPathOnly(strFile) + wxT("\\1.tmp"), strFile, true);
@@ -79,13 +80,13 @@ bool CryptFile(wxString strFile, wxString strPass, wxString strFunction, frmProg
         SetFileAttributes(strFile,filearrtibs);
 		if(lgReturn == 0){       
  			OutputProgress(_("Decrypted ") + strFile, window, blVisible);
-            window->Update();
+           // window->Update();
 		}
 		else{
  			OutputProgress(_("Failed to decrypt ") + strFile, window, blVisible);
-            window->Update();
+           // window->Update();
 		}
-        wxGetApp().Yield(true);
+       // wxGetApp().Yield(true);
 	}
 	//wxLog::Flush();
 	return true;
