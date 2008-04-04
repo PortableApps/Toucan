@@ -1090,16 +1090,16 @@ void frmMain::OnRulesSaveClick( wxCommandEvent& event )
 	for (unsigned int k = 0; k < m_Rules_FileExclude->GetCount(); k++) {
 		arrFileExclude.Add(m_Rules_FileExclude->GetString(k));
 	}
-	for (unsigned int l = 0; l < m_Rules_FileDelete->GetCount(); l++) {
-		arrFileDelete.Add(m_Rules_FileDelete->GetString(l));
-	}
+	//for (unsigned int l = 0; l < m_Rules_FileDelete->GetCount(); l++) {
+	//	arrFileDelete.Add(m_Rules_FileDelete->GetString(l));
+	//}
 
 	//Create the rule set and add the arraystrings to it
 	Rules rules;
 	rules.SetLocationsToInclude(arrLocationsInclude);
 	rules.SetFilesToExclude(arrFileExclude);
 	rules.SetFoldersToExclude(arrFolderExclude);
-	rules.SetFilesToDelete(arrFileDelete);
+	//rules.SetFilesToDelete(arrFileDelete);
 	if (m_Rules_Combo->GetStringSelection() != wxEmptyString) {
 		rules.TransferToFile(m_Rules_Combo->GetStringSelection());
 	} else {
@@ -1124,6 +1124,9 @@ void frmMain::OnRulesAddClick( wxCommandEvent& event )
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_Combo->AppendString(dialog->GetValue());
 		m_Rules_Combo->SetStringSelection(dialog->GetValue());
+		m_Rules_LocationInclude->Clear();
+		m_Rules_FileExclude->Clear();
+		m_Rules_FolderExclude->Clear();
 	}
 	delete dialog;
 }
@@ -1136,6 +1139,12 @@ void frmMain::OnRulesAddClick( wxCommandEvent& event )
 void frmMain::OnRulesRemoveClick( wxCommandEvent& event )
 {
 	m_Rules_Combo->Delete(m_Rules_Combo->GetSelection());
+	m_Rules_LocationInclude->Clear();
+	m_Rules_FileExclude->Clear();
+	m_Rules_FolderExclude->Clear();
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini") );
+	config->DeleteGroup(m_Rules_Combo->GetStringSelection());
+	delete config;
 }
 
 
@@ -1149,7 +1158,8 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
-	m_Rules_FileDelete->Clear();
+	//m_Rules_FileDelete->Clear();
+	
 	//Create a new rule set
 	Rules rules;
 	if (rules.TransferFromFile(m_Rules_Combo->GetStringSelection())) {
@@ -1163,9 +1173,9 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 		for (unsigned int k = 0; k < rules.GetFoldersToExclude().GetCount(); k++) {
 			m_Rules_FolderExclude->Append(rules.GetFoldersToExclude().Item(k));
 		}
-		for (unsigned int l = 0; l < rules.GetFilesToDelete().GetCount(); l++) {
-			m_Rules_FileDelete->Append(rules.GetFilesToDelete().Item(l));
-		}
+		//for (unsigned int l = 0; l < rules.GetFilesToDelete().GetCount(); l++) {
+		//	m_Rules_FileDelete->Append(rules.GetFilesToDelete().Item(l));
+		//}
 	}
 
 }
