@@ -105,11 +105,4 @@ bool SetJobsBox(wxComboBox *box, wxString strType){
 	delete config;
 	return true;
 }
-
-//Saves the basic settings, need to be expanded for language support, window position & size
-
-//bool SaveSettings(frmMain *window){
-//	
-//}
-
 #endif

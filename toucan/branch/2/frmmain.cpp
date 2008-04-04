@@ -30,6 +30,8 @@
 #include "backupprocess.h"
 #include "backupfunctions.h"
 
+#include "settings.h"
+
 
 //Implement frmMain
 IMPLEMENT_CLASS( frmMain, wxFrame )
@@ -314,9 +316,6 @@ void frmMain::CreateControls()
 	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
 	itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 
-	//Add the panel
-	m_Notebook->AddPage(itemPanel6, _("Sync"), false, GetBitmapResource(wxT("sync.png")));
-
 	//Backup section
 	wxPanel* itemPanel35 = new wxPanel( m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer36 = new wxBoxSizer(wxVERTICAL);
@@ -441,11 +440,7 @@ void frmMain::CreateControls()
 	itemBoxSizer53->Add(itemBoxSizer59, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-
-
-	m_Notebook->AddPage(itemPanel35, _("Backup"), false, GetBitmapResource(wxT("backup.png")));
-
+	
 	//Secure
 	
 
@@ -534,7 +529,7 @@ void frmMain::CreateControls()
 	m_Secure_Repass = new wxTextCtrl( itemPanel68, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	itemStaticBoxSizer90->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	m_Notebook->AddPage(itemPanel68, _("Secure"), false, GetBitmapResource(wxT("secure.png")));
+	//Rules
 
 	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
@@ -636,11 +631,11 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton129 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_FILEDELETE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer127->Add(itemBitmapButton129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);*/
 
-	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
+	//Portable variables
 
 	/*wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
-	//m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
+	//Scripting
 
 	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
@@ -672,12 +667,31 @@ void frmMain::CreateControls()
 	itemBoxSizer140->Add(itemButton141, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxButton* itemButton142 = new wxButton( itemPanel131, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);*/
 
-	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);*/
 
 	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
+	wxBoxSizer* itemBoxSizer1000 = new wxBoxSizer(wxVERTICAL);
+	itemPanel143->SetSizer(itemBoxSizer1000);
+
+
+	wxString m_Settings_TabsStrings[] = {
+		_("Icons"),
+		_("Text"),
+		_("Icons + Text")
+	};
+	m_Settings_Tabs = new wxRadioBox (itemPanel143, ID_SETTINGS_TABS, _("Tab Style (Requires Restart)"), wxDefaultPosition, wxDefaultSize,3,  m_Settings_TabsStrings,3 ,wxRA_SPECIFY_ROWS);
+	itemBoxSizer1000->Add(m_Settings_Tabs, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	
+
+	//Add the panel
+	m_Notebook->AddPage(itemPanel6, _("Sync"), false, GetBitmapResource(wxT("sync.png")));
+	m_Notebook->AddPage(itemPanel35, _("Backup"), false, GetBitmapResource(wxT("backup.png")));
+	m_Notebook->AddPage(itemPanel68, _("Secure"), false, GetBitmapResource(wxT("secure.png")));
+	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
+	//m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
+	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);*/
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false,  GetBitmapResource(wxT("settings.png")));
 
 	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
