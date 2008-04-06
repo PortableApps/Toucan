@@ -30,7 +30,9 @@
 #include "backupprocess.h"
 #include "backupfunctions.h"
 
-#include "settings.h"
+//#include "settings.h"
+
+class Settings;
 
 
 //Implement frmMain
@@ -39,6 +41,8 @@ IMPLEMENT_CLASS( frmMain, wxFrame )
 
 //frmMain event table
 BEGIN_EVENT_TABLE( frmMain, wxFrame )
+
+	EVT_CLOSE( frmMain::OnCloseWindow )
 
 	EVT_MENU( ID_TOOL_OK, frmMain::OnToolOkClick )
 
@@ -677,41 +681,61 @@ void frmMain::CreateControls()
 
 
 	wxString m_Settings_TabsStrings[] = {
-		_("Icons"),
-		_("Text"),
-		_("Icons + Text")
+		_("Icons + Text"),
+		_("Text")
 	};
-	m_Settings_Tabs = new wxRadioBox (itemPanel143, ID_SETTINGS_TABS, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,3,  m_Settings_TabsStrings,3 ,wxRA_SPECIFY_ROWS);
-	itemBoxSizer1000->Add(m_Settings_Tabs, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	m_Settings_TabStyle = new wxRadioBox (itemPanel143, ID_SETTINGS_TABSTYLE, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,2,  m_Settings_TabsStrings,2 ,wxRA_SPECIFY_ROWS);
+	itemBoxSizer1000->Add(m_Settings_TabStyle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
-	wxStaticBox* SetingsOtherBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Other"));
-	wxStaticBoxSizer* SetingsOtherBoxSizer = new wxStaticBoxSizer(SetingsOtherBox, wxHORIZONTAL);
-	itemBoxSizer1000->Add(SetingsOtherBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
-	
-	m_Settings_Position = new wxCheckBox( itemPanel143, ID_SETTINGS_POSITION, _("Remember last tab"), wxDefaultPosition, wxDefaultSize, 0 );
-	SetingsOtherBoxSizer->Add(m_Settings_Position, 0, wxALIGN_LEFT|wxALL, 5);
-
-	/*wxStaticBox* itemStaticBoxSizer10Static = new wxStaticBox(itemPanel6, wxID_ANY, _("Job Name"));
-	wxStaticBoxSizer* itemStaticBoxSizer10 = new wxStaticBoxSizer(itemStaticBoxSizer10Static, wxHORIZONTAL);
-	itemBoxSizer001->Add(itemStaticBoxSizer10, 0, wxALIGN_TOP|wxALL, 5);
-	wxArrayString m_Sync_Job_SelectStrings;
-	m_Sync_Job_Select = new wxComboBox( itemPanel6, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN );
-	itemStaticBoxSizer10->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);*/
-
+	//Load the settings
+	m_Settings.TransferFromFile();
+	m_Settings_TabStyle->SetStringSelection(m_Settings.GetTabStyle());
 	
 	//Add the panels
-	m_Notebook->AddPage(itemPanel6, _("Sync"), false, GetBitmapResource(wxT("sync.png")));
-	m_Notebook->AddPage(itemPanel35, _("Backup"), false, GetBitmapResource(wxT("backup.png")));
-	m_Notebook->AddPage(itemPanel68, _("Secure"), false, GetBitmapResource(wxT("secure.png")));
+	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
+	if(m_Settings.GetTabStyle() == _("Text")){
+		syncbitmap = wxNullBitmap;
+	}
+	wxBitmap backupbitmap = GetBitmapResource(wxT("backup.png"));
+	if(m_Settings.GetTabStyle() == _("Text")){
+		backupbitmap = wxNullBitmap;
+	}
+	wxBitmap securebitmap = GetBitmapResource(wxT("secure.png"));
+	if(m_Settings.GetTabStyle() == _("Text")){
+		securebitmap = wxNullBitmap;
+	}
+	wxBitmap settingsbitmap = GetBitmapResource(wxT("settings.png"));
+	if(m_Settings.GetTabStyle() == _("Text")){
+		settingsbitmap = wxNullBitmap;
+	}
+
+	m_Notebook->AddPage(itemPanel6, _("Sync"), false, syncbitmap);
+	m_Notebook->AddPage(itemPanel35, _("Backup"), false, backupbitmap);
+	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
 	//m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
 	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);*/
-	m_Notebook->AddPage(itemPanel143, _("Settings"), false,  GetBitmapResource(wxT("settings.png")));
+	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
 
 	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
 	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
 
 	GetAuiManager().Update();
+
+	//Set the settings
+
+	unsigned int i = 0;
+	unsigned int count = m_Notebook->GetPageCount();
+	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != m_Settings.GetPosition()){
+		i ++;
+		if(i < count){
+			m_Notebook->AdvanceSelection();
+		}
+		else{
+			m_Notebook->SetSelection(0);
+			break;
+		}
+	}
 
 	//Set the drag and drop targets
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
@@ -1705,5 +1729,12 @@ void frmMain::OnBackupPreviewClick( wxCommandEvent& event )
 
 void frmMain::OnBackupRestoreClick( wxCommandEvent& event )
 {
-	m_Notebook->AdvanceSelection();
+}
+
+void frmMain::OnCloseWindow(wxCloseEvent& event)
+{
+	m_Settings.SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
+	m_Settings.SetTabStyle(m_Settings_TabStyle->GetStringSelection());
+	m_Settings.TransferToFile();
+	this->Destroy();
 }

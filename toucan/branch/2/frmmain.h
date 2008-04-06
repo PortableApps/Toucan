@@ -22,11 +22,13 @@
 
 #include "virtualdirtreectrl.h"
 
+#include "settings.h"
+
 //Forward declarations
 class wxAuiNotebook;
 class wxTreeCtrl;
 class wxGenericDirCtrl;
-
+class Settings;
 
 ////Control identifiers
 #define ID_AUIFRAME 10000
@@ -131,8 +133,7 @@ class wxGenericDirCtrl;
 #define ID_PANEL5 10065
 
 //Settings
-#define ID_SETTINGS_TABS 20030
-#define ID_SETTINGS_POSITION 20031
+#define ID_SETTINGS_TABSTYLE 20030
 
 //The form
 #define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
@@ -164,6 +165,8 @@ public:
 	/// Creates the controls and sizers
 	void CreateControls();
 
+	/// wxEVT_CLOSE_WINDOW event handler for ID_AUIFRAME
+	void OnCloseWindow( wxCloseEvent& event );
 
 	/// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_OK
 	void OnToolOkClick( wxCommandEvent& event );
@@ -340,8 +343,9 @@ public:
 	wxListBox* m_Rules_FolderExclude;
 	wxListBox* m_Rules_LocationInclude;
 	wxListBox* m_Rules_FileDelete;
-	wxRadioBox* m_Settings_Tabs;
-	wxCheckBox* m_Settings_Position;
+	wxRadioBox* m_Settings_TabStyle;
+	
+	Settings m_Settings;
 };
 
 #endif

@@ -16,8 +16,6 @@
 #include <wx\image.h>
 
 #include "frmmain.h"
-#include "settings.h"
-
 
 class PipedProcess;
 WX_DEFINE_ARRAY_PTR(PipedProcess *, ProcessArray);
