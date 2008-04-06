@@ -132,6 +132,7 @@ class wxGenericDirCtrl;
 
 //Settings
 #define ID_SETTINGS_TABS 20030
+#define ID_SETTINGS_POSITION 20031
 
 //The form
 #define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
@@ -340,6 +341,7 @@ public:
 	wxListBox* m_Rules_LocationInclude;
 	wxListBox* m_Rules_FileDelete;
 	wxRadioBox* m_Settings_Tabs;
+	wxCheckBox* m_Settings_Position;
 };
 
 #endif

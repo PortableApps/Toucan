@@ -16,7 +16,7 @@
 #include <wx\image.h>
 
 #include "frmmain.h"
-
+#include "settings.h"
 
 
 class PipedProcess;
@@ -71,8 +71,6 @@ public:
 
     void OnIdle(wxIdleEvent& event);
     void OnTimer(wxTimerEvent& event);
-	
-
 	
 protected:
     // Timer to wake up idle processing

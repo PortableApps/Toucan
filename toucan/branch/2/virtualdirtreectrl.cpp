@@ -633,7 +633,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 						//If the item in the array is a folder
 						if (wxDirExists(strPath + strFilename)) {
 							bool blExists = false;
-							unsigned int j;
+							unsigned int j = 0;
 							//Loop through the whole array, seeing if any of them are the same as in the folder in the opp dir
 							for(unsigned int i = 0; i < items.GetCount(); i++){
 								if(items.Item(i)->GetName() == strFilename){
@@ -662,7 +662,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 						else {
 							//Check to see if there is already a file with that name
 							bool blExists = false;
-							unsigned int j;
+							unsigned int j = 0;
 							for(unsigned int i = 0; i < items.GetCount(); i++){
 								if(items.Item(i)->GetName() == strFilename){
 									blExists = true;

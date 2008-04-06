@@ -199,7 +199,7 @@ void frmMain::CreateControls()
 	GetAuiManager().SetManagedWindow(this);
 
 	//Cretae the root AUI notebook
-	m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_MOVE|wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
+	m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
 
 	//The sync panel
 	wxPanel* itemPanel6 = new wxPanel( m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
@@ -681,11 +681,25 @@ void frmMain::CreateControls()
 		_("Text"),
 		_("Icons + Text")
 	};
-	m_Settings_Tabs = new wxRadioBox (itemPanel143, ID_SETTINGS_TABS, _("Tab Style (Requires Restart)"), wxDefaultPosition, wxDefaultSize,3,  m_Settings_TabsStrings,3 ,wxRA_SPECIFY_ROWS);
+	m_Settings_Tabs = new wxRadioBox (itemPanel143, ID_SETTINGS_TABS, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,3,  m_Settings_TabsStrings,3 ,wxRA_SPECIFY_ROWS);
 	itemBoxSizer1000->Add(m_Settings_Tabs, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
+	wxStaticBox* SetingsOtherBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Other"));
+	wxStaticBoxSizer* SetingsOtherBoxSizer = new wxStaticBoxSizer(SetingsOtherBox, wxHORIZONTAL);
+	itemBoxSizer1000->Add(SetingsOtherBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+	
+	m_Settings_Position = new wxCheckBox( itemPanel143, ID_SETTINGS_POSITION, _("Remember last tab"), wxDefaultPosition, wxDefaultSize, 0 );
+	SetingsOtherBoxSizer->Add(m_Settings_Position, 0, wxALIGN_LEFT|wxALL, 5);
 
-	//Add the panel
+	/*wxStaticBox* itemStaticBoxSizer10Static = new wxStaticBox(itemPanel6, wxID_ANY, _("Job Name"));
+	wxStaticBoxSizer* itemStaticBoxSizer10 = new wxStaticBoxSizer(itemStaticBoxSizer10Static, wxHORIZONTAL);
+	itemBoxSizer001->Add(itemStaticBoxSizer10, 0, wxALIGN_TOP|wxALL, 5);
+	wxArrayString m_Sync_Job_SelectStrings;
+	m_Sync_Job_Select = new wxComboBox( itemPanel6, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN );
+	itemStaticBoxSizer10->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);*/
+
+	
+	//Add the panels
 	m_Notebook->AddPage(itemPanel6, _("Sync"), false, GetBitmapResource(wxT("sync.png")));
 	m_Notebook->AddPage(itemPanel35, _("Backup"), false, GetBitmapResource(wxT("backup.png")));
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, GetBitmapResource(wxT("secure.png")));
@@ -1691,5 +1705,5 @@ void frmMain::OnBackupPreviewClick( wxCommandEvent& event )
 
 void frmMain::OnBackupRestoreClick( wxCommandEvent& event )
 {
-
+	m_Notebook->AdvanceSelection();
 }
