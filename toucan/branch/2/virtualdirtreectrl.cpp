@@ -1,20 +1,8 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        wxVirtualDirTreeCtrl.cpp
-// Author:      XX
-// Created:     Saturday, March 27, 2004 14:15:56
-// Copyright:   XX
-/////////////////////////////////////////////////////////////////////////////
-
-//#ifdef __GNUG__
-//    #pragma implementation "wxVirtualDirTreeCtrl.cpp"
-//#endif
-
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
+/////////////////////////////////////////////////////////////////////////////////
+// Author:      Jorgen Bodde & Steven Lamerton
+// Copyright:   Copyright (C) 2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/dir.h>
 #include <wx/busyinfo.h>

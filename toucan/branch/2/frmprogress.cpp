@@ -1,34 +1,11 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        frmprogress.cpp
-// Purpose:     
+/////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Modified by: 
-// Created:     21/12/2007 12:12:17
-// RCS-ID:      
-// Copyright:   Copyright (c) Steven Lamerton 2006-2007
-// Licence:     
-/////////////////////////////////////////////////////////////////////////////
-
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-
-////@begin includes
-////@end includes
+// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
 
 #include "toucan.h"
 #include "frmprogress.h"
-
-////@begin XPM images
-////@end XPM images
-
 
 /*!
  * frmProgress type definition
@@ -43,11 +20,11 @@ IMPLEMENT_CLASS( frmProgress, wxFrame )
 
 BEGIN_EVENT_TABLE( frmProgress, wxFrame )
 
- EVT_BUTTON( wxID_OK, frmProgress::OnOkClick )
+	EVT_BUTTON( wxID_OK, frmProgress::OnOkClick )
 
- EVT_BUTTON( wxID_CANCEL, frmProgress::OnCancelClick )
+	EVT_BUTTON( wxID_CANCEL, frmProgress::OnCancelClick )
 
- EVT_BUTTON( wxID_SAVE, frmProgress::OnSaveClick )
+	EVT_BUTTON( wxID_SAVE, frmProgress::OnSaveClick )
 
 END_EVENT_TABLE()
 
@@ -58,13 +35,13 @@ END_EVENT_TABLE()
 
 frmProgress::frmProgress()
 {
- Init();
+	Init();
 }
 
 frmProgress::frmProgress( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
- Init();
- Create( parent, id, caption, pos, size, style );
+	Init();
+	Create( parent, id, caption, pos, size, style );
 }
 
 
@@ -74,13 +51,11 @@ frmProgress::frmProgress( wxWindow* parent, wxWindowID id, const wxString& capti
 
 bool frmProgress::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-////@begin frmProgress creation
- wxFrame::Create( parent, id, caption, pos, size, style );
+	wxFrame::Create( parent, id, caption, pos, size, style );
 
- CreateControls();
- Centre();
-////@end frmProgress creation
- return true;
+	CreateControls();
+	Centre();
+	return true;
 }
 
 
@@ -90,8 +65,6 @@ bool frmProgress::Create( wxWindow* parent, wxWindowID id, const wxString& capti
 
 frmProgress::~frmProgress()
 {
-////@begin frmProgress destruction
-////@end frmProgress destruction
 }
 
 
@@ -101,12 +74,10 @@ frmProgress::~frmProgress()
 
 void frmProgress::Init()
 {
-////@begin frmProgress member initialisation
- m_Text = NULL;
- m_OK = NULL;
- m_Cancel = NULL;
- m_Save = NULL;
-////@end frmProgress member initialisation
+	m_Text = NULL;
+	m_OK = NULL;
+	m_Cancel = NULL;
+	m_Save = NULL;
 }
 
 
@@ -115,7 +86,7 @@ void frmProgress::Init()
  */
 
 void frmProgress::CreateControls()
-{    
+{
 	frmProgress* itemFrame1 = this;
 
 	wxPanel* itemPanel2 = new wxPanel( itemFrame1, ID_PANEL, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
@@ -137,48 +108,9 @@ void frmProgress::CreateControls()
 
 	m_Save = new wxButton( itemPanel2, wxID_SAVE, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer5->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
+
 	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
-
-
-/*!
- * Should we show tooltips?
- */
-
-bool frmProgress::ShowToolTips()
-{
- return true;
-}
-
-/*!
- * Get bitmap resources
- */
-
-wxBitmap frmProgress::GetBitmapResource( const wxString& name )
-{
- // Bitmap retrieval
-////@begin frmProgress bitmap retrieval
- wxUnusedVar(name);
- return wxNullBitmap;
-////@end frmProgress bitmap retrieval
-}
-
-/*!
- * Get icon resources
- */
-
-wxIcon frmProgress::GetIconResource( const wxString& name )
-{
- // Icon retrieval
-////@begin frmProgress icon retrieval
- wxUnusedVar(name);
- return wxNullIcon;
-////@end frmProgress icon retrieval
-}
-
-
-
 
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
@@ -186,10 +118,7 @@ wxIcon frmProgress::GetIconResource( const wxString& name )
 
 void frmProgress::OnOkClick( wxCommandEvent& event )
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK in frmProgress.
- // Before editing this code, remove the block markers.
- Destroy();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK in frmProgress. 
+	Destroy();
 }
 
 
@@ -215,10 +144,7 @@ void frmProgress::OnSaveClick( wxCommandEvent& event )
 	wxString defaultFilename = wxEmptyString;
 	wxString defaultDir = wxT("/");
 	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxSAVE);
-	if (dialog.ShowModal() == wxID_OK)
-	{
+	if (dialog.ShowModal() == wxID_OK) {
 		m_Text->SaveFile(dialog.GetPath());
 	}
 }
-
-

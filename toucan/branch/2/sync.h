@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2007 Steven Lamerton
-// Licence:     GNU GPL 2 (See readme for more info
+// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 //#pragma once

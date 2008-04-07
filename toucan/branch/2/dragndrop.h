@@ -1,6 +1,11 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Author:      Steven Lamerton
+// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
+
 #include <wx/dnd.h>
 #include <wx/filename.h>
-
 #include "basicfunctions.h"
 
 /*File droptarget to a wxVirtualDirTreeCtrl, multiple files allowed*/

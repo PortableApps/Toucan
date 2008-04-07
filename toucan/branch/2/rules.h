@@ -1,10 +1,14 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Author:      Steven Lamerton
+// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
+
 #ifndef H_RULES
 #define H_RULES
 
 #include <wx\regex.h>
 #include "basicfunctions.h"
-
-//Ssize related stuff needs to be added to the matching routine
 
 class Rules{
 public:

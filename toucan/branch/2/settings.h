@@ -1,7 +1,11 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Author:      Steven Lamerton
+// Copyright:   Copyright (C) 2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
+
 #ifndef _H_SETTINGS_
 #define _H_SETTINGS_
-
-//Saves the basic settings, need to be expanded for language support, window position & size
 
 class Settings{
 	

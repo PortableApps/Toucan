@@ -1,25 +1,8 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        toucan.cpp
-// Purpose:     
+/////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Modified by: 
-// Created:     28/09/2007 20:20:52
-// RCS-ID:      
-// Copyright:   Copyright (c) Steven Lamerton 2006-2007
-// Licence:     
-/////////////////////////////////////////////////////////////////////////////
-
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
+// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/list.h>
 #include <wx/listimpl.cpp> 
@@ -133,8 +116,6 @@ void Toucan::OnIdle(wxIdleEvent& event)
         }
     }
 }
-
-
 
 /*!
 * Cleanup for Toucan
