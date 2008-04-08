@@ -106,6 +106,7 @@ void frmRestore::CreateControls()
     itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_File = new wxTextCtrl( itemDialog1, ID_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_File->SetMinSize(wxSize(250,-1));
     itemBoxSizer3->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON_FILE, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
@@ -118,6 +119,7 @@ void frmRestore::CreateControls()
     itemBoxSizer7->Add(itemStaticText8, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_Location = new wxTextCtrl( itemDialog1, ID_LOCATION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Location->SetMinSize(wxSize(250,-1));
     itemBoxSizer7->Add(m_Location, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
@@ -172,6 +174,7 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 void frmRestore::OnCancelClick( wxCommandEvent& event )
 {
 	this->EndModal(wxID_CANCEL);
+	this->Destroy();
 }
 
 /*!
