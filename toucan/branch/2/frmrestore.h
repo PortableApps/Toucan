@@ -8,6 +8,9 @@
 #ifndef _FRMRESTORE_H_
 #define _FRMRESTORE_H_
 
+#include <wx\wx.h>
+#include <wx\dialog.h>
+
 /*!
  * Control identifiers
  */

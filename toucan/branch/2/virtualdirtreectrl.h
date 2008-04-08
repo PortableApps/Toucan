@@ -8,7 +8,7 @@
 #define __WXVIRTUALDIRTREECTRL_H__
 
 #ifndef WX_PRECOMP
-    #include "wx/wx.h"
+#include "wx/wx.h"
 #endif
 
 #include <wx/dynarray.h>
@@ -18,17 +18,16 @@
 
 #include "rules.h"
 
-enum
-{
+enum {
 	VDTC_TI_ROOT = 0,
 	VDTC_TI_DIR,
 	VDTC_TI_FILE
 };
 
 #ifndef LINUX
-  #define VDTC_DIR_FILESPEC wxT("*.*")
+#define VDTC_DIR_FILESPEC wxT("*.*")
 #else
-  #define VDTC_DIR_FILESPEC wxT("*")
+#define VDTC_DIR_FILESPEC wxT("*")
 #endif
 
 /// Icon number for root
@@ -100,15 +99,13 @@ public:
 
 	*/
 	VdtcTreeItemBase(int type, const wxString &name)
-		: _type(type)
-		, _name(name)
-	{
+			: _type(type)
+			, _name(name) {
 		_colour = wxColour(wxT("Black"));
 	};
 
 	/** Default destructor */
-	~VdtcTreeItemBase()
-	{
+	~VdtcTreeItemBase() {
 		// NOTE: do not delete the tree item
 		// because the tree item deletes this item data
 	};
@@ -130,20 +127,24 @@ public:
 		- VDTC_ICON_FILE: For a file
 	*/
 	virtual int GetIconId() const {
-		switch(_type)
-		{
-			case VDTC_TI_ROOT:
-				return VDTC_ICON_ROOT;
-			case VDTC_TI_DIR:
-				return VDTC_ICON_DIR;
-			case VDTC_TI_FILE:
-				return VDTC_ICON_FILE;
+		switch (_type) {
+		case VDTC_TI_ROOT:
+			return VDTC_ICON_ROOT;
+		case VDTC_TI_DIR:
+			return VDTC_ICON_DIR;
+		case VDTC_TI_FILE:
+			return VDTC_ICON_FILE;
 		}
 		return -1;
 	};
-	
-	wxColour &GetColour() { return _colour; }
-	void SetColour(wxColour colour) {_colour = colour; return;}
+
+	wxColour &GetColour() {
+		return _colour;
+	}
+	void SetColour(wxColour colour) {
+		_colour = colour;
+		return;
+	}
 
 	/** Virtual function to return the selected icon ID this node should get. Per default there is no icon
 	    associated with a selection. If you would like a selection, inherit this class and redefine this function
@@ -202,15 +203,15 @@ private:
 	int _flags;
 
 	bool _Preview;
-	
+
 	Rules _Rules;
-	
+
 	bool _IsSync;
-	
+
 	wxString _Root;
-	
+
 	wxString _RootOpp;
-	
+
 	wxString _Mode;
 
 	/** Scans from given dir, for 'level' depth and with present extensions. This will
@@ -259,12 +260,12 @@ protected:
 	int OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2);
 
 public:
-    /** Default constructor of this control. It is similar to the wxTreeCtrl */
-    wxVirtualDirTreeCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition,
-                  const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS | wxTR_FULL_ROW_HIGHLIGHT,
-                  const wxValidator& validator = wxDefaultValidator,
-                  const wxString& name = wxT("wxVirtualDirTreeCtrl"));
-    virtual ~wxVirtualDirTreeCtrl();
+	/** Default constructor of this control. It is similar to the wxTreeCtrl */
+	wxVirtualDirTreeCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition,
+	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS | wxTR_FULL_ROW_HIGHLIGHT,
+	                     const wxValidator& validator = wxDefaultValidator,
+	                     const wxString& name = wxT("wxVirtualDirTreeCtrl"));
+	virtual ~wxVirtualDirTreeCtrl();
 
 	/** Returns the extra flags currently set set for wxVirtualDirTreeCtrl.
 		\sa SetRootPath */
@@ -342,12 +343,12 @@ public:
 		of every newly created instance of the (inherited) VdtcTreeItemBase class. */
 	VdtcTreeItemBase *AddDirItem(const wxString &name);
 
-	/** Returns parent of the passed VdtcItemBase object. It will fetch the wxTreeItemId of this parent, 
+	/** Returns parent of the passed VdtcItemBase object. It will fetch the wxTreeItemId of this parent,
 	    and return the VdtcTreeItemBase parent associated with it. If the associated item is nil, there is no
 		parent, this is most likely the root else an assertion failure occurs */
 	VdtcTreeItemBase *GetParent(VdtcTreeItemBase *item) const {
 		wxCHECK(item, 0);
-		
+
 		wxTreeItemId p = GetItemParent(item->GetId());
 		return (VdtcTreeItemBase *)GetItemData(p);
 	};
@@ -445,7 +446,7 @@ public:
 		handler, subsequent calls to OnAddFile, OnAddDirectory will be made for every file and directory
 		encountered in this level to be scanned. NOTE: When this scan is veto'd there will be no call
 		to OnDirectoryScanEnd because there was no scan. Also OnAddedItems is not called */
-	
+
 	virtual bool OnDirectoryScanBegin(const wxFileName &path);
 
 	/** This handler is called when all files and all directories are scanned in the current dir and iterated in
@@ -454,7 +455,7 @@ public:
 	    contains the pointer array of all the items that are in the list, and the path parameter contains the
 	    current path investigated. NOTE: If you want to delete an item from the array, delete it with delete
 	    operator and remove the pointer from the list.  */
-		
+
 	virtual void OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path);
 
 	/** This handler is called the very moment after all items are added to the tree control. The parent parameter
@@ -467,25 +468,34 @@ public:
 	    and 0 when a == b.
 	*/
 	virtual int OnCompareItems(const VdtcTreeItemBase *a, const VdtcTreeItemBase *b);
-	
-	void SetPreview(bool preview) {_Preview = preview;}
-	void SetRules(Rules rules) {_Rules = rules;}
-	void SetSync(bool sync) {_IsSync = sync; }
-	void SetRoot(wxString root) {_Root = root; }
-	void SetRootOpp(wxString rootopp) {_RootOpp = rootopp; }
-	void SetMode(wxString mode) {_Mode = mode; }
+
+	void SetPreview(bool preview) {
+		_Preview = preview;
+	}
+	void SetRules(Rules rules) {
+		_Rules = rules;
+	}
+	void SetSync(bool sync) {
+		_IsSync = sync;
+	}
+	void SetRoot(wxString root) {
+		_Root = root;
+	}
+	void SetRootOpp(wxString rootopp) {
+		_RootOpp = rootopp;
+	}
+	void SetMode(wxString mode) {
+		_Mode = mode;
+	}
 
 private:
-    // WDR: member variable declarations for wxVirtualDirTreeCtrl
+	// WDR: member variable declarations for wxVirtualDirTreeCtrl
 
 private:
-    // WDR: handler declarations for wxVirtualDirTreeCtrl
+	// WDR: handler declarations for wxVirtualDirTreeCtrl
 
 private:
-    DECLARE_EVENT_TABLE()
+	DECLARE_EVENT_TABLE()
 };
-
-
-#include "virtualdirtreectrl.cpp"
 
 #endif

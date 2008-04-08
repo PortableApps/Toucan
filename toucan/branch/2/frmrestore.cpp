@@ -98,10 +98,10 @@ void frmRestore::CreateControls()
     wxStaticText* itemStaticText4 = new wxStaticText( itemDialog1, wxID_STATIC, _("Backup file:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl5 = new wxTextCtrl( itemDialog1, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    wxTextCtrl* itemTextCtrl5 = new wxTextCtrl( itemDialog1, ID_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(itemTextCtrl5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON1, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+    wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON_FILE, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer3->Add(itemButton6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
@@ -110,10 +110,10 @@ void frmRestore::CreateControls()
     wxStaticText* itemStaticText8 = new wxStaticText( itemDialog1, wxID_STATIC, _("Restore into:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(itemStaticText8, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl9 = new wxTextCtrl( itemDialog1, ID_TEXTCTRL2, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    wxTextCtrl* itemTextCtrl9 = new wxTextCtrl( itemDialog1, ID_LOCATION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(itemTextCtrl9, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON2, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+    wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStdDialogButtonSizer* itemStdDialogButtonSizer11 = new wxStdDialogButtonSizer;

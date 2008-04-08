@@ -4,10 +4,11 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
+#include <wx/object.h>
 #include <wx/dir.h>
 #include <wx/busyinfo.h>
 #include <wx/artprov.h>
-//#include "virtualdirtreectrl.h"
+#include "virtualdirtreectrl.h"
 
 // WDR: class implementations
 
