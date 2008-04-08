@@ -13,6 +13,7 @@
 
 #include "frmmain.h"
 #include "frmprogress.h"
+#include "frmrestore.h"
 
 #include "secure.h"
 #include "securedata.h"
@@ -1622,7 +1623,7 @@ void frmMain::OnSyncPreviewClick( wxCommandEvent& event )
 
 void frmMain::OnBackupOKClick( wxCommandEvent& event )
 {
-//Create a new progress form and show it
+	//Create a new progress form and show it
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
@@ -1723,6 +1724,8 @@ void frmMain::OnBackupPreviewClick( wxCommandEvent& event )
 
 void frmMain::OnBackupRestoreClick( wxCommandEvent& event )
 {
+	frmRestore *window = new frmRestore(NULL, ID_FRMRESTORE, _("Restore"));	
+	window->ShowModal();
 }
 
 void frmMain::OnCloseWindow(wxCloseEvent& event)

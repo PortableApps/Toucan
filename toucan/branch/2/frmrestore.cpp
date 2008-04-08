@@ -5,6 +5,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "frmrestore.h"
+#include "frmprogress.h"
+#include "backupprocess.h"
+#include "toucan.h"
 
 /*!
  * frmRestore type definition
@@ -22,6 +25,10 @@ BEGIN_EVENT_TABLE( frmRestore, wxDialog )
 	EVT_BUTTON( wxID_OK, frmRestore::OnOkClick )
 
     EVT_BUTTON( wxID_CANCEL, frmRestore::OnCancelClick )
+	
+	EVT_BUTTON( ID_BUTTON_FILE, frmRestore::OnFileClick )
+
+    EVT_BUTTON( ID_BUTTON_LOCATION, frmRestore::OnLocationClick )
 
 END_EVENT_TABLE()
 
@@ -98,8 +105,8 @@ void frmRestore::CreateControls()
     wxStaticText* itemStaticText4 = new wxStaticText( itemDialog1, wxID_STATIC, _("Backup file:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl5 = new wxTextCtrl( itemDialog1, ID_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(itemTextCtrl5, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_File = new wxTextCtrl( itemDialog1, ID_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON_FILE, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer3->Add(itemButton6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -110,8 +117,8 @@ void frmRestore::CreateControls()
     wxStaticText* itemStaticText8 = new wxStaticText( itemDialog1, wxID_STATIC, _("Restore into:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(itemStaticText8, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl9 = new wxTextCtrl( itemDialog1, ID_LOCATION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer7->Add(itemTextCtrl9, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_Location = new wxTextCtrl( itemDialog1, ID_LOCATION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer7->Add(m_Location, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -134,7 +141,27 @@ void frmRestore::CreateControls()
 
 void frmRestore::OnOkClick( wxCommandEvent& event )
 {
-    event.Skip();
+	//Create a new progress form and show it
+	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	//Send all errors to the text control
+	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
+    delete wxLog::SetActiveTarget(logTxt);
+	//Set up the buttons on the progress box
+	window->m_OK->Enable(false);
+	window->m_Save->Enable(false);
+	
+	window->m_Text->AppendText(_("Starting...\n"));
+	wxDateTime now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	//Show the window
+	window->Update();
+	window->Show();
+	//Create the command
+	wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r");
+	PipedProcess *process = new PipedProcess(window);
+	wxGetApp().RegisterProcess(process);
+	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	wxGetApp().SetPID(lgPID);
 }
 
 
@@ -144,6 +171,30 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 
 void frmRestore::OnCancelClick( wxCommandEvent& event )
 {
-    event.Skip();
+	this->EndModal(wxID_CANCEL);
 }
 
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BUTTON_LOCATION
+ */
+
+void frmRestore::OnLocationClick( wxCommandEvent& event )
+{
+	wxDirDialog dialog(this,_("Please select the destination folder."), wxEmptyString);
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Location->SetValue(dialog.GetPath());
+	}
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BUTTON_FILE
+ */
+
+void frmRestore::OnFileClick( wxCommandEvent& event )
+{
+	wxFileDialog dialog(this,_("Please choose your backup file"), wxEmptyString, wxEmptyString, wxT("7 Zip (*.7z)|*.7z|Zip Files (*.zip)|*.zip|All Files (*.*)|*.*"), wxFD_OPEN);
+	if (dialog.ShowModal() == wxID_OK) {
+		m_File->SetValue(dialog.GetPath());
+	}
+}
