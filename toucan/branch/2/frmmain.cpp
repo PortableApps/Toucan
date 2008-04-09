@@ -78,6 +78,10 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 	EVT_BUTTON( ID_BACKUP_ADD, frmMain::OnBackupAddClick )
 
 	EVT_BUTTON( ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick )
+	
+	EVT_BUTTON( ID_SECURE_OK, frmMain::OnSecureOKClick )
+	
+	EVT_BUTTON( ID_SECURE_PREVIEW, frmMain::OnSecurePreviewClick )
 
 	EVT_COMBOBOX( ID_SECURE_JOB_SELECT, frmMain::OnSecureJobSelectSelected )
 
@@ -316,6 +320,8 @@ void frmMain::CreateControls()
 	itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 
 	//Backup section
+	
+	
 	wxPanel* itemPanel35 = new wxPanel( m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer36 = new wxBoxSizer(wxVERTICAL);
 	itemPanel35->SetSizer(itemBoxSizer36);
@@ -379,10 +385,14 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* itemStaticBoxSizer65 = new wxStaticBoxSizer(itemStaticBoxSizer65Static, wxVERTICAL);
 	itemBoxSizer61->Add(itemStaticBoxSizer65, 0, wxALIGN_TOP|wxALL, 5);
 	m_Backup_Pass = new wxTextCtrl( itemPanel35, ID_BACKUP_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	m_Backup_Pass->SetMinSize(wxSize(125, -1));	
 	itemStaticBoxSizer65->Add(m_Backup_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
+
 	m_Backup_Repass = new wxTextCtrl( itemPanel35, ID_BACKUP_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	m_Backup_Repass->SetMinSize(wxSize(125, -1));	
 	itemStaticBoxSizer65->Add(m_Backup_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
 	
 	
 	wxBoxSizer* itemBoxSizer005 = new wxBoxSizer(wxVERTICAL);
@@ -441,20 +451,22 @@ void frmMain::CreateControls()
 	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 	
 	//Secure
-	
 
 	wxPanel* itemPanel68 = new wxPanel( m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer69 = new wxBoxSizer(wxVERTICAL);
 	itemPanel68->SetSizer(itemBoxSizer69);
-	
-	wxBoxSizer* itemBoxSizer70 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer69->Add(itemBoxSizer70, 0, wxALIGN_LEFT|wxALL, 5);
 
+	wxBoxSizer* itemBoxSizer87 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer69->Add(itemBoxSizer87, 0, wxALIGN_LEFT|wxALL, 5);
+	
+	wxBoxSizer* itemBoxSizer3000 = new wxBoxSizer(wxVERTICAL);
+	itemBoxSizer87->Add(itemBoxSizer3000, 0, wxALIGN_LEFT|wxALL, 0);	
+	
 	//Jobs section
 
 	wxStaticBox* itemStaticBoxSizer73Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Job Name"));
 	wxStaticBoxSizer* itemStaticBoxSizer73 = new wxStaticBoxSizer(itemStaticBoxSizer73Static, wxHORIZONTAL);
-	itemBoxSizer70->Add(itemStaticBoxSizer73, 0, wxALIGN_TOP|wxALL, 5);
+	itemBoxSizer3000->Add(itemStaticBoxSizer73, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Secure_Job_SelectStrings;
 	m_Secure_Job_Select = new wxComboBox( itemPanel68, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN );
 	itemStaticBoxSizer73->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -472,15 +484,58 @@ void frmMain::CreateControls()
 
 	wxStaticBox* itemStaticBoxSizer71Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Rules"));
 	wxStaticBoxSizer* itemStaticBoxSizer71 = new wxStaticBoxSizer(itemStaticBoxSizer71Static, wxHORIZONTAL);
-	itemBoxSizer70->Add(itemStaticBoxSizer71, 0, wxALIGN_TOP|wxALL, 5);
+	itemBoxSizer3000->Add(itemStaticBoxSizer71, 1, wxALIGN_TOP|wxALL|wxGROW, 5);
 	wxArrayString m_Secure_RulesStrings;
 	m_Secure_Rules = new wxComboBox( itemPanel68, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN );
-	itemStaticBoxSizer71->Add(m_Secure_Rules, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemStaticBoxSizer71->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	//Options
+	
+	wxBoxSizer* itemBoxSizer3001 = new wxBoxSizer(wxVERTICAL);
+	itemBoxSizer87->Add(itemBoxSizer3001, 0, wxALIGN_LEFT|wxALL, 0);	
+	
+	wxArrayString m_Secure_FunctionStrings;
+	m_Secure_FunctionStrings.Add(_("Encrypt"));
+	m_Secure_FunctionStrings.Add(_("Decrypt"));
+	m_Secure_Function = new wxRadioBox( itemPanel68, ID_SECURE_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Secure_FunctionStrings, 1, wxRA_SPECIFY_COLS );
+	m_Secure_Function->SetSelection(0);
+	itemBoxSizer3001->Add(m_Secure_Function, 1, wxGROW|wxALIGN_TOP|wxALL, 5);
 
+	wxArrayString m_Secure_FormatStrings;
+	m_Secure_FormatStrings.Add(_("Rijndael"));
+	m_Secure_FormatStrings.Add(_("Blowfish (Decrypt Only)"));
+	m_Secure_Format = new wxRadioBox( itemPanel68, ID_SECURE_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Secure_FormatStrings, 1, wxRA_SPECIFY_COLS );
+	m_Secure_Format->SetSelection(0);
+	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);
 
+	wxStaticBox* itemStaticBoxSizer90Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Password (Repeated)"));
+	wxStaticBoxSizer* itemStaticBoxSizer90 = new wxStaticBoxSizer(itemStaticBoxSizer90Static, wxVERTICAL);
+	itemBoxSizer87->Add(itemStaticBoxSizer90, 0, wxALIGN_TOP|wxALL, 5);
+	m_Secure_Pass = new wxTextCtrl( itemPanel68, ID_SECURE_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	m_Secure_Pass->SetMinSize(wxSize(125, -1));
+	itemStaticBoxSizer90->Add(m_Secure_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+	m_Secure_Repass = new wxTextCtrl( itemPanel68, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	itemStaticBoxSizer90->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	m_Secure_Repass->SetMinSize(wxSize(125, -1));
+	
+	//wxBoxSizer* itemBoxSizer70 = new wxBoxSizer(wxHORIZONTAL);
+	//itemBoxSizer69->Add(itemBoxSizer70, 0, wxALIGN_LEFT|wxALL, 5);
+	
+	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
+	itemBoxSizer87->Add(itemBoxSizer002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
+	
+	wxButton* itemButtonSecureOK = new wxButton( itemPanel68, ID_SECURE_OK, _("OK"));
+	itemBoxSizer3002->Add(itemButtonSecureOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	wxButton* itemButtonSecurePreview = new wxButton( itemPanel68, ID_SECURE_PREVIEW , _("Preview"));
+	itemBoxSizer3002->Add(itemButtonSecurePreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+
+	//Main secure stuff
 	wxBoxSizer* itemBoxSizer78 = new wxBoxSizer(wxHORIZONTAL);
-		
 	itemBoxSizer69->Add(itemBoxSizer78, 1, wxGROW|wxALL, 5);
+	
+	
 	m_Secure_DirCtrl = new wxGenericDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	itemBoxSizer78->Add(m_Secure_DirCtrl, 1, wxGROW|wxALL, 5);
 
@@ -502,33 +557,8 @@ void frmMain::CreateControls()
 
 	wxBitmapButton* itemBitmapButton86 = new wxBitmapButton( itemPanel68, ID_SECURE_MAKERELATIVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer84->Add(itemBitmapButton86, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-	wxBoxSizer* itemBoxSizer87 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer69->Add(itemBoxSizer87, 0, wxALIGN_LEFT|wxALL, 5);
-	wxArrayString m_Secure_FunctionStrings;
-	m_Secure_FunctionStrings.Add(_("Encrypt"));
-	m_Secure_FunctionStrings.Add(_("Decrypt"));
-	m_Secure_Function = new wxRadioBox( itemPanel68, ID_SECURE_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Secure_FunctionStrings, 1, wxRA_SPECIFY_COLS );
-	m_Secure_Function->SetSelection(0);
-	itemBoxSizer87->Add(m_Secure_Function, 0, wxALIGN_TOP|wxALL, 5);
-
-	wxArrayString m_Secure_FormatStrings;
-	m_Secure_FormatStrings.Add(_("Rijndael"));
-	m_Secure_FormatStrings.Add(_("Blowfish (Decrypt Only)"));
-	m_Secure_Format = new wxRadioBox( itemPanel68, ID_SECURE_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Secure_FormatStrings, 1, wxRA_SPECIFY_COLS );
-	m_Secure_Format->SetSelection(0);
-	itemBoxSizer87->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);
-
-	wxStaticBox* itemStaticBoxSizer90Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Password (Repeated)"));
-	wxStaticBoxSizer* itemStaticBoxSizer90 = new wxStaticBoxSizer(itemStaticBoxSizer90Static, wxVERTICAL);
-	itemBoxSizer87->Add(itemStaticBoxSizer90, 0, wxALIGN_TOP|wxALL, 5);
-	m_Secure_Pass = new wxTextCtrl( itemPanel68, ID_SECURE_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	itemStaticBoxSizer90->Add(m_Secure_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-	m_Secure_Repass = new wxTextCtrl( itemPanel68, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	itemStaticBoxSizer90->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-	//Rules
+	
+	//Rules section!!! (Not rules for backup)
 
 	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
@@ -1734,4 +1764,21 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 	m_Settings.SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	m_Settings.TransferToFile();
 	this->Destroy();
+}
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_OK
+ */
+
+void frmMain::OnSecureOKClick( wxCommandEvent& event )
+{
+}
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_PREVIEW
+ */
+
+void frmMain::OnSecurePreviewClick( wxCommandEvent& event )
+{
+
 }

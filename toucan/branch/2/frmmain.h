@@ -80,6 +80,8 @@ class Settings;
 
 //Secure
 #define ID_PANEL_SECURE 10023
+#define ID_SECURE_OK 20050
+#define ID_SECURE_PREVIEW 20051
 #define ID_SECURE_RULES 10027
 #define ID_SECURE_JOB_SELECT 10024
 #define ID_SECURE_JOB_SAVE 10300
@@ -194,11 +196,17 @@ public:
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
 	void OnSyncDestBtnClick( wxCommandEvent& event );
 
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_OK
 	void OnBackupOKClick( wxCommandEvent& event );
 
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_PREVIEW
 	void OnBackupPreviewClick( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
+	void OnSecureOKClick( wxCommandEvent& event );
+
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
+	void OnSecurePreviewClick( wxCommandEvent& event );
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_RESTORE
 	void OnBackupRestoreClick( wxCommandEvent& event );
