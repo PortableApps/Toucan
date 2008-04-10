@@ -27,9 +27,6 @@ class Settings;
 
 ////Control identifiers
 #define ID_AUIFRAME 10000
-#define ID_TOOLBAR 10001
-#define ID_TOOL_OK 10004
-#define ID_TOOL_PREVIEW 10042
 #define ID_AUINOTEBOOK 10003
 #define ID_PANEL_SYNC 10009
 
@@ -164,12 +161,6 @@ public:
 
 	/// wxEVT_CLOSE_WINDOW event handler for ID_AUIFRAME
 	void OnCloseWindow( wxCloseEvent& event );
-
-	/// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_OK
-	void OnToolOkClick( wxCommandEvent& event );
-
-	/// wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_PREVIEW
-	void OnToolPreviewClick( wxCommandEvent& event );
 
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
 	void OnSyncJobSelectSelected( wxCommandEvent& event );

@@ -39,10 +39,6 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
 	EVT_CLOSE( frmMain::OnCloseWindow )
 
-	EVT_MENU( ID_TOOL_OK, frmMain::OnToolOkClick )
-
-	EVT_MENU( ID_TOOL_PREVIEW, frmMain::OnToolPreviewClick )
-
 	EVT_COMBOBOX( ID_SYNC_JOB_SELECT, frmMain::OnSyncJobSelectSelected )
 
 	EVT_BUTTON( ID_SYNC_OK, frmMain::OnSyncOKClick )
@@ -326,14 +322,15 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer36 = new wxBoxSizer(wxVERTICAL);
 	itemPanel35->SetSizer(itemBoxSizer36);
 	
-	wxBoxSizer* itemBoxSizer61 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer36->Add(itemBoxSizer61, 0, wxALIGN_LEFT|wxALL, 5);
-	wxBoxSizer* itemBoxSizer003 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer61->Add(itemBoxSizer003, 0, wxALIGN_LEFT|wxALL, 0);
+	wxBoxSizer* BackupTop = new wxBoxSizer(wxVERTICAL);
+	itemBoxSizer36->Add(BackupTop, 0, wxALIGN_LEFT|wxALL, 5);
+	
+	wxBoxSizer* BackupRow1 = new wxBoxSizer(wxHORIZONTAL);
+	BackupTop->Add(BackupRow1, 0, wxALIGN_LEFT|wxALL, 0);
 	//Jobs section
 	wxStaticBox* itemStaticBoxSizer38Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Job Name"));
 	wxStaticBoxSizer* itemStaticBoxSizer38 = new wxStaticBoxSizer(itemStaticBoxSizer38Static, wxHORIZONTAL);
-	itemBoxSizer003->Add(itemStaticBoxSizer38, 0, wxALIGN_TOP|wxALL, 5);
+	BackupRow1->Add(itemStaticBoxSizer38, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Backup_Job_SelectStrings;
 	m_Backup_Job_Select = new wxComboBox( itemPanel35, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_Job_SelectStrings, wxCB_DROPDOWN );
 	itemStaticBoxSizer38->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -347,31 +344,20 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton0014 = new wxBitmapButton( itemPanel35, ID_BACKUP_JOB_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemStaticBoxSizer38->Add(itemBitmapButton0014, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
-	//Rules section	
-	wxStaticBox* itemStaticBoxSizer42Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Rules"));
-	wxStaticBoxSizer* itemStaticBoxSizer42 = new wxStaticBoxSizer(itemStaticBoxSizer42Static, wxHORIZONTAL);
-	itemBoxSizer003->Add(itemStaticBoxSizer42, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
-
-	wxArrayString m_Backup_RulesStrings;
-	m_Backup_Rules = new wxComboBox( itemPanel35, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN );
-	itemStaticBoxSizer42->Add(m_Backup_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-	//Options
-	
 	wxArrayString m_Backup_FunctionStrings;
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
 	m_Backup_FunctionStrings.Add(_("Incremental"));
 	m_Backup_Function = new wxRadioBox( itemPanel35, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Function->SetSelection(0);
-	itemBoxSizer61->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
+	BackupRow1->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Backup_FormatStrings;
 	m_Backup_FormatStrings.Add(_("Zip"));
 	m_Backup_FormatStrings.Add(_("7-Zip"));
 	m_Backup_Format = new wxRadioBox( itemPanel35, ID_BACKUP_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Backup_FormatStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Format->SetSelection(0);
-	itemBoxSizer61->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
+	BackupRow1->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Backup_RatioStrings;
 	m_Backup_RatioStrings.Add(_("Low"));
@@ -379,11 +365,11 @@ void frmMain::CreateControls()
 	m_Backup_RatioStrings.Add(_("Maximum"));
 	m_Backup_Ratio = new wxRadioBox( itemPanel35, ID_BACKUP_RATIO, _("Compression Ratio"), wxDefaultPosition, wxDefaultSize, m_Backup_RatioStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Ratio->SetSelection(1);
-	itemBoxSizer61->Add(m_Backup_Ratio, 0, wxALIGN_TOP|wxALL, 5);
+	BackupRow1->Add(m_Backup_Ratio, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxStaticBox* itemStaticBoxSizer65Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Password (If Required)"));
 	wxStaticBoxSizer* itemStaticBoxSizer65 = new wxStaticBoxSizer(itemStaticBoxSizer65Static, wxVERTICAL);
-	itemBoxSizer61->Add(itemStaticBoxSizer65, 0, wxALIGN_TOP|wxALL, 5);
+	BackupRow1->Add(itemStaticBoxSizer65, 0, wxALIGN_TOP|wxALL, 5);
 	m_Backup_Pass = new wxTextCtrl( itemPanel35, ID_BACKUP_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	m_Backup_Pass->SetMinSize(wxSize(125, -1));	
 	itemStaticBoxSizer65->Add(m_Backup_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -393,10 +379,9 @@ void frmMain::CreateControls()
 	m_Backup_Repass->SetMinSize(wxSize(125, -1));	
 	itemStaticBoxSizer65->Add(m_Backup_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	
-	
+	//Buttons
 	wxBoxSizer* itemBoxSizer005 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer61->Add(itemBoxSizer005, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
+	BackupRow1->Add(itemBoxSizer005, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 	
 	wxButton* itemButtonBackupOK = new wxButton( itemPanel35, ID_BACKUP_OK, _("OK"));
 	itemBoxSizer005->Add(itemButtonBackupOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -407,20 +392,37 @@ void frmMain::CreateControls()
 	wxButton* itemButtonBackupRestore = new wxButton( itemPanel35, ID_BACKUP_RESTORE , _("Restore"));
 	itemBoxSizer005->Add(itemButtonBackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
+	wxBoxSizer* BackupRow2 = new wxBoxSizer(wxHORIZONTAL);
+	BackupTop->Add(BackupRow2, 0, wxGROW|wxALIGN_LEFT|wxALL, 5);	
+	
+	//Rules section	
+	wxStaticBox* itemStaticBoxSizer42Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Rules"));
+	wxStaticBoxSizer* itemStaticBoxSizer42 = new wxStaticBoxSizer(itemStaticBoxSizer42Static, wxHORIZONTAL);
+	BackupRow2->Add(itemStaticBoxSizer42, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
+
+	wxArrayString m_Backup_RulesStrings;
+	m_Backup_Rules = new wxComboBox( itemPanel35, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN );
+	itemStaticBoxSizer42->Add(m_Backup_Rules, 1, wxALIGN_TOP|wxALL, 5);
+	
 	wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer36->Add(itemBoxSizer45, 0, wxGROW|wxALL, 5);
+	BackupRow2->Add(itemBoxSizer45, 0, wxGROW|wxALL, 5);
+	
 	
 	//Backup location
-	wxStaticText* itemStaticText46 = new wxStaticText( itemPanel35, ID_BACKUP_STATIC, _("Backup Location"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer45->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
+	
+	wxStaticBox* BackupLocationStatic = new wxStaticBox(itemPanel35, wxID_ANY, _("Backup Location"));
+	wxStaticBoxSizer* BackupLocationSizer = new wxStaticBoxSizer(BackupLocationStatic, wxHORIZONTAL);
+	BackupRow2->Add(BackupLocationSizer, 1, wxALIGN_TOP|wxALL|wxGROW, 0);
+	//wxStaticText* itemStaticText46 = new wxStaticText( itemPanel35, ID_BACKUP_STATIC, _("Backup Location"), wxDefaultPosition, wxDefaultSize, 0 );
+	//itemBoxSizer45->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer47 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer45->Add(itemBoxSizer47, 1, wxGROW|wxALL, 0);
 	m_Backup_Location = new wxTextCtrl( itemPanel35, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer47->Add(m_Backup_Location, 1, wxGROW|wxALL, 5);
+	BackupLocationSizer->Add(m_Backup_Location, 1, wxGROW|wxALL, 5);
 
 	wxButton* itemButton49 = new wxButton( itemPanel35, ID_BACKUP_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
-	itemBoxSizer47->Add(itemButton49, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	BackupLocationSizer->Add(itemButton49, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	//Start of everything else
 
 	wxBoxSizer* itemBoxSizer50 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer36->Add(itemBoxSizer50, 0, wxALIGN_LEFT|wxALL, 5);
@@ -523,7 +525,7 @@ void frmMain::CreateControls()
 	//itemBoxSizer69->Add(itemBoxSizer70, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer87->Add(itemBoxSizer002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
+	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 	
 	wxButton* itemButtonSecureOK = new wxButton( itemPanel68, ID_SECURE_OK, _("OK"));
 	itemBoxSizer3002->Add(itemButtonSecureOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -968,103 +970,6 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
 }
 
 /*!
- * wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_OK
- */
-
-void frmMain::OnToolOkClick( wxCommandEvent& event )
-{
-	//Create a new progress form and show it
-	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
-    delete wxLog::SetActiveTarget(logTxt);
-	//Set up the buttons on the progress box
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	
-	window->m_Text->AppendText(_("Starting...\n"));
-	wxDateTime now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	//Show the window
-	window->Update();
-	window->Show();
-	//Secure
-	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")) {
-		//Create the data sets and fill them		
-		SecureData data;
-		//Ensure the data is filled
-		if(data.TransferFromForm(this, true)){
-			Rules rules;
-			if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-				rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-			}
-			//Call the secure function
-			Secure(data, rules, window);
-			m_Secure_TreeCtrl->DeleteAllItems();
-			m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
-			for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
-				m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
-			}
-		}
-		window->m_OK->Enable(true);
-		window->m_Save->Enable(true);
-		window->m_Cancel->Enable(false);
-		now = wxDateTime::Now();
-		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-		window->m_Text->AppendText(_("Finished"));
-	}
-	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")) {
-		//Create the data sets and fill them
-		BackupData data;
-		if(data.TransferFromForm(this, true)){
-			Rules rules;
-			if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
-				rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
-			}
-			wxString strCommand;
-			//Loop through all of the paths to backup 
-			for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
-				//Open the text file for the file paths and clear it
-				wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
-				file->Open();
-				file->Clear();
-				file->Write();
-				//Create the command to execute
-				strCommand = data.CreateCommand(i);
-				wxString strPath = data.GetLocations().Item(i);
-				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-					strPath += wxFILE_SEP_PATH;       
-				}
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				//wxMessageBox(strPath);
-				//Create the list of files to backup
-				CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
-				//Commit the file changes
-				file->Write();
-				//Cretae the process, execute it and register it
-				PipedProcess *process = new PipedProcess(window);
-				wxGetApp().RegisterProcess(process);
-				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-				wxGetApp().SetPID(lgPID);
-				/*while(dwExitCode == STILL_ACTIVE ){
-					//wxMessageBox(_("Sleeping"));
-					GetExitCodeProcess( hProcess, &dwExitCode );
-					wxSleep(5);
-					if(wxGetApp().ShouldAbort()){
-						wxProcess::Kill(lgPID);
-					}
-				}*/
-			}
-		}
-
-	}
-	wxGetApp().SetAbort(false);
-
-}
-
-
-/*!
  * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
  */
 
@@ -1255,34 +1160,6 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
 		//}
 	}
 
-}
-
-
-/*!
- * wxEVT_COMMAND_MENU_SELECTED event handler for ID_TOOL_PREVIEW
- */
-
-void frmMain::OnToolPreviewClick( wxCommandEvent& event )
-{
-	if (m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")) {
-		//Create a new rule set and populate it from the form
-		Rules rules;
-		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-		}
-		//Set up the tree ctrl for previewing
-		m_Secure_TreeCtrl->SetPreview(true);
-		m_Secure_TreeCtrl->SetRules(rules);
-		//Delete all items and re-add the root
-		m_Secure_TreeCtrl->DeleteAllItems();
-		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
-		for (unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++) {
-			//Loop through all the the filenames listed in the array and readd them to the tree
-			m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
-		}
-		//Turn off preview
-		m_Secure_TreeCtrl->SetPreview(false);
-	}
 }
 
 
@@ -1772,6 +1649,43 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 
 void frmMain::OnSecureOKClick( wxCommandEvent& event )
 {
+	//Create a new progress form and show it
+	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	//Send all errors to the text control
+	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
+    delete wxLog::SetActiveTarget(logTxt);
+	//Set up the buttons on the progress box
+	window->m_OK->Enable(false);
+	window->m_Save->Enable(false);
+	
+	window->m_Text->AppendText(_("Starting...\n"));
+	wxDateTime now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	//Show the window
+	window->Update();
+	window->Show();
+	//Create the data sets and fill them		
+	SecureData data;
+	//Ensure the data is filled
+	if(data.TransferFromForm(this, true)){
+		Rules rules;
+		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
+			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+		}
+		//Call the secure function
+		Secure(data, rules, window);
+		m_Secure_TreeCtrl->DeleteAllItems();
+		m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
+		for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
+			m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+		}
+	}
+	window->m_OK->Enable(true);
+	window->m_Save->Enable(true);
+	window->m_Cancel->Enable(false);
+	now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	window->m_Text->AppendText(_("Finished"));
 }
 
 /*!
@@ -1780,5 +1694,21 @@ void frmMain::OnSecureOKClick( wxCommandEvent& event )
 
 void frmMain::OnSecurePreviewClick( wxCommandEvent& event )
 {
-
+	//Create a new rule set and populate it from the form
+	Rules rules;
+	if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
+		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+	}
+	//Set up the tree ctrl for previewing
+	m_Secure_TreeCtrl->SetPreview(true);
+	m_Secure_TreeCtrl->SetRules(rules);
+	//Delete all items and re-add the root
+	m_Secure_TreeCtrl->DeleteAllItems();
+	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for (unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++) {
+		//Loop through all the the filenames listed in the array and readd them to the tree
+		m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+	}
+	//Turn off preview
+	m_Secure_TreeCtrl->SetPreview(false);
 }
