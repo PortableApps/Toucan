@@ -5,7 +5,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
-#include <wx/statline.h>
 
 #include "toucan.h"
 #include "virtualdirtreectrl.h"
@@ -389,38 +388,36 @@ void frmMain::CreateControls()
 	wxButton* itemButtonBackupPreview = new wxButton( itemPanel35, ID_BACKUP_PREVIEW , _("Preview"));
 	itemBoxSizer005->Add(itemButtonBackupPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
-	wxButton* itemButtonBackupRestore = new wxButton( itemPanel35, ID_BACKUP_RESTORE , _("Restore"));
-	itemBoxSizer005->Add(itemButtonBackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	//wxButton* itemButtonBackupRestore = new wxButton( itemPanel35, ID_BACKUP_RESTORE , _("Restore"));
+	//itemBoxSizer005->Add(itemButtonBackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+
 
 	wxBoxSizer* BackupRow2 = new wxBoxSizer(wxHORIZONTAL);
-	BackupTop->Add(BackupRow2, 0, wxGROW|wxALIGN_LEFT|wxALL, 5);	
+	BackupTop->Add(BackupRow2, 0, wxEXPAND, 0);	
 	
 	//Rules section	
 	wxStaticBox* itemStaticBoxSizer42Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Rules"));
 	wxStaticBoxSizer* itemStaticBoxSizer42 = new wxStaticBoxSizer(itemStaticBoxSizer42Static, wxHORIZONTAL);
-	BackupRow2->Add(itemStaticBoxSizer42, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
+	BackupRow2->Add(itemStaticBoxSizer42, 0, wxALL, 5);
 
 	wxArrayString m_Backup_RulesStrings;
 	m_Backup_Rules = new wxComboBox( itemPanel35, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN );
-	itemStaticBoxSizer42->Add(m_Backup_Rules, 1, wxALIGN_TOP|wxALL, 5);
-	
-	wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxVERTICAL);
-	BackupRow2->Add(itemBoxSizer45, 0, wxGROW|wxALL, 5);
-	
+	itemStaticBoxSizer42->Add(m_Backup_Rules, 0, wxALL, 5);
 	
 	//Backup location
 	
+	//wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxVERTICAL);
+	//BackupRow2->Add(itemBoxSizer45, 0, 0, 5);
+	
 	wxStaticBox* BackupLocationStatic = new wxStaticBox(itemPanel35, wxID_ANY, _("Backup Location"));
 	wxStaticBoxSizer* BackupLocationSizer = new wxStaticBoxSizer(BackupLocationStatic, wxHORIZONTAL);
-	BackupRow2->Add(BackupLocationSizer, 1, wxALIGN_TOP|wxALL|wxGROW, 0);
-	//wxStaticText* itemStaticText46 = new wxStaticText( itemPanel35, ID_BACKUP_STATIC, _("Backup Location"), wxDefaultPosition, wxDefaultSize, 0 );
-	//itemBoxSizer45->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
+	BackupRow2->Add(BackupLocationSizer, 1, wxALL, 5);
 
 	m_Backup_Location = new wxTextCtrl( itemPanel35, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	BackupLocationSizer->Add(m_Backup_Location, 1, wxGROW|wxALL, 5);
+	BackupLocationSizer->Add(m_Backup_Location,1, wxALL, 5);
 
 	wxButton* itemButton49 = new wxButton( itemPanel35, ID_BACKUP_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
-	BackupLocationSizer->Add(itemButton49, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	BackupLocationSizer->Add(itemButton49, 0, wxALL, 5);
 	
 	//Start of everything else
 
@@ -429,7 +426,7 @@ void frmMain::CreateControls()
 	itemBoxSizer50->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
 	wxStaticText* itemStaticText52 = new wxStaticText( itemPanel35, wxID_STATIC, _("Files to Backup"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer50->Add(itemStaticText52, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer50->Add(itemStaticText52, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
 	wxBoxSizer* itemBoxSizer53 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer36->Add(itemBoxSizer53, 1, wxGROW|wxALL, 5);
@@ -856,7 +853,7 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
-	wxGetApp().GetBackupLocations().Clear();
+	wxGetApp().RemoveBackupLocation(0);
 	m_Backup_TreeCtrl->DeleteAllItems();
 	//Add the path to the global list and to the virtualdirtreectrl
 	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
@@ -1578,14 +1575,6 @@ void frmMain::OnBackupOKClick( wxCommandEvent& event )
 			wxGetApp().RegisterProcess(process);
 			long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 			wxGetApp().SetPID(lgPID);
-			/*while(dwExitCode == STILL_ACTIVE ){
-				//wxMessageBox(_("Sleeping"));
-				GetExitCodeProcess( hProcess, &dwExitCode );
-				wxSleep(5);
-				if(wxGetApp().ShouldAbort()){
-					wxProcess::Kill(lgPID);
-				}
-			}*/
 		}
 	}
 	else{
