@@ -82,7 +82,7 @@ bool Toucan::OnInit()
 bool Toucan::RegisterProcess(PipedProcess *process)
 {
 	if ( m_Running.IsEmpty() ){
-		m_wakeUpTimer.Start(20);
+		m_wakeUpTimer.Start(50);
 	}
 	m_Running.Add(process);
 	return true;

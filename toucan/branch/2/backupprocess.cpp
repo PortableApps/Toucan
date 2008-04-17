@@ -7,8 +7,6 @@
 #include "backupprocess.h"
 #include "toucan.h"
 
-IMPLEMENT_CLASS(PipedProcess, BaseProcess)
-
 bool PipedProcess::HasInput()
 {
 	bool hasInput = false;

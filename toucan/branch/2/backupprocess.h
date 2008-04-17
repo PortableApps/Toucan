@@ -10,6 +10,7 @@
 #include <wx/process.h>
 #include <wx/txtstrm.h>
 #include "frmprogress.h"
+#include "toucan.h"
 
 //The base process
 class BaseProcess : public wxProcess
@@ -41,5 +42,7 @@ public:
 protected:
     frmProgress*   m_Window;
 };
+
+IMPLEMENT_CLASS(PipedProcess, BaseProcess)
 
 #endif

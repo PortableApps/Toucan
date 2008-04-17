@@ -1585,7 +1585,6 @@ void frmMain::OnBackupOKClick( wxCommandEvent& event )
 		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 		window->m_Text->AppendText(_("Finished"));
 		wxGetApp().SetAbort(false);
-		wxGetApp().SetAbort(false);
 	}
 }
 
