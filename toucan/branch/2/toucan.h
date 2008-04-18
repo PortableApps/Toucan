@@ -65,6 +65,15 @@ public:
     void OnIdle(wxIdleEvent& event);
     void OnTimer(wxTimerEvent& event);
 	
+	long GetBackup() { return lgBackupNumber; }
+	void SetBackup(long backupnumber) { lgBackupNumber = backupnumber; }	
+	
+	long GetOldBackup() { return lgOldBackupNumber; }
+	void SetOldBackup(long oldbackupnumber) { lgOldBackupNumber = oldbackupnumber; }	
+	
+	wxString GetSettingsPath() { return strSettingsPath; }
+	void SetSettingsPath(wxString settingspath) { strSettingsPath = settingspath; }
+	
 protected:
     // Timer to wake up idle processing
     wxTimer m_wakeUpTimer;
@@ -72,6 +81,9 @@ protected:
 	wxArrayString BackupLocations;
 	bool blAbort;
 	long lgPID;
+	long lgBackupNumber;
+	long lgOldBackupNumber;
+	wxString strSettingsPath;
 };
 
 DECLARE_APP(Toucan)

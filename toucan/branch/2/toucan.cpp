@@ -52,6 +52,7 @@ Toucan::Toucan()
 void Toucan::Init()
 {
 	blAbort = false;
+	lgBackupNumber = 0;
 }
 
 /*!

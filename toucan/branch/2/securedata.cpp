@@ -13,7 +13,7 @@
 //Grab all of the fields from the form*/
 bool SecureData::TransferFromFile(wxString strName){
 	//Create a new ficonfig 	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath())+ wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
 	wxString strTemp;
@@ -39,7 +39,7 @@ bool SecureData::TransferFromFile(wxString strName){
 //For saving to an ini file
 bool SecureData::TransferToFile(wxString strName){
 	//Create a new fileconfig object
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
 	//Delete a group if it already exists

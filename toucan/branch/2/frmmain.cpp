@@ -855,6 +855,7 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 	this->SetCursor(cursor);
 	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
+	wxGetApp().SetBackup(wxGetApp().GetBackup() + 1);
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
 }
@@ -878,6 +879,7 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 			}
 		}
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
+		wxGetApp().SetBackup(wxGetApp().GetBackup() - 1);
 	}
 }
 
@@ -1118,7 +1120,7 @@ void frmMain::OnRulesRemoveClick( wxCommandEvent& event )
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	config->DeleteGroup(m_Rules_Combo->GetStringSelection());
 	delete config;
 }
@@ -1176,7 +1178,7 @@ void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
 		}
 	}
 	//Create a new fileconfig and write the extra fields to it
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
 	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Type"),  _("Secure"));
 	delete config;
@@ -1207,7 +1209,7 @@ void frmMain::OnSecureJobAddClick( wxCommandEvent& event )
 void frmMain::OnSecureJobRemoveClick( wxCommandEvent& event )
 {
 	if (m_Secure_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
 		m_Secure_Job_Select->Delete(m_Secure_Job_Select->GetSelection());
 		delete config;
@@ -1226,7 +1228,7 @@ void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
 	SecureData data;
 	if (data.TransferFromFile(m_Secure_Job_Select->GetStringSelection())) {
 		data.TransferToForm(this);
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		m_Secure_Rules->SetStringSelection(config->Read(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules")));
 		delete config;
 	}
@@ -1280,7 +1282,7 @@ void frmMain::OnBackupJobSaveClick( wxCommandEvent& event )
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
 	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Type"),  _("Backup"));
 	config->Flush();
@@ -1312,7 +1314,7 @@ void frmMain::OnSyncJobAddClick( wxCommandEvent& event )
 void frmMain::OnSyncJobRemoveClick( wxCommandEvent& event )
 {
 	if (m_Sync_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		config->DeleteGroup(m_Sync_Job_Select->GetStringSelection());
 		m_Sync_Job_Select->Delete(m_Sync_Job_Select->GetSelection());
 	}
@@ -1331,7 +1333,7 @@ void frmMain::OnSyncJobSelectSelected( wxCommandEvent& event )
 	if (data.TransferFromFile(m_Sync_Job_Select->GetStringSelection())) {
 		//data.Output();
 		data.TransferToForm(this);
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		m_Sync_Rules->SetStringSelection(config->Read(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules")));
 		delete config;
 	}
@@ -1406,7 +1408,7 @@ void frmMain::OnBackupJobAddClick( wxCommandEvent& event )
 void frmMain::OnBackupJobRemoveClick( wxCommandEvent& event )
 {
 	if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		config->DeleteGroup(m_Backup_Job_Select->GetStringSelection());
 		m_Backup_Job_Select->Delete(m_Backup_Job_Select->GetSelection());
 		delete config;
@@ -1425,7 +1427,7 @@ void frmMain::OnBackupJobSelectSelected( wxCommandEvent& event )
 	BackupData data;
 	if (data.TransferFromFile(m_Backup_Job_Select->GetStringSelection())) {
 		data.TransferToForm(this);
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		m_Backup_Rules->SetStringSelection(config->Read(m_Backup_Job_Select->GetStringSelection() + wxT("/Rules")));
 		delete config;
 	}
@@ -1550,7 +1552,7 @@ void frmMain::OnBackupOKClick( wxCommandEvent& event )
 		//Loop through all of the paths to backup 
 		for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
 			//Open the text file for the file paths and clear it
-			wxTextFile *file = new wxTextFile(_("C:\\test.txt"));
+			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
 			file->Open();
 			file->Clear();
 			file->Write();

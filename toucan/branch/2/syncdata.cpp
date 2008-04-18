@@ -11,7 +11,7 @@
 #include <wx\stdpaths.h>
 
 bool SyncData::TransferFromFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
 	wxString strTemp;
@@ -41,7 +41,7 @@ bool SyncData::TransferFromFile(wxString strName){
 }
 
 bool SyncData::TransferToFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
 

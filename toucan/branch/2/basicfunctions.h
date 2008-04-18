@@ -12,6 +12,7 @@
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include "frmprogress.h"
+#include "toucan.h"
 
 //Turns an array string into a string with the strings seperated by strSeperator, used when writing to ini files
 wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator){
@@ -76,7 +77,7 @@ bool SetRulesBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();
 	//Create a fileconfig item
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini"));
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	bool blCont;
 	wxString strValue;
 	long dummy;
@@ -94,7 +95,7 @@ bool SetRulesBox(wxComboBox *box){
 //Adds a list of jobs to a combobox, needs to be passed a type to ensure only the relevent jobs are added
 bool SetJobsBox(wxComboBox *box, wxString strType){
 	//Create a fileconfig object	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini"));
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	bool blCont;
 	wxString strValue;
 	long dummy;

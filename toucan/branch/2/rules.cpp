@@ -117,7 +117,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 }
 
 bool Rules::TransferFromFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini"));
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	
 	wxString strTemp;
 
@@ -134,7 +134,7 @@ bool Rules::TransferFromFile(wxString strName){
 }
 
 bool Rules::TransferToFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Rules.ini"));
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	
 	bool blError;
 	config->DeleteGroup(strName);
