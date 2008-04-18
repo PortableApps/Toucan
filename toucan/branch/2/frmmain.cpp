@@ -853,9 +853,6 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
-	wxGetApp().RemoveBackupLocation(0);
-	m_Backup_TreeCtrl->DeleteAllItems();
-	//Add the path to the global list and to the virtualdirtreectrl
 	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -870,10 +867,9 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 {
 	//Checks to see if it is a top level item that is being removed
-	if (m_Backup_TreeCtrl->GetSelection() == m_Backup_TreeCtrl->GetRootItem()) {
-		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
+	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()) {
 		//Iterate throught the global list and remove the item
-		for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().Count(); i++) {
+		for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().Count() - 1; i++) {
 			if (wxGetApp().GetBackupLocations().Item(i) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
 				wxGetApp().RemoveBackupLocation(i);
 			}
@@ -881,6 +877,7 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
 				wxGetApp().RemoveBackupLocation(i);
 			}
 		}
+		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
 	}
 }
 
