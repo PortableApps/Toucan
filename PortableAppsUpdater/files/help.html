@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-US"><head><title>PortableApps.com Updater 1.0.0.1 Alpha Help</title>
+	<link rel="alternate" type="application/rss+xml" title="PortableApps.com" href="http://portableapps.com/feeds/general">
+	<link rel="SHORTCUT ICON" href="Other/Help/images/favicon.ico">
+<style>body {
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 76%;
+	color: #000;
+	margin: 20px;
+	background: #E6E8EA;
+	text-align: center;
+}
+a
+{
+	color: #B31616;
+	font-weight: bold;
+}
+a:link {
+	}
+a:visited {
+	}
+a:active {
+	}
+a:hover {
+	color: red;
+	}
+h1, h2, h3, h4, h5, h6 {
+	font-family: Arial, sans-serif;
+	font-weight: normal;
+}
+h1 {
+	color: #B31616;
+	font-weight: bold;
+	letter-spacing: -2px;
+	font-size: 2.2em;
+	border-bottom: 1px solid silver;
+	padding-bottom: 5px;
+	}
+h2 {
+	font-size: 1.5em;
+	border-bottom: 1px solid silver;
+	padding-bottom: 3px;
+	clear: both;
+	}
+h3 {
+	font-size: 1.2em;
+	}
+h4 {
+	font-size: 1.1em;
+	}
+h5 {
+	font-size: 1.0em;
+	}
+h6 {
+	font-size: 0.8em;
+	}
+img {
+	border: 0;
+	}
+ol, ul, li {
+	font-size: 1.0em;
+	}
+p, table, tr, td, th {
+	font-size: 1.0em;
+	}
+pre {
+	font-family: Courier New,Courier,monospace;
+	font-size: 1.0em;
+	}
+strong, b {
+	font-weight: bold;
+	}
+table, tr, td {
+	font-size: 1.0em;
+	border-collapse: collapse;
+}
+td, th {
+	border: 1px solid #aaaaaa;
+	border-collapse: collapse;
+	padding: 3px;
+}
+th {
+	background: #3667A8;
+	color: white;
+}
+ol ol {
+	list-style-type: lower-alpha;
+}
+.content {
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	width: 780px;
+	background-color: #FFFFFF;
+	border-left: 1px solid Black;
+	border-right: 1px solid Black;
+	padding: 12px 30px;
+	line-height: 150%;
+}
+.logo {
+	background: #ffffff url("Other/Help/images/help_background_header.png") repeat-x;
+	width: 840px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+}
+.footer {
+	background: #ffffff url("Other/Help/images/help_background_footer.png") repeat-x;
+	width: 840px;
+	height: 16px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+}
+.logo img {
+	padding-left: 0px;
+	border: none;
+	position: relative;
+	top: -4px;
+}
+* html .content {
+	width: 760px;
+}
+* html .logo, * html .footer {
+	width: 820px;
+}
+.content h1 {
+	margin: 0px;
+}
+h1.hastagline {
+	border: 0;
+}
+h2.tagline {
+	color: #747673;
+	clear: none;
+	margin-top: 0em;
+}
+/*printer styles*/ 
+@media print{ 
+body, .content {margin: 0; padding: 0;}
+.navigation, .locator, .footer a, .message, .footer-links {display:none;} 
+.footer, .content, .header {border: none;}
+a {text-decoration: none; font-weight: normal; color: black;}
+}</style>
+</head>
+<body>
+<div class="logo"><a href="http://portableapps.com/"><img src="Other/Help/images/help_logo_top.png" width="229" height="47" alt="PortableApps.com - Your Digital Life, Anywhere"></a></div>
+<div class="content">
+<h1 class="hastagline">PortableApps.com Updater 1.0.0.1 Alpha Help</h1>
+<h2 class="tagline">Portable Apps up to date</h2>
+<p align="left">PortableApps Update is created with some ideas and code from the
+<a href="http://portableapps.com">PortableApps.com (R)</a> Installer from John Haller.<br/><br/>
+It uses <a href="http://www.gnu.org/software/wget/">GNU Wget Version 1.11</a> as a binary version found on: <a heref="http://wget.addictivecode.org/FrequentlyAskedQuestions?action=show&redirect=Faq#head-c56e34de48f9be75603a0a510516c41e227e2c30">http://wget.addictivecode.org/</a><br/>
+(This version was compressed with upx --best --compress-icons=0 --crp-ms=999999 in order to save space.)
+<br/>
+PortableApps.com Updater is a tool designed to gets Your PortableApps up to date
+and it is published under the terms of <a href="Other/Source/License.txt">GPL</a>.
+<br/><br/>
+It fits with the PortableApps.com (R) Platform 1.x but works propper without it too.
+
+Keep in mind that this is a stable but <b>ALPHA</b> state version. Everything (!) could change in future versions, depending
+from the current PortableApps.com &TM; PlatformOnly PortableApps with the PAF (PortableApps.com (R) Format) as Installer (newer Apps) or as
+self extracting archives are supported. 
+<br/><br/>
+If You'll use packages outside PortableApps.com You'll do this at Your own
+risc. There is no help or support for this packages!
+<br/><br/>
+PA_UP needs access to the internet. It supports proxy connections (see <a href="App/DefaultData/settings.ini">here</a>)
+<br/><br/>
+It checks for PortableApps folders in the same directory as the PortableAppsUpdater folder.</br>
+For all supported Apps (at the moment all published Apps on portableapps.com) which are not present
+or different as the published versions download and installation is offered. A messagebox informs if
+all versions are up to date.
+<br/><br/>
+If You don't want a supported App, set it on Your personal blacklist in Your settings.ini and it will never
+checked untill You'll enable it again.
+<a href="http://portableapps.com/donate"><img src="Other/Help/images/donation_button.png" width="110" height="23" border="0" align="top" alt="Make a Donation"></a> - Support PortableApps.com's Hosting and Development
+
+<p><a href="http://PortableApps.com/PortableAppsUpdater">Go to the PortableApp.com Updater Homepage &gt;&gt;</a></p>
+
+
+<p><a href="http://PortableApps.com/">Get more portable apps at PortableApps.com</a></p>
+
+<p>This software is OSI Certified Open Source Software. OSI Certified is a certification mark of the Open Source Initiative.</p>
+
+<h2>PortableApp.com Updater-Specific Issues</h2>
+<a href="https://sourceforge.net/projects/portableapps/"><img width="88" height="31" border="0" align="right" src="http://sourceforge.net/sflogo.php?group_id=151265" alt="SourceForge.net" /></a>
+<p>For support questions, see the <a href="http://PortableApps.com/PortableAppsUpdater">PortableApps.com Updater Homepage</a></p>
+<p>More informations about possible settings You'll find in the <a href="App/DefaultData/settings.ini">the default settings.ini</a>
+</p>
+<h2>General GNU Wget Issues</h2>
+<p>For general GNU Wget help, please see the following:</p>
+<ul>
+<li><a href="http://www.gnu.org/software/wget/manual/wget.html">Wget manual</a></li>
+<li><a href="http://wget.addictivecode.org/Faq?action=show">Wget Wiki</a></li>
+<li><a href="http://www.gnu.org/software/wget/">GNU Wget Homepage</a></li>
+</ul>
+</div>
+<div class="footer"></div>
+</body>
+</html>
