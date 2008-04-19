@@ -11,6 +11,8 @@
 #include <wx\image.h>
 
 #include "frmmain.h"
+#include "backupdata.h"
+#include "rules.h"
 
 class PipedProcess;
 WX_DEFINE_ARRAY_PTR(PipedProcess *, ProcessArray);
@@ -56,8 +58,7 @@ public:
 	
 	bool ShouldAbort() { return blAbort; }
 	void SetAbort(bool abort) { blAbort = abort; }
-	
-	
+		
 	long GetPID() { return lgPID; }
 	void SetPID(long pid) { lgPID = pid; }
 
@@ -68,11 +69,14 @@ public:
 	long GetBackup() { return lgBackupNumber; }
 	void SetBackup(long backupnumber) { lgBackupNumber = backupnumber; }	
 	
-	long GetOldBackup() { return lgOldBackupNumber; }
-	void SetOldBackup(long oldbackupnumber) { lgOldBackupNumber = oldbackupnumber; }	
-	
 	wxString GetSettingsPath() { return strSettingsPath; }
 	void SetSettingsPath(wxString settingspath) { strSettingsPath = settingspath; }
+	
+	BackupData GetBackupData() { return data; }
+	void SetBackupData(BackupData newdata) { data = newdata; }
+	
+	Rules GetRules() { return rules; }
+	void SetRules(Rules newrules) { rules = newrules; }	
 	
 protected:
     // Timer to wake up idle processing
@@ -82,8 +86,10 @@ protected:
 	bool blAbort;
 	long lgPID;
 	long lgBackupNumber;
-	long lgOldBackupNumber;
 	wxString strSettingsPath;
+	
+	BackupData data;
+	Rules rules;
 };
 
 DECLARE_APP(Toucan)

@@ -7,16 +7,16 @@
 #ifndef _FRMMAIN_H_
 #define _FRMMAIN_H_
 
-#include "wx/aui/framemanager.h"
-#include "wx/frame.h"
-#include "wx/toolbar.h"
-#include "wx/aui/auibook.h"
-#include "wx/treectrl.h"
-#include "wx/dirctrl.h"
-#include "wx/richtext/richtextctrl.h"
+#include <wx/aui/framemanager.h>
+#include <wx/frame.h>
+#include <wx/toolbar.h>
+#include <wx/aui/auibook.h>
+#include <wx/treectrl.h>
+#include <wx/dirctrl.h>
+#include <wx/richtext/richtextctrl.h>
+#include <wx/listctrl.h>
 
 #include "virtualdirtreectrl.h"
-
 #include "settings.h"
 
 //Forward declarations
@@ -114,6 +114,15 @@ class Settings;
 #define ID_RULES_ADD_FILEDELETE 10201
 #define ID_RULES_REMOVE_FILEDELETE 10202
 
+//Portable Variables
+
+#define ID_PVAR_NAME 30000
+#define ID_PVAR_LIST 30001
+#define ID_PVAR_ADD 30002
+#define ID_PVAR_REMOVE 30003
+#define ID_PVAR_ADDITEM 30002
+#define ID_PVAR_REMOVEITEM 30003
+
 //Script
 #define ID_PANEL4 10064
 #define ID_PANEL6 10066
@@ -133,7 +142,7 @@ class Settings;
 #define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
 #define SYMBOL_FRMMAIN_TITLE _("Toucan")
 #define SYMBOL_FRMMAIN_IDNAME ID_AUIFRAME
-#define SYMBOL_FRMMAIN_SIZE wxSize(800, 800)
+#define SYMBOL_FRMMAIN_SIZE wxSize(800, 480)
 #define SYMBOL_FRMMAIN_POSITION wxDefaultPosition
 
 
@@ -282,6 +291,26 @@ public:
 
 	/// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
 	void OnScriptRichTextUpdated( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADD
+	void OnPvarAddClick( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_REMOVE
+	void OnPvarRemoveClick( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADDITEM
+	void OnPvarAddItemClick( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_REMOVEITEM
+	void OnPvarRemoveItemClick( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PVAR_NAME
+	void OnPvarNameSelected( wxCommandEvent& event );
+	
+	/// wxEVT_LIST_ITEM_ACTIVATED event handler for ID_PVAR_LIST	
+	void OnPvarListActivated( wxListEvent& event );
+	
+	
 
 	//Functions
 
@@ -338,6 +367,8 @@ public:
 	wxListBox* m_Rules_LocationInclude;
 	wxListBox* m_Rules_FileDelete;
 	wxRadioBox* m_Settings_TabStyle;
+    wxComboBox* m_Pvar_Name;
+    wxListCtrl* m_Pvar_List;
 	
 	Settings m_Settings;
 };

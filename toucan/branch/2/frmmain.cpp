@@ -115,6 +115,18 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 	EVT_BUTTON( ID_RULES_REMOVE_FILEDELETE, frmMain::OnRulesRemoveFiledeleteClick )
 
 	EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
+	
+	EVT_BUTTON(ID_PVAR_ADD, frmMain::OnPvarAddClick )
+	
+	EVT_BUTTON(ID_PVAR_REMOVE, frmMain::OnPvarRemoveClick )
+	
+	EVT_BUTTON(ID_PVAR_ADDITEM, frmMain::OnPvarAddItemClick )
+	
+	EVT_BUTTON(ID_PVAR_REMOVEITEM, frmMain::OnPvarRemoveItemClick )
+	
+	EVT_COMBOBOX(ID_PVAR_NAME, frmMain::OnPvarNameSelected )
+	
+	EVT_LIST_ITEM_ACTIVATED(ID_PVAR_LIST, frmMain::OnPvarListActivated )
 
 END_EVENT_TABLE()
 
@@ -661,10 +673,44 @@ void frmMain::CreateControls()
 
 	//Portable variables
 
-	/*wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+
+	wxBoxSizer* PvarAll = new wxBoxSizer(wxVERTICAL);
+    itemPanel130->SetSizer(PvarAll);
+
+    wxBoxSizer* PvarTop = new wxBoxSizer(wxHORIZONTAL);
+    PvarAll->Add(PvarTop, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText5 = new wxStaticText( itemPanel130, wxID_STATIC, _("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    PvarTop->Add(itemStaticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxArrayString m_Pvar_NameStrings;
+    m_Pvar_Name = new wxComboBox( itemPanel130, ID_PVAR_NAME, _T(""), wxDefaultPosition, wxDefaultSize, m_Pvar_NameStrings, wxCB_DROPDOWN );
+    PvarTop->Add(m_Pvar_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+    wxBitmapButton* PvarAdd = new wxBitmapButton( itemPanel130, ID_PVAR_ADD, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    PvarTop->Add(PvarAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBitmapButton* PvarRemove = new wxBitmapButton( itemPanel130, ID_PVAR_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    PvarTop->Add(PvarRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBoxSizer* PvarBottom = new wxBoxSizer(wxHORIZONTAL);
+    PvarAll->Add(PvarBottom, 1, wxGROW|wxALL, 5);
+
+    m_Pvar_List = new wxListCtrl( itemPanel130, ID_PVAR_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT );
+    PvarBottom->Add(m_Pvar_List, 1, wxGROW|wxALL, 5);
+
+    wxBoxSizer* PvarRight = new wxBoxSizer(wxVERTICAL);
+    PvarBottom->Add(PvarRight, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxBitmapButton* PvarAddItem = new wxBitmapButton( itemPanel130, ID_PVAR_ADDITEM, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    PvarRight->Add(PvarAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBitmapButton* PvarRemoveItem = new wxBitmapButton( itemPanel130, ID_PVAR_REMOVEITEM, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    PvarRight->Add(PvarRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	//Scripting
-
+/*
 	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
 	itemPanel131->SetSizer(itemBoxSizer132);
@@ -737,7 +783,7 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(itemPanel35, _("Backup"), false, backupbitmap);
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
-	//m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
+	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
 	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);*/
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
 
@@ -784,6 +830,13 @@ void frmMain::CreateControls()
 	SetJobsBox(m_Sync_Job_Select, _("Sync"));
 	SetJobsBox(m_Backup_Job_Select, _("Backup"));
 	SetJobsBox(m_Secure_Job_Select, _("Secure"));
+	
+	//Set the portable variables box
+	SetVariablesBox(m_Pvar_Name);
+	
+	wxListItem column;
+	m_Pvar_List->InsertColumn(0, column);
+	m_Pvar_List->InsertColumn(1, column);
 	
 	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
@@ -849,7 +902,7 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
 */
 
-void frmMain::OnBackupAddClick( wxCommandEvent& event )
+void frmMain::OnBackupAddClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -865,7 +918,7 @@ void frmMain::OnBackupAddClick( wxCommandEvent& event )
 * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
 */
 
-void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
+void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 {
 	//Checks to see if it is a top level item that is being removed
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()) {
@@ -888,7 +941,7 @@ void frmMain::OnBackupRemoveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
  */
 
-void frmMain::OnSecureAddClick( wxCommandEvent& event )
+void frmMain::OnSecureAddClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -904,7 +957,7 @@ void frmMain::OnSecureAddClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
  */
 
-void frmMain::OnSecureRemoveClick( wxCommandEvent& event )
+void frmMain::OnSecureRemoveClick(wxCommandEvent& event)
 {
 	//Checks to see if it is a top level item that is being removed
 	if (m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection())) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetRootItem())) {
@@ -926,7 +979,7 @@ void frmMain::OnSecureRemoveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
  */
 
-void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
+void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 {
 
 	//Need to replace this with a better browser
@@ -948,7 +1001,7 @@ void frmMain::OnSyncSourceBtnClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
  */
 
-void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
+void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 {
 	//Need to replace this with a better browser	
 	wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
@@ -969,7 +1022,7 @@ void frmMain::OnSyncDestBtnClick( wxCommandEvent& event )
  * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
  */
 
-void frmMain::OnScriptRichTextUpdated( wxCommandEvent& event )
+void frmMain::OnScriptRichTextUpdated(wxCommandEvent& event)
 {
 ////@begin wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain.
 // Before editing this code, remove the block markers.
@@ -982,7 +1035,7 @@ void frmMain::OnScriptRichTextUpdated( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
  */
 
-void frmMain::OnRulesAddFileexcludeClick( wxCommandEvent& event )
+void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), _("This dialog needs to be replaced"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -996,7 +1049,7 @@ void frmMain::OnRulesAddFileexcludeClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEEXCLUDE
  */
 
-void frmMain::OnRulesRemoveFileexcludeClick( wxCommandEvent& event )
+void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event)
 {
 	m_Rules_FileExclude->Delete(m_Rules_FileExclude->GetSelection());
 }
@@ -1006,7 +1059,7 @@ void frmMain::OnRulesRemoveFileexcludeClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FOLDEREXCLUDE
  */
 
-void frmMain::OnRulesAddFolderexcludeClick( wxCommandEvent& event )
+void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"), _("This dialog needs to be replaced"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1020,7 +1073,7 @@ void frmMain::OnRulesAddFolderexcludeClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FOLDEREXCLUDE
  */
 
-void frmMain::OnRulesRemoveFolderexcludeClick( wxCommandEvent& event )
+void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& event)
 {
 	m_Rules_FolderExclude->Delete(m_Rules_FolderExclude->GetSelection());
 }
@@ -1030,7 +1083,7 @@ void frmMain::OnRulesRemoveFolderexcludeClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_LocationInclude
  */
 
-void frmMain::OnRulesAddFiledeleteClick( wxCommandEvent& event )
+void frmMain::OnRulesAddFiledeleteClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to Delete"), _("This dialog needs to be replaced"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1044,7 +1097,7 @@ void frmMain::OnRulesAddFiledeleteClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_LocationInclude
  */
 
-void frmMain::OnRulesRemoveFiledeleteClick( wxCommandEvent& event )
+void frmMain::OnRulesRemoveFiledeleteClick(wxCommandEvent& event)
 {
 	m_Rules_LocationInclude->Delete(m_Rules_FileDelete->GetSelection());
 }
@@ -1055,7 +1108,7 @@ void frmMain::OnRulesRemoveFiledeleteClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_SAVE
  */
 
-void frmMain::OnRulesSaveClick( wxCommandEvent& event )
+void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 {
 	//Get all of the form data into arraystrings
 	wxArrayString arrLocationsInclude, arrFolderExclude, arrFileExclude, arrFileDelete;
@@ -1096,7 +1149,7 @@ void frmMain::OnRulesSaveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD
  */
 
-void frmMain::OnRulesAddClick( wxCommandEvent& event )
+void frmMain::OnRulesAddClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), _("This dialog needs to be replaced"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1114,7 +1167,7 @@ void frmMain::OnRulesAddClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE
  */
 
-void frmMain::OnRulesRemoveClick( wxCommandEvent& event )
+void frmMain::OnRulesRemoveClick(wxCommandEvent& event)
 {
 	m_Rules_Combo->Delete(m_Rules_Combo->GetSelection());
 	m_Rules_LocationInclude->Clear();
@@ -1130,7 +1183,7 @@ void frmMain::OnRulesRemoveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_RULES_COMBO
  */
 
-void frmMain::OnRulesComboSelected( wxCommandEvent& event )
+void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 {
 	//Clear the existing rules
 	m_Rules_LocationInclude->Clear();
@@ -1164,7 +1217,7 @@ void frmMain::OnRulesComboSelected( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE
  */
 
-void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
+void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -1191,7 +1244,7 @@ void frmMain::OnSecureJobSaveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD
  */
 
-void frmMain::OnSecureJobAddClick( wxCommandEvent& event )
+void frmMain::OnSecureJobAddClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1206,7 +1259,7 @@ void frmMain::OnSecureJobAddClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE
  */
 
-void frmMain::OnSecureJobRemoveClick( wxCommandEvent& event )
+void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event)
 {
 	if (m_Secure_Job_Select->GetStringSelection() != wxEmptyString) {
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
@@ -1221,7 +1274,7 @@ void frmMain::OnSecureJobRemoveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
  */
 
-void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
+void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -1243,7 +1296,7 @@ void frmMain::OnSecureJobSelectSelected( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
  */
 
-void frmMain::OnSyncJobSaveClick( wxCommandEvent& event )
+void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -1268,7 +1321,7 @@ void frmMain::OnSyncJobSaveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_SAVE
  */
 
-void frmMain::OnBackupJobSaveClick( wxCommandEvent& event )
+void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -1296,7 +1349,7 @@ void frmMain::OnBackupJobSaveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
  */
 
-void frmMain::OnSyncJobAddClick( wxCommandEvent& event )
+void frmMain::OnSyncJobAddClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1311,7 +1364,7 @@ void frmMain::OnSyncJobAddClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
  */
 
-void frmMain::OnSyncJobRemoveClick( wxCommandEvent& event )
+void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event)
 {
 	if (m_Sync_Job_Select->GetStringSelection() != wxEmptyString) {
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
@@ -1325,7 +1378,7 @@ void frmMain::OnSyncJobRemoveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
  */
 
-void frmMain::OnSyncJobSelectSelected( wxCommandEvent& event )
+void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -1346,7 +1399,7 @@ void frmMain::OnSyncJobSelectSelected( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
  */
 
-void frmMain::OnRulesAddLocationincludeClick( wxCommandEvent& event )
+void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"), _("This dialog needs to be replaced"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1360,7 +1413,7 @@ void frmMain::OnRulesAddLocationincludeClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
  */
 
-void frmMain::OnRulesRemoveLocationincludeClick( wxCommandEvent& event )
+void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& event)
 {
 	m_Rules_FileDelete->Delete(m_Rules_LocationInclude->GetSelection());
 }
@@ -1370,7 +1423,7 @@ void frmMain::OnRulesRemoveLocationincludeClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_LOCATION
  */
 
-void frmMain::OnBackupLocationClick( wxCommandEvent& event )
+void frmMain::OnBackupLocationClick(wxCommandEvent& event)
 {
 	if(m_Backup_Function->GetStringSelection() == _("Incremental")){
 		wxDirDialog dialog(this,_("Please select the folder to store your backups"),wxEmptyString);
@@ -1390,7 +1443,7 @@ void frmMain::OnBackupLocationClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_ADD
  */
 
-void frmMain::OnBackupJobAddClick( wxCommandEvent& event )
+void frmMain::OnBackupJobAddClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
@@ -1405,7 +1458,7 @@ void frmMain::OnBackupJobAddClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_REMOVE
  */
 
-void frmMain::OnBackupJobRemoveClick( wxCommandEvent& event )
+void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event)
 {
 	if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
@@ -1420,7 +1473,7 @@ void frmMain::OnBackupJobRemoveClick( wxCommandEvent& event )
  * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_BACKUP_JOB_SELECT
  */
 
-void frmMain::OnBackupJobSelectSelected( wxCommandEvent& event )
+void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
@@ -1439,7 +1492,7 @@ void frmMain::OnBackupJobSelectSelected( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_OK
  */
 
-void frmMain::OnSyncOKClick( wxCommandEvent& event )
+void frmMain::OnSyncOKClick(wxCommandEvent& event)
 {
 	//Create a new progress form and show it
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
@@ -1483,7 +1536,7 @@ void frmMain::OnSyncOKClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_PREVIEW
  */
 
-void frmMain::OnSyncPreviewClick( wxCommandEvent& event )
+void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 {
 	wxString strPath = m_Sync_Source_Txt->GetValue();
 	//wxMessageBox(strPath);
@@ -1524,8 +1577,9 @@ void frmMain::OnSyncPreviewClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_OK
  */
 
-void frmMain::OnBackupOKClick( wxCommandEvent& event )
+void frmMain::OnBackupOKClick(wxCommandEvent& event)
 {
+	wxGetApp().SetBackup(0);
 	//Create a new progress form and show it
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 	//Send all errors to the text control
@@ -1549,32 +1603,33 @@ void frmMain::OnBackupOKClick( wxCommandEvent& event )
 			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 		}
 		wxString strCommand;
-		//Loop through all of the paths to backup 
-		for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
-			//Open the text file for the file paths and clear it
-			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-			file->Open();
-			file->Clear();
-			file->Write();
-			//Create the command to execute
-			strCommand = data.CreateCommand(i);
-			wxString strPath = data.GetLocations().Item(i);
-			if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-				strPath += wxFILE_SEP_PATH;       
-			}
-			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			//wxMessageBox(strPath);
-			//Create the list of files to backup
-			CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
-			//Commit the file changes
-			file->Write();
-			//Cretae the process, execute it and register it
-			PipedProcess *process = new PipedProcess(window);
-			wxGetApp().RegisterProcess(process);
-			long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-			wxGetApp().SetPID(lgPID);
+		
+		wxGetApp().SetRules(rules);
+		wxGetApp().SetBackupData(data);
+		//Open the text file for the file paths and clear it
+		wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
+		file->Open();
+		file->Clear();
+		file->Write();
+		//Create the command to execute
+		strCommand = data.CreateCommand(wxGetApp().GetBackup());
+		wxString strPath = data.GetLocations().Item(wxGetApp().GetBackup());
+		if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+			strPath += wxFILE_SEP_PATH;       
 		}
+		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+		//wxMessageBox(strPath);
+		//Create the list of files to backup
+		CreateList(file, rules, data.GetLocations().Item(wxGetApp().GetBackup()), strPath.Length());
+		//Commit the file changes
+		file->Write();
+		//Cretae the process, execute it and register it
+		PipedProcess *process = new PipedProcess(window);
+		wxGetApp().RegisterProcess(process);
+		wxGetApp().SetBackup(wxGetApp().GetBackup() + 1);
+		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+		wxGetApp().SetPID(lgPID);
 	}
 	else{
 		window->m_OK->Enable(true);
@@ -1591,7 +1646,7 @@ void frmMain::OnBackupOKClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_PREVIEW
  */
 
-void frmMain::OnBackupPreviewClick( wxCommandEvent& event )
+void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
 {
 	//Create a new rule set and populate it from the form
 	Rules rules;
@@ -1616,7 +1671,7 @@ void frmMain::OnBackupPreviewClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_RESTORE
  */
 
-void frmMain::OnBackupRestoreClick( wxCommandEvent& event )
+void frmMain::OnBackupRestoreClick(wxCommandEvent& event)
 {
 	frmRestore *window = new frmRestore(NULL, ID_FRMRESTORE, _("Restore"));	
 	window->ShowModal();
@@ -1634,7 +1689,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_OK
  */
 
-void frmMain::OnSecureOKClick( wxCommandEvent& event )
+void frmMain::OnSecureOKClick(wxCommandEvent& event)
 {
 	//Create a new progress form and show it
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
@@ -1679,7 +1734,7 @@ void frmMain::OnSecureOKClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_PREVIEW
  */
 
-void frmMain::OnSecurePreviewClick( wxCommandEvent& event )
+void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
 {
 	//Create a new rule set and populate it from the form
 	Rules rules;
@@ -1699,3 +1754,147 @@ void frmMain::OnSecurePreviewClick( wxCommandEvent& event )
 	//Turn off preview
 	m_Secure_TreeCtrl->SetPreview(false);
 }
+
+///////////////////////////////////////////////////////////
+//The portable variables stuff, still under construction!//
+///////////////////////////////////////////////////////////
+
+
+void frmMain::OnPvarAddClick( wxCommandEvent& event )
+{	
+    wxTextEntryDialog dialog(this, _("Please enter the name for the new portable variable"), _("New Portable Variable") ,wxEmptyString, wxOK|wxCANCEL);
+	if(dialog.ShowModal() == wxID_OK){
+        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
+        if(!config->HasGroup(dialog.GetValue())){
+            m_Pvar_List->ClearAll();
+            wxListItem column;
+            m_Pvar_List->InsertColumn(0, column);
+            m_Pvar_List->InsertColumn(1, column);
+            config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
+            config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
+            config->Flush();
+            m_Pvar_Name->Append(dialog.GetValue());
+            m_Pvar_Name->SetStringSelection(dialog.GetValue());
+            m_Pvar_List->InsertItem(0, wxT("Test"));
+            m_Pvar_List->SetItem(0, 0, wxGetFullHostName() );
+            m_Pvar_List->InsertItem(1, wxT("Test"));
+            m_Pvar_List->SetItem(1, 0, _("Other"));
+        }
+        else{
+            ErrorBox(_("There is already a Portable Variable with this name."));
+        }
+    }
+}
+
+void frmMain::OnPvarRemoveClick( wxCommandEvent& event )
+{	
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
+	config->DeleteGroup(m_Pvar_Name->GetValue());
+	config->Flush();
+	m_Pvar_Name->Delete(m_Pvar_Name->GetSelection());
+	m_Pvar_Name->SetValue(wxEmptyString);
+	m_Pvar_List->ClearAll();
+	wxListItem column;
+	m_Pvar_List->InsertColumn(0, column);
+	m_Pvar_List->InsertColumn(1, column);
+}
+
+void frmMain::OnPvarNameSelected( wxCommandEvent& event )
+{	
+	m_Pvar_List->DeleteAllItems();
+	
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
+    config->SetPath(m_Pvar_Name->GetValue());
+    
+	long dummy;
+    wxString str;
+    int i = 0;
+	
+    bool bCont = config->GetFirstEntry(str, dummy);
+    while ( bCont ) {
+        m_Pvar_List->InsertItem(i, wxT("Test"));
+        m_Pvar_List->SetItem(i, 0, str);
+		//Return the config to the top level
+        config->SetPath(wxT("/"));
+        wxString strTest = config->Read(m_Pvar_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
+        m_Pvar_List->SetItem(i, 1, strTest);
+		//Put the config location back
+        config->SetPath(m_Pvar_Name->GetValue());    
+        bCont = config->GetNextEntry(str, dummy);
+        i++;
+    }
+	m_Pvar_List->SetColumnWidth(0, -1);
+	m_Pvar_List->SetColumnWidth(1, -1);
+    delete config;
+}
+
+void frmMain::OnPvarAddItemClick( wxCommandEvent& event )
+{	
+	int j = m_Pvar_List->GetItemCount();
+	m_Pvar_List->InsertItem(j, wxT("Test"));
+	m_Pvar_List->SetItem(j, 0, wxGetFullHostName() );
+	wxString caption = _("Choose a directory");
+	wxString wildcard = _("All Files (*.*)|*.*");
+	wxString defaultFilename = wxEmptyString;
+	wxString defaultDir = wxT("/");
+	wxString strPath;
+	wxDirDialog dialog(this, caption, defaultDir);
+	if (dialog.ShowModal() == wxID_OK){
+		m_Pvar_List->SetItem(j, 1, dialog.GetPath());
+	}
+	else{
+		m_Pvar_List->SetItem(j, 1, wxEmptyString);
+	}
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
+	config->Write(m_Pvar_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
+	config->Flush();
+	delete config;
+}
+
+void frmMain::OnPvarRemoveItemClick( wxCommandEvent& event )
+{	
+	wxString selected;
+	long item = -1;
+	for ( ;; )
+	{
+		item = m_Pvar_List->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if ( item == -1 )
+		break;
+		selected = m_Pvar_List->GetItemText(item);
+		m_Pvar_List->DeleteItem(item);
+	}
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
+	config->DeleteEntry(m_Pvar_Name->GetValue() + wxT("/") + selected);
+	config->Flush();
+	delete config;
+}
+
+void frmMain::OnPvarListActivated(wxListEvent& event)
+{	
+	long item = -1;
+	for ( ;; )
+	{
+		item = m_Pvar_List->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if ( item == -1 )
+		break;
+		
+		wxListItem PreviousColumn1;
+		PreviousColumn1.m_itemId = item;
+		PreviousColumn1.m_col = 1;
+		PreviousColumn1.m_mask = wxLIST_MASK_TEXT;
+		m_Pvar_List->GetItem(PreviousColumn1);
+		wxString strPreviousColumn1 = PreviousColumn1.m_text;
+		wxTextEntryDialog location(this, _("Please insert the location you want to point to."), _("Location"), strPreviousColumn1, wxOK);
+		if(location.ShowModal() == wxID_OK){
+			m_Pvar_List->SetItem(item , 1, location.GetValue());
+		}
+		m_Pvar_List->SetColumnWidth(0, -1);
+		m_Pvar_List->SetColumnWidth(1, -1);
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
+		config->Write(m_Pvar_Name->GetValue() + wxT("/") + m_Pvar_List->GetItemText(item), location.GetValue());
+		config->Flush();
+		delete config;
+	}
+}
+
+

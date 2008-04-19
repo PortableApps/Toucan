@@ -7,6 +7,11 @@
 #ifndef H_BACKUPFUNCTIONS
 #define H_BACKUPFUNCTIONS
 
+#include "rules.h"
+#include <wx/textfile.h>
+#include <wx/dir.h>
+
+
 bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
 	//Clean up the path passed
 	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {

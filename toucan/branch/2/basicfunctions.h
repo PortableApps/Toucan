@@ -112,4 +112,22 @@ bool SetJobsBox(wxComboBox *box, wxString strType){
 	delete config;
 	return true;
 }
+
+bool SetVariablesBox(wxComboBox *box){
+	//Create a fileconfig object	
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Variables.ini"));
+	bool blCont;
+	wxString strValue;
+	long dummy;
+	//Iterate through all of the groups
+	blCont = config->GetFirstGroup(strValue, dummy);
+	while (blCont){
+		box->Append(strValue);
+		blCont = config->GetNextGroup(strValue, dummy);
+	}
+	//Remove the fileconfig object
+	delete config;
+	return true;
+}
+
 #endif
