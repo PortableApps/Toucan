@@ -67,7 +67,7 @@ LangString DESC_Section23 ${LANG_SPANISH} "La suite ofimática total que es compl
 LangString DESC_Section24 ${LANG_SPANISH} "Cambia tus PDFs en el camino"
 LangString DESC_Section25 ${LANG_SPANISH} "el archivador portátil"
 LangString DESC_Section26 ${LANG_SPANISH} "mensajería instantánea hecha portátil y segura"
-LangString DESC_Section27 ${LANG_SPANISH} "Pocker estilo "texas hold-em" en la vía"
+LangString DESC_Section27 ${LANG_SPANISH} "Pocker estilo texas hold-em en la vía"
 LangString DESC_Section28 ${LANG_SPANISH} "telnet y SSH portátil"
 LangString DESC_Section29 ${LANG_SPANISH} "diversión portátil"
 LangString DESC_Section30 ${LANG_SPANISH} "el visor de PDF portátil"

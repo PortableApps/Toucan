@@ -25,7 +25,7 @@
 !define NAME "PortableApps.com Updater"
 !define SHORTNAME "PortableAppsUpdater"
 !define VERSION "0.9.0.8"
-!define FILENAME "PA_UPDATER_1.0_Beta"
+!define FILENAME "PA_UPDATER_1.0_Alpha"
 !define CHECKRUNNING "PortableAppsUpdater.exe"
 !define CLOSENAME "PortableApps Updater"
 !define ADDONSDIRECTORYPRESERVE "NONE"
