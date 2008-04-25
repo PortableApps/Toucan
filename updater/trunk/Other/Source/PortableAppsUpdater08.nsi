@@ -826,7 +826,7 @@ Function sstart
 		;Call Show_DL-Splash
 		;StrCpy $DLTEXT "$(plswait)"
 		call Show_DL-BANNER
-		nsexec::exectolog `"$EXEDIR\App\wget" --passive-ftp $ProxyAuth "$OFile"` 
+		nsexec::exectolog `"$EXEDIR\App\wget\wget.exe" --passive-ftp $ProxyAuth "$OFile"` 
 		BringToFront
 		;=== inetc etc don't work with proxies on all win systems!
 		;inetc::get /caption "Database Download" /banner "$(plswait)$\nPlease wait..." /nocancel "$OFile"  "$EXEDIR\Data\updater.ini" /end
@@ -1002,7 +1002,7 @@ FunctionEnd
 Function ODownload
 	;=== If file exists do nothing
 	IfFileExists "$INSTDIR\$OFile" +2
-	nsexec::exectolog `"$EXEDIR\App\wget" --passive-ftp $ProxyAuth $wget_options "$OMirror/$OSource/$OFile"`  
+	nsexec::exectolog `"$EXEDIR\App\wget\wget.exe" --passive-ftp $ProxyAuth $wget_options "$OMirror/$OSource/$OFile"`  
 FunctionEnd
 
 Function OInstall
