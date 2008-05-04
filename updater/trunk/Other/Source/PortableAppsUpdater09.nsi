@@ -23,7 +23,7 @@
 
 ; === Defines ===
 !define SHORTNAME "PortableAppsUpdater"
-!define VERSION "0.9.0.8"
+!define VERSION "0.9.0.9"
 !define FILENAME "PortableAppsUpdater"
 !define PRODUCT_NAME "PortableApps"
 !define PRODUCT_VERSION "0.9.0"
@@ -62,18 +62,19 @@ AllowRootDirInstall true
 !include InstallOptions.nsh
 !include "WordFunc.nsh"
 !insertmacro WordFind
+!insertmacro VersionCompare
 ; == Section sizes ==
 !include "PAUPDATER_SEC_SIZE.nsh"
 
 
 
-; == MUI Settings ==
-!define UMUI_SKIN "gray"
+; MUI Settings
+;!define UMUI_SKIN "gray"
 !define MUI_ABORTWARNING
 !define MUI_ICON "..\..\App\AppInfo\appicon.ico"
 BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
 
-; == Language Selection Dialog Settings == 
+; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_VALUENAME "NSIS:Language"
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
@@ -183,11 +184,9 @@ var Proxy_User
 var Proxy_PW
 var ProxyAuth
 var wpage
-var lpage
 var cpage
-var dpage
 var fpage
-var wget_options
+var opage
 var tvar1
 var tvar2
 var tvar3
@@ -207,13 +206,13 @@ var OCaption
 var ODescription
 var md5
 var SHOWALLAPPS
+var wget_options
+;InstallDir "$EXEDIR\Data\setup"
 InstallDir "$TEMP\Data\setup"
 
 
 
 
-;== Sections (If a section is available and klicked the Appname is copied into
-;== $OName and die mainroutine for download and install is called
 
 Section /o "1" SEC1
 	AddSize ${sec1_size}
@@ -525,28 +524,10 @@ Section -Post
 	${time::Unload}
 	
 	;=== BEGIN: POST-INSTALL CODE
-	;=== Set Language
-	StrCmp $LANGUAGE "1031" 0 +3 ;German
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1031"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1034" 0 +3 ;Spanish
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1034"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1036" 0 +3 ;French
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1036"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1040" 0 +3 ;Italian
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1040"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "2070" 0 +3 ;Portuguese
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "2070"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1041" 0 +3 ;Japanese
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1041"
-	Goto EndPostInstallCode
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1033" ;=== Fallback to English
+	;=== write Language to ini
+	WriteINIStr $EXEDIR\Data\Settings.ini "General" "Language" "$LANGUAGE"
 	
-	EndPostInstallCode:
+	;EndPostInstallCode:
 	;=== END: POST-INSTALL CODE
 
 	;=== Refresh PortableApps.com Menu (not final version)
@@ -577,32 +558,23 @@ Section -Post
 	TheEnd:
 SectionEnd
 
+
 ShowInstDetails show
 
 Function .onInit
-	;==== check for welcome page settings
-	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "Welcome"
-	StrCmp $0 "" +2
-	StrCpy "$wpage" $0
-	;=== check language
-	Call LanguageInit
-FunctionEnd
-
-Function Updater_Init
-	;=== reset sections
-	call reset_Sections
-
 	;=== read default settings for the variables
 	Call default_settings
 	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "AllApps"
 	StrCmp $0 "" +2
 	StrCpy "$SHOWALLAPPS" $0
-	
 
 	;=== read PortableAppsrootpath
 	Push $EXEDIR
 	Call GetParent
 	Pop $PORTABLEAPPSROOTPATH
+
+	;=== check language
+	Call LanguageInit
 
 	;=== read Commandline parameters
 	Call GET_COMMAND_LINE_PARAMETERS
@@ -610,19 +582,24 @@ Function Updater_Init
 	;=== check proxy settings
 	Call CheckProxySettings
 
+	${Select} $opage 
+	${Case} "1"
+		;=== no run for config mode!
 
+	${CaseElse}
+		;=== call Main sub (net or local usage, state of the installed Apps) 
+		Call sstart
 
-	;=== call Main sub (net or local usage, state of the installed Apps) 
-	Call sstart
-
-	;=== Call PrepareList to fill the list with the Apps for download and install
-	Call PrepareAppList
-	call ReadSelComp2
+		;=== Call PrepareList to fill the list with the Apps for download and install
+		Call PrepareAppList
+	${EndSelect}
 FunctionEnd
 
-
 Function LanguageInit
-
+	;=== set language from ini if present
+	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "General" "Language"
+	StrCmp $0 "" +2
+	SetEnv::SetEnvVar "PortableApps.comLocaleID" "$0"
 	;BEGIN: Init Language Detection Code
 	ReadEnvStr $PortableApps.comLocaleID "PortableApps.comLocaleID"
 	StrCmp $PortableApps.comLocaleID "1031" SetLanguageFromEnvironment ;German
@@ -632,6 +609,7 @@ Function LanguageInit
 	StrCmp $PortableApps.comLocaleID "2070" SetLanguageFromEnvironment ;Portuguese
 	StrCmp $PortableApps.comLocaleID "1041" SetLanguageFromEnvironment ;Japanese
 	StrCmp $PortableApps.comLocaleID "1033" SetLanguageFromEnvironment ShowLanguageSelector ;English
+
 	;END: Init Language Detection Code
 	
 	SetLanguageFromEnvironment:
@@ -645,7 +623,12 @@ Function LanguageInit
 FunctionEnd
 
 Function GET_COMMAND_LINE_PARAMETERS
-	;=== no commandline if there is a settings.ini
+	;=== read the parameter for option page
+	${GetOptions} "$CMDLINE" "/SHOWOP" $R0
+	IfErrors +2
+		StrCpy $opage "1"
+
+	;=== no more commandline if there is a settings.ini
 	IfFileExists "$EXEDIR/Data/settings.ini" use_ini
 	;MessageBox MB_OK "keine INI"
 
@@ -657,48 +640,64 @@ Function GET_COMMAND_LINE_PARAMETERS
 	step0:
 	;=== read the parameter for welcome page
 	${GetOptions} "$CMDLINE" "/NOWP" $R0
-	IfErrors +2
+	IfErrors noskip1
 		StrCpy "$wpage" "0"
+	noskip1:
 
+	;Inst Page must be shown if APP is set
+	;${GetOptions} "$CMDLINE" "/APP=" $R0
+	;IfErrors noskip2
+
+	;=== read the parameter for install page
+	${GetOptions} "$CMDLINE" "/NOIP" $R0
+	IfErrors noskip2
+		;StrCpy "$ipage" "0"
+	noskip2:
 	;=== read the parameter for finish page
 	${GetOptions} "$CMDLINE" "/NOFP" $R0
-	IfErrors +2
+	IfErrors noskip3
 		StrCpy "$fpage" "0"
-	
+	noskip3:
 	;=== read the parameter for Appname page
-	;${GetOptions} "$CMDLINE" "/APP=" $R0
-	;IfErrors +2
-		;StrCpy $APP_SET "TRUE"
-
-	
-	
+	${GetOptions} "$CMDLINE" "/APP=" $R0
+	IfErrors noskip4
+		StrCpy $APP_SET "TRUE"
+	;=== read the parameter for directory page
+	noskip4:
+	;${GetOptions} "$CMDLINE" "/NODIR" $R0
+	;IfErrors noskip5
+	;	StrCpy "$dpage" "0"
+	;noskip5:
 	;=== read the parameter for license page
 	;${GetOptions} "$CMDLINE" "/NOL" $R0
-	;IfErrors +2
-		StrCpy "$lpage" "false"
-	
+	;IfErrors noskip6
+		;StrCpy "$lpage" "0"
+	;noskip6:
 	;=== read the parameter for handling of tempfiles
 	${GetOptions} "$CMDLINE" "/PDEL" $R0
-	IfErrors +3
-		MessageBox MB_YESNO|MB_ICONEXCLAMATION "$(deleteok)" IDNO +2
+	IfErrors nodelete
+		MessageBox MB_YESNO|MB_ICONEXCLAMATION "$(deleteok)" IDNO nodelete
 		StrCpy "$pdel" "0"
-
+	;RMDir /r "$INSTDIR\setup\*.*" 
+	;RMDir "$INSTDIR\setup"
+	;RMDir /r "$INSTDIR" 
+	nodelete:
 	;=== read the parameter for debug mode
 	${GetOptions} "$CMDLINE" "/DEBUG" $R0
-	IfErrors +3
+	IfErrors nodebug
 		StrCpy "$debug" "true"
 		ClearErrors
-	
+	nodebug:
 	;=== read the parameter for language selection
 	${GetOptions} "$CMDLINE" "/LANG=" $R0
 	IfErrors nolang
 		SetEnv::SetEnvVar "PortableApps.comLocaleID" "$R0"
 	nolang:
-
 	;=== read the parameter for all ok message
 	${GetOptions} "$CMDLINE" "/NOOK" $R0	
-	IfErrors +2
+	IfErrors mno_ok
 		StrCpy "$no_ok" "true"
+	mno_ok:
 	GoTo Exit
 	
 	use_ini:
@@ -711,7 +710,6 @@ Function GET_COMMAND_LINE_PARAMETERS
 FunctionEnd
 
 Function ReadSelComp
-;=== preselect installed apps on the components page
 StrCpy $vart "false"
 ${For} $R1 0 ${SECTIONCOUNT}
  SectionGetFlags $R1 $R2
@@ -721,6 +719,7 @@ ${For} $R1 0 ${SECTIONCOUNT}
 ${Next}
 
 FunctionEnd
+
 
 Function reset_Sections
 ;=== reset section descriptions
@@ -732,20 +731,28 @@ FunctionEnd
 
 Function ReadSelComp2
 ;=== hide not installed apps from the components page if ShowAllApps is 0
-ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "AllApps"
-StrCpy "$SHOWALLAPPS" $0
-StrCmp $SHOWALLAPPS "1" "" rsc_out
+StrCmp $SHOWALLAPPS "1" "" rsc_1
 ${For} $R1 0 ${SECTIONCOUNT}
  SectionGetFlags $R1 $R2
  StrCmp $R2 257 +2
  SectionSetText $R1 ""
 ${Next}
-rsc_out:
+rsc_1:
+
+;=== if any section is still visible (has text) count control variable
+${For} $R1 0 ${SECTIONCOUNT}
+ SectionGetText $R1 $R2
+ StrCmp $R2 "" +2
+ IntOp $vard $vard + 1
+${Next}
+
 FunctionEnd
 
 
-Function PrepareAppList
+
+Function PrepareAppList 
 ;=== fill the components page
+  StrCpy "$vard" 0
   ${For} $R1 0 ${SECTIONCOUNT}
     	SectionGetText $R1 $R2
     	ReadINIStr $R0 "$UFile" "$R2" "Name" 
@@ -754,7 +761,8 @@ Function PrepareAppList
     	call OU_select
     	StrCmp $varb "1" step1
 	;=== set section text from ini
-    	SectionSetText $R1 "$OCaption $dversion $pversion--> (local:$ldversion $lversion)"
+    	SectionSetText $R1 "$OCaption $dversion --> (local:$ldversion)"
+	
 	;=== set preselect state from ini
     	StrCmp $pselect "false" step2
 	!insertmacro SelectSection $R1
@@ -765,17 +773,15 @@ Function PrepareAppList
 	step1:
 	;=== set section text empty (hide empty section)
 	SectionSetText $R1 ""
-
-	step2:
-		
+	step2:	
   ${Next}
-	;=== final check if all Apps up to date
-	StrCmp $vard "1" step4
-	;=== show allok message if wanted
+	call ReadSelComp2
+	;=== if a section is visible jump to step4 (show components page)
+	StrCmp $vard "0" "" step4
 	StrCmp $no_ok "true" +2
+	;=== show allok message if wanted
 	MessageBox MB_OK "$(allok)"
 	StrCpy $cpage "0"
-	;=== remove database
 	Delete "$EXEDIR\Data\updater.ini"
 	Quit
 	step4:
@@ -796,18 +802,22 @@ Function OU_select
 	;=== read the long version description for the App from local appinfo.ini
 	ReadINIStr $0 "$PORTABLEAPPSROOTPATH\$SName\App\AppInfo\appinfo.ini" "Version" "DisplayVersion"
 	StrCpy "$ldversion" $0
+	${VersionCompare} "$pversion" "$lversion" $R0
 	;=== compare version entries
-	${Select} $lversion
-	${Case} $pversion
-		;=== same version set control variable
-		StrCpy "$varb" "1"
-	${CaseElse}
-		;=== check if this app on the usees blacklist
+	;MessageBox MB_OK "$OName $lversion $pversion"
+	${Select} $R0
+	${Case} 1
+		;=== server version is newer
+		;=== check if this app on the useres blacklist, than set control variable
 		ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Blacklist" "$SName"
-		StrCmp $0 "true" +3
-		StrCpy "$vard" "1"
-		Goto +2
-		StrCpy "$varb" "1"	
+		${Select} $0
+		${Case} "true"
+			StrCpy "$varb" "1"
+		${CaseElse}
+		${EndSelect}
+	${CaseElse}
+		;=== same version or older server version set control variable
+		StrCpy "$varb" "1"
 	${EndSelect}
 FunctionEnd
 
@@ -826,7 +836,7 @@ Function sstart
 		;Call Show_DL-Splash
 		;StrCpy $DLTEXT "$(plswait)"
 		call Show_DL-BANNER
-		nsexec::exectolog `"$EXEDIR\App\wget\wget" --passive-ftp $ProxyAuth "$OFile"` 
+		nsexec::exectolog `"$EXEDIR\App\wget\wget" --passive-ftp $ProxyAuth $wget_options "$OFile"` 
 		BringToFront
 		;=== inetc etc don't work with proxies on all win systems!
 		;inetc::get /caption "Database Download" /banner "$(plswait)$\nPlease wait..." /nocancel "$OFile"  "$EXEDIR\Data\updater.ini" /end
@@ -876,9 +886,8 @@ Function sstart
 FunctionEnd
 
 Function DirectoryLeave
-	;===  Check if any spaces exist in $INSTDIR.
-
-   	${WordFind} "$INSTDIR" ' ' "*" $R0
+  ;===  Check if any spaces exist in $INSTDIR.
+  ${WordFind} "$INSTDIR" ' ' "*" $R0
   	IntCmp $R0 0 NoSpaces
         ;=== use short path if blanks
 	GetFullPathName /SHORT $0 $INSTDIR
@@ -898,15 +907,16 @@ FunctionEnd
 
 
 
-
 Function Pre-Welcome
+;=== check for comp page back button, if clicked show welcome page
+
 StrCmp $wpage "1" +2
 	Abort
 FunctionEnd
 
 
 Function WelcomeLeave
-	;WriteINIStr $EXEDIR\Data\Settings.ini "Show" "Welcome" "0"
+	;WriteINIStr $EXEDIR\Data\Settings.ini "Show" "Welcome" "false"
 FunctionEnd
 
 
@@ -941,6 +951,7 @@ FunctionEnd
 
 
 
+
 Function default_settings
 	StrCpy "$Proxy_Adr" ""
 	StrCpy "$wpage" "1"
@@ -956,10 +967,8 @@ Function default_settings
 	StrCpy $no_ok "false"
 	StrCpy $pbatch "false"
 	StrCpy $pselect "false"
-	StrCpy $SHOWALLAPPS "1"
-	;StrCpy $INSTDIR "$TEMP\Data\setup"
 	StrCpy $mversion "sf_mirrors"
-
+	StrCpy $SHOWALLAPPS "1"
 FunctionEnd
 
 
@@ -1019,7 +1028,7 @@ Function OInstall
 		StrCmp $debug "false" +2
 		MessageBox MB_OK "normal"
 		${Select} $OName
-		${Case} "1"
+		${Case} "Section1"
 			BringToFront
 			MessageBox MB_OK "$(self_update)"
 			Delete "$EXEDIR\Data\updater.ini"
@@ -1030,7 +1039,7 @@ Function OInstall
 		${EndSelect}
 	${EndSelect}
 	;=== check if downloaded files should be deleted
-	StrCmp $pdel "0" +3
+	StrCmp $pdel "false" +3
 	Sleep 2000
 	Delete "$INSTDIR\$OFile"
 	BringToFront
@@ -1049,7 +1058,7 @@ Function OExtract
 		MessageBox MB_OK "Normal"
 		ExecWait `"$INSTDIR\$OFile" -o"$PORTABLEAPPSROOTPATH\"` 
 	${EndSelect}
-	StrCmp $pdel "0" +3
+	StrCmp $pdel "false" +3
 	Sleep 2000
 	Delete "$INSTDIR\$OFile"
 	BringToFront
@@ -1083,7 +1092,6 @@ Function read_update_ini_mirror
 
 	ReadINIStr $0 "$UFile" "$mversion" "009"
 	StrCpy $mirror_009 $0
-	
 FunctionEnd
 
 
@@ -1105,7 +1113,7 @@ Function read_update_ini_OName
 
 	ReadINIStr $0 "$UFile" $OName "imod"
 	StrCpy "$imod" $0
-	
+
 	ReadINIStr $0 "$UFile" $OName "mversion"
 	${Select} $0
 	${Case} ""
@@ -1135,6 +1143,7 @@ Function read_update_ini_OName
 	ReadINIStr $0 "$UFile" $OName "md5sum"
 	StrCmp $0 "" +2
 	StrCpy "$md5" $0
+
 	call read_update_ini_OFile
 FunctionEnd
 
@@ -1155,8 +1164,9 @@ Function read_settings_ini
 	StrCmp $0 "" +2
 	StrCpy "$UFile" $0
 
-	;ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Update" "tempdir"
-	;StrCmp $0 "" +2
+	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Update" "tempdir"
+	StrCmp $0 "" +2
+	StrCpy "$INSTDIR" $0
 	
 	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Cleanup" "pdel"
 	StrCmp $0 "" +2
@@ -1178,17 +1188,17 @@ Function read_settings_ini
 	StrCmp $0 "" +2
 	StrCpy "$wpage" $0
 
-	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "License"
-	StrCmp $0 "" +2
-	StrCpy "$lpage" $0
+	;ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "License"
+	;StrCmp $0 "" +2
+	;StrCpy "$lpage" $0
 
 	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "Components"
 	StrCmp $0 "" +2
 	StrCpy "$cpage" $0
 	
-	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "Directory"
-	StrCmp $0 "" +2
-	StrCpy "$dpage" $0
+	;ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "Directory"
+	;StrCmp $0 "" +2
+	;StrCpy "$dpage" $0
 
 	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "Finish"
 	StrCmp $0 "" +2
@@ -1206,15 +1216,13 @@ Function read_settings_ini
 	StrCmp $0 "" +2
 	SetEnv::SetEnvVar "PortableApps.comLocaleID" "$0"
 
-	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "AllApps"
-	StrCmp $0 "" +2
-	StrCpy "$SHOWALLAPPS" $0
-
-	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Update" "wget_options"
+	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "update" "wget_options"
 	StrCmp $0 "" +2
 	StrCpy "$wget_options" $0
-
 	
+	ReadINIStr $0 "$EXEDIR\Data\settings.ini" "Show" "OnlyInstalledApps"
+	StrCmp $0 "" +2
+	StrCpy "$SHOWALLAPPS" $0
 FunctionEnd
 
 
@@ -1353,16 +1361,23 @@ FunctionEnd
 	;newadvsplash::show 1300 200 0 -1 $PLUGINSDIR\splash.jpg
 ;FunctionEnd
 
+
 Function CustomPageA
+${Select} $opage 
+${Case} "1"
 	; == Set Welcome page on to fix back button issue
 	StrCpy $wpage "1"
-  	!insertmacro MUI_INSTALLOPTIONS_EXTRACT "PortableAppsUpdaterForm.ini"
+	!insertmacro MUI_INSTALLOPTIONS_EXTRACT "PortableAppsUpdaterForm.ini"
   	!insertmacro MUI_HEADER_TEXT "$(Op_title)" "$(Op_text)"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 1" "Text" "$(field1)"
 	; == read proxy settings from ini pre load the dialog dependig on the ini value
 	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Proxy" "Proxy_Adr"
 	
 	${Select} $0 
+	${Case} ""
+		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 2" "State" "1"
+		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 3" "State" "0"
+		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 4" "State" "0"
 	${Case} "auto"
 		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 2" "State" "1"
 		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 3" "State" "0"
@@ -1380,8 +1395,8 @@ Function CustomPageA
 		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 5" "State" $0
 		;!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 6" "Flags" ""
 		ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Proxy" "Proxy_User"
-		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 7" "State" $0
-		;!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 7" "Flags" ""
+		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 6" "State" $0
+		;!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 6" "Flags" ""
 		ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Proxy" "Proxy_PW"
 		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 7" "State" $0
 	${EndSelect}
@@ -1394,11 +1409,15 @@ Function CustomPageA
 	;!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 7" "State" "$(field7)"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 8" "Text" "$(field8)"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 9" "Text" "$(field9)"
-	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 10" "State" "$INSTDIR"
+	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "update" "tempdir"
+	StrCmp $0 "" +2
+		!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 10" "State" "$0"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 11" "Text" "$(field11)"
-	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Show" "AllApps"
+	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Show" "OnlyInstalledApps"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 11" "State" $0
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 12" "Text" "$(field12)"
+	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Cleanup" "pdel"	
+	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 12" "State" $0
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 13" "Text" "$(field13)"
 	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "update" "ufile"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 14" "State" $0
@@ -1424,12 +1443,13 @@ Function CustomPageA
 	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Show" "Finish"
 	!insertmacro MUI_INSTALLOPTIONS_WRITE "PortableAppsUpdaterForm.ini" "Field 21" "State" $0
 	  ;=== check if options page should be shown
-  	ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Show" "Options"
-  	${Select} $0
-	${Case} "0"
-		Call LeaveCustomPageA
+  	;ReadINIStr $0 "$EXEDIR\Data\Settings.ini" "Show" "Options"
+
+
+
+		!insertmacro MUI_INSTALLOPTIONS_DISPLAY "PortableAppsUpdaterForm.ini"
 	${CaseElse}
-  		!insertmacro MUI_INSTALLOPTIONS_DISPLAY "PortableAppsUpdaterForm.ini"
+  		Abort	
 	${EndSelect}
 
 FunctionEnd
@@ -1459,10 +1479,14 @@ Function LeaveCustomPageA
 
 	!insertmacro MUI_INSTALLOPTIONS_READ $R0 "PortableAppsUpdaterForm.ini" "Field 10" "State"
 	StrCmp $R0 "" +2
-		StrCpy "$INSTDIR" $R0
+		;StrCpy "$INSTDIR" $R0
+		WriteINIStr $EXEDIR\Data\Settings.ini "update" "tempdir" "$R0"
 	Call DirectoryLeave
 	!insertmacro MUI_INSTALLOPTIONS_READ $R0 "PortableAppsUpdaterForm.ini" "Field 11" "State"
-	WriteINIStr $EXEDIR\Data\Settings.ini "Show" "AllApps" "$R0"
+	WriteINIStr $EXEDIR\Data\Settings.ini "Show" "OnlyInstalledApps" "$R0"
+
+	!insertmacro MUI_INSTALLOPTIONS_READ $R0 "PortableAppsUpdaterForm.ini" "Field 12" "State"
+	WriteINIStr $EXEDIR\Data\Settings.ini "Cleanup" "pdel" "$R0"
 
 	!insertmacro MUI_INSTALLOPTIONS_READ $R0 "PortableAppsUpdaterForm.ini" "Field 14" "State"
 	WriteINIStr $EXEDIR\Data\Settings.ini "update" "ufile" "$R0"
@@ -1484,7 +1508,18 @@ Function LeaveCustomPageA
 
 	!insertmacro MUI_INSTALLOPTIONS_READ $R0 "PortableAppsUpdaterForm.ini" "Field 23" "State"
 	WriteINIStr $EXEDIR\Data\Settings.ini "update" "wget_options" "$R0"
-	Call Updater_Init
+	;Call Updater_Init
+	;=== wait
+	Sleep 1500
+
+  	${Select} $opage 
+	${Case} "1"
+		;=== no run for config mode!
+		Quit
+	${CaseElse}
+  		;=== read ini again
+		Call read_settings_ini
+	${EndSelect}
 FunctionEnd
 
 
