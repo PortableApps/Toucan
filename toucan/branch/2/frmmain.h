@@ -290,7 +290,10 @@ public:
 	void OnRulesRemoveFiledeleteClick( wxCommandEvent& event );
 
 	/// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
-	void OnScriptRichTextUpdated( wxCommandEvent& event );
+	//void OnScriptRichTextUpdated( wxCommandEvent& event );
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_EXECUTE
+	void OnScriptExecute( wxCommandEvent& event );	
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADD
 	void OnPvarAddClick( wxCommandEvent& event );
@@ -369,8 +372,12 @@ public:
 	wxRadioBox* m_Settings_TabStyle;
     wxComboBox* m_Pvar_Name;
     wxListCtrl* m_Pvar_List;
+	wxRichTextCtrl* m_Script_Rich;
 	
-	Settings m_Settings;
+	wxArrayString* m_SecureLocations;
+	wxArrayString* m_BackupLocations;
+	Settings* m_Settings;
+
 };
 
 #endif

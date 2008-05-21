@@ -101,12 +101,12 @@ void BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_TreeCtrl->DeleteAllItems();
 	window->m_Backup_TreeCtrl->AddRoot(_("Hidden root"));
 	//Remove all of the items in the filepath list
-	for(unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++){
-		wxGetApp().RemoveBackupLocation(i);
+	for(unsigned int i = 0; i < wxGetApp().MainWindow->m_BackupLocations->GetCount(); i++){
+		wxGetApp().MainWindow->m_BackupLocations->RemoveAt(i);
 	}
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
-		wxGetApp().AppendBackupLocation(GetLocations().Item(j));
+		wxGetApp().MainWindow->m_BackupLocations->Add(GetLocations().Item(j));
 		window->m_Backup_TreeCtrl->AddNewPath(GetLocations().Item(j));
 	}
 	//Set the rest of the window up
@@ -125,7 +125,7 @@ bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
 	
 	bool blNotFilled = false;
 	//Set the intenal file list as the global list, ensuring that there are items to backup
-	SetLocations(wxGetApp().GetBackupLocations());
+	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
 	if(GetLocations().GetCount() == 0){ blNotFilled = true; }
 
 	//Get the items from the form, ensuring that they are filled

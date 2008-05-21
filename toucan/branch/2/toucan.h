@@ -10,10 +10,12 @@
 #include <wx\process.h>
 #include <wx\image.h>
 
-#include "frmmain.h"
+//#include "frmmain.h"
 #include "backupdata.h"
 #include "rules.h"
 
+class frmProgress;
+class frmMain;
 class PipedProcess;
 WX_DEFINE_ARRAY_PTR(PipedProcess *, ProcessArray);
 
@@ -41,18 +43,7 @@ public:
 
 	//The process storage array
 	ProcessArray m_Running;
-	
-	wxArrayString GetSecureLocations() { return SecureLocations ; }
-	void SetSecureLocations(wxArrayString value) { SecureLocations = value ; }
-	void AppendSecureLocation (wxString string) { SecureLocations.Add(string) ;}
-	void RemoveSecureLocation (int pos) { SecureLocations.RemoveAt(pos) ;}
-
-	wxArrayString GetBackupLocations() { return BackupLocations ; }
-	void SetBackupLocations(wxArrayString value) { BackupLocations = value ; }
-	void AppendBackupLocation (wxString string) { BackupLocations.Add(string) ;}
-	void RemoveBackupLocation (int pos) { BackupLocations.RemoveAt(pos) ;}
-	
-		
+			
     bool RegisterProcess(PipedProcess *process);
     bool UnregisterProcess(PipedProcess *process);
 	
@@ -62,34 +53,27 @@ public:
 	long GetPID() { return lgPID; }
 	void SetPID(long pid) { lgPID = pid; }
 
-
     void OnIdle(wxIdleEvent& event);
     void OnTimer(wxTimerEvent& event);
 	
-	long GetBackup() { return lgBackupNumber; }
+	unsigned long GetBackup() { return lgBackupNumber; }
 	void SetBackup(long backupnumber) { lgBackupNumber = backupnumber; }	
 	
 	wxString GetSettingsPath() { return strSettingsPath; }
 	void SetSettingsPath(wxString settingspath) { strSettingsPath = settingspath; }
 	
-	BackupData GetBackupData() { return data; }
-	void SetBackupData(BackupData newdata) { data = newdata; }
-	
-	Rules GetRules() { return rules; }
-	void SetRules(Rules newrules) { rules = newrules; }	
+	frmMain* MainWindow;
+	frmProgress* ProgressWindow;
 	
 protected:
     // Timer to wake up idle processing
     wxTimer m_wakeUpTimer;
-	wxArrayString SecureLocations;
-	wxArrayString BackupLocations;
+
 	bool blAbort;
 	long lgPID;
-	long lgBackupNumber;
+	unsigned long lgBackupNumber;
 	wxString strSettingsPath;
 	
-	BackupData data;
-	Rules rules;
 };
 
 DECLARE_APP(Toucan)

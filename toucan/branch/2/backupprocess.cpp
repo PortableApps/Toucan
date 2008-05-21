@@ -15,7 +15,6 @@ bool PipedProcess::HasInput()
 	bool hasInput = false;
 	if (IsInputAvailable()){
 		if(wxGetApp().ShouldAbort()){
-			//wxMessageBox(_("Abort"));
 			HANDLE hProcess=OpenProcess(PROCESS_ALL_ACCESS,TRUE,wxGetApp().GetPID());
 			TerminateProcess(hProcess,0);
 		}
@@ -37,10 +36,12 @@ void PipedProcess::OnTerminate(int pid, int status)
         ;
 		
 	//Check to see if there are any more jobs to run
-	if(wxGetApp().GetBackup() <  wxGetApp().GetBackupLocations().Count()){ 
+	if(wxGetApp().GetBackup() <  wxGetApp().MainWindow->m_BackupLocations->Count()){ 
 		//Grab a copy of the data needed
-		BackupData data = wxGetApp().GetBackupData();
-		Rules rules = wxGetApp().GetRules();
+		BackupData data;
+		data.TransferFromForm(wxGetApp().MainWindow, false);
+		Rules rules;
+		rules.TransferFromFile(wxGetApp().MainWindow->m_Backup_Rules->GetStringSelection());
 		
 		wxString strCommand;
 		//Open the text file for the file paths and clear it

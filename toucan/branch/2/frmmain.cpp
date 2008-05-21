@@ -24,6 +24,8 @@
 #include "backupprocess.h"
 #include "backupfunctions.h"
 
+#include "script.h"
+
 //#include "settings.h"
 
 class Settings;
@@ -114,7 +116,9 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 
 	EVT_BUTTON( ID_RULES_REMOVE_FILEDELETE, frmMain::OnRulesRemoveFiledeleteClick )
 
-	EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
+	//EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
+	
+	EVT_BUTTON(ID_SCRIPT_EXECUTE, frmMain::OnScriptExecute)
 	
 	EVT_BUTTON(ID_PVAR_ADD, frmMain::OnPvarAddClick )
 	
@@ -197,6 +201,12 @@ void frmMain::Init()
 	m_Rules_FolderExclude = NULL;
 	m_Rules_LocationInclude = NULL;
 	m_Rules_FileDelete = NULL;
+	m_Script_Rich = NULL;
+	
+	m_Settings = new Settings();
+	m_BackupLocations = new wxArrayString();
+	m_SecureLocations = new wxArrayString();
+	
 }
 
 //Create controls
@@ -710,39 +720,46 @@ void frmMain::CreateControls()
     PvarRight->Add(PvarRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	//Scripting
-/*
+
 	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
 	itemPanel131->SetSizer(itemBoxSizer132);
+	
+	wxBoxSizer* itemBoxSizer140 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer132->Add(itemBoxSizer140, 0, wxALIGN_LEFT|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer133 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer132->Add(itemBoxSizer133, 0, wxALIGN_LEFT|wxALL, 5);
+	wxStaticBox* ScriptStaticBox = new wxStaticBox(itemPanel131, wxID_ANY, _("Script Name"));
+	wxStaticBoxSizer* ScriptStaticBoxSizer = new wxStaticBoxSizer(ScriptStaticBox, wxHORIZONTAL);
+	itemBoxSizer140->Add(ScriptStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+
+
 	wxArrayString itemComboBox134Strings;
 	wxComboBox* itemComboBox134 = new wxComboBox( itemPanel131, ID_SCRIPT_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN );
-	itemBoxSizer133->Add(itemComboBox134, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	ScriptStaticBoxSizer->Add(itemComboBox134, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	ScriptStaticBoxSizer->Add(itemBitmapButton135, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer133->Add(itemBitmapButton135, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* itemBitmapButton136 = new wxBitmapButton( itemPanel131, ID_SCRIPT_ADD, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	ScriptStaticBoxSizer->Add(itemBitmapButton136, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton136 = new wxBitmapButton( itemPanel131, ID_SCRIPT_ADD, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer133->Add(itemBitmapButton136, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* itemBitmapButton137 = new wxBitmapButton( itemPanel131, ID_SCRIPT_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	ScriptStaticBoxSizer->Add(itemBitmapButton137, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton137 = new wxBitmapButton( itemPanel131, ID_SCRIPT_REMOVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer133->Add(itemBitmapButton137, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	//wxBoxSizer* itemBoxSizer140 = new wxBoxSizer(wxHORIZONTAL);
+	//itemBoxSizer132->Add(itemBoxSizer140, 0, wxALIGN_LEFT|wxALL, 5);
+	//wxButton* itemButton141 = new wxButton( itemPanel131, ID_SCRIPT_CHECK, _("Check Script"), wxDefaultPosition, wxDefaultSize, 0 );
+	//itemBoxSizer140->Add(itemButton141, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	wxButton* itemButton142 = new wxButton( itemPanel131, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_TOP|wxALL, 10);
 
 	wxBoxSizer* itemBoxSizer138 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer132->Add(itemBoxSizer138, 1, wxGROW|wxALL, 5);
-	wxRichTextCtrl* itemRichTextCtrl139 = new wxRichTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS );
-	itemBoxSizer138->Add(itemRichTextCtrl139, 1, wxGROW|wxALL, 5);
+	m_Script_Rich = new wxRichTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS );
+	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer140 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer132->Add(itemBoxSizer140, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-	wxButton* itemButton141 = new wxButton( itemPanel131, ID_SCRIPT_CHECK, _("Check Script"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer140->Add(itemButton141, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-	wxButton* itemButton142 = new wxButton( itemPanel131, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);*/
-
+	//Settings
 
 	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
@@ -757,25 +774,22 @@ void frmMain::CreateControls()
 	m_Settings_TabStyle = new wxRadioBox (itemPanel143, ID_SETTINGS_TABSTYLE, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,2,  m_Settings_TabsStrings,2 ,wxRA_SPECIFY_ROWS);
 	itemBoxSizer1000->Add(m_Settings_TabStyle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
-	//Load the settings
-	m_Settings.TransferFromFile();
-	m_Settings_TabStyle->SetStringSelection(m_Settings.GetTabStyle());
+
 	
+	//Load the settings
+	m_Settings->TransferFromFile();
+	m_Settings_TabStyle->SetStringSelection(m_Settings->GetTabStyle());
+
 	//Add the panels
 	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
-	if(m_Settings.GetTabStyle() == _("Text")){
-		syncbitmap = wxNullBitmap;
-	}
 	wxBitmap backupbitmap = GetBitmapResource(wxT("backup.png"));
-	if(m_Settings.GetTabStyle() == _("Text")){
-		backupbitmap = wxNullBitmap;
-	}
 	wxBitmap securebitmap = GetBitmapResource(wxT("secure.png"));
-	if(m_Settings.GetTabStyle() == _("Text")){
-		securebitmap = wxNullBitmap;
-	}
 	wxBitmap settingsbitmap = GetBitmapResource(wxT("settings.png"));
-	if(m_Settings.GetTabStyle() == _("Text")){
+	
+	if(m_Settings->GetTabStyle() == _("Text")){
+		syncbitmap = wxNullBitmap;
+		backupbitmap = wxNullBitmap;
+		securebitmap = wxNullBitmap;
 		settingsbitmap = wxNullBitmap;
 	}
 
@@ -784,7 +798,7 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
 	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
-	//m_Notebook->AddPage(itemPanel131, _("Scripting"), false);*/
+	m_Notebook->AddPage(itemPanel131, _("Scripting"), false);
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
 
 	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
@@ -796,7 +810,7 @@ void frmMain::CreateControls()
 
 	unsigned int i = 0;
 	unsigned int count = m_Notebook->GetPageCount();
-	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != m_Settings.GetPosition()){
+	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != m_Settings->GetPosition()){
 		i ++;
 		if(i < count){
 			m_Notebook->AdvanceSelection();
@@ -906,7 +920,7 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
-	wxGetApp().AppendBackupLocation(m_Backup_DirCtrl->GetPath());
+	m_BackupLocations->Add(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
 	wxGetApp().SetBackup(wxGetApp().GetBackup() + 1);
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -923,12 +937,12 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 	//Checks to see if it is a top level item that is being removed
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()) {
 		//Iterate throught the global list and remove the item
-		for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().Count() - 1; i++) {
-			if (wxGetApp().GetBackupLocations().Item(i) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
-				wxGetApp().RemoveBackupLocation(i);
+		for (unsigned int i = 0; i < m_BackupLocations->Count() - 1; i++) {
+			if (m_BackupLocations->Item(i) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
+				m_BackupLocations->RemoveAt(i);
 			}
-			if (wxGetApp().GetBackupLocations().Item(i).AfterLast(wxFILE_SEP_PATH) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
-				wxGetApp().RemoveBackupLocation(i);
+			if (m_BackupLocations->Item(i).AfterLast(wxFILE_SEP_PATH) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
+				m_BackupLocations->RemoveAt(i);
 			}
 		}
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
@@ -946,7 +960,7 @@ void frmMain::OnSecureAddClick(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	//Add path to the global list and to the virtualdirtreectrl
-	wxGetApp().AppendSecureLocation(m_Secure_DirCtrl->GetPath());
+	m_SecureLocations->Add(m_Secure_DirCtrl->GetPath());
 	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
@@ -963,12 +977,12 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& event)
 	if (m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection())) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetRootItem())) {
 		m_Secure_TreeCtrl->Delete(m_Secure_TreeCtrl->GetSelection());
 		//Iterate throught the global list and remove the item		
-		for (unsigned int i = 0; i < wxGetApp().GetSecureLocations().Count(); i++) {
-			if (wxGetApp().GetSecureLocations().Item(i) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())) {
-				wxGetApp().RemoveSecureLocation(i);
+		for (unsigned int i = 0; i < m_SecureLocations->Count(); i++) {
+			if (m_SecureLocations->Item(i) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())) {
+				m_SecureLocations->RemoveAt(i);
 			}
-			if (wxGetApp().GetSecureLocations().Item(i).AfterLast(wxFILE_SEP_PATH) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())) {
-				wxGetApp().RemoveSecureLocation(i);
+			if (m_SecureLocations->Item(i).AfterLast(wxFILE_SEP_PATH) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())) {
+				m_SecureLocations->RemoveAt(i);
 			}
 		}
 	}
@@ -983,7 +997,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 {
 
 	//Need to replace this with a better browser
-	wxDirDialog dialog(this,_("Please select the source folder."), wxEmptyString);
+	wxDirDialog dialog(this,_("Please select the source folder."), m_Sync_Source_Txt->GetValue());
 	if (dialog.ShowModal() == wxID_OK) {
 		wxCursor cursor(wxCURSOR_ARROWWAIT);
 		this->SetCursor(cursor);
@@ -1004,7 +1018,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 {
 	//Need to replace this with a better browser	
-	wxDirDialog dialog(this,_("Please select the desination folder."), wxEmptyString);
+	wxDirDialog dialog(this,_("Please select the desination folder."), m_Sync_Dest_Txt->GetValue());
 	if (dialog.ShowModal() == wxID_OK) {
 		wxCursor cursor(wxCURSOR_ARROWWAIT);
 		this->SetCursor(cursor);
@@ -1022,14 +1036,14 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
  * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
  */
 
-void frmMain::OnScriptRichTextUpdated(wxCommandEvent& event)
+/*void frmMain::OnScriptRichTextUpdated(wxCommandEvent& event)
 {
 ////@begin wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain.
 // Before editing this code, remove the block markers.
 	event.Skip();
 ////@end wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain.
 }
-
+*/
 
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
@@ -1426,13 +1440,13 @@ void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& event)
 void frmMain::OnBackupLocationClick(wxCommandEvent& event)
 {
 	if(m_Backup_Function->GetStringSelection() == _("Incremental")){
-		wxDirDialog dialog(this,_("Please select the folder to store your backups"),wxEmptyString);
+		wxDirDialog dialog(this,_("Please select the folder to store your backups"),m_Backup_Location->GetValue());
 		if (dialog.ShowModal() == wxID_OK){
 			m_Backup_Location->SetValue(dialog.GetPath());
 		}
 	}
 	else{
-		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxEmptyString, wxEmptyString, wxT("7 Zip (*.7z)|*.7z|Zip Files (*.zip)|*.zip|All Files (*.*)|*.*"), wxFD_SAVE);
+		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxPathOnly(m_Backup_Location->GetValue()), wxEmptyString, wxT("7 Zip (*.7z)|*.7z|Zip Files (*.zip)|*.zip|All Files (*.*)|*.*"), wxFD_SAVE);
 		if (dialog.ShowModal() == wxID_OK) {
 			m_Backup_Location->SetValue(dialog.GetPath());
 		}
@@ -1495,13 +1509,16 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 void frmMain::OnSyncOKClick(wxCommandEvent& event)
 {
 	//Create a new progress form and show it
-	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	frmProgress *window = wxGetApp().ProgressWindow;
+	window->m_Text->Clear();
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
     delete wxLog::SetActiveTarget(logTxt);
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
+	window->m_Cancel->Enable(true);
+	
 	window->m_Text->AppendText(_("Starting...\n"));
 	wxDateTime now = wxDateTime::Now();
 	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
@@ -1562,7 +1579,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	m_Sync_Dest_Tree->AddNewPath(m_Sync_Dest_Txt->GetValue());
 			
 	//Code for equalise function
-	if(m_Sync_Function->GetStringSelection() == _("Equilise")){
+	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
 		m_Sync_Source_Tree->SetRoot(m_Sync_Source_Txt->GetValue());
@@ -1581,13 +1598,15 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 {
 	wxGetApp().SetBackup(0);
 	//Create a new progress form and show it
-	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	frmProgress *window = wxGetApp().ProgressWindow;
+	window->m_Text->Clear();
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
     delete wxLog::SetActiveTarget(logTxt);
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
+	window->m_Cancel->Enable(true);
 	
 	window->m_Text->AppendText(_("Starting...\n"));
 	wxDateTime now = wxDateTime::Now();
@@ -1604,8 +1623,8 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 		}
 		wxString strCommand;
 		
-		wxGetApp().SetRules(rules);
-		wxGetApp().SetBackupData(data);
+//		wxGetApp().SetRules(rules);
+//		wxGetApp().SetBackupData(data);
 		//Open the text file for the file paths and clear it
 		wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
 		file->Open();
@@ -1659,9 +1678,9 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
 	//Delete all items and re-add the root
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
-	for (unsigned int i = 0; i < wxGetApp().GetBackupLocations().GetCount(); i++) {
+	for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++) {
 		//Loop through all the the filenames listed in the array and read them to the tree
-		m_Backup_TreeCtrl->AddNewPath(wxGetApp().GetBackupLocations().Item(i));
+		m_Backup_TreeCtrl->AddNewPath(m_BackupLocations->Item(i));
 	}
 	//Turn off preview
 	m_Secure_TreeCtrl->SetPreview(false);
@@ -1679,9 +1698,12 @@ void frmMain::OnBackupRestoreClick(wxCommandEvent& event)
 
 void frmMain::OnCloseWindow(wxCloseEvent& event)
 {
-	m_Settings.SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
-	m_Settings.SetTabStyle(m_Settings_TabStyle->GetStringSelection());
-	m_Settings.TransferToFile();
+	m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
+	m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
+	m_Settings->TransferToFile();
+	delete m_Settings;
+	delete m_BackupLocations;
+	delete m_SecureLocations;
 	this->Destroy();
 }
 
@@ -1692,13 +1714,15 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 void frmMain::OnSecureOKClick(wxCommandEvent& event)
 {
 	//Create a new progress form and show it
-	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	frmProgress *window = wxGetApp().ProgressWindow;
+	window->m_Text->Clear();
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
     delete wxLog::SetActiveTarget(logTxt);
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
+	window->m_Cancel->Enable(true);
 	
 	window->m_Text->AppendText(_("Starting...\n"));
 	wxDateTime now = wxDateTime::Now();
@@ -1718,8 +1742,8 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 		Secure(data, rules, window);
 		m_Secure_TreeCtrl->DeleteAllItems();
 		m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
-		for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
-			m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
+			m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
 		}
 	}
 	window->m_OK->Enable(true);
@@ -1747,9 +1771,9 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
 	//Delete all items and re-add the root
 	m_Secure_TreeCtrl->DeleteAllItems();
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
-	for (unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++) {
+	for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
 		//Loop through all the the filenames listed in the array and readd them to the tree
-		m_Secure_TreeCtrl->AddNewPath(wxGetApp().GetSecureLocations().Item(i));
+		m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
 	}
 	//Turn off preview
 	m_Secure_TreeCtrl->SetPreview(false);
@@ -1897,4 +1921,15 @@ void frmMain::OnPvarListActivated(wxListEvent& event)
 	}
 }
 
-
+void frmMain::OnScriptExecute( wxCommandEvent& event )
+{	
+	/*
+	wxMessageBox(_("Running script"));
+	wxArrayString arrLines;
+	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
+		arrLines.Add(m_Script_Rich->GetLineText(i));
+	}
+	ParseScript(arrLines);
+	*/
+	wxGetApp().MainWindow->Show(false);
+}

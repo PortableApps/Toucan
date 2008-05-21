@@ -19,8 +19,8 @@ bool Settings::TransferToFile(){
 
 bool Settings::TransferFromFile(){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
-	m_TabStyle = config->Read(wxT("General/Tabs"));
-	m_Position = config->Read(wxT("General/Position"));
+	m_TabStyle = config->Read(wxT("General/Tabs"), _("Icons + Text"));
+	m_Position = config->Read(wxT("General/Position"), _("Sync"));
 	delete config;	
 	return true;
 }

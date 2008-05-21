@@ -102,8 +102,8 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 		for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
 			wxRegEx regMatch;
 			regMatch.Compile(arrFoldersToExclude.Item(j));
-			wxMessageBox(strName);
-			wxMessageBox(arrFoldersToExclude.Item(j));
+			//wxMessageBox(strName);
+			//wxMessageBox(arrFoldersToExclude.Item(j));
 				if(regMatch.IsValid()){
 					if(regMatch.Matches(strName)){
 						//wxMessageBox(_("Excluding folder"));

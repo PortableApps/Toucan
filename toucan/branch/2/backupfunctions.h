@@ -33,7 +33,6 @@ bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength
 			//If it is a file
 			else{
 				if(rules.ShouldExclude(strPath + strFilename, false)){
-				//	wxMessageBox(_("Excluding"));
 					wxString strCombined = strPath + strFilename;
 					strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
 					file->AddLine(strCombined);

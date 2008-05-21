@@ -67,12 +67,12 @@ void SecureData::TransferToForm(frmMain *window){
 	window->m_Secure_TreeCtrl->DeleteAllItems();
 	window->m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 	//Remove all of the filepaths from the list
-	for(unsigned int i = 0; i < wxGetApp().GetSecureLocations().GetCount(); i++){
-		wxGetApp().RemoveSecureLocation(i);
+	for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
+		wxGetApp().MainWindow->m_SecureLocations->RemoveAt(i);
 	}
 	//Add the new filepaths to the list and the treectrl
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
-		wxGetApp().AppendSecureLocation(GetLocations().Item(k));
+		wxGetApp().MainWindow->m_SecureLocations->Add(GetLocations().Item(k));
 		window->m_Secure_TreeCtrl->AddNewPath(GetLocations().Item(k));
 	}
 	//Set up the rest of the window
@@ -90,7 +90,7 @@ bool SecureData::TransferFromForm(frmMain *window, bool blShowError){
 	wxString strPass, strRepass;
 
 	//Set the global secure path lists and make sure there are some locations
-	SetLocations(wxGetApp().GetSecureLocations());
+	SetLocations(*wxGetApp().MainWindow->m_SecureLocations);
 	if(GetLocations().GetCount() == 0){ blNotFilled = true; }
 
 	//Get the function, ensuring something is selected
