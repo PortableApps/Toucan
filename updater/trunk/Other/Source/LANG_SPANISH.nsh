@@ -17,6 +17,7 @@ LangString wrongdir ${LANG_SPANISH} "Error: El directorio de instalación tiene $
 LangString deleteok ${LANG_SPANISH} "¿Realmente desea eliminar todos los archivos en $INSTDIR?"
 LangString plswait ${LANG_SPANISH} "Database Download$\nPlease wait..."
 LangString db_error ${LANG_SPANISH} "Database Download Error$\n..."
+LangString db_stop ${LANG_SPANISH} "Download aborted! Do you want to stop all tasks and close the updater?"
 LangString self_update ${LANG_SPANISH} "A newer Updater version was downloaded. Please run setup and then start the program again."
 LangString no_comp ${LANG_SPANISH} "Please select a Component or click Cancel!"
 LangString op_title ${LANG_SPANISH} "PortableApps.com (TM) Updater - Options"

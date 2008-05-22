@@ -13,6 +13,7 @@ LangString wrongdir ${LANG_GERMAN} "Fehler: Das gewählte Verzeichnis hat $R0 Lee
 LangString deleteok ${LANG_GERMAN} "Wollen Sie wirklich alle Dateien in $INSTDIR/setup löschen?"
 LangString plswait ${LANG_GERMAN} "Bitte warten"
 LangString db_error ${LANG_GERMAN} "Database Fehler$\n$UFile nicht gefunden!"
+LangString db_stop ${LANG_GERMAN} "Download abgebrochen! Wollen Sie alle Aufgaben abbrechen und den Updater beenden?"
 LangString self_update ${LANG_GERMAN} "Eine neue Version wurde herunter geladen. Bitte Setup ausführen und das Programm neu starten."
 LangString no_comp ${LANG_GERMAN} "Bitte wählen Sie eine Anwendung oder klicken Sie auf Abbrechen!"
 LangString op_title ${LANG_GERMAN} "PortableApps.com (TM) Updater - Einstellungen"

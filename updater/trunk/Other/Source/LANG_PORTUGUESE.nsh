@@ -16,6 +16,7 @@ LangString wrongdir ${LANG_PORTUGUESE} "Erro: A pasta da instalação tem $R0 de e
 LangString deleteok ${LANG_PORTUGUESE} "Tem a certeza que quer apagar todos os ficheiros em $INSTDIR?"
 LangString plswait ${LANG_PORTUGUESE} "Por favor espere..."
 LangString db_error ${LANG_PORTUGUESE} "Erro no Download da Base de Dados$\n..."
+LangString db_stop ${LANG_PORTUGUESE} "Download abortado! Deseja parar todas as tarefas e fechar o actualizador?" 
 LangString self_update ${LANG_PORTUGUESE} "Foi feito o download de uma nova versão do Updater. Por favor corra o assistente de instalação e inicie o programa outra vez."
 LangString no_comp ${LANG_PORTUGUESE} "Por favor escolha um Componente ou carregue em Abortar!"
 LangString op_title ${LANG_PORTUGUESE} "PortableApps.com (TM) Updater - Opções"

@@ -16,6 +16,7 @@ LangString wrongdir ${LANG_ITALIAN} "Error: The Installaton directory has $R0 sp
 LangString deleteok ${LANG_ITALIAN} "do You really want to delete all files in  $INSTDIR ?"
 LangString plswait ${LANG_ITALIAN} "Database Download$\nPlease wait..."
 LangString db_error ${LANG_ITALIAN} "Database Download Error$\n..."
+LangString db_stop ${LANG_ITALIAN} "Download aborted! Do you want to stop all tasks and close the updater?"
 LangString self_update ${LANG_ITALIAN} "A newer Updater version was downloaded. Please run setup and then start the program again."
 LangString no_comp ${LANG_ITALIAN} "Please select a Component or click Cancel!"
 LangString op_title ${LANG_ITALIAN} "PortableApps.com (TM) Updater - Options"

@@ -16,6 +16,7 @@ LangString wrongdir ${LANG_FRENCH} "Erreur: Le dossier d'enregistrement a $R0 sp
 LangString deleteok ${LANG_FRENCH} "Voulez-vous vraiment effacer tout les fichiers dans $INSTDIR?"
 LangString plswait ${LANG_FRENCH} "Téléchargement de la base de données$\nVeuillez attendre S.V.P. ..."
 LangString db_error ${LANG_FRENCH} "Erreur de la base de données$\n$UFichier non trouvé!"
+LangString db_stop ${LANG_FRENCH} "Download aborted! Do you want to stop all tasks and close the updater?"
 LangString self_update ${LANG_FRENCH} "Une nouvelle version de Updater a été téléchargé. Démarrez l'installateur et redémarrez le programme."
 LangString no_comp ${LANG_FRENCH} "Choisissez une composante ou appuyez sur Annuler!"
 LangString op_title ${LANG_FRENCH} "PortableApps.com (TM) Updater - Options"

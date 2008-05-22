@@ -15,6 +15,7 @@ LangString wrongdir ${LANG_JAPANESE} "エラー: インストール ディレクトリに $R0 領
 LangString deleteok ${LANG_JAPANESE} "本当に $INSTDIR のすべてのファイルを削除しますか?"
 LangString plswait ${LANG_JAPANESE} "お待ちください"
 LangString db_error ${LANG_JAPANESE} "データベース エラー$\n$Uファイルが見つかりません!"
+LangString db_stop ${LANG_JAPANESE} "Download aborted! Do you want to stop all tasks and close the updater?"
 LangString self_update ${LANG_JAPANESE} "より新しい Updater バージョンはダウンロードされました。セットアップを起動して次に再びプログラムを起動してください。"
 LangString no_comp ${LANG_JAPANESE} "コンポーネントを選択するか [キャンセル] をクリックしてください!"
 LangString op_title ${LANG_JAPANESE} "PortableApps.com (TM) Updater - オプション"
