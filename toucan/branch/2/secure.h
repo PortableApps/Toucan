@@ -119,10 +119,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 
 		//Output the progress message
 		if(lgReturn == 0){        
-			OutputProgress(_("Encrypted ") + strFile, window);
+			OutputProgress(_("Encrypted ") + strFile);
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile, window);
+			OutputProgress(_("Failed to encrypt ") + strFile);
 		}
 	}
 
@@ -154,10 +154,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 
 		//Output the the progress message
 		if(lgReturn == 0){       
- 			OutputProgress(_("Decrypted ") + strFile, window);
+ 			OutputProgress(_("Decrypted ") + strFile);
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile, window);
+ 			OutputProgress(_("Failed to decrypt ") + strFile);
 		}
 	}
 	return true;

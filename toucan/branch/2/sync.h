@@ -183,7 +183,7 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 		} 
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), data.GetDest(), true)){
-				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" to ") + data.GetDest(), window);
+				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" to ") + data.GetDest());
 			}
 		}	
 		if(data.GetFunction() == _("Update")){
@@ -198,12 +198,12 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 				//I.E. strFrom is newer
 				if(tmFrom.IsLaterThan(tmTo)){
 					wxCopyFile(data.GetSource(), data.GetDest(), true);
-					OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetDest(), window);
+					OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetDest());
 				}
 			}
 			else{
 				wxCopyFile(data.GetSource(), data.GetDest(), true);
-				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH)+  _(" to ") + data.GetDest(), window);
+				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH)+  _(" to ") + data.GetDest());
 			}
 		}
 		if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){	
@@ -211,7 +211,7 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 			//wxMessageBox(data.GetSource(), _("Source"));
 			if(!wxFileExists(data.GetDest())){
 				wxRemoveFile(data.GetSource());
-				OutputProgress(_("Removed ") + data.GetSource(), window);
+				OutputProgress(_("Removed ") + data.GetSource());
 			}
 		}
 		if(wxGetApp().ShouldAbort()){
@@ -268,7 +268,7 @@ bool DirectoryRemove(wxString strLocation, frmProgress *window){
 			}
 			else{
 				if(wxRemoveFile(strLocation + strFilename)){
-                    OutputProgress(_("Removed ") + strLocation + strFilename, window);
+                    OutputProgress(_("Removed ") + strLocation + strFilename);
                 }
             }
 	
@@ -278,7 +278,7 @@ bool DirectoryRemove(wxString strLocation, frmProgress *window){
 	delete dir;
   	wxLogNull log;
 	if(wxFileName::Rmdir(strLocation)){
-        OutputProgress(_("Removed ") + strLocation, window);
+        OutputProgress(_("Removed ") + strLocation);
     }
 	return true;
 }

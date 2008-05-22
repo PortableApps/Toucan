@@ -161,8 +161,8 @@ bool ParseScript(wxArrayString arrScript){
 		}
 		else if(strToken == _("Execute")){
 			wxString strExecute = tkz.GetNextToken();
-			wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE)){
-			window->m_Text->AppendText(_("Executed ") + strExecute) + wxT("\n");
+			wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
+			window->m_Text->AppendText(_("Executed ") + strExecute + wxT("\n"));
 		}
 	}
 	window->m_OK->Enable(true);

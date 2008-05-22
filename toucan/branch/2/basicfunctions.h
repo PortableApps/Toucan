@@ -11,8 +11,13 @@
 #include <wx/variant.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
+#include <wx/wfstream.h>
+#include <wx/txtstrm.h>
 #include "frmprogress.h"
 #include "toucan.h"
+
+wxFFileOutputStream output(stderr);
+wxTextOutputStream cout(output);
 
 //Turns an array string into a string with the strings seperated by strSeperator, used when writing to ini files
 wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator){
@@ -48,8 +53,13 @@ void ErrorBox(wxString strMessage){
 }
 
 //Basic function to write output to progress form, used to keep code clean
-void OutputProgress(wxString strValue, frmProgress *window){
-	window->m_Text->AppendText(strValue + wxT("\n"));
+void OutputProgress(wxString strValue){
+	if(wxGetApp().ProgressWindow->IsShown()){
+		wxGetApp().ProgressWindow->m_Text->AppendText(strValue + wxT("\n"));
+	}
+	else{
+        cout<<strValue + wxT("\n");
+	}		
 }
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
