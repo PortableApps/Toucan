@@ -60,6 +60,9 @@ public:
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_SAVE
 	void OnSaveClick( wxCommandEvent& event );
+	
+	/// wxEVT_CLOSE_WINDOW event handler for ID_PROGRESS
+	void OnCloseWindow( wxCloseEvent& event );
 
 	wxTextCtrl* m_Text;
 	wxButton* m_OK;

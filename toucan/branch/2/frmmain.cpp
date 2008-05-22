@@ -1547,6 +1547,14 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 	SyncThread *thread = new SyncThread(data, rules, window, this);
 	thread->Create();
 	thread->Run();
+	thread->Wait();
+	delete thread;
+	window->m_OK->Enable(true);
+	window->m_Save->Enable(true);
+	window->m_Cancel->Enable(false);
+	now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	window->m_Text->AppendText(_("Finished"));
 }
 
 /*!
@@ -1705,6 +1713,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 	delete m_BackupLocations;
 	delete m_SecureLocations;
 	this->Destroy();
+	wxGetApp().ProgressWindow->Destroy();
 }
 
 /*!
@@ -1740,11 +1749,6 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 		}
 		//Call the secure function
 		Secure(data, rules, window);
-		m_Secure_TreeCtrl->DeleteAllItems();
-		m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
-		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
-			m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
-		}
 	}
 	window->m_OK->Enable(true);
 	window->m_Save->Enable(true);
@@ -1923,13 +1927,9 @@ void frmMain::OnPvarListActivated(wxListEvent& event)
 
 void frmMain::OnScriptExecute( wxCommandEvent& event )
 {	
-	/*
-	wxMessageBox(_("Running script"));
 	wxArrayString arrLines;
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrLines.Add(m_Script_Rich->GetLineText(i));
 	}
 	ParseScript(arrLines);
-	*/
-	wxGetApp().MainWindow->Show(false);
 }

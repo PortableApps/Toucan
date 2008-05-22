@@ -20,6 +20,8 @@ IMPLEMENT_CLASS( frmProgress, wxFrame )
 
 BEGIN_EVENT_TABLE( frmProgress, wxFrame )
 
+	EVT_CLOSE( frmProgress::OnCloseWindow )
+
 	EVT_BUTTON( wxID_OK, frmProgress::OnOkClick )
 
 	EVT_BUTTON( wxID_CANCEL, frmProgress::OnCancelClick )
@@ -118,7 +120,7 @@ void frmProgress::CreateControls()
 
 void frmProgress::OnOkClick( wxCommandEvent& event )
 {
-	Destroy();
+	this->Show(false);
 }
 
 
@@ -148,3 +150,11 @@ void frmProgress::OnSaveClick( wxCommandEvent& event )
 		m_Text->SaveFile(dialog.GetPath());
 	}
 }
+
+
+
+void frmProgress::OnCloseWindow( wxCloseEvent& event )
+{
+	this->Show(false);
+}
+

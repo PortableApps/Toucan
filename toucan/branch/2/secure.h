@@ -13,9 +13,8 @@
 #include "securedata.h"
 
 //Forward declarations
-bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress *window);
+bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress *window); 
 bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window);
-
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();
@@ -34,6 +33,11 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 				CryptFile(arrLocation.Item(i), data, rules, window);
 			}
 		}
+	}
+	wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
+	wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
+	for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
+		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(wxGetApp().MainWindow->m_SecureLocations->Item(i));
 	}
 	return true;
 }

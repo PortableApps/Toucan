@@ -22,7 +22,7 @@ class SyncThread : public wxThread
 {
 public:
 	//Constructor
-	SyncThread(SyncData data, Rules rules, frmProgress* window, frmMain *main){
+	SyncThread(SyncData data, Rules rules, frmProgress* window, frmMain *main):wxThread(wxTHREAD_JOINABLE){
 		m_Data = data;
 		m_Rules = rules;
 		m_Window = window;
@@ -89,12 +89,6 @@ void *SyncThread::Entry(){
 	m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());	
 	//AddDirToTree(m_Main->m_Sync_Source_Txt->GetValue(), m_Main->m_Sync_Source_Tree);
 	//AddDirToTree(m_Main->m_Sync_Dest_Txt->GetValue(), m_Main->m_Sync_Dest_Tree);
-	m_Window->m_OK->Enable(true);
-	m_Window->m_Save->Enable(true);
-	m_Window->m_Cancel->Enable(false);
-	wxDateTime now = wxDateTime::Now();
-	m_Window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	OutputProgress(_("Finished"), m_Window);
 	wxMutexGuiLeave();
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
