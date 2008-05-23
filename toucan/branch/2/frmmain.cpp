@@ -405,8 +405,8 @@ void frmMain::CreateControls()
 	wxButton* itemButtonBackupPreview = new wxButton( itemPanel35, ID_BACKUP_PREVIEW , _("Preview"));
 	itemBoxSizer005->Add(itemButtonBackupPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
-	//wxButton* itemButtonBackupRestore = new wxButton( itemPanel35, ID_BACKUP_RESTORE , _("Restore"));
-	//itemBoxSizer005->Add(itemButtonBackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	wxButton* itemButtonBackupRestore = new wxButton( itemPanel35, ID_BACKUP_RESTORE , _("Restore"));
+	itemBoxSizer005->Add(itemButtonBackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
 
 	wxBoxSizer* BackupRow2 = new wxBoxSizer(wxHORIZONTAL);

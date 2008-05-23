@@ -8,6 +8,7 @@
 #include "frmprogress.h"
 #include "backupprocess.h"
 #include "toucan.h"
+#include "waitthread.h"
 
 /*!
  * frmRestore type definition
@@ -143,25 +144,46 @@ void frmRestore::CreateControls()
 
 void frmRestore::OnOkClick( wxCommandEvent& event )
 {
-	/*//Create a new progress form and show it
-	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
+	frmProgress *window = wxGetApp().ProgressWindow;
+	window->m_Text->Clear();
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
     delete wxLog::SetActiveTarget(logTxt);
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
+	window->m_Cancel->Enable(true);
 	
 	window->m_Text->AppendText(_("Starting...\n"));
 	wxDateTime now = wxDateTime::Now();
 	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	//Show the window
 	window->Update();
+	//Create the data sets and fill them
+	wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r");	
+	
 	window->Show();
-	//Create the command
-	wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r");
+	window->Refresh();
+	window->Update();
+
+	//Cretae the process, execute it
 	PipedProcess *process = new PipedProcess(window);
-	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);*/
+	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	process->SetRealPid(lgPID);
+	//wxMilliSleep(1000);
+	WaitThread *thread = new WaitThread(lgPID, process);
+	thread->Create();
+	thread->Run();
+	thread->Wait();
+	while(process->HasInput())
+		;
+	window->m_OK->Enable(true);
+	window->m_Save->Enable(true);
+	window->m_Cancel->Enable(false);
+	now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	window->m_Text->AppendText(_("Finished"));
+	//wxGetApp().SetAbort(false);
 }
 
 
