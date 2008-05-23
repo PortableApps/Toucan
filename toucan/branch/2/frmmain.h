@@ -17,7 +17,6 @@
 #include <wx/listctrl.h>
 
 #include "virtualdirtreectrl.h"
-#include "settings.h"
 
 //Forward declarations
 class wxAuiNotebook;
@@ -376,7 +375,6 @@ public:
 	
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
-	Settings* m_Settings;
 
 };
 
