@@ -21,9 +21,13 @@ public:
 	wxString GetTabStyle() { return m_TabStyle; }
 	void SetTabStyle(wxString tabstyle) { m_TabStyle = tabstyle; }
 	
+	int GetLanguageCode() { return m_LanguageCode; }
+	void SetLanguageCode(int langcode) { m_LanguageCode = langcode; }
+	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
+	int m_LanguageCode;
 };
 
 #endif

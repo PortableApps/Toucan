@@ -9,10 +9,13 @@
 #include <wx/listimpl.cpp> 
 #include <wx/snglinst.h>
 #include <wx/splash.h>
+#include <wx/intl.h>
 
 #include "toucan.h"
 #include "frmmain.h"
 #include "backupprocess.h"
+
+class Settings;
 
 
 /*!
@@ -62,6 +65,7 @@ void Toucan::Init()
 
 bool Toucan::OnInit()
 {    
+	m_Settings = new Settings();
 	//Set the settings path
 	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
 	wxInitAllImageHandlers();
@@ -81,6 +85,13 @@ bool Toucan::OnInit()
 	MainWindow->Show();
 	MainWindow->Maximize();
 	return true;
+}
+
+void Toucan::SetLanguage(int LanguageCode){
+	//Set the language here
+	m_Locale = new wxLocale(LanguageCode);
+	m_Locale->AddCatalogLookupPathPrefix(GetSettingsPath() + wxFILE_SEP_PATH + wxT("lang"));
+	m_Locale->AddCatalog(wxT("toucan"));	
 }
 
 
@@ -128,6 +139,9 @@ void Toucan::OnIdle(wxIdleEvent& event)
 
 int Toucan::OnExit()
 {    
+	delete m_Locale;
+	delete m_Settings;
+	//wxGetApp().ProgressWindow->Destroy();
 	return wxApp::OnExit();
 }
 

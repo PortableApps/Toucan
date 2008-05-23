@@ -26,10 +26,6 @@
 
 #include "script.h"
 
-//#include "settings.h"
-
-class Settings;
-
 
 //Implement frmMain
 IMPLEMENT_CLASS( frmMain, wxFrame )
@@ -203,7 +199,6 @@ void frmMain::Init()
 	m_Rules_FileDelete = NULL;
 	m_Script_Rich = NULL;
 	
-	m_Settings = new Settings();
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
 	
@@ -681,6 +676,7 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton129 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_FILEDELETE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer127->Add(itemBitmapButton129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);*/
 
+
 	//Portable variables
 
 	wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
@@ -761,6 +757,7 @@ void frmMain::CreateControls()
 
 	//Settings
 
+
 	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
 	wxBoxSizer* itemBoxSizer1000 = new wxBoxSizer(wxVERTICAL);
@@ -777,8 +774,8 @@ void frmMain::CreateControls()
 
 	
 	//Load the settings
-	m_Settings->TransferFromFile();
-	m_Settings_TabStyle->SetStringSelection(m_Settings->GetTabStyle());
+	wxGetApp().m_Settings->TransferFromFile();
+	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());
 
 	//Add the panels
 	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
@@ -786,7 +783,7 @@ void frmMain::CreateControls()
 	wxBitmap securebitmap = GetBitmapResource(wxT("secure.png"));
 	wxBitmap settingsbitmap = GetBitmapResource(wxT("settings.png"));
 	
-	if(m_Settings->GetTabStyle() == _("Text")){
+	if(wxGetApp().m_Settings->GetTabStyle() == _("Text")){
 		syncbitmap = wxNullBitmap;
 		backupbitmap = wxNullBitmap;
 		securebitmap = wxNullBitmap;
@@ -810,7 +807,7 @@ void frmMain::CreateControls()
 
 	unsigned int i = 0;
 	unsigned int count = m_Notebook->GetPageCount();
-	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != m_Settings->GetPosition()){
+	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != wxGetApp().m_Settings->GetPosition()){
 		i ++;
 		if(i < count){
 			m_Notebook->AdvanceSelection();
@@ -1706,13 +1703,12 @@ void frmMain::OnBackupRestoreClick(wxCommandEvent& event)
 
 void frmMain::OnCloseWindow(wxCloseEvent& event)
 {
-	m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
-	m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
-	m_Settings->TransferToFile();
-	delete m_Settings;
+	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
+	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
+	wxGetApp().m_Settings->TransferToFile();
 	delete m_BackupLocations;
 	delete m_SecureLocations;
-	this->Destroy();
+	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
 }
 

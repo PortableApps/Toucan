@@ -8,19 +8,23 @@
 #include "toucan.h"
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>
+#include <wx\intl.h>
 
 bool Settings::TransferToFile(){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
 	config->Write(wxT("General/Tabs"), m_TabStyle);
 	config->Write(wxT("General/Position"), m_Position);
+	config->Write(wxT("General/Language"), m_LanguageCode);
 	delete config;
 	return true;
 }
 
 bool Settings::TransferFromFile(){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
-	m_TabStyle = config->Read(wxT("General/Tabs"), _("Icons + Text"));
-	m_Position = config->Read(wxT("General/Position"), _("Sync"));
+	config->Read(wxT("General/Tabs"), &m_TabStyle,  _("Icons + Text"));
+	config->Read(wxT("General/Position"), &m_Position,  _("Sync"));
+	//Causes a nasty crash, need to check why
+	//config->Read(wxT("General/Language"), &m_LanguageCode, wxLANGUAGE_ENGLISH);
 	delete config;	
 	return true;
 }
