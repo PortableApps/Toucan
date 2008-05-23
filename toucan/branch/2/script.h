@@ -106,39 +106,39 @@ bool ParseScript(wxArrayString arrScript){
 					rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
 				}
 				wxString strCommand;
-				
-				//Open the text file for the file paths and clear it
-				wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-				file->Open();
-				file->Clear();
-				file->Write();
-				//Create the command to execute
-				strCommand = data.CreateCommand(0);
-				wxString strPath = data.GetLocations().Item(0);
-				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-					strPath += wxFILE_SEP_PATH;       
+				for(unsigned int i = 0; i < data.GetLocations().Count(); i++){
+					//Open the text file for the file paths and clear it
+					wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
+					file->Open();
+					file->Clear();
+					file->Write();
+					//Create the command to execute
+					strCommand = data.CreateCommand(i);
+					wxString strPath = data.GetLocations().Item(i);
+					if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+						strPath += wxFILE_SEP_PATH;       
+					}
+					strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+					strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+					//Create the list of files to backup
+					CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
+					//Commit the file changes
+					file->Write();
+					window->Show();
+					window->Refresh();
+					window->Update();
+					//Cretae the process, execute it and register it
+					PipedProcess *process = new PipedProcess(window);
+					long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+					process->SetRealPid(lgPID);
+					//wxMilliSleep(1000);
+					WaitThread *thread = new WaitThread(lgPID, process);
+					thread->Create();
+					thread->Run();
+					thread->Wait();
+					while(process->HasInput())
+						;
 				}
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				//Create the list of files to backup
-				CreateList(file, rules, data.GetLocations().Item(0), strPath.Length());
-				//Commit the file changes
-				file->Write();
-				window->Show();
-				window->Refresh();
-				window->Update();
-				//Cretae the process, execute it and register it
-				PipedProcess *process = new PipedProcess(window);
-				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-				process->SetRealPid(lgPID);
-				//wxMilliSleep(1000);
-				WaitThread *thread = new WaitThread(lgPID, process);
-				thread->Create();
-				thread->Run();
-				thread->Wait();
-				while(process->HasInput())
-					;
-				
 				//delete process;
 			}
 		}
