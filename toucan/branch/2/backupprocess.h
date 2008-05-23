@@ -18,7 +18,7 @@ class BaseProcess : public wxProcess
     DECLARE_CLASS(BaseProcess)
 public:
     BaseProcess(wxWindow* win): wxProcess(win) {}
-
+	
 };
 
 IMPLEMENT_CLASS(BaseProcess, wxProcess)
@@ -35,12 +35,16 @@ public:
         Redirect();
     }
 
-    virtual void OnTerminate(int pid, int status);
-
     virtual bool HasInput();
+	
+	void SetRealPid(long pid);
+	
+	long GetRealPid() {return m_PID;}
+	
 
 protected:
     frmProgress*   m_Window;
+	long m_PID;
 };
 
 IMPLEMENT_CLASS(PipedProcess, BaseProcess)

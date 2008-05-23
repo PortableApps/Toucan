@@ -34,8 +34,7 @@ IMPLEMENT_CLASS( Toucan, wxApp )
 */
 
 BEGIN_EVENT_TABLE( Toucan, wxApp )
-	EVT_IDLE(Toucan::OnIdle)
-    EVT_TIMER(wxID_ANY, Toucan::OnTimer)
+
 END_EVENT_TABLE()
 
 
@@ -56,7 +55,6 @@ Toucan::Toucan()
 void Toucan::Init()
 {
 	blAbort = false;
-	lgBackupNumber = 0;
 }
 
 /*!
@@ -92,45 +90,6 @@ void Toucan::SetLanguage(int LanguageCode){
 	m_Locale = new wxLocale(LanguageCode);
 	m_Locale->AddCatalogLookupPathPrefix(GetSettingsPath() + wxFILE_SEP_PATH + wxT("lang"));
 	m_Locale->AddCatalog(wxT("toucan"));	
-}
-
-
-bool Toucan::RegisterProcess(PipedProcess *process)
-{
-	if ( m_Running.IsEmpty() ){
-		m_wakeUpTimer.Start(50);
-	}
-	m_Running.Add(process);
-	return true;
-}
-
-/// UnregisterProcess
-bool Toucan::UnregisterProcess(PipedProcess *process)
-{
-	m_Running.Remove(process);
-	if ( m_Running.IsEmpty() ){
-		m_wakeUpTimer.Stop();
-	}
-	return true;
-}
-
-void Toucan::OnTimer(wxTimerEvent& WXUNUSED(event))
-{
-    wxWakeUpIdle();
-}
-
-
-void Toucan::OnIdle(wxIdleEvent& event)
-{
-	wxYield();
-    size_t count = m_Running.GetCount();
-    for ( size_t n = 0; n < count; n++ )
-    {
-        if ( m_Running[n]->HasInput())
-        {
-            event.RequestMore();
-        }
-    }
 }
 
 /*!

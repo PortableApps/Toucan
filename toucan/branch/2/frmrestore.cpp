@@ -143,7 +143,7 @@ void frmRestore::CreateControls()
 
 void frmRestore::OnOkClick( wxCommandEvent& event )
 {
-	//Create a new progress form and show it
+	/*//Create a new progress form and show it
 	frmProgress *window = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
@@ -161,9 +161,7 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 	//Create the command
 	wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r");
 	PipedProcess *process = new PipedProcess(window);
-	wxGetApp().RegisterProcess(process);
-	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-	wxGetApp().SetPID(lgPID);
+	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);*/
 }
 
 

@@ -17,10 +17,6 @@
 
 class frmProgress;
 class frmMain;
-class PipedProcess;
-
-WX_DEFINE_ARRAY_PTR(PipedProcess *, ProcessArray);
-
 
 /*!
 * Toucan class declaration
@@ -44,25 +40,10 @@ public:
 	/// Called on exit
 	virtual int OnExit();
 
-	//The process storage array
-	ProcessArray m_Running;
-	
 	void SetLanguage(int langcode);
-			
-    bool RegisterProcess(PipedProcess *process);
-    bool UnregisterProcess(PipedProcess *process);
-	
+				
 	bool ShouldAbort() { return blAbort; }
 	void SetAbort(bool abort) { blAbort = abort; }
-		
-	long GetPID() { return lgPID; }
-	void SetPID(long pid) { lgPID = pid; }
-
-    void OnIdle(wxIdleEvent& event);
-    void OnTimer(wxTimerEvent& event);
-	
-	unsigned long GetBackup() { return lgBackupNumber; }
-	void SetBackup(long backupnumber) { lgBackupNumber = backupnumber; }	
 	
 	wxString GetSettingsPath() { return strSettingsPath; }
 	void SetSettingsPath(wxString settingspath) { strSettingsPath = settingspath; }
@@ -73,14 +54,8 @@ public:
 	wxLocale* m_Locale;	
 		
 protected:
-    // Timer to wake up idle processing
-    wxTimer m_wakeUpTimer;
 	//Abort the current job
 	bool blAbort;
-	//PID of backup process
-	long lgPID;
-	//Which backup are we on
-	unsigned long lgBackupNumber;
 	//The settings path
 	wxString strSettingsPath;
 

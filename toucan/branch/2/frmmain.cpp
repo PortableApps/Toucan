@@ -25,7 +25,7 @@
 #include "backupfunctions.h"
 
 #include "script.h"
-
+#include "waitthread.h"
 
 //Implement frmMain
 IMPLEMENT_CLASS( frmMain, wxFrame )
@@ -919,7 +919,6 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event)
 	this->SetCursor(cursor);
 	m_BackupLocations->Add(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
-	wxGetApp().SetBackup(wxGetApp().GetBackup() + 1);
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
 }
@@ -943,7 +942,6 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 			}
 		}
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
-		wxGetApp().SetBackup(wxGetApp().GetBackup() - 1);
 	}
 }
 
@@ -1601,7 +1599,6 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 
 void frmMain::OnBackupOKClick(wxCommandEvent& event)
 {
-	wxGetApp().SetBackup(0);
 	//Create a new progress form and show it
 	frmProgress *window = wxGetApp().ProgressWindow;
 	window->m_Text->Clear();
@@ -1618,7 +1615,6 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	//Show the window
 	window->Update();
-	window->Show();
 	//Create the data sets and fill them
 	BackupData data;
 	if(data.TransferFromForm(this, true)){
@@ -1628,42 +1624,47 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 		}
 		wxString strCommand;
 		
-//		wxGetApp().SetRules(rules);
-//		wxGetApp().SetBackupData(data);
 		//Open the text file for the file paths and clear it
 		wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
 		file->Open();
 		file->Clear();
 		file->Write();
 		//Create the command to execute
-		strCommand = data.CreateCommand(wxGetApp().GetBackup());
-		wxString strPath = data.GetLocations().Item(wxGetApp().GetBackup());
+		strCommand = data.CreateCommand(0);
+		wxString strPath = data.GetLocations().Item(0);
 		if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
 			strPath += wxFILE_SEP_PATH;       
 		}
 		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
 		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-		//wxMessageBox(strPath);
 		//Create the list of files to backup
-		CreateList(file, rules, data.GetLocations().Item(wxGetApp().GetBackup()), strPath.Length());
+		CreateList(file, rules, data.GetLocations().Item(0), strPath.Length());
 		//Commit the file changes
 		file->Write();
+		window->Show();
+		window->Refresh();
+		window->Update();
 		//Cretae the process, execute it and register it
 		PipedProcess *process = new PipedProcess(window);
-		wxGetApp().RegisterProcess(process);
-		wxGetApp().SetBackup(wxGetApp().GetBackup() + 1);
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-		wxGetApp().SetPID(lgPID);
+		process->SetRealPid(lgPID);
+		//wxMilliSleep(1000);
+		WaitThread *thread = new WaitThread(lgPID, process);
+		thread->Create();
+		thread->Run();
+		thread->Wait();
+		while(process->HasInput())
+			;
+		
+		//delete process;
 	}
-	else{
-		window->m_OK->Enable(true);
-		window->m_Save->Enable(true);
-		window->m_Cancel->Enable(false);
-		wxDateTime now = wxDateTime::Now();
-		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-		window->m_Text->AppendText(_("Finished"));
-		wxGetApp().SetAbort(false);
-	}
+	window->m_OK->Enable(true);
+	window->m_Save->Enable(true);
+	window->m_Cancel->Enable(false);
+	now = wxDateTime::Now();
+	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	window->m_Text->AppendText(_("Finished"));
+	//wxGetApp().SetAbort(false);
 }
 
 /*!

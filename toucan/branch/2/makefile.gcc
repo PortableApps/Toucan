@@ -52,7 +52,7 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h frmmain.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h backupfunctions.h basicfunctions.h secure.h sync.h script.h
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h dragndrop.h backupfunctions.h basicfunctions.h secure.h sync.h script.h waitthread.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
 
 $(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h
