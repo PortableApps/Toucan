@@ -1,3 +1,12 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Author:      Steven Lamerton
+// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Licence:     GNU GPL 2 (See readme for more info
+/////////////////////////////////////////////////////////////////////////////////
+
+#ifndef H_WAIT
+#define H_WAIT
+
 
 class WaitThread : public wxThread
 {
@@ -27,3 +36,5 @@ void *WaitThread::Entry(){
 	}
 	return NULL;
 }
+
+#endif

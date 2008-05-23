@@ -8,6 +8,7 @@
 #define H_SCRIPT
 
 #include <wx/arrstr.h>
+#include "waitthread.h"
 
 class SyncData;
 
@@ -21,7 +22,7 @@ bool ParseScript(wxArrayString arrScript){
 		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 		wxString strToken = tkz.GetNextToken();
 		strToken.Trim();
-		if(strToken == _("Sync") || strToken == _("Secure") || strToken == _("Delete") || strToken == _("Execute")){
+		if(strToken == _("Sync") || strToken == _("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == _("Backup")){
 			if(tkz.CountTokens() != 1){
 				wxLogError(_("Line %d has an incorrect number of parameters"), i+1);
 				blParseError = true;
@@ -32,10 +33,6 @@ bool ParseScript(wxArrayString arrScript){
 				wxLogError(_("Line %d has an incorrect number of parameters"), i+1);
 				blParseError = true;
 			}
-		}
-		else if(strToken == _("Backup")){
-			wxLogError(_("Backup is not currently supported in scripts, sorry :("), i+1);	
-			blParseError = true;
 		}
 		else{
 			wxLogError(strToken + _(" not recognised on line %d"), i+1);
@@ -83,8 +80,7 @@ bool ParseScript(wxArrayString arrScript){
 				now = wxDateTime::Now();
 				window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 				window->m_Text->AppendText(_("Finished"));
-				return false;
-					
+				return false;		
 			}
 			Rules rules;
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -100,7 +96,51 @@ bool ParseScript(wxArrayString arrScript){
 			delete thread;
 		}
 		else if(strToken == _("Backup")){
-			//Not yet working, give it time
+			window->Show(false);
+			wxString strJob = tkz.GetNextToken();
+			BackupData data;
+			if(data.TransferFromFile(strJob)){
+				Rules rules;
+				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+				if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
+					rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
+				}
+				wxString strCommand;
+				
+				//Open the text file for the file paths and clear it
+				wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
+				file->Open();
+				file->Clear();
+				file->Write();
+				//Create the command to execute
+				strCommand = data.CreateCommand(0);
+				wxString strPath = data.GetLocations().Item(0);
+				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+					strPath += wxFILE_SEP_PATH;       
+				}
+				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+				//Create the list of files to backup
+				CreateList(file, rules, data.GetLocations().Item(0), strPath.Length());
+				//Commit the file changes
+				file->Write();
+				window->Show();
+				window->Refresh();
+				window->Update();
+				//Cretae the process, execute it and register it
+				PipedProcess *process = new PipedProcess(window);
+				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+				process->SetRealPid(lgPID);
+				//wxMilliSleep(1000);
+				WaitThread *thread = new WaitThread(lgPID, process);
+				thread->Create();
+				thread->Run();
+				thread->Wait();
+				while(process->HasInput())
+					;
+				
+				//delete process;
+			}
 		}
 		else if(strToken == _("Secure")){
 			SecureData data;
