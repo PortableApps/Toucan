@@ -13,8 +13,10 @@
 #include <wx/stdpaths.h>
 #include <wx/wfstream.h>
 #include <wx/txtstrm.h>
+#include <wx/dir.h>
 #include "frmprogress.h"
 #include "toucan.h"
+
 
 wxFFileOutputStream output(stderr);
 wxTextOutputStream cout(output);
@@ -140,4 +142,50 @@ bool SetVariablesBox(wxComboBox *box){
 	return true;
 }
 
+wxArrayString GetLanguages(){
+	wxArrayString arrLang;
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
+	wxDir dir(strPath);
+	wxString strFilename;
+	bool blDir = dir.GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxDirExists(strPath + strFilename))
+			{
+				if(wxFileExists(strPath + strFilename + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxT("lang.ini"));
+					arrLang.Add(config->Read(wxT("General/DisplayName")));
+				}
+			}
+		}
+		while (dir.GetNext(&strFilename) );
+	} 	
+	return arrLang;
+	
+}
+
+int LanguageToLanguageCode(wxString strLanguage){
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
+	wxDir dir(strPath);
+	wxString strFilename;
+	bool blDir = dir.GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxDirExists(strPath + strFilename))
+			{
+				if(wxFileExists(strPath + strFilename + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxT("lang.ini"));
+					if(config->Read(wxT("General/DisplayName")) == strLanguage){
+						int temp;
+						config->Read(wxT("General/Language"), &temp, wxLanguage(wxLANGUAGE_ENGLISH));
+						return temp;
+						
+					}
+				}
+			}
+		}
+		while (dir.GetNext(&strFilename) );
+	} 	
+	return wxLanguage(wxLANGUAGE_ENGLISH);
+}
 #endif

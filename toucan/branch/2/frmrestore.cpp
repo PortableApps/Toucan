@@ -170,7 +170,6 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 	PipedProcess *process = new PipedProcess(window);
 	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	process->SetRealPid(lgPID);
-	//wxMilliSleep(1000);
 	WaitThread *thread = new WaitThread(lgPID, process);
 	thread->Create();
 	thread->Run();
@@ -183,7 +182,7 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 	now = wxDateTime::Now();
 	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	window->m_Text->AppendText(_("Finished"));
-	//wxGetApp().SetAbort(false);
+	wxGetApp().SetAbort(false);
 }
 
 

@@ -15,9 +15,6 @@ functiosn for writing the data to and from the gui and an ini file*/
 class BackupData{
 
 public:
-	//Constuctor not yet needed
-	//BackupData();
-
 	//Functions
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);

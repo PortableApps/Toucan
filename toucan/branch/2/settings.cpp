@@ -23,8 +23,9 @@ bool Settings::TransferFromFile(){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
 	config->Read(wxT("General/Tabs"), &m_TabStyle,  _("Icons + Text"));
 	config->Read(wxT("General/Position"), &m_Position,  _("Sync"));
-	//Causes a nasty crash, need to check why
-	//config->Read(wxT("General/Language"), &m_LanguageCode, wxLANGUAGE_ENGLISH);
+	int temp;
+	config->Read(wxT("General/Language"), &temp, wxLanguage(wxLANGUAGE_ENGLISH));
+	m_LanguageCode = wxLanguage(temp);
 	delete config;	
 	return true;
 }

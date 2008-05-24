@@ -154,7 +154,6 @@ bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
 			ErrorBox(_("The passwords to not match, please try again."));
 		}
 	}
-	//wxMessageBox(_("Returning"));
 	return true;	
 }
 
@@ -210,9 +209,6 @@ wxString BackupData::CreateCommand(int i){
 	else if(GetFunction() == _("Update")){
 		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\""); 
 	}
-	/*else if(GetFunction() == _("Restore")){
-		strCommand = wxT("7za.exe  x  \"") + strFirst + wxT("\" -o\"") + strSecond + wxT("\" * -r")  + wxT(" -x@\"") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH  + wxT("temp-exclusions.txt") + wxT("\"") + strPass + strSolid;
-	}*/
 	//With the incremental type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Incremental")){
 		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {

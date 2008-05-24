@@ -131,7 +131,6 @@ bool ParseScript(wxArrayString arrScript){
 					PipedProcess *process = new PipedProcess(window);
 					long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 					process->SetRealPid(lgPID);
-					//wxMilliSleep(1000);
 					WaitThread *thread = new WaitThread(lgPID, process);
 					thread->Create();
 					thread->Run();
@@ -139,7 +138,6 @@ bool ParseScript(wxArrayString arrScript){
 					while(process->HasInput())
 						;
 				}
-				//delete process;
 			}
 		}
 		else if(strToken == _("Secure")){

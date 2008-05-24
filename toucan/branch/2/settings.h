@@ -8,6 +8,7 @@
 #define H_SETTINGS
 
 #include <wx\string.h>
+#include <wx\intl.h>
 
 class Settings{
 	
@@ -22,12 +23,12 @@ public:
 	void SetTabStyle(wxString tabstyle) { m_TabStyle = tabstyle; }
 	
 	int GetLanguageCode() { return m_LanguageCode; }
-	void SetLanguageCode(int langcode) { m_LanguageCode = langcode; }
+	void SetLanguageCode(wxLanguage langcode) { m_LanguageCode = langcode; }
 	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
-	int m_LanguageCode;
+	wxLanguage m_LanguageCode;
 };
 
 #endif

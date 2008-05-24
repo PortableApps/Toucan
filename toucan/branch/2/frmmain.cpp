@@ -111,8 +111,6 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 	EVT_BUTTON( ID_RULES_ADD_FILEDELETE, frmMain::OnRulesAddFiledeleteClick )
 
 	EVT_BUTTON( ID_RULES_REMOVE_FILEDELETE, frmMain::OnRulesRemoveFiledeleteClick )
-
-	//EVT_TEXT( ID_SCRIPT_RICH, frmMain::OnScriptRichTextUpdated )
 	
 	EVT_BUTTON(ID_SCRIPT_EXECUTE, frmMain::OnScriptExecute)
 	
@@ -207,6 +205,9 @@ void frmMain::Init()
 //Create controls
 void frmMain::CreateControls()
 {
+	//Load the settings
+	wxGetApp().m_Settings->TransferFromFile();
+	
 	//Create a pointer so that we have something to add the items to	
 	frmMain* itemFrame1 = this;
 
@@ -423,9 +424,6 @@ void frmMain::CreateControls()
 	
 	//Backup location
 	
-	//wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxVERTICAL);
-	//BackupRow2->Add(itemBoxSizer45, 0, 0, 5);
-	
 	wxStaticBox* BackupLocationStatic = new wxStaticBox(itemPanel35, wxID_ANY, _("Backup Location"));
 	wxStaticBoxSizer* BackupLocationSizer = new wxStaticBoxSizer(BackupLocationStatic, wxHORIZONTAL);
 	BackupRow2->Add(BackupLocationSizer, 1, wxALL, 5);
@@ -534,9 +532,6 @@ void frmMain::CreateControls()
 	m_Secure_Repass = new wxTextCtrl( itemPanel68, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	itemStaticBoxSizer90->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 	m_Secure_Repass->SetMinSize(wxSize(125, -1));
-	
-	//wxBoxSizer* itemBoxSizer70 = new wxBoxSizer(wxHORIZONTAL);
-	//itemBoxSizer69->Add(itemBoxSizer70, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
@@ -657,26 +652,6 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton122 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_LOCATIONINCLUDE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer120->Add(itemBitmapButton122, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	/*wxBoxSizer* itemBoxSizer123 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer94->Add(itemBoxSizer123, 1, wxGROW|wxALL, 5);
-	wxStaticText* itemStaticText124 = new wxStaticText( itemPanel93, wxID_STATIC, _("Files to delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer123->Add(itemStaticText124, 0, wxALIGN_LEFT|wxALL, 5);
-
-	wxBoxSizer* itemBoxSizer125 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer123->Add(itemBoxSizer125, 1, wxGROW|wxALL, 5);
-	wxArrayString m_Rules_FileDeleteStrings;
-	m_Rules_FileDelete = new wxListBox( itemPanel93, ID_RULES_FILE_DELETE, wxDefaultPosition, wxDefaultSize, m_Rules_FileDeleteStrings, wxLB_SINGLE );
-	itemBoxSizer125->Add(m_Rules_FileDelete, 1, wxGROW|wxALL, 5);
-
-	wxBoxSizer* itemBoxSizer127 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer125->Add(itemBoxSizer127, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	wxBitmapButton* itemBitmapButton128 = new wxBitmapButton( itemPanel93, ID_RULES_ADD_FILEDELETE, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer127->Add(itemBitmapButton128, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-	wxBitmapButton* itemBitmapButton129 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_FILEDELETE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer127->Add(itemBitmapButton129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);*/
-
-
 	//Portable variables
 
 	wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
@@ -742,11 +717,6 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton137 = new wxBitmapButton( itemPanel131, ID_SCRIPT_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	ScriptStaticBoxSizer->Add(itemBitmapButton137, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	//wxBoxSizer* itemBoxSizer140 = new wxBoxSizer(wxHORIZONTAL);
-	//itemBoxSizer132->Add(itemBoxSizer140, 0, wxALIGN_LEFT|wxALL, 5);
-	//wxButton* itemButton141 = new wxButton( itemPanel131, ID_SCRIPT_CHECK, _("Check Script"), wxDefaultPosition, wxDefaultSize, 0 );
-	//itemBoxSizer140->Add(itemButton141, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
 	wxButton* itemButton142 = new wxButton( itemPanel131, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_TOP|wxALL, 10);
 
@@ -771,10 +741,14 @@ void frmMain::CreateControls()
 	m_Settings_TabStyle = new wxRadioBox (itemPanel143, ID_SETTINGS_TABSTYLE, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,2,  m_Settings_TabsStrings,2 ,wxRA_SPECIFY_ROWS);
 	itemBoxSizer1000->Add(m_Settings_TabStyle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
-
+	wxStaticBox* LanguageStaticBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Language"));
+	wxStaticBoxSizer* LanguageStaticBoxSizer = new wxStaticBoxSizer(LanguageStaticBox, wxHORIZONTAL);
+	itemBoxSizer1000->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+	wxArrayString m_Settings_LanguageStrings = GetLanguages();
+	m_Settings_Language = new wxComboBox( itemPanel143, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN );
+	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
 	
-	//Load the settings
-	wxGetApp().m_Settings->TransferFromFile();
+
 	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());
 
 	//Add the panels
@@ -1027,18 +1001,6 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
- */
-
-/*void frmMain::OnScriptRichTextUpdated(wxCommandEvent& event)
-{
-////@begin wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain.
-// Before editing this code, remove the block markers.
-	event.Skip();
-////@end wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH in frmMain.
-}
-*/
 
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
@@ -1130,9 +1092,6 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 	for (unsigned int k = 0; k < m_Rules_FileExclude->GetCount(); k++) {
 		arrFileExclude.Add(m_Rules_FileExclude->GetString(k));
 	}
-	//for (unsigned int l = 0; l < m_Rules_FileDelete->GetCount(); l++) {
-	//	arrFileDelete.Add(m_Rules_FileDelete->GetString(l));
-	//}
 
 	//Create the rule set and add the arraystrings to it
 	Rules rules;
@@ -1198,7 +1157,6 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
-	//m_Rules_FileDelete->Clear();
 	
 	//Create a new rule set
 	Rules rules;
@@ -1213,9 +1171,6 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 		for (unsigned int k = 0; k < rules.GetFoldersToExclude().GetCount(); k++) {
 			m_Rules_FolderExclude->Append(rules.GetFoldersToExclude().Item(k));
 		}
-		//for (unsigned int l = 0; l < rules.GetFilesToDelete().GetCount(); l++) {
-		//	m_Rules_FileDelete->Append(rules.GetFilesToDelete().Item(l));
-		//}
 	}
 
 }
@@ -1317,7 +1272,7 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Jobs.ini") );
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
 	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Type"),  _("Sync"));
 	config->Flush();
@@ -1337,7 +1292,6 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 	BackupData data;
 	if (data.TransferFromForm(this, false)) {
 		if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
-			//wxMessageBox(_("About to write"));
 			data.TransferToFile(m_Backup_Job_Select->GetStringSelection());
 		} 
 		else {
@@ -1559,19 +1513,16 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 {
 	wxString strPath = m_Sync_Source_Txt->GetValue();
-	//wxMessageBox(strPath);
 	/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
 	in the future in the vdtc code*/
 	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
 		strPath = strPath.Left(strPath.Length() - 1); 
 	}
-	//wxMessageBox(strPath);
 	m_Sync_Source_Txt->SetValue(strPath);
 	strPath = m_Sync_Dest_Txt->GetValue();
 	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
 		strPath = strPath.Left(strPath.Length() - 1); 
 	}
-	//wxMessageBox(strPath);
 	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
@@ -1708,6 +1659,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 {
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
+	wxGetApp().m_Settings->SetLanguageCode((wxLanguage)LanguageToLanguageCode(m_Settings_Language->GetStringSelection()));
 	wxGetApp().m_Settings->TransferToFile();
 	delete m_BackupLocations;
 	delete m_SecureLocations;

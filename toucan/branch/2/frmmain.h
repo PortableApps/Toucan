@@ -136,6 +136,7 @@ class Settings;
 
 //Settings
 #define ID_SETTINGS_TABSTYLE 20030
+#define ID_SETTINGS_LANGUAGE 20031
 
 //The form
 #define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
@@ -287,9 +288,6 @@ public:
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEDELETE
 	void OnRulesRemoveFiledeleteClick( wxCommandEvent& event );
-
-	/// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SCRIPT_RICH
-	//void OnScriptRichTextUpdated( wxCommandEvent& event );
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_EXECUTE
 	void OnScriptExecute( wxCommandEvent& event );	
@@ -372,6 +370,7 @@ public:
     wxComboBox* m_Pvar_Name;
     wxListCtrl* m_Pvar_List;
 	wxRichTextCtrl* m_Script_Rich;
+	wxComboBox* m_Settings_Language;
 	
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
