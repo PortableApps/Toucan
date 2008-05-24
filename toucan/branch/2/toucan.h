@@ -24,10 +24,8 @@ class frmMain;
 
 class Toucan: public wxApp
 {    
-	DECLARE_CLASS( Toucan )
-	DECLARE_EVENT_TABLE()
 
-public:
+	public:
 
 	/// Constructor
 	Toucan();

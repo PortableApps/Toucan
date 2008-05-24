@@ -18,25 +18,8 @@
 class Settings;
 
 
-/*!
-* Application instance implementation
-*/
-IMPLEMENT_APP( Toucan )
-
-/*!
-* Toucan type definition
-*/
-
-IMPLEMENT_CLASS( Toucan, wxApp )
-
-/*!
-* Toucan event table definition
-*/
-
-BEGIN_EVENT_TABLE( Toucan, wxApp )
-
-END_EVENT_TABLE()
-
+//Because we actually have a consola app that is well hidden!
+IMPLEMENT_APP_NO_MAIN(Toucan)
 
 /*!
 * Constructor for Toucan
@@ -103,4 +86,11 @@ int Toucan::OnExit()
 	//wxGetApp().ProgressWindow->Destroy();
 	return wxApp::OnExit();
 }
+
+int main(int argc, char* argv[])
+{
+	ShowWindow(GetConsoleWindow(), SW_HIDE ); 
+	wxEntry(argc,argv); 
+}
+
 
