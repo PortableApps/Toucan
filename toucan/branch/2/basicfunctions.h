@@ -14,6 +14,7 @@
 #include <wx/wfstream.h>
 #include <wx/txtstrm.h>
 #include <wx/dir.h>
+#include <wx/intl.h>
 #include "frmprogress.h"
 #include "toucan.h"
 
@@ -156,7 +157,8 @@ wxArrayString GetLanguages(){
 				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
 					wxMessageBox(_("File exists"));
 					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
-					arrLang.Add(config->Read(wxT("General/LanguageCode")));
+					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
+					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
 				}
 			}
 		}

@@ -1660,7 +1660,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 {
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
-//	wxGetApp().m_Settings->SetLanguageCode((wxLanguage)LanguageToLanguageCode(m_Settings_Language->GetStringSelection()));
+	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
 	wxGetApp().m_Settings->TransferToFile();
 	delete m_BackupLocations;
 	delete m_SecureLocations;
