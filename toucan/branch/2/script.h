@@ -14,38 +14,6 @@ class SyncData;
 
 bool ParseScript(wxArrayString arrScript){
 	
-	//First check that the whole script is valid (basic number of parameters check)
-	wxString strLine;
-	bool blParseError = false;
-	for(unsigned int i = 0; i < arrScript.Count(); i++){
-		strLine = arrScript.Item(i); 
-		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
-		wxString strToken = tkz.GetNextToken();
-		strToken.Trim();
-		if(strToken == _("Sync") || strToken == _("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == _("Backup")){
-			if(tkz.CountTokens() != 1){
-				wxLogError(_("Line %d has an incorrect number of parameters"), i+1);
-				blParseError = true;
-			}
-		}
-		else if(strToken == _("Move") || strToken == _("Copy")){
-			if(tkz.CountTokens() != 3){
-				wxLogError(_("Line %d has an incorrect number of parameters"), i+1);
-				blParseError = true;
-			}
-		}
-		else{
-			wxLogError(strToken + _(" not recognised on line %d"), i+1);
-			blParseError = true;
-		}
-	}
-	if(blParseError){
-		return false;
-	}
-
-	
-	//End of parsing for errors, now execute!
-
 	frmProgress *window = wxGetApp().ProgressWindow;
 	window->m_Text->Clear();
 	//Send all errors to the text control
@@ -62,6 +30,42 @@ bool ParseScript(wxArrayString arrScript){
 	//Show the window
 	window->Update();
 	window->Show();
+	
+	
+	//First check that the whole script is valid (basic number of parameters check)
+	wxString strLine, strTemp;
+	bool blParseError = false;
+	for(unsigned int i = 0; i < arrScript.Count(); i++){
+		strLine = arrScript.Item(i); 
+		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
+		wxString strToken = tkz.GetNextToken();
+		strToken.Trim();
+		if(strToken == _("Sync") || strToken == _("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == _("Backup")){
+			if(tkz.CountTokens() != 1){
+				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
+				OutputProgress(strTemp);
+				blParseError = true;
+			}
+		}
+		else if(strToken == _("Move") || strToken == _("Copy")){
+			if(tkz.CountTokens() != 3){
+				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
+				OutputProgress(strTemp);
+				blParseError = true;
+			}
+		}
+		else{
+			strTemp.Printf(strToken + _(" not recognised on line %d"), i+1);
+			OutputProgress(strTemp);
+			blParseError = true;
+		}
+	}
+	if(blParseError){
+		return false;
+	}
+
+	
+	//End of parsing for errors, now execute!
 
 	for(unsigned int i = 0; i < arrScript.Count(); i++){
 		strLine = arrScript.Item(i);
