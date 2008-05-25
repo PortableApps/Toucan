@@ -153,9 +153,7 @@ wxArrayString GetLanguages(){
 		do {
 			if(wxDirExists(strPath + strFilename))
 			{
-				wxMessageBox(strPath + strFilename);
 				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxMessageBox(_("File exists"));
 					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
 					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
 					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
@@ -164,9 +162,6 @@ wxArrayString GetLanguages(){
 		}
 		while (dir.GetNext(&strFilename) );
 	} 
-	for(unsigned int i = 0; i < arrLang.Count(); i++){
-		wxMessageBox(arrLang.Item(i));
-	}
 	return arrLang;
 	
 }

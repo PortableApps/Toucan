@@ -205,9 +205,6 @@ void frmMain::Init()
 //Create controls
 void frmMain::CreateControls()
 {
-	//Load the settings
-	wxGetApp().m_Settings->TransferFromFile();
-	
 	//Create a pointer so that we have something to add the items to	
 	frmMain* itemFrame1 = this;
 
@@ -748,6 +745,7 @@ void frmMain::CreateControls()
 	m_Settings_Language = new wxComboBox( itemPanel143, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN );
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
+	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
 	
 
 	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());

@@ -14,6 +14,7 @@
 #include "toucan.h"
 #include "frmmain.h"
 #include "backupprocess.h"
+#include "cmdline.h"
 
 class Settings;
 bool blIsGUI = true;
@@ -55,6 +56,7 @@ bool Toucan::OnInit()
 	if(blIsGUI){
 		wxBitmap bitmap;
 		MainWindow = new frmMain(NULL, ID_AUIFRAME);
+		
 		ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 		if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")))
 		{
@@ -66,29 +68,23 @@ bool Toucan::OnInit()
 			//Now destroy the splashscreen
 			scrn->Destroy(); 
 		}
+
 		MainWindow->Show();
 		MainWindow->Maximize();
 	}
 	else{
-		//We need to do the command line processing here
-		/*wxCmdLineParser cmdParser(cmdLineDesc, argc, argv);
-		int res;{
-			wxLogNull log;
-			res = cmdParser.Parse(false);
-		}*/
-		
-
+		//We need to do the command line processing here	
+		ParseCommandLine();
 	}
 	return true;
 }
 
 void Toucan::SetLanguage(wxString strLanguage){
 	//Set the language here
-	wxMessageBox(strLanguage);
 	int LangCode = m_Locale->FindLanguageInfo(strLanguage)->Language;
 	m_Locale = new wxLocale(LangCode);
 	m_Locale->AddCatalogLookupPathPrefix(GetSettingsPath() + wxFILE_SEP_PATH + wxT("lang"));
-	m_Locale->AddCatalog(wxT("toucan"));	
+	m_Locale->AddCatalog(wxT("toucan"));
 }
 
 /*!
