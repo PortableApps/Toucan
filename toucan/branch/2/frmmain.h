@@ -125,7 +125,7 @@ class Settings;
 //Script
 #define ID_PANEL4 10064
 #define ID_PANEL6 10066
-#define ID_SCRIPT_COMBO 10033
+#define ID_SCRIPT_NAME 10033
 #define ID_SCRIPT_SAVE 10035
 #define ID_SCRIPT_ADD 10034
 #define ID_SCRIPT_REMOVE 10036
@@ -172,144 +172,158 @@ public:
 	void OnCloseWindow( wxCloseEvent& event );
 
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
-	void OnSyncJobSelectSelected( wxCommandEvent& event );
+	void OnSyncJobSelectSelected(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
-	void OnSyncOKClick( wxCommandEvent& event );
+	void OnSyncOKClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
-	void OnSyncPreviewClick( wxCommandEvent& event );
+	void OnSyncPreviewClick(wxCommandEvent& event);
 
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
-	void OnSyncJobSaveClick( wxCommandEvent& event );
+	void OnSyncJobSaveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
-	void OnSyncJobAddClick( wxCommandEvent& event );
+	void OnSyncJobAddClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
-	void OnSyncJobRemoveClick( wxCommandEvent& event );
+	void OnSyncJobRemoveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
-	void OnSyncSourceBtnClick( wxCommandEvent& event );
+	void OnSyncSourceBtnClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
-	void OnSyncDestBtnClick( wxCommandEvent& event );
+	void OnSyncDestBtnClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_OK
-	void OnBackupOKClick( wxCommandEvent& event );
+	void OnBackupOKClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_PREVIEW
-	void OnBackupPreviewClick( wxCommandEvent& event );
+	void OnBackupPreviewClick(wxCommandEvent& event);
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
-	void OnSecureOKClick( wxCommandEvent& event );
+	void OnSecureOKClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
-	void OnSecurePreviewClick( wxCommandEvent& event );
+	void OnSecurePreviewClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_RESTORE
-	void OnBackupRestoreClick( wxCommandEvent& event );
+	void OnBackupRestoreClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_LOCATION
-	void OnBackupLocationClick( wxCommandEvent& event );
+	void OnBackupLocationClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
-	void OnBackupAddClick( wxCommandEvent& event );
+	void OnBackupAddClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
-	void OnBackupJobAddClick( wxCommandEvent& event );
+	void OnBackupJobAddClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
-	void OnBackupJobRemoveClick( wxCommandEvent& event );
+	void OnBackupJobRemoveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_BACKUP_JOB_SELECT
-	void OnBackupJobSelectSelected( wxCommandEvent& event );
+	void OnBackupJobSelectSelected(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_RADIOBOX_SELECTED event handler for ID_BACKUP_FUNCTION
-	void OnBackupFunctionSelected( wxCommandEvent& event );
+	void OnBackupFunctionSelected(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_SAVE
-	void OnBackupJobSaveClick( wxCommandEvent& event );
+	void OnBackupJobSaveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
-	void OnBackupRemoveClick( wxCommandEvent& event );
+	void OnBackupRemoveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
-	void OnSecureJobSelectSelected( wxCommandEvent& event );
+	void OnSecureJobSelectSelected(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE
-	void OnSecureJobSaveClick( wxCommandEvent& event );
+	void OnSecureJobSaveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD
-	void OnSecureJobAddClick( wxCommandEvent& event );
+	void OnSecureJobAddClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE
-	void OnSecureJobRemoveClick( wxCommandEvent& event );
+	void OnSecureJobRemoveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
-	void OnSecureAddClick( wxCommandEvent& event );
+	void OnSecureAddClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
-	void OnSecureRemoveClick( wxCommandEvent& event );
+	void OnSecureRemoveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_RULES_COMBO
-	void OnRulesComboSelected( wxCommandEvent& event );
+	void OnRulesComboSelected(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_SAVE
-	void OnRulesSaveClick( wxCommandEvent& event );
+	void OnRulesSaveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD
-	void OnRulesAddClick( wxCommandEvent& event );
+	void OnRulesAddClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE
-	void OnRulesRemoveClick( wxCommandEvent& event );
+	void OnRulesRemoveClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
-	void OnRulesAddFileexcludeClick( wxCommandEvent& event );
+	void OnRulesAddFileexcludeClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEEXCLUDE
-	void OnRulesRemoveFileexcludeClick( wxCommandEvent& event );
+	void OnRulesRemoveFileexcludeClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FOLDEREXCLUDE
-	void OnRulesAddFolderexcludeClick( wxCommandEvent& event );
+	void OnRulesAddFolderexcludeClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FOLDEREXCLUDE
-	void OnRulesRemoveFolderexcludeClick( wxCommandEvent& event );
+	void OnRulesRemoveFolderexcludeClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_LOCATIONINCLUDE
-	void OnRulesAddLocationincludeClick( wxCommandEvent& event );
+	void OnRulesAddLocationincludeClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_LOCATIONINCLUDE
-	void OnRulesRemoveLocationincludeClick( wxCommandEvent& event );
+	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEDELETE
-	void OnRulesAddFiledeleteClick( wxCommandEvent& event );
+	void OnRulesAddFiledeleteClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEDELETE
-	void OnRulesRemoveFiledeleteClick( wxCommandEvent& event );
+	void OnRulesRemoveFiledeleteClick(wxCommandEvent& event);
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_EXECUTE
-	void OnScriptExecute( wxCommandEvent& event );	
+	void OnScriptExecute(wxCommandEvent& event);	
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADD
-	void OnPvarAddClick( wxCommandEvent& event );
+	void OnPvarAddClick(wxCommandEvent& event);
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_REMOVE
-	void OnPvarRemoveClick( wxCommandEvent& event );
+	void OnPvarRemoveClick(wxCommandEvent& event);
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADDITEM
-	void OnPvarAddItemClick( wxCommandEvent& event );
+	void OnPvarAddItemClick(wxCommandEvent& event);
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_REMOVEITEM
-	void OnPvarRemoveItemClick( wxCommandEvent& event );
+	void OnPvarRemoveItemClick(wxCommandEvent& event);
 	
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PVAR_NAME
-	void OnPvarNameSelected( wxCommandEvent& event );
+	void OnPvarNameSelected(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SCRIPT_NAME
+	void OnScriptSelected(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_SAVE
+	void OnScriptSaveClick(wxCommandEvent& event);
+
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_ADD
+	void OnScriptAddClick(wxCommandEvent& event);
+
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_REMOVE
+	void OnScriptRemoveClick(wxCommandEvent& event);
 	
 	/// wxEVT_LIST_ITEM_ACTIVATED event handler for ID_PVAR_LIST	
-	void OnPvarListActivated( wxListEvent& event );
+	void OnPvarListActivated(wxListEvent& event);
 	
+	
+
 	
 
 	//Functions
@@ -371,6 +385,7 @@ public:
     wxListCtrl* m_Pvar_List;
 	wxRichTextCtrl* m_Script_Rich;
 	wxComboBox* m_Settings_Language;
+	wxComboBox* m_Script_Name;
 	
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;

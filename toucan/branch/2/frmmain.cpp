@@ -124,6 +124,14 @@ BEGIN_EVENT_TABLE( frmMain, wxFrame )
 	
 	EVT_COMBOBOX(ID_PVAR_NAME, frmMain::OnPvarNameSelected )
 	
+	EVT_BUTTON( ID_SCRIPT_SAVE, frmMain::OnScriptSaveClick )
+
+	EVT_BUTTON( ID_SCRIPT_ADD, frmMain::OnScriptAddClick )
+
+	EVT_BUTTON( ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick )
+	
+	EVT_COMBOBOX(ID_SCRIPT_NAME, frmMain::OnScriptSelected )
+	
 	EVT_LIST_ITEM_ACTIVATED(ID_PVAR_LIST, frmMain::OnPvarListActivated )
 
 END_EVENT_TABLE()
@@ -702,8 +710,8 @@ void frmMain::CreateControls()
 
 
 	wxArrayString itemComboBox134Strings;
-	wxComboBox* itemComboBox134 = new wxComboBox( itemPanel131, ID_SCRIPT_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN );
-	ScriptStaticBoxSizer->Add(itemComboBox134, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxComboBox* m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN );
+	ScriptStaticBoxSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	ScriptStaticBoxSizer->Add(itemBitmapButton135, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -1738,7 +1746,7 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
 ///////////////////////////////////////////////////////////
 
 
-void frmMain::OnPvarAddClick( wxCommandEvent& event )
+void frmMain::OnPvarAddClick(wxCommandEvent& event)
 {	
     wxTextEntryDialog dialog(this, _("Please enter the name for the new portable variable"), _("New Portable Variable") ,wxEmptyString, wxOK|wxCANCEL);
 	if(dialog.ShowModal() == wxID_OK){
@@ -1764,7 +1772,7 @@ void frmMain::OnPvarAddClick( wxCommandEvent& event )
     }
 }
 
-void frmMain::OnPvarRemoveClick( wxCommandEvent& event )
+void frmMain::OnPvarRemoveClick(wxCommandEvent& event)
 {	
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
 	config->DeleteGroup(m_Pvar_Name->GetValue());
@@ -1777,7 +1785,7 @@ void frmMain::OnPvarRemoveClick( wxCommandEvent& event )
 	m_Pvar_List->InsertColumn(1, column);
 }
 
-void frmMain::OnPvarNameSelected( wxCommandEvent& event )
+void frmMain::OnPvarNameSelected(wxCommandEvent& event)
 {	
 	m_Pvar_List->DeleteAllItems();
 	
@@ -1806,7 +1814,7 @@ void frmMain::OnPvarNameSelected( wxCommandEvent& event )
     delete config;
 }
 
-void frmMain::OnPvarAddItemClick( wxCommandEvent& event )
+void frmMain::OnPvarAddItemClick(wxCommandEvent& event)
 {	
 	int j = m_Pvar_List->GetItemCount();
 	m_Pvar_List->InsertItem(j, wxT("Test"));
@@ -1829,7 +1837,7 @@ void frmMain::OnPvarAddItemClick( wxCommandEvent& event )
 	delete config;
 }
 
-void frmMain::OnPvarRemoveItemClick( wxCommandEvent& event )
+void frmMain::OnPvarRemoveItemClick(wxCommandEvent& event)
 {	
 	wxString selected;
 	long item = -1;
@@ -1875,11 +1883,52 @@ void frmMain::OnPvarListActivated(wxListEvent& event)
 	}
 }
 
-void frmMain::OnScriptExecute( wxCommandEvent& event )
+void frmMain::OnScriptExecute(wxCommandEvent& event)
 {	
 	wxArrayString arrLines;
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrLines.Add(m_Script_Rich->GetLineText(i));
 	}
 	ParseScript(arrLines);
+}
+
+void frmMain::OnScriptSelected(wxCommandEvent& event)
+{	
+	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
+	wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
+	for(unsigned int i = 0; i < arrContents.Count(); i++){
+		m_Script_Rich->AppendText(arrContents.Item(i));
+	}
+	delete config;	
+}
+
+void frmMain::OnScriptSaveClick(wxCommandEvent& event)
+{	
+	wxArrayString arrContents;
+	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
+		arrContents.Add(m_Script_Rich->GetLineText(i));
+	}
+	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+	config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("#")));
+	config->Flush();
+	delete config;
+	
+}
+
+void frmMain::OnScriptRemoveClick(wxCommandEvent& event)
+{	
+	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+	config->DeleteGroup(m_Script_Name->GetStringSelection());
+	m_Script_Name->Delete(m_Script_Name->GetSelection());
+}
+
+void frmMain::OnScriptAddClick(wxCommandEvent& event)
+{	
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Script name"));
+	if (dialog->ShowModal() == wxID_OK) {
+		m_Script_Name->Append(dialog->GetValue());
+		m_Script_Name->SetStringSelection(dialog->GetValue());
+	}
+	delete dialog;
 }
