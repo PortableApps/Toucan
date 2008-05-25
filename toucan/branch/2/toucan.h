@@ -38,7 +38,7 @@ class Toucan: public wxApp
 	/// Called on exit
 	virtual int OnExit();
 
-	void SetLanguage(int langcode);
+	void SetLanguage(wxString langcode);
 				
 	bool ShouldAbort() { return blAbort; }
 	void SetAbort(bool abort) { blAbort = abort; }

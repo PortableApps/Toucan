@@ -746,6 +746,7 @@ void frmMain::CreateControls()
 	itemBoxSizer1000->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Settings_LanguageStrings = GetLanguages();
 	m_Settings_Language = new wxComboBox( itemPanel143, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN );
+	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
 	
 
@@ -1659,7 +1660,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 {
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
-	wxGetApp().m_Settings->SetLanguageCode((wxLanguage)LanguageToLanguageCode(m_Settings_Language->GetStringSelection()));
+//	wxGetApp().m_Settings->SetLanguageCode((wxLanguage)LanguageToLanguageCode(m_Settings_Language->GetStringSelection()));
 	wxGetApp().m_Settings->TransferToFile();
 	delete m_BackupLocations;
 	delete m_SecureLocations;

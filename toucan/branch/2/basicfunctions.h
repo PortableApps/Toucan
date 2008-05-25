@@ -152,40 +152,20 @@ wxArrayString GetLanguages(){
 		do {
 			if(wxDirExists(strPath + strFilename))
 			{
-				if(wxFileExists(strPath + strFilename + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxT("lang.ini"));
-					arrLang.Add(config->Read(wxT("General/DisplayName")));
+				wxMessageBox(strPath + strFilename);
+				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
+					wxMessageBox(_("File exists"));
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+					arrLang.Add(config->Read(wxT("General/LanguageCode")));
 				}
 			}
 		}
 		while (dir.GetNext(&strFilename) );
-	} 	
+	} 
+	for(unsigned int i = 0; i < arrLang.Count(); i++){
+		wxMessageBox(arrLang.Item(i));
+	}
 	return arrLang;
 	
-}
-
-int LanguageToLanguageCode(wxString strLanguage){
-	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
-	wxDir dir(strPath);
-	wxString strFilename;
-	bool blDir = dir.GetFirst(&strFilename);
-	if(blDir){
-		do {
-			if(wxDirExists(strPath + strFilename))
-			{
-				if(wxFileExists(strPath + strFilename + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxT("lang.ini"));
-					if(config->Read(wxT("General/DisplayName")) == strLanguage){
-						int temp;
-						config->Read(wxT("General/Language"), &temp, wxLanguage(wxLANGUAGE_ENGLISH));
-						return temp;
-						
-					}
-				}
-			}
-		}
-		while (dir.GetNext(&strFilename) );
-	} 	
-	return wxLanguage(wxLANGUAGE_ENGLISH);
 }
 #endif
