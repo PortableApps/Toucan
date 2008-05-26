@@ -188,17 +188,18 @@ wxString BackupData::CreateCommand(int i){
 	else if (GetRatio() == _("Maximum")){
 		SetRatio(wxT(" -mx9"));
 	}
-	/*//Checking to see if there is a password used
+	//Checking to see if there is a password used
 	if(GetPass() != wxEmptyString){
 		SetPass(wxT(" -p") + GetPass());
 		//If 7zip is used then make sure headers are encrypted
 		if(GetFormat() == wxT("7z")){
 			SetPass(GetPass() + wxT(" -mhe=on"));
 		}
-	}*/
+	}
    
 	if(GetFunction() == _("Complete")){
 		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
+	
 	}
 	else if(GetFunction() == _("Update")){
 		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\""); 

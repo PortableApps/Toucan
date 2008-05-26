@@ -29,16 +29,25 @@ bool ParseCommandLine(){
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 	
 	if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
-		
+		wxArrayString arrScript;
+		arrScript.Add(wxT("Sync ") + cmdParser.GetParam(1) + wxT("\""));
+		ParseScript(arrScript);
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
-
+		wxArrayString arrScript;
+		arrScript.Add(wxT("Backup \"") + cmdParser.GetParam(1) + wxT("\""));
+		ParseScript(arrScript);
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
-	
+		wxArrayString arrScript;
+		arrScript.Add(wxT("Secure ") + cmdParser.GetParam(1) + wxT("\""));
+		ParseScript(arrScript);	
 	}
 	else if(cmdParser.GetParam(0) == _("Script")){
-		
+		wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+		wxString strFile = config->Read(cmdParser.GetParam(1) + wxT("/") + wxT("Script"));
+		wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
+		ParseScript(arrContents);
 	}
 	else{
 		cout<<_("Sorry the command is not recognised");

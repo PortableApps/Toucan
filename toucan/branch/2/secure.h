@@ -110,7 +110,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 
 		//Create the command
 		wxString command = wxT("ccrypt -e -K\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\"");
-		
+
 		//Execute the process 
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		
