@@ -41,8 +41,10 @@ public:
 
 	void SetPass(wxString pass) { strPass = pass; }
 	wxString GetPass() { return strPass; }
-
-
+	
+	//Is a password needed?
+	bool IsPassword;
+	
 private:
 	//Contains the filepath to the backup file
 	wxString strBackupLocation;

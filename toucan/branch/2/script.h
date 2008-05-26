@@ -28,9 +28,11 @@ bool ParseScript(wxArrayString arrScript){
 	wxDateTime now = wxDateTime::Now();
 	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	//Show the window
+	window->Refresh();
 	window->Update();
 	window->Show();
-	
+	//To ensure buttons show properly
+	wxMilliSleep(50);
 	
 	//First check that the whole script is valid (basic number of parameters check)
 	wxString strLine, strTemp;
@@ -63,7 +65,6 @@ bool ParseScript(wxArrayString arrScript){
 	if(blParseError){
 		return false;
 	}
-
 	
 	//End of parsing for errors, now execute!
 
@@ -100,10 +101,17 @@ bool ParseScript(wxArrayString arrScript){
 			delete thread;
 		}
 		else if(strToken == _("Backup")){
-			window->Show(false);
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
+
 			if(data.TransferFromFile(strJob)){
+				//Get the password if one is needed
+				if(data.IsPassword == true){
+					wxString strPass = InputPassword();
+					if(strPass != wxEmptyString){
+						data.SetPass(strPass);						
+					}
+				}
 				Rules rules;
 				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 				if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
@@ -146,6 +154,10 @@ bool ParseScript(wxArrayString arrScript){
 		}
 		else if(strToken == _("Secure")){
 			SecureData data;
+			wxString strPass = InputPassword();
+			if(strPass != wxEmptyString){
+				data.SetPass(strPass);						
+			}
 			//Ensure the data is filled
 			wxString strJob = tkz.GetNextToken();
 			if(!data.TransferFromFile(strJob)){
@@ -162,6 +174,7 @@ bool ParseScript(wxArrayString arrScript){
 			if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
 				rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
 			}
+			delete config;
 			//Call the secure function
 			Secure(data, rules, window);
 		}

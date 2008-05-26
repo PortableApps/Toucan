@@ -78,8 +78,6 @@ void SecureData::TransferToForm(frmMain *window){
 	//Set up the rest of the window
 	window->m_Secure_Function->SetStringSelection(GetFunction());
 	window->m_Secure_Format->SetStringSelection(GetFormat());
-	window->m_Secure_Pass->SetValue(GetPass());
-	window->m_Secure_Repass->SetValue(GetPass());
 	return;
 }
 
@@ -100,25 +98,10 @@ bool SecureData::TransferFromForm(frmMain *window, bool blShowError){
 	//Get the format, ensuring something is selected
 	if(window->m_Secure_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Secure_Format->GetStringSelection()) ; }
 	else{ blNotFilled = true; }
-	
-	//Get the two passowrd, but do not add them to the data
-	if(window->m_Secure_Pass->GetValue() != wxEmptyString){strPass = window->m_Secure_Pass->GetValue(); }
-	else{ blNotFilled = true; }
-	if(window->m_Secure_Repass->GetValue() != wxEmptyString){strRepass = window->m_Secure_Repass->GetValue(); }
-	else{ blNotFilled = true; }
 
 	//Output an error message if needed
 	if(blNotFilled && blShowError){
 		ErrorBox(_("Not all of the required fields are filled"));
-		return false;
-	}
-
-	//If the two passwords are the same then add them to the data
-	if(strPass == strRepass){
-		SetPass(strPass);
-	}
-	else{
-		ErrorBox(_("The passwords to not match, please try again."));
 		return false;
 	}
 	return true;	

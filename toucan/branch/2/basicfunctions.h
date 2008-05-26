@@ -15,6 +15,8 @@
 #include <wx/txtstrm.h>
 #include <wx/dir.h>
 #include <wx/intl.h>
+#include <wx/cmdline.h>
+#include <wx/fileconf.h>
 #include "frmprogress.h"
 #include "toucan.h"
 
@@ -165,4 +167,68 @@ wxArrayString GetLanguages(){
 	return arrLang;
 	
 }
+
+wxString InputPassword(){
+	wxString strNewPass;
+	if(wxGetApp().ProgressWindow->IsShown()){
+		wxPasswordEntryDialog dialog(NULL, _("Please enter your password"));
+		if (dialog.ShowModal() == wxID_OK) {
+			strNewPass = dialog.GetValue();
+			wxPasswordEntryDialog dialog2(NULL, _("Please enter your password"));
+			if(dialog2.ShowModal() == wxID_OK){
+				if(strNewPass == dialog2.GetValue()){
+					return strNewPass;
+				}
+				else{
+					ErrorBox(_("Sorry the passwords do not match"));
+					return wxEmptyString;
+				}
+			}
+		}
+	}
+	else{
+		wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
+		int res;
+		{
+			wxLogNull log;
+			res = cmdParser.Parse(false);
+		}
+		wxFileConfig config(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+		if(cmdParser.GetParam(0) == _("Script")){
+			if(cmdParser.GetParamCount() == 4 && cmdParser.GetParam(2) == cmdParser.GetParam(3)){
+				return cmdParser.GetParam(2);
+			}
+			else{
+				cout<<_("You need to repeat the password and ensure the two passowrds are identical");
+				return wxEmptyString;
+			}
+		}
+		else if(config.Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
+			if(cmdParser.GetParamCount() == 3 && cmdParser.GetParam(1) == cmdParser.GetParam(2)){
+				return cmdParser.GetParam(2);
+			}
+			else{
+				cout<<_("You need to repeat the password and ensure the two passowrds are identical");
+				return wxEmptyString;
+			}
+		}
+		else if(config.Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
+			if(cmdParser.GetParamCount() == 3){
+				if(cmdParser.GetParam(1) == cmdParser.GetParam(2)){
+					return cmdParser.GetParam(1);
+				}
+				else{
+					cout<<_("You need to repeat the password and ensure the two passowrds are identical");
+					return wxEmptyString;
+				}
+			}
+			else{
+				return wxT("Password not needed");
+			}
+		}
+	}	
+	
+	return wxEmptyString;
+}
+	
 #endif

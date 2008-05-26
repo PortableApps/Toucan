@@ -389,17 +389,12 @@ void frmMain::CreateControls()
 	m_Backup_Ratio->SetSelection(1);
 	BackupRow1->Add(m_Backup_Ratio, 0, wxALIGN_TOP|wxALL, 5);
 
-	wxStaticBox* itemStaticBoxSizer65Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Password (If Required)"));
+	wxStaticBox* itemStaticBoxSizer65Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Other"));
 	wxStaticBoxSizer* itemStaticBoxSizer65 = new wxStaticBoxSizer(itemStaticBoxSizer65Static, wxVERTICAL);
 	BackupRow1->Add(itemStaticBoxSizer65, 0, wxALIGN_TOP|wxALL, 5);
-	m_Backup_Pass = new wxTextCtrl( itemPanel35, ID_BACKUP_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	m_Backup_Pass->SetMinSize(wxSize(125, -1));	
-	itemStaticBoxSizer65->Add(m_Backup_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-
-	m_Backup_Repass = new wxTextCtrl( itemPanel35, ID_BACKUP_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	m_Backup_Repass->SetMinSize(wxSize(125, -1));	
-	itemStaticBoxSizer65->Add(m_Backup_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	m_Backup_IsPass = new wxCheckBox(itemPanel35, ID_BACKUP_ISPASS, _("Password?"));
+	itemStaticBoxSizer65->Add(m_Backup_IsPass, 0, wxALIGN_TOP|wxALL, 5);
 
 	//Buttons
 	wxBoxSizer* itemBoxSizer005 = new wxBoxSizer(wxVERTICAL);
@@ -527,7 +522,7 @@ void frmMain::CreateControls()
 	m_Secure_Format->SetSelection(0);
 	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);
 
-	wxStaticBox* itemStaticBoxSizer90Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Password (Repeated)"));
+	/*wxStaticBox* itemStaticBoxSizer90Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Password (Repeated)"));
 	wxStaticBoxSizer* itemStaticBoxSizer90 = new wxStaticBoxSizer(itemStaticBoxSizer90Static, wxVERTICAL);
 	itemBoxSizer87->Add(itemStaticBoxSizer90, 0, wxALIGN_TOP|wxALL, 5);
 	m_Secure_Pass = new wxTextCtrl( itemPanel68, ID_SECURE_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
@@ -536,7 +531,7 @@ void frmMain::CreateControls()
 
 	m_Secure_Repass = new wxTextCtrl( itemPanel68, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	itemStaticBoxSizer90->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-	m_Secure_Repass->SetMinSize(wxSize(125, -1));
+	m_Secure_Repass->SetMinSize(wxSize(125, -1));*/
 	
 	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
@@ -1464,53 +1459,18 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 
 void frmMain::OnSyncOKClick(wxCommandEvent& event)
 {
-	//Create a new progress form and show it
-	frmProgress *window = wxGetApp().ProgressWindow;
-	window->m_Text->Clear();
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
-    delete wxLog::SetActiveTarget(logTxt);
-	//Set up the buttons on the progress box
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	window->m_Cancel->Enable(true);
-	
-	window->m_Text->AppendText(_("Starting...\n"));
-	wxDateTime now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	//Show the window
-	window->Update();
-	window->Show();
-	//Sync
-	//Create the data sets and fill them		
 	SyncData data;
-	//Ensure that the data is filled
-	if(!data.TransferFromForm(this)){
-		window->m_OK->Enable(true);
-		window->m_Save->Enable(true);
-		window->m_Cancel->Enable(false);
-		now = wxDateTime::Now();
-		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-		window->m_Text->AppendText(_("Finished"));
-		return;
-			
+	if (data.TransferFromForm(this)) {
+		data.TransferToFile(wxT("LastSyncJob"));
 	}
-	Rules rules;
-	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-	}
-	//Create a new Sync thread and run it (needs to use Wait())
-	SyncThread *thread = new SyncThread(data, rules, window, this);
-	thread->Create();
-	thread->Run();
-	thread->Wait();
-	delete thread;
-	window->m_OK->Enable(true);
-	window->m_Save->Enable(true);
-	window->m_Cancel->Enable(false);
-	now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	window->m_Text->AppendText(_("Finished"));
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
+	config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
+	config->Write(wxT("LastSyncJob/Type"),  _("Sync"));
+	config->Flush();
+	delete config;
+	wxArrayString arrScript;
+	arrScript.Add(wxT("Sync \"LastSyncJob\""));
+	ParseScript(arrScript);
 }
 
 /*!
@@ -1557,74 +1517,18 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 
 void frmMain::OnBackupOKClick(wxCommandEvent& event)
 {
-	//Create a new progress form and show it
-	frmProgress *window = wxGetApp().ProgressWindow;
-	window->m_Text->Clear();
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
-    delete wxLog::SetActiveTarget(logTxt);
-	//Set up the buttons on the progress box
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	window->m_Cancel->Enable(true);
-	
-	window->m_Text->AppendText(_("Starting...\n"));
-	wxDateTime now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	//Show the window
-	window->Update();
-	//Create the data sets and fill them
 	BackupData data;
-	if(data.TransferFromForm(this, true)){
-		Rules rules;
-		if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
-		}
-		wxString strCommand;
-		
-		for(unsigned int i = 0; i < m_BackupLocations->Count(); i++){
-		//Open the text file for the file paths and clear it
-			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-			file->Open();
-			file->Clear();
-			file->Write();
-			//Create the command to execute
-			strCommand = data.CreateCommand(i);
-			wxString strPath = data.GetLocations().Item(i);
-			if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-				strPath += wxFILE_SEP_PATH;       
-			}
-			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-			//Create the list of files to backup
-			CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
-			//Commit the file changes
-			file->Write();
-			window->Show();
-			window->Refresh();
-			window->Update();
-			//Cretae the process, execute it and register it
-			PipedProcess *process = new PipedProcess(window);
-			long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-			process->SetRealPid(lgPID);
-			//wxMilliSleep(1000);
-			WaitThread *thread = new WaitThread(lgPID, process);
-			thread->Create();
-			thread->Run();
-			thread->Wait();
-			while(process->HasInput())
-				;
-			
-			//delete process;
-		}
+	if (data.TransferFromForm(this, true)) {
+		data.TransferToFile(wxT("LastBackupJob"));
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+		config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
+		config->Write(wxT("LastBackupJob/Type"),  _("Backup"));
+		config->Flush();
+		delete config;
+		wxArrayString arrScript;
+		arrScript.Add(wxT("Backup \"LastBackupJob\""));
+		ParseScript(arrScript);
 	}
-	window->m_OK->Enable(true);
-	window->m_Save->Enable(true);
-	window->m_Cancel->Enable(false);
-	now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	window->m_Text->AppendText(_("Finished"));
-	//wxGetApp().SetAbort(false);
 }
 
 /*!
@@ -1680,40 +1584,18 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 
 void frmMain::OnSecureOKClick(wxCommandEvent& event)
 {
-	//Create a new progress form and show it
-	frmProgress *window = wxGetApp().ProgressWindow;
-	window->m_Text->Clear();
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
-    delete wxLog::SetActiveTarget(logTxt);
-	//Set up the buttons on the progress box
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	window->m_Cancel->Enable(true);
-	
-	window->m_Text->AppendText(_("Starting...\n"));
-	wxDateTime now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	//Show the window
-	window->Update();
-	window->Show();
-	//Create the data sets and fill them		
 	SecureData data;
-	//Ensure the data is filled
-	if(data.TransferFromForm(this, true)){
-		Rules rules;
-		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-		}
-		//Call the secure function
-		Secure(data, rules, window);
+	if (data.TransferFromForm(this, true)) {
+		data.TransferToFile(wxT("LastSecureJob"));
+		//Create a new fileconfig and write the extra fields to it
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+		config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
+		config->Write(wxT("LastSecureJob/Type"),  _("Secure"));
+		delete config;
+		wxArrayString arrScript;
+		arrScript.Add(wxT("Secure \"LastSecureJob\""));
+		ParseScript(arrScript);	
 	}
-	window->m_OK->Enable(true);
-	window->m_Save->Enable(true);
-	window->m_Cancel->Enable(false);
-	now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	window->m_Text->AppendText(_("Finished"));
 }
 
 /*!

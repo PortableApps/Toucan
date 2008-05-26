@@ -44,6 +44,10 @@ bool BackupData::TransferFromFile(wxString strName){
 		SetRatio(strTemp);
 		blError = false;
 	}
+	
+	if(config->Read(strName + wxT("/IsPass"), &IsPassword)){
+		blError = false;
+	}
 
 	//Delete the fileconfig object
 	delete config;
@@ -81,6 +85,9 @@ bool BackupData::TransferToFile(wxString strName){
 	if(!config->Write(strName + wxT("/Ratio"), GetRatio())){
 		blError = false;
 	}
+	if(!config->Write(strName + wxT("/IsPass"), IsPassword)){
+		blError = false;
+	}
 	
 	//Write the files and delete the fileconfig object
 	config->Flush();
@@ -113,8 +120,7 @@ void BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetStringSelection(GetRatio());
-	window->m_Backup_Pass->SetValue(GetPass());
-	window->m_Backup_Repass->SetValue(GetPass());
+	window->m_Backup_IsPass->SetValue(IsPassword);
 	return;
 }
 
@@ -137,22 +143,11 @@ bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
 	else{ blNotFilled = true; }
 	if(window->m_Backup_Ratio->GetStringSelection() != wxEmptyString){ SetRatio(window->m_Backup_Ratio->GetStringSelection()); }
 	else{ blNotFilled = true; }
-	//Do not worry if a password is not added as it is not complusory
-	if(window->m_Backup_Pass->GetValue() != wxEmptyString){ strPass = window->m_Backup_Pass->GetValue(); }
-	if(window->m_Backup_Repass->GetValue() != wxEmptyString){ strRepass = window->m_Backup_Repass->GetValue(); }
+	IsPassword = window->m_Backup_IsPass->GetValue();
 	//Output an error message if the fields are not filled
 	if(blNotFilled && blShowErrors){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
-	}
-	//Make sure that the two passwords are the same
-	if(strPass == strRepass){
-		SetPass(strPass);
-	}
-	else{
-		if(blShowErrors){
-			ErrorBox(_("The passwords to not match, please try again."));
-		}
 	}
 	return true;	
 }
@@ -166,7 +161,6 @@ void BackupData::Output(){
 	MessageBox(GetFunction(), wxT("Function"));
 	MessageBox(GetFormat(), wxT("Format"));
 	MessageBox(GetRatio(), wxT("Ratio"));
-	MessageBox(GetPass(), wxT("Pass"));
 }
 
 wxString BackupData::CreateCommand(int i){
@@ -194,14 +188,14 @@ wxString BackupData::CreateCommand(int i){
 	else if (GetRatio() == _("Maximum")){
 		SetRatio(wxT(" -mx9"));
 	}
-	//Checking to see if there is a password used
+	/*//Checking to see if there is a password used
 	if(GetPass() != wxEmptyString){
 		SetPass(wxT(" -p") + GetPass());
 		//If 7zip is used then make sure headers are encrypted
 		if(GetFormat() == wxT("7z")){
 			SetPass(GetPass() + wxT(" -mhe=on"));
 		}
-	}
+	}*/
    
 	if(GetFunction() == _("Complete")){
 		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");

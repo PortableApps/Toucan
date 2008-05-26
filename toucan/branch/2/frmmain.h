@@ -71,8 +71,7 @@ class Settings;
 #define ID_BACKUP_FUNCTION 10014
 #define ID_BACKUP_FORMAT 10015
 #define ID_BACKUP_RATIO 10016
-#define ID_BACKUP_PASS 10017
-#define ID_BACKUP_REPASS 10018
+#define ID_BACKUP_ISPASS 10017
 
 //Secure
 #define ID_PANEL_SECURE 10023
@@ -93,7 +92,6 @@ class Settings;
 #define ID_SECURE_FORMAT 10040
 #define ID_SECURE_PASS 10041
 #define ID_SECURE_REPASS 10042
-
 //Rules
 #define ID_RULES 10050
 #define ID_RULES_COMBO 10061
@@ -386,6 +384,7 @@ public:
 	wxRichTextCtrl* m_Script_Rich;
 	wxComboBox* m_Settings_Language;
 	wxComboBox* m_Script_Name;
+	wxCheckBox* m_Backup_IsPass;
 	
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
