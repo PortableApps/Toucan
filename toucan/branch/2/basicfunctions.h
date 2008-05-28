@@ -59,7 +59,7 @@ void ErrorBox(wxString strMessage){
 
 //Basic function to write output to progress form, used to keep code clean
 void OutputProgress(wxString strValue){
-	if(wxGetApp().ProgressWindow->IsShown()){
+	if(wxGetApp().ProgressWindow != NULL){
 		wxGetApp().ProgressWindow->m_Text->AppendText(strValue + wxT("\n"));
 	}
 	else{
@@ -145,6 +145,29 @@ bool SetVariablesBox(wxComboBox *box){
 	return true;
 }
 
+
+
+//Adds a list of rules to a combobox
+bool SetScriptsBox(wxComboBox *box){
+	//Clear the existin items incase any are out of date
+	box->Clear();
+	//Create a fileconfig item
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+	bool blCont;
+	wxString strValue;
+	long dummy;
+	//Iterate through the groups adding them to the box
+	blCont = config->GetFirstGroup(strValue, dummy);
+	while (blCont){
+		box->Append(strValue);
+		blCont = config->GetNextGroup(strValue, dummy);
+	}
+	//Delete the fileconfig object
+	delete config;
+	return true;
+}
+
+
 wxArrayString GetLanguages(){
 	wxArrayString arrLang;
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
@@ -170,7 +193,7 @@ wxArrayString GetLanguages(){
 
 wxString InputPassword(){
 	wxString strNewPass;
-	if(wxGetApp().ProgressWindow->IsShown()){
+	if(wxGetApp().ProgressWindow != NULL){
 		wxPasswordEntryDialog dialog(NULL, _("Please enter your password"));
 		if (dialog.ShowModal() == wxID_OK) {
 			strNewPass = dialog.GetValue();

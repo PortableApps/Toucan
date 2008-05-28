@@ -11,13 +11,11 @@
 #include <wx/txtstrm.h>
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
-
-wxFFileOutputStream output(stderr);
-wxTextOutputStream cout(output);
+#include "script.h"
 
 bool ParseCommandLine(){
 	
-	cout << _("Welcome to the Toucan command line system.\n");
+	OutputProgress(_("Welcome to the Toucan command line system.\n"));
 	
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 	int res;
@@ -50,7 +48,7 @@ bool ParseCommandLine(){
 		ParseScript(arrContents);
 	}
 	else{
-		cout<<_("Sorry the command is not recognised");
+		OutputProgress(_("Sorry the command is not recognised"));
 	}
 	
 	delete config;

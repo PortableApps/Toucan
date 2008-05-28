@@ -39,10 +39,6 @@ private:
 };
 
 void *SyncThread::Entry(){
-	wxMutexGuiEnter();
-	m_Window->m_OK->Enable(false);
-	m_Window->m_Save->Enable(false);
-	wxMutexGuiLeave();
 	//Launch the correct set of loops
 	if(m_Data.GetFunction() == _("Copy") || m_Data.GetFunction() == _("Update")){
 		SyncLoop(m_Data, m_Rules, m_Window);
@@ -58,7 +54,7 @@ void *SyncThread::Entry(){
 		m_Data.SetFunction(_("Mirror (Copy)"));
 		SyncLoop(m_Data, m_Rules, m_Window);
 	}
-	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
+	else if(m_Data.GetFunction() ==  _("Mirror (Update)")){
 		m_Data.SetFunction(_("Update"));
 		SyncLoop(m_Data, m_Rules, m_Window);
 		//Swap the source and dest around for the mirror routine
@@ -87,8 +83,6 @@ void *SyncThread::Entry(){
 	
 	m_Main->m_Sync_Source_Tree->AddNewPath(m_Main->m_Sync_Source_Txt->GetValue());
 	m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());	
-	//AddDirToTree(m_Main->m_Sync_Source_Txt->GetValue(), m_Main->m_Sync_Source_Tree);
-	//AddDirToTree(m_Main->m_Sync_Dest_Txt->GetValue(), m_Main->m_Sync_Dest_Tree);
 	wxMutexGuiLeave();
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
@@ -113,8 +107,8 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 		strFrom += wxFILE_SEP_PATH;       
 	}
 	if (!wxDirExists(strTo)){
-            	if(!rules.ShouldExclude(strTo, true)){
-            		wxMkdir(strTo);
+		if(!rules.ShouldExclude(strTo, true)){
+            wxMkdir(strTo);
 		}
 		else{
 			return false;
@@ -143,10 +137,10 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 							DirectoryRemove(strFrom + strFilename, window);
 						}
 						else{
-						wxMkdir(strTo + strFilename);
-						data.SetSource(strFrom + strFilename);
-						data.SetDest(strTo + strFilename);
-						SyncLoop(data, rules, window);
+							wxMkdir(strTo + strFilename);
+							data.SetSource(strFrom + strFilename);
+							data.SetDest(strTo + strFilename);
+							SyncLoop(data, rules, window);
 						}
 					}
 					if(data.GetTimeStamps()){
@@ -207,8 +201,6 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 			}
 		}
 		if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){	
-			//wxMessageBox(data.GetDest(), _("Dest"));
-			//wxMessageBox(data.GetSource(), _("Source"));
 			if(!wxFileExists(data.GetDest())){
 				wxRemoveFile(data.GetSource());
 				OutputProgress(_("Removed ") + data.GetSource());

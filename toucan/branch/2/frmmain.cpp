@@ -14,18 +14,7 @@
 #include "frmprogress.h"
 #include "frmrestore.h"
 
-#include "secure.h"
-#include "securedata.h"
-
-#include "syncdata.h"
-#include "sync.h"
-
-#include "backupdata.h"
-#include "backupprocess.h"
-#include "backupfunctions.h"
-
 #include "script.h"
-#include "waitthread.h"
 
 //Implement frmMain
 IMPLEMENT_CLASS( frmMain, wxFrame )
@@ -705,7 +694,7 @@ void frmMain::CreateControls()
 
 
 	wxArrayString itemComboBox134Strings;
-	wxComboBox* m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN );
+	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN );
 	ScriptStaticBoxSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -722,7 +711,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer138 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer132->Add(itemBoxSizer138, 1, wxGROW|wxALL, 5);
-	m_Script_Rich = new wxRichTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxWANTS_CHARS );
+	m_Script_Rich = new wxTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxTE_MULTILINE);
 	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, 5);
 
 	//Settings
@@ -820,6 +809,9 @@ void frmMain::CreateControls()
 	
 	//Set the portable variables box
 	SetVariablesBox(m_Pvar_Name);
+	
+	//Set the scripts box
+	SetScriptsBox(m_Script_Name);
 	
 	wxListItem column;
 	m_Pvar_List->InsertColumn(0, column);
@@ -1780,7 +1772,7 @@ void frmMain::OnScriptSelected(wxCommandEvent& event)
 	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
 	wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
 	for(unsigned int i = 0; i < arrContents.Count(); i++){
-		m_Script_Rich->AppendText(arrContents.Item(i));
+		m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\r\n"));
 	}
 	delete config;	
 }
@@ -1807,7 +1799,7 @@ void frmMain::OnScriptRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnScriptAddClick(wxCommandEvent& event)
 {	
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Script name"));
+	wxTextEntryDialog* dialog = new wxTextEntryDialog(this, _("Please enter the name for the new script"), _("New Script") ,wxEmptyString, wxOK|wxCANCEL);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Script_Name->Append(dialog->GetValue());
 		m_Script_Name->SetStringSelection(dialog->GetValue());

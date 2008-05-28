@@ -8,7 +8,16 @@
 #define H_SCRIPT
 
 #include <wx/arrstr.h>
+#include <wx/tokenzr.h>
+
 #include "waitthread.h"
+#include "syncdata.h"
+#include "sync.h"
+#include "backupdata.h"
+#include "backupprocess.h"
+#include "backupfunctions.h"
+#include "securedata.h"
+#include "secure.h"
 
 class SyncData;
 
@@ -136,7 +145,6 @@ bool ParseScript(wxArrayString arrScript){
 					CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
 					//Commit the file changes
 					file->Write();
-					window->Show();
 					window->Refresh();
 					window->Update();
 					//Cretae the process, execute it and register it

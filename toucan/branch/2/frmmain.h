@@ -381,7 +381,7 @@ public:
 	wxRadioBox* m_Settings_TabStyle;
     wxComboBox* m_Pvar_Name;
     wxListCtrl* m_Pvar_List;
-	wxRichTextCtrl* m_Script_Rich;
+	wxTextCtrl* m_Script_Rich;
 	wxComboBox* m_Settings_Language;
 	wxComboBox* m_Script_Name;
 	wxCheckBox* m_Backup_IsPass;

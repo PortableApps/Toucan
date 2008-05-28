@@ -7,6 +7,7 @@
 #ifndef H_WAIT
 #define H_WAIT
 
+#include "backupprocess.h"
 
 class WaitThread : public wxThread
 {
