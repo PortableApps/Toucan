@@ -194,10 +194,10 @@ wxArrayString GetLanguages(){
 wxString InputPassword(){
 	wxString strNewPass;
 	if(wxGetApp().ProgressWindow != NULL){
-		wxPasswordEntryDialog dialog(NULL, _("Please enter your password"));
+		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
 		if (dialog.ShowModal() == wxID_OK) {
 			strNewPass = dialog.GetValue();
-			wxPasswordEntryDialog dialog2(NULL, _("Please enter your password"));
+			wxPasswordEntryDialog dialog2(wxGetApp().ProgressWindow, _("Please enter your password"));
 			if(dialog2.ShowModal() == wxID_OK){
 				if(strNewPass == dialog2.GetValue()){
 					return strNewPass;

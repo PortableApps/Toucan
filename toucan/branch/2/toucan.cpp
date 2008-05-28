@@ -47,10 +47,12 @@ void Toucan::Init()
 
 bool Toucan::OnInit()
 {    
+	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
+	
 	m_Settings = new Settings();
 	m_Settings->TransferFromFile();
 	//Set the settings path
-	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
+	
 	SetLanguage(m_Settings->GetLanguageCode());
 	wxInitAllImageHandlers();
 	if(blIsGUI){

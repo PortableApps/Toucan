@@ -13,19 +13,19 @@
 #include "frmprogress.h"
 #include <wx/dir.h>
 
-bool SyncLoop(SyncData data, Rules rules, frmProgress *window);
-bool SyncFile(SyncData data, Rules rules, frmProgress *window);
-bool DirectoryRemove(wxString strPath, frmProgress *window);
+bool SyncLoop(SyncData data, Rules rules);
+bool SyncFile(SyncData data, Rules rules);
+bool DirectoryRemove(wxString strPath);
+bool FolderTimeLoop(wxString strFrom, wxString strTo);
 
 
 class SyncThread : public wxThread
 {
 public:
 	//Constructor
-	SyncThread(SyncData data, Rules rules, frmProgress* window, frmMain *main):wxThread(wxTHREAD_JOINABLE){
+	SyncThread(SyncData data, Rules rules, frmMain *main):wxThread(wxTHREAD_JOINABLE){
 		m_Data = data;
 		m_Rules = rules;
-		m_Window = window;
 		m_Main = main;
 	}
 	//Main function, all stuff goes in here
@@ -34,45 +34,65 @@ public:
 private:
 	SyncData m_Data;
 	Rules m_Rules;
-	frmProgress* m_Window;
 	frmMain* m_Main;
 };
 
 void *SyncThread::Entry(){
 	//Launch the correct set of loops
 	if(m_Data.GetFunction() == _("Copy") || m_Data.GetFunction() == _("Update")){
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
 		m_Data.SetFunction(_("Copy"));
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 		//Swap the source and dest around for the mirror routine
 		wxString strTemp = m_Data.GetSource();
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
 		//Run the mirror loop
 		m_Data.SetFunction(_("Mirror (Copy)"));
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Update)")){
 		m_Data.SetFunction(_("Update"));
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 		//Swap the source and dest around for the mirror routine
 		wxString strTemp = m_Data.GetSource();
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
 		//Run the mirror loop
 		m_Data.SetFunction(_("Mirror (Update)"));
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 	}
 	else if(m_Data.GetFunction() ==  _("Equalise")){
 		m_Data.SetFunction(_("Update"));
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 		wxString strTemp = m_Data.GetSource();
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
 		m_Data.SetFunction(_("Update"));
-		SyncLoop(m_Data, m_Rules, m_Window);
+		SyncLoop(m_Data, m_Rules);
+		if(m_Data.GetAttributes()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		}
 	}
 	wxMutexGuiEnter();
 	m_Main->m_Sync_Source_Tree->DeleteAllItems();
@@ -91,7 +111,7 @@ void *SyncThread::Entry(){
 }
 
 /*The main SyncLoop is initially called from the Sync function, and calls itself when it reaches a folder and calls SyncFille when a file is reached*/
-bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
+bool SyncLoop(SyncData data, Rules rules)
 {
 	if(wxGetApp().ShouldAbort()){
 		return true;
@@ -108,7 +128,7 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 	}
 	if (!wxDirExists(strTo)){
 		if(!rules.ShouldExclude(strTo, true)){
-            wxMkdir(strTo);
+			wxMkdir(strTo);
 		}
 		else{
 			return false;
@@ -129,33 +149,26 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 					if (wxDirExists(strTo + strFilename)){
 						data.SetSource(strFrom + strFilename);
 						data.SetDest(strTo + strFilename);
-						SyncLoop(data, rules, window);
+						SyncLoop(data, rules);
 					}
 					else{
 						//wxMessageBox(_("Doesnt exists"));
 						if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){
-							DirectoryRemove(strFrom + strFilename, window);
+							DirectoryRemove(strFrom + strFilename);
 						}
 						else{
 							wxMkdir(strTo + strFilename);
 							data.SetSource(strFrom + strFilename);
 							data.SetDest(strTo + strFilename);
-							SyncLoop(data, rules, window);
+							SyncLoop(data, rules);
 						}
 					}
-					if(data.GetTimeStamps()){
-						wxFileName from(strFrom + strFilename);
-						wxFileName to(strTo + strFilename);
-						wxDateTime access, mod, created;
-						from.GetTimes(&access ,&mod ,&created );
-						to.SetTimes(&access ,&mod , &created); 
-					}		
 				}
 			}
 			else{
 				data.SetSource(strFrom + strFilename);
 				data.SetDest(strTo + strFilename);
-				SyncFile(data, rules, window);
+				SyncFile(data, rules);
 			}
 		}
 		while (dir.GetNext(&strFilename) );
@@ -164,7 +177,7 @@ bool SyncLoop(SyncData data, Rules rules, frmProgress *window)
 	
 }
 
-bool SyncFile(SyncData data, Rules rules, frmProgress *window)
+bool SyncFile(SyncData data, Rules rules)
 {
 	if(wxGetApp().ShouldAbort()){
 		return true;
@@ -233,7 +246,7 @@ bool SyncFile(SyncData data, Rules rules, frmProgress *window)
 }
 
 
-bool DirectoryRemove(wxString strLocation, frmProgress *window){
+bool DirectoryRemove(wxString strLocation){
 	if(wxGetApp().ShouldAbort()){
 		return true;
 	}
@@ -256,7 +269,7 @@ bool DirectoryRemove(wxString strLocation, frmProgress *window){
 				return true;
 			}
 			if(wxDirExists(strLocation + strFilename)){
-				DirectoryRemove(strLocation + strFilename, window);
+				DirectoryRemove(strLocation + strFilename);
 			}
 			else{
 				if(wxRemoveFile(strLocation + strFilename)){
@@ -272,6 +285,55 @@ bool DirectoryRemove(wxString strLocation, frmProgress *window){
 	if(wxFileName::Rmdir(strLocation)){
         OutputProgress(_("Removed ") + strLocation);
     }
+	return true;
+}
+
+
+bool FolderTimeLoop(wxString strFrom, wxString strTo){
+	if(wxGetApp().ShouldAbort()){
+		return false;
+	}
+	//Make sure that the correct ending is appended
+	if (strTo[strTo.length()-1] != wxFILE_SEP_PATH) {
+		strTo += wxFILE_SEP_PATH;       
+	}
+	// for both dirs
+	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
+		strFrom += wxFILE_SEP_PATH;       
+	}
+	
+	wxDir* dir = new wxDir(strFrom);
+	wxString strFilename;
+	bool blDir = dir->GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxGetApp().ShouldAbort()){
+				return false;	
+			}
+			if(wxDirExists(strTo + strFilename)){
+				FolderTimeLoop(strFrom + strFilename, strTo + strFilename);
+			}
+		}
+		while (dir->GetNext(&strFilename) );
+	} 
+	delete dir;
+	if (wxDirExists(strTo)){
+		FILETIME ftCreated,ftAccessed,ftModified;
+		HANDLE hFrom = CreateFile(strFrom, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		if(hFrom == INVALID_HANDLE_VALUE){
+		  return false;
+		}  
+		
+		GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
+		CloseHandle(hFrom);
+		HANDLE hTo = CreateFile(strTo, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		if(hTo == INVALID_HANDLE_VALUE){
+		  return false;
+		}  
+		SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
+		CloseHandle(hTo);
+		OutputProgress(_("Set folder timestamps for ") + strTo);
+	}	
 	return true;
 }
 

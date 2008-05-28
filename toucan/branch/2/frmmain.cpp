@@ -296,10 +296,16 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer8->Add(itemBoxSizer17, 1, wxGROW|wxALL, 5);
+	
+	
 	wxBoxSizer* itemBoxSizer18 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer17->Add(itemBoxSizer18, 1, wxGROW|wxALL, 5);
+	
+	wxStaticText* SyncSourceText = new wxStaticText( itemPanel6, wxID_STATIC, _("Source"), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer18->Add(SyncSourceText, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5);
+	
 	wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer18->Add(itemBoxSizer19, 0, wxGROW|wxALL, 5);
+	itemBoxSizer18->Add(itemBoxSizer19, 0, wxGROW|wxALL, 0);
 	
 	//Source section
 	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
@@ -313,8 +319,12 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer17->Add(itemBoxSizer23, 1, wxGROW|wxALL, 5);
+
+	wxStaticText* SyncDestText = new wxStaticText( itemPanel6, wxID_STATIC, _("Destination"), wxDefaultPosition, wxDefaultSize, 0);
+	itemBoxSizer23->Add(SyncDestText, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5);
+
 	wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer23->Add(itemBoxSizer24, 0, wxGROW|wxALL, 5);
+	itemBoxSizer23->Add(itemBoxSizer24, 0, wxGROW|wxALL, 0);
 
 	//Destination section
 	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
@@ -511,17 +521,6 @@ void frmMain::CreateControls()
 	m_Secure_Format->SetSelection(0);
 	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);
 
-	/*wxStaticBox* itemStaticBoxSizer90Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Password (Repeated)"));
-	wxStaticBoxSizer* itemStaticBoxSizer90 = new wxStaticBoxSizer(itemStaticBoxSizer90Static, wxVERTICAL);
-	itemBoxSizer87->Add(itemStaticBoxSizer90, 0, wxALIGN_TOP|wxALL, 5);
-	m_Secure_Pass = new wxTextCtrl( itemPanel68, ID_SECURE_PASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	m_Secure_Pass->SetMinSize(wxSize(125, -1));
-	itemStaticBoxSizer90->Add(m_Secure_Pass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-	m_Secure_Repass = new wxTextCtrl( itemPanel68, ID_SECURE_REPASS, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	itemStaticBoxSizer90->Add(m_Secure_Repass, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-	m_Secure_Repass->SetMinSize(wxSize(125, -1));*/
-	
 	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 	
@@ -587,7 +586,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer102 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer94->Add(itemBoxSizer102, 1, wxGROW|wxALL, 5);
 	wxStaticText* itemStaticText103 = new wxStaticText( itemPanel93, wxID_STATIC, _("Files to exclude (file name, path or extension)"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer102->Add(itemStaticText103, 0, wxALIGN_LEFT|wxALL, 5);
+	itemBoxSizer102->Add(itemStaticText103, 0, wxALIGN_LEFT|wxLEFT, 10);
 
 	wxBoxSizer* itemBoxSizer104 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer102->Add(itemBoxSizer104, 1, wxGROW|wxALL, 5);
@@ -606,7 +605,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer109 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer94->Add(itemBoxSizer109, 1, wxGROW|wxALL, 5);
 	wxStaticText* itemStaticText110 = new wxStaticText( itemPanel93, wxID_STATIC, _("Folders to exclude (folder name or path)"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer109->Add(itemStaticText110, 0, wxALIGN_LEFT|wxALL, 5);
+	itemBoxSizer109->Add(itemStaticText110, 0, wxALIGN_LEFT|wxLEFT, 10);
 
 	wxBoxSizer* itemBoxSizer111 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer109->Add(itemBoxSizer111, 1, wxGROW|wxALL, 5);
@@ -625,7 +624,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer116 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer94->Add(itemBoxSizer116, 1, wxGROW|wxALL, 5);
 	wxStaticText* itemStaticText117 = new wxStaticText( itemPanel93, wxID_STATIC, _("Locations to always include (file/folder name, path or  file extension)"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer116->Add(itemStaticText117, 0, wxALIGN_LEFT|wxALL, 5);
+	itemBoxSizer116->Add(itemStaticText117, 0, wxALIGN_LEFT|wxLEFT, 10);
 
 	wxBoxSizer* itemBoxSizer118 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer116->Add(itemBoxSizer118, 1, wxGROW|wxALL, 5);
@@ -773,6 +772,7 @@ void frmMain::CreateControls()
 	unsigned int i = 0;
 	unsigned int count = m_Notebook->GetPageCount();
 	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != wxGetApp().m_Settings->GetPosition()){
+		
 		i ++;
 		if(i < count){
 			m_Notebook->AdvanceSelection();

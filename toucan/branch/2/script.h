@@ -103,7 +103,7 @@ bool ParseScript(wxArrayString arrScript){
 			}
 			delete config;
 			//Create a new Sync thread and run it (needs to use Wait())
-			SyncThread *thread = new SyncThread(data, rules, window, wxGetApp().MainWindow);
+			SyncThread *thread = new SyncThread(data, rules, wxGetApp().MainWindow);
 			thread->Create();
 			thread->Run();
 			thread->Wait();

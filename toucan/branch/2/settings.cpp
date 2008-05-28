@@ -20,13 +20,13 @@ bool Settings::TransferToFile(){
 }
 
 bool Settings::TransferFromFile(){
-	m_TabStyle = wxEmptyString;
-	m_Position = wxEmptyString;
-	m_LanguageCode = wxEmptyString;
+	m_TabStyle = _("Icons and Text");
+	m_Position = _("Sync");
+	m_LanguageCode = _("en");
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
-	config->Read(wxT("General/Tabs"), &m_TabStyle,  _("Icons + Text"));
-	config->Read(wxT("General/Position"), &m_Position,  _("Sync"));
-	config->Read(wxT("General/LanguageCode"), &m_LanguageCode, wxT("en"));
+	config->Read(wxT("General/Tabs"), &m_TabStyle);
+	config->Read(wxT("General/Position"), &m_Position);
+	config->Read(wxT("General/LanguageCode"), &m_LanguageCode);
 	delete config;	
 	return true;
 }
