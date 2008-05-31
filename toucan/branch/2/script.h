@@ -142,6 +142,7 @@ bool ParseScript(wxArrayString arrScript){
 					strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
 					strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
 					//Create the list of files to backup
+					OutputProgress(_("Creating an exclusions list, this may take some time."));
 					CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
 					//Commit the file changes
 					file->Write();

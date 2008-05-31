@@ -9,12 +9,12 @@ GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
 endif
-CXX=E:/widgets/Mingw/bin/g++.exe
-RESCOMP=E:/widgets/Mingw/bin/windres.exe
+CXX=I:/Mingw/bin/g++.exe
+RESCOMP=I:/Mingw/bin/windres.exe
 OUTPUTPATH=App\toucan
 OBJECTPATH=MinGWUnicodeRelease
 BUILDPATHS=$(OBJECTPATH)
-CPPFLAGS= -fno-rtti -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__ -DUNICODE
+CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__ -DUNICODE
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 DEBUGFLAGS=

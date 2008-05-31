@@ -15,6 +15,7 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/Tabs"), m_TabStyle);
 	config->Write(wxT("General/Position"), m_Position);
 	config->Write(wxT("General/LanguageCode"), m_LanguageCode);
+	config->Write(wxT("General/Font"), m_Font);
 	delete config;
 	return true;
 }
@@ -23,10 +24,13 @@ bool Settings::TransferFromFile(){
 	m_TabStyle = _("Icons and Text");
 	m_Position = _("Sync");
 	m_LanguageCode = _("en");
+	wxFont temp = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT 	);
+	m_Font = temp.GetNativeFontInfoDesc();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
 	config->Read(wxT("General/Tabs"), &m_TabStyle);
 	config->Read(wxT("General/Position"), &m_Position);
 	config->Read(wxT("General/LanguageCode"), &m_LanguageCode);
+	config->Read(wxT("General/Font"), &m_Font);
 	delete config;	
 	return true;
 }

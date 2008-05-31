@@ -25,10 +25,14 @@ public:
 	wxString GetLanguageCode() { return m_LanguageCode; }
 	void SetLanguageCode(wxString langcode) { m_LanguageCode = langcode; }
 	
+	wxString GetFont() { return m_Font; }
+	void SetFont(wxString font) { m_Font = font; }	
+	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
 	wxString m_LanguageCode;
+	wxString m_Font;
 };
 
 #endif

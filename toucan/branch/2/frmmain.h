@@ -15,6 +15,7 @@
 #include <wx/dirctrl.h>
 #include <wx/richtext/richtextctrl.h>
 #include <wx/listctrl.h>
+#include <wx/fontpicker.h>
 
 #include "virtualdirtreectrl.h"
 
@@ -135,12 +136,13 @@ class Settings;
 //Settings
 #define ID_SETTINGS_TABSTYLE 20030
 #define ID_SETTINGS_LANGUAGE 20031
+#define ID_SETTINGS_FONT 20032
 
 //The form
 #define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
 #define SYMBOL_FRMMAIN_TITLE _("Toucan")
 #define SYMBOL_FRMMAIN_IDNAME ID_AUIFRAME
-#define SYMBOL_FRMMAIN_SIZE wxSize(800, 480)
+#define SYMBOL_FRMMAIN_SIZE wxSize(-1, -1)
 #define SYMBOL_FRMMAIN_POSITION wxDefaultPosition
 
 
@@ -385,6 +387,7 @@ public:
 	wxComboBox* m_Settings_Language;
 	wxComboBox* m_Script_Name;
 	wxCheckBox* m_Backup_IsPass;
+	wxFontPickerCtrl* m_Settings_Font;
 	
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;

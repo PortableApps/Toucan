@@ -204,6 +204,11 @@ void frmMain::CreateControls()
 {
 	//Create a pointer so that we have something to add the items to	
 	frmMain* itemFrame1 = this;
+	
+	
+	wxFont font;
+	font.SetNativeFontInfo(wxGetApp().m_Settings->GetFont());
+	itemFrame1->SetFont(font);
 
 	//Set the form up as managed by AUI
 	GetAuiManager().SetManagedWindow(this);
@@ -740,6 +745,11 @@ void frmMain::CreateControls()
 	
 
 	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());
+	
+	m_Settings_Font = new wxFontPickerCtrl(itemPanel143, ID_SETTINGS_FONT);
+	itemBoxSizer1000->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	m_Settings_Font->SetSelectedFont(font);
 
 	//Add the panels
 	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
@@ -1453,16 +1463,18 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 {
 	SyncData data;
 	if (data.TransferFromForm(this)) {
-		data.TransferToFile(wxT("LastSyncJob"));
+		if(data.TransferToFile(wxT("LastSyncJob"))){
+			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
+			config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
+			config->Write(wxT("LastSyncJob/Type"),  _("Sync"));
+			config->Flush();
+			delete config;
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Sync \"LastSyncJob\""));
+			wxGetApp().SetAbort(false);
+			ParseScript(arrScript);
+		}
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
-	config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
-	config->Write(wxT("LastSyncJob/Type"),  _("Sync"));
-	config->Flush();
-	delete config;
-	wxArrayString arrScript;
-	arrScript.Add(wxT("Sync \"LastSyncJob\""));
-	ParseScript(arrScript);
 }
 
 /*!
@@ -1511,15 +1523,17 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 {
 	BackupData data;
 	if (data.TransferFromForm(this, true)) {
-		data.TransferToFile(wxT("LastBackupJob"));
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
-		config->Write(wxT("LastBackupJob/Type"),  _("Backup"));
-		config->Flush();
-		delete config;
-		wxArrayString arrScript;
-		arrScript.Add(wxT("Backup \"LastBackupJob\""));
-		ParseScript(arrScript);
+		if(data.TransferToFile(wxT("LastBackupJob"))){
+			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+			config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
+			config->Write(wxT("LastBackupJob/Type"),  _("Backup"));
+			config->Flush();
+			delete config;
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Backup \"LastBackupJob\""));
+			wxGetApp().SetAbort(false);
+			ParseScript(arrScript);
+		}
 	}
 }
 
@@ -1563,6 +1577,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
+	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
 	wxGetApp().m_Settings->TransferToFile();
 	delete m_BackupLocations;
 	delete m_SecureLocations;
@@ -1578,15 +1593,17 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 {
 	SecureData data;
 	if (data.TransferFromForm(this, true)) {
-		data.TransferToFile(wxT("LastSecureJob"));
-		//Create a new fileconfig and write the extra fields to it
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
-		config->Write(wxT("LastSecureJob/Type"),  _("Secure"));
-		delete config;
-		wxArrayString arrScript;
-		arrScript.Add(wxT("Secure \"LastSecureJob\""));
-		ParseScript(arrScript);	
+		if(data.TransferToFile(wxT("LastSecureJob"))){
+			//Create a new fileconfig and write the extra fields to it
+			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+			config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
+			config->Write(wxT("LastSecureJob/Type"),  _("Secure"));
+			delete config;
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Secure \"LastSecureJob\""));
+			wxGetApp().SetAbort(false);
+			ParseScript(arrScript);	
+		}
 	}
 }
 
@@ -1771,9 +1788,11 @@ void frmMain::OnScriptSelected(wxCommandEvent& event)
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
 	wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
-	for(unsigned int i = 0; i < arrContents.Count(); i++){
+	unsigned int i;
+	for(i = 0; i < arrContents.Count() - 1; i++){
 		m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\r\n"));
 	}
+	m_Script_Rich->AppendText(arrContents.Item(i));
 	delete config;	
 }
 

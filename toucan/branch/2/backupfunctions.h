@@ -17,6 +17,7 @@ bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength
 	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
 		strPath += wxFILE_SEP_PATH;       
 	}
+	wxGetApp().Yield();
 	wxDir dir(strPath);
 	wxString strFilename;
 	bool blDir = dir.GetFirst(&strFilename);
