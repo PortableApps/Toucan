@@ -17,111 +17,113 @@
 #include "script.h"
 
 //Implement frmMain
-IMPLEMENT_CLASS( frmMain, wxFrame )
+IMPLEMENT_CLASS(frmMain, wxFrame)
 
 
 //frmMain event table
-BEGIN_EVENT_TABLE( frmMain, wxFrame )
+BEGIN_EVENT_TABLE(frmMain, wxFrame)
 
-	EVT_CLOSE( frmMain::OnCloseWindow )
+	EVT_CLOSE(frmMain::OnCloseWindow)
 
-	EVT_COMBOBOX( ID_SYNC_JOB_SELECT, frmMain::OnSyncJobSelectSelected )
+	EVT_COMBOBOX(ID_SYNC_JOB_SELECT, frmMain::OnSyncJobSelectSelected)
 
-	EVT_BUTTON( ID_SYNC_OK, frmMain::OnSyncOKClick )
+	EVT_BUTTON(ID_SYNC_OK, frmMain::OnSyncOKClick)
 	
-	EVT_BUTTON( ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick )
+	EVT_BUTTON(ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick)
 
-	EVT_BUTTON( ID_SYNC_JOB_SAVE, frmMain::OnSyncJobSaveClick )
+	EVT_BUTTON(ID_SYNC_JOB_SAVE, frmMain::OnSyncJobSaveClick)
 	
-	EVT_BUTTON( ID_BACKUP_JOB_SAVE, frmMain::OnBackupJobSaveClick )
+	EVT_BUTTON(ID_BACKUP_JOB_SAVE, frmMain::OnBackupJobSaveClick)
 	
-	EVT_BUTTON( ID_BACKUP_JOB_ADD, frmMain::OnBackupJobAddClick )
+	EVT_BUTTON(ID_BACKUP_JOB_ADD, frmMain::OnBackupJobAddClick)
 
-	EVT_BUTTON( ID_BACKUP_JOB_REMOVE, frmMain::OnBackupJobRemoveClick )
+	EVT_BUTTON(ID_BACKUP_JOB_REMOVE, frmMain::OnBackupJobRemoveClick)
 	
-	EVT_COMBOBOX( ID_BACKUP_JOB_SELECT, frmMain::OnBackupJobSelectSelected )
+	EVT_COMBOBOX(ID_BACKUP_JOB_SELECT, frmMain::OnBackupJobSelectSelected)
 
-	EVT_BUTTON( ID_SYNC_JOB_ADD, frmMain::OnSyncJobAddClick )
+	EVT_BUTTON(ID_SYNC_JOB_ADD, frmMain::OnSyncJobAddClick)
 
-	EVT_BUTTON( ID_SYNC_JOB_REMOVE, frmMain::OnSyncJobRemoveClick )
+	EVT_BUTTON(ID_SYNC_JOB_REMOVE, frmMain::OnSyncJobRemoveClick)
 
-	EVT_BUTTON( ID_SYNC_SOURCE_BTN, frmMain::OnSyncSourceBtnClick )
+	EVT_BUTTON(ID_SYNC_SOURCE_BTN, frmMain::OnSyncSourceBtnClick)
 
-	EVT_BUTTON( ID_SYNC_DEST_BTN, frmMain::OnSyncDestBtnClick )
+	EVT_BUTTON(ID_SYNC_DEST_BTN, frmMain::OnSyncDestBtnClick)
 
-	EVT_BUTTON( ID_BACKUP_OK, frmMain::OnBackupOKClick )
+	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
 	
-	EVT_BUTTON( ID_BACKUP_RESTORE, frmMain::OnBackupRestoreClick )
+	EVT_BUTTON(ID_BACKUP_RESTORE, frmMain::OnBackupRestoreClick)
 	
-	EVT_BUTTON( ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick )
+	EVT_BUTTON(ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick)
 
-	EVT_BUTTON( ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick )
+	EVT_BUTTON(ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick)
 
-	EVT_BUTTON( ID_BACKUP_ADD, frmMain::OnBackupAddClick )
+	EVT_BUTTON(ID_BACKUP_ADD, frmMain::OnBackupAddClick)
 
-	EVT_BUTTON( ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick )
+	EVT_BUTTON(ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick)
 	
-	EVT_BUTTON( ID_SECURE_OK, frmMain::OnSecureOKClick )
+	EVT_BUTTON(ID_SECURE_OK, frmMain::OnSecureOKClick)
 	
-	EVT_BUTTON( ID_SECURE_PREVIEW, frmMain::OnSecurePreviewClick )
+	EVT_BUTTON(ID_SECURE_PREVIEW, frmMain::OnSecurePreviewClick)
 
-	EVT_COMBOBOX( ID_SECURE_JOB_SELECT, frmMain::OnSecureJobSelectSelected )
+	EVT_COMBOBOX(ID_SECURE_JOB_SELECT, frmMain::OnSecureJobSelectSelected)
 
-	EVT_BUTTON( ID_SECURE_JOB_SAVE, frmMain::OnSecureJobSaveClick )
+	EVT_BUTTON(ID_SECURE_JOB_SAVE, frmMain::OnSecureJobSaveClick)
 
-	EVT_BUTTON( ID_SECURE_JOB_ADD, frmMain::OnSecureJobAddClick )
+	EVT_BUTTON(ID_SECURE_JOB_ADD, frmMain::OnSecureJobAddClick)
 
-	EVT_BUTTON( ID_SECURE_JOB_REMOVE, frmMain::OnSecureJobRemoveClick )
+	EVT_BUTTON(ID_SECURE_JOB_REMOVE, frmMain::OnSecureJobRemoveClick)
 
-	EVT_BUTTON( ID_SECURE_ADD, frmMain::OnSecureAddClick )
+	EVT_BUTTON(ID_SECURE_ADD, frmMain::OnSecureAddClick)
 
-	EVT_BUTTON( ID_SECURE_REMOVE, frmMain::OnSecureRemoveClick )
+	EVT_BUTTON(ID_SECURE_REMOVE, frmMain::OnSecureRemoveClick)
 
-	EVT_COMBOBOX( ID_RULES_COMBO, frmMain::OnRulesComboSelected )
+	EVT_COMBOBOX(ID_RULES_COMBO, frmMain::OnRulesComboSelected)
 
-	EVT_BUTTON( ID_RULES_SAVE, frmMain::OnRulesSaveClick )
+	EVT_BUTTON(ID_RULES_SAVE, frmMain::OnRulesSaveClick)
 
-	EVT_BUTTON( ID_RULES_ADD, frmMain::OnRulesAddClick )
+	EVT_BUTTON(ID_RULES_ADD, frmMain::OnRulesAddClick)
 
-	EVT_BUTTON( ID_RULES_REMOVE, frmMain::OnRulesRemoveClick )
+	EVT_BUTTON(ID_RULES_REMOVE, frmMain::OnRulesRemoveClick)
 
-	EVT_BUTTON( ID_RULES_ADD_FILEEXCLUDE, frmMain::OnRulesAddFileexcludeClick )
+	EVT_BUTTON(ID_RULES_ADD_FILEEXCLUDE, frmMain::OnRulesAddFileexcludeClick)
 
-	EVT_BUTTON( ID_RULES_REMOVE_FILEEXCLUDE, frmMain::OnRulesRemoveFileexcludeClick )
+	EVT_BUTTON(ID_RULES_REMOVE_FILEEXCLUDE, frmMain::OnRulesRemoveFileexcludeClick)
 
-	EVT_BUTTON( ID_RULES_ADD_FOLDEREXCLUDE, frmMain::OnRulesAddFolderexcludeClick )
+	EVT_BUTTON(ID_RULES_ADD_FOLDEREXCLUDE, frmMain::OnRulesAddFolderexcludeClick)
 
-	EVT_BUTTON( ID_RULES_REMOVE_FOLDEREXCLUDE, frmMain::OnRulesRemoveFolderexcludeClick )
+	EVT_BUTTON(ID_RULES_REMOVE_FOLDEREXCLUDE, frmMain::OnRulesRemoveFolderexcludeClick)
 
-	EVT_BUTTON( ID_RULES_ADD_LOCATIONINCLUDE, frmMain::OnRulesAddLocationincludeClick )
+	EVT_BUTTON(ID_RULES_ADD_LOCATIONINCLUDE, frmMain::OnRulesAddLocationincludeClick)
 
-	EVT_BUTTON( ID_RULES_REMOVE_LOCATIONINCLUDE, frmMain::OnRulesRemoveLocationincludeClick )
+	EVT_BUTTON(ID_RULES_REMOVE_LOCATIONINCLUDE, frmMain::OnRulesRemoveLocationincludeClick)
 
-	EVT_BUTTON( ID_RULES_ADD_FILEDELETE, frmMain::OnRulesAddFiledeleteClick )
+	EVT_BUTTON(ID_RULES_ADD_FILEDELETE, frmMain::OnRulesAddFiledeleteClick)
 
-	EVT_BUTTON( ID_RULES_REMOVE_FILEDELETE, frmMain::OnRulesRemoveFiledeleteClick )
+	EVT_BUTTON(ID_RULES_REMOVE_FILEDELETE, frmMain::OnRulesRemoveFiledeleteClick)
 	
 	EVT_BUTTON(ID_SCRIPT_EXECUTE, frmMain::OnScriptExecute)
 	
-	EVT_BUTTON(ID_PVAR_ADD, frmMain::OnPvarAddClick )
+	EVT_BUTTON(ID_PVAR_ADD, frmMain::OnPvarAddClick)
 	
 	EVT_BUTTON(ID_PVAR_REMOVE, frmMain::OnPvarRemoveClick )
 	
-	EVT_BUTTON(ID_PVAR_ADDITEM, frmMain::OnPvarAddItemClick )
+	EVT_BUTTON(ID_PVAR_ADDITEM, frmMain::OnPvarAddItemClick)
 	
-	EVT_BUTTON(ID_PVAR_REMOVEITEM, frmMain::OnPvarRemoveItemClick )
+	EVT_BUTTON(ID_PVAR_REMOVEITEM, frmMain::OnPvarRemoveItemClick)
 	
-	EVT_COMBOBOX(ID_PVAR_NAME, frmMain::OnPvarNameSelected )
+	EVT_COMBOBOX(ID_PVAR_NAME, frmMain::OnPvarNameSelected)
 	
-	EVT_BUTTON( ID_SCRIPT_SAVE, frmMain::OnScriptSaveClick )
+	EVT_BUTTON(ID_SCRIPT_SAVE, frmMain::OnScriptSaveClick)
 
-	EVT_BUTTON( ID_SCRIPT_ADD, frmMain::OnScriptAddClick )
+	EVT_BUTTON(ID_SCRIPT_ADD, frmMain::OnScriptAddClick)
 
-	EVT_BUTTON( ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick )
+	EVT_BUTTON (ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick)
 	
-	EVT_COMBOBOX(ID_SCRIPT_NAME, frmMain::OnScriptSelected )
+	EVT_COMBOBOX(ID_SCRIPT_NAME, frmMain::OnScriptSelected)
 	
-	EVT_LIST_ITEM_ACTIVATED(ID_PVAR_LIST, frmMain::OnPvarListActivated )
+	EVT_LIST_ITEM_ACTIVATED(ID_PVAR_LIST, frmMain::OnPvarListActivated)
+	
+	EVT_COMMAND_SCROLL_CHANGED(ID_BACKUP_RATIO, frmMain::OnBackupRatioChanged)
 
 END_EVENT_TABLE()
 
@@ -132,16 +134,16 @@ frmMain::frmMain()
 	Init();
 }
 
-frmMain::frmMain( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
 	Init();
-	Create( parent, id, caption, pos, size, style );
+	Create(parent, id, caption, pos, size, style);
 }
 
 //Creator
-bool frmMain::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool frmMain::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
-	wxFrame::Create( parent, id, caption, pos, size, style );
+	wxFrame::Create(parent, id, caption, pos, size, style);
 	CreateControls();
 	Centre();
 	return true;
@@ -385,13 +387,23 @@ void frmMain::CreateControls()
 	m_Backup_Format->SetSelection(0);
 	BackupRow1->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
 
-	wxArrayString m_Backup_RatioStrings;
+	/*wxArrayString m_Backup_RatioStrings;
 	m_Backup_RatioStrings.Add(_("Low"));
 	m_Backup_RatioStrings.Add(_("Normal"));
 	m_Backup_RatioStrings.Add(_("Maximum"));
 	m_Backup_Ratio = new wxRadioBox( itemPanel35, ID_BACKUP_RATIO, _("Compression Ratio"), wxDefaultPosition, wxDefaultSize, m_Backup_RatioStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Ratio->SetSelection(1);
-	BackupRow1->Add(m_Backup_Ratio, 0, wxALIGN_TOP|wxALL, 5);
+	BackupRow1->Add(m_Backup_Ratio, 0, wxALIGN_TOP|wxALL, 5);*/
+	wxStaticBox* BackupRatioStatic = new wxStaticBox(itemPanel35, wxID_ANY, _("Compression Level"));
+	wxStaticBoxSizer* BackupRatioSizer = new wxStaticBoxSizer(BackupRatioStatic, wxVERTICAL);
+	
+	m_Backup_Ratio_Text = new wxStaticText(itemPanel35, wxID_STATIC, _("Default"));
+	m_Backup_Ratio = new wxSlider(itemPanel35, ID_BACKUP_RATIO, 3, 0, 5);
+	
+	BackupRatioSizer->Add(m_Backup_Ratio_Text);
+	BackupRatioSizer->Add(m_Backup_Ratio);
+	
+	BackupRow1->Add(BackupRatioSizer, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxStaticBox* itemStaticBoxSizer65Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Other"));
 	wxStaticBoxSizer* itemStaticBoxSizer65 = new wxStaticBoxSizer(itemStaticBoxSizer65Static, wxVERTICAL);
@@ -1451,6 +1463,7 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 		m_Backup_Rules->SetStringSelection(config->Read(m_Backup_Job_Select->GetStringSelection() + wxT("/Rules")));
 		delete config;
 	}
+	SetSliderText();
 	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(stdcursor);
 }
@@ -1825,4 +1838,8 @@ void frmMain::OnScriptAddClick(wxCommandEvent& event)
 		m_Script_Name->SetStringSelection(dialog->GetValue());
 	}
 	delete dialog;
+}
+
+void frmMain::frmMain::OnBackupRatioChanged(wxScrollEvent& event){
+	SetSliderText();
 }

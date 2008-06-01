@@ -8,6 +8,7 @@
 #define H_BACKUPFUNCTIONS
 
 #include "rules.h"
+#include "toucan.h"
 #include <wx/textfile.h>
 #include <wx/dir.h>
 

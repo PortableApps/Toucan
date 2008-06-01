@@ -253,5 +253,31 @@ wxString InputPassword(){
 	
 	return wxEmptyString;
 }
+
+void SetSliderText(){
+	frmMain *window = wxGetApp().MainWindow;
+	switch(window->m_Backup_Ratio->GetValue()){
+		case 0:
+			window->m_Backup_Ratio_Text->SetLabel(_("None"));
+			break;
+		case 1:
+			window->m_Backup_Ratio_Text->SetLabel(_("Fastest"));
+			break;
+		case 2:
+			window->m_Backup_Ratio_Text->SetLabel(_("Fast"));
+			break;
+		case 3:
+			window->m_Backup_Ratio_Text->SetLabel(_("Default"));
+			break;
+		case 4:
+			window->m_Backup_Ratio_Text->SetLabel(_("Maximum"));
+			break;
+		case 5:
+			window->m_Backup_Ratio_Text->SetLabel(_("Ultra"));
+			break;
+	}
+	delete window;
+	
+}
 	
 #endif

@@ -17,6 +17,7 @@ bool BackupData::TransferFromFile(wxString strName){
 	
 	bool blError = true;
 	wxString strTemp;
+	int iTemp;
 	
 	/*Read all of the values from the ini file, and if there are not read erros add them to the data
 	Password is not stored in the text file*/
@@ -40,8 +41,8 @@ bool BackupData::TransferFromFile(wxString strName){
 		blError = false;
 	}
 
-	if(config->Read(strName + wxT("/Ratio"), &strTemp)){
-		SetRatio(strTemp);
+	if(config->Read(strName + wxT("/Ratio"), &iTemp)){
+		SetRatio(iTemp);
 		blError = false;
 	}
 	
@@ -119,7 +120,7 @@ void BackupData::TransferToForm(frmMain *window){
 	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
-	window->m_Backup_Ratio->SetStringSelection(GetRatio());
+	window->m_Backup_Ratio->SetValue(GetRatio());
 	window->m_Backup_IsPass->SetValue(IsPassword);
 	return;
 }
@@ -141,8 +142,7 @@ bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
 	else{ blNotFilled = true; }
 	if(window->m_Backup_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Backup_Format->GetStringSelection()) ; }
 	else{ blNotFilled = true; }
-	if(window->m_Backup_Ratio->GetStringSelection() != wxEmptyString){ SetRatio(window->m_Backup_Ratio->GetStringSelection()); }
-	else{ blNotFilled = true; }
+	SetRatio(window->m_Backup_Ratio->GetValue());
 	IsPassword = window->m_Backup_IsPass->GetValue();
 	//Output an error message if the fields are not filled
 	if(blNotFilled && blShowErrors){
@@ -160,7 +160,7 @@ void BackupData::Output(){
 	}
 	MessageBox(GetFunction(), wxT("Function"));
 	MessageBox(GetFormat(), wxT("Format"));
-	MessageBox(GetRatio(), wxT("Ratio"));
+//	MessageBox(GetRatio(), wxT("Ratio"));
 }
 
 wxString BackupData::CreateCommand(int i){
@@ -182,11 +182,24 @@ wxString BackupData::CreateCommand(int i){
 		strSolid = wxT(" -ms=off");
 	}
 	//Ratio stuff, will need to be updated for new sliding scale
-	if (GetRatio() == _("Normal")){
-		SetRatio(wxT(" -mx5"));
+	wxString strRatio = wxT(" -mx5");
+	if (GetRatio() == 0){
+		strRatio = wxT(" -mx0");
 	}
-	else if (GetRatio() == _("Maximum")){
-		SetRatio(wxT(" -mx9"));
+	else if (GetRatio() == 1){
+		strRatio = wxT(" -mx1");
+	}
+	else if (GetRatio() == 2){
+		strRatio = wxT(" -mx3");
+	}
+	else if (GetRatio() == 3){
+		strRatio = wxT(" -mx5");
+	}
+	else if (GetRatio() == 4){
+		strRatio = wxT(" -mx7");
+	}
+	else if (GetRatio() == 5){
+		strRatio = wxT(" -mx9");
 	}
 	//Checking to see if there is a password used
 	if(GetPass() != wxEmptyString){
@@ -198,11 +211,11 @@ wxString BackupData::CreateCommand(int i){
 	}
    
 	if(GetFunction() == _("Complete")){
-		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
+		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
 	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + GetRatio() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\""); 
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\""); 
 	}
 	//With the incremental type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Incremental")){
@@ -214,7 +227,7 @@ wxString BackupData::CreateCommand(int i){
 			strCommand = wxT("7za.exe u") + GetPass() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
 		}
 		else{
-			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + GetRatio() + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
 		}
 	}
 	return strCommand;

@@ -322,9 +322,8 @@ public:
 	/// wxEVT_LIST_ITEM_ACTIVATED event handler for ID_PVAR_LIST	
 	void OnPvarListActivated(wxListEvent& event);
 	
-	
-
-	
+	/// wxEVT_SCROLL_CHANGED event handler for ID_BACKUP_RATIO
+	void OnBackupRatioChanged(wxScrollEvent& event);	
 
 	//Functions
 
@@ -364,7 +363,8 @@ public:
 	wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
 	wxRadioBox* m_Backup_Format;
-	wxRadioBox* m_Backup_Ratio;
+	wxStaticText* m_Backup_Ratio_Text;
+	wxSlider* m_Backup_Ratio;
 	wxTextCtrl* m_Backup_Pass;
 	wxTextCtrl* m_Backup_Repass;
 	wxComboBox* m_Secure_Rules;

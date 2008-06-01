@@ -12,11 +12,13 @@
 #include <wx\image.h>
 #include <wx\intl.h>
 
+#include "frmmain.h"
+
 
 #include "settings.h"
 
 class frmProgress;
-class frmMain;
+//class frmMain;
 
 /*!
 * Toucan class declaration

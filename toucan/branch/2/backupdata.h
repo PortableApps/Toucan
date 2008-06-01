@@ -36,8 +36,8 @@ public:
 	void SetFormat(wxString format) { strFormat = format; }
 	wxString GetFormat() { return strFormat; }
 
-	void SetRatio(wxString ratio) { strRatio = ratio; }
-	wxString GetRatio() { return strRatio; }
+	void SetRatio(int ratio) { strRatio = ratio; }
+	int GetRatio() { return strRatio; }
 
 	void SetPass(wxString pass) { strPass = pass; }
 	wxString GetPass() { return strPass; }
@@ -55,7 +55,7 @@ private:
 	//7zip, zip
 	wxString strFormat;
 	//Need to change this to a sliding scale from 1 to 5
-	wxString strRatio;
+	int strRatio;
 	//A password if one is used	
 	wxString strPass;
 
