@@ -44,8 +44,9 @@ bool ParseScript(wxArrayString arrScript){
 	wxMilliSleep(50);
 	
 	//First check that the whole script is valid (basic number of parameters check)
-	wxString strLine, strTemp;
+	wxString strLine, strTemp, strPass;
 	bool blParseError = false;
+	bool blPassNeeded = false;
 	for(unsigned int i = 0; i < arrScript.Count(); i++){
 		strLine = arrScript.Item(i); 
 		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
@@ -70,9 +71,25 @@ bool ParseScript(wxArrayString arrScript){
 			OutputProgress(strTemp);
 			blParseError = true;
 		}
+		if(strToken == _("Secure")){
+			blPassNeeded = true;
+		}
+		if(strToken == _("Backup")){
+			wxString strJob = tkz.GetNextToken();
+			BackupData data;
+			if(data.TransferFromFile(strJob)){
+				if(data.IsPassword == true){
+					blPassNeeded = true;
+				}
+			}
+		}
 	}
 	if(blParseError){
 		return false;
+	}
+	
+	if(blPassNeeded){
+		strPass = InputPassword();
 	}
 	
 	//End of parsing for errors, now execute!
@@ -116,7 +133,6 @@ bool ParseScript(wxArrayString arrScript){
 			if(data.TransferFromFile(strJob)){
 				//Get the password if one is needed
 				if(data.IsPassword == true){
-					wxString strPass = InputPassword();
 					if(strPass != wxEmptyString){
 						data.SetPass(strPass);						
 					}
@@ -163,7 +179,6 @@ bool ParseScript(wxArrayString arrScript){
 		}
 		else if(strToken == _("Secure")){
 			SecureData data;
-			wxString strPass = InputPassword();
 			if(strPass != wxEmptyString){
 				data.SetPass(strPass);						
 			}

@@ -911,7 +911,7 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 	//Checks to see if it is a top level item that is being removed
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()) {
 		//Iterate throught the global list and remove the item
-		for (unsigned int i = 0; i < m_BackupLocations->Count() - 1; i++) {
+		for (unsigned int i = 0; i < m_BackupLocations->Count(); i++) {
 			if (m_BackupLocations->Item(i) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
 				m_BackupLocations->RemoveAt(i);
 			}
@@ -1785,6 +1785,7 @@ void frmMain::OnScriptExecute(wxCommandEvent& event)
 
 void frmMain::OnScriptSelected(wxCommandEvent& event)
 {	
+	m_Script_Rich->Clear();
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
 	wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
