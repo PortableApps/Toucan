@@ -324,6 +324,12 @@ public:
 	
 	/// wxEVT_SCROLL_CHANGED event handler for ID_BACKUP_RATIO
 	void OnBackupRatioChanged(wxScrollEvent& event);	
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADDVAR
+	void OnBackupAddVarClick(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADDVAR
+	void OnSecureAddVarClick(wxCommandEvent& event);
 
 	//Functions
 

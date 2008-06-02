@@ -13,6 +13,7 @@
 #include "frmmain.h"
 #include "frmprogress.h"
 #include "frmrestore.h"
+#include "frmvariable.h"
 
 #include "script.h"
 
@@ -124,6 +125,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_LIST_ITEM_ACTIVATED(ID_PVAR_LIST, frmMain::OnPvarListActivated)
 	
 	EVT_COMMAND_SCROLL_CHANGED(ID_BACKUP_RATIO, frmMain::OnBackupRatioChanged)
+	
+	EVT_BUTTON(ID_BACKUP_ADDVAR, frmMain::OnBackupAddVarClick)
+	
+	EVT_BUTTON(ID_SECURE_ADDVAR, frmMain::OnSecureAddVarClick)	
 
 END_EVENT_TABLE()
 
@@ -477,7 +482,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer53->Add(itemBoxSizer59, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 	
 	//Secure
@@ -568,7 +573,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer84 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer78->Add(itemBoxSizer84, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer84->Add(itemBitmapButton85, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton86 = new wxBitmapButton( itemPanel68, ID_SECURE_MAKERELATIVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -1826,6 +1831,16 @@ void frmMain::OnScriptAddClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-void frmMain::frmMain::OnBackupRatioChanged(wxScrollEvent& event){
+void frmMain::OnBackupRatioChanged(wxScrollEvent& event){
 	SetSliderText();
+}
+
+void frmMain::OnBackupAddVarClick(wxCommandEvent& event){
+	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
+	window->ShowModal();
+	delete window;
+}
+
+void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
+	
 }
