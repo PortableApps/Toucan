@@ -921,16 +921,8 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event)
 void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 {
 	//Checks to see if it is a top level item that is being removed
-	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()) {
-		//Iterate throught the global list and remove the item
-		for (unsigned int i = 0; i < m_BackupLocations->Count(); i++) {
-			if (m_BackupLocations->Item(i) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
-				m_BackupLocations->RemoveAt(i);
-			}
-			if (m_BackupLocations->Item(i).AfterLast(wxFILE_SEP_PATH) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())) {
-				m_BackupLocations->RemoveAt(i);
-			}
-		}
+	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()){
+		m_BackupLocations->Remove(m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection()));
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
 	}
 }
@@ -959,17 +951,9 @@ void frmMain::OnSecureAddClick(wxCommandEvent& event)
 void frmMain::OnSecureRemoveClick(wxCommandEvent& event)
 {
 	//Checks to see if it is a top level item that is being removed
-	if (m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection())) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetRootItem())) {
+	if (m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection()) == m_Secure_TreeCtrl->GetRootItem()){
+		m_SecureLocations->Remove(m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection()));
 		m_Secure_TreeCtrl->Delete(m_Secure_TreeCtrl->GetSelection());
-		//Iterate throught the global list and remove the item		
-		for (unsigned int i = 0; i < m_SecureLocations->Count(); i++) {
-			if (m_SecureLocations->Item(i) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())) {
-				m_SecureLocations->RemoveAt(i);
-			}
-			if (m_SecureLocations->Item(i).AfterLast(wxFILE_SEP_PATH) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())) {
-				m_SecureLocations->RemoveAt(i);
-			}
-		}
 	}
 }
 

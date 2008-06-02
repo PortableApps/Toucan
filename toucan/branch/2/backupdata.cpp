@@ -109,9 +109,7 @@ void BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_TreeCtrl->DeleteAllItems();
 	window->m_Backup_TreeCtrl->AddRoot(_("Hidden root"));
 	//Remove all of the items in the filepath list
-	for(unsigned int i = 0; i < wxGetApp().MainWindow->m_BackupLocations->GetCount(); i++){
-		wxGetApp().MainWindow->m_BackupLocations->RemoveAt(i);
-	}
+	wxGetApp().MainWindow->m_BackupLocations->Clear();
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		wxGetApp().MainWindow->m_BackupLocations->Add(GetLocations().Item(j));
