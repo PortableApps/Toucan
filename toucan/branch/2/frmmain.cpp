@@ -1481,11 +1481,12 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 			config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
 			config->Write(wxT("LastSyncJob/Type"),  _("Sync"));
 			config->Flush();
-			delete config;
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Sync \"LastSyncJob\""));
 			wxGetApp().SetAbort(false);
 			ParseScript(arrScript);
+			config->DeleteGroup(wxT("LastSyncJob"));
+			delete config;
 		}
 	}
 }
@@ -1541,11 +1542,12 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 			config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
 			config->Write(wxT("LastBackupJob/Type"),  _("Backup"));
 			config->Flush();
-			delete config;
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
 			ParseScript(arrScript);
+			config->DeleteGroup(wxT("LastBackupJob"));
+			delete config;
 		}
 	}
 }
@@ -1607,15 +1609,15 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 	SecureData data;
 	if (data.TransferFromForm(this, true)) {
 		if(data.TransferToFile(wxT("LastSecureJob"))){
-			//Create a new fileconfig and write the extra fields to it
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 			config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
 			config->Write(wxT("LastSecureJob/Type"),  _("Secure"));
-			delete config;
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Secure \"LastSecureJob\""));
 			wxGetApp().SetAbort(false);
 			ParseScript(arrScript);	
+			config->DeleteGroup(wxT("LastSecureJob"));
+			delete config;
 		}
 	}
 }

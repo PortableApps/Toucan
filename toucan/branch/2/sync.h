@@ -41,14 +41,14 @@ void *SyncThread::Entry(){
 	//Launch the correct set of loops
 	if(m_Data.GetFunction() == _("Copy") || m_Data.GetFunction() == _("Update")){
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
-			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
+		if(m_Data.GetTimeStamps()){
+			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());		
 		}
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Copy)")){
 		m_Data.SetFunction(_("Copy"));
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
+		if(m_Data.GetTimeStamps()){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 		//Swap the source and dest around for the mirror routine
@@ -58,14 +58,14 @@ void *SyncThread::Entry(){
 		//Run the mirror loop
 		m_Data.SetFunction(_("Mirror (Copy)"));
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
+		if(m_Data.GetTimeStamps()){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 	}
 	else if(m_Data.GetFunction() ==  _("Mirror (Update)")){
 		m_Data.SetFunction(_("Update"));
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
+		if(m_Data.GetTimeStamps()){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 		//Swap the source and dest around for the mirror routine
@@ -75,14 +75,14 @@ void *SyncThread::Entry(){
 		//Run the mirror loop
 		m_Data.SetFunction(_("Mirror (Update)"));
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
+		if(m_Data.GetTimeStamps()){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 	}
 	else if(m_Data.GetFunction() ==  _("Equalise")){
 		m_Data.SetFunction(_("Update"));
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
+		if(m_Data.GetTimeStamps()){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 		wxString strTemp = m_Data.GetSource();
@@ -90,7 +90,7 @@ void *SyncThread::Entry(){
 		m_Data.SetDest(strTemp);
 		m_Data.SetFunction(_("Update"));
 		SyncLoop(m_Data, m_Rules);
-		if(m_Data.GetAttributes()){
+		if(m_Data.GetTimeStamps()){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 	}
@@ -102,7 +102,7 @@ void *SyncThread::Entry(){
 	m_Main->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
 	
 	m_Main->m_Sync_Source_Tree->AddNewPath(m_Main->m_Sync_Source_Txt->GetValue());
-	m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());	
+	m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());		
 	wxMutexGuiLeave();
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
