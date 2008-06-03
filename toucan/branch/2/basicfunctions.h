@@ -280,8 +280,6 @@ void SetSliderText(){
 			window->m_Backup_Ratio_Text->SetLabel(_("Ultra"));
 			break;
 	}
-	delete window;
-	
 }
 	
 #endif
