@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
+#include <wx/aboutdlg.h>
 
 #include "toucan.h"
 #include "virtualdirtreectrl.h"
@@ -129,6 +130,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_BACKUP_ADDVAR, frmMain::OnBackupAddVarClick)
 	
 	EVT_BUTTON(ID_SECURE_ADDVAR, frmMain::OnSecureAddVarClick)	
+	
+	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
+	
+	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
 
 END_EVENT_TABLE()
 
@@ -743,6 +748,13 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer1000 = new wxBoxSizer(wxVERTICAL);
 	itemPanel143->SetSizer(itemBoxSizer1000);
 
+
+	wxButton* HelpButton = new wxButton( itemPanel143, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer1000->Add(HelpButton, 0, wxALIGN_TOP|wxALL, 10);
+	
+	
+	wxButton* AboutButton = new wxButton( itemPanel143, wxID_ABOUT, _("About"), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer1000->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 10);
 
 	wxString m_Settings_TabsStrings[] = {
 		_("Icons + Text"),
@@ -1851,4 +1863,19 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 		m_Secure_TreeCtrl->AddNewPath(window->m_Preview->GetValue());
 	}
 	delete window;	
+}
+
+void frmMain::OnHelpClick(wxCommandEvent& event){
+	//Use win32 method for launching as error with wxShell
+	ShellExecute(NULL, wxT("open"), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + _T("\\Help.html"), NULL, NULL, SW_SHOWDEFAULT);
+}
+
+void frmMain::OnAboutClick(wxCommandEvent& event){
+	wxAboutDialogInfo info;
+	info.SetName(wxT("Toucan"));
+	info.SetVersion(wxT("2.0 Pre-release 1"));
+	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nBURP, 7zip, ccrypt and the icons are (C) their respective owners."));
+	info.SetWebSite(wxT("http://portableapps.com/toucan"));
+	info.SetLicense(wxT("Toucan, 7zip, BURP, ccrypt and the icon set are all licensed under the GNU GPL or a compatible license."));
+	wxAboutBox(info);	
 }

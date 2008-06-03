@@ -330,6 +330,10 @@ public:
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADDVAR
 	void OnSecureAddVarClick(wxCommandEvent& event);
+	
+	void OnHelpClick(wxCommandEvent& event);
+
+	void OnAboutClick(wxCommandEvent& event);
 
 	//Functions
 
