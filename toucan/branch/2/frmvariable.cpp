@@ -1,13 +1,8 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        frmvariable.cpp
-// Purpose:     
+/////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Modified by: 
-// Created:     02/06/2008 20:08:01
-// RCS-ID:      
-// Copyright:   Copyright (c) Steven Lamerton 2006-2007
-// Licence:     
-/////////////////////////////////////////////////////////////////////////////
+// Copyright:   Copyright (C) 2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
+/////////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
@@ -20,14 +15,9 @@
 #include "wx/wx.h"
 #endif
 
-////@begin includes
-////@end includes
-
 #include "frmvariable.h"
-
-////@begin XPM images
-////@end XPM images
-
+#include "basicfunctions.h"
+#include "variables.h"
 
 /*!
  * frmVariable type definition
@@ -40,19 +30,18 @@ IMPLEMENT_DYNAMIC_CLASS( frmVariable, wxDialog )
  * frmVariable event table definition
  */
 
-BEGIN_EVENT_TABLE( frmVariable, wxDialog )
+BEGIN_EVENT_TABLE(frmVariable, wxDialog)
 
-////@begin frmVariable event table entries
-    EVT_BUTTON( ID_PATH, frmVariable::OnPathClick )
+    EVT_BUTTON(ID_PATH, frmVariable::OnPathClick)
 
-    EVT_BUTTON( ID_VARS_ADD, frmVariable::OnVarsAddClick )
+    EVT_BUTTON(ID_VARS_ADD, frmVariable::OnVarsAddClick)
 
-    EVT_BUTTON( wxID_OK, frmVariable::OnOkClick )
+    EVT_BUTTON(wxID_OK, frmVariable::OnOkClick)
 
-    EVT_BUTTON( wxID_CANCEL, frmVariable::OnCancelClick )
-
-////@end frmVariable event table entries
-
+    EVT_BUTTON(wxID_CANCEL, frmVariable::OnCancelClick)
+	
+	EVT_TEXT(ID_TEXT, frmVariable::OnTextChange)
+	
 END_EVENT_TABLE()
 
 
@@ -78,7 +67,6 @@ frmVariable::frmVariable( wxWindow* parent, wxWindowID id, const wxString& capti
 
 bool frmVariable::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-////@begin frmVariable creation
     SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
 
@@ -88,7 +76,6 @@ bool frmVariable::Create( wxWindow* parent, wxWindowID id, const wxString& capti
         GetSizer()->SetSizeHints(this);
     }
     Centre();
-////@end frmVariable creation
     return true;
 }
 
@@ -99,8 +86,6 @@ bool frmVariable::Create( wxWindow* parent, wxWindowID id, const wxString& capti
 
 frmVariable::~frmVariable()
 {
-////@begin frmVariable destruction
-////@end frmVariable destruction
 }
 
 
@@ -110,11 +95,9 @@ frmVariable::~frmVariable()
 
 void frmVariable::Init()
 {
-////@begin frmVariable member initialisation
     m_Text = NULL;
     m_Variables = NULL;
     m_Preview = NULL;
-////@end frmVariable member initialisation
 }
 
 
@@ -124,7 +107,6 @@ void frmVariable::Init()
 
 void frmVariable::CreateControls()
 {    
-////@begin frmVariable content construction
     frmVariable* itemDialog1 = this;
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
@@ -133,7 +115,8 @@ void frmVariable::CreateControls()
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer3, 0, wxGROW|wxALL, 5);
 
-    m_Text = new wxTextCtrl( itemDialog1, ID_TEXT, _T(""), wxDefaultPosition, wxSize(300, -1), 0 );
+    m_Text = new wxTextCtrl( itemDialog1, ID_TEXT, _T(""), wxDefaultPosition, wxSize(-1, -1), 0 );
+	m_Text->SetMinSize(wxSize(300, -1));
     itemBoxSizer3->Add(m_Text, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton5 = new wxButton( itemDialog1, ID_PATH, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
@@ -143,10 +126,10 @@ void frmVariable::CreateControls()
     itemBoxSizer2->Add(itemBoxSizer6, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxArrayString m_VariablesStrings;
-    m_Variables = new wxChoice( itemDialog1, ID_VARS, wxDefaultPosition, wxDefaultSize, m_VariablesStrings, 0 );
+    m_Variables = new wxComboBox( itemDialog1, ID_VARS, wxEmptyString, wxDefaultPosition, wxDefaultSize, m_VariablesStrings, 0 );
     itemBoxSizer6->Add(m_Variables, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton8 = new wxBitmapButton( itemDialog1, ID_VARS_ADD, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton8 = new wxBitmapButton( itemDialog1, ID_VARS_ADD, this->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
     itemBoxSizer6->Add(itemBitmapButton8, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
@@ -166,8 +149,10 @@ void frmVariable::CreateControls()
 
     wxButton* itemButton14 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer12->Add(itemButton14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-////@end frmVariable content construction
+	
+	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+	
+	SetVariablesBox(m_Variables);
 }
 
 
@@ -184,26 +169,24 @@ bool frmVariable::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap frmVariable::GetBitmapResource( const wxString& name )
+wxBitmap frmVariable::GetBitmapResource(const wxString& name)
 {
-    // Bitmap retrieval
-////@begin frmVariable bitmap retrieval
-    wxUnusedVar(name);
-    return wxNullBitmap;
-////@end frmVariable bitmap retrieval
+	wxUnusedVar(name);
+	if (name == _T("add.png")) {
+		wxBitmap bitmap(_T("add.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	} 
+	return wxNullBitmap;
 }
 
 /*!
  * Get icon resources
  */
 
-wxIcon frmVariable::GetIconResource( const wxString& name )
+wxIcon frmVariable::GetIconResource(const wxString& name)
 {
-    // Icon retrieval
-////@begin frmVariable icon retrieval
     wxUnusedVar(name);
     return wxNullIcon;
-////@end frmVariable icon retrieval
 }
 
 
@@ -211,12 +194,12 @@ wxIcon frmVariable::GetIconResource( const wxString& name )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PATH
  */
 
-void frmVariable::OnPathClick( wxCommandEvent& event )
+void frmVariable::OnPathClick(wxCommandEvent& event)
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PATH in frmVariable.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PATH in frmVariable. 
+	wxDirDialog dialog(this,_("Please select a folder."));
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Text->SetValue(dialog.GetPath());
+	}
 }
 
 
@@ -224,12 +207,9 @@ void frmVariable::OnPathClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_VARS_ADD
  */
 
-void frmVariable::OnVarsAddClick( wxCommandEvent& event )
+void frmVariable::OnVarsAddClick(wxCommandEvent& event)
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_VARS_ADD in frmVariable.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_VARS_ADD in frmVariable. 
+    m_Text->WriteText(wxT("@") + m_Variables->GetStringSelection() + wxT("@"));	
 }
 
 
@@ -237,12 +217,9 @@ void frmVariable::OnVarsAddClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  */
 
-void frmVariable::OnOkClick( wxCommandEvent& event )
+void frmVariable::OnOkClick(wxCommandEvent& event)
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK in frmVariable.
-    // Before editing this code, remove the block markers.
     event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK in frmVariable. 
 }
 
 
@@ -250,11 +227,15 @@ void frmVariable::OnOkClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL
  */
 
-void frmVariable::OnCancelClick( wxCommandEvent& event )
+void frmVariable::OnCancelClick(wxCommandEvent& event)
 {
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL in frmVariable.
-    // Before editing this code, remove the block markers.
     event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL in frmVariable. 
 }
 
+void frmVariable::OnTextChange(wxCommandEvent& event){
+	//wxMessageBox(_("New text!"));
+	wxString strPath = m_Text->GetValue();
+	strPath = Normalise(strPath);
+	strPath = Normalise(strPath);
+	m_Preview->SetValue(strPath);
+}

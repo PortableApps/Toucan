@@ -140,6 +140,10 @@ bool SetVariablesBox(wxComboBox *box){
 		box->Append(strValue);
 		blCont = config->GetNextGroup(strValue, dummy);
 	}
+	box->Append(wxT("date"));
+	box->Append(wxT("time"));
+	box->Append(wxT("docs"));
+	box->Append(wxT("drive"));
 	//Remove the fileconfig object
 	delete config;
 	return true;

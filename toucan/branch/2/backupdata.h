@@ -29,6 +29,9 @@ public:
 	
 	void SetLocations(wxArrayString locations) { arrLocations = locations; }
 	wxArrayString GetLocations() { return arrLocations; }
+	
+	void SetLocation(int i, wxString location) { arrLocations.Item(i) = location; }
+	wxString GetLocation(int i) { return arrLocations.Item(i); }
 
 	void SetFunction(wxString function) { strFunction = function; }
 	wxString GetFunction() { return strFunction; }

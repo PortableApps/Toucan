@@ -18,6 +18,7 @@
 #include "backupfunctions.h"
 #include "securedata.h"
 #include "secure.h"
+#include "variables.h"
 
 class SyncData;
 
@@ -113,6 +114,11 @@ bool ParseScript(wxArrayString arrScript){
 				window->m_Text->AppendText(_("Finished"));
 				return false;		
 			}
+			data.SetSource(Normalise(data.GetSource()));
+			data.SetSource(Normalise(data.GetSource()));
+			
+			data.SetDest(Normalise(data.GetDest()));
+			data.SetDest(Normalise(data.GetDest()));
 			Rules rules;
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 			if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
@@ -144,6 +150,8 @@ bool ParseScript(wxArrayString arrScript){
 				}
 				wxString strCommand;
 				for(unsigned int i = 0; i < data.GetLocations().Count(); i++){
+					data.SetLocation(i, Normalise(data.GetLocation(i)));
+					data.SetLocation(i, Normalise(data.GetLocation(i)));
 					//Open the text file for the file paths and clear it
 					wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
 					file->Open();
@@ -199,6 +207,10 @@ bool ParseScript(wxArrayString arrScript){
 				rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
 			}
 			delete config;
+			for(unsigned int i = 0; i < data.GetLocations().GetCount(); i++){
+				data.SetLocation(i, Normalise(data.GetLocation(i)));
+				data.SetLocation(i, Normalise(data.GetLocation(i)));
+			}
 			//Call the secure function
 			Secure(data, rules, window);
 		}
