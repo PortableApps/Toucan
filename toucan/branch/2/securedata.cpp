@@ -7,6 +7,7 @@
 #include "securedata.h"
 #include "basicfunctions.h"
 #include "toucan.h"
+#include "variables.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
@@ -73,7 +74,7 @@ void SecureData::TransferToForm(frmMain *window){
 	//Add the new filepaths to the list and the treectrl
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
 		wxGetApp().MainWindow->m_SecureLocations->Add(GetLocations().Item(k));
-		window->m_Secure_TreeCtrl->AddNewPath(GetLocations().Item(k));
+		window->m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocations().Item(k))));
 	}
 	//Set up the rest of the window
 	window->m_Secure_Function->SetStringSelection(GetFunction());

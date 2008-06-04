@@ -154,9 +154,14 @@ bool ParseScript(wxArrayString arrScript){
 					data.SetLocation(i, Normalise(data.GetLocation(i)));
 					//Open the text file for the file paths and clear it
 					wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-					file->Open();
-					file->Clear();
-					file->Write();
+					if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
+						file->Open();
+						file->Clear();
+						file->Write();
+					}
+					else{
+						file->Create();
+					}
 					//Create the command to execute
 					strCommand = data.CreateCommand(i);
 					wxString strPath = data.GetLocations().Item(i);

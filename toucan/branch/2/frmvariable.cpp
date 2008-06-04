@@ -153,6 +153,10 @@ void frmVariable::CreateControls()
 	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 	
 	SetVariablesBox(m_Variables);
+	m_Variables->Append(wxT("date"));
+	m_Variables->Append(wxT("time"));
+	m_Variables->Append(wxT("docs"));
+	m_Variables->Append(wxT("drive"));
 }
 
 

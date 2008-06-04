@@ -486,9 +486,9 @@ void frmMain::CreateControls()
 	itemBoxSizer53->Add(m_Backup_TreeCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer53->Add(itemBoxSizer59, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	itemBoxSizer53->Add(itemBoxSizer59, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
 	//Secure
 
@@ -578,11 +578,11 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer84 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer78->Add(itemBoxSizer84, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer84->Add(itemBitmapButton85, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
-	wxBitmapButton* itemBitmapButton86 = new wxBitmapButton( itemPanel68, ID_SECURE_MAKERELATIVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-	itemBoxSizer84->Add(itemBitmapButton86, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	//wxBitmapButton* itemBitmapButton86 = new wxBitmapButton( itemPanel68, ID_SECURE_MAKERELATIVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	//itemBoxSizer84->Add(itemBitmapButton86, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
 	//Rules section!!! (Not rules for backup)
 
@@ -905,6 +905,10 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 		wxBitmap bitmap(_T("settings.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
+	else if (name == _T("addvar.png")) {
+		wxBitmap bitmap(_T("addvar.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
 	return wxNullBitmap;
 }
 
@@ -989,8 +993,8 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 		this->SetCursor(cursor);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(dialog.GetPath());
-		m_Sync_Source_Tree->AddNewPath(dialog.GetPath());
+		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
+		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 		wxCursor cursorstd(wxCURSOR_ARROW);
 		this->SetCursor(cursorstd);
@@ -1010,8 +1014,8 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 		this->SetCursor(cursor);
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
-		m_Sync_Dest_Tree->SetRoot(dialog.GetPath());
-		m_Sync_Dest_Tree->AddNewPath(dialog.GetPath());
+		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
+		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 		wxCursor stdcursor(wxCURSOR_ARROW);
 		this->SetCursor(stdcursor);
@@ -1867,7 +1871,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 
 void frmMain::OnHelpClick(wxCommandEvent& event){
 	//Use win32 method for launching as error with wxShell
-	ShellExecute(NULL, wxT("open"), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11) + _T("\\Help.html"), NULL, NULL, SW_SHOWDEFAULT);
+	ShellExecute(NULL, wxT("open"),wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Help.html"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
 void frmMain::OnAboutClick(wxCommandEvent& event){
