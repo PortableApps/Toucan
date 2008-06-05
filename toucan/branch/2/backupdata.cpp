@@ -7,6 +7,7 @@
 #include "backupdata.h"
 #include "basicfunctions.h"
 #include "toucan.h"
+#include "variables.h"
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>
 
@@ -113,7 +114,7 @@ void BackupData::TransferToForm(frmMain *window){
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		wxGetApp().MainWindow->m_BackupLocations->Add(GetLocations().Item(j));
-		window->m_Backup_TreeCtrl->AddNewPath(GetLocations().Item(j));
+		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocations().Item(j))));
 	}
 	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());

@@ -59,10 +59,11 @@ void ErrorBox(wxString strMessage){
 
 //Basic function to write output to progress form, used to keep code clean
 void OutputProgress(wxString strValue){
-	if(wxGetApp().ProgressWindow != NULL){
+	if(wxGetApp().IsGUI){
 		wxGetApp().ProgressWindow->m_Text->AppendText(strValue + wxT("\n"));
 	}
 	else{
+		wxMessageBox(_("Cout value"));
         cout<<strValue + wxT("\n");
 	}		
 }

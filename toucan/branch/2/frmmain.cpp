@@ -472,6 +472,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer53 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer36->Add(itemBoxSizer53, 1, wxGROW|wxALL, 5);
 	m_Backup_DirCtrl = new wxGenericDirCtrl( itemPanel35, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME, _T("All files (*.*)|*.*"), 0 );
+	m_Backup_DirCtrl->ShowHidden(true);
 	itemBoxSizer53->Add(m_Backup_DirCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer55 = new wxBoxSizer(wxVERTICAL);
@@ -563,6 +564,7 @@ void frmMain::CreateControls()
 	
 	
 	m_Secure_DirCtrl = new wxGenericDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
+	m_Secure_DirCtrl->ShowHidden(true);	
 	itemBoxSizer78->Add(m_Secure_DirCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);

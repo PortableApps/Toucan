@@ -14,9 +14,7 @@
 #include "script.h"
 
 bool ParseCommandLine(){
-	
 	OutputProgress(_("Welcome to the Toucan command line system.\n"));
-	
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 	int res;
 	{
@@ -28,6 +26,7 @@ bool ParseCommandLine(){
 	
 	if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
+		wxMessageBox(_("I am here"));
 		arrScript.Add(wxT("Sync ") + cmdParser.GetParam(1) + wxT("\""));
 		ParseScript(arrScript);
 	}
@@ -46,6 +45,30 @@ bool ParseCommandLine(){
 		wxString strFile = config->Read(cmdParser.GetParam(1) + wxT("/") + wxT("Script"));
 		wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
 		ParseScript(arrContents);
+	}
+	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
+		
+		SyncData data;
+		data.SetFunction(cmdParser.GetParam(1));
+		data.SetTimeStamps(cmdParser.GetParam(2));
+		data.SetAttributes(cmdParser.GetParam(3));
+		data.SetIgnoreRO(cmdParser.GetParam(4));
+		data.SetIgnoreDLS(cmdParser.GetParam(5));
+		data.SetSource(cmdParser.GetParam(7));
+		data.SetDest(cmdParser.GetParam(8));
+		wxMessageBox(_("Here"));
+		if(data.TransferToFile(wxT("LastSyncJob"))){
+			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
+			config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));
+			config->Write(wxT("LastSyncJob/Type"),  _("Sync"));
+			config->Flush();
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Sync \"LastSyncJob\""));
+			wxGetApp().SetAbort(false);
+			ParseScript(arrScript);
+			config->DeleteGroup(wxT("LastSyncJob"));
+			delete config;
+		}
 	}
 	else{
 		OutputProgress(_("Sorry the command is not recognised"));
