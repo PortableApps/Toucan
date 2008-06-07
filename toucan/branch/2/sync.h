@@ -203,7 +203,7 @@ bool SyncFile(SyncData data, Rules rules)
 					tmFrom.MakeTimezone(wxDateTime::Local, true);
 				}
 				//I.E. strFrom is newer
-				if(tmFrom.IsLaterThan(tmTo)){
+				if(tmFrom.IsLaterThan(tmTo.Subtract(wxTimeSpan::Seconds(4)))){
 					wxCopyFile(data.GetSource(), data.GetDest(), true);
 					OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetDest());
 				}

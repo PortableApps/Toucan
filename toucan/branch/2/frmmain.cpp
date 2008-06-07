@@ -217,6 +217,7 @@ void frmMain::CreateControls()
 	//Create a pointer so that we have something to add the items to	
 	frmMain* itemFrame1 = this;
 	
+	itemFrame1->SetMinSize(wxSize(760, 450));
 	
 	wxFont font;
 	font.SetNativeFontInfo(wxGetApp().m_Settings->GetFont());
@@ -777,8 +778,11 @@ void frmMain::CreateControls()
 
 	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());
 	
+	wxStaticBox* FontStaticBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Font"));
+	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);	
 	m_Settings_Font = new wxFontPickerCtrl(itemPanel143, ID_SETTINGS_FONT);
-	itemBoxSizer1000->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer1000->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	
 	m_Settings_Font->SetSelectedFont(font);
 
@@ -787,20 +791,26 @@ void frmMain::CreateControls()
 	wxBitmap backupbitmap = GetBitmapResource(wxT("backup.png"));
 	wxBitmap securebitmap = GetBitmapResource(wxT("secure.png"));
 	wxBitmap settingsbitmap = GetBitmapResource(wxT("settings.png"));
+	wxBitmap scriptbitmap = GetBitmapResource(wxT("script.png"));
+	wxBitmap rulesbitmap = GetBitmapResource(wxT("rules.png"));
+	wxBitmap pvarsbitmap = GetBitmapResource(wxT("pvars.png"));
 	
 	if(wxGetApp().m_Settings->GetTabStyle() == _("Text")){
 		syncbitmap = wxNullBitmap;
 		backupbitmap = wxNullBitmap;
 		securebitmap = wxNullBitmap;
 		settingsbitmap = wxNullBitmap;
+		scriptbitmap = wxNullBitmap;
+		rulesbitmap = wxNullBitmap;
+		pvarsbitmap = wxNullBitmap;
 	}
 
 	m_Notebook->AddPage(itemPanel6, _("Sync"), false, syncbitmap);
 	m_Notebook->AddPage(itemPanel35, _("Backup"), false, backupbitmap);
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
-	m_Notebook->AddPage(itemPanel93, _("Rules"), false);
-	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false);
-	m_Notebook->AddPage(itemPanel131, _("Scripting"), false);
+	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
+	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false, pvarsbitmap);
+	m_Notebook->AddPage(itemPanel131, _("Scripting"), false, scriptbitmap);
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
 
 	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
@@ -905,6 +915,18 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 	}
 	else if (name == _T("settings.png")) {
 		wxBitmap bitmap(_T("settings.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
+	else if (name == _T("rules.png")) {
+		wxBitmap bitmap(_T("rules.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
+	else if (name == _T("script.png")) {
+		wxBitmap bitmap(_T("script.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
+	else if (name == _T("pvars.png")) {
+		wxBitmap bitmap(_T("pvars.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("addvar.png")) {
