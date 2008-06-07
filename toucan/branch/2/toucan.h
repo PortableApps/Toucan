@@ -52,8 +52,8 @@ class Toucan: public wxApp
 	frmProgress* ProgressWindow;
 	Settings* m_Settings;
 	wxLocale* m_Locale;	
-	bool IsGUI;
-		
+	bool blGUI;
+	
 protected:
 	//Abort the current job
 	bool blAbort;

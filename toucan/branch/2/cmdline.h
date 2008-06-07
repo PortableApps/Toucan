@@ -15,18 +15,18 @@
 
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system.\n"));
-	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
+
 	int res;
+	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
+	wxLogNull log;
 	{
-		wxLogNull log;
 		res = cmdParser.Parse(false);
 	}
 	//Create new file config to read the jobs
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-	
+	wxMessageBox(config->Read(cmdParser.GetParam(0) + wxT("/Type")));
 	if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
-		wxMessageBox(_("I am here"));
 		arrScript.Add(wxT("Sync ") + cmdParser.GetParam(1) + wxT("\""));
 		ParseScript(arrScript);
 	}
@@ -56,7 +56,6 @@ bool ParseCommandLine(){
 		data.SetIgnoreDLS(cmdParser.GetParam(5));
 		data.SetSource(cmdParser.GetParam(7));
 		data.SetDest(cmdParser.GetParam(8));
-		wxMessageBox(_("Here"));
 		if(data.TransferToFile(wxT("LastSyncJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));

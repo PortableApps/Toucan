@@ -59,12 +59,11 @@ void ErrorBox(wxString strMessage){
 
 //Basic function to write output to progress form, used to keep code clean
 void OutputProgress(wxString strValue){
-	if(wxGetApp().IsGUI){
+	if(wxGetApp().blGUI == true){
 		wxGetApp().ProgressWindow->m_Text->AppendText(strValue + wxT("\n"));
 	}
 	else{
-		wxMessageBox(_("Cout value"));
-        cout<<strValue + wxT("\n");
+		cout<<strValue + wxT("\n");
 	}		
 }
 
@@ -194,7 +193,7 @@ wxArrayString GetLanguages(){
 
 wxString InputPassword(){
 	wxString strNewPass;
-	if(wxGetApp().ProgressWindow != NULL){
+	if(wxGetApp().blGUI == true){
 		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
 		if (dialog.ShowModal() == wxID_OK) {
 			strNewPass = dialog.GetValue();
