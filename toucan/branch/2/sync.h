@@ -190,7 +190,14 @@ bool SyncFile(SyncData data, Rules rules)
 		} 
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), data.GetDest(), true)){
-				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" to ") + data.GetDest());
+				if(wxCopyFile(strSource, wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true){
+					if(wxRenameFile(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), strDest, true){
+						OutputProgress(strSource + _("\t updated \t") + strDest);
+					}
+				}
+				if(wxFileExists(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+					wxRemoveFile(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+				}
 			}
 		}	
 		if(data.GetFunction() == _("Update")){
@@ -204,13 +211,25 @@ bool SyncFile(SyncData data, Rules rules)
 				}
 				//I.E. strFrom is newer
 				if(tmFrom.IsLaterThan(tmTo.Subtract(wxTimeSpan::Seconds(4)))){
-					wxCopyFile(data.GetSource(), data.GetDest(), true);
-					OutputProgress(_("Updated ") + data.GetSource().AfterLast(wxFILE_SEP_PATH) + _(" in ") + data.GetDest());
+					if(wxCopyFile(strSource, wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true){
+						if(wxRenameFile(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), strDest, true){
+							OutputProgress(strSource + _("\t updated \t") + strDest);
+						}
+					}
+					if(wxFileExists(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+						wxRemoveFile(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+					}
 				}
 			}
 			else{
-				wxCopyFile(data.GetSource(), data.GetDest(), true);
-				OutputProgress(_("Copied ") + data.GetSource().AfterLast(wxFILE_SEP_PATH)+  _(" to ") + data.GetDest());
+				if(wxCopyFile(strSource, wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true){
+					if(wxRenameFile(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), strDest, true){
+						OutputProgress(strSource + _("\t updated \t") + strDest);
+					}
+				}
+				if(wxFileExists(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+					wxRemoveFile(wxPathOnly(strDest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+				}
 			}
 		}
 		if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){	
