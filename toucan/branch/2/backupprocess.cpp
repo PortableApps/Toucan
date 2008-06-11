@@ -8,6 +8,7 @@
 #include "backupprocess.h"
 #include "toucan.h"
 #include "backupdata.h"
+#include "basicfunctions.h"
 #include <wx/textfile.h>
 
 bool PipedProcess::HasInput()
@@ -21,7 +22,7 @@ bool PipedProcess::HasInput()
 		wxTextInputStream tis(*GetInputStream());
 		wxString msg = tis.ReadLine();
 		//Need to change this to OutputProgress
-		m_Window->m_Text->AppendText(msg + wxT("\n"));
+		OutputProgress(msg);
 		//Need a window update or refresh in here
 		wxMilliSleep(50);
 		hasInput = true;

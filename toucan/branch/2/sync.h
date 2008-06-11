@@ -94,16 +94,18 @@ void *SyncThread::Entry(){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 	}
-	wxMutexGuiEnter();
-	m_Main->m_Sync_Source_Tree->DeleteAllItems();
-	m_Main->m_Sync_Dest_Tree->DeleteAllItems();
-	
-	m_Main->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
-	m_Main->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
-	
-	m_Main->m_Sync_Source_Tree->AddNewPath(m_Main->m_Sync_Source_Txt->GetValue());
-	m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());		
-	wxMutexGuiLeave();
+	if(wxGetApp().blGUI){
+		wxMutexGuiEnter();
+		m_Main->m_Sync_Source_Tree->DeleteAllItems();
+		m_Main->m_Sync_Dest_Tree->DeleteAllItems();
+		
+		m_Main->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
+		m_Main->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
+		
+		m_Main->m_Sync_Source_Tree->AddNewPath(m_Main->m_Sync_Source_Txt->GetValue());
+		m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());		
+		wxMutexGuiLeave();
+	}
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
 	return NULL;
@@ -172,7 +174,7 @@ bool SyncLoop(SyncData data, Rules rules)
 			}
 		}
 		while (dir.GetNext(&strFilename) );
-	}  
+	} 
 	return true;
 	
 }

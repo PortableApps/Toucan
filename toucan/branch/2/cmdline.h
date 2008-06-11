@@ -18,26 +18,83 @@ bool ParseCommandLine(){
 
 	int res;
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
+	int iArgs = wxGetApp().argc;
+	//Simple job name
+	if(iArgs == 2){
+		cmdParser.AddParam(_("Job name"));
+	}
+	//Job name with password
+	else if(iArgs == 4){
+		wxMessageBox(_("Here"));
+		cmdParser.AddParam(_("Job name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+	}
+	//Sync job all specified
+	else if(iArgs == 10){
+		cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Source"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Destination"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Function"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Read-only"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Daylight savings"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Timestamps"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Attributes"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+	}
+	//Backup job all specified
+	else if(iArgs == 7){
+		cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Backup file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Format"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Compression level"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+	}
+	//Backup job all specified with password
+	else if(iArgs == 9){
+		cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Backup file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Format"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Compression level"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+	}
+	//Secure all specified
+	else if(iArgs == 8){
+		cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Function"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Type"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);		
+		cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+	}
+	else{
+		OutputProgress(_("You have specified the wrong number of options"));
+		return false;
+	}
 	wxLogNull log;
 	{
 		res = cmdParser.Parse(false);
 	}
 	//Create new file config to read the jobs
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-	wxMessageBox(config->Read(cmdParser.GetParam(0) + wxT("/Type")));
 	if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
-		arrScript.Add(wxT("Sync ") + cmdParser.GetParam(1) + wxT("\""));
+		arrScript.Add(wxT("Sync \"") + cmdParser.GetParam(0) + wxT("\""));
 		ParseScript(arrScript);
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
 		wxArrayString arrScript;
-		arrScript.Add(wxT("Backup \"") + cmdParser.GetParam(1) + wxT("\""));
+		arrScript.Add(wxT("Backup \"") + cmdParser.GetParam(0) + wxT("\""));
 		ParseScript(arrScript);
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
 		wxArrayString arrScript;
-		arrScript.Add(wxT("Secure ") + cmdParser.GetParam(1) + wxT("\""));
+		arrScript.Add(wxT("Secure \"") + cmdParser.GetParam(0) + wxT("\""));
 		ParseScript(arrScript);	
 	}
 	else if(cmdParser.GetParam(0) == _("Script")){

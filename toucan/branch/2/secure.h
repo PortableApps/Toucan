@@ -18,6 +18,7 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();
+	wxMessageBox(_("Here3"));
 	//Iterate through the entries in the array
 	for(unsigned int i = 0; i < arrLocation.Count(); i++)
 	{

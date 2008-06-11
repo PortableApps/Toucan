@@ -34,13 +34,15 @@ bool ParseScript(wxArrayString arrScript){
 	window->m_Save->Enable(false);
 	window->m_Cancel->Enable(true);
 			
-	window->m_Text->AppendText(_("Starting...\n"));
+	OutputProgress(_("Starting...\n"));
 	wxDateTime now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	//Show the window
-	window->Refresh();
-	window->Update();
-	window->Show();
+	if(wxGetApp().blGUI){
+		window->Refresh();
+		window->Update();
+		window->Show();
+	}
 	//To ensure buttons show properly
 	wxMilliSleep(50);
 	
@@ -85,6 +87,7 @@ bool ParseScript(wxArrayString arrScript){
 			}
 		}
 	}
+	wxMessageBox(_("Here2"));
 	if(blParseError){
 		return false;
 	}
@@ -110,8 +113,8 @@ bool ParseScript(wxArrayString arrScript){
 				window->m_Save->Enable(true);
 				window->m_Cancel->Enable(false);
 				now = wxDateTime::Now();
-				window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-				window->m_Text->AppendText(_("Finished"));
+				OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+				OutputProgress(_("Finished"));
 				return false;		
 			}
 			data.SetSource(Normalise(data.GetSource()));
@@ -191,6 +194,7 @@ bool ParseScript(wxArrayString arrScript){
 			}
 		}
 		else if(strToken == _("Secure")){
+			wxMessageBox(_("Here"));
 			SecureData data;
 			if(strPass != wxEmptyString){
 				data.SetPass(strPass);						
@@ -202,8 +206,8 @@ bool ParseScript(wxArrayString arrScript){
 				window->m_Save->Enable(true);
 				window->m_Cancel->Enable(false);
 				now = wxDateTime::Now();
-				window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-				window->m_Text->AppendText(_("Finished"));
+				OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+				OutputProgress(_("Finished"));
 				return false;
 			}
 			Rules rules;
@@ -222,10 +226,10 @@ bool ParseScript(wxArrayString arrScript){
 		else if(strToken == _("Delete")){
 			wxString strSource = tkz.GetNextToken();
 			if(wxRemoveFile(strSource)){
-				window->m_Text->AppendText(_("Deleted ") +strSource + wxT("\n"));	
+				OutputProgress(_("Deleted ") +strSource + wxT("\n"));	
 			}
 			else{
-				window->m_Text->AppendText(_("Failed to delete ") +strSource + wxT("\n"));				
+				OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
 			}
 		}
 		else if(strToken == _("Move")){
@@ -234,14 +238,14 @@ bool ParseScript(wxArrayString arrScript){
 			wxString strDest = tkz.GetNextToken();
 			if(wxCopyFile(strSource, strDest, true)){
 				if(wxRemoveFile(strSource)){
-					window->m_Text->AppendText(_("Moved") +strSource + wxT("\n"));	
+					OutputProgress(_("Moved") +strSource + wxT("\n"));	
 				}
 				else{
-					window->m_Text->AppendText(_("Failed to move ") +strSource + wxT("\n"));
+					OutputProgress(_("Failed to move ") +strSource + wxT("\n"));
 				}
 			}
 			else{
-				window->m_Text->AppendText(_("Failed to move ") +strSource + wxT("\n"));		
+				OutputProgress(_("Failed to move ") +strSource + wxT("\n"));		
 			}
 		}
 		else if(strToken == _("Copy")){
@@ -249,24 +253,24 @@ bool ParseScript(wxArrayString arrScript){
 			tkz.GetNextToken();
 			wxString strDest = tkz.GetNextToken();
 			if(wxCopyFile(strSource, strDest, true)){
-				window->m_Text->AppendText(_("Copied ") +strSource + wxT("\n"));	
+				OutputProgress(_("Copied ") +strSource + wxT("\n"));	
 			}
 			else{
-				window->m_Text->AppendText(_("Failed to copy ") +strSource + wxT("\n"));
+				OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
 			}
 		}
 		else if(strToken == _("Execute")){
 			wxString strExecute = tkz.GetNextToken();
 			wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
-			window->m_Text->AppendText(_("Executed ") + strExecute + wxT("\n"));
+			OutputProgress(_("Executed ") + strExecute + wxT("\n"));
 		}
 	}
 	window->m_OK->Enable(true);
 	window->m_Save->Enable(true);
 	window->m_Cancel->Enable(false);
 	now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	window->m_Text->AppendText(_("Finished"));
+	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	OutputProgress(_("Finished"));
 	return true;
 }
 		
