@@ -104,14 +104,13 @@ bool ParseCommandLine(){
 	}
 	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
 		SyncData data;
-		data.SetFunction(cmdParser.GetParam(1));
-		data.SetTimeStamps(cmdParser.GetParam(2));
-		data.SetAttributes(cmdParser.GetParam(3));
-		data.SetIgnoreRO(cmdParser.GetParam(4));
-		data.SetIgnoreDLS(cmdParser.GetParam(5));
-		data.SetSource(cmdParser.GetParam(7));
-		data.SetDest(cmdParser.GetParam(8));
-		data.Output();
+		data.SetSource(cmdParser.GetParam(1));
+		data.SetDest(cmdParser.GetParam(2));
+		data.SetFunction(cmdParser.GetParam(3));
+		data.SetTimeStamps(cmdParser.GetParam(5));
+		data.SetAttributes(cmdParser.GetParam(6));
+		data.SetIgnoreRO(cmdParser.GetParam(7));
+		data.SetIgnoreDLS(cmdParser.GetParam(8));
 		if(data.TransferToFile(wxT("LastSyncJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));
