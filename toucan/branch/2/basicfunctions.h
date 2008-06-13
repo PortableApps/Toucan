@@ -211,6 +211,34 @@ wxString InputPassword(){
 	}
 	else{
 		wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
+		int iArgs = wxGetApp().argc;
+		if(iArgs == 4){
+			wxMessageBox(_("Here"));
+			cmdParser.AddParam(_("Job name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		}
+		//Backup job all specified with password
+		else if(iArgs == 9){
+			cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Backup file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Format"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Compression level"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		}
+		//Secure all specified
+		else if(iArgs == 8){
+			cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Function"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Type"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);		
+			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		}
 		int res;
 		{
 			wxLogNull log;

@@ -87,7 +87,6 @@ bool ParseScript(wxArrayString arrScript){
 			}
 		}
 	}
-	wxMessageBox(_("Here2"));
 	if(blParseError){
 		return false;
 	}
@@ -194,7 +193,6 @@ bool ParseScript(wxArrayString arrScript){
 			}
 		}
 		else if(strToken == _("Secure")){
-			wxMessageBox(_("Here"));
 			SecureData data;
 			if(strPass != wxEmptyString){
 				data.SetPass(strPass);						

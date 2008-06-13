@@ -25,7 +25,6 @@ bool ParseCommandLine(){
 	}
 	//Job name with password
 	else if(iArgs == 4){
-		wxMessageBox(_("Here"));
 		cmdParser.AddParam(_("Job name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
@@ -104,7 +103,6 @@ bool ParseCommandLine(){
 		ParseScript(arrContents);
 	}
 	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
-		
 		SyncData data;
 		data.SetFunction(cmdParser.GetParam(1));
 		data.SetTimeStamps(cmdParser.GetParam(2));
@@ -113,6 +111,7 @@ bool ParseCommandLine(){
 		data.SetIgnoreDLS(cmdParser.GetParam(5));
 		data.SetSource(cmdParser.GetParam(7));
 		data.SetDest(cmdParser.GetParam(8));
+		data.Output();
 		if(data.TransferToFile(wxT("LastSyncJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));

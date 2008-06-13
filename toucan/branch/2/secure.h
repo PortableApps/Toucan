@@ -18,7 +18,6 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();
-	wxMessageBox(_("Here3"));
 	//Iterate through the entries in the array
 	for(unsigned int i = 0; i < arrLocation.Count(); i++)
 	{
@@ -35,10 +34,12 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 			}
 		}
 	}
-	wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
-	wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
-	for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
-		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(wxGetApp().MainWindow->m_SecureLocations->Item(i));
+	if(wxGetApp().blGUI){
+		wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
+		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
+		for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
+			wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(wxGetApp().MainWindow->m_SecureLocations->Item(i));
+		}
 	}
 	return true;
 }
