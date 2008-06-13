@@ -66,7 +66,7 @@ bool ParseCommandLine(){
 		cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(_("Function"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
-		cmdParser.AddParam(_("Type"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(_("Format"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);		
 		cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
@@ -121,6 +121,57 @@ bool ParseCommandLine(){
 			wxGetApp().SetAbort(false);
 			ParseScript(arrScript);
 			config->DeleteGroup(wxT("LastSyncJob"));
+			delete config;
+		}
+	}
+	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 7){
+		BackupData data;
+		data.SetBackupLocation(cmdParser.GetParam(1));
+		wxTextFile file;
+		wxArrayString arrLocations;
+		file.Open(cmdParser.GetParam(2));
+		for(unsigned int i = 0; i < file.GetLineCount(); i++){
+			arrLocations.Add(file.GetLine(i));
+		}
+		data.SetLocations(arrLocations);
+		data.SetFunction(cmdParser.GetParam(3));
+		data.SetFormat(cmdParser.GetParam(5));
+		wxVariant varTemp = cmdParser.GetParam(6);
+		data.SetRatio(varTemp.GetInteger());
+		if(data.TransferToFile(wxT("LastBackupJob"))){
+			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
+			config->Write(wxT("LastBackupJob/Rules"),  cmdParser.GetParam(6));
+			config->Write(wxT("LastBackupJob/Type"),  _("Backup"));
+			config->Flush();
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Sync \"LastBackupJob\""));
+			wxGetApp().SetAbort(false);
+			ParseScript(arrScript);
+			config->DeleteGroup(wxT("LastBackupJob"));
+			delete config;
+		}
+	}
+	else if(cmdParser.GetParam(0) == wxT("Secure") && cmdParser.GetParamCount() == 8){
+		SecureData data;
+		wxTextFile file;
+		wxArrayString arrLocations;
+		file.Open(cmdParser.GetParam(1));
+		for(unsigned int i = 0; i < file.GetLineCount(); i++){
+			arrLocations.Add(file.GetLine(i));
+		}
+		data.SetLocations(arrLocations);
+		data.SetFunction(cmdParser.GetParam(2));
+		data.SetFormat(cmdParser.GetParam(3));
+		if(data.TransferToFile(wxT("LastSecureJob"))){
+			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
+			config->Write(wxT("LastSecureJob/Rules"),  cmdParser.GetParam(4));
+			config->Write(wxT("LastSecureJob/Type"),  _("Secure"));
+			config->Flush();
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Sync \"LastSecureJob\""));
+			wxGetApp().SetAbort(false);
+			ParseScript(arrScript);
+			config->DeleteGroup(wxT("LastSecureJob"));
 			delete config;
 		}
 	}
