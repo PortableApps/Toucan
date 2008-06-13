@@ -216,8 +216,8 @@ wxString BackupData::CreateCommand(int i){
 	else if(GetFunction() == _("Update")){
 		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\""); 
 	}
-	//With the incremental type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
-	else if(GetFunction() == _("Incremental")){
+	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
+	else if(GetFunction() == _("Differential")){
 		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {
 			GetBackupLocation() += wxFILE_SEP_PATH;       
 		}

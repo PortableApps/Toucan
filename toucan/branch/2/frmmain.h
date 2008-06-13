@@ -334,6 +334,11 @@ public:
 	void OnHelpClick(wxCommandEvent& event);
 
 	void OnAboutClick(wxCommandEvent& event);
+	
+	void OnBackupTreeCtrlTooltip(wxTreeEvent& event);
+	
+	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
+	
 
 	//Functions
 

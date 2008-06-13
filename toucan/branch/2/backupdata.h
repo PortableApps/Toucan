@@ -53,7 +53,7 @@ private:
 	wxString strBackupLocation;
 	//A list of paths to be used for backup
 	wxArrayString arrLocations;
-	//Complete, update, incremental, restore
+	//Complete, update, Differential, restore
 	wxString strFunction;
 	//7zip, zip
 	wxString strFormat;

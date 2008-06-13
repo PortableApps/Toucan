@@ -134,6 +134,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
 	
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
+	
+	EVT_TREE_ITEM_GETTOOLTIP(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeCtrlTooltip)
+	
+	EVT_TREE_ITEM_GETTOOLTIP(ID_SECURE_TREECTRL, frmMain::OnSecureTreeCtrlTooltip)
 
 END_EVENT_TABLE()
 
@@ -386,7 +390,7 @@ void frmMain::CreateControls()
 	wxArrayString m_Backup_FunctionStrings;
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
-	m_Backup_FunctionStrings.Add(_("Incremental"));
+	m_Backup_FunctionStrings.Add(_("Differential"));
 	m_Backup_Function = new wxRadioBox( itemPanel35, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Function->SetSelection(0);
 	BackupRow1->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
@@ -1053,7 +1057,7 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), _("This dialog needs to be replaced"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), _("File to exclude"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FileExclude->Append(dialog->GetValue());
 	}
@@ -1077,7 +1081,7 @@ void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"), _("This dialog needs to be replaced"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),_("Folder to exclude"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FolderExclude->Append(dialog->GetValue());
 	}
@@ -1101,7 +1105,7 @@ void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFiledeleteClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to Delete"), _("This dialog needs to be replaced"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to Delete"), _("File to Delete"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FileDelete->Append(dialog->GetValue());
 	}
@@ -1164,7 +1168,7 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), _("This dialog needs to be replaced"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), _("File to include"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_Combo->AppendString(dialog->GetValue());
 		m_Rules_Combo->SetStringSelection(dialog->GetValue());
@@ -1409,7 +1413,7 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 
 void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"), _("This dialog needs to be replaced"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"), _("Location to include"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_LocationInclude->Append(dialog->GetValue());
 	}
@@ -1433,7 +1437,7 @@ void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& event)
 
 void frmMain::OnBackupLocationClick(wxCommandEvent& event)
 {
-	if(m_Backup_Function->GetStringSelection() == _("Incremental")){
+	if(m_Backup_Function->GetStringSelection() == _("Differential")){
 		wxDirDialog dialog(this,_("Please select the folder to store your backups"),m_Backup_Location->GetValue());
 		if (dialog.ShowModal() == wxID_OK){
 			m_Backup_Location->SetValue(dialog.GetPath());
@@ -1906,4 +1910,24 @@ void frmMain::OnAboutClick(wxCommandEvent& event){
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan, 7zip, BURP, ccrypt and the icon set are all licensed under the GNU GPL or a compatible license."));
 	wxAboutBox(info);	
+}
+
+void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
+	if(m_Backup_TreeCtrl->GetItemParent(event.GetItem()) == m_Backup_TreeCtrl->GetRootItem()){
+		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
+			if(Normalise(Normalise(m_BackupLocations->Item(i))) == m_Backup_TreeCtrl->GetItemText(event.GetItem())){
+				event.SetToolTip(m_BackupLocations->Item(i));
+			}
+		}
+	}
+}
+
+void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
+	if(m_Secure_TreeCtrl->GetItemParent(event.GetItem()) == m_Secure_TreeCtrl->GetRootItem()){
+		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
+			if(Normalise(Normalise(m_SecureLocations->Item(i))) == m_Secure_TreeCtrl->GetItemText(event.GetItem())){
+				event.SetToolTip(m_SecureLocations->Item(i));
+			}
+		}
+	}	
 }
