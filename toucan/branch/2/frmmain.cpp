@@ -1057,7 +1057,7 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), _("File to exclude"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FileExclude->Append(dialog->GetValue());
 	}
@@ -1081,7 +1081,7 @@ void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),_("Folder to exclude"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FolderExclude->Append(dialog->GetValue());
 	}
@@ -1105,7 +1105,7 @@ void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFiledeleteClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to Delete"), _("File to Delete"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to Delete"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FileDelete->Append(dialog->GetValue());
 	}
@@ -1168,7 +1168,7 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), _("File to include"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_Combo->AppendString(dialog->GetValue());
 		m_Rules_Combo->SetStringSelection(dialog->GetValue());
@@ -1413,7 +1413,7 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 
 void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"), _("Location to include"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"),wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_LocationInclude->Append(dialog->GetValue());
 	}

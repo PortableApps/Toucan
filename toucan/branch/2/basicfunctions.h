@@ -213,16 +213,16 @@ wxString InputPassword(){
 		wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 		int iArgs = wxGetApp().argc;
 		if(iArgs == 4){
-			wxMessageBox(_("Here"));
 			cmdParser.AddParam(_("Job name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		}
 		//Backup job all specified with password
-		else if(iArgs == 9){
+		else if(iArgs == 10){
 			cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Backup file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(_("Function"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Format"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Compression level"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
@@ -230,11 +230,10 @@ wxString InputPassword(){
 			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		}
 		//Secure all specified
-		else if(iArgs == 8){
+		else if(iArgs == 7){
 			cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Function"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
-			cmdParser.AddParam(_("Type"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Rules"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);		
 			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
@@ -250,7 +249,7 @@ wxString InputPassword(){
 				return cmdParser.GetParam(2);
 			}
 			else{
-				cout<<_("You need to repeat the password and ensure the two passowrds are identical");
+				cout<<_("You need to repeat the password and ensure the two passwords are identical");
 				return wxEmptyString;
 			}
 		}
@@ -259,7 +258,7 @@ wxString InputPassword(){
 				return cmdParser.GetParam(2);
 			}
 			else{
-				cout<<_("You need to repeat the password and ensure the two passowrds are identical");
+				cout<<_("You need to repeat the password and ensure the two passwords are identical");
 				return wxEmptyString;
 			}
 		}
@@ -269,12 +268,34 @@ wxString InputPassword(){
 					return cmdParser.GetParam(1);
 				}
 				else{
-					cout<<_("You need to repeat the password and ensure the two passowrds are identical");
+					cout<<_("You need to repeat the password and ensure the two passwords are identical");
 					return wxEmptyString;
 				}
 			}
 			else{
 				return wxT("Password not needed");
+			}
+		}
+		else if(cmdParser.GetParam(0) = _("Secure")){
+			if(cmdParser.GetParamCount() == 6){
+				if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
+					return cmdParser.GetParam(4);
+				}
+				else{
+					cout<<_("You need to repeat the password and ensure the two passwords are identical");
+					return wxEmptyString;
+				}
+			}
+		}
+		else if(cmdParser.GetParam(0) = _("Backup")){
+			if(cmdParser.GetParamCount() == 9){
+				if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
+					return cmdParser.GetParam(7);
+				}
+				else{
+					cout<<_("You need to repeat the password and ensure the two passwords are identical");
+					return wxEmptyString;
+				}
 			}
 		}
 	}	

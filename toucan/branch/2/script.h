@@ -32,8 +32,7 @@ bool ParseScript(wxArrayString arrScript){
 	//Set up the buttons on the progress box
 	window->m_OK->Enable(false);
 	window->m_Save->Enable(false);
-	window->m_Cancel->Enable(true);
-			
+	window->m_Cancel->Enable(true);	
 	OutputProgress(_("Starting...\n"));
 	wxDateTime now = wxDateTime::Now();
 	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
@@ -137,7 +136,6 @@ bool ParseScript(wxArrayString arrScript){
 		else if(strToken == _("Backup")){
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
-
 			if(data.TransferFromFile(strJob)){
 				//Get the password if one is needed
 				if(data.IsPassword == true){

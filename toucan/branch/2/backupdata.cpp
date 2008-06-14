@@ -65,37 +65,37 @@ bool BackupData::TransferFromFile(wxString strName){
 bool BackupData::TransferToFile(wxString strName){
 	//Create a new fileconfig object
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	
-	bool blError;
+	bool blError = false;
 
 	//Delete any existing jobs with this name to ensure correct settings are retained
-	blError = config->DeleteGroup(strName);
+	config->DeleteGroup(strName);
+	config->Flush();
 
 	//Add the files to be written
 	if(!config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
-		blError = false;
+		blError = true;
 	}
 	if(!config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")))){
-		blError = false;
+		blError = true;
 	}		
 	if(!config->Write(strName + wxT("/Function"), GetFunction())){
-		blError = false;
+		blError = true;
 	}
 	if(!config->Write(strName + wxT("/Format"), GetFormat())){
-		blError = false;
+		blError = true;
 	}
 	if(!config->Write(strName + wxT("/Ratio"), GetRatio())){
-		blError = false;
+		blError = true;
 	}
 	if(!config->Write(strName + wxT("/IsPass"), IsPassword)){
-		blError = false;
+		blError = true;
 	}
 	
 	//Write the files and delete the fileconfig object
 	config->Flush();
 	delete config;
 	
-	if(!blError){
+	if(blError){
 		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
