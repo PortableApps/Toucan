@@ -105,7 +105,7 @@ bool BackupData::TransferToFile(wxString strName){
 /*This function takes the data in BackupData and fills in the GUI*/
 void BackupData::TransferToForm(frmMain *window){
 	//Set the value of the text control
-	window->m_Backup_Location->SetValue(GetBackupLocation());
+	window->m_Backup_Location->SetValue(Normalise(Normalise(GetBackupLocation())));
 	//Delete all of the items in the treectrl and readd the root
 	window->m_Backup_TreeCtrl->DeleteAllItems();
 	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -164,7 +164,7 @@ void BackupData::Output(){
 
 wxString BackupData::CreateCommand(int i){
 	
-	wxString strCommand;
+	wxString strCommand, strTempDir;
 	//Setting up to use the first item in the array.
 	wxString strSecond = GetLocations().Item(i);
 	
@@ -209,12 +209,14 @@ wxString BackupData::CreateCommand(int i){
 		}
 	}
    
+	strTempDir = wxT(" -w") + wxPathOnly(GetBackupLocation());
+
 	if(GetFunction() == _("Complete")){
-		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
+		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\""); 
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir; 
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
@@ -223,10 +225,10 @@ wxString BackupData::CreateCommand(int i){
 		}
 		if(wxFileExists(GetBackupLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxDateTime::Now();
-			strCommand = wxT("7za.exe u") + GetPass() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
+			strCommand = wxT("7za.exe u") + GetPass() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 		}
 		else{
-			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"");
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 		}
 	}
 	return strCommand;

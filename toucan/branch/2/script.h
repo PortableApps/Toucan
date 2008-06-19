@@ -143,6 +143,7 @@ bool ParseScript(wxArrayString arrScript){
 						data.SetPass(strPass);						
 					}
 				}
+				data.SetBackupLocation(Normalise(Normalise(data.GetBackupLocation())));
 				Rules rules;
 				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 				if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
