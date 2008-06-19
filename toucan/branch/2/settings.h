@@ -34,6 +34,12 @@ public:
 	int GetWidth() { return m_Width; }
 	void SetWidth(int width) { m_Width = width; }	
 	
+	int GetY() { return m_Y; }
+	void SetY(int y) { m_Y = y; }	
+	
+	int GetX() { return m_X; }
+	void SetX(int x) { m_X = x; }	
+	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
@@ -41,6 +47,8 @@ private:
 	wxString m_Font;
 	int m_Height;
 	int m_Width;
+	int m_X;
+	int m_Y;
 };
 
 #endif

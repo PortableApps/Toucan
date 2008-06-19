@@ -74,13 +74,14 @@ bool Toucan::OnInit()
 			//Now destroy the splashscreen
 			scrn->Destroy(); 
 		}
-		if(MainWindow->GetSize() == wxSize(wxGetApp().m_Settings->GetWidth(), wxGetApp().m_Settings->GetHeight())){
+		if(MainWindow->GetSize() == wxSize(m_Settings->GetWidth(), m_Settings->GetHeight())){
 			MainWindow->Maximize();
 		}
 		else{
 			MainWindow->Iconize(false);
-			MainWindow->SetSize(wxGetApp().m_Settings->GetWidth(), wxGetApp().m_Settings->GetHeight());
+			MainWindow->SetSize(m_Settings->GetWidth(), m_Settings->GetHeight());
 		}
+		MainWindow->SetPosition(wxPoint(m_Settings->GetX(), m_Settings->GetY()));
 		MainWindow->Show();
 	
 	}

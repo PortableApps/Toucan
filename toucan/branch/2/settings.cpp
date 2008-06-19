@@ -18,6 +18,8 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/Font"), m_Font);
 	config->Write(wxT("General/Height"), m_Height);
 	config->Write(wxT("General/Width"), m_Width);
+	config->Write(wxT("General/X"), m_X);
+	config->Write(wxT("General/Y"), m_Y);
 	delete config;
 	return true;
 }
@@ -31,6 +33,8 @@ bool Settings::TransferFromFile(){
 	m_Font = temp.GetNativeFontInfoDesc();
 	m_Height = -1;
 	m_Width = -1;
+	m_Y = -1;
+	m_X = -1;
 	
 	//Read from the settings file
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
@@ -40,6 +44,8 @@ bool Settings::TransferFromFile(){
 	config->Read(wxT("General/Font"), &m_Font);
 	config->Read(wxT("General/Height"), &m_Height);
 	config->Read(wxT("General/Width"), &m_Width);
+	config->Read(wxT("General/X"), &m_X);
+	config->Read(wxT("General/Y"), &m_Y);
 	delete config;	
 	return true;
 }
