@@ -40,7 +40,7 @@ public:
 		//Only add the first item as Sync only supports one to one syncing		
 		m_Text->SetValue(arrFilenames.Item(0));
 		m_Tree->DeleteAllItems();
-		m_Tree->AddRoot(_("Hidden root"));
+		m_Tree->AddRoot(wxT("Hidden root"));
 		m_Tree->AddNewPath(arrFilenames.Item(0));
 		//Return a message to the user if they have tried to add more than one item
 		if(arrFilenames.GetCount() < 1){

@@ -108,7 +108,7 @@ void frmProgress::CreateControls()
 	m_Cancel = new wxButton( itemPanel2, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer5->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_Save = new wxButton( itemPanel2, wxID_SAVE, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Save = new wxButton( itemPanel2, wxID_SAVE, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer5->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));

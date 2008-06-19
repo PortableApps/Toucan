@@ -89,10 +89,10 @@ bool Toucan::OnInit()
 }
 
 void Toucan::SetLanguage(wxString strLanguage){
-	//Set the language here
-	int LangCode = m_Locale->FindLanguageInfo(strLanguage)->Language;
-	m_Locale = new wxLocale(LangCode);
-	m_Locale->AddCatalogLookupPathPrefix(GetSettingsPath() + wxFILE_SEP_PATH + wxT("lang"));
+	int LangCode = wxLocale::FindLanguageInfo(strLanguage)->Language;
+	m_Locale = new wxLocale();
+	m_Locale->Init(LangCode);
+	m_Locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + _T("lang"));
 	m_Locale->AddCatalog(wxT("toucan"));
 }
 

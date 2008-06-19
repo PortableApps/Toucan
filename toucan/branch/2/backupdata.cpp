@@ -56,7 +56,7 @@ bool BackupData::TransferFromFile(wxString strName){
 
 	//Output an error massage if needed
 	if(blError){
-		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -96,7 +96,7 @@ bool BackupData::TransferToFile(wxString strName){
 	delete config;
 	
 	if(blError){
-		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -108,7 +108,7 @@ void BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Location->SetValue(GetBackupLocation());
 	//Delete all of the items in the treectrl and readd the root
 	window->m_Backup_TreeCtrl->DeleteAllItems();
-	window->m_Backup_TreeCtrl->AddRoot(_("Hidden root"));
+	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	//Remove all of the items in the filepath list
 	wxGetApp().MainWindow->m_BackupLocations->Clear();
 	//Add the new locations to the treectrl and the list

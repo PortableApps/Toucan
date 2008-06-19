@@ -56,7 +56,7 @@ bool SecureData::TransferToFile(wxString strName){
 
 	//Output an error message if needed
 	if(!blError){
-		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;

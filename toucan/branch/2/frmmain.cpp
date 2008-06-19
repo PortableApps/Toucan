@@ -333,7 +333,7 @@ void frmMain::CreateControls()
 	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer19->Add(m_Sync_Source_Txt, 1, wxALIGN_TOP|wxALL, 5);
 
-	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
+	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0 );
 	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
@@ -352,7 +352,7 @@ void frmMain::CreateControls()
 	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer24->Add(m_Sync_Dest_Txt, 1, wxALIGN_TOP|wxALL, 5);
 
-	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, _("..."), wxDefaultPosition, wxSize(25, 25), 0 );
+	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0 );
 	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
@@ -424,7 +424,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* itemStaticBoxSizer65 = new wxStaticBoxSizer(itemStaticBoxSizer65Static, wxVERTICAL);
 	BackupRow1->Add(itemStaticBoxSizer65, 0, wxALIGN_TOP|wxALL, 5);
 
-	m_Backup_IsPass = new wxCheckBox(itemPanel35, ID_BACKUP_ISPASS, _("Password?"));
+	m_Backup_IsPass = new wxCheckBox(itemPanel35, ID_BACKUP_ISPASS, _("Password"));
 	itemStaticBoxSizer65->Add(m_Backup_IsPass, 0, wxALIGN_TOP|wxALL, 5);
 
 	//Buttons
@@ -462,7 +462,7 @@ void frmMain::CreateControls()
 	m_Backup_Location = new wxTextCtrl( itemPanel35, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	BackupLocationSizer->Add(m_Backup_Location,1, wxALL, 5);
 
-	wxButton* itemButton49 = new wxButton( itemPanel35, ID_BACKUP_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+	wxButton* itemButton49 = new wxButton( itemPanel35, ID_BACKUP_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
 	BackupLocationSizer->Add(itemButton49, 0, wxALL, 5);
 	
 	//Start of everything else
@@ -548,8 +548,8 @@ void frmMain::CreateControls()
 	itemBoxSizer3001->Add(m_Secure_Function, 1, wxGROW|wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Secure_FormatStrings;
-	m_Secure_FormatStrings.Add(_("Rijndael"));
-	m_Secure_FormatStrings.Add(_("Blowfish (Decrypt Only)"));
+	m_Secure_FormatStrings.Add(wxT("Rijndael"));
+	m_Secure_FormatStrings.Add(wxT("Blowfish (Decrypt Only)"));
 	m_Secure_Format = new wxRadioBox( itemPanel68, ID_SECURE_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Secure_FormatStrings, 1, wxRA_SPECIFY_COLS );
 	m_Secure_Format->SetSelection(0);
 	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);
@@ -599,7 +599,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer95 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer94->Add(itemBoxSizer95, 0, wxALIGN_LEFT|wxALL, 5);
-	wxStaticText* itemStaticText96 = new wxStaticText( itemPanel93, wxID_STATIC, _("Rules name"), wxDefaultPosition, wxDefaultSize, 0 );
+	wxStaticText* itemStaticText96 = new wxStaticText( itemPanel93, wxID_STATIC, _("Name"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer95->Add(itemStaticText96, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxHORIZONTAL);
@@ -684,7 +684,7 @@ void frmMain::CreateControls()
     wxBoxSizer* PvarTop = new wxBoxSizer(wxHORIZONTAL);
     PvarAll->Add(PvarTop, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText5 = new wxStaticText( itemPanel130, wxID_STATIC, _("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* itemStaticText5 = new wxStaticText( itemPanel130, wxID_STATIC, _("Name"), wxDefaultPosition, wxDefaultSize, 0 );
     PvarTop->Add(itemStaticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxArrayString m_Pvar_NameStrings;
@@ -721,7 +721,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer140 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer132->Add(itemBoxSizer140, 0, wxALIGN_LEFT|wxALL, 5);
 
-	wxStaticBox* ScriptStaticBox = new wxStaticBox(itemPanel131, wxID_ANY, _("Script Name"));
+	wxStaticBox* ScriptStaticBox = new wxStaticBox(itemPanel131, wxID_ANY, _("Name"));
 	wxStaticBoxSizer* ScriptStaticBoxSizer = new wxStaticBoxSizer(ScriptStaticBox, wxHORIZONTAL);
 	itemBoxSizer140->Add(ScriptStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 
@@ -814,7 +814,7 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
 	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false, pvarsbitmap);
-	m_Notebook->AddPage(itemPanel131, _("Scripting"), false, scriptbitmap);
+	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
 
 	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
@@ -858,9 +858,9 @@ void frmMain::CreateControls()
 	SetRulesBox(m_Rules_Combo);
 
 	//Set up the jobs boxes
-	SetJobsBox(m_Sync_Job_Select, _("Sync"));
-	SetJobsBox(m_Backup_Job_Select, _("Backup"));
-	SetJobsBox(m_Secure_Job_Select, _("Secure"));
+	SetJobsBox(m_Sync_Job_Select, wxT("Sync"));
+	SetJobsBox(m_Backup_Job_Select, wxT("Backup"));
+	SetJobsBox(m_Secure_Job_Select, wxT("Secure"));
 	
 	//Set the portable variables box
 	SetVariablesBox(m_Pvar_Name);
@@ -1020,7 +1020,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 		wxCursor cursor(wxCURSOR_ARROWWAIT);
 		this->SetCursor(cursor);
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
@@ -1041,7 +1041,7 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 		wxCursor cursor(wxCURSOR_ARROWWAIT);
 		this->SetCursor(cursor);
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
@@ -1105,7 +1105,7 @@ void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddFiledeleteClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to Delete"), wxEmptyString);
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxT("File to Delete"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FileDelete->Append(dialog->GetValue());
 	}
@@ -1246,7 +1246,7 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 	//Create a new fileconfig and write the extra fields to it
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
-	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Type"),  _("Secure"));
+	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Type"),  wxT("Secure"));
 	delete config;
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
@@ -1323,7 +1323,7 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 	}
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
-	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Type"),  _("Sync"));
+	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Type"),  wxT("Sync"));
 	config->Flush();
 	delete config;
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -1349,7 +1349,7 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 	}
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
-	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Type"),  _("Backup"));
+	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Type"),  wxT("Backup"));
 	config->Flush();
 	delete config;
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -1512,7 +1512,7 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 		if(data.TransferToFile(wxT("LastSyncJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
-			config->Write(wxT("LastSyncJob/Type"),  _("Sync"));
+			config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
 			config->Flush();
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Sync \"LastSyncJob\""));
@@ -1543,7 +1543,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	}
 	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
-	m_Sync_Dest_Tree->AddRoot(_("Hidden root"));
+	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 	m_Sync_Dest_Tree->SetRoot(m_Sync_Dest_Txt->GetValue());
 	m_Sync_Dest_Tree->SetRootOpp(m_Sync_Source_Txt->GetValue());
 	m_Sync_Dest_Tree->SetPreview(true);
@@ -1553,7 +1553,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	//Code for equalise function
 	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(_("Hidden root"));
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetRoot(m_Sync_Source_Txt->GetValue());
 		m_Sync_Source_Tree->SetRootOpp(m_Sync_Dest_Txt->GetValue());
 		m_Sync_Source_Tree->SetPreview(true);
@@ -1573,7 +1573,7 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 		if(data.TransferToFile(wxT("LastBackupJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 			config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
-			config->Write(wxT("LastBackupJob/Type"),  _("Backup"));
+			config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
 			config->Flush();
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
@@ -1644,7 +1644,7 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 		if(data.TransferToFile(wxT("LastSecureJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 			config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
-			config->Write(wxT("LastSecureJob/Type"),  _("Secure"));
+			config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Secure \"LastSecureJob\""));
 			wxGetApp().SetAbort(false);
@@ -1653,6 +1653,7 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 			delete config;
 		}
 	}
+	m_Secure_DirCtrl->ReCreateTree();
 }
 
 /*!
@@ -1759,7 +1760,7 @@ void frmMain::OnPvarAddItemClick(wxCommandEvent& event)
 	m_Pvar_List->InsertItem(j, wxT("Test"));
 	m_Pvar_List->SetItem(j, 0, wxGetFullHostName() );
 	wxString caption = _("Choose a directory");
-	wxString wildcard = _("All Files (*.*)|*.*");
+	wxString wildcard = wxT("All Files (*.*)|*.*");
 	wxString defaultFilename = wxEmptyString;
 	wxString defaultDir = wxT("/");
 	wxString strPath;
@@ -1905,7 +1906,7 @@ void frmMain::OnHelpClick(wxCommandEvent& event){
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0 Pre-release 1"));
+	info.SetVersion(wxT("2.0 Pre-release 2"));
 	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nBURP, 7zip, ccrypt and the icons are (C) their respective owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan, 7zip, BURP, ccrypt and the icon set are all licensed under the GNU GPL or a compatible license."));

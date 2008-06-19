@@ -23,7 +23,7 @@ bool Settings::TransferToFile(){
 bool Settings::TransferFromFile(){
 	m_TabStyle = _("Icons and Text");
 	m_Position = _("Sync");
-	m_LanguageCode = _("en");
+	m_LanguageCode = wxT("en");
 	wxFont temp = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT 	);
 	m_Font = temp.GetNativeFontInfoDesc();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));

@@ -54,7 +54,7 @@ bool ParseScript(wxArrayString arrScript){
 		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 		wxString strToken = tkz.GetNextToken();
 		strToken.Trim();
-		if(strToken == _("Sync") || strToken == _("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == _("Backup")){
+		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup")){
 			if(tkz.CountTokens() != 1){
 				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
 				OutputProgress(strTemp);
@@ -73,10 +73,10 @@ bool ParseScript(wxArrayString arrScript){
 			OutputProgress(strTemp);
 			blParseError = true;
 		}
-		if(strToken == _("Secure")){
+		if(strToken == wxT("Secure")){
 			blPassNeeded = true;
 		}
-		if(strToken == _("Backup")){
+		if(strToken == wxT("Backup")){
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
 			if(data.TransferFromFile(strJob)){
@@ -101,7 +101,7 @@ bool ParseScript(wxArrayString arrScript){
 		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 		wxString strToken = tkz.GetNextToken();
 		strToken.Trim();
-		if(strToken == _("Sync")){
+		if(strToken == wxT("Sync")){
 			//Create the data sets and fill them		
 			SyncData data;
 			//Ensure that the data is filled
@@ -133,7 +133,7 @@ bool ParseScript(wxArrayString arrScript){
 			thread->Wait();
 			delete thread;
 		}
-		else if(strToken == _("Backup")){
+		else if(strToken == wxT("Backup")){
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
 			if(data.TransferFromFile(strJob)){
@@ -190,7 +190,7 @@ bool ParseScript(wxArrayString arrScript){
 				}
 			}
 		}
-		else if(strToken == _("Secure")){
+		else if(strToken == wxT("Secure")){
 			SecureData data;
 			if(strPass != wxEmptyString){
 				data.SetPass(strPass);						

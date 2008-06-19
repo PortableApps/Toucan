@@ -35,7 +35,7 @@ bool SyncData::TransferFromFile(wxString strName){
 	delete config;
 	
 	if(!blError){
-		ErrorBox(wxT("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -57,7 +57,7 @@ bool SyncData::TransferToFile(wxString strName){
 	config->Flush();
 	delete config;
 	if(!blError){
-		ErrorBox(wxT("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
 	return true;
@@ -68,12 +68,12 @@ void SyncData::TransferToForm(frmMain *window){
 	
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
-	window->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
+	window->m_Sync_Source_Tree->AddRoot(wxT("Hidden text"));
 	window->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(GetSource())));
 	
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
-	window->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
+	window->m_Sync_Dest_Tree->AddRoot(wxT("Hidden text"));
 	window->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(GetDest())));
 	
 	window->m_Sync_Function->SetStringSelection(GetFunction());

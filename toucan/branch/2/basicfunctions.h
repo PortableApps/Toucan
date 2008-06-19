@@ -244,7 +244,7 @@ wxString InputPassword(){
 			res = cmdParser.Parse(false);
 		}
 		wxFileConfig config(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-		if(cmdParser.GetParam(0) == _("Script")){
+		if(cmdParser.GetParam(0) == wxT("Script")){
 			if(cmdParser.GetParamCount() == 4 && cmdParser.GetParam(2) == cmdParser.GetParam(3)){
 				return cmdParser.GetParam(2);
 			}
@@ -276,7 +276,7 @@ wxString InputPassword(){
 				return wxT("Password not needed");
 			}
 		}
-		else if(cmdParser.GetParam(0) = _("Secure")){
+		else if(cmdParser.GetParam(0) = wxT("Secure")){
 			if(cmdParser.GetParamCount() == 6){
 				if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
 					return cmdParser.GetParam(4);
@@ -287,7 +287,7 @@ wxString InputPassword(){
 				}
 			}
 		}
-		else if(cmdParser.GetParam(0) = _("Backup")){
+		else if(cmdParser.GetParam(0) = wxT("Backup")){
 			if(cmdParser.GetParamCount() == 9){
 				if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
 					return cmdParser.GetParam(7);

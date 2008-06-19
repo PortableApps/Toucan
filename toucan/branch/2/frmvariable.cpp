@@ -119,7 +119,7 @@ void frmVariable::CreateControls()
 	m_Text->SetMinSize(wxSize(300, -1));
     itemBoxSizer3->Add(m_Text, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton5 = new wxButton( itemDialog1, ID_PATH, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+    wxButton* itemButton5 = new wxButton( itemDialog1, ID_PATH, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer3->Add(itemButton5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer6 = new wxBoxSizer(wxHORIZONTAL);

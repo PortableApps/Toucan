@@ -110,7 +110,7 @@ void frmRestore::CreateControls()
 	m_File->SetMinSize(wxSize(250,-1));
     itemBoxSizer3->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON_FILE, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+    wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON_FILE, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer3->Add(itemButton6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
@@ -123,16 +123,16 @@ void frmRestore::CreateControls()
 	m_Location->SetMinSize(wxSize(250,-1));
     itemBoxSizer7->Add(m_Location, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, _("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+    wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStdDialogButtonSizer* itemStdDialogButtonSizer11 = new wxStdDialogButtonSizer;
 
     itemBoxSizer2->Add(itemStdDialogButtonSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-    wxButton* itemButton12 = new wxButton( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton12 = new wxButton( itemDialog1, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStdDialogButtonSizer11->AddButton(itemButton12);
 
-    wxButton* itemButton13 = new wxButton( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton13 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStdDialogButtonSizer11->AddButton(itemButton13);
 
     itemStdDialogButtonSizer11->Realize();
