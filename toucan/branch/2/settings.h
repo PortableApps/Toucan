@@ -28,11 +28,19 @@ public:
 	wxString GetFont() { return m_Font; }
 	void SetFont(wxString font) { m_Font = font; }	
 	
+	int GetHeight() { return m_Height; }
+	void SetHeight(int height) { m_Height = height; }	
+	
+	int GetWidth() { return m_Width; }
+	void SetWidth(int width) { m_Width = width; }	
+	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
 	wxString m_LanguageCode;
 	wxString m_Font;
+	int m_Height;
+	int m_Width;
 };
 
 #endif

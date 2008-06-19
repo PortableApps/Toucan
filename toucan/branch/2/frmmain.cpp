@@ -872,7 +872,8 @@ void frmMain::CreateControls()
 	m_Pvar_List->InsertColumn(0, column);
 	m_Pvar_List->InsertColumn(1, column);
 	
-	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
+
 }
 
 //Show tooltips
@@ -1626,6 +1627,9 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
 	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
+	wxGetApp().m_Settings->SetHeight(this->GetSize().GetHeight());
+	wxGetApp().m_Settings->SetWidth(this->GetSize().GetWidth());
+	
 	wxGetApp().m_Settings->TransferToFile();
 	delete m_BackupLocations;
 	delete m_SecureLocations;

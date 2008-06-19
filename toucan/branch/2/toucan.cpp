@@ -58,7 +58,6 @@ bool Toucan::OnInit()
 	m_Settings = new Settings();
 	m_Settings->TransferFromFile();
 	//Set the settings path
-	
 	SetLanguage(m_Settings->GetLanguageCode());
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
@@ -75,8 +74,15 @@ bool Toucan::OnInit()
 			//Now destroy the splashscreen
 			scrn->Destroy(); 
 		}
+		if(MainWindow->GetSize() == wxSize(wxGetApp().m_Settings->GetWidth(), wxGetApp().m_Settings->GetHeight())){
+			MainWindow->Maximize();
+		}
+		else{
+			MainWindow->Iconize(false);
+			MainWindow->SetSize(wxGetApp().m_Settings->GetWidth(), wxGetApp().m_Settings->GetHeight());
+		}
 		MainWindow->Show();
-		MainWindow->Maximize();
+	
 	}
 	else{
 		ParseCommandLine();
