@@ -138,6 +138,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeCtrlTooltip)
 	
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SECURE_TREECTRL, frmMain::OnSecureTreeCtrlTooltip)
+	
+	EVT_FONTPICKER_CHANGED(ID_SETTINGS_FONT, frmMain::OnFontChange)
 
 END_EVENT_TABLE()
 
@@ -1016,7 +1018,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 {
 
 	//Need to replace this with a better browser
-	wxDirDialog dialog(this,_("Please select the source folder."), m_Sync_Source_Txt->GetValue());
+	wxDirDialog dialog(this,_("Please select the source folder."), Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxCursor cursor(wxCURSOR_ARROWWAIT);
 		this->SetCursor(cursor);
@@ -1037,7 +1039,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 {
 	//Need to replace this with a better browser	
-	wxDirDialog dialog(this,_("Please select the desination folder."), m_Sync_Dest_Txt->GetValue());
+	wxDirDialog dialog(this,_("Please select the desination folder."), Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxCursor cursor(wxCURSOR_ARROWWAIT);
 		this->SetCursor(cursor);
@@ -1428,7 +1430,7 @@ void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event)
 
 void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& event)
 {
-	m_Rules_FileDelete->Delete(m_Rules_LocationInclude->GetSelection());
+	m_Rules_LocationInclude->Delete(m_Rules_LocationInclude->GetSelection());
 }
 
 
@@ -1545,21 +1547,21 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Dest_Tree->SetRoot(m_Sync_Dest_Txt->GetValue());
-	m_Sync_Dest_Tree->SetRootOpp(m_Sync_Source_Txt->GetValue());
+	m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+	m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	m_Sync_Dest_Tree->SetPreview(true);
 	m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
-	m_Sync_Dest_Tree->AddNewPath(m_Sync_Dest_Txt->GetValue());
+	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 			
 	//Code for equalise function
 	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(m_Sync_Source_Txt->GetValue());
-		m_Sync_Source_Tree->SetRootOpp(m_Sync_Dest_Txt->GetValue());
+		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+		m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 		m_Sync_Source_Tree->SetPreview(true);
 		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
-		m_Sync_Source_Tree->AddNewPath(m_Sync_Source_Txt->GetValue());
+		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	}
 }
 
@@ -1605,7 +1607,7 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++) {
 		//Loop through all the the filenames listed in the array and read them to the tree
-		m_Backup_TreeCtrl->AddNewPath(m_BackupLocations->Item(i));
+		m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
 	}
 	//Turn off preview
 	m_Secure_TreeCtrl->SetPreview(false);
@@ -1681,7 +1683,7 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
 		//Loop through all the the filenames listed in the array and readd them to the tree
-		m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
+		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
 	}
 	//Turn off preview
 	m_Secure_TreeCtrl->SetPreview(false);
@@ -1937,4 +1939,9 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 			}
 		}
 	}	
+}
+
+void frmMain::OnFontChange(wxFontPickerEvent& event){
+	wxMessageBox(_("Boo"));
+	m_Settings_Font->GetSizer()->Layout();
 }

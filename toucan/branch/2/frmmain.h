@@ -339,6 +339,8 @@ public:
 	
 	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
 	
+	void OnFontChange(wxFontPickerEvent& event);
+	
 
 	//Functions
 

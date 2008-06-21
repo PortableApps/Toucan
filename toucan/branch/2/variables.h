@@ -36,6 +36,26 @@ wxString Normalise(wxString strFilePath)
 				token = now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M"));
 				strReturn += token;       
 			}
+			else if(token == wxT("YYYY")){
+				token = now.Format(wxT("%Y"));
+				strReturn += token;       
+			}
+			else if(token == wxT("MM")){
+				token = now.Format(wxT("%m"));
+				strReturn += token;       
+			}
+			else if(token == wxT("DD")){
+				token = now.Format(wxT("%d"));
+				strReturn += token;       
+			}
+			else if(token == wxT("hh")){
+				token = now.Format(wxT("%H"));
+				strReturn += token;       
+			}
+			else if(token == wxT("mm")){
+				token = now.Format(wxT("%M"));
+				strReturn += token;       
+			}
 			else if(token == wxT("drive")){
 				strReturn += wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(2);
 			}
