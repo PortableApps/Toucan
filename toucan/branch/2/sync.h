@@ -210,7 +210,9 @@ bool SyncFile(SyncData data, Rules rules)
 					tmFrom.MakeTimezone(wxDateTime::Local, true);
 				}
 				//I.E. strFrom is newer
+				wxMessageBox(_("Out"));
 				if(tmFrom.IsLaterThan(tmTo.Subtract(wxTimeSpan::Seconds(4)))){
+					wxMessageBox(_("In"));
 					if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 						if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
 							OutputProgress(data.GetSource() + _("\t updated \t") + data.GetDest());

@@ -1544,6 +1544,9 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
 		strPath = strPath.Left(strPath.Length() - 1); 
 	}
+	//Set the other tree too incase it is a unidirectional function
+	m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
+
 	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
@@ -1915,9 +1918,9 @@ void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
 	info.SetVersion(wxT("2.0 Pre-release 2"));
-	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nBURP, 7zip, ccrypt and the icons are (C) their respective owners."));
+	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nBURP, 7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
-	info.SetLicense(wxT("Toucan, 7zip, BURP, ccrypt and the icon set are all licensed under the GNU GPL or a compatible license."));
+	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL or a compatible license."));
 	wxAboutBox(info);	
 }
 

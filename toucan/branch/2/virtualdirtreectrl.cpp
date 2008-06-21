@@ -674,9 +674,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 										//}
 										//I.E. strFrom is newer
 										if(tmFrom.IsLaterThan(tmTo)){
-											VdtcTreeItemBase *t = this->AddFileItem(strFilename);
-											t->SetColour(wxColour(wxT("Green")));
-											items.Add(t);	
+											items.Item(j)->SetColour(wxColour(wxT("Green")));
 										}
 									}
 								}
