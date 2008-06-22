@@ -204,15 +204,18 @@ bool SyncFile(SyncData data, Rules rules)
 			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
 			the source file is always copied*/
 			if(wxFileExists(data.GetDest())){	
-				wxDateTime tmTo = wxFileModificationTime(data.GetDest());
-				wxDateTime tmFrom = wxFileModificationTime(data.GetSource());
+				wxDateTime tmTo, tmFrom;
+				wxFileName flTo(data.GetDest());
+				wxFileName flFrom(data.GetSource());
+				
+				flTo.GetTimes(NULL, &tmTo, NULL);
+				flFrom.GetTimes(NULL, &tmFrom, NULL);		
+				
 				if(data.GetIgnoreDLS()){
 					tmFrom.MakeTimezone(wxDateTime::Local, true);
 				}
-				//I.E. strFrom is newer
-				wxMessageBox(_("Out"));
-				if(tmFrom.IsLaterThan(tmTo.Subtract(wxTimeSpan::Seconds(4)))){
-					wxMessageBox(_("In"));
+
+				if(tmFrom > tmTo){
 					if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 						if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
 							OutputProgress(data.GetSource() + _("\t updated \t") + data.GetDest());
