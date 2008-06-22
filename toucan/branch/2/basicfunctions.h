@@ -191,6 +191,28 @@ wxArrayString GetLanguages(){
 	
 }
 
+wxArrayString GetTranslatorNames(){
+	wxArrayString arrNames;
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
+	wxDir dir(strPath);
+	wxString strFilename;
+	bool blDir = dir.GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxDirExists(strPath + strFilename))
+			{
+				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+					arrNames.Add(config->Read(wxT("General/Translator")));
+				}
+			}
+		}
+		while (dir.GetNext(&strFilename) );
+	} 
+	return arrNames;
+	
+}
+
 wxString InputPassword(){
 	wxString strNewPass;
 	if(wxGetApp().blGUI == true){

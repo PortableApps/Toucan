@@ -1544,9 +1544,18 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
 		strPath = strPath.Left(strPath.Length() - 1); 
 	}
+	//Get the rules
+	
+	Rules rules;
+	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+	}
+	
+	m_Sync_Dest_Tree->SetRules(rules);
+	
 	//Set the other tree too incase it is a unidirectional function
 	m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
-
+	
 	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
@@ -1558,6 +1567,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 			
 	//Code for equalise function
 	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
+		m_Sync_Source_Tree->SetRules(rules);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
@@ -1921,6 +1931,7 @@ void frmMain::OnAboutClick(wxCommandEvent& event){
 	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nBURP, 7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL or a compatible license."));
+	info.SetTranslators(GetTranslatorNames());
 	wxAboutBox(info);	
 }
 
@@ -1945,6 +1956,5 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 }
 
 void frmMain::OnFontChange(wxFontPickerEvent& event){
-	wxMessageBox(_("Boo"));
 	m_Settings_Font->GetSizer()->Layout();
 }

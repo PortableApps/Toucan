@@ -661,7 +661,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 							//If there is
 							if(blExists){
 								//Make sure it shouldnt be excluded
-								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
+								if(!_Rules.ShouldExclude(strPath + strFilename, false)){
 									if(_Mode == _("Complete") || _Mode == _("Mirror (Copy)")){
 										items.Item(j)->SetColour(wxColour(wxT("Red")));
 									}
@@ -682,9 +682,14 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 							//If there isnt
 							else{
 								//Make sure it shouldnt be excluded
-								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
+								if(!_Rules.ShouldExclude(strPath + strFilename, false)){
 									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
 									t->SetColour(wxColour(wxT("Blue")));
+									items.Add(t);	
+								}
+								else{
+									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
+									t->SetColour(wxColour(wxT("Red")));
 									items.Add(t);	
 								}
 							}
