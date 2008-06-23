@@ -348,5 +348,80 @@ void SetSliderText(){
 			break;
 	}
 }
+
+bool UpdateJobs(int version){
+	if(version == 1){
+		//Create a fileconfig item
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+		bool blCont;
+		wxString strValue;
+		long dummy;
+		//Iterate through the groups adding them to the box
+		blCont = config->GetFirstGroup(strValue, dummy);
+		while (blCont){
+			if(config->Read(strValue + wxT("/Type")) == wxT("Sync")){
+				config->DeleteEntry(strValue + wxT("/Exclusions"));
+				config->DeleteEntry(strValue + wxT("/Preview"));
+				
+				wxString strTemp;
+				strTemp = config->Read(strValue + wxT("/1"));
+				config->Write(strValue + wxT("/Source"), strTemp);
+				strTemp = config->Read(strValue + wxT("/2"));
+				config->Write(strValue + wxT("/Dest"), strTemp);
+				
+				config->DeleteEntry(strValue + wxT("/1"));
+				config->DeleteEntry(strValue + wxT("/2"));
+				config->Write(strValue + wxT("/IgnoreReadOnly"), 0);
+				config->Write(strValue + wxT("/IgnoreDaylightSavings"), 0);
+				config->Flush();
+			}
+			else if(config->Read(strValue + wxT("/Type")) == wxT("Backup")){
+				config->DeleteEntry(strValue + wxT("/Exclusions"));
+				
+				wxString strTemp;
+				strTemp = config->Read(strValue + wxT("/1"));
+				config->Write(strValue + wxT("/Locations"), wxT("#") + strTemp);
+				strTemp = config->Read(strValue + wxT("/2"));
+				config->Write(strValue + wxT("/BackupLocation"), strTemp);
+				
+				config->DeleteEntry(strValue + wxT("/1"));
+				config->DeleteEntry(strValue + wxT("/2"));
+				
+				if(config->Read(strValue + wxT("/Function")) == wxT("Incremental")){
+					config->Write(strValue + wxT("/Function"), _("Differential"));
+				}
+				if(config->Read(strValue + wxT("/Format")) == wxT("7 Zip")){
+					config->Write(strValue + wxT("/Format"), _("7-Zip"));
+				}
+				if(config->Read(strValue + wxT("/Ratio")) == wxT("Normal")){
+					config->Write(strValue + wxT("/Ratio"), wxT("3"));
+				}
+				if(config->Read(strValue + wxT("/Ratio")) == wxT("Ultra")){
+					config->Write(strValue + wxT("/Ratio"), wxT("5"));
+				}
+				config->Write(strValue + wxT("/IsPass"), 0);
+				config->Flush();
+			}
+			else if(config->Read(strValue + wxT("/Type")) == wxT("Secure")){
+				wxString strTemp;
+				strTemp = config->Read(strValue + wxT("/Files"));
+				strTemp.Replace(wxT("|"), wxT("#"));
+				config->Write(strValue + wxT("/Locations"), strTemp);
+				config->DeleteEntry(strValue + wxT("/Files"));
+				strTemp = config->Read(strValue + wxT("/Routine"));
+				config->Write(strValue + wxT("/Format"), strTemp);
+				config->DeleteEntry(strValue + wxT("/Routine"));
+				
+				config->Flush();
+			}
+				
+			blCont = config->GetNextGroup(strValue, dummy);
+		}
+		//Delete the fileconfig object
+		config->Flush();
+		delete config;
+	}
+	return true;
+}
 	
 #endif

@@ -60,6 +60,16 @@ bool Toucan::OnInit()
 	
 	m_Settings = new Settings();
 	m_Settings->TransferFromFile();
+	
+	//Make sure the jobs file is up to date!
+	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	int version = 1;
+	config->Read(wxT("General/Version"), &version);
+	config->Write(wxT("General/Version"), 200);
+	delete config;
+	if(version < 200){
+		UpdateJobs(version);
+	}	
 	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
 	wxInitAllImageHandlers();
