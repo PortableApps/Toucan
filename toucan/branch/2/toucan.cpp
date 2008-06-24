@@ -96,6 +96,8 @@ bool Toucan::OnInit()
 		}
 		MainWindow->SetPosition(wxPoint(m_Settings->GetX(), m_Settings->GetY()));
 		MainWindow->Show();
+		MainWindow->Refresh();
+		MainWindow->Update();
 	
 	}
 	else{

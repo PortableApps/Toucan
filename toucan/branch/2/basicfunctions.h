@@ -360,14 +360,19 @@ bool UpdateJobs(int version){
 		blCont = config->GetFirstGroup(strValue, dummy);
 		while (blCont){
 			if(config->Read(strValue + wxT("/Type")) == wxT("Sync")){
+				
 				config->DeleteEntry(strValue + wxT("/Exclusions"));
 				config->DeleteEntry(strValue + wxT("/Preview"));
 				
 				wxString strTemp;
 				strTemp = config->Read(strValue + wxT("/1"));
-				config->Write(strValue + wxT("/Source"), strTemp);
+				if(config->Read(strValue + wxT("/Source")) == wxEmptyString){
+					config->Write(strValue + wxT("/Source"), strTemp);
+				}
 				strTemp = config->Read(strValue + wxT("/2"));
-				config->Write(strValue + wxT("/Dest"), strTemp);
+				if(config->Read(strValue + wxT("/Dest")) == wxEmptyString){
+					config->Write(strValue + wxT("/Dest"), strTemp);
+				}
 				
 				config->DeleteEntry(strValue + wxT("/1"));
 				config->DeleteEntry(strValue + wxT("/2"));
@@ -380,10 +385,13 @@ bool UpdateJobs(int version){
 				
 				wxString strTemp;
 				strTemp = config->Read(strValue + wxT("/1"));
-				config->Write(strValue + wxT("/Locations"), wxT("#") + strTemp);
+				if(config->Read(strValue + wxT("/Locations")) == wxEmptyString){
+					config->Write(strValue + wxT("/Locations"), wxT("#") + strTemp);
+				}
 				strTemp = config->Read(strValue + wxT("/2"));
-				config->Write(strValue + wxT("/BackupLocation"), strTemp);
-				
+				if(config->Read(strValue + wxT("/BackupLocation")) == wxEmptyString){
+					config->Write(strValue + wxT("/BackupLocation"), strTemp);
+				}
 				config->DeleteEntry(strValue + wxT("/1"));
 				config->DeleteEntry(strValue + wxT("/2"));
 				
@@ -406,10 +414,14 @@ bool UpdateJobs(int version){
 				wxString strTemp;
 				strTemp = config->Read(strValue + wxT("/Files"));
 				strTemp.Replace(wxT("|"), wxT("#"));
-				config->Write(strValue + wxT("/Locations"), strTemp);
+				if(config->Read(strValue + wxT("/Locations")) == wxEmptyString){
+					config->Write(strValue + wxT("/Locations"), strTemp);
+				}
 				config->DeleteEntry(strValue + wxT("/Files"));
 				strTemp = config->Read(strValue + wxT("/Routine"));
-				config->Write(strValue + wxT("/Format"), strTemp);
+				if(config->Read(strValue + wxT("/Format")) == wxEmptyString){
+					config->Write(strValue + wxT("/Format"), strTemp);
+				}
 				config->DeleteEntry(strValue + wxT("/Routine"));
 				
 				config->Flush();
