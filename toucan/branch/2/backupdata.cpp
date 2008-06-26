@@ -215,19 +215,19 @@ wxString BackupData::CreateCommand(int i){
 		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" -x@\"are") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir; 
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" \"") + GetLocations().Item(i) + wxT("*\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir; 
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
 		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {
-			GetBackupLocation() += wxFILE_SEP_PATH;       
+			SetBackupLocation(GetBackupLocation() + wxFILE_SEP_PATH);       
 		}
 		if(wxFileExists(GetBackupLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxDateTime::Now();
-			strCommand = wxT("7za.exe u") + GetPass() + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + wxFILE_SEP_PATH + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
+			strCommand = wxT("7za.exe u") + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("*\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 		}
 		else{
-			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("*\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 		}
 	}
 	return strCommand;

@@ -786,7 +786,7 @@ void frmMain::CreateControls()
 	
 	wxStaticBox* FontStaticBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Font"));
 	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);	
-	m_Settings_Font = new wxFontPickerCtrl(itemPanel143, ID_SETTINGS_FONT);
+	m_Settings_Font = new wxFontPickerCtrl(itemPanel143, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
 	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	itemBoxSizer1000->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	
@@ -1927,7 +1927,7 @@ void frmMain::OnHelpClick(wxCommandEvent& event){
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0 Pre-release 4"));
+	info.SetVersion(wxT("2.0 Pre-release 6"));
 	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nBURP, 7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL or a compatible license."));

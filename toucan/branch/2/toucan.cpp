@@ -78,6 +78,7 @@ bool Toucan::OnInit()
 			
 	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 	if(blGUI){
+
 		if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg"))){
 			bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
 			wxSplashScreen *scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, MainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
@@ -87,6 +88,10 @@ bool Toucan::OnInit()
 			//Now destroy the splashscreen
 			scrn->Destroy(); 
 		}
+		MainWindow->Refresh();
+		MainWindow->Update();
+		MainWindow->Show();
+
 		if(MainWindow->GetSize() == wxSize(m_Settings->GetWidth(), m_Settings->GetHeight())){
 			MainWindow->Maximize();
 		}
@@ -95,10 +100,6 @@ bool Toucan::OnInit()
 			MainWindow->SetSize(m_Settings->GetWidth(), m_Settings->GetHeight());
 		}
 		MainWindow->SetPosition(wxPoint(m_Settings->GetX(), m_Settings->GetY()));
-		MainWindow->Show();
-		MainWindow->Refresh();
-		MainWindow->Update();
-	
 	}
 	else{
 		ParseCommandLine();
