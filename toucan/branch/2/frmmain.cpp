@@ -766,7 +766,7 @@ void frmMain::CreateControls()
 	itemBoxSizer1000->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 10);
 
 	wxString m_Settings_TabsStrings[] = {
-		_("Icons + Text"),
+		_("Icons and Text"),
 		_("Text")
 	};
 	m_Settings_TabStyle = new wxRadioBox (itemPanel143, ID_SETTINGS_TABSTYLE, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,2,  m_Settings_TabsStrings,2 ,wxRA_SPECIFY_ROWS);
