@@ -30,7 +30,7 @@
 !define NAME "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 !define PRODUCT_PUBLISHER "PortableApps.com"
 !define PRODUCT_WEB_SITE "http://portableapps.com/"
-!define SECTIONCOUNT 49 ; max sections - 1
+!define SECTIONCOUNT 99 ; max sections - 1
 
 ; === App info ===
 Name "${PRODUCT_NAME}"
@@ -132,6 +132,9 @@ Page custom CustomPageA LeaveCustomPageA
 
 ; == Japanese translations ==
 !include "LANG_JAPANESE.nsh"
+
+; == Traditional Chinese translations ==
+!include "LANG_SIMPCHINESE.nsh"
 
 ; Reserve files
 !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
@@ -507,6 +510,308 @@ Section /o "50" SEC50
 	Call OI_select
 SectionEnd
 
+Section /o "51" SEC51
+	AddSize ${sec51_size}
+	StrCpy $OName 51
+	StrCpy $vart "true"
+	Call OI_select
+SectionEnd
+
+Section /o "52" SEC52
+	AddSize ${sec52_size}
+	StrCpy $OName 52
+	StrCpy $vart "true"
+	Call OI_select
+SectionEnd
+
+Section /o "53" SEC53
+	AddSize ${sec53_size}
+	StrCpy $OName 53
+	Call OI_select
+SectionEnd
+
+Section /o "54" SEC54
+	AddSize ${sec54_size}
+	StrCpy $OName 54
+	Call OI_select
+SectionEnd
+
+Section /o "55" SEC55
+	AddSize ${sec55_size}
+	StrCpy $OName 55
+	Call OI_select
+SectionEnd
+
+Section /o "56" SEC56
+	AddSize ${sec56_size}
+	StrCpy $OName 56
+	Call OI_select
+SectionEnd
+
+Section /o "57" SEC57
+	AddSize ${sec57_size}
+	StrCpy $OName 57
+	Call OI_select
+SectionEnd
+
+Section /o "58" SEC58
+	AddSize ${sec58_size}
+	StrCpy $OName 58
+	Call OI_select
+SectionEnd
+
+Section /o "59" SEC59
+	AddSize ${sec59_size}
+	StrCpy $OName 59
+	Call OI_select
+SectionEnd
+
+Section /o "60" SEC60
+	AddSize ${sec60_size}
+	StrCpy $OName 60
+	Call OI_select
+SectionEnd
+
+Section /o "61" SEC61
+	AddSize ${sec61_size}
+	StrCpy $OName 61
+	Call OI_select
+SectionEnd
+
+Section /o "62" SEC62
+	AddSize ${sec62_size}
+	StrCpy $OName 62
+	Call OI_select
+SectionEnd
+
+Section /o "63" SEC63
+	AddSize ${sec63_size}
+	StrCpy $OName 63
+	Call OI_select
+SectionEnd
+
+Section /o "64" SEC64
+	AddSize ${sec64_size}
+	StrCpy $OName 64
+	Call OI_select
+SectionEnd
+
+Section /o "65" SEC65
+	AddSize ${sec65_size}
+	StrCpy $OName 65
+	Call OI_select
+SectionEnd
+
+Section /o "66" SEC66
+	AddSize ${sec66_size}
+	StrCpy $OName 66
+	Call OI_select
+SectionEnd
+
+Section /o "67" SEC67
+	AddSize ${sec67_size}
+	StrCpy $OName 67
+	Call OI_select
+SectionEnd
+
+Section /o "68" SEC68
+	AddSize ${sec68_size}
+	StrCpy $OName 68
+	Call OI_select
+SectionEnd
+
+Section /o "69" SEC69
+	AddSize ${sec69_size}
+	StrCpy $OName 69
+	Call OI_select
+SectionEnd
+
+Section /o "70" SEC70
+	AddSize ${sec70_size}
+	StrCpy $OName 70
+	Call OI_select
+SectionEnd
+
+Section /o "71" SEC71
+	AddSize ${sec71_size}
+	StrCpy $OName 71
+	Call OI_select
+SectionEnd
+
+Section /o "72" SEC72
+	AddSize ${sec72_size}
+	StrCpy $OName 72
+	Call OI_select
+SectionEnd
+
+Section /o "73" SEC73
+	AddSize ${sec73_size}
+	StrCpy $OName 73
+	Call OI_select
+SectionEnd
+
+Section /o "74" SEC74
+	AddSize ${sec74_size}
+	StrCpy $OName 74
+	Call OI_select
+SectionEnd
+
+Section /o "75" SEC75
+	AddSize ${sec75_size}
+	StrCpy $OName 75
+	Call OI_select
+SectionEnd
+
+Section /o "76" SEC76
+	AddSize ${sec76_size}
+	StrCpy $OName 76
+	Call OI_select
+SectionEnd
+
+Section /o "77" SEC77
+	AddSize ${sec77_size}
+	StrCpy $OName 77
+	Call OI_select
+SectionEnd
+
+Section /o "78" SEC78
+	AddSize ${sec78_size}
+	StrCpy $OName 78
+	Call OI_select
+SectionEnd
+
+Section /o "79" SEC79
+	AddSize ${sec79_size}
+	StrCpy $OName 79
+	Call OI_select
+SectionEnd
+
+Section /o "80" SEC80
+	AddSize ${sec80_size}
+	StrCpy $OName 80
+	Call OI_select
+SectionEnd
+
+Section /o "81" SEC81
+	AddSize ${sec81_size}
+	StrCpy $OName 81
+	Call OI_select
+SectionEnd
+
+Section /o "82" SEC82
+	AddSize ${sec82_size}
+	StrCpy $OName 82
+	Call OI_select
+SectionEnd
+
+Section /o "83" SEC83
+	AddSize ${sec83_size}
+	StrCpy $OName 83
+	Call OI_select
+SectionEnd
+
+Section /o "84" SEC84
+	AddSize ${sec84_size}
+	StrCpy $OName 84
+	Call OI_select
+SectionEnd
+
+Section /o "85" SEC85
+	AddSize ${sec85_size}
+	StrCpy $OName 85
+	Call OI_select
+SectionEnd
+
+Section /o "86" SEC86
+	AddSize ${sec86_size}
+	StrCpy $OName 86
+	Call OI_select
+SectionEnd
+
+Section /o "87" SEC87
+	AddSize ${sec87_size}
+	StrCpy $OName 87
+	Call OI_select
+SectionEnd
+
+Section /o "88" SEC88
+	AddSize ${sec88_size}
+	StrCpy $OName 88
+	Call OI_select
+SectionEnd
+
+Section /o "89" SEC89
+	AddSize ${sec89_size}
+	StrCpy $OName 89
+	Call OI_select
+SectionEnd
+
+Section /o "90" SEC90
+	AddSize ${sec90_size}
+	StrCpy $OName 90
+	Call OI_select
+SectionEnd
+
+Section /o "91" SEC91
+	AddSize ${sec91_size}
+	StrCpy $OName 91
+	Call OI_select
+SectionEnd
+
+Section /o "92" SEC92
+	AddSize ${sec92_size}
+	StrCpy $OName 92
+	Call OI_select
+SectionEnd
+
+Section /o "93" SEC93
+	AddSize ${sec93_size}
+	StrCpy $OName 93
+	Call OI_select
+SectionEnd
+
+Section /o "94" SEC94
+	AddSize ${sec94_size}
+	StrCpy $OName 94
+	Call OI_select
+SectionEnd
+
+Section /o "95" SEC95
+	AddSize ${sec95_size}
+	StrCpy $OName 95
+	Call OI_select
+SectionEnd
+
+Section /o "96" SEC96
+	AddSize ${sec96_size}
+	StrCpy $OName 96
+	Call OI_select
+SectionEnd
+
+Section /o "97" SEC97
+	AddSize ${sec97_size}
+	StrCpy $OName 97
+	Call OI_select
+SectionEnd
+
+Section /o "98" SEC98
+	AddSize ${sec98_size}
+	StrCpy $OName 98
+	Call OI_select
+SectionEnd
+
+Section /o "99" SEC99
+	AddSize ${sec99_size}
+	StrCpy $OName 99
+	Call OI_select
+SectionEnd
+
+Section /o "100" SEC100
+	AddSize ${sec100_size}
+	StrCpy $OName 110
+	Call OI_select
+SectionEnd
+
 Section -Post
 	call Clean_Up
 SectionEnd
@@ -564,6 +869,7 @@ Function LanguageInit
 	StrCmp $PortableApps.comLocaleID "1040" SetLanguageFromEnvironment ;Italian
 	StrCmp $PortableApps.comLocaleID "2070" SetLanguageFromEnvironment ;Portuguese
 	StrCmp $PortableApps.comLocaleID "1041" SetLanguageFromEnvironment ;Japanese
+	StrCmp $PortableApps.comLocaleID "2052" SetLanguageFromEnvironment ;SIMPCHINESE
 	StrCmp $PortableApps.comLocaleID "1033" SetLanguageFromEnvironment ShowLanguageSelector ;English
 
 	;END: Init Language Detection Code
@@ -1458,6 +1764,56 @@ FunctionEnd
 	!insertmacro MUI_DESCRIPTION_TEXT ${SEC48} $(DESC_Section48)
 	!insertmacro MUI_DESCRIPTION_TEXT ${SEC49} $(DESC_Section49)
 	!insertmacro MUI_DESCRIPTION_TEXT ${SEC50} $(DESC_Section50)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SEC51} $(DESC_Section51)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SEC52} $(DESC_Section52)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SEC53} $(DESC_Section53)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SEC54} $(DESC_Section54)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SEC55} $(DESC_Section55)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC56} $(DESC_Section56)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC57} $(DESC_Section57)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC58} $(DESC_Section58)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC59} $(DESC_Section59)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC60} $(DESC_Section60)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC61} $(DESC_Section61)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC62} $(DESC_Section62)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC63} $(DESC_Section63)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC64} $(DESC_Section64)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC65} $(DESC_Section65)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC66} $(DESC_Section66)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC67} $(DESC_Section67)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC68} $(DESC_Section68)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC69} $(DESC_Section69)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC70} $(DESC_Section70)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC71} $(DESC_Section71)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC72} $(DESC_Section72)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC73} $(DESC_Section73)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC74} $(DESC_Section74)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC75} $(DESC_Section75)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC76} $(DESC_Section76)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC77} $(DESC_Section77)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC78} $(DESC_Section78)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC79} $(DESC_Section79)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC80} $(DESC_Section80)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC81} $(DESC_Section81)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC82} $(DESC_Section82)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC83} $(DESC_Section83)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC84} $(DESC_Section84)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC85} $(DESC_Section85)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC86} $(DESC_Section86)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC87} $(DESC_Section87)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC88} $(DESC_Section88)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC89} $(DESC_Section89)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC90} $(DESC_Section90)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC91} $(DESC_Section91)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC92} $(DESC_Section92)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC93} $(DESC_Section93)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC94} $(DESC_Section94)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC95} $(DESC_Section95)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC96} $(DESC_Section96)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC97} $(DESC_Section99)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC98} $(DESC_Section98)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC99} $(DESC_Section99)
+	!insertmacro MUI_DESCRIPTION_TEXT ${SEC100} $(DESC_Section100)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ; Section descriptions

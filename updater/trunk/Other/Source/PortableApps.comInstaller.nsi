@@ -184,6 +184,7 @@ Function .onInit
 	StrCmp $PortableApps.comLocaleID "1040" SetLanguageFromEnvironment ;Italian
 	StrCmp $PortableApps.comLocaleID "2070" SetLanguageFromEnvironment ;Portuguese
 	StrCmp $PortableApps.comLocaleID "1041" SetLanguageFromEnvironment ;Japanese
+	StrCmp $PortableApps.comLocaleID "2052" SetLanguageFromEnvironment ;SIMPCHINESE
 	StrCmp $PortableApps.comLocaleID "1033" SetLanguageFromEnvironment ShowLanguageSelector ;English
 	;END: Init Language Detection Code
 	
@@ -319,6 +320,9 @@ Section "!App Portable (required)"
 	Goto EndPostInstallCode
 	StrCmp $LANGUAGE "1041" 0 +3 ;Japanese
 	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1041"
+	Goto EndPostInstallCode
+	StrCmp $LANGUAGE "2052" 0 +3 ;SIMPCHINESE
+	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "2052"
 	Goto EndPostInstallCode
 	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1033" ;=== Fallback to English
 	
