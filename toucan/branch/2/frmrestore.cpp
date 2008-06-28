@@ -10,6 +10,8 @@
 #include "toucan.h"
 #include "waitthread.h"
 
+#include <wx/stdpaths.h>
+
 /*!
  * frmRestore type definition
  */
@@ -136,6 +138,9 @@ void frmRestore::CreateControls()
     itemStdDialogButtonSizer11->AddButton(itemButton13);
 
     itemStdDialogButtonSizer11->Realize();
+	
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 /*!

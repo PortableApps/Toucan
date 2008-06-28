@@ -149,14 +149,19 @@ void frmVariable::CreateControls()
 
     wxButton* itemButton14 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer12->Add(itemButton14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
-	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 	
 	SetVariablesBox(m_Variables);
 	m_Variables->Append(wxT("date"));
 	m_Variables->Append(wxT("time"));
 	m_Variables->Append(wxT("docs"));
 	m_Variables->Append(wxT("drive"));
+	m_Variables->Append(wxT("YYYY"));
+	m_Variables->Append(wxT("MM"));
+	m_Variables->Append(wxT("DD"));
+	m_Variables->Append(wxT("hh"));
+	m_Variables->Append(wxT("mm"));
 }
 
 

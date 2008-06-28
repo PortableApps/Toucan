@@ -874,7 +874,7 @@ void frmMain::CreateControls()
 	m_Pvar_List->InsertColumn(0, column);
 	m_Pvar_List->InsertColumn(1, column);
 	
-	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
+	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 
 }
 
@@ -887,53 +887,54 @@ bool frmMain::ShowToolTips()
 //Get bitmap resources
 wxBitmap frmMain::GetBitmapResource( const wxString& name )
 {
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	wxUnusedVar(name);
 	if (name == _T("save.png")) {
-		wxBitmap bitmap(_T("save.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("save.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
 	else if (name == _T("add.png")) {
-		wxBitmap bitmap(_T("add.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
 	else if (name == _T("ok.png")) {
-		wxBitmap bitmap(_T("ok.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("ok.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("preview.png")) {
-		wxBitmap bitmap(_T("preview.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("preview.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("remove.png")) {
-		wxBitmap bitmap(_T("remove.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("remove.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("sync.png")) {
-		wxBitmap bitmap(_T("sync.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("sync.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("backup.png")) {
-		wxBitmap bitmap(_T("backup.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("backup.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("secure.png")) {
-		wxBitmap bitmap(_T("secure.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("secure.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("settings.png")) {
-		wxBitmap bitmap(_T("settings.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("settings.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("rules.png")) {
-		wxBitmap bitmap(_T("rules.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("rules.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("script.png")) {
-		wxBitmap bitmap(_T("script.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("script.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("pvars.png")) {
-		wxBitmap bitmap(_T("pvars.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("pvars.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	else if (name == _T("addvar.png")) {

@@ -7,6 +7,8 @@
 #include "toucan.h"
 #include "frmprogress.h"
 
+#include <wx/stdpaths.h>
+
 /*!
  * frmProgress type definition
  */
@@ -110,8 +112,8 @@ void frmProgress::CreateControls()
 
 	m_Save = new wxButton( itemPanel2, wxID_SAVE, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer5->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-	this->SetIcon(wxIcon(wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 /*!
