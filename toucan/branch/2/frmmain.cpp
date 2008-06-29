@@ -4,8 +4,8 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/wx.h>
 #include <wx/aboutdlg.h>
+#include <wx/wx.h>
 
 #include "toucan.h"
 #include "virtualdirtreectrl.h"
@@ -159,9 +159,9 @@ frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const
 //Creator
 bool frmMain::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
-	wxFrame::Create(parent, id, caption, pos, size, style);
+	wxFrame::Create(parent, id, caption, wxPoint(wxGetApp().m_Settings->GetX(), wxGetApp().m_Settings->GetY()), wxSize(wxGetApp().m_Settings->GetWidth(), wxGetApp().m_Settings->GetHeight()), style);
 	CreateControls();
-	Centre();
+	//Centre();
 	return true;
 }
 
@@ -1263,7 +1263,7 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 
 void frmMain::OnSecureJobAddClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxEmptyString, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Secure_Job_Select->Append(dialog->GetValue());
 		m_Secure_Job_Select->SetStringSelection(dialog->GetValue());
@@ -1367,7 +1367,7 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 
 void frmMain::OnSyncJobAddClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxEmptyString, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Sync_Job_Select->Append(dialog->GetValue());
 		m_Sync_Job_Select->SetStringSelection(dialog->GetValue());
@@ -1448,7 +1448,14 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event)
 		}
 	}
 	else{
-		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxPathOnly(m_Backup_Location->GetValue()), wxEmptyString, wxT("7 Zip (*.7z)|*.7z|Zip Files (*.zip)|*.zip|All Files (*.*)|*.*"), wxFD_SAVE);
+		wxString strWildcard;
+		if(m_Backup_Format->GetStringSelection() == _("7-Zip")){
+			strWildcard = wxT("7 Zip (*.7z)|*.7z|All Files (*.*)|*.*");
+		}
+		else if(m_Backup_Format->GetStringSelection() == _("Zip")){
+			strWildcard = wxT("Zip Files (*.zip)|*.zip|All Files (*.*)|*.*");
+		}		
+		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxPathOnly(m_Backup_Location->GetValue()), wxEmptyString, strWildcard, wxFD_SAVE);
 		if (dialog.ShowModal() == wxID_OK) {
 			m_Backup_Location->SetValue(dialog.GetPath());
 		}
@@ -1461,7 +1468,7 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event)
 
 void frmMain::OnBackupJobAddClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Job name"));
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this,  wxEmptyString, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Backup_Job_Select->Append(dialog->GetValue());
 		m_Backup_Job_Select->SetStringSelection(dialog->GetValue());
@@ -1928,7 +1935,7 @@ void frmMain::OnHelpClick(wxCommandEvent& event){
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0 Pre-release 6"));
+	info.SetVersion(wxT("2.0"));
 	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nBURP, 7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL or a compatible license."));
