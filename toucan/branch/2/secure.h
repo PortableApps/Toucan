@@ -93,10 +93,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 	}
 
 	//Ensure that we are not encrypting an already encrypted file or decrypting a non encrypted file
-	if(filename.GetExt() == wxT("cpt") && data.GetFunction() == _("Encrypt") && data.GetFormat() == _T("Rijndael")){
+	if(filename.GetExt() == wxT("cpt") && data.GetFunction() == _("Encrypt")){
 		return false;
 	}
-	if(filename.GetExt() != wxT("cpt") && data.GetFunction() == _("Decrypt") && data.GetFormat() == _T("Rijndael")){
+	if(filename.GetExt() != wxT("cpt") && data.GetFunction() == _("Decrypt")){
 		return false;
 	}	
 	
@@ -135,21 +135,11 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 
 		//Create the command (blowfish is allowed)
 		wxString command;
-		if(data.GetFormat() == wxT("Blowfish")){        
-			command = wxT("burp -d -k\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\" \"") + wxPathOnly(strFile) + wxT("\\") + wxT("1.tmp\"");
-		}	
-		else{
-			command = wxT("ccrypt -d -K\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\" ");
-		}
+		command = wxT("ccrypt -d -K\"") + data.GetPass() + wxT("\" \"") + strFile + wxT("\" ");
 		
 		//Execute the process
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		
-		//If Blowfish is used then the decryped file (1.tmp) is renamed to the correct name and then 1.tmp is removed
-		if(data.GetFormat() == wxT("Blowfish")){		
-			wxCopyFile(wxPathOnly(strFile) + wxT("\\1.tmp"), strFile, true);
-			wxRemoveFile(wxPathOnly(strFile) + wxT("\\1.tmp"));
-		}
 
 		//Put the attributes back
 		SetFileAttributes(strFile,filearrtibs);

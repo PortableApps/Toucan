@@ -202,7 +202,7 @@ void frmMain::Init()
 	m_Secure_DirCtrl = NULL;
 	m_Secure_TreeCtrl = NULL;
 	m_Secure_Function = NULL;
-	m_Secure_Format = NULL;
+	//m_Secure_Format = NULL;
 	m_Secure_Pass = NULL;
 	m_Secure_Repass = NULL;
 	m_Rules_Combo = NULL;
@@ -404,13 +404,6 @@ void frmMain::CreateControls()
 	m_Backup_Format->SetSelection(0);
 	BackupRow1->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
 
-	/*wxArrayString m_Backup_RatioStrings;
-	m_Backup_RatioStrings.Add(_("Low"));
-	m_Backup_RatioStrings.Add(_("Normal"));
-	m_Backup_RatioStrings.Add(_("Maximum"));
-	m_Backup_Ratio = new wxRadioBox( itemPanel35, ID_BACKUP_RATIO, _("Compression Ratio"), wxDefaultPosition, wxDefaultSize, m_Backup_RatioStrings, 1, wxRA_SPECIFY_COLS );
-	m_Backup_Ratio->SetSelection(1);
-	BackupRow1->Add(m_Backup_Ratio, 0, wxALIGN_TOP|wxALL, 5);*/
 	wxStaticBox* BackupRatioStatic = new wxStaticBox(itemPanel35, wxID_ANY, _("Compression Level"));
 	wxStaticBoxSizer* BackupRatioSizer = new wxStaticBoxSizer(BackupRatioStatic, wxVERTICAL);
 	
@@ -549,12 +542,12 @@ void frmMain::CreateControls()
 	m_Secure_Function->SetSelection(0);
 	itemBoxSizer3001->Add(m_Secure_Function, 1, wxGROW|wxALIGN_TOP|wxALL, 5);
 
-	wxArrayString m_Secure_FormatStrings;
+	/*wxArrayString m_Secure_FormatStrings;
 	m_Secure_FormatStrings.Add(wxT("Rijndael"));
 	m_Secure_FormatStrings.Add(wxT("Blowfish (Decrypt Only)"));
 	m_Secure_Format = new wxRadioBox( itemPanel68, ID_SECURE_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Secure_FormatStrings, 1, wxRA_SPECIFY_COLS );
 	m_Secure_Format->SetSelection(0);
-	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);
+	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);*/
 
 	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	

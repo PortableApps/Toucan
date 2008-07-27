@@ -200,7 +200,6 @@ bool ParseCommandLine(){
 		}
 		data.SetLocations(arrLocations);
 		data.SetFunction(cmdParser.GetParam(2));
-		data.SetFormat(wxT("Rijndael"));
 		if(data.TransferToFile(wxT("LastSecureJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastSecureJob/Rules"),  cmdParser.GetParam(4));

@@ -34,9 +34,6 @@ public:
 	void SetFunction(wxString function) { strFunction = function; }
 	wxString GetFunction() { return strFunction; }
 
-	void SetFormat(wxString format) { strFormat = format; }
-	wxString GetFormat() { return strFormat; }
-
 	void SetPass(wxString pass) { strPass = pass; }
 	wxString GetPass() { return strPass; }
 
@@ -46,8 +43,6 @@ private:
 	wxArrayString arrLocations;
 	//Encrypt or decrypt
 	wxString strFunction;
-	//Rijndael or blowfish (decrypt only
-	wxString strFormat;
 	//A single copy of the apssword, checking is done by the gui
 	wxString strPass;
 

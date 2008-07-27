@@ -18,7 +18,7 @@
 
 class Settings;
 
-//Because we actually have a consola app that is well hidden!
+//Because we actually have a console app that is well hidden!
 IMPLEMENT_APP_NO_MAIN(Toucan)
 
 /*!

@@ -90,7 +90,7 @@ class Settings;
 #define ID_SECURE_ADDVAR 10038
 #define ID_SECURE_MAKERELATIVE 10037
 #define ID_SECURE_FUNCTION 10039
-#define ID_SECURE_FORMAT 10040
+//#define ID_SECURE_FORMAT 10040
 #define ID_SECURE_PASS 10041
 #define ID_SECURE_REPASS 10042
 //Rules
@@ -389,7 +389,7 @@ public:
 	wxGenericDirCtrl* m_Secure_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Secure_TreeCtrl;
 	wxRadioBox* m_Secure_Function;
-	wxRadioBox* m_Secure_Format;
+	//wxRadioBox* m_Secure_Format;
 	wxTextCtrl* m_Secure_Pass;
 	wxTextCtrl* m_Secure_Repass;
 	wxComboBox* m_Rules_Combo;

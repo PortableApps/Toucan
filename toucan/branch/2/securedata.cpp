@@ -24,8 +24,6 @@ bool SecureData::TransferFromFile(wxString strName){
 	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
 	blError = config->Read(strName + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
-	blError = config->Read(strName + wxT("/Format"), &strTemp);
-	if(blError){ SetFormat(strTemp); }
 	//Delete the fileconfig as we are finished with it	
 	delete config;
 
@@ -48,8 +46,7 @@ bool SecureData::TransferToFile(wxString strName){
 	//Write the fields to the ini file
 	blError = config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
 	blError = config->Write(strName + wxT("/Function"), GetFunction());	
-	blError = config->Write(strName + wxT("/Format"), GetFormat());	
-	
+
 	//Write the contents to the file and then delete the fileconfig object
 	config->Flush();
 	delete config;
@@ -78,7 +75,6 @@ void SecureData::TransferToForm(frmMain *window){
 	}
 	//Set up the rest of the window
 	window->m_Secure_Function->SetStringSelection(GetFunction());
-	window->m_Secure_Format->SetStringSelection(GetFormat());
 	return;
 }
 
@@ -96,10 +92,6 @@ bool SecureData::TransferFromForm(frmMain *window, bool blShowError){
 	if(window->m_Secure_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Secure_Function->GetStringSelection()); }
 	else{ blNotFilled = true; }
 
-	//Get the format, ensuring something is selected
-	if(window->m_Secure_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Secure_Format->GetStringSelection()) ; }
-	else{ blNotFilled = true; }
-
 	//Output an error message if needed
 	if(blNotFilled && blShowError){
 		ErrorBox(_("Not all of the required fields are filled"));
@@ -114,7 +106,6 @@ void SecureData::Output(){
 		MessageBox(GetLocations().Item(i), wxT("Location"));
 	}
 	MessageBox(GetFunction(), wxT("Function"));
-	MessageBox(GetFormat(), wxT("Format"));
 	MessageBox(GetPass(), wxT("Pass"));
 }
 
