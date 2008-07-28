@@ -77,8 +77,8 @@ bool Toucan::OnInit()
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
 
-	wxPoint position(m_Settings->GetX() * width, m_Settings->GetY() * height);
-	wxSize size(m_Settings->GetWidth() * width, m_Settings->GetHeight() * height);
+	wxPoint position((int)(m_Settings->GetX() * width), (int)(m_Settings->GetY() * height));
+	wxSize size((int)(m_Settings->GetWidth() * width), (int)(m_Settings->GetHeight() * height));
 	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
 	
 	wxInitAllImageHandlers();
