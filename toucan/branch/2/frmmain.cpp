@@ -868,7 +868,6 @@ void frmMain::CreateControls()
 	m_Pvar_List->InsertColumn(1, column);
 	
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
-
 }
 
 //Show tooltips

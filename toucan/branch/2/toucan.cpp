@@ -72,9 +72,18 @@ bool Toucan::OnInit()
 	}	
 	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
+	
+	//Set up the sizes and so forth
+	int height, width, x, y;
+	wxClientDisplayRect(&x, &y, &width, &height);
+
+	wxPoint position(m_Settings->GetX() * width, m_Settings->GetY() * height);
+	wxSize size(m_Settings->GetWidth() * width, m_Settings->GetHeight() * height);
+	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
+	
 	wxInitAllImageHandlers();
 	wxBitmap bitmap;
-	MainWindow = new frmMain(NULL, ID_AUIFRAME);
+	MainWindow = new frmMain(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
 			
 	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"));
 	if(blGUI){
@@ -87,18 +96,11 @@ bool Toucan::OnInit()
 			//Now destroy the splashscreen
 			scrn->Destroy(); 
 		}
-		int height, width, x, y;
-		wxClientDisplayRect(&x, &y, &width, &height);
-
-		if(m_Settings->GetWidth() >= 1 && m_Settings->GetHeight() >= 1){
-			MainWindow->Maximize();
-		}
-		else{
+		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 			MainWindow->Iconize(false);
-			MainWindow->SetSize(m_Settings->GetWidth() * width, m_Settings->GetHeight() * height);
-		}
-		MainWindow->SetPosition(wxPoint(m_Settings->GetX() * width, m_Settings->GetY() * height));
+		}	
 		MainWindow->Show();
+	
 	}
 	else{
 		ParseCommandLine();

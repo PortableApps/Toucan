@@ -138,13 +138,6 @@ class Settings;
 #define ID_SETTINGS_LANGUAGE 20031
 #define ID_SETTINGS_FONT 20032
 
-//The form
-#define SYMBOL_FRMMAIN_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX
-#define SYMBOL_FRMMAIN_TITLE wxT("Toucan")
-#define SYMBOL_FRMMAIN_IDNAME ID_AUIFRAME
-#define SYMBOL_FRMMAIN_SIZE wxSize(760, 450)
-#define SYMBOL_FRMMAIN_POSITION wxDefaultPosition
-
 
 /*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
@@ -155,9 +148,9 @@ class frmMain: public wxFrame
 public:
 	/// Constructors
 	frmMain();
-	frmMain( wxWindow* parent, wxWindowID id = SYMBOL_FRMMAIN_IDNAME, const wxString& caption = SYMBOL_FRMMAIN_TITLE, const wxPoint& pos = SYMBOL_FRMMAIN_POSITION, const wxSize& size = SYMBOL_FRMMAIN_SIZE, long style = SYMBOL_FRMMAIN_STYLE );
+	frmMain( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
-	bool Create( wxWindow* parent, wxWindowID id = SYMBOL_FRMMAIN_IDNAME, const wxString& caption = SYMBOL_FRMMAIN_TITLE, const wxPoint& pos = SYMBOL_FRMMAIN_POSITION, const wxSize& size = SYMBOL_FRMMAIN_SIZE, long style = SYMBOL_FRMMAIN_STYLE );
+	bool Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
 	/// Destructor
 	~frmMain();
@@ -179,7 +172,6 @@ public:
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
 	void OnSyncPreviewClick(wxCommandEvent& event);
-
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
 	void OnSyncJobSaveClick(wxCommandEvent& event);
