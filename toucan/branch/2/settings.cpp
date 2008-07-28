@@ -31,10 +31,10 @@ bool Settings::TransferFromFile(){
 	m_LanguageCode = wxT("en");
 	wxFont temp = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
 	m_Font = temp.GetNativeFontInfoDesc();
-	m_Height = 800;
-	m_Width = 960;
-	m_Y = -1;
-	m_X = -1;
+	m_Height = 1;
+	m_Width = 1;
+	m_Y = 0;
+	m_X = 0;
 	
 	//Read from the settings file
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));

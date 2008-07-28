@@ -159,7 +159,7 @@ frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const
 //Creator
 bool frmMain::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
-	wxFrame::Create(parent, id, caption, wxPoint(wxGetApp().m_Settings->GetX(), wxGetApp().m_Settings->GetY()), wxSize(wxGetApp().m_Settings->GetWidth(), wxGetApp().m_Settings->GetHeight()), style);
+	wxFrame::Create(parent, id, caption, pos, size, style);
 	CreateControls();
 	//Centre();
 	return true;
@@ -1643,12 +1643,21 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
 	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
-	wxGetApp().m_Settings->SetHeight(this->GetSize().GetHeight());
-	wxGetApp().m_Settings->SetWidth(this->GetSize().GetWidth());
-	wxGetApp().m_Settings->SetX(this->GetScreenPosition().x);
-	wxGetApp().m_Settings->SetY(this->GetScreenPosition().y);
+	
+	
+	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
+	
+	int height, width, x, y;
+	wxClientDisplayRect(&x, &y, &width, &height);
+	
+	wxGetApp().m_Settings->SetHeight((double)(this->GetSize().GetHeight())/(height));
+	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
+	
+	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
+	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
 	
 	wxGetApp().m_Settings->TransferToFile();
+	
 	delete m_BackupLocations;
 	delete m_SecureLocations;
 	wxGetApp().MainWindow->Destroy();
@@ -1933,7 +1942,7 @@ void frmMain::OnAboutClick(wxCommandEvent& event){
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL or a compatible license."));
 	info.SetTranslators(GetTranslatorNames());
-	wxAboutBox(info);	
+	wxAboutBox(info);
 }
 
 void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){

@@ -28,27 +28,27 @@ public:
 	wxString GetFont() { return m_Font; }
 	void SetFont(wxString font) { m_Font = font; }	
 	
-	int GetHeight() { return m_Height; }
-	void SetHeight(int height) { m_Height = height; }	
+	double GetHeight() { return m_Height; }
+	void SetHeight(float height) { m_Height = height; }	
 	
-	int GetWidth() { return m_Width; }
-	void SetWidth(int width) { m_Width = width; }	
+	double GetWidth() { return m_Width; }
+	void SetWidth(float width) { m_Width = width; }	
 	
-	int GetY() { return m_Y; }
-	void SetY(int y) { m_Y = y; }	
+	double GetY() { return m_Y; }
+	void SetY(double y) { m_Y = y; }	
 	
-	int GetX() { return m_X; }
-	void SetX(int x) { m_X = x; }	
+	double GetX() { return m_X; }
+	void SetX(double x) { m_X = x; }	
 	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
 	wxString m_LanguageCode;
 	wxString m_Font;
-	int m_Height;
-	int m_Width;
-	int m_X;
-	int m_Y;
+	double m_Height;
+	double m_Width;
+	double m_X;
+	double m_Y;
 };
 
 #endif
