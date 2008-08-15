@@ -109,6 +109,7 @@ Page custom CustomPageA LeaveCustomPageA
 !insertmacro MUI_LANGUAGE "Portuguese"
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "Japanese"
+!insertmacro MUI_LANGUAGE "SimpChinese"
 
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
@@ -452,7 +453,7 @@ SectionEnd
 
 Section /o "41" SEC41
 	AddSize ${sec41_size}
-	StrCpy $OName S41
+	StrCpy $OName 41
 	Call OI_select
 SectionEnd
 
@@ -464,7 +465,7 @@ SectionEnd
 
 Section /o "43" SEC43
 	AddSize ${sec43_size}
-	StrCpy $OName S43
+	StrCpy $OName 43
 	Call OI_select
 SectionEnd
 
@@ -854,6 +855,7 @@ Function .onInit
 		;=== Call PrepareList to fill the list with the Apps for download and install
 		Call PrepareAppList
 	${EndSelect}
+	;call Clean_Up
 FunctionEnd
 
 Function LanguageInit
@@ -1116,7 +1118,7 @@ Function default_settings
 	StrCpy "$fpage" "1"
 	StrCpy "$pdel" "1"
 	StrCpy $UFile "$EXEDIR\Data\updater.ini"
-	StrCpy $OFile "http://oooportable.org/portableapps/updater.ini"
+	StrCpy $OFile "http://update.portableapps.com/platform/updater.ini"
 	StrCpy $varn "0"
 	StrCpy $debug "false"
 	StrCpy $no_ok "false"
@@ -1130,36 +1132,42 @@ FunctionEnd
 
 
 Function ORandom
- ${time::GetLocalTime} $0
- ${time::TimeString} "$0" $tvar1 $tvar2 $tvar3 $tvar4 $tvar5 $tvar6
+ ${Select} $mversion
+	${Case} "sf_mirrors"
+	;=== no randomize for sf mirror
+		StrCpy $Mirror $mirror_001
+	${CaseElse}
+ 		${time::GetLocalTime} $0
+ 		${time::TimeString} "$0" $tvar1 $tvar2 $tvar3 $tvar4 $tvar5 $tvar6
 
- ${If} $tvar6 <= 5
-    StrCpy $Mirror $mirror_009
- ${EndIf}
- ${If} $tvar6 >= 5
-    StrCpy $Mirror $mirror_001
- ${EndIf}
- ${If} $tvar6 >= 10
-    StrCpy $Mirror $mirror_002
- ${EndIf}
- ${If} $tvar6 >= 15
-    StrCpy $Mirror $mirror_003
- ${EndIf}
- ${If} $tvar6 >= 20
-    StrCpy $Mirror $mirror_004
- ${EndIf}
- ${If} $tvar6 >= 30
-    StrCpy $Mirror $mirror_005
- ${EndIf}
- ${If} $tvar6 >= 40
-    StrCpy $Mirror $mirror_006
- ${EndIf}
- ${If} $tvar6 >= 45
-    StrCpy $Mirror $mirror_007
- ${EndIf}
- ${If} $tvar6 >= 50
-    StrCpy $Mirror $mirror_008
- ${EndIf}
+ 		${If} $tvar6 <= 5
+    			StrCpy $Mirror $mirror_009
+ 		${EndIf}
+ 		${If} $tvar6 >= 5
+    			StrCpy $Mirror $mirror_001
+ 		${EndIf}
+ 		${If} $tvar6 >= 10
+    			StrCpy $Mirror $mirror_002
+ 		${EndIf}
+ 		${If} $tvar6 >= 15
+    			StrCpy $Mirror $mirror_003
+ 		${EndIf}
+ 		${If} $tvar6 >= 20
+    			StrCpy $Mirror $mirror_004
+ 		${EndIf}
+ 		${If} $tvar6 >= 30
+    			StrCpy $Mirror $mirror_005
+ 		${EndIf}
+ 		${If} $tvar6 >= 40
+    			StrCpy $Mirror $mirror_006
+ 		${EndIf}
+ 		${If} $tvar6 >= 45
+    			StrCpy $Mirror $mirror_007
+ 		${EndIf}
+ 		${If} $tvar6 >= 50
+    			StrCpy $Mirror $mirror_008
+ 		${EndIf}
+	${EndSelect}
 FunctionEnd
 
 

@@ -1,10 +1,13 @@
-LangString welcome ${LANG_ITALIAN} "Questa procedura vi guiderà durante l'installazione di PortableApps.\r\n\r\nSe state aggiornando una installazione già esistente di PortableApss, vi invitiamo a chiuderla prima di procedere.\r\n\r\nPremere  su Continua per proseguire."
+;Courtesy of mandricus, taniservice
+
+LangString welcome ${LANG_ITALIAN} "Questa procedura vi guiderà durante l'installazione di ${NAME}.\r\n\r\nSe state aggiornando una installazione già esistente di ${NAME}, vi invitiamo a chiuderla prima di procedere.\r\n\r\nPremere  su Continua per proseguire."
 LangString finish ${LANG_ITALIAN} "${NAME} è stato installato sulla vostra periferica.\r\n\r\nPremere Fine per terminare questa procedura."
 LangString runwarning ${LANG_ITALIAN} "Vi invitiamo a chiudere tutte le sessioni aperte di ${CLOSENAME} e quindi premere su OK.  L'applicazione portatile non può essere aggiornata mentre è in esecuzione."
 LangString invaliddirectory ${LANG_ITALIAN} "La cartella di destinazione selezionata non è valida.  Vi preghiamo di selezionarne una valida."
 LangString notenoughspace ${LANG_ITALIAN} "La periferica che avete selezionato per l'installazione non ha spazio libero sufficiente per questa applicazione."
 LangString checkforplatform ${LANG_ITALIAN} "Controllo della Piattaforma PortableApps.com"
 LangString refreshmenu ${LANG_ITALIAN} "Aggiornamento del Menù PortableApps.com"
+
 ; Needs to be translated
 LangString plok ${LANG_ITALIAN} "is up to date!"
 LangString components ${LANG_ITALIAN} "Select the components to install/update. Attention! The needed space count is only for the downloaded packages!"
@@ -100,7 +103,7 @@ LangString DESC_Section56 ${LANG_ITALIAN} " "
 LangString DESC_Section57 ${LANG_ITALIAN} " "
 LangString DESC_Section58 ${LANG_ITALIAN} " "
 LangString DESC_Section59 ${LANG_ITALIAN} " "
-LangString DESC_Section50 ${LANG_ITALIAN} " "
+LangString DESC_Section60 ${LANG_ITALIAN} " "
 LangString DESC_Section61 ${LANG_ITALIAN} " "
 LangString DESC_Section62 ${LANG_ITALIAN} " "
 LangString DESC_Section63 ${LANG_ITALIAN} " "
