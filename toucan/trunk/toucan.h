@@ -1,38 +1,24 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2007 Steven Lamerton
-// Licence:     GNU GPL 2 (See readme for more info
+// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _Toucan_H_
-#define _Toucan_H_
+#ifndef _TOUCAN_H_
+#define _TOUCAN_H_
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-#pragma interface "toucan.h"
-#endif
+#include <wx\wx.h>
+#include <wx\process.h>
+#include <wx\image.h>
+#include <wx\intl.h>
 
-/*!
-* Includes
-*/
-
-////@begin includes
-#include "wx/image.h"
 #include "frmmain.h"
-////@end includes
 
-/*!
-* Forward declarations
-*/
 
-////@begin forward declarations
-////@end forward declarations
+#include "settings.h"
 
-/*!
-* Control identifiers
-*/
-
-////@begin control identifiers
-////@end control identifiers
+class frmProgress;
+//class frmMain;
 
 /*!
 * Toucan class declaration
@@ -40,63 +26,42 @@
 
 class Toucan: public wxApp
 {    
-    //DECLARE_CLASS( Toucan )
-	//DECLARE_EVENT_TABLE()
 
-public:
+	public:
+
 	/// Constructor
 	Toucan();
+
+	void Init();
 
 	/// Initialises the application
 	virtual bool OnInit();
 
 	/// Called on exit
 	virtual int OnExit();
+
+	void SetLanguage(wxString langcode);
+				
+	bool ShouldAbort() { return blAbort; }
+	void SetAbort(bool abort) { blAbort = abort; }
+	
+	wxString GetSettingsPath() { return strSettingsPath; }
+	void SetSettingsPath(wxString settingspath) { strSettingsPath = settingspath; }
 		
-    void SelectLanguage() ;
-       
+	frmMain* MainWindow;
+	frmProgress* ProgressWindow;
+	Settings* m_Settings;
+	wxLocale* m_Locale;	
+	bool blGUI;
+	
+protected:
+	//Abort the current job
+	bool blAbort;
+	//The settings path
+	wxString strSettingsPath;
 
-	////@begin Toucan event handler declarations
-
-	////@end Toucan event handler declarations
-
-	////\@begin Toucan member function declarations
-
-	wxString GetStrCommand() const { return strCommand ; }
-	void SetStrCommand(wxString value) { strCommand = value ; }
-    
-	wxString GetStrAbort() const { return strAbort ; }
-	void SetStrAbort(wxString value) { strAbort = value ; }
-
-	wxString GetStrTemp() const { return strTemp ; }
-	void SetStrTemp(wxString value) { strTemp = value ; }
-
-	long GetlngPID() const { return lngPID ; }
-	void SetlngPID(long value) { lngPID = value ; }
-    
-	bool GetBlVisible() const { return blVisible ; }
-	void SetBlVisible(bool value) { blVisible = value ; }
-
-	////\@end Toucan member function declarations
-
-	////\@begin Toucan member variables
-	wxString strAbort;
-	long lngPID;
-	bool blVisible;
-	wxString strCommand;
-public:
-	wxString strTemp;
-	////\@end Toucan member variables
-private:
-	wxLocale* m_locale; // 'our' locale
 };
 
-/*!
-* Application instance declaration 
-*/
-
-///@begin declare app
 DECLARE_APP(Toucan)
-///@end declare app
 
 #endif
