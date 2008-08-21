@@ -4,31 +4,15 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
+#include <wx/wx.h>
+#include <wx/stdpaths.h>
 
 #include "frmvariable.h"
 #include "basicfunctions.h"
 #include "variables.h"
 
-/*!
- * frmVariable type definition
- */
-
 IMPLEMENT_DYNAMIC_CLASS( frmVariable, wxDialog )
 
-
-/*!
- * frmVariable event table definition
- */
 
 BEGIN_EVENT_TABLE(frmVariable, wxDialog)
 
@@ -45,10 +29,6 @@ BEGIN_EVENT_TABLE(frmVariable, wxDialog)
 END_EVENT_TABLE()
 
 
-/*!
- * frmVariable constructors
- */
-
 frmVariable::frmVariable()
 {
     Init();
@@ -60,10 +40,6 @@ frmVariable::frmVariable( wxWindow* parent, wxWindowID id, const wxString& capti
     Create(parent, id, caption, pos, size, style);
 }
 
-
-/*!
- * frmVariable creator
- */
 
 bool frmVariable::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
@@ -80,30 +56,12 @@ bool frmVariable::Create( wxWindow* parent, wxWindowID id, const wxString& capti
 }
 
 
-/*!
- * frmVariable destructor
- */
-
-frmVariable::~frmVariable()
-{
-}
-
-
-/*!
- * Member initialisation
- */
-
 void frmVariable::Init()
 {
     m_Text = NULL;
     m_Variables = NULL;
     m_Preview = NULL;
 }
-
-
-/*!
- * Control creation for frmVariable
- */
 
 void frmVariable::CreateControls()
 {    
@@ -164,33 +122,16 @@ void frmVariable::CreateControls()
 	m_Variables->Append(wxT("mm"));
 }
 
-
-/*!
- * Should we show tooltips?
- */
-
-bool frmVariable::ShowToolTips()
-{
-    return true;
-}
-
-/*!
- * Get bitmap resources
- */
-
 wxBitmap frmVariable::GetBitmapResource(const wxString& name)
 {
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	wxUnusedVar(name);
 	if (name == _T("add.png")) {
-		wxBitmap bitmap(_T("add.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
 	return wxNullBitmap;
 }
-
-/*!
- * Get icon resources
- */
 
 wxIcon frmVariable::GetIconResource(const wxString& name)
 {

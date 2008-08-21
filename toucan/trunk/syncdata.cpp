@@ -7,6 +7,7 @@
 #include "syncdata.h"
 #include "basicfunctions.h"
 #include "variables.h"
+#include "toucan.h"
 #include <wx\variant.h>
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>

@@ -10,11 +10,13 @@
 #include <wx/snglinst.h>
 #include <wx/splash.h>
 #include <wx/intl.h>
+#include <wx/fileconf.h>
 
 #include "toucan.h"
 #include "frmmain.h"
 #include "backupprocess.h"
 #include "cmdline.h"
+#include "basicfunctions.h"
 
 class Settings;
 

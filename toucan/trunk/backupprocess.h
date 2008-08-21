@@ -21,8 +21,6 @@ public:
 	
 };
 
-IMPLEMENT_CLASS(BaseProcess, wxProcess)
-
 //The actual piped process, this could be merged with the base process
 class PipedProcess : public BaseProcess
 {
@@ -47,6 +45,5 @@ protected:
 	long m_PID;
 };
 
-IMPLEMENT_CLASS(PipedProcess, BaseProcess)
 
 #endif

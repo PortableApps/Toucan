@@ -4,10 +4,12 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/string.h>
+#include <wx/wx.h>
 #include <wx/regex.h>
 #include <wx/filename.h>
+#include <wx/fileconf.h>
 #include "rules.h"
+#include "toucan.h"
 #include "basicfunctions.h"
 
 bool Rules::ShouldExclude(wxString strName, bool blIsDir){

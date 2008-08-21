@@ -4,7 +4,10 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
+#include <wx/arrstr.h>
+#include <wx/stdpaths.h>
 #include <wx/aboutdlg.h>
+#include <wx/fileconf.h>
 #include <wx/wx.h>
 
 #include "toucan.h"
@@ -17,6 +20,11 @@
 #include "frmvariable.h"
 
 #include "script.h"
+#include "variables.h"
+#include "securedata.h"
+#include "syncdata.h"
+#include "backupdata.h"
+#include "basicfunctions.h"
 
 //Implement frmMain
 IMPLEMENT_CLASS(frmMain, wxFrame)
@@ -1182,13 +1190,13 @@ void frmMain::OnRulesAddClick(wxCommandEvent& event)
 
 void frmMain::OnRulesRemoveClick(wxCommandEvent& event)
 {
-	m_Rules_Combo->Delete(m_Rules_Combo->GetSelection());
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	config->DeleteGroup(m_Rules_Combo->GetStringSelection());
 	delete config;
+	m_Rules_Combo->Delete(m_Rules_Combo->GetSelection());
 }
 
 
@@ -1914,7 +1922,7 @@ void frmMain::OnBackupAddVarClick(wxCommandEvent& event){
 	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK){
 		m_BackupLocations->Add(window->m_Text->GetValue());
-		m_Backup_TreeCtrl->AddNewPath(window->m_Preview->GetValue());
+		m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview->GetValue())));
 	}
 	delete window;
 }
@@ -1923,7 +1931,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK){
 		m_SecureLocations->Add(window->m_Text->GetValue());
-		m_Secure_TreeCtrl->AddNewPath(window->m_Preview->GetValue());
+		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview->GetValue())));
 	}
 	delete window;	
 }
@@ -1937,9 +1945,9 @@ void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
 	info.SetVersion(wxT("2.0"));
-	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nBURP, 7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
+	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\n7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
-	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL or a compatible license."));
+	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
 	info.SetTranslators(GetTranslatorNames());
 	wxAboutBox(info);
 }
@@ -1966,4 +1974,13 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 
 void frmMain::OnFontChange(wxFontPickerEvent& event){
 	m_Settings_Font->GetSizer()->Layout();
+}
+
+wxString frmMain::GetMD5(const wxString strFilename){
+	//Test the md5 to see if the files are really the same or not
+	wxArrayString arrErrors, arrOutput;
+	wxExecute(wxT("md5 \"")+ strFilename + wxT("\""),arrErrors, arrOutput, wxEXEC_SYNC);
+	wxString strReturn = arrOutput.Item(0);
+	wxMessageBox(strReturn);
+	return wxEmptyString;
 }

@@ -8,10 +8,6 @@
 #define _FRMVARIABLE_H_
 
 
-/*!
- * Control identifiers
- */
-
 #define ID_FRMVARIABLE 10009
 #define ID_TEXT 10010
 #define ID_PATH 10011
@@ -23,10 +19,6 @@
 #define SYMBOL_FRMVARIABLE_IDNAME ID_FRMVARIABLE
 #define SYMBOL_FRMVARIABLE_SIZE wxSize(400, 300)
 #define SYMBOL_FRMVARIABLE_POSITION wxDefaultPosition
-
-/*!
- * frmVariable class declaration
- */
 
 class frmVariable: public wxDialog
 {    
@@ -43,8 +35,6 @@ public:
     /// Creation
     bool Create( wxWindow* parent, wxWindowID id = SYMBOL_FRMVARIABLE_IDNAME, const wxString& caption = SYMBOL_FRMVARIABLE_TITLE, const wxPoint& pos = SYMBOL_FRMVARIABLE_POSITION, const wxSize& size = SYMBOL_FRMVARIABLE_SIZE, long style = SYMBOL_FRMVARIABLE_STYLE );
 
-    /// Destructor
-    ~frmVariable();
 
     /// Initialises member variables
     void Init();
@@ -71,9 +61,6 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
 
     wxTextCtrl* m_Text;
     wxComboBox* m_Variables;

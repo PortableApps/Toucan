@@ -87,7 +87,7 @@ class Settings;
 #define ID_SECURE_ADD 10102
 #define ID_SECURE_REMOVE 10103
 #define ID_SECURE_TREECTRL 10100
-#define ID_SECURE_ADDVAR 10038
+#define ID_SECURE_ADDVAR 40038
 #define ID_SECURE_MAKERELATIVE 10037
 #define ID_SECURE_FUNCTION 10039
 //#define ID_SECURE_FORMAT 10040
@@ -333,6 +333,7 @@ public:
 	
 	void OnFontChange(wxFontPickerEvent& event);
 	
+	wxString GetMD5(const wxString strFilename);
 
 	//Functions
 

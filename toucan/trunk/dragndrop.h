@@ -4,9 +4,13 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/dnd.h>
-#include <wx/filename.h>
+#ifndef H_DRAGNDROP
+#define H_DRAGNDROP
+
 #include "basicfunctions.h"
+#include "virtualdirtreectrl.h"
+#include <wx/dnd.h>
+
 
 /*File droptarget to a wxVirtualDirTreeCtrl, multiple files allowed*/
 class DnDFileTree : public wxFileDropTarget
@@ -15,14 +19,9 @@ public:
 	DnDFileTree(wxVirtualDirTreeCtrl *tree) {
 		m_Tree = tree;
 	}
+
+	bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames);
 	
-	virtual bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
-		//Loop through all of the paths adding each one to the wxVirtualDirTreeCtrl		
-		for(unsigned int i = 0; i < arrFilenames.GetCount(); i++){
-			m_Tree->AddNewPath(arrFilenames.Item(i));
-		}
-		return true;
-	}
 private:
 	wxVirtualDirTreeCtrl *m_Tree;
 };
@@ -36,19 +35,11 @@ public:
 		m_Tree = tree;
 	}
 	
-	virtual bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
-		//Only add the first item as Sync only supports one to one syncing		
-		m_Text->SetValue(arrFilenames.Item(0));
-		m_Tree->DeleteAllItems();
-		m_Tree->AddRoot(wxT("Hidden root"));
-		m_Tree->AddNewPath(arrFilenames.Item(0));
-		//Return a message to the user if they have tried to add more than one item
-		if(arrFilenames.GetCount() < 1){
-			MessageBox(_("Only the first item you dragged was added"), _("Warning"));
-		}
-		return true;
-	}
+	bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames);
+	
 private:
 	wxTextCtrl *m_Text;
 	wxVirtualDirTreeCtrl *m_Tree;
 };
+
+#endif

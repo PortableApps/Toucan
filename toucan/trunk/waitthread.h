@@ -25,17 +25,4 @@ private:
 	PipedProcess *m_Process;
 };
 
-void *WaitThread::Entry(){
-	HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION,FALSE,m_PID);
-	DWORD lgReturn;
-	GetExitCodeProcess(hProcess, &lgReturn);
-	while(lgReturn == STILL_ACTIVE){
-	//	wxMutexGuiEnter();
-		m_Process->HasInput();
-	//	wxMutexGuiLeave();
-		GetExitCodeProcess(hProcess, &lgReturn);
-	}
-	return NULL;
-}
-
 #endif

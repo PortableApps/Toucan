@@ -11,6 +11,9 @@
 #include "basicfunctions.h"
 #include <wx/textfile.h>
 
+IMPLEMENT_CLASS(BaseProcess, wxProcess)
+IMPLEMENT_CLASS(PipedProcess, BaseProcess)
+
 bool PipedProcess::HasInput()
 {
 	bool hasInput = false;
