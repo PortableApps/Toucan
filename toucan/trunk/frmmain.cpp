@@ -40,6 +40,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SYNC_OK, frmMain::OnSyncOKClick)
 	
 	EVT_BUTTON(ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick)
+	
+	EVT_BUTTON(ID_SYNC_SOURCE_EXPAND, frmMain::OnSyncSourceExpandClick)
+
+	EVT_BUTTON(ID_SYNC_DEST_EXPAND, frmMain::OnSyncDestExpandClick)
 
 	EVT_BUTTON(ID_SYNC_JOB_SAVE, frmMain::OnSyncJobSaveClick)
 	
@@ -48,6 +52,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_BACKUP_JOB_ADD, frmMain::OnBackupJobAddClick)
 
 	EVT_BUTTON(ID_BACKUP_JOB_REMOVE, frmMain::OnBackupJobRemoveClick)
+	
+	EVT_BUTTON(ID_BACKUP_EXPAND, frmMain::OnBackupExpandClick)
 	
 	EVT_COMBOBOX(ID_BACKUP_JOB_SELECT, frmMain::OnBackupJobSelectSelected)
 
@@ -86,6 +92,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SECURE_ADD, frmMain::OnSecureAddClick)
 
 	EVT_BUTTON(ID_SECURE_REMOVE, frmMain::OnSecureRemoveClick)
+	
+	EVT_BUTTON(ID_SECURE_EXPAND, frmMain::OnSecureExpandClick)
 
 	EVT_COMBOBOX(ID_RULES_COMBO, frmMain::OnRulesComboSelected)
 
@@ -210,7 +218,6 @@ void frmMain::Init()
 	m_Secure_DirCtrl = NULL;
 	m_Secure_TreeCtrl = NULL;
 	m_Secure_Function = NULL;
-	//m_Secure_Format = NULL;
 	m_Secure_Pass = NULL;
 	m_Secure_Repass = NULL;
 	m_Rules_Combo = NULL;
@@ -339,6 +346,9 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer18->Add(itemBoxSizer19, 0, wxGROW|wxALL, 0);
 	
+	wxBoxSizer* itemBoxSizer2002 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer18->Add(itemBoxSizer2002, 1, wxGROW|wxALL, 0);
+	
 	//Source section
 	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer19->Add(m_Sync_Source_Txt, 1, wxALIGN_TOP|wxALL, 5);
@@ -347,7 +357,10 @@ void frmMain::CreateControls()
 	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
-	itemBoxSizer18->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
+	itemBoxSizer2002->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
+	
+	wxBitmapButton* itemBitmapButton006 = new wxBitmapButton( itemPanel6, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	itemBoxSizer2002->Add(itemBitmapButton006, 0, wxALIGN_CENTER_VERTICAL, 0);	
 
 	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer17->Add(itemBoxSizer23, 1, wxGROW|wxALL, 5);
@@ -357,6 +370,10 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer23->Add(itemBoxSizer24, 0, wxGROW|wxALL, 0);
+	
+	wxBoxSizer* itemBoxSizer2001 = new wxBoxSizer(wxHORIZONTAL);
+	itemBoxSizer23->Add(itemBoxSizer2001, 1, wxGROW|wxALL, 0);
+
 
 	//Destination section
 	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
@@ -366,7 +383,10 @@ void frmMain::CreateControls()
 	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
-	itemBoxSizer23->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
+	itemBoxSizer2001->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
+	
+	wxBitmapButton* itemBitmapButton005 = new wxBitmapButton( itemPanel6, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	itemBoxSizer2001->Add(itemBitmapButton005, 0, wxALIGN_CENTER_VERTICAL, 0);
 
 	//Backup section
 	
@@ -380,6 +400,7 @@ void frmMain::CreateControls()
 	
 	wxBoxSizer* BackupRow1 = new wxBoxSizer(wxHORIZONTAL);
 	BackupTop->Add(BackupRow1, 0, wxALIGN_LEFT|wxALL, 0);
+	
 	//Jobs section
 	wxStaticBox* itemStaticBoxSizer38Static = new wxStaticBox(itemPanel35, wxID_ANY, _("Job Name"));
 	wxStaticBoxSizer* itemStaticBoxSizer38 = new wxStaticBoxSizer(itemStaticBoxSizer38Static, wxHORIZONTAL);
@@ -499,6 +520,9 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
+	wxBitmapButton* itemBitmapButton001 = new wxBitmapButton( itemPanel35, ID_BACKUP_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	itemBoxSizer59->Add(itemBitmapButton001, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
+	
 	//Secure
 
 	wxPanel* itemPanel68 = new wxPanel( m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
@@ -550,13 +574,6 @@ void frmMain::CreateControls()
 	m_Secure_Function->SetSelection(0);
 	itemBoxSizer3001->Add(m_Secure_Function, 1, wxGROW|wxALIGN_TOP|wxALL, 5);
 
-	/*wxArrayString m_Secure_FormatStrings;
-	m_Secure_FormatStrings.Add(wxT("Rijndael"));
-	m_Secure_FormatStrings.Add(wxT("Blowfish (Decrypt Only)"));
-	m_Secure_Format = new wxRadioBox( itemPanel68, ID_SECURE_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Secure_FormatStrings, 1, wxRA_SPECIFY_COLS );
-	m_Secure_Format->SetSelection(0);
-	itemBoxSizer3001->Add(m_Secure_Format, 0, wxALIGN_TOP|wxALL, 5);*/
-
 	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 	
@@ -590,6 +607,9 @@ void frmMain::CreateControls()
 	itemBoxSizer78->Add(itemBoxSizer84, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer84->Add(itemBitmapButton85, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	
+	wxBitmapButton* itemBitmapButton002 = new wxBitmapButton( itemPanel68, ID_SECURE_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	itemBoxSizer84->Add(itemBitmapButton002, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
 
 	//wxBitmapButton* itemBitmapButton86 = new wxBitmapButton( itemPanel68, ID_SECURE_MAKERELATIVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	//itemBoxSizer84->Add(itemBitmapButton86, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
@@ -1976,11 +1996,18 @@ void frmMain::OnFontChange(wxFontPickerEvent& event){
 	m_Settings_Font->GetSizer()->Layout();
 }
 
-wxString frmMain::GetMD5(const wxString strFilename){
-	//Test the md5 to see if the files are really the same or not
-	wxArrayString arrErrors, arrOutput;
-	wxExecute(wxT("md5 \"")+ strFilename + wxT("\""),arrErrors, arrOutput, wxEXEC_SYNC);
-	wxString strReturn = arrOutput.Item(0);
-	wxMessageBox(strReturn);
-	return wxEmptyString;
+void frmMain::OnBackupExpandClick(wxCommandEvent& event){
+	m_Backup_TreeCtrl->ExpandAll();
+}
+
+void frmMain::OnSecureExpandClick(wxCommandEvent& event){
+	m_Secure_TreeCtrl->ExpandAll();
+}
+
+void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
+	m_Sync_Source_Tree->ExpandAll();
+}
+
+void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
+	m_Sync_Dest_Tree->ExpandAll();
 }

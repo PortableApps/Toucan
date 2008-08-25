@@ -41,9 +41,12 @@ class Settings;
 #define ID_SYNC_SOURCE_TXT 10039
 #define ID_SYNC_SOURCE_BTN 10040
 #define ID_SYNC_SOURCE_TREE 10041
+#define ID_SYNC_SOURCE_EXPAND 60000
+#define ID_sYNC_DEST_EXPAND 60001
 #define ID_SYNC_DEST_TXT 10043
 #define ID_SYNC_DEST_BTN 10044
 #define ID_SYNC_DEST_TREE 10045
+#define ID_SYNC_DEST_EXPAND 10110
 #define ID_SYNC_FUNCTION 10046
 #define ID_SYNC_TIMESTAMP 10047
 #define ID_SYNC_ATTRIB 10048
@@ -73,6 +76,7 @@ class Settings;
 #define ID_BACKUP_FORMAT 10015
 #define ID_BACKUP_RATIO 10016
 #define ID_BACKUP_ISPASS 10017
+#define ID_BACKUP_EXPAND 20080
 
 //Secure
 #define ID_PANEL_SECURE 10023
@@ -90,9 +94,9 @@ class Settings;
 #define ID_SECURE_ADDVAR 40038
 #define ID_SECURE_MAKERELATIVE 10037
 #define ID_SECURE_FUNCTION 10039
-//#define ID_SECURE_FORMAT 10040
 #define ID_SECURE_PASS 10041
 #define ID_SECURE_REPASS 10042
+#define ID_SECURE_EXPAND 20081
 //Rules
 #define ID_RULES 10050
 #define ID_RULES_COMBO 10061
@@ -175,6 +179,12 @@ public:
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
 	void OnSyncJobSaveClick(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_EXPAND
+	void OnSyncSourceExpandClick(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_EXPAND
+	void OnSyncDestExpandClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
 	void OnSyncJobAddClick(wxCommandEvent& event);
@@ -226,6 +236,9 @@ public:
 
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
 	void OnBackupRemoveClick(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_EXPAND
+	void OnBackupExpandClick(wxCommandEvent& event);
 
 	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
 	void OnSecureJobSelectSelected(wxCommandEvent& event);
@@ -322,6 +335,9 @@ public:
 	
 	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADDVAR
 	void OnSecureAddVarClick(wxCommandEvent& event);
+	
+	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADDVAR
+	void OnSecureExpandClick(wxCommandEvent& event);
 	
 	void OnHelpClick(wxCommandEvent& event);
 
