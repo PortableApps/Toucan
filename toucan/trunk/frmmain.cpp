@@ -109,6 +109,13 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
 	
+	//Menu
+	EVT_MENU(ID_MENU_FILEEXCLUDE_EXTENSION, frmMain::OnMenuFileExcludeExtensionClick)
+	EVT_MENU(ID_MENU_FILEEXCLUDE_NAME, frmMain::OnMenuFileExcludeNameClick)
+	EVT_MENU(ID_MENU_LOCATIONINCLUDE_EXTENSION, frmMain::OnMenuLocationIncludeExtensionClick)
+	EVT_MENU(ID_MENU_LOCATIONINCLUDE_NAME, frmMain::OnMenuLocationIncludeNameClick)
+	EVT_MENU(ID_MENU_FOLDEREXCLUDE_NAME, frmMain::OnMenuFolderExcludeNameClick)
+	
 END_EVENT_TABLE()
 
 
@@ -1929,7 +1936,40 @@ void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
 }
 
 void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
-	wxMessageBox(m_Backup_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath());
+	wxString strMenuTitle = m_Backup_Rules->GetStringSelection();
+	if(strMenuTitle == wxEmptyString){
+		strMenuTitle = _("You must select a rule set first");
+	}
+	wxMenu menu(strMenuTitle);
+	if(wxFileExists(m_Backup_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
+		menu.Append(ID_MENU_FILEEXCLUDE_EXTENSION, wxT("Exclude by extension"));
+		menu.Append(ID_MENU_FILEEXCLUDE_NAME, wxT("Exclude by name"));
+		menu.Append(ID_MENU_LOCATIONINCLUDE_EXTENSION, wxT("Include by extension"));
+		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, wxT("Include by name"));
+	}	
+	else if(wxDirExists(m_Backup_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
+		menu.Append(ID_MENU_FOLDEREXCLUDE_NAME, wxT("Exclude by name"));
+		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, wxT("Include by name"));
+	}	
+	this->PopupMenu(&menu, event.GetPoint() + this->m_Backup_TreeCtrl->GetPosition());
+}
+
+void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& event){
 	
 }
 
+void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& event){
+	
+}
+
+void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& event){
+	
+}
+
+void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& event){
+	
+}
+
+void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& event){
+	
+}

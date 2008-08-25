@@ -110,9 +110,6 @@ class Settings;
 #define ID_RULES_LOCATION_INCLUDE 10211
 #define ID_RULES_ADD_LOCATIONINCLUDE 10212
 #define ID_RULES_REMOVE_LOCATIONINCLUDE 10213
-#define ID_RULES_FILE_DELETE 10214
-#define ID_RULES_ADD_FILEDELETE 10215
-#define ID_RULES_REMOVE_FILEDELETE 10216
 
 //Portable Variables 10250-10299
 
@@ -141,6 +138,13 @@ class Settings;
 #define ID_SETTINGS_TABSTYLE 10351
 #define ID_SETTINGS_LANGUAGE 10352
 #define ID_SETTINGS_FONT 10353
+
+//Menu 10400-10449
+#define ID_MENU_FILEEXCLUDE_EXTENSION 10400
+#define ID_MENU_FILEEXCLUDE_NAME 10401
+#define ID_MENU_FOLDEREXCLUDE_NAME 10402
+#define ID_MENU_LOCATIONINCLUDE_NAME 10403
+#define ID_MENU_LOCATIONINCLUDE_EXTENSION 10404
 
 
 /*frmMain, the main form for Toucan*/
@@ -239,9 +243,16 @@ public:
 	void OnFontChange(wxFontPickerEvent& event);
 	
 	//Other
-	void OnCloseWindow( wxCloseEvent& event );
+	void OnCloseWindow(wxCloseEvent& event);
 	void OnHelpClick(wxCommandEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
+	
+	//Menu
+	void OnMenuFileExcludeExtensionClick(wxCommandEvent& event);
+	void OnMenuFileExcludeNameClick(wxCommandEvent& event);
+	void OnMenuLocationIncludeExtensionClick(wxCommandEvent& event);
+	void OnMenuLocationIncludeNameClick(wxCommandEvent& event);
+	void OnMenuFolderExcludeNameClick(wxCommandEvent& event);
 
 	////Functions
 
