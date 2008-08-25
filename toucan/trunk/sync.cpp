@@ -9,6 +9,10 @@
 #include "frmprogress.h"
 #include "frmmain.h"
 #include "toucan.h"
+
+//Include the hashlib++ library for MD5 support
+#include <hashlibpp.h>
+
 #include <wx/dir.h>
 
 void *SyncThread::Entry(){
@@ -176,11 +180,14 @@ bool SyncFile(SyncData data, Rules rules)
 		if(data.GetFunction() == _("Update")){
 			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
 			the source file is always copied*/
-			if(wxFileExists(data.GetDest())){				
-//				wxString strSourceMD5 = wxGetApp().MainWindow.GetMD5(data.GetSource());
-//				wxString strDestMD5 = wxGetApp().MainWindow.GetMD5(data.GetDest());
+			if(wxFileExists(data.GetDest())){	
 				
-//				if(strSourceMD5 != strDestMD5){
+				hashwrapper *myWrapper = new md5wrapper();
+				std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
+				std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
+				delete myWrapper;
+				
+				if(sourceHash != desinationHash){
 					wxDateTime tmTo, tmFrom;
 					wxFileName flTo(data.GetDest());
 					wxFileName flFrom(data.GetSource());
@@ -202,7 +209,7 @@ bool SyncFile(SyncData data, Rules rules)
 							wxRemoveFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
 						}
 					}
-				//}
+				}
 			}
 			else{
 				if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
