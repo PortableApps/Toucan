@@ -156,6 +156,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SECURE_TREECTRL, frmMain::OnSecureTreeCtrlTooltip)
 	
 	EVT_FONTPICKER_CHANGED(ID_SETTINGS_FONT, frmMain::OnFontChange)
+	
+	EVT_TREE_ITEM_RIGHT_CLICK(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeRightClick)
 
 END_EVENT_TABLE()
 
@@ -616,7 +618,7 @@ void frmMain::CreateControls()
 	
 	//Rules section!!! (Not rules for backup)
 
-	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_PANEL_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
 	itemPanel93->SetSizer(itemBoxSizer94);
 
@@ -699,7 +701,7 @@ void frmMain::CreateControls()
 
 	//Portable variables
 
-	wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL4, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL_PVAR, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
 	wxBoxSizer* PvarAll = new wxBoxSizer(wxVERTICAL);
     itemPanel130->SetSizer(PvarAll);
@@ -737,7 +739,7 @@ void frmMain::CreateControls()
 
 	//Scripting
 
-	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL6, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL_SCRIPT, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
 	itemPanel131->SetSizer(itemBoxSizer132);
 	
@@ -773,7 +775,7 @@ void frmMain::CreateControls()
 	//Settings
 
 
-	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL5, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
 	wxBoxSizer* itemBoxSizer1000 = new wxBoxSizer(wxVERTICAL);
 	itemPanel143->SetSizer(itemBoxSizer1000);
@@ -896,12 +898,6 @@ void frmMain::CreateControls()
 	m_Pvar_List->InsertColumn(1, column);
 	
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
-}
-
-//Show tooltips
-bool frmMain::ShowToolTips()
-{
-	return true;
 }
 
 //Get bitmap resources
@@ -2010,4 +2006,9 @@ void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
 
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
 	m_Sync_Dest_Tree->ExpandAll();
+}
+
+void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
+	wxMessageBox(m_Backup_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath());
+	
 }
