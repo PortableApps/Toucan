@@ -13,19 +13,15 @@
 #include <wx/aui/auibook.h>
 #include <wx/treectrl.h>
 #include <wx/dirctrl.h>
-#include <wx/richtext/richtextctrl.h>
 #include <wx/listctrl.h>
 #include <wx/fontpicker.h>
 
 #include "virtualdirtreectrl.h"
 
 //Forward declarations
-class wxAuiNotebook;
-class wxTreeCtrl;
-class wxGenericDirCtrl;
 class Settings;
 
-////Main controls 10000-10049
+//Main controls 10000-10049
 #define ID_AUIFRAME 10000
 #define ID_AUINOTEBOOK 10001
 
@@ -160,240 +156,141 @@ public:
 
 	bool Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
-	/// Destructor
+	//Deconstructor, for uninitialising AUI
 	~frmMain();
 
-	/// Initialises member variables
+	//To set up all of the member vaiables
 	void Init();
 
 	/// Creates the controls and sizers
 	void CreateControls();
-
-	/// wxEVT_CLOSE_WINDOW event handler for ID_AUIFRAME
-	void OnCloseWindow( wxCloseEvent& event );
-
-	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
-	void OnSyncJobSelectSelected(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
+	
+	//Sync
 	void OnSyncOKClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
 	void OnSyncPreviewClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
+	void OnSyncJobSelectSelected(wxCommandEvent& event);	
 	void OnSyncJobSaveClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_EXPAND
-	void OnSyncSourceExpandClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_EXPAND
-	void OnSyncDestExpandClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
 	void OnSyncJobAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
 	void OnSyncJobRemoveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
+	void OnSyncSourceExpandClick(wxCommandEvent& event);
 	void OnSyncSourceBtnClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
+	void OnSyncDestExpandClick(wxCommandEvent& event);
 	void OnSyncDestBtnClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_OK
+	
+	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_PREVIEW
 	void OnBackupPreviewClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_OK
-	void OnSecureOKClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_PREVIEW
-	void OnSecurePreviewClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_RESTORE
 	void OnBackupRestoreClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_LOCATION
 	void OnBackupLocationClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
 	void OnBackupAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
-	void OnBackupJobAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
-	void OnBackupJobRemoveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_BACKUP_JOB_SELECT
-	void OnBackupJobSelectSelected(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_RADIOBOX_SELECTED event handler for ID_BACKUP_FUNCTION
-	void OnBackupFunctionSelected(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_SAVE
-	void OnBackupJobSaveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
 	void OnBackupRemoveClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_EXPAND
+	void OnBackupJobAddClick(wxCommandEvent& event);
+	void OnBackupJobRemoveClick(wxCommandEvent& event);
+	void OnBackupJobSelectSelected(wxCommandEvent& event);	
+	void OnBackupJobSaveClick(wxCommandEvent& event);
+	void OnBackupFunctionSelected(wxCommandEvent& event);
 	void OnBackupExpandClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
-	void OnSecureJobSelectSelected(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE
-	void OnSecureJobSaveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD
-	void OnSecureJobAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE
-	void OnSecureJobRemoveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
-	void OnSecureAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
-	void OnSecureRemoveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_RULES_COMBO
-	void OnRulesComboSelected(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_SAVE
-	void OnRulesSaveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD
-	void OnRulesAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE
-	void OnRulesRemoveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
-	void OnRulesAddFileexcludeClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEEXCLUDE
-	void OnRulesRemoveFileexcludeClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FOLDEREXCLUDE
-	void OnRulesAddFolderexcludeClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FOLDEREXCLUDE
-	void OnRulesRemoveFolderexcludeClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_LOCATIONINCLUDE
-	void OnRulesAddLocationincludeClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_LOCATIONINCLUDE
-	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEDELETE
-	void OnRulesAddFiledeleteClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEDELETE
-	void OnRulesRemoveFiledeleteClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_EXECUTE
-	void OnScriptExecute(wxCommandEvent& event);	
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADD
-	void OnPvarAddClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_REMOVE
-	void OnPvarRemoveClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_ADDITEM
-	void OnPvarAddItemClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PVAR_REMOVEITEM
-	void OnPvarRemoveItemClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PVAR_NAME
-	void OnPvarNameSelected(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SCRIPT_NAME
-	void OnScriptSelected(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_SAVE
-	void OnScriptSaveClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_ADD
-	void OnScriptAddClick(wxCommandEvent& event);
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SCRIPT_REMOVE
-	void OnScriptRemoveClick(wxCommandEvent& event);
-	
-	/// wxEVT_LIST_ITEM_ACTIVATED event handler for ID_PVAR_LIST	
-	void OnPvarListActivated(wxListEvent& event);
-	
-	/// wxEVT_SCROLL_CHANGED event handler for ID_BACKUP_RATIO
 	void OnBackupRatioChanged(wxScrollEvent& event);	
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADDVAR
 	void OnBackupAddVarClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADDVAR
-	void OnSecureAddVarClick(wxCommandEvent& event);
-	
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADDVAR
-	void OnSecureExpandClick(wxCommandEvent& event);
-	
-	void OnHelpClick(wxCommandEvent& event);
-
-	void OnAboutClick(wxCommandEvent& event);
-	
 	void OnBackupTreeCtrlTooltip(wxTreeEvent& event);
-	
+	void OnBackupTreeRightClick(wxTreeEvent& event);
+
+	//Secure
+	void OnSecureOKClick(wxCommandEvent& event);
+	void OnSecurePreviewClick(wxCommandEvent& event);
+	void OnSecureJobSelectSelected(wxCommandEvent& event);
+	void OnSecureJobSaveClick(wxCommandEvent& event);
+	void OnSecureJobAddClick(wxCommandEvent& event);
+	void OnSecureJobRemoveClick(wxCommandEvent& event);
+	void OnSecureAddClick(wxCommandEvent& event);
+	void OnSecureRemoveClick(wxCommandEvent& event);
+	void OnSecureAddVarClick(wxCommandEvent& event);
+	void OnSecureExpandClick(wxCommandEvent& event);
 	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
 	
-	void OnBackupTreeRightClick(wxTreeEvent& event);
+	//Rules
+	void OnRulesComboSelected(wxCommandEvent& event);
+	void OnRulesSaveClick(wxCommandEvent& event);
+	void OnRulesAddClick(wxCommandEvent& event);
+	void OnRulesRemoveClick(wxCommandEvent& event);
+	void OnRulesAddFileexcludeClick(wxCommandEvent& event);
+	void OnRulesRemoveFileexcludeClick(wxCommandEvent& event);
+	void OnRulesAddFolderexcludeClick(wxCommandEvent& event);
+	void OnRulesRemoveFolderexcludeClick(wxCommandEvent& event);
+	void OnRulesAddLocationincludeClick(wxCommandEvent& event);
+	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);	
 	
+	//Portable Variables
+	void OnPvarAddClick(wxCommandEvent& event);
+	void OnPvarRemoveClick(wxCommandEvent& event);	
+	void OnPvarAddItemClick(wxCommandEvent& event);
+	void OnPvarRemoveItemClick(wxCommandEvent& event);
+	void OnPvarNameSelected(wxCommandEvent& event);
+	void OnPvarListActivated(wxListEvent& event);
+	
+	//Script
+	void OnScriptExecute(wxCommandEvent& event);	
+	void OnScriptSelected(wxCommandEvent& event);
+	void OnScriptSaveClick(wxCommandEvent& event);	
+	void OnScriptAddClick(wxCommandEvent& event);
+	void OnScriptRemoveClick(wxCommandEvent& event);
+	
+	//Settings
 	void OnFontChange(wxFontPickerEvent& event);
 	
-	//Functions
+	//Other
+	void OnCloseWindow( wxCloseEvent& event );
+	void OnHelpClick(wxCommandEvent& event);
+	void OnAboutClick(wxCommandEvent& event);
 
-	/// Returns the AUI manager object
+	////Functions
+
+	// Returns the AUI manager object
 	wxAuiManager& GetAuiManager() {
 		return m_auiManager;
 	}
-
-	/// Retrieves bitmap resources
+	
+	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource( const wxString& name );
 
-	/// Retrieves icon resources
+	// Retrieves icon resources
 	wxIcon GetIconResource( const wxString& name );
 
-	//Member variables
+	////Member variables
+	
+	//General
 	wxAuiManager m_auiManager;
 	wxAuiNotebook* m_Notebook;
+	
+	//Sync
 	wxComboBox* m_Sync_Job_Select;
 	wxComboBox* m_Sync_Rules;
 	wxTextCtrl* m_Sync_Source_Txt;
-	wxVirtualDirTreeCtrl* m_Sync_Source_Tree;
 	wxTextCtrl* m_Sync_Dest_Txt;
+	wxVirtualDirTreeCtrl* m_Sync_Source_Tree;
 	wxVirtualDirTreeCtrl* m_Sync_Dest_Tree;
 	wxRadioBox* m_Sync_Function;
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;
 	wxCheckBox* m_Sync_Ignore_Readonly;
 	wxCheckBox* m_Sync_Ignore_DaylightS;
+	
+	//Backup
 	wxComboBox* m_Backup_Job_Select;
 	wxComboBox* m_Backup_Rules;
 	wxStaticText* m_Backup_Location_Txt;
+	wxStaticText* m_Backup_Ratio_Text;
 	wxTextCtrl* m_Backup_Location;
+	wxTextCtrl* m_Backup_Pass;
+	wxTextCtrl* m_Backup_Repass;
 	wxGenericDirCtrl* m_Backup_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
 	wxRadioBox* m_Backup_Format;
-	wxStaticText* m_Backup_Ratio_Text;
 	wxSlider* m_Backup_Ratio;
-	wxTextCtrl* m_Backup_Pass;
-	wxTextCtrl* m_Backup_Repass;
+	wxCheckBox* m_Backup_IsPass;
+	
+	//Secure
 	wxComboBox* m_Secure_Rules;
 	wxComboBox* m_Secure_Job_Select;
 	wxGenericDirCtrl* m_Secure_DirCtrl;
@@ -401,20 +298,28 @@ public:
 	wxRadioBox* m_Secure_Function;
 	wxTextCtrl* m_Secure_Pass;
 	wxTextCtrl* m_Secure_Repass;
+	
+	//Rules
 	wxComboBox* m_Rules_Combo;
 	wxListBox* m_Rules_FileExclude;
 	wxListBox* m_Rules_FolderExclude;
 	wxListBox* m_Rules_LocationInclude;
 	wxListBox* m_Rules_FileDelete;
-	wxRadioBox* m_Settings_TabStyle;
-    wxComboBox* m_Pvar_Name;
-    wxListCtrl* m_Pvar_List;
-	wxTextCtrl* m_Script_Rich;
-	wxComboBox* m_Settings_Language;
-	wxComboBox* m_Script_Name;
-	wxCheckBox* m_Backup_IsPass;
-	wxFontPickerCtrl* m_Settings_Font;
 	
+	//Portable Variables
+	wxComboBox* m_Pvar_Name;
+    wxListCtrl* m_Pvar_List;
+	
+	//Script
+	wxTextCtrl* m_Script_Rich;
+	wxComboBox* m_Script_Name;
+	
+	//Settings
+	wxRadioBox* m_Settings_TabStyle;
+	wxComboBox* m_Settings_Language;
+ 	wxFontPickerCtrl* m_Settings_Font;
+
+	//Other
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
 
