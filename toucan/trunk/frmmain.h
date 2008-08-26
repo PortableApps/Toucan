@@ -140,11 +140,17 @@ class Settings;
 #define ID_SETTINGS_FONT 10353
 
 //Menu 10400-10449
-#define ID_MENU_FILEEXCLUDE_EXTENSION 10400
-#define ID_MENU_FILEEXCLUDE_NAME 10401
-#define ID_MENU_FOLDEREXCLUDE_NAME 10402
-#define ID_MENU_LOCATIONINCLUDE_NAME 10403
-#define ID_MENU_LOCATIONINCLUDE_EXTENSION 10404
+#define ID_MENU_BACKUPFILEEXCLUDE_EXTENSION 10400
+#define ID_MENU_BACKUPFILEEXCLUDE_NAME 10401
+#define ID_MENU_BACKUPFOLDEREXCLUDE_NAME 10402
+#define ID_MENU_BACKUPLOCATIONINCLUDE_NAME 10403
+#define ID_MENU_BACKUPLOCATIONINCLUDE_EXTENSION 10404
+
+#define ID_MENU_SECUREFILEEXCLUDE_EXTENSION 10405
+#define ID_MENU_SECUREFILEEXCLUDE_NAME 10406
+#define ID_MENU_SECUREFOLDEREXCLUDE_NAME 10407
+#define ID_MENU_SECURELOCATIONINCLUDE_NAME 10408
+#define ID_MENU_SECURELOCATIONINCLUDE_EXTENSION 10409
 
 
 /*frmMain, the main form for Toucan*/
@@ -211,6 +217,7 @@ public:
 	void OnSecureAddVarClick(wxCommandEvent& event);
 	void OnSecureExpandClick(wxCommandEvent& event);
 	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
+	void OnSecureTreeRightClick(wxTreeEvent& event);
 	
 	//Rules
 	void OnRulesComboSelected(wxCommandEvent& event);
@@ -248,11 +255,17 @@ public:
 	void OnAboutClick(wxCommandEvent& event);
 	
 	//Menu
-	void OnMenuFileExcludeExtensionClick(wxCommandEvent& event);
-	void OnMenuFileExcludeNameClick(wxCommandEvent& event);
-	void OnMenuLocationIncludeExtensionClick(wxCommandEvent& event);
-	void OnMenuLocationIncludeNameClick(wxCommandEvent& event);
-	void OnMenuFolderExcludeNameClick(wxCommandEvent& event);
+	void OnMenuBackupFileExcludeExtensionClick(wxCommandEvent& event);
+	void OnMenuBackupFileExcludeNameClick(wxCommandEvent& event);
+	void OnMenuBackupLocationIncludeExtensionClick(wxCommandEvent& event);
+	void OnMenuBackupLocationIncludeNameClick(wxCommandEvent& event);
+	void OnMenuBackupFolderExcludeNameClick(wxCommandEvent& event);
+	
+	void OnMenuSecureFileExcludeExtensionClick(wxCommandEvent& event);
+	void OnMenuSecureFileExcludeNameClick(wxCommandEvent& event);
+	void OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event);
+	void OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event);
+	void OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event);
 
 	////Functions
 

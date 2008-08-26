@@ -25,18 +25,15 @@ public:
 	wxArrayString GetFilesToExclude() { return arrFilesToExclude; }
 	
 	void SetLocationsToInclude(wxArrayString locationstoinclude){ arrLocationsToInclude = locationstoinclude; }
-	wxArrayString GetLocationsToIncude() { return arrLocationsToInclude; }
+	wxArrayString GetLocationsToInclude() { return arrLocationsToInclude; }
 	
 	void SetFoldersToExclude(wxArrayString folderstoexclude){ arrFoldersToExclude = folderstoexclude; }
 	wxArrayString GetFoldersToExclude() { return arrFoldersToExclude; }
 	
-	void SetFilesToDelete(wxArrayString filestodelete){ arrFilesToDelete = filestodelete; }
-	wxArrayString GetFilesToDelete(){ return arrFilesToDelete; }
 private:
 
 	wxArrayString arrFoldersToExclude;
 	wxArrayString arrLocationsToInclude;
-	wxArrayString arrFilesToDelete;
 	wxArrayString arrFilesToExclude;
 
 };	
