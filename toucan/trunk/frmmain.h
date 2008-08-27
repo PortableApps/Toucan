@@ -39,16 +39,15 @@ class Settings;
 #define ID_SYNC_SOURCE_BTN 10059
 #define ID_SYNC_SOURCE_TREE 10060
 #define ID_SYNC_SOURCE_EXPAND 10061
-#define ID_sYNC_DEST_EXPAND 10062
-#define ID_SYNC_DEST_TXT 10063
-#define ID_SYNC_DEST_BTN 10064
-#define ID_SYNC_DEST_TREE 10065
-#define ID_SYNC_DEST_EXPAND 10066
-#define ID_SYNC_FUNCTION 10067
-#define ID_SYNC_TIMESTAMP 10068
-#define ID_SYNC_ATTRIB 10069
-#define ID_SYNC_IGNORERO 10070
-#define ID_SYNC_IGNOREDS 10071
+#define ID_SYNC_DEST_TXT 10062
+#define ID_SYNC_DEST_BTN 10063
+#define ID_SYNC_DEST_TREE 10064
+#define ID_SYNC_DEST_EXPAND 10065
+#define ID_SYNC_FUNCTION 10066
+#define ID_SYNC_TIMESTAMP 10067
+#define ID_SYNC_ATTRIB 10068
+#define ID_SYNC_IGNORERO 10069
+#define ID_SYNC_IGNOREDS 10070
 
 //Backup 10100-10149
 
@@ -140,17 +139,31 @@ class Settings;
 #define ID_SETTINGS_FONT 10353
 
 //Menu 10400-10449
-#define ID_MENU_BACKUPFILEEXCLUDE_EXTENSION 10400
-#define ID_MENU_BACKUPFILEEXCLUDE_NAME 10401
-#define ID_MENU_BACKUPFOLDEREXCLUDE_NAME 10402
-#define ID_MENU_BACKUPLOCATIONINCLUDE_NAME 10403
-#define ID_MENU_BACKUPLOCATIONINCLUDE_EXTENSION 10404
+#define ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION 10400
+#define ID_MENU_SYNCSOURCEFILEEXCLUDE_NAME 10401
+#define ID_MENU_SYNCSOURCEFOLDEREXCLUDE_NAME 10402
+#define ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME 10403
+#define ID_MENU_SYNCSOURCELOCATIONINCLUDE_EXTENSION 10404
 
-#define ID_MENU_SECUREFILEEXCLUDE_EXTENSION 10405
-#define ID_MENU_SECUREFILEEXCLUDE_NAME 10406
-#define ID_MENU_SECUREFOLDEREXCLUDE_NAME 10407
-#define ID_MENU_SECURELOCATIONINCLUDE_NAME 10408
-#define ID_MENU_SECURELOCATIONINCLUDE_EXTENSION 10409
+#define ID_MENU_SYNCDESTFILEEXCLUDE_EXTENSION 10405
+#define ID_MENU_SYNCDESTFILEEXCLUDE_NAME 10406
+#define ID_MENU_SYNCDESTFOLDEREXCLUDE_NAME 10407
+#define ID_MENU_SYNCDESTLOCATIONINCLUDE_NAME 10408
+#define ID_MENU_SYNCDESTLOCATIONINCLUDE_EXTENSION 10409
+
+#define ID_MENU_BACKUPFILEEXCLUDE_EXTENSION 10410
+#define ID_MENU_BACKUPFILEEXCLUDE_NAME 10411
+#define ID_MENU_BACKUPFOLDEREXCLUDE_NAME 10412
+#define ID_MENU_BACKUPLOCATIONINCLUDE_NAME 10413
+#define ID_MENU_BACKUPLOCATIONINCLUDE_EXTENSION 10414
+
+#define ID_MENU_SECUREFILEEXCLUDE_EXTENSION 10415
+#define ID_MENU_SECUREFILEEXCLUDE_NAME 10416
+#define ID_MENU_SECUREFOLDEREXCLUDE_NAME 10417
+#define ID_MENU_SECURELOCATIONINCLUDE_NAME 10418
+#define ID_MENU_SECURELOCATIONINCLUDE_EXTENSION 10419
+
+
 
 
 /*frmMain, the main form for Toucan*/
@@ -186,6 +199,8 @@ public:
 	void OnSyncSourceBtnClick(wxCommandEvent& event);
 	void OnSyncDestExpandClick(wxCommandEvent& event);
 	void OnSyncDestBtnClick(wxCommandEvent& event);
+	void OnSyncSourceTreeRightClick(wxTreeEvent& event);
+	void OnSyncDestTreeRightClick(wxTreeEvent& event);
 	
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
@@ -255,6 +270,18 @@ public:
 	void OnAboutClick(wxCommandEvent& event);
 	
 	//Menu
+	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);
+	void OnMenuSyncSourceFileExcludeNameClick(wxCommandEvent& event);
+	void OnMenuSyncSourceLocationIncludeExtensionClick(wxCommandEvent& event);
+	void OnMenuSyncSourceLocationIncludeNameClick(wxCommandEvent& event);
+	void OnMenuSyncSourceFolderExcludeNameClick(wxCommandEvent& event);
+	
+	void OnMenuSyncDestFileExcludeExtensionClick(wxCommandEvent& event);
+	void OnMenuSyncDestFileExcludeNameClick(wxCommandEvent& event);
+	void OnMenuSyncDestLocationIncludeExtensionClick(wxCommandEvent& event);
+	void OnMenuSyncDestLocationIncludeNameClick(wxCommandEvent& event);
+	void OnMenuSyncDestFolderExcludeNameClick(wxCommandEvent& event);
+	
 	void OnMenuBackupFileExcludeExtensionClick(wxCommandEvent& event);
 	void OnMenuBackupFileExcludeNameClick(wxCommandEvent& event);
 	void OnMenuBackupLocationIncludeExtensionClick(wxCommandEvent& event);

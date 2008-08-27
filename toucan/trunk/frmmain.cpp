@@ -43,6 +43,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_COMBOBOX(ID_SYNC_JOB_SELECT, frmMain::OnSyncJobSelectSelected)
 	EVT_BUTTON(ID_SYNC_SOURCE_BTN, frmMain::OnSyncSourceBtnClick)
 	EVT_BUTTON(ID_SYNC_DEST_BTN, frmMain::OnSyncDestBtnClick)
+	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_SOURCE_TREE, frmMain::OnSyncSourceTreeRightClick)
+	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_DEST_TREE, frmMain::OnSyncDestTreeRightClick)
 	
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -111,6 +113,18 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
 	
 	//Menu
+	EVT_MENU(ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION, frmMain::OnMenuSyncSourceFileExcludeExtensionClick)
+	EVT_MENU(ID_MENU_SYNCSOURCEFILEEXCLUDE_NAME, frmMain::OnMenuSyncSourceFileExcludeNameClick)
+	EVT_MENU(ID_MENU_SYNCSOURCELOCATIONINCLUDE_EXTENSION, frmMain::OnMenuSyncSourceLocationIncludeExtensionClick)
+	EVT_MENU(ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME, frmMain::OnMenuSyncSourceLocationIncludeNameClick)
+	EVT_MENU(ID_MENU_SYNCSOURCEFOLDEREXCLUDE_NAME, frmMain::OnMenuSyncSourceFolderExcludeNameClick)
+	
+	EVT_MENU(ID_MENU_SYNCDESTFILEEXCLUDE_EXTENSION, frmMain::OnMenuSyncSourceFileExcludeExtensionClick)
+	EVT_MENU(ID_MENU_SYNCDESTFILEEXCLUDE_NAME, frmMain::OnMenuSyncSourceFileExcludeNameClick)
+	EVT_MENU(ID_MENU_SYNCDESTLOCATIONINCLUDE_EXTENSION, frmMain::OnMenuSyncSourceLocationIncludeExtensionClick)
+	EVT_MENU(ID_MENU_SYNCDESTLOCATIONINCLUDE_NAME, frmMain::OnMenuSyncSourceLocationIncludeNameClick)
+	EVT_MENU(ID_MENU_SYNCDESTFOLDEREXCLUDE_NAME, frmMain::OnMenuSyncSourceFolderExcludeNameClick)
+	
 	EVT_MENU(ID_MENU_BACKUPFILEEXCLUDE_EXTENSION, frmMain::OnMenuBackupFileExcludeExtensionClick)
 	EVT_MENU(ID_MENU_BACKUPFILEEXCLUDE_NAME, frmMain::OnMenuBackupFileExcludeNameClick)
 	EVT_MENU(ID_MENU_BACKUPLOCATIONINCLUDE_EXTENSION, frmMain::OnMenuBackupLocationIncludeExtensionClick)
@@ -2089,5 +2103,155 @@ void frmMain::OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event){
 		arrFolderExclude.Add(m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection()));
 		rules.SetFoldersToExclude(arrFolderExclude);
 		rules.TransferToFile(m_Secure_Rules->GetStringSelection());
+	}		
+}
+
+void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
+	m_Sync_Source_Tree->SelectItem(event.GetItem());
+	wxString strMenuTitle = m_Sync_Rules->GetStringSelection();
+	if(strMenuTitle == wxEmptyString){
+		strMenuTitle = _("You must select a rule set first");
+	}
+	wxMenu menu(strMenuTitle);
+	if(wxFileExists(m_Sync_Source_Tree->GetFullPath(event.GetItem()).GetFullPath())){
+		menu.Append(ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION, wxT("Exclude by extension"));
+		menu.Append(ID_MENU_SYNCSOURCEFILEEXCLUDE_NAME, wxT("Exclude by name"));
+		menu.Append(ID_MENU_SYNCSOURCELOCATIONINCLUDE_EXTENSION, wxT("Include by extension"));
+		menu.Append(ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME, wxT("Include by name"));
+	}	
+	else if(wxDirExists(m_Sync_Source_Tree->GetFullPath(event.GetItem()).GetFullPath())){
+		menu.Append(ID_MENU_SYNCSOURCEFOLDEREXCLUDE_NAME, wxT("Exclude by name"));
+		menu.Append(ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME, wxT("Include by name"));
+	}	
+	this->PopupMenu(&menu, event.GetPoint() + this->m_Sync_Source_Tree->GetPosition());
+}
+
+void frmMain::OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrFileExclude = rules.GetFilesToExclude();
+		arrFileExclude.Add(wxT(".") + m_Sync_Source_Tree->GetFullPath(m_Sync_Source_Tree->GetSelection()).GetExt());
+		rules.SetFilesToExclude(arrFileExclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}	
+}
+
+void frmMain::OnMenuSyncSourceFileExcludeNameClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrFileExclude = rules.GetFoldersToExclude();
+		arrFileExclude.Add(m_Sync_Source_Tree->GetItemText(m_Sync_Source_Tree->GetSelection()));
+		rules.SetFoldersToExclude(arrFileExclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}	
+}
+
+void frmMain::OnMenuSyncSourceLocationIncludeExtensionClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrLocationInclude = rules.GetLocationsToInclude();
+		arrLocationInclude.Add(wxT(".") + m_Sync_Source_Tree->GetFullPath(m_Sync_Source_Tree->GetSelection()).GetExt());
+		rules.SetLocationsToInclude(arrLocationInclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}		
+}
+
+void frmMain::OnMenuSyncSourceLocationIncludeNameClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrLocationInclude = rules.GetLocationsToInclude();
+		arrLocationInclude.Add(m_Sync_Source_Tree->GetItemText(m_Sync_Source_Tree->GetSelection()));
+		rules.SetLocationsToInclude(arrLocationInclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}		
+}
+
+void frmMain::OnMenuSyncSourceFolderExcludeNameClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrFolderExclude = rules.GetFoldersToExclude();
+		arrFolderExclude.Add(m_Sync_Source_Tree->GetItemText(m_Sync_Source_Tree->GetSelection()));
+		rules.SetFoldersToExclude(arrFolderExclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}		
+}
+
+void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
+	m_Sync_Dest_Tree->SelectItem(event.GetItem());
+	wxString strMenuTitle = m_Sync_Rules->GetStringSelection();
+	if(strMenuTitle == wxEmptyString){
+		strMenuTitle = _("You must select a rule set first");
+	}
+	wxMenu menu(strMenuTitle);
+	if(wxFileExists(m_Sync_Dest_Tree->GetFullPath(event.GetItem()).GetFullPath())){
+		menu.Append(ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION, wxT("Exclude by extension"));
+		menu.Append(ID_MENU_SYNCSOURCEFILEEXCLUDE_NAME, wxT("Exclude by name"));
+		menu.Append(ID_MENU_SYNCSOURCELOCATIONINCLUDE_EXTENSION, wxT("Include by extension"));
+		menu.Append(ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME, wxT("Include by name"));
+	}	
+	else if(wxDirExists(m_Sync_Dest_Tree->GetFullPath(event.GetItem()).GetFullPath())){
+		menu.Append(ID_MENU_SYNCSOURCEFOLDEREXCLUDE_NAME, wxT("Exclude by name"));
+		menu.Append(ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME, wxT("Include by name"));
+	}	
+	this->PopupMenu(&menu, event.GetPoint() + this->m_Sync_Dest_Tree->GetPosition());
+}
+
+void frmMain::OnMenuSyncDestFileExcludeExtensionClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrFileExclude = rules.GetFilesToExclude();
+		arrFileExclude.Add(wxT(".") + m_Sync_Dest_Tree->GetFullPath(m_Sync_Dest_Tree->GetSelection()).GetExt());
+		rules.SetFilesToExclude(arrFileExclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}	
+}
+
+void frmMain::OnMenuSyncDestFileExcludeNameClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrFileExclude = rules.GetFoldersToExclude();
+		arrFileExclude.Add(m_Sync_Dest_Tree->GetItemText(m_Sync_Dest_Tree->GetSelection()));
+		rules.SetFoldersToExclude(arrFileExclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}	
+}
+
+void frmMain::OnMenuSyncDestLocationIncludeExtensionClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrLocationInclude = rules.GetLocationsToInclude();
+		arrLocationInclude.Add(wxT(".") + m_Sync_Dest_Tree->GetFullPath(m_Sync_Dest_Tree->GetSelection()).GetExt());
+		rules.SetLocationsToInclude(arrLocationInclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}		
+}
+
+void frmMain::OnMenuSyncDestLocationIncludeNameClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrLocationInclude = rules.GetLocationsToInclude();
+		arrLocationInclude.Add(m_Sync_Dest_Tree->GetItemText(m_Sync_Dest_Tree->GetSelection()));
+		rules.SetLocationsToInclude(arrLocationInclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
+	}		
+}
+
+void frmMain::OnMenuSyncDestFolderExcludeNameClick(wxCommandEvent& event){
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules rules;
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		wxArrayString arrFolderExclude = rules.GetFoldersToExclude();
+		arrFolderExclude.Add(m_Sync_Dest_Tree->GetItemText(m_Sync_Dest_Tree->GetSelection()));
+		rules.SetFoldersToExclude(arrFolderExclude);
+		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
 	}		
 }

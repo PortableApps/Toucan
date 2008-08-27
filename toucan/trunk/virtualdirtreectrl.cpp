@@ -687,11 +687,11 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									t->SetColour(wxColour(wxT("Blue")));
 									items.Add(t);	
 								}
-								else{
+								/*else{
 									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
-									t->SetColour(wxColour(wxT("Red")));
+									t->SetColour(wxColour(wxT("Pink")));
 									items.Add(t);	
-								}
+								}*/
 							}
 						}
 					} while (dir.GetNext(&strFilename) );
