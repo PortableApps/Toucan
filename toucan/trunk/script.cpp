@@ -137,12 +137,6 @@ bool ParseScript(wxArrayString arrScript){
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
 			if(data.TransferFromFile(strJob)){
-				//Get the password if one is needed
-				if(data.IsPassword == true){
-					if(strPass != wxEmptyString){
-						data.SetPass(strPass);						
-					}
-				}
 				data.SetBackupLocation(Normalise(Normalise(data.GetBackupLocation())));
 				Rules rules;
 				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -151,6 +145,12 @@ bool ParseScript(wxArrayString arrScript){
 				}
 				wxString strCommand;
 				for(unsigned int i = 0; i < data.GetLocations().Count(); i++){
+					//Get the password if one is needed
+					if(data.IsPassword == true){
+						if(strPass != wxEmptyString){
+							data.SetPass(strPass);						
+						}
+					}
 					data.SetLocation(i, Normalise(data.GetLocation(i)));
 					data.SetLocation(i, Normalise(data.GetLocation(i)));
 					//Open the text file for the file paths and clear it
