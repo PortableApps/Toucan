@@ -334,7 +334,7 @@ void frmMain::CreateControls()
 	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE );
 	itemBoxSizer2002->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
 	
-	wxBitmapButton* itemBitmapButton006 = new wxBitmapButton( itemPanel6, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton006 = new wxBitmapButton( itemPanel6, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer2002->Add(itemBitmapButton006, 0, wxALIGN_CENTER_VERTICAL, 0);	
 
 	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
@@ -360,7 +360,7 @@ void frmMain::CreateControls()
 	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE  );
 	itemBoxSizer2001->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 	
-	wxBitmapButton* itemBitmapButton005 = new wxBitmapButton( itemPanel6, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton005 = new wxBitmapButton( itemPanel6, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer2001->Add(itemBitmapButton005, 0, wxALIGN_CENTER_VERTICAL, 0);
 
 	//Backup section
@@ -495,7 +495,7 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton( itemPanel35, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
-	wxBitmapButton* itemBitmapButton001 = new wxBitmapButton( itemPanel35, ID_BACKUP_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton001 = new wxBitmapButton( itemPanel35, ID_BACKUP_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer59->Add(itemBitmapButton001, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
 	
 	//Secure
@@ -583,7 +583,7 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer84->Add(itemBitmapButton85, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
-	wxBitmapButton* itemBitmapButton002 = new wxBitmapButton( itemPanel68, ID_SECURE_EXPAND, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	wxBitmapButton* itemBitmapButton002 = new wxBitmapButton( itemPanel68, ID_SECURE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer84->Add(itemBitmapButton002, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
 
 	//wxBitmapButton* itemBitmapButton86 = new wxBitmapButton( itemPanel68, ID_SECURE_MAKERELATIVE, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -884,6 +884,10 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 	} 
 	else if (name == _T("add.png")) {
 		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	} 
+	else if (name == _T("expandall.png")) {
+		wxBitmap bitmap(strPath + _T("expandall.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
 	else if (name == _T("ok.png")) {
@@ -1908,8 +1912,8 @@ void frmMain::OnHelpClick(wxCommandEvent& event){
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0"));
-	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\n7Zip & ccrypt are by their respective teams.\nAll items (C) their owners."));
+	info.SetVersion(wxT("2.0.1"));
+	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip, hashlib++ and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
 	info.SetTranslators(GetTranslatorNames());
@@ -1960,7 +1964,7 @@ void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
 	m_Backup_TreeCtrl->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Backup_Rules->GetStringSelection();
 	if(strMenuTitle == wxEmptyString){
-		strMenuTitle = _("You must select a rule set first");
+		strMenuTitle = _("Error");
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Backup_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
@@ -2035,7 +2039,7 @@ void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 	m_Secure_TreeCtrl->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Secure_Rules->GetStringSelection();
 	if(strMenuTitle == wxEmptyString){
-		strMenuTitle = _("You must select a rule set first");
+		strMenuTitle = _("Error");
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
@@ -2110,7 +2114,7 @@ void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
 	m_Sync_Source_Tree->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Sync_Rules->GetStringSelection();
 	if(strMenuTitle == wxEmptyString){
-		strMenuTitle = _("You must select a rule set first");
+		strMenuTitle = _("Error");
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Sync_Source_Tree->GetFullPath(event.GetItem()).GetFullPath())){
@@ -2185,7 +2189,7 @@ void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
 	m_Sync_Dest_Tree->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Sync_Rules->GetStringSelection();
 	if(strMenuTitle == wxEmptyString){
-		strMenuTitle = _("You must select a rule set first");
+		strMenuTitle = _("Error");
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Sync_Dest_Tree->GetFullPath(event.GetItem()).GetFullPath())){

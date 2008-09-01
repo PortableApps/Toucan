@@ -6,12 +6,20 @@
 
 #include "dragndrop.h"
 #include "basicfunctions.h"
+#include "toucan.h"
 
 bool DnDFileTree::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
 	//Loop through all of the paths adding each one to the wxVirtualDirTreeCtrl		
 	for(unsigned int i = 0; i < arrFilenames.GetCount(); i++){
 		m_Tree->AddNewPath(arrFilenames.Item(i));
+		if(m_Tree->GetId() == ID_BACKUP_TREECTRL){
+			wxGetApp().MainWindow->m_BackupLocations->Add(arrFilenames.Item(i));
+		}
+		else if(m_Tree->GetId() == ID_SECURE_TREECTRL){
+			wxGetApp().MainWindow->m_SecureLocations->Add(arrFilenames.Item(i));
+		}
 	}
+
 	return true;
 }
 

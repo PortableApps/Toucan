@@ -9,6 +9,7 @@
 #include "frmprogress.h"
 #include "frmmain.h"
 #include "toucan.h"
+#include "variables.h"
 
 //Include the hashlib++ library for MD5 support
 #include <hashlibpp.h>
@@ -80,8 +81,8 @@ void *SyncThread::Entry(){
 		m_Main->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
 		m_Main->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
 		
-		m_Main->m_Sync_Source_Tree->AddNewPath(m_Main->m_Sync_Source_Txt->GetValue());
-		m_Main->m_Sync_Dest_Tree->AddNewPath(m_Main->m_Sync_Dest_Txt->GetValue());		
+		m_Main->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Main->m_Sync_Source_Txt->GetValue())));
+		m_Main->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Main->m_Sync_Dest_Txt->GetValue())));		
 		wxMutexGuiLeave();
 	}
 	//As we are finished cancel any aborts
