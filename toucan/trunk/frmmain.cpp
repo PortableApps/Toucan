@@ -7,6 +7,7 @@
 #include <wx/stdpaths.h>
 #include <wx/aboutdlg.h>
 #include <wx/fileconf.h>
+#include <wx/textctrl.h>
 #include <wx/wx.h>
 
 #include "toucan.h"

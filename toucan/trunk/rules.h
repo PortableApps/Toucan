@@ -18,8 +18,7 @@ public:
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
 	bool ShouldExclude(wxString strName, bool blIsDir); 
-	bool ShouldDelete(wxString strFilename);
-
+	
 	//Inline Functions
 	void SetFilesToExclude(wxArrayString filestoexclude){ arrFilesToExclude = filestoexclude; }
 	wxArrayString GetFilesToExclude() { return arrFilesToExclude; }
@@ -29,6 +28,12 @@ public:
 	
 	void SetFoldersToExclude(wxArrayString folderstoexclude){ arrFoldersToExclude = folderstoexclude; }
 	wxArrayString GetFoldersToExclude() { return arrFoldersToExclude; }
+	
+	void Clear(){
+		arrFoldersToExclude.Clear();
+		arrLocationsToInclude.Clear();
+		arrFilesToExclude.Clear();
+	}
 	
 private:
 
