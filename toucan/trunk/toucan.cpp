@@ -19,6 +19,7 @@
 #include "basicfunctions.h"
 
 class Settings;
+class ScriptManager;
 
 //Because we actually have a console app that is well hidden!
 IMPLEMENT_APP_NO_MAIN(Toucan)
@@ -62,6 +63,8 @@ bool Toucan::OnInit()
 	
 	m_Settings = new Settings();
 	m_Settings->TransferFromFile();
+	
+	m_Script = new ScriptManager();
 	
 	//Make sure the jobs file is up to date!
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -130,6 +133,7 @@ int Toucan::OnExit()
 {    
 	delete m_Locale;
 	delete m_Settings;
+	delete m_Script;
 	return wxApp::OnExit();
 }
 

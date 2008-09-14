@@ -13,11 +13,9 @@
 #include <wx\intl.h>
 
 #include "frmmain.h"
-
-
 #include "settings.h"
-
-class frmProgress;
+#include "frmprogress.h"
+#include "script.h"
 //class frmMain;
 
 /*!
@@ -26,7 +24,6 @@ class frmProgress;
 
 class Toucan: public wxApp
 {    
-
 	public:
 
 	/// Constructor
@@ -52,6 +49,7 @@ class Toucan: public wxApp
 	frmProgress* ProgressWindow;
 	Settings* m_Settings;
 	wxLocale* m_Locale;	
+	ScriptManager* m_Script;
 	bool blGUI;
 	
 protected:

@@ -95,23 +95,27 @@ bool ParseCommandLine(){
 	if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Sync \"") + cmdParser.GetParam(0) + wxT("\""));
-		ParseScript(arrScript);
+		wxGetApp().m_Script->SetScript(arrScript);
+		wxGetApp().m_Script->ParseCommand(1);
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Backup \"") + cmdParser.GetParam(0) + wxT("\""));
-		ParseScript(arrScript);
+		wxGetApp().m_Script->SetScript(arrScript);
+		wxGetApp().m_Script->ParseCommand(1);
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Secure \"") + cmdParser.GetParam(0) + wxT("\""));
-		ParseScript(arrScript);	
+		wxGetApp().m_Script->SetScript(arrScript);
+		wxGetApp().m_Script->ParseCommand(1);
 	}
 	else if(cmdParser.GetParam(0) == wxT("Script")){
 		wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 		wxString strFile = config->Read(cmdParser.GetParam(1) + wxT("/") + wxT("Script"));
 		wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
-		ParseScript(arrContents);
+		wxGetApp().m_Script->SetScript(arrContents);
+		wxGetApp().m_Script->ParseCommand(1);
 	}
 	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
 		SyncData data;
@@ -130,7 +134,8 @@ bool ParseCommandLine(){
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Sync \"LastSyncJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastSyncJob"));
 			delete config;
 		}
@@ -160,7 +165,8 @@ bool ParseCommandLine(){
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastBackupJob"));
 			delete config;
 		}
@@ -190,7 +196,8 @@ bool ParseCommandLine(){
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastBackupJob"));
 			delete config;
 		}
@@ -213,7 +220,8 @@ bool ParseCommandLine(){
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Secure \"LastSecureJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastSecureJob"));
 			delete config;
 		}

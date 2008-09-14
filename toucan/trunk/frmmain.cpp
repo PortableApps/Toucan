@@ -1497,7 +1497,9 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Sync \"LastSyncJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);
+//			ParseScript(arrScript);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastSyncJob"));
 			delete config;
 		}
@@ -1571,7 +1573,8 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastBackupJob"));
 			delete config;
 		}
@@ -1655,7 +1658,8 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Secure \"LastSecureJob\""));
 			wxGetApp().SetAbort(false);
-			ParseScript(arrScript);	
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->ParseCommand(1);
 			config->DeleteGroup(wxT("LastSecureJob"));
 			delete config;
 		}
@@ -1836,7 +1840,8 @@ void frmMain::OnScriptExecute(wxCommandEvent& event)
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrLines.Add(m_Script_Rich->GetLineText(i));
 	}
-	ParseScript(arrLines);
+	wxGetApp().m_Script->SetScript(arrLines);
+	wxGetApp().m_Script->ParseCommand(1);
 }
 
 void frmMain::OnScriptSelected(wxCommandEvent& event)
