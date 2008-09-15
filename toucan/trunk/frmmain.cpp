@@ -871,6 +871,11 @@ void frmMain::CreateControls()
 	m_Pvar_List->InsertColumn(0, column);
 	m_Pvar_List->InsertColumn(1, column);
 	
+	//Add some blank items to the combo box to allow deselection
+	m_Sync_Rules->Append(wxEmptyString);
+	m_Backup_Rules->Append(wxEmptyString);
+	m_Secure_Rules->Append(wxEmptyString);
+	
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 }
 
@@ -1262,6 +1267,7 @@ void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 {
+	m_Secure_Rules->SetStringSelection(wxEmptyString);
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	SecureData data;
@@ -1365,6 +1371,7 @@ void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 {
+	m_Sync_Rules->SetStringSelection(wxEmptyString);
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	SyncData data;
@@ -1467,6 +1474,7 @@ void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 {
+	m_Backup_Rules->SetStringSelection(wxEmptyString);
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	BackupData data;
