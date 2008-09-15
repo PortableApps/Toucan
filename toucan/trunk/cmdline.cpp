@@ -96,26 +96,26 @@ bool ParseCommandLine(){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Sync \"") + cmdParser.GetParam(0) + wxT("\""));
 		wxGetApp().m_Script->SetScript(arrScript);
-		wxGetApp().m_Script->ParseCommand(1);
+		wxGetApp().m_Script->Execute();
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Backup \"") + cmdParser.GetParam(0) + wxT("\""));
 		wxGetApp().m_Script->SetScript(arrScript);
-		wxGetApp().m_Script->ParseCommand(1);
+		wxGetApp().m_Script->Execute();
 	}
 	else if(config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Secure \"") + cmdParser.GetParam(0) + wxT("\""));
 		wxGetApp().m_Script->SetScript(arrScript);
-		wxGetApp().m_Script->ParseCommand(1);
+		wxGetApp().m_Script->Execute();
 	}
 	else if(cmdParser.GetParam(0) == wxT("Script")){
 		wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 		wxString strFile = config->Read(cmdParser.GetParam(1) + wxT("/") + wxT("Script"));
 		wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
 		wxGetApp().m_Script->SetScript(arrContents);
-		wxGetApp().m_Script->ParseCommand(1);
+		wxGetApp().m_Script->Execute();
 	}
 	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
 		SyncData data;
@@ -135,7 +135,7 @@ bool ParseCommandLine(){
 			arrScript.Add(wxT("Sync \"LastSyncJob\""));
 			wxGetApp().SetAbort(false);
 			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->ParseCommand(1);
+			wxGetApp().m_Script->Execute();
 			config->DeleteGroup(wxT("LastSyncJob"));
 			delete config;
 		}
@@ -166,7 +166,7 @@ bool ParseCommandLine(){
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
 			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->ParseCommand(1);
+			wxGetApp().m_Script->Execute();
 			config->DeleteGroup(wxT("LastBackupJob"));
 			delete config;
 		}
@@ -187,7 +187,7 @@ bool ParseCommandLine(){
 		data.SetFormat(cmdParser.GetParam(4));
 		wxVariant varTemp = cmdParser.GetParam(5);
 		data.SetRatio(varTemp.GetInteger());
-		data.Output();
+		//data.Output();
 		if(data.TransferToFile(wxT("LastBackupJob"))){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastBackupJob/Rules"),  cmdParser.GetParam(6));
@@ -197,7 +197,7 @@ bool ParseCommandLine(){
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
 			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->ParseCommand(1);
+			wxGetApp().m_Script->Execute();
 			config->DeleteGroup(wxT("LastBackupJob"));
 			delete config;
 		}
@@ -221,7 +221,7 @@ bool ParseCommandLine(){
 			arrScript.Add(wxT("Secure \"LastSecureJob\""));
 			wxGetApp().SetAbort(false);
 			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->ParseCommand(1);
+			wxGetApp().m_Script->Execute();
 			config->DeleteGroup(wxT("LastSecureJob"));
 			delete config;
 		}
