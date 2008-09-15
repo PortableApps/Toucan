@@ -270,6 +270,7 @@ bool ScriptManager::ParseCommand(int i){
 bool ScriptManager::Execute(){
 	//Set up all of the form related stuff
 	m_ProgressWindow = wxGetApp().ProgressWindow;
+	m_ProgressWindow->MakeModal();
 	m_ProgressWindow->m_Text->Clear();
 	//Send all errors to the text control
 	wxLogTextCtrl* logTxt = new wxLogTextCtrl(m_ProgressWindow->m_Text);

@@ -122,6 +122,7 @@ void frmProgress::CreateControls()
 
 void frmProgress::OnOkClick( wxCommandEvent& event )
 {
+	this->MakeModal(false);
 	this->Show(false);
 }
 
@@ -157,6 +158,7 @@ void frmProgress::OnSaveClick( wxCommandEvent& event )
 
 void frmProgress::OnCloseWindow( wxCloseEvent& event )
 {
+	this->MakeModal(false);
 	this->Show(false);
 }
 

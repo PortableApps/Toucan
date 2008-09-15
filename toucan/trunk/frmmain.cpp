@@ -1146,7 +1146,7 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 
 void frmMain::OnRulesAddClick(wxCommandEvent& event)
 {
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to include"), wxEmptyString);
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("You must select a name for this set of Rules"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_Combo->AppendString(dialog->GetValue());
 		m_Rules_Combo->SetStringSelection(dialog->GetValue());
