@@ -12,16 +12,26 @@
 
 /*The backupdata class contains all of the information needed for backups, except the ruels. Includes
 functiosn for writing the data to and from the gui and an ini file*/
-class BackupData{
+class BackupData : public RootData{
 
 public:
 	//Functions
-	bool TransferToFile(wxString strName);
-	bool TransferFromFile(wxString strName);
-	void TransferToForm(frmMain *window);
-	bool TransferFromForm(frmMain*window, bool blShowErrors);
-	wxString CreateCommand(int i);
+	bool TransferToFile();
+	bool TransferFromFile();
+	bool TransferToForm();
+	bool TransferFromForm();
+
 	void Output();
+	
+	bool Execute();
+	
+	bool NeedsPassword() { return IsPassword; }
+	
+	//Used to create the command to exectue
+	wxString CreateCommand(int i);
+	
+	//Used to create the exclusions list
+	bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength);
 
 	//Inline functions
 	void SetBackupLocation(wxString location) {strBackupLocation = location; }

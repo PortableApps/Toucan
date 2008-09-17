@@ -4,12 +4,14 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef H_BACKUPFUNCTIONS
-#define H_BACKUPFUNCTIONS
+#include "rootdata.h"
 
-#include <wx/textfile.h>
-#include "rules.h"
+//Just a stub to allow this to correctly be compiled into an object
 
-bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength);
+RootData::RootData(){
+	;
+}
 
-#endif
+RootData::~RootData(){
+	;
+}

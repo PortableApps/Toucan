@@ -10,18 +10,18 @@
 #include "variables.h"
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>
+#include <wx\dir.h>
 
 
-bool BackupData::TransferFromFile(wxString strName){
+bool BackupData::TransferFromFile(){
+	wxString strName = GetName();
 	//Create a new fileconfig object
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError = true;
 	wxString strTemp;
 	int iTemp;
-	
-	/*Read all of the values from the ini file, and if there are not read erros add them to the data
-	Password is not stored in the text file*/
+
 	if(config->Read(strName + wxT("/BackupLocation"), &strTemp)){
 		SetBackupLocation(strTemp);
 		blError = false;
@@ -62,7 +62,8 @@ bool BackupData::TransferFromFile(wxString strName){
 	return true;
 }
 
-bool BackupData::TransferToFile(wxString strName){
+bool BackupData::TransferToFile(){
+	wxString strName = GetName();
 	//Create a new fileconfig object
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	bool blError = false;
@@ -102,13 +103,15 @@ bool BackupData::TransferToFile(wxString strName){
 	return true;
 }
 
-/*This function takes the data in BackupData and fills in the GUI*/
-void BackupData::TransferToForm(frmMain *window){
-	//Set the value of the text control
-	window->m_Backup_Location->SetValue(Normalise(Normalise(GetBackupLocation())));
-	//Delete all of the items in the treectrl and readd the root
+bool BackupData::TransferToForm(){
+	frmMain *window = wxGetApp().MainWindow;
+	if(window == NULL){
+		return false;
+	}
+	window->m_Backup_Location->SetValue(GetBackupLocation());
 	window->m_Backup_TreeCtrl->DeleteAllItems();
 	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+	
 	//Remove all of the items in the filepath list
 	wxGetApp().MainWindow->m_BackupLocations->Clear();
 	//Add the new locations to the treectrl and the list
@@ -121,14 +124,15 @@ void BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
 	window->m_Backup_IsPass->SetValue(IsPassword);
-	return;
+	return false;
 }
 
 /* This function sets all of the fields in SyncData based on the user inputted data in the
 Main program window.*/
-bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
+bool BackupData::TransferFromForm(){
+	frmMain *window = wxGetApp().MainWindow;
 	wxString strPass, strRepass = wxEmptyString;
-	
+
 	bool blNotFilled = false;
 	//Set the intenal file list as the global list, ensuring that there are items to backup
 	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
@@ -144,7 +148,7 @@ bool BackupData::TransferFromForm(frmMain *window, bool blShowErrors){
 	SetRatio(window->m_Backup_Ratio->GetValue());
 	IsPassword = window->m_Backup_IsPass->GetValue();
 	//Output an error message if the fields are not filled
-	if(blNotFilled && blShowErrors){
+	if(blNotFilled){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}
@@ -159,7 +163,6 @@ void BackupData::Output(){
 	}
 	MessageBox(GetFunction(), wxT("Function"));
 	MessageBox(GetFormat(), wxT("Format"));
-//	MessageBox(GetRatio(), wxT("Ratio"));
 }
 
 wxString BackupData::CreateCommand(int i){
@@ -231,4 +234,79 @@ wxString BackupData::CreateCommand(int i){
 		}
 	}
 	return strCommand;
+}
+
+
+bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
+	//Clean up the path passed
+	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+		strPath += wxFILE_SEP_PATH;       
+	}
+	wxGetApp().Yield();
+	wxDir dir(strPath);
+	wxString strFilename;
+	bool blDir = dir.GetFirst(&strFilename);
+	//If the path is ok
+	if(blDir){
+		//Loop through all of the files and folders in the directory
+		do {
+			//If it is a directory
+			if(wxDirExists(strPath + strFilename))
+			{
+				//Always call the function again to ensure that ALL files and folders are processed
+				CreateList(file, rules, strPath + strFilename, iRootLength);
+			}
+			//If it is a file
+			else{
+				if(rules.ShouldExclude(strPath + strFilename, false)){
+					wxString strCombined = strPath + strFilename;
+					strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
+					file->AddLine(strCombined);
+				}
+			}
+		}
+		while (dir.GetNext(&strFilename) );
+	}  
+	return true;
+}
+
+bool BackupData::Execute(){
+	//Normalise the backup location
+	SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
+	wxString strCommand;
+	//Get the password if one is needed
+	data.SetLocation(i, Normalise(data.GetLocation(i)));
+	data.SetLocation(i, Normalise(data.GetLocation(i)));
+				//Open the text file for the file paths and clear it
+				wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
+				if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
+					file->Open();
+					file->Clear();
+					file->Write();
+				}
+				else{
+					file->Create();
+				}
+				//Create the command to execute
+				strCommand = data.CreateCommand(i);
+				wxString strPath = data.GetLocations().Item(i);
+				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+					strPath += wxFILE_SEP_PATH;       
+				}
+				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+				//Create the list of files to backup
+				OutputProgress(_("Creating an exclusions list, this may take some time."));
+				CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
+				//Commit the file changes
+				file->Write();
+				m_ProgressWindow->Refresh();
+				m_ProgressWindow->Update();
+				//Cretae the process, execute it and register it
+				PipedProcess *process = new PipedProcess(m_ProgressWindow);
+				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+				process->SetRealPid(lgPID);
+				WaitThread *thread = new WaitThread(lgPID, process);
+				thread->Create();
+				thread->Run();	
 }

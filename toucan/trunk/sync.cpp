@@ -85,6 +85,8 @@ void *SyncThread::Entry(){
 		m_Main->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Main->m_Sync_Dest_Txt->GetValue())));		
 		wxMutexGuiLeave();
 	}
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	wxPostEvent(wxGetApp().MainWindow, event);
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
 	return NULL;

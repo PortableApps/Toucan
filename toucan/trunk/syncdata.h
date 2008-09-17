@@ -8,18 +8,25 @@
 #define H_SYNCDATA
 
 #include "frmmain.h"
+#include "rootdata.h"
 #include <wx\string.h>
 
 
-class SyncData{
+class SyncData : public RootData{
 
 public:
+
 	//Functions
-	bool TransferToFile(wxString strName);
-	bool TransferFromFile(wxString strName);
-	void TransferToForm(frmMain *window);
-	bool TransferFromForm(frmMain*window);
+	bool TransferToFile();
+	bool TransferFromFile();
+	bool TransferToForm();
+	bool TransferFromForm();
+	
 	void Output();
+	
+	bool Execute();
+	
+	bool NeedsPassword() { return false; }
 
 	//Inline functions
 	void SetSource(wxString source) { strSource = source; }

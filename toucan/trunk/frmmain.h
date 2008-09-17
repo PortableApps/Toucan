@@ -163,6 +163,9 @@ class Settings;
 #define ID_MENU_SECURELOCATIONINCLUDE_NAME 10418
 #define ID_MENU_SECURELOCATIONINCLUDE_EXTENSION 10419
 
+//Other 10450-10499
+#define ID_SCRIPTFINISH 10450 
+
 
 
 
@@ -268,6 +271,7 @@ public:
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnHelpClick(wxCommandEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
+	void OnScriptFinish(wxCommandEvent& event);
 	
 	//Menu
 	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);

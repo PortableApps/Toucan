@@ -13,12 +13,14 @@ class WaitThread : public wxThread
 {
 public:
 	//Constructor
-	WaitThread(long pid, PipedProcess *process):wxThread(wxTHREAD_JOINABLE){
+	WaitThread(long pid, PipedProcess *process):wxThread(wxTHREAD_DETACHED){
 		m_PID = pid;
 		m_Process = process;
 	}
 	//Main function, all stuff goes in here
 	virtual void *Entry();
+	
+	~WaitThread();
 
 private:
 	long m_PID;

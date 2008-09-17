@@ -39,6 +39,8 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 			wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(wxGetApp().MainWindow->m_SecureLocations->Item(i));
 		}
 	}
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	wxPostEvent(wxGetApp().MainWindow, event);	
 	return true;
 }
 

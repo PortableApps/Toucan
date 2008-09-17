@@ -17,3 +17,10 @@ void *WaitThread::Entry(){
 	}
 	return NULL;
 }
+
+WaitThread::~WaitThread(){
+	while(m_Process->HasInput())
+		;
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	wxPostEvent(wxGetApp().MainWindow, event);	
+}

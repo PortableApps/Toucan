@@ -19,6 +19,7 @@
 #include "secure.h"
 #include "variables.h"
 #include "basicfunctions.h"
+#include "rootdata.h"
 
 void ScriptManager::SetCommand(int i){
 	m_Command = i;
@@ -75,7 +76,7 @@ bool ScriptManager::Validate(){
 		if(strToken == wxT("Backup")){
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
-			if(data.TransferFromFile(strJob)){
+			if(data.TransferFromFile()){
 				if(data.IsPassword == true){
 					blPassNeeded = true;
 				}
@@ -85,109 +86,32 @@ bool ScriptManager::Validate(){
 	if(blParseError){
 		return false;
 	}
-	
-	if(blPassNeeded){
-		m_Password = InputPassword();
-	}
 	return true;
 }
 
 bool ScriptManager::ParseCommand(int i){	
 	wxDateTime now = wxDateTime::Now();
+	
 	wxString strLine = m_Script.Item(i);
+	
 	wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 	wxString strToken = tkz.GetNextToken();
+	
 	strToken.Trim();
+	
+	RootData* data;
+	
 	if(strToken == wxT("Sync")){
-		//Create the data sets and fill them		
-		SyncData data;
-		//Ensure that the data is filled
-		wxString strJob = tkz.GetNextToken();
-		if(!data.TransferFromFile(strJob)){
-			m_ProgressWindow->m_OK->Enable(true);
-			m_ProgressWindow->m_Save->Enable(true);
-			m_ProgressWindow->m_Cancel->Enable(false);
-			now = wxDateTime::Now();
-			OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-			OutputProgress(_("Finished"));
-			return false;		
-		}
-		data.SetSource(Normalise(data.GetSource()));
-		data.SetSource(Normalise(data.GetSource()));
-		
-		data.SetDest(Normalise(data.GetDest()));
-		data.SetDest(Normalise(data.GetDest()));
-		Rules rules;
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-		if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
-			rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
-		}
-		delete config;
-		//Create a new Sync thread and run it (needs to use Wait())
-		SyncThread *thread = new SyncThread(data, rules, wxGetApp().MainWindow);
-		thread->Create();
-		thread->Run();
-		thread->Wait();
-		delete thread;
-	}
+		data = new SyncData();
+	}	
 	else if(strToken == wxT("Backup")){
-		wxString strJob = tkz.GetNextToken();
-		BackupData data;
-		if(data.TransferFromFile(strJob)){
-			data.SetBackupLocation(Normalise(Normalise(data.GetBackupLocation())));
-			Rules rules;
-			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-			if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
-				rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
-			}
-			wxString strCommand;
-			for(unsigned int i = 0; i < data.GetLocations().Count(); i++){
-				//Get the password if one is needed
-				if(data.IsPassword == true){
-					if(m_Password != wxEmptyString){
-						data.SetPass(m_Password);						
-					}
-				}
-				data.SetLocation(i, Normalise(data.GetLocation(i)));
-				data.SetLocation(i, Normalise(data.GetLocation(i)));
-				//Open the text file for the file paths and clear it
-				wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-				if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
-					file->Open();
-					file->Clear();
-					file->Write();
-				}
-				else{
-					file->Create();
-				}
-				//Create the command to execute
-				strCommand = data.CreateCommand(i);
-				wxString strPath = data.GetLocations().Item(i);
-				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-					strPath += wxFILE_SEP_PATH;       
-				}
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				//Create the list of files to backup
-				OutputProgress(_("Creating an exclusions list, this may take some time."));
-				CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
-				//Commit the file changes
-				file->Write();
-				m_ProgressWindow->Refresh();
-				m_ProgressWindow->Update();
-				//Cretae the process, execute it and register it
-				PipedProcess *process = new PipedProcess(m_ProgressWindow);
-				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-				process->SetRealPid(lgPID);
-				WaitThread *thread = new WaitThread(lgPID, process);
-				thread->Create();
-				thread->Run();
-				thread->Wait();
-				while(process->HasInput())
-					;
-			}
-		}
+		data = new SyncData();
 	}
+	
+	if(data->NeedsPassword() == true){
+		m_Password = InputPassword();
+	}	
+	
 	else if(strToken == wxT("Secure")){
 		SecureData data;
 		if(m_Password != wxEmptyString){
@@ -196,12 +120,7 @@ bool ScriptManager::ParseCommand(int i){
 		//Ensure the data is filled
 		wxString strJob = tkz.GetNextToken();
 		if(!data.TransferFromFile(strJob)){
-			m_ProgressWindow->m_OK->Enable(true);
-			m_ProgressWindow->m_Save->Enable(true);
-			m_ProgressWindow->m_Cancel->Enable(false);
-			now = wxDateTime::Now();
-			OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-			OutputProgress(_("Finished"));
+			CleanUp();
 			return false;
 		}
 		Rules rules;
@@ -258,16 +177,34 @@ bool ScriptManager::ParseCommand(int i){
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
 	}
+	return true;	
+}
+
+bool ScriptManager::Execute(){
+	StartUp();
+	if(!Validate()){
+		CleanUp();
+	}
+	if(GetCount() != 0){
+		if(GetCommand() < GetCount()){
+			SetCommand(wxGetApp().m_Script->GetCommand() + 1);
+			ParseCommand(0);
+		}
+	}
+	return true;
+}
+
+bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_OK->Enable(true);
 	m_ProgressWindow->m_Save->Enable(true);
 	m_ProgressWindow->m_Cancel->Enable(false);
-	now = wxDateTime::Now();
+	wxDateTime now = wxDateTime::Now();
 	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	OutputProgress(_("Finished"));
 	return true;	
-};
+}
 
-bool ScriptManager::Execute(){
+bool ScriptManager::StartUp(){
 	//Set up all of the form related stuff
 	m_ProgressWindow = wxGetApp().ProgressWindow;
 	m_ProgressWindow->MakeModal();
@@ -287,21 +224,6 @@ bool ScriptManager::Execute(){
 		m_ProgressWindow->Refresh();
 		m_ProgressWindow->Update();
 		m_ProgressWindow->Show();
-	}
-
-	if(!Validate()){
-		m_ProgressWindow->m_OK->Enable(true);
-		m_ProgressWindow->m_Save->Enable(true);
-		m_ProgressWindow->m_Cancel->Enable(false);
-		now = wxDateTime::Now();
-		OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-		OutputProgress(_("Finished"));
-		return false;
-	}
-	if(GetCount() != 0){
-		if(GetCommand() < GetCount()){
-			ParseCommand(0);
-		}
 	}
 	return true;
 }

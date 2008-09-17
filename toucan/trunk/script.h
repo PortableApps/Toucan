@@ -32,6 +32,10 @@ class ScriptManager{
 	//Runs a speciic command in the script
 	bool ParseCommand(int i);
 	
+	//Clean up when finished
+	bool CleanUp();
+	bool StartUp();
+	
 	private:
 	
 	wxArrayString m_Script;

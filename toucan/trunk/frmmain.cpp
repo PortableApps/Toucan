@@ -138,6 +138,9 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_MENU(ID_MENU_SECURELOCATIONINCLUDE_NAME, frmMain::OnMenuSecureLocationIncludeNameClick)
 	EVT_MENU(ID_MENU_SECUREFOLDEREXCLUDE_NAME, frmMain::OnMenuSecureFolderExcludeNameClick)
 	
+	//ScriptManager
+	EVT_BUTTON(ID_SCRIPTFINISH, frmMain::OnScriptFinish)
+	
 END_EVENT_TABLE()
 
 
@@ -2272,4 +2275,14 @@ void frmMain::OnMenuSyncDestFolderExcludeNameClick(wxCommandEvent& event){
 		rules.SetFoldersToExclude(arrFolderExclude);
 		rules.TransferToFile(m_Sync_Rules->GetStringSelection());
 	}		
+}
+
+void frmMain::OnScriptFinish(wxCommandEvent& event){
+	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
+		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
+		wxGetApp().m_Script->ParseCommand(wxGetApp().m_Script->GetCommand() - 1);
+	}
+	else{
+		wxGetApp().m_Script->CleanUp();
+	}
 }

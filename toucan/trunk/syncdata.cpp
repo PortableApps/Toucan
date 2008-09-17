@@ -12,7 +12,8 @@
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>
 
-bool SyncData::TransferFromFile(wxString strName){
+bool SyncData::TransferFromFile(){
+	wxString strName = GetName();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
@@ -42,7 +43,8 @@ bool SyncData::TransferFromFile(wxString strName){
 	return true;
 }
 
-bool SyncData::TransferToFile(wxString strName){
+bool SyncData::TransferToFile(){
+	wxString strName = GetName();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
@@ -64,9 +66,11 @@ bool SyncData::TransferToFile(wxString strName){
 	return true;
 }
 
-/*This function takes the data in SyncData and fills in the GUI*/
-void SyncData::TransferToForm(frmMain *window){
-	
+bool SyncData::TransferToForm(){
+	frmMain *window = wxGetApp().MainWindow;
+	if(window == NULL){
+		return false;
+	}
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
 	window->m_Sync_Source_Tree->AddRoot(wxT("Hidden text"));
@@ -82,12 +86,11 @@ void SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Attributes->SetValue(GetAttributes());
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
 	window->m_Sync_Ignore_DaylightS->SetValue(GetIgnoreDLS());
-	return;
+	return false;
 }
 
-/* This function sets all of the fields in SyncData based on the user inputted data in the
-Main program window.*/
-bool SyncData::TransferFromForm(frmMain *window){
+bool SyncData::TransferFromForm(){
+	frmMain *window = wxGetApp().MainWindow;
 	bool blNotFilled = false;
 	if(window->m_Sync_Source_Txt->GetValue() != wxEmptyString){ SetSource(window->m_Sync_Source_Txt->GetValue()); }
 	else{ blNotFilled = true; }
@@ -119,4 +122,14 @@ void SyncData::Output(){
 	MessageBox(varTemp.GetString(), wxT("Ignore Readonly?"));
 	varTemp = GetIgnoreDLS();
 	MessageBox(varTemp.GetString(), wxT("Ignore Daylight Savings?"));
+}
+
+bool SyncData::Execute(Rules rules){
+	data.SetSource(Normalise(Normalise(data.GetSource())));
+	data.SetDest(Normalise(Normalise(data.GetDest())));
+
+	//Create a new Sync thread and run it (needs to use Wait())
+	SyncThread *thread = new SyncThread(this, rules, wxGetApp().MainWindow);
+	thread->Create();
+	thread->Run();
 }
