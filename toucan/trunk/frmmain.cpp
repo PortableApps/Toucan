@@ -1296,16 +1296,18 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	SyncData data;
-	if (data.TransferFromForm(this)) {
-		if (m_Sync_Job_Select->GetStringSelection() != wxEmptyString) {
-			data.TransferToFile(m_Sync_Job_Select->GetStringSelection());
-		} else {
+	data.SetName(m_Sync_Job_Select->GetStringSelection());
+	if (data.TransferFromForm()) {
+		if (data.GetName() != wxEmptyString) {
+			data.TransferToFile();
+		} 
+		else {
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
-	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
-	config->Write(m_Sync_Job_Select->GetStringSelection() + wxT("/Type"),  wxT("Sync"));
+	config->Write(data.GetName() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
+	config->Write(data.GetName() + wxT("/Type"),  wxT("Sync"));
 	config->Flush();
 	delete config;
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -1321,17 +1323,18 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	BackupData data;
-	if (data.TransferFromForm(this, false)) {
-		if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
-			data.TransferToFile(m_Backup_Job_Select->GetStringSelection());
+	data.SetName(m_Backup_Job_Select->GetStringSelection());
+	if (data.TransferFromForm()){
+		if (data.GetName() != wxEmptyString){
+			data.TransferToFile();
 		} 
-		else {
+		else{
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
-	config->Write(m_Backup_Job_Select->GetStringSelection() + wxT("/Type"),  wxT("Backup"));
+	config->Write(data.GetName() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
+	config->Write(data.GetName() + wxT("/Type"),  wxT("Backup"));
 	config->Flush();
 	delete config;
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -1378,11 +1381,11 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	SyncData data;
-	if (data.TransferFromFile(m_Sync_Job_Select->GetStringSelection())) {
-		//data.Output();
-		data.TransferToForm(this);
+	data.SetName(m_Sync_Job_Select->GetStringSelection());
+	if (data.TransferFromFile()){
+		data.TransferToForm();
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		m_Sync_Rules->SetStringSelection(config->Read(m_Sync_Job_Select->GetStringSelection() + wxT("/Rules")));
+		m_Sync_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
 		delete config;
 	}
 	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
@@ -1481,10 +1484,11 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	BackupData data;
-	if (data.TransferFromFile(m_Backup_Job_Select->GetStringSelection())) {
-		data.TransferToForm(this);
+	data.SetName(m_Backup_Job_Select->GetStringSelection());
+	if (data.TransferFromFile()){
+		data.TransferToForm();
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		m_Backup_Rules->SetStringSelection(config->Read(m_Backup_Job_Select->GetStringSelection() + wxT("/Rules")));
+		m_Backup_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
 		delete config;
 	}
 	SetSliderText();
@@ -1499,20 +1503,21 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 void frmMain::OnSyncOKClick(wxCommandEvent& event)
 {
 	SyncData data;
-	if (data.TransferFromForm(this)) {
-		if(data.TransferToFile(wxT("LastSyncJob"))){
+	data.SetName(wxT("LastSyncJob"));
+	if (data.TransferFromForm()){
+		if(data.TransferToFile()){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
 			config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
 			config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
 			config->Flush();
+			delete config;
+			
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Sync \"LastSyncJob\""));
 			wxGetApp().SetAbort(false);
-//			ParseScript(arrScript);
 			wxGetApp().m_Script->SetScript(arrScript);
 			wxGetApp().m_Script->Execute();
-			config->DeleteGroup(wxT("LastSyncJob"));
-			delete config;
+
 		}
 	}
 }
@@ -1575,19 +1580,20 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 void frmMain::OnBackupOKClick(wxCommandEvent& event)
 {
 	BackupData data;
-	if (data.TransferFromForm(this, true)) {
-		if(data.TransferToFile(wxT("LastBackupJob"))){
+	data.SetName(wxT("LastBackupJob"));
+	if(data.TransferFromForm()){
+		if(data.TransferToFile()){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 			config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
 			config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
 			config->Flush();
+			delete config;
+			
 			wxArrayString arrScript;
 			arrScript.Add(wxT("Backup \"LastBackupJob\""));
 			wxGetApp().SetAbort(false);
 			wxGetApp().m_Script->SetScript(arrScript);
 			wxGetApp().m_Script->Execute();
-			config->DeleteGroup(wxT("LastBackupJob"));
-			delete config;
 		}
 	}
 }

@@ -27,15 +27,19 @@ public:
 	
 	virtual void Output() = 0;
 	
-	virtual bool Execute() = 0;
+	virtual bool Execute(Rules rules) = 0;
 	
 	virtual bool NeedsPassword() = 0;
 	
 	void SetName(wxString name) { m_Name = name; }
 	wxString GetName(){ return m_Name; }
 	
+	void SetPassword(wxString password) { m_Password = password; }
+	wxString GetPassword(){ return m_Password; }
+	
 	
 	wxString m_Name;
+	wxString m_Password;
 	
 };
 

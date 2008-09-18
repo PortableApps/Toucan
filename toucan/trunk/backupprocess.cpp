@@ -4,7 +4,6 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "backupfunctions.h"
 #include "backupprocess.h"
 #include "toucan.h"
 #include "backupdata.h"

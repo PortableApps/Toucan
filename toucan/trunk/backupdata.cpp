@@ -8,6 +8,8 @@
 #include "basicfunctions.h"
 #include "toucan.h"
 #include "variables.h"
+#include "backupprocess.h"
+#include "waitthread.h"
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>
 #include <wx\dir.h>
@@ -270,43 +272,41 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 	return true;
 }
 
-bool BackupData::Execute(){
-	//Normalise the backup location
+bool BackupData::Execute(Rules rules){
+
 	SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
+	SetLocation(0, Normalise(Normalise(GetLocation(0))));
+	
 	wxString strCommand;
-	//Get the password if one is needed
-	data.SetLocation(i, Normalise(data.GetLocation(i)));
-	data.SetLocation(i, Normalise(data.GetLocation(i)));
-				//Open the text file for the file paths and clear it
-				wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-				if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
-					file->Open();
-					file->Clear();
-					file->Write();
-				}
-				else{
-					file->Create();
-				}
-				//Create the command to execute
-				strCommand = data.CreateCommand(i);
-				wxString strPath = data.GetLocations().Item(i);
-				if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-					strPath += wxFILE_SEP_PATH;       
-				}
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-				//Create the list of files to backup
-				OutputProgress(_("Creating an exclusions list, this may take some time."));
-				CreateList(file, rules, data.GetLocations().Item(i), strPath.Length());
-				//Commit the file changes
-				file->Write();
-				m_ProgressWindow->Refresh();
-				m_ProgressWindow->Update();
-				//Cretae the process, execute it and register it
-				PipedProcess *process = new PipedProcess(m_ProgressWindow);
-				long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-				process->SetRealPid(lgPID);
-				WaitThread *thread = new WaitThread(lgPID, process);
-				thread->Create();
-				thread->Run();	
+	//Open the text file for the file paths and clear it
+	wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
+	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
+		file->Open();
+		file->Clear();
+		file->Write();
+	}
+	else{
+		file->Create();
+	}
+	//Create the command to execute
+	strCommand = CreateCommand(0);
+	wxString strPath = GetLocations().Item(0);
+	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+		strPath += wxFILE_SEP_PATH;       
+	}
+	strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+	strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+	
+	//Create the list of files to backup
+	OutputProgress(_("Creating an exclusions list, this may take some time."));
+	CreateList(file, rules, GetLocations().Item(0), strPath.Length());
+	file->Write();
+	//Create the process and execute it
+	PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
+	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	process->SetRealPid(lgPID);
+	WaitThread *thread = new WaitThread(lgPID, process);
+	thread->Create();
+	thread->Run();	
+	return true;
 }

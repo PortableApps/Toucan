@@ -14,7 +14,6 @@
 #include "sync.h"
 #include "backupdata.h"
 #include "backupprocess.h"
-#include "backupfunctions.h"
 #include "securedata.h"
 #include "secure.h"
 #include "variables.h"
@@ -103,16 +102,18 @@ bool ScriptManager::ParseCommand(int i){
 	
 	if(strToken == wxT("Sync")){
 		data = new SyncData();
+		data->SetName(wxT("LastSyncJob"));
 	}	
 	else if(strToken == wxT("Backup")){
 		data = new SyncData();
+		data->SetName(wxT("LastBackupJob"));
 	}
 	
 	if(data->NeedsPassword() == true){
-		m_Password = InputPassword();
+		data->SetPassword(InputPassword());
 	}	
 	
-	else if(strToken == wxT("Secure")){
+	/*else if(strToken == wxT("Secure")){
 		SecureData data;
 		if(m_Password != wxEmptyString){
 			data.SetPass(m_Password);						
@@ -176,20 +177,30 @@ bool ScriptManager::ParseCommand(int i){
 		wxString strExecute = tkz.GetNextToken();
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
+	}*/
+	
+	
+	Rules rules;
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	if (config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
+		rules.TransferFromFile(config->Read(data->GetName() + wxT("/Rules")));
 	}
+	delete config;
+	
 	return true;	
 }
 
 bool ScriptManager::Execute(){
 	StartUp();
+	wxMessageBox(_("Started"));
 	if(!Validate()){
 		CleanUp();
 	}
+	wxMessageBox(_("Validated"));
 	if(GetCount() != 0){
-		if(GetCommand() < GetCount()){
-			SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-			ParseCommand(0);
-		}
+	wxMessageBox(_("Validated"));
+		SetCommand(1);
+		ParseCommand(0);
 	}
 	return true;
 }

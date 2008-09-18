@@ -8,6 +8,7 @@
 #include "basicfunctions.h"
 #include "variables.h"
 #include "toucan.h"
+#include "sync.h"
 #include <wx\variant.h>
 #include <wx\fileconf.h>
 #include <wx\stdpaths.h>
@@ -125,11 +126,12 @@ void SyncData::Output(){
 }
 
 bool SyncData::Execute(Rules rules){
-	data.SetSource(Normalise(Normalise(data.GetSource())));
-	data.SetDest(Normalise(Normalise(data.GetDest())));
+	SetSource(Normalise(Normalise(GetSource())));
+	SetDest(Normalise(Normalise(GetDest())));
 
 	//Create a new Sync thread and run it (needs to use Wait())
-	SyncThread *thread = new SyncThread(this, rules, wxGetApp().MainWindow);
+	SyncThread *thread = new SyncThread(*this, rules, wxGetApp().MainWindow);
 	thread->Create();
 	thread->Run();
+	return true;
 }

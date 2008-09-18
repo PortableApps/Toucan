@@ -24,7 +24,7 @@ public:
 	
 	void Output();
 	
-	bool Execute();
+	bool Execute(Rules rules);
 	
 	bool NeedsPassword() { return false; }
 

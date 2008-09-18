@@ -7,8 +7,10 @@
 #ifndef H_BACKUPDATA
 #define H_BACKUPDATA
 
+#include <wx\textfile.h>
 #include <wx\string.h>
 #include "frmmain.h"
+#include "rootdata.h"
 
 /*The backupdata class contains all of the information needed for backups, except the ruels. Includes
 functiosn for writing the data to and from the gui and an ini file*/
@@ -23,7 +25,7 @@ public:
 
 	void Output();
 	
-	bool Execute();
+	bool Execute(Rules rules);
 	
 	bool NeedsPassword() { return IsPassword; }
 	
