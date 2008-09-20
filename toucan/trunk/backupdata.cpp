@@ -16,53 +16,6 @@
 
 
 bool BackupData::TransferFromFile(){
-	/*wxString strName = GetName();
-	//Create a new fileconfig object
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	
-	bool blError = true;
-	wxString strTemp;
-	int iTemp;
-
-	if(config->Read(strName + wxT("/BackupLocation"), &strTemp)){
-		SetBackupLocation(strTemp);
-		blError = false;
-	}
-
-	if(config->Read(strName + wxT("/Locations"), &strTemp)){
-		SetLocations(StringToArrayString(strTemp, wxT("#")));
-		blError = false;
-	}
-
-	if(config->Read(strName + wxT("/Function"), &strTemp)){
-		SetFunction(strTemp);
-		blError = false;
-	}
-
-	if(config->Read(strName + wxT("/Format"), &strTemp)){
-		SetFormat(strTemp);
-		blError = false;
-	}
-
-	if(config->Read(strName + wxT("/Ratio"), &iTemp)){
-		SetRatio(iTemp);
-		blError = false;
-	}
-	
-	if(config->Read(strName + wxT("/IsPass"), &IsPassword)){
-		blError = false;
-	}
-
-	//Delete the fileconfig object
-	delete config;
-
-	//Output an error massage if needed
-	if(blError){
-		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
-		return false;
-	}
-	return true;*/
-	
 	wxString strName = GetName();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
@@ -89,6 +42,7 @@ bool BackupData::TransferFromFile(){
 		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
 		return false;
 	}
+	return true;
 }
 
 bool BackupData::TransferToFile(){
@@ -232,22 +186,24 @@ wxString BackupData::CreateCommand(int i){
 	else if (GetRatio() == 5){
 		strRatio = wxT(" -mx9");
 	}
-	//Checking to see if there is a password used
-	if(GetPassword() != wxEmptyString){
-		SetPassword(wxT(" -p") + GetPass());
-		//If 7zip is used then make sure headers are encrypted
-		if(GetFormat() == wxT("7z")){
-			SetPass(GetPass() + wxT(" -mhe=on"));
+	if(i == 0){
+		//Checking to see if there is a password used
+		if(GetPassword() != wxEmptyString){
+			SetPassword(wxT(" -p") + GetPassword());
+			//If 7zip is used then make sure headers are encrypted
+			if(GetFormat() == wxT("7z")){
+				SetPassword(GetPassword() + wxT(" -mhe=on"));
+			}
 		}
 	}
    
 	strTempDir = wxT(" -w\"") + wxPathOnly(GetBackupLocation()) + wxT("\"");
 
 	if(GetFunction() == _("Complete")){
-		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;	
+		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" \"") + GetLocations().Item(i) + wxT("*\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir; 
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") + wxT(" \"") + GetLocations().Item(i) + wxT("*\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir; 
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
@@ -256,13 +212,12 @@ wxString BackupData::CreateCommand(int i){
 		}
 		if(wxFileExists(GetBackupLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxDateTime::Now();
-			strCommand = wxT("7za.exe u") + GetPass() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("*\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
+			strCommand = wxT("7za.exe u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\" \"") + GetLocations().Item(i) + wxT("*\"") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 		}
 		else{
-			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPass() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("*\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" ") + wxT(" \"") + GetLocations().Item(i) + wxT("*\" ") + wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Exclusions.txt") + wxT("\"") + strTempDir;
 		}
 	}
-	wxMessageBox(strCommand);
 	return strCommand;
 }
 
@@ -301,40 +256,46 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 }
 
 bool BackupData::Execute(Rules rules){
-
-	SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
-	SetLocation(0, Normalise(Normalise(GetLocation(0))));
-	
-	wxString strCommand;
-	//Open the text file for the file paths and clear it
-	wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
-	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
-		file->Open();
-		file->Clear();
+	for(unsigned int i = 0; i < GetLocations().Count(); i++){
+		SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
+		SetLocation(i, Normalise(Normalise(GetLocation(i))));
+		
+		wxString strCommand;
+		//Open the text file for the file paths and clear it
+		wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"));
+		if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Exclusions.txt"))){
+			file->Open();
+			file->Clear();
+			file->Write();
+		}
+		else{
+			file->Create();
+		}
+		//Create the command to execute
+		strCommand = CreateCommand(i);
+		wxString strPath = GetLocations().Item(i);
+		if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
+			strPath += wxFILE_SEP_PATH;       
+		}
+		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
+		
+		//Create the list of files to backup
+		OutputProgress(_("Creating an exclusions list, this may take some time."));
+		CreateList(file, rules, GetLocations().Item(i), strPath.Length());
 		file->Write();
+		//Create the process and execute it
+		PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
+		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+		process->SetRealPid(lgPID);
+		WaitThread *thread = new WaitThread(lgPID, process);
+		thread->Create();
+		thread->Run();	
+		thread->Wait();
+		while(process->HasInput())
+			;
 	}
-	else{
-		file->Create();
-	}
-	//Create the command to execute
-	strCommand = CreateCommand(0);
-	wxString strPath = GetLocations().Item(0);
-	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-		strPath += wxFILE_SEP_PATH;       
-	}
-	strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-	strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-	
-	//Create the list of files to backup
-	OutputProgress(_("Creating an exclusions list, this may take some time."));
-	CreateList(file, rules, GetLocations().Item(0), strPath.Length());
-	file->Write();
-	//Create the process and execute it
-	PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
-	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-	process->SetRealPid(lgPID);
-	WaitThread *thread = new WaitThread(lgPID, process);
-	thread->Create();
-	thread->Run();	
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	wxPostEvent(wxGetApp().MainWindow, event);	
 	return true;
 }

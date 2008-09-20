@@ -8,11 +8,12 @@
 #include "basicfunctions.h"
 #include "toucan.h"
 #include "variables.h"
+#include "secure.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
 //Grab all of the fields from the form*/
-bool SecureData::TransferFromFile(wxString strName){
+bool SecureData::TransferFromFile(){
 	//Create a new ficonfig 	
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
@@ -20,9 +21,9 @@ bool SecureData::TransferFromFile(wxString strName){
 	wxString strTemp;
 
 	//Read the fields from the file, if the read works then add them
-	blError = config->Read(strName + wxT("/Locations"), &strTemp);
+	blError = config->Read(GetName() + wxT("/Locations"), &strTemp);
 	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
-	blError = config->Read(strName + wxT("/Function"), &strTemp);
+	blError = config->Read(GetName() + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
 	//Delete the fileconfig as we are finished with it	
 	delete config;
@@ -36,16 +37,16 @@ bool SecureData::TransferFromFile(wxString strName){
 }
 
 //For saving to an ini file
-bool SecureData::TransferToFile(wxString strName){
+bool SecureData::TransferToFile(){
 	//Create a new fileconfig object
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
 	//Delete a group if it already exists
-	blError = config->DeleteGroup(strName);
+	blError = config->DeleteGroup(GetName());
 	//Write the fields to the ini file
-	blError = config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
-	blError = config->Write(strName + wxT("/Function"), GetFunction());	
+	blError = config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
+	blError = config->Write(GetName() + wxT("/Function"), GetFunction());	
 
 	//Write the contents to the file and then delete the fileconfig object
 	config->Flush();
@@ -60,7 +61,8 @@ bool SecureData::TransferToFile(wxString strName){
 }
 
 /*This function takes the data in BackupData and fills in the GUI*/
-void SecureData::TransferToForm(frmMain *window){
+bool SecureData::TransferToForm(){
+	frmMain *window = wxGetApp().MainWindow;
 	//Delete all of the existing items in the treectrl and readd a root
 	window->m_Secure_TreeCtrl->DeleteAllItems();
 	window->m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -75,12 +77,13 @@ void SecureData::TransferToForm(frmMain *window){
 	}
 	//Set up the rest of the window
 	window->m_Secure_Function->SetStringSelection(GetFunction());
-	return;
+	return true;
 }
 
 /* This function sets all of the fields in SyncData based on the user inputted data in the
 Main program window.*/
-bool SecureData::TransferFromForm(frmMain *window, bool blShowError){
+bool SecureData::TransferFromForm(){
+	frmMain *window = wxGetApp().MainWindow;
 	bool blNotFilled = false;
 	wxString strPass, strRepass;
 
@@ -93,7 +96,7 @@ bool SecureData::TransferFromForm(frmMain *window, bool blShowError){
 	else{ blNotFilled = true; }
 
 	//Output an error message if needed
-	if(blNotFilled && blShowError){
+	if(blNotFilled){
 		ErrorBox(_("Not all of the required fields are filled"));
 		return false;
 	}
@@ -106,6 +109,16 @@ void SecureData::Output(){
 		MessageBox(GetLocations().Item(i), wxT("Location"));
 	}
 	MessageBox(GetFunction(), wxT("Function"));
-	MessageBox(GetPass(), wxT("Pass"));
+	MessageBox(GetPassword(), wxT("Pass"));
+}
+
+bool SecureData::Execute(Rules rules){
+	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
+		SetLocation(i, Normalise(GetLocation(i)));
+		SetLocation(i, Normalise(GetLocation(i)));
+	}
+	//Call the secure function
+	Secure(*this, rules, wxGetApp().ProgressWindow);
+	return true;
 }
 

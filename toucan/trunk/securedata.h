@@ -9,19 +9,20 @@
 
 #include <wx\string.h>
 #include "frmmain.h"
+#include "rootdata.h"
 
 /*Securedata class stores all information needed for sync operations
 excluding the rule set. Also includes functions for copying too and from
 the gui and ini files*/
-class SecureData{
+class SecureData : public RootData{
 
 public:
 
 //Functions
-	bool TransferToFile(wxString strName);
-	bool TransferFromFile(wxString strName);
-	void TransferToForm(frmMain *window);
-	bool TransferFromForm(frmMain*window, bool blShowError);
+	bool TransferToFile();
+	bool TransferFromFile();
+	bool TransferToForm();
+	bool TransferFromForm();
 	void Output();
 
 	//Inline functions
@@ -33,19 +34,15 @@ public:
 
 	void SetFunction(wxString function) { strFunction = function; }
 	wxString GetFunction() { return strFunction; }
-
-	void SetPass(wxString pass) { strPass = pass; }
-	wxString GetPass() { return strPass; }
-
+	
+	bool Execute(Rules rules);
+	bool NeedsPassword() { return true; }
 
 private:
 	//List of locations to secure, inlcuding files and folders
 	wxArrayString arrLocations;
 	//Encrypt or decrypt
 	wxString strFunction;
-	//A single copy of the apssword, checking is done by the gui
-	wxString strPass;
-
 };
 
 #endif

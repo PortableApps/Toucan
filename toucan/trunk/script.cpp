@@ -83,6 +83,17 @@ bool ScriptManager::Validate(){
 			}
 		}
 	}
+	
+	if(blPassNeeded){
+		wxString strPass = InputPassword();
+		if(strPass == wxEmptyString){
+			CleanUp();
+			return false;
+		}
+		else{
+			m_Password = strPass;
+		}
+	}	
 	if(blParseError){
 		return false;
 	}
@@ -111,11 +122,9 @@ bool ScriptManager::ParseCommand(int i){
 	}
 	
 	data->TransferFromFile();
-	
-	if(data->NeedsPassword() == true){
-		data->SetPassword(InputPassword());
-	}	
-	
+	if(data->NeedsPassword()){
+		data->SetPassword(m_Password);
+	}
 	
 	Rules rules;
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -129,31 +138,7 @@ bool ScriptManager::ParseCommand(int i){
 	
 	return true;	
 	
-	/*else if(strToken == wxT("Secure")){
-		SecureData data;
-		if(m_Password != wxEmptyString){
-			data.SetPass(m_Password);						
-		}
-		//Ensure the data is filled
-		wxString strJob = tkz.GetNextToken();
-		if(!data.TransferFromFile(strJob)){
-			CleanUp();
-			return false;
-		}
-		Rules rules;
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-		if (config->Read(strJob + wxT("/Rules")) != wxEmptyString) {
-			rules.TransferFromFile(config->Read(strJob + wxT("/Rules")));
-		}
-		delete config;
-		for(unsigned int i = 0; i < data.GetLocations().GetCount(); i++){
-			data.SetLocation(i, Normalise(data.GetLocation(i)));
-			data.SetLocation(i, Normalise(data.GetLocation(i)));
-		}
-		//Call the secure function
-		Secure(data, rules, m_ProgressWindow);
-	}
-	else if(strToken == _("Delete")){
+	/*else if(strToken == _("Delete")){
 		wxString strSource = tkz.GetNextToken();
 		if(wxRemoveFile(strSource)){
 			OutputProgress(_("Deleted ") +strSource + wxT("\n"));	
@@ -215,6 +200,19 @@ bool ScriptManager::CleanUp(){
 	wxDateTime now = wxDateTime::Now();
 	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
 	OutputProgress(_("Finished"));
+	
+	//Remove finished jobs
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	if (config->HasGroup(wxT("LastSyncJob"))){
+		config->DeleteGroup(wxT("LastSyncJob"));
+	}
+	if (config->HasGroup(wxT("LastBackupJob"))){
+		config->DeleteGroup(wxT("LastBackupJob"));
+	}
+	if (config->HasGroup(wxT("LastSecureJob"))){
+		config->DeleteGroup(wxT("LastSecureJob"));
+	}
+	delete config;
 	return true;	
 }
 

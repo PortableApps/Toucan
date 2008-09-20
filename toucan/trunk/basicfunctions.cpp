@@ -202,6 +202,7 @@ wxArrayString GetTranslatorNames(){
 }
 
 wxString InputPassword(){
+
 	wxString strNewPass;
 	if(wxGetApp().blGUI == true){
 		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
@@ -286,7 +287,7 @@ wxString InputPassword(){
 				return wxT("Password not needed");
 			}
 		}
-		else if(cmdParser.GetParam(0) = wxT("Secure")){
+		else if(cmdParser.GetParam(0) == wxT("Secure")){
 			if(cmdParser.GetParamCount() == 6){
 				if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
 					return cmdParser.GetParam(4);
@@ -297,7 +298,7 @@ wxString InputPassword(){
 				}
 			}
 		}
-		else if(cmdParser.GetParam(0) = wxT("Backup")){
+		else if(cmdParser.GetParam(0) == wxT("Backup")){
 			if(cmdParser.GetParamCount() == 9){
 				if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
 					return cmdParser.GetParam(7);

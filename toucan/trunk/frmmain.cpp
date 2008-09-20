@@ -1217,17 +1217,19 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 	this->SetCursor(cursor);
 	//Create the securedata and fill it, surpressing any warning as the user may want to save before finished
 	SecureData data;
-	if (data.TransferFromForm(this, false)) {
-		if (m_Secure_Job_Select->GetStringSelection() != wxEmptyString) {
-			data.TransferToFile(m_Secure_Job_Select->GetStringSelection());
-		} else {
+	data.SetName(m_Secure_Job_Select->GetStringSelection());
+	if (data.TransferFromForm()) {
+		if(data.GetName() != wxEmptyString){
+			data.TransferToFile();
+		} 
+		else{
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
 	//Create a new fileconfig and write the extra fields to it
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
-	config->Write(m_Secure_Job_Select->GetStringSelection() + wxT("/Type"),  wxT("Secure"));
+	config->Write(data.GetName() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
+	config->Write(data.GetName() + wxT("/Type"),  wxT("Secure"));
 	delete config;
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
@@ -1274,10 +1276,11 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	SecureData data;
-	if (data.TransferFromFile(m_Secure_Job_Select->GetStringSelection())) {
-		data.TransferToForm(this);
+	data.SetName(m_Sync_Job_Select->GetStringSelection());
+	if(data.TransferFromFile()){
+		data.TransferToForm();
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		m_Secure_Rules->SetStringSelection(config->Read(m_Secure_Job_Select->GetStringSelection() + wxT("/Rules")));
+		m_Secure_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
 		delete config;
 	}
 	wxCursor stdcursor(wxCURSOR_ARROW);
@@ -1667,8 +1670,9 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 void frmMain::OnSecureOKClick(wxCommandEvent& event)
 {
 	SecureData data;
-	if (data.TransferFromForm(this, true)) {
-		if(data.TransferToFile(wxT("LastSecureJob"))){
+	data.SetName(wxT("LastSecureJob"));
+	if (data.TransferFromForm()) {
+		if(data.TransferToFile()){
 			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 			config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
 			config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
@@ -1677,7 +1681,6 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 			wxGetApp().SetAbort(false);
 			wxGetApp().m_Script->SetScript(arrScript);
 			wxGetApp().m_Script->Execute();
-			config->DeleteGroup(wxT("LastSecureJob"));
 			delete config;
 		}
 	}
