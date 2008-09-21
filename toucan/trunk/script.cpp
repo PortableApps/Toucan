@@ -120,25 +120,11 @@ bool ScriptManager::ParseCommand(int i){
 		data = new BackupData();
 		data->SetName(wxT("LastBackupJob"));
 	}
-	
-	data->TransferFromFile();
-	if(data->NeedsPassword()){
-		data->SetPassword(m_Password);
+	else if(strToken == wxT("Secure")){
+		data = new SecureData();
+		data->SetName(wxT("LastSecureJob"));
 	}
-	
-	Rules rules;
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-	if (config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
-		rules.TransferFromFile(config->Read(data->GetName() + wxT("/Rules")));
-	}
-	delete config;
-	
-
-	data->Execute(rules);
-	
-	return true;	
-	
-	/*else if(strToken == _("Delete")){
+	else if(strToken == _("Delete")){
 		wxString strSource = tkz.GetNextToken();
 		if(wxRemoveFile(strSource)){
 			OutputProgress(_("Deleted ") +strSource + wxT("\n"));	
@@ -146,6 +132,9 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
 		}
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+		wxPostEvent(wxGetApp().MainWindow, event);	
+		return true;
 	}
 	else if(strToken == _("Move")){
 		wxString strSource = tkz.GetNextToken();
@@ -162,6 +151,9 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to move ") +strSource + wxT("\n"));		
 		}
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+		wxPostEvent(wxGetApp().MainWindow, event);	
+		return true;
 	}
 	else if(strToken == _("Copy")){
 		wxString strSource = tkz.GetNextToken();
@@ -173,12 +165,37 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
 		}
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+		wxPostEvent(wxGetApp().MainWindow, event);	
+		return true;
 	}
 	else if(strToken == _("Execute")){
 		wxString strExecute = tkz.GetNextToken();
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
-	}*/
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+		wxPostEvent(wxGetApp().MainWindow, event);	
+		return true;
+	}
+	
+	if(!data->TransferFromFile()){
+		CleanUp();
+	}
+	if(data->NeedsPassword()){
+		data->SetPassword(m_Password);
+	}
+	
+	Rules rules;
+	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	if (config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
+		rules.TransferFromFile(config->Read(data->GetName() + wxT("/Rules")));
+	}
+	delete config;
+	
+
+	data->Execute(rules);
+	
+	return true;	
 }
 
 bool ScriptManager::Execute(){
