@@ -1,5 +1,3 @@
-;THIS IS A SPECIALIZED VERSION OF THE PORTABLEAPPS.COM INSTALLER AND SHOULD NOT BE USED WITH OTHER APPS
-
 ;Copyright 2007-2008 John T. Haller of PortableApps.com
 
 ;Website: http://PortableApps.com/
@@ -23,8 +21,13 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-!define PORTABLEAPPSINSTALLERVERSION "0.10.1.0"
-!include PortableApps.comInstallerConfig.nsh
+!define PORTABLEAPPSINSTALLERVERSION "0.10.4.0"
+
+!if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
+	!include PortableApps.comInstallerPluginConfig.nsh
+!else
+	!include PortableApps.comInstallerConfig.nsh
+!endif
 
 !define MAINSECTIONIDX 0
 !ifdef MAINSECTIONTITLE
@@ -118,24 +121,8 @@ BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
 !insertmacro MUI_PAGE_FINISH
 
 ;=== Languages
-;=== THESE BITS WERE ADDED AND ARE NOT YET PART OF THE PORTABLEAPPS.COM INSTALLER
-!insertmacro MUI_LANGUAGE "English"
-!include PortableApps.comInstallerLANG_ENGLISH.nsh
-!insertmacro MUI_LANGUAGE "Dutch"
-!include PortableApps.comInstallerLANG_DUTCH.nsh
-!insertmacro MUI_LANGUAGE "Estonian"
-!include PortableApps.comInstallerLANG_ESTONIAN.nsh
-!insertmacro MUI_LANGUAGE "French"
-!include PortableApps.comInstallerLANG_FRENCH.nsh
-!insertmacro MUI_LANGUAGE "German"
-!include PortableApps.comInstallerLANG_GERMAN.nsh
-!insertmacro MUI_LANGUAGE "Russian"
-!include PortableApps.comInstallerLANG_RUSSIAN.nsh
-!insertmacro MUI_LANGUAGE "Spanish"
-!include PortableApps.comInstallerLANG_SPANISH.nsh
-
-!insertmacro MUI_RESERVEFILE_LANGDLL
-;=== END ADDED BITS
+!insertmacro MUI_LANGUAGE "${INSTALLERLANGUAGE}"
+!include PortableApps.comInstallerLANG_${INSTALLERLANGUAGE}.nsh
 
 ;=== Variables
 Var FOUNDPORTABLEAPPSPATH
@@ -145,29 +132,14 @@ Var FOUNDPORTABLEAPPSPATH
 
 ;=== Custom Code
 !ifdef USESCUSTOMCODE
-	!include PortableApps.comInstallerCustom.nsh
+	!if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
+		!include PortableApps.comInstallerPluginCustom.nsh
+	!else
+		!include PortableApps.comInstallerCustom.nsh
+	!endif
 !endif
 
 Function .onInit
-	;=== THESE BITS WERE ADDED AND ARE NOT YET PART OF THE PORTABLEAPPS.COM INSTALLER
-	ReadEnvStr $0 "PortableApps.comLocaleID"
-	StrCmp $0 "1061" SetLanguageFromEnvironment ;Estonian
-	StrCmp $0 "1034" SetLanguageFromEnvironment ;Spanish
-	StrCmp $0 "1049" SetLanguageFromEnvironment ;Russian
-	StrCmp $0 "1043" SetLanguageFromEnvironment ;Dutch
-	StrCmp $0 "1031" SetLanguageFromEnvironment ;German
-	StrCmp $0 "1036" SetLanguageFromEnvironment ;French
-	StrCmp $0 "1033" SetLanguageFromEnvironment ShowLanguageSelector ;English
-	
-	SetLanguageFromEnvironment:
-		StrCpy $LANGUAGE $0
-		Goto GetCommandLineOptions
-
-	ShowLanguageSelector:
-		!insertmacro MUI_LANGDLL_DISPLAY
-
-	GetCommandLineOptions:
-	;=== END ADDED BITS
 	${GetOptions} "$CMDLINE" "/DESTINATION=" $R0
 
 	IfErrors CheckLegacyDestination
@@ -543,7 +515,9 @@ FunctionEnd
 	!endif
 	;=== END: PRE-INSTALL CODE ===
 	
-	File "..\..\*.*"
+	!ifndef PLUGININSTALLER
+		File "..\..\*.*"
+	!endif
 	SetOutPath $INSTDIR\App
 	File /r "..\..\App\*.*"
 	SetOutPath $INSTDIR\Other
@@ -591,15 +565,15 @@ SectionEnd
 
 	Section "-UpdateAppInfo" SecUpdateAppInfo
 		StrCmp $OPTIONAL1DONE "true" SecUpdateAppInfoOptionalSelected
-			StrCmp ${OPTIONALSECTIONNOTSELECTEDAPPINFOSUFFIX} "" SecUpdateAppInfoTheEnd
+			StrCmp "${OPTIONALSECTIONNOTSELECTEDAPPINFOSUFFIX}" "" SecUpdateAppInfoTheEnd
 				ReadINIStr $0 "$INSTDIR\App\AppInfo\appinfo.ini" "Version" "DisplayVersion"
-				WriteINIStr $INSTDIR\App\AppInfo\appinfo.ini" "Version" "DisplayVersion" "$0 ${OPTIONALSECTIONNOTSELECTEDAPPINFOSUFFIX}"
+				WriteINIStr "$INSTDIR\App\AppInfo\appinfo.ini" "Version" "DisplayVersion" "$0 ${OPTIONALSECTIONNOTSELECTEDAPPINFOSUFFIX}"
 			Goto SecUpdateAppInfoTheEnd
 
 		SecUpdateAppInfoOptionalSelected:
-			StrCmp ${OPTIONALSECTIONSELECTEDAPPINFOSUFFIX} "" SecUpdateAppInfoTheEnd
+			StrCmp "${OPTIONALSECTIONSELECTEDAPPINFOSUFFIX}" "" SecUpdateAppInfoTheEnd
 				ReadINIStr $0 "$INSTDIR\App\AppInfo\appinfo.ini" "Version" "DisplayVersion"
-				WriteINIStr $INSTDIR\App\AppInfo\appinfo.ini" "Version" "DisplayVersion" "$0 ${OPTIONALSECTIONSELECTEDAPPINFOSUFFIX}"
+				WriteINIStr "$INSTDIR\App\AppInfo\appinfo.ini" "Version" "DisplayVersion" "$0 ${OPTIONALSECTIONSELECTEDAPPINFOSUFFIX}"
 		SecUpdateAppInfoTheEnd:
 	SectionEnd
 

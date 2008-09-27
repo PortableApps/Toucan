@@ -26,13 +26,13 @@
 ;cleanup when the optional features are not selected is needed, it can be included in the
 ;PortableApps.comInstallerCustom.nsi which is detailed within that file.
 
-;LAST UPDATED FOR INSTALLER VERSION: 0.10
+;LAST UPDATED FOR INSTALLER VERSION: 0.10.4
 
 ;== Basic Information.  Basic information about the portable app
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
-!define VERSION "2.0.0.0"
-!define FILENAME "Toucan_2.0"
+!define VERSION "2.0.1.0"
+!define FILENAME "Toucan_2.0.1"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins
