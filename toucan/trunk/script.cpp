@@ -181,6 +181,10 @@ bool ScriptManager::ParseCommand(int i){
 	if(!data->TransferFromFile()){
 		CleanUp();
 	}
+	if(!data->NeededFieldsFilled()){
+		ErrorBox(_("Not all of the required fields are filled"));
+		CleanUp();
+	}
 	if(data->NeedsPassword()){
 		data->SetPassword(m_Password);
 	}
