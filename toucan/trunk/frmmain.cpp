@@ -1215,7 +1215,6 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 {
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
-	//Create the securedata and fill it, surpressing any warning as the user may want to save before finished
 	SecureData data;
 	data.SetName(m_Secure_Job_Select->GetStringSelection());
 	if (data.TransferFromForm()) {
@@ -1508,19 +1507,24 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 	SyncData data;
 	data.SetName(wxT("LastSyncJob"));
 	if (data.TransferFromForm()){
-		if(data.TransferToFile()){
-			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
-			config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
-			config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
-			config->Flush();
-			delete config;
-			
-			wxArrayString arrScript;
-			arrScript.Add(wxT("Sync \"LastSyncJob\""));
-			wxGetApp().SetAbort(false);
-			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->Execute();
+		if(data.NeededFieldsFilled()){
+			if(data.TransferToFile()){
+				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
+				config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
+				config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
+				config->Flush();
+				delete config;
+				
+				wxArrayString arrScript;
+				arrScript.Add(wxT("Sync \"LastSyncJob\""));
+				wxGetApp().SetAbort(false);
+				wxGetApp().m_Script->SetScript(arrScript);
+				wxGetApp().m_Script->Execute();
 
+			}
+		}
+		else{
+			ErrorBox(_("Not all of the required fields are filled"));
 		}
 	}
 }
@@ -1585,18 +1589,23 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 	BackupData data;
 	data.SetName(wxT("LastBackupJob"));
 	if(data.TransferFromForm()){
-		if(data.TransferToFile()){
-			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-			config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
-			config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
-			config->Flush();
-			delete config;
-			
-			wxArrayString arrScript;
-			arrScript.Add(wxT("Backup \"LastBackupJob\""));
-			wxGetApp().SetAbort(false);
-			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->Execute();
+		if(data.NeededFieldsFilled()){
+			if(data.TransferToFile()){
+				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+				config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
+				config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
+				config->Flush();
+				delete config;
+				
+				wxArrayString arrScript;
+				arrScript.Add(wxT("Backup \"LastBackupJob\""));
+				wxGetApp().SetAbort(false);
+				wxGetApp().m_Script->SetScript(arrScript);
+				wxGetApp().m_Script->Execute();
+			}
+		}
+		else{
+			ErrorBox(_("Not all of the required fields are filled"));
 		}
 	}
 }
@@ -1672,16 +1681,21 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 	SecureData data;
 	data.SetName(wxT("LastSecureJob"));
 	if (data.TransferFromForm()) {
-		if(data.TransferToFile()){
-			wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-			config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
-			config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
-			wxArrayString arrScript;
-			arrScript.Add(wxT("Secure \"LastSecureJob\""));
-			wxGetApp().SetAbort(false);
-			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->Execute();
-			delete config;
+		if(data.NeededFieldsFilled()){
+			if(data.TransferToFile()){
+				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+				config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
+				config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
+				wxArrayString arrScript;
+				arrScript.Add(wxT("Secure \"LastSecureJob\""));
+				wxGetApp().SetAbort(false);
+				wxGetApp().m_Script->SetScript(arrScript);
+				wxGetApp().m_Script->Execute();
+				delete config;
+			}
+		}
+		else{
+			ErrorBox(_("Not all of the required fields are filled"));
 		}
 	}
 	m_Secure_DirCtrl->ReCreateTree();

@@ -92,21 +92,13 @@ bool SyncData::TransferToForm(){
 
 bool SyncData::TransferFromForm(){
 	frmMain *window = wxGetApp().MainWindow;
-	bool blNotFilled = false;
-	if(window->m_Sync_Source_Txt->GetValue() != wxEmptyString){ SetSource(window->m_Sync_Source_Txt->GetValue()); }
-	else{ blNotFilled = true; }
-	if(window->m_Sync_Dest_Txt->GetValue() != wxEmptyString){ SetDest(window->m_Sync_Dest_Txt->GetValue()); }
-	else{ blNotFilled = true; }
-	if(window->m_Sync_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Sync_Function->GetStringSelection()); }
-	else{ blNotFilled = true; }
+	SetSource(window->m_Sync_Source_Txt->GetValue());
+	SetDest(window->m_Sync_Dest_Txt->GetValue());
+	SetFunction(window->m_Sync_Function->GetStringSelection());
 	SetTimeStamps(window->m_Sync_Timestamp->GetValue());
 	SetAttributes(window->m_Sync_Attributes->GetValue());
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
-	if(blNotFilled){
-		ErrorBox(_("Not all of the required fields are filled"));
-		return false;
-	}
 	return true;	
 }
 
@@ -135,3 +127,18 @@ bool SyncData::Execute(Rules rules){
 	thread->Run();
 	return true;
 }
+
+bool SyncData::NeededFieldsFilled(){
+	bool blFilled = true;
+	if(GetSource() == wxEmptyString){
+		blFilled = false;
+	}
+	if(GetDest() == wxEmptyString){
+		blFilled = false;
+	}
+	if(GetFunction() == wxEmptyString){
+		blFilled = false;
+	}
+	return blFilled;
+}
+	

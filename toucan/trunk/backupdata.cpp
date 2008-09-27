@@ -114,27 +114,13 @@ bool BackupData::TransferToForm(){
 Main program window.*/
 bool BackupData::TransferFromForm(){
 	frmMain *window = wxGetApp().MainWindow;
-	wxString strPass, strRepass = wxEmptyString;
 
-	bool blNotFilled = false;
-	//Set the intenal file list as the global list, ensuring that there are items to backup
 	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
-	if(GetLocations().GetCount() == 0){ blNotFilled = true; }
-
-	//Get the items from the form, ensuring that they are filled
-	if(window->m_Backup_Location->GetValue() != wxEmptyString){ SetBackupLocation(window->m_Backup_Location->GetValue()); }
-	else{ blNotFilled = true; }	
-	if(window->m_Backup_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Backup_Function->GetStringSelection()); }
-	else{ blNotFilled = true; }
-	if(window->m_Backup_Format->GetStringSelection() != wxEmptyString){ SetFormat(window->m_Backup_Format->GetStringSelection()) ; }
-	else{ blNotFilled = true; }
+	SetBackupLocation(window->m_Backup_Location->GetValue()); 
+	SetFunction(window->m_Backup_Function->GetStringSelection()); 
+	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
 	SetRatio(window->m_Backup_Ratio->GetValue());
 	IsPassword = window->m_Backup_IsPass->GetValue();
-	//Output an error message if the fields are not filled
-	if(blNotFilled){
-		ErrorBox(_("Not all of the required fields are filled"));
-		return false;
-	}
 	return true;	
 }
 
@@ -298,4 +284,21 @@ bool BackupData::Execute(Rules rules){
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 	wxPostEvent(wxGetApp().MainWindow, event);	
 	return true;
+}
+
+bool BackupData::NeededFieldsFilled(){
+	bool blFilled = true;
+	if(arrLocations.Count() == 0){
+		blFilled = false;
+	}
+	if(GetBackupLocation() == wxEmptyString){
+		blFilled = false;
+	}
+	if(GetFunction() == wxEmptyString){
+		blFilled = false;
+	}
+	if(GetFormat() == wxEmptyString){
+		blFilled = false;
+	}
+	return blFilled;
 }

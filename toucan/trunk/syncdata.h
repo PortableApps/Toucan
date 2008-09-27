@@ -27,6 +27,8 @@ public:
 	bool Execute(Rules rules);
 	
 	bool NeedsPassword() { return false; }
+	
+	bool NeededFieldsFilled();
 
 	//Inline functions
 	void SetSource(wxString source) { strSource = source; }

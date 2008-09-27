@@ -22,6 +22,8 @@ public:
 	bool TransferFromFile();
 	bool TransferToForm();
 	bool TransferFromForm();
+	
+	bool NeededFieldsFilled();
 
 	void Output();
 	

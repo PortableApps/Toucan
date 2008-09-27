@@ -84,22 +84,10 @@ bool SecureData::TransferToForm(){
 Main program window.*/
 bool SecureData::TransferFromForm(){
 	frmMain *window = wxGetApp().MainWindow;
-	bool blNotFilled = false;
-	wxString strPass, strRepass;
 
-	//Set the global secure path lists and make sure there are some locations
 	SetLocations(*wxGetApp().MainWindow->m_SecureLocations);
-	if(GetLocations().GetCount() == 0){ blNotFilled = true; }
+	SetFunction(window->m_Secure_Function->GetStringSelection());
 
-	//Get the function, ensuring something is selected
-	if(window->m_Secure_Function->GetStringSelection() != wxEmptyString){ SetFunction(window->m_Secure_Function->GetStringSelection()); }
-	else{ blNotFilled = true; }
-
-	//Output an error message if needed
-	if(blNotFilled){
-		ErrorBox(_("Not all of the required fields are filled"));
-		return false;
-	}
 	return true;	
 }
 
@@ -122,3 +110,14 @@ bool SecureData::Execute(Rules rules){
 	return true;
 }
 
+
+bool SecureData::NeededFieldsFilled(){
+	bool blFilled = true;
+	if(arrLocations.Count() == 0){
+		blFilled = false;
+	}
+	if(GetFunction() == wxEmptyString){
+		blFilled = false;
+	}
+	return blFilled;
+}

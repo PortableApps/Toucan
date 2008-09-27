@@ -31,6 +31,8 @@ public:
 	
 	virtual bool NeedsPassword() = 0;
 	
+	virtual bool NeededFieldsFilled() = 0;
+	
 	void SetName(wxString name) { m_Name = name; }
 	wxString GetName(){ return m_Name; }
 	

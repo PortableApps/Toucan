@@ -24,6 +24,8 @@ public:
 	bool TransferToForm();
 	bool TransferFromForm();
 	void Output();
+	
+	bool NeededFieldsFilled();
 
 	//Inline functions
 	void SetLocations(wxArrayString locations) { arrLocations = locations; }
