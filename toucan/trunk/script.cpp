@@ -114,15 +114,18 @@ bool ScriptManager::ParseCommand(int i){
 	
 	if(strToken == wxT("Sync")){
 		data = new SyncData();
-		data->SetName(wxT("LastSyncJob"));
+		strToken = tkz.GetNextToken();
+		data->SetName(strToken);
 	}	
 	else if(strToken == wxT("Backup")){
 		data = new BackupData();
-		data->SetName(wxT("LastBackupJob"));
+		strToken = tkz.GetNextToken();
+		data->SetName(strToken);
 	}
 	else if(strToken == wxT("Secure")){
 		data = new SecureData();
-		data->SetName(wxT("LastSecureJob"));
+		strToken = tkz.GetNextToken();
+		data->SetName(strToken);
 	}
 	else if(strToken == _("Delete")){
 		wxString strSource = tkz.GetNextToken();
