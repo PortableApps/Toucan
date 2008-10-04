@@ -191,6 +191,9 @@ public:
 	/// Creates the controls and sizers
 	void CreateControls();
 	
+	//Set up the title bar test
+	void SetTitleBarText();
+	
 	//Sync
 	void OnSyncOKClick(wxCommandEvent& event);
 	void OnSyncPreviewClick(wxCommandEvent& event);
@@ -272,6 +275,7 @@ public:
 	void OnHelpClick(wxCommandEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
 	void OnScriptFinish(wxCommandEvent& event);
+	void OnTabChanged(wxAuiNotebookEvent& event); 
 	
 	//Menu
 	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);

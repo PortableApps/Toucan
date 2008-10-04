@@ -8,6 +8,7 @@
 #include <wx/aboutdlg.h>
 #include <wx/fileconf.h>
 #include <wx/textctrl.h>
+#include <wx/aui/auibook.h>
 #include <wx/wx.h>
 
 #include "toucan.h"
@@ -112,6 +113,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
+	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
 	
 	//Menu
 	EVT_MENU(ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION, frmMain::OnMenuSyncSourceFileExcludeExtensionClick)
@@ -1202,7 +1204,7 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 			m_Rules_FolderExclude->Append(rules.GetFoldersToExclude().Item(k));
 		}
 	}
-
+	SetTitleBarText();
 }
 
 
@@ -1282,6 +1284,7 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 		m_Secure_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
 		delete config;
 	}
+	SetTitleBarText();
 	wxCursor stdcursor(wxCURSOR_ARROW);
 	this->SetCursor(stdcursor);
 }
@@ -1390,6 +1393,7 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 		m_Sync_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
 		delete config;
 	}
+	SetTitleBarText();
 	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(stdcursor);
 }
@@ -1494,6 +1498,7 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 		delete config;
 	}
 	SetSliderText();
+	SetTitleBarText();
 	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(stdcursor);
 }
@@ -1796,6 +1801,7 @@ void frmMain::OnPvarNameSelected(wxCommandEvent& event)
     }
 	m_Pvar_List->SetColumnWidth(0, -1);
 	m_Pvar_List->SetColumnWidth(1, -1);
+	SetTitleBarText();
     delete config;
 }
 
@@ -1889,6 +1895,7 @@ void frmMain::OnScriptSelected(wxCommandEvent& event)
 		m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\r\n"));
 	}
 	m_Script_Rich->AppendText(arrContents.Item(i));
+	SetTitleBarText();
 	delete config;	
 }
 
@@ -2309,3 +2316,62 @@ void frmMain::OnScriptFinish(wxCommandEvent& event){
 		wxGetApp().m_Script->CleanUp();
 	}
 }
+
+void frmMain::OnTabChanged(wxAuiNotebookEvent& event){
+	SetTitleBarText();
+}
+
+void frmMain::SetTitleBarText(){
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")){
+		if(m_Sync_Job_Select->GetStringSelection() != wxEmptyString){
+			this->SetTitle(wxT("Toucan - ") + m_Sync_Job_Select->GetStringSelection());
+		}
+		else{
+			this->SetTitle(wxT("Toucan"));	
+		}
+	}
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
+		if(m_Backup_Job_Select->GetStringSelection() != wxEmptyString){
+			this->SetTitle(wxT("Toucan - ") + m_Backup_Job_Select->GetStringSelection());
+		}
+		else{
+			this->SetTitle(wxT("Toucan"));	
+		}
+	}
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
+		if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString){
+			this->SetTitle(wxT("Toucan - ") + m_Secure_Job_Select->GetStringSelection());
+		}
+		else{
+			this->SetTitle(wxT("Toucan"));	
+		}
+	}
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Script")){
+		if(m_Script_Name->GetStringSelection() != wxEmptyString){
+			this->SetTitle(wxT("Toucan - ") + m_Script_Name->GetStringSelection());
+		}
+		else{
+			this->SetTitle(wxT("Toucan"));	
+		}
+	}
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Rules")){
+		if(m_Rules_Combo->GetStringSelection() != wxEmptyString){
+			this->SetTitle(wxT("Toucan - ") + m_Rules_Combo->GetStringSelection());
+		}
+		else{
+			this->SetTitle(wxT("Toucan"));	
+		}
+	}
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Portable Variables")){
+		if(m_Pvar_Name->GetStringSelection() != wxEmptyString){
+			this->SetTitle(wxT("Toucan - ") + m_Pvar_Name->GetStringSelection());
+		}
+		else{
+			this->SetTitle(wxT("Toucan"));	
+		}
+	}	
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Settings")){
+		this->SetTitle(wxT("Toucan"));
+	}	
+}
+	
