@@ -9,8 +9,10 @@
 #include "backupprocess.h"
 #include "toucan.h"
 #include "waitthread.h"
+#include "basicfunctions.h"
 
 #include <wx/stdpaths.h>
+#include <wx/checkbox.h>
 
 /*!
  * frmRestore type definition
@@ -88,6 +90,7 @@ void frmRestore::Init()
 {
     m_File = NULL;
     m_Location = NULL;
+	m_IsPass = NULL;
 }
 
 
@@ -128,6 +131,9 @@ void frmRestore::CreateControls()
     wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
     itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+	m_IsPass = new wxCheckBox(itemDialog1, ID_ISPASS, _("Password"));
+    itemBoxSizer2->Add(m_IsPass, 0, wxALL, 10);
+
     wxStdDialogButtonSizer* itemStdDialogButtonSizer11 = new wxStdDialogButtonSizer;
 
     itemBoxSizer2->Add(itemStdDialogButtonSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -149,45 +155,57 @@ void frmRestore::CreateControls()
 
 void frmRestore::OnOkClick( wxCommandEvent& event )
 {
-	frmProgress *window = wxGetApp().ProgressWindow;
-	window->m_Text->Clear();
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
-    delete wxLog::SetActiveTarget(logTxt);
-	//Set up the buttons on the progress box
-	window->m_OK->Enable(false);
-	window->m_Save->Enable(false);
-	window->m_Cancel->Enable(true);
-	
-	window->m_Text->AppendText(_("Starting...\n"));
-	wxDateTime now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	//Show the window
-	window->Update();
-	//Create the data sets and fill them
-	wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r");	
-	
-	window->Show();
-	window->Refresh();
-	window->Update();
+	if(m_File->GetValue() != wxEmptyString && m_Location->GetValue() != wxEmptyString){
+		wxString strPass;
+		if(m_IsPass->IsChecked()){
+			strPass = InputPassword();
+			if(strPass == wxEmptyString){
+				return;
+			}
+			else{
+				strPass = wxT(" -p") + strPass;
+			}
+		}
+		frmProgress *window = wxGetApp().ProgressWindow;
+		window->m_Text->Clear();
+		//Send all errors to the text control
+		//wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
+		//delete wxLog::SetActiveTarget(logTxt);
+		//Set up the buttons on the progress box
+		window->m_OK->Enable(false);
+		window->m_Save->Enable(false);
+		window->m_Cancel->Enable(true);
+		
+		window->m_Text->AppendText(_("Starting...\n"));
+		wxDateTime now = wxDateTime::Now();
+		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+		//Show the window
+		window->Update();
+		//Create the data sets and fill them
+		wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r") + strPass;	
+		
+		window->Show();
+		window->Refresh();
+		window->Update();
 
-	//Cretae the process, execute it
-	PipedProcess *process = new PipedProcess(window);
-	long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-	process->SetRealPid(lgPID);
-	WaitThread *thread = new WaitThread(lgPID, process);
-	thread->Create();
-	thread->Run();
-	thread->Wait();
-	while(process->HasInput())
-		;
-	window->m_OK->Enable(true);
-	window->m_Save->Enable(true);
-	window->m_Cancel->Enable(false);
-	now = wxDateTime::Now();
-	window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	window->m_Text->AppendText(_("Finished"));
-	wxGetApp().SetAbort(false);
+		//Cretae the process, execute it
+		PipedProcess *process = new PipedProcess(window);
+		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+		process->SetRealPid(lgPID);
+		WaitThread *thread = new WaitThread(lgPID, process);
+		thread->Create();
+		thread->Run();
+		thread->Wait();
+		while(process->HasInput())
+			;
+		window->m_OK->Enable(true);
+		window->m_Save->Enable(true);
+		window->m_Cancel->Enable(false);
+		now = wxDateTime::Now();
+		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+		window->m_Text->AppendText(_("Finished"));
+		wxGetApp().SetAbort(false);
+	}
 }
 
 

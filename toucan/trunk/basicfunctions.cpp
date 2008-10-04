@@ -202,7 +202,6 @@ wxArrayString GetTranslatorNames(){
 }
 
 wxString InputPassword(){
-
 	wxString strNewPass;
 	if(wxGetApp().blGUI == true){
 		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
