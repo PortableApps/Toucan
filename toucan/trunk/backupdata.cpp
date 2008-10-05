@@ -230,9 +230,16 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 			//If it is a file
 			else{
 				if(rules.ShouldExclude(strPath + strFilename, false)){
-					wxString strCombined = strPath + strFilename;
-					strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
-					file->AddLine(strCombined);
+					if(iRootLength == 0){
+						wxString strCombined = strPath + strFilename;
+						strCombined = strCombined.Right(strCombined.Length() - iRootLength - 3);
+						file->AddLine(strCombined);
+					}
+					else{
+						wxString strCombined = strPath + strFilename;
+						strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
+						file->AddLine(strCombined);
+					}
 				}
 			}
 		}
@@ -265,7 +272,7 @@ bool BackupData::Execute(Rules rules){
 		}
 		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
 		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-		
+
 		//Create the list of files to backup
 		OutputProgress(_("Creating an exclusions list, this may take some time."));
 		CreateList(file, rules, GetLocations().Item(i), strPath.Length());

@@ -1540,48 +1540,50 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 
 void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 {
-	wxString strPath = m_Sync_Source_Txt->GetValue();
-	/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
-	in the future in the vdtc code*/
-	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-		strPath = strPath.Left(strPath.Length() - 1); 
-	}
-	m_Sync_Source_Txt->SetValue(strPath);
-	strPath = m_Sync_Dest_Txt->GetValue();
-	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-		strPath = strPath.Left(strPath.Length() - 1); 
-	}
-	//Get the rules
-	
-	Rules rules;
-	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-	}
-	
-	m_Sync_Dest_Tree->SetRules(rules);
-	
-	//Set the other tree too incase it is a unidirectional function
-	m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
-	
-	m_Sync_Dest_Txt->SetValue(strPath);
-	m_Sync_Dest_Tree->DeleteAllItems();
-	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-	m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-	m_Sync_Dest_Tree->SetPreview(true);
-	m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
-	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-			
-	//Code for equalise function
-	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
-		m_Sync_Source_Tree->SetRules(rules);
-		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-		m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
-		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		wxString strPath = m_Sync_Source_Txt->GetValue();
+		/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
+		in the future in the vdtc code*/
+		if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+			strPath = strPath.Left(strPath.Length() - 1); 
+		}
+		m_Sync_Source_Txt->SetValue(strPath);
+		strPath = m_Sync_Dest_Txt->GetValue();
+		if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+			strPath = strPath.Left(strPath.Length() - 1); 
+		}
+		//Get the rules
+		
+		Rules rules;
+		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		}
+		
+		m_Sync_Dest_Tree->SetRules(rules);
+		
+		//Set the other tree too incase it is a unidirectional function
+		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
+		
+		m_Sync_Dest_Txt->SetValue(strPath);
+		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+		m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+		m_Sync_Dest_Tree->SetPreview(true);
+		m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
+		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+				
+		//Code for equalise function
+		if(m_Sync_Function->GetStringSelection() == _("Equalise")){
+			m_Sync_Source_Tree->SetRules(rules);
+			m_Sync_Source_Tree->DeleteAllItems();
+			m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+			m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+			m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+			m_Sync_Source_Tree->SetPreview(true);
+			m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
+			m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+		}
 	}
 }
 
@@ -1621,23 +1623,25 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 
 void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
 {
-	//Create a new rule set and populate it from the form
-	Rules rules;
-	if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
-		rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
+	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
+		//Create a new rule set and populate it from the form
+		Rules rules;
+		if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
+			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
+		}
+		//Set up the tree ctrl for previewing
+		m_Backup_TreeCtrl->SetPreview(true);
+		m_Backup_TreeCtrl->SetRules(rules);
+		//Delete all items and re-add the root
+		m_Backup_TreeCtrl->DeleteAllItems();
+		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+		for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++) {
+			//Loop through all the the filenames listed in the array and read them to the tree
+			m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
+		}
+		//Turn off preview
+		m_Secure_TreeCtrl->SetPreview(false);
 	}
-	//Set up the tree ctrl for previewing
-	m_Backup_TreeCtrl->SetPreview(true);
-	m_Backup_TreeCtrl->SetRules(rules);
-	//Delete all items and re-add the root
-	m_Backup_TreeCtrl->DeleteAllItems();
-	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
-	for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++) {
-		//Loop through all the the filenames listed in the array and read them to the tree
-		m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
-	}
-	//Turn off preview
-	m_Secure_TreeCtrl->SetPreview(false);
 }
 
 /*!
@@ -1712,29 +1716,26 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 
 void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
 {
-	//Create a new rule set and populate it from the form
-	Rules rules;
-	if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
+		//Create a new rule set and populate it from the form
+		Rules rules;
+		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
+			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+		}
+		//Set up the tree ctrl for previewing
+		m_Secure_TreeCtrl->SetPreview(true);
+		m_Secure_TreeCtrl->SetRules(rules);
+		//Delete all items and re-add the root
+		m_Secure_TreeCtrl->DeleteAllItems();
+		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+		for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
+			//Loop through all the the filenames listed in the array and readd them to the tree
+			m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
+		}
+		//Turn off preview
+		m_Secure_TreeCtrl->SetPreview(false);
 	}
-	//Set up the tree ctrl for previewing
-	m_Secure_TreeCtrl->SetPreview(true);
-	m_Secure_TreeCtrl->SetRules(rules);
-	//Delete all items and re-add the root
-	m_Secure_TreeCtrl->DeleteAllItems();
-	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
-	for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
-		//Loop through all the the filenames listed in the array and readd them to the tree
-		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
-	}
-	//Turn off preview
-	m_Secure_TreeCtrl->SetPreview(false);
 }
-
-///////////////////////////////////////////////////////////
-//The portable variables stuff, still under construction!//
-///////////////////////////////////////////////////////////
-
 
 void frmMain::OnPvarAddClick(wxCommandEvent& event)
 {	
