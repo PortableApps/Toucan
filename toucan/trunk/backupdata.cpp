@@ -27,7 +27,7 @@ bool BackupData::TransferFromFile(){
 	blError = config->Read(strName + wxT("/BackupLocation"), &strTemp);
 	if(blError){ SetBackupLocation(strTemp); }	
 	blError = config->Read(strName + wxT("/Locations"), &strTemp);
-	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
+	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
 	blError = config->Read(strName + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
 	blError = config->Read(strName + wxT("/Format"), &strTemp);
@@ -59,7 +59,7 @@ bool BackupData::TransferToFile(){
 	if(!config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
 		blError = true;
 	}
-	if(!config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")))){
+	if(!config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
 		blError = true;
 	}		
 	if(!config->Write(strName + wxT("/Function"), GetFunction())){

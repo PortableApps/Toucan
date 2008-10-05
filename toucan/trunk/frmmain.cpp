@@ -1889,7 +1889,7 @@ void frmMain::OnScriptSelected(wxCommandEvent& event)
 	m_Script_Rich->Clear();
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
-	wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
+	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
 	unsigned int i;
 	for(i = 0; i < arrContents.Count() - 1; i++){
 		m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\r\n"));
@@ -1906,7 +1906,7 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& event)
 		arrContents.Add(m_Script_Rich->GetLineText(i));
 	}
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
-	config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("#")));
+	config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("|")));
 	config->Flush();
 	delete config;
 	

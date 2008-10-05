@@ -113,7 +113,7 @@ bool ParseCommandLine(){
 	else if(cmdParser.GetParam(0) == wxT("Script")){
 		wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 		wxString strFile = config->Read(cmdParser.GetParam(1) + wxT("/") + wxT("Script"));
-		wxArrayString arrContents = StringToArrayString(strFile, wxT("#"));
+		wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
 		wxGetApp().m_Script->SetScript(arrContents);
 		wxGetApp().m_Script->Execute();
 	}

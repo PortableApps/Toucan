@@ -67,14 +67,37 @@ bool Toucan::OnInit()
 	m_Script = new ScriptManager();
 	
 	//Make sure the jobs file is up to date!
-	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	wxFileConfig *jobconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 	int version = 1;
-	config->Read(wxT("General/Version"), &version);
-	config->Write(wxT("General/Version"), 200);
-	delete config;
-	if(version < 200){
+	jobconfig->Read(wxT("General/Version"), &version);
+	jobconfig->Write(wxT("General/Version"), 202);
+	delete jobconfig;
+	if(version < 202){
 		UpdateJobs(version);
 	}	
+	
+	//Update the script file
+	wxFileConfig *scriptconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
+	version = 1;
+	scriptconfig->Read(wxT("General/Version"), &version);
+	scriptconfig->Write(wxT("General/Version"), 202);
+	delete scriptconfig;
+	if(version < 202){
+		UpdateRules(version);
+	}
+	
+	
+	//Update the rules file
+	wxFileConfig *rulesconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+	version = 1;
+	rulesconfig->Read(wxT("General/Version"), &version);
+	rulesconfig->Write(wxT("General/Version"), 202);
+	delete rulesconfig;
+	if(version < 202){
+		UpdateScripts(version);
+	}	
+	
+	
 	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
 	

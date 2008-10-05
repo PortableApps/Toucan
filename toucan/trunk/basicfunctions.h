@@ -44,5 +44,7 @@ void SetSliderText();
 
 //On each run of Toucan to ensure the jobs are up to date
 bool UpdateJobs(int version);
+bool UpdateRules(int version);
+bool UpdateScripts(int version);
 	
 #endif

@@ -118,11 +118,11 @@ bool Rules::TransferFromFile(wxString strName){
 	wxString strTemp;
 
 	config->Read(strName + wxT("/FilesToInclude"), &strTemp);
-	SetLocationsToInclude(StringToArrayString(strTemp, wxT("#")));	
+	SetLocationsToInclude(StringToArrayString(strTemp, wxT("|")));	
 	config->Read(strName + wxT("/FilesToExclude"), &strTemp);
-	SetFilesToExclude(StringToArrayString(strTemp, wxT("#"))); 	
+	SetFilesToExclude(StringToArrayString(strTemp, wxT("|"))); 	
 	config->Read(strName + wxT("/FoldersToExclude"), &strTemp);
-	SetFoldersToExclude(StringToArrayString(strTemp, wxT("#"))); 
+	SetFoldersToExclude(StringToArrayString(strTemp, wxT("|"))); 
 	delete config;
 	return true;
 }
@@ -132,9 +132,9 @@ bool Rules::TransferToFile(wxString strName){
 	
 	bool blError;
 	config->DeleteGroup(strName);
-	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetLocationsToInclude(), wxT("#")));	
-	blError = config->Write(strName + wxT("/FilesToExclude"), ArrayStringToString(GetFilesToExclude(), wxT("#")));	
-	blError = config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("#")));
+	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetLocationsToInclude(), wxT("|")));	
+	blError = config->Write(strName + wxT("/FilesToExclude"), ArrayStringToString(GetFilesToExclude(), wxT("|")));	
+	blError = config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("|")));
 	config->Flush();
 	delete config;
 	

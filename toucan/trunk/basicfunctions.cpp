@@ -89,7 +89,9 @@ bool SetRulesBox(wxComboBox *box){
 	//Iterate through the groups adding them to the box
 	blCont = config->GetFirstGroup(strValue, dummy);
 	while (blCont){
-		box->Append(strValue);
+		if(strValue != wxT("General")){
+			box->Append(strValue);
+		}
 		blCont = config->GetNextGroup(strValue, dummy);
 	}
 	//Delete the fileconfig object
@@ -106,7 +108,7 @@ bool SetJobsBox(wxComboBox *box, wxString strType){
 	//Iterate through all of the groups
 	blCont = config->GetFirstGroup(strValue, dummy);
 	while (blCont){
-		//If the group os of the correct type then add it to the combobox
+		//If the group is of the correct type then add it to the combobox
 		if(config->Read(strValue + wxT("/Type")) == strType){
 			box->Append(strValue);
 		}
@@ -147,7 +149,9 @@ bool SetScriptsBox(wxComboBox *box){
 	//Iterate through the groups adding them to the box
 	blCont = config->GetFirstGroup(strValue, dummy);
 	while (blCont){
-		box->Append(strValue);
+		if(strValue != wxT("General")){
+			box->Append(strValue);
+		}
 		blCont = config->GetNextGroup(strValue, dummy);
 	}
 	//Delete the fileconfig object
@@ -415,6 +419,106 @@ bool UpdateJobs(int version){
 				config->Flush();
 			}
 				
+			blCont = config->GetNextGroup(strValue, dummy);
+		}
+		//Delete the fileconfig object
+		config->Flush();
+		delete config;
+		version = 200;
+	}
+	if(version == 200){
+		//Create a fileconfig item
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+		bool blCont;
+		wxString strValue;
+		long dummy;
+		//Iterate through the groups adding them to the box
+		blCont = config->GetFirstGroup(strValue, dummy);
+		while (blCont){
+			if(config->Read(strValue + wxT("/Type")) == wxT("Backup")){
+				wxString strTemp;
+				strTemp = config->Read(strValue + wxT("/Locations"));
+				strTemp.Replace(wxT("#"), wxT("|"));		
+				config->Write(strValue + wxT("/Locations"), strTemp);
+				config->Flush();
+			}
+			else if(config->Read(strValue + wxT("/Type")) == wxT("Secure")){
+				wxString strTemp;
+				strTemp = config->Read(strValue + wxT("/Locations"));
+				strTemp.Replace(wxT("#"), wxT("|"));
+				config->Write(strValue + wxT("/Locations"), strTemp);
+				config->Flush();
+			}
+				
+			blCont = config->GetNextGroup(strValue, dummy);
+		}
+		//Delete the fileconfig object
+		config->Flush();
+		delete config;
+	}
+	return true;
+}
+
+bool UpdateRules(int version){
+	if(version == 1){
+		//Create a fileconfig item
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
+		bool blCont;
+		wxString strValue;
+		long dummy;
+		//Iterate through the groups adding them to the box
+		blCont = config->GetFirstGroup(strValue, dummy);
+		while (blCont){
+			if(strValue != wxT("General")){
+				if(config->Read(strValue + wxT("/FilesToInclude")) != wxEmptyString){
+					wxString strTemp;
+					strTemp = config->Read(strValue + wxT("/FilesToInclude"));
+					strTemp.Replace(wxT("#"), wxT("|"));
+					config->Write(strValue + wxT("/FilesToInclude"), strTemp);
+					config->Flush();
+				}	
+				if(config->Read(strValue + wxT("/FilesToExclude")) != wxEmptyString){
+					wxString strTemp;
+					strTemp = config->Read(strValue + wxT("/FilesToExclude"));
+					strTemp.Replace(wxT("#"), wxT("|"));
+					config->Write(strValue + wxT("/FilesToExclude"), strTemp);
+					config->Flush();
+				}	
+				if(config->Read(strValue + wxT("/FoldersToExclude")) != wxEmptyString){
+					wxString strTemp;
+					strTemp = config->Read(strValue + wxT("/FoldersToExclude"));
+					strTemp.Replace(wxT("#"), wxT("|"));
+					config->Write(strValue + wxT("/FoldersToExclude"), strTemp);
+					config->Flush();
+				}			
+			}
+			blCont = config->GetNextGroup(strValue, dummy);
+		}
+		//Delete the fileconfig object
+		config->Flush();
+		delete config;
+	}
+	return true;
+}
+
+bool UpdateScripts(int version){
+	if(version == 1){
+		//Create a fileconfig item
+		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+		bool blCont;
+		wxString strValue;
+		long dummy;
+		blCont = config->GetFirstGroup(strValue, dummy);
+		while (blCont){
+			if(strValue != wxT("General")){
+				if(config->Read(strValue + wxT("/Script")) != wxEmptyString){
+					wxString strTemp;
+					strTemp = config->Read(strValue + wxT("/Script"));
+					strTemp.Replace(wxT("#"), wxT("|"));
+					config->Write(strValue + wxT("/Script"), strTemp);
+					config->Flush();
+				}			
+			}
 			blCont = config->GetNextGroup(strValue, dummy);
 		}
 		//Delete the fileconfig object

@@ -22,7 +22,7 @@ bool SecureData::TransferFromFile(){
 
 	//Read the fields from the file, if the read works then add them
 	blError = config->Read(GetName() + wxT("/Locations"), &strTemp);
-	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("#"))); }	
+	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
 	blError = config->Read(GetName() + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
 	//Delete the fileconfig as we are finished with it	
@@ -45,7 +45,7 @@ bool SecureData::TransferToFile(){
 	//Delete a group if it already exists
 	blError = config->DeleteGroup(GetName());
 	//Write the fields to the ini file
-	blError = config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("#")));	
+	blError = config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")));	
 	blError = config->Write(GetName() + wxT("/Function"), GetFunction());	
 
 	//Write the contents to the file and then delete the fileconfig object
