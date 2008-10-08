@@ -631,14 +631,14 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 								}
 							}
 							//If there is a match
-							if(blExists){
+							/*if(blExists){
 								//If we shouldn't exclude it then set the item colour red to show it has been overwritten
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									items.Item(j)->SetColour(wxColour(wxT("Red")));
 								}
-							}
+							}*/
 							//There isnt a match so we need to add the new folder
-							else{
+							if(!blExists){
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
 									VdtcTreeItemBase *t = this->AddDirItem(strFilename);
 									t->SetColour(wxColour(wxT("Blue")));
