@@ -7,7 +7,7 @@
 #ifndef H_ROOTDATA
 #define H_ROOTDATA
 
-#include <wx\string.h>
+#include <wx/string.h>
 #include "frmmain.h"
 
 //This class serves as the basis for all of the data classes

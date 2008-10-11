@@ -8,12 +8,14 @@
 //#include "backupprocess.h"
 
 void *WaitThread::Entry(){
-	HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION,FALSE,m_PID);
-	DWORD lgReturn;
-	GetExitCodeProcess(hProcess, &lgReturn);
-	while(lgReturn == STILL_ACTIVE){
-		m_Process->HasInput();
+	#ifdef __WXMSW__
+		HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION,FALSE,m_PID);
+		DWORD lgReturn;
 		GetExitCodeProcess(hProcess, &lgReturn);
-	}
+		while(lgReturn == STILL_ACTIVE){
+			m_Process->HasInput();
+			GetExitCodeProcess(hProcess, &lgReturn);
+		}
+	#endif
 	return NULL;
 }

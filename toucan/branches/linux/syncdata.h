@@ -9,7 +9,7 @@
 
 #include "frmmain.h"
 #include "rootdata.h"
-#include <wx\string.h>
+#include <wx/string.h>
 
 
 class SyncData : public RootData{

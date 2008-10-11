@@ -105,21 +105,21 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 	wxArrayString arrOutput;
 
 	if(data.GetFunction() == _("Encrypt")){
-		//Set an int to the file attributes to ensure that it can be encrypted	        
-		int filearrtibs = GetFileAttributes(strFile);
-		//Set the file to have no file attributes
-		SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
+		//Set the file to have normal attributes so it can be encrypted
+		#ifdef __WXMSW__   
+			int filearrtibs = GetFileAttributes(strFile);
+			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
+		#endif
 
-		//Create the command
+		//Create and execute the command
 		wxString command = wxT("ccrypt -e -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
-
-		//Execute the process 
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		
-		//Put the original attributes back
-		SetFileAttributes(strFile,filearrtibs);
-
-		//Output the progress message
+		//Put the old attributed back
+		#ifdef __WXMSW__
+			SetFileAttributes(strFile,filearrtibs);
+		#endif
+		
 		if(lgReturn == 0){        
 			OutputProgress(_("Encrypted ") + strFile);
 		}
@@ -129,22 +129,22 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 	}
 
 	else if(data.GetFunction() == _("Decrypt")){
-		//Set an int to the file attributes to ensure that it can be decrypted
-		int filearrtibs = GetFileAttributes(strFile);
-		SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL); 
+		//Set the file to have normal attributes so it can be decrypted
+		#ifdef __WXMSW__
+			int filearrtibs = GetFileAttributes(strFile);
+			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL); 
+		#endif
 
-		//Create the command (blowfish is allowed)
-		wxString command;
-		command = wxT("ccrypt -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\" ");
-		
-		//Execute the process
+		//Create and execute the command
+		wxString command = wxT("ccrypt -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\" ");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		
 
-		//Put the attributes back
-		SetFileAttributes(strFile,filearrtibs);
+		//Put the old attributed back
+		#ifdef __WXMSW__
+			SetFileAttributes(strFile,filearrtibs);
+		#endif
 
-		//Output the the progress message
 		if(lgReturn == 0){       
  			OutputProgress(_("Decrypted ") + strFile);
 		}

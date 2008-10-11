@@ -4,31 +4,26 @@ TOOLCHAINNAME=gtk2u
 WXVERSION:=$(shell echo `$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --version`)
 CXX=g++
 CC=gcc
-RESCOMP=windres.exe
-RCFILEOBJ=Test_rc.o
-RCFILESRC=Test.rc
-RESOURCEOBJECT=
-OUTPUTPATH=../../../Output
-OBJECTPATH=../../../Application/App/toucan
+OUTPUTPATH=../../../Application/App/toucan
+OBJECTPATH=../../../Output
 BUILDPATHS=$(OBJECTPATH)
-PROGRAM=Test
-LIBS=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --exec-prefix="$(WXWIN)/GCCBuildReleaseGTK2Unicode" --libs`
+PROGRAM=Toucan
+LIBS=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --exec-prefix="$(WXWIN)/GCCBuildReleaseGTK2Unicode" --libs` -lhl++
 LINKERFLAGS=
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 DEBUGFLAGS=
-LIBPATH=
-CPPINC=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --cxxflags`
+LIBPATH=-L"/home/steve/hashlib_0.3.1/src"
+CPPINC=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --cxxflags` -I/home/steve/hashlib_0.3.1/src
 GCCFLAGS=
 LDFLAGS=$(LIBS) $(LIBPATH) $(LINKERFLAGS)
 CPPFLAGS=$(CPPINC) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS)
-LIBDIRNAME=$(WXWIN)/GCCBuildReleaseGTK2Unicode/lib
+LIBDIRNAME=$(WXWIN)/GCCBuildReleaseGTK2Unicode/lib /
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/GCCBuildReleaseGTK2Unicode/lib/wx/include/gtk2-unicode-release-static-2.8"
-MACPACKAGEINFO=
 endif
 
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o
 
 all:	$(BUILDPATHS) $(OUTPUTPATH)/$(PROGRAM)
 
@@ -45,9 +40,6 @@ help:
 
 $(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) $(LIBPATH) $(LINKERFLAGS) $(LIBS)
-
-$(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
-	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
 
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp

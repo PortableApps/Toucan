@@ -7,8 +7,8 @@
 #ifndef H_SETTINGS
 #define H_SETTINGS
 
-#include <wx\string.h>
-#include <wx\intl.h>
+#include <wx/string.h>
+#include <wx/intl.h>
 
 class Settings{
 	

@@ -6,9 +6,9 @@
 
 #include "settings.h"
 #include "toucan.h"
-#include <wx\fileconf.h>
-#include <wx\stdpaths.h>
-#include <wx\intl.h>
+#include <wx/fileconf.h>
+#include <wx/stdpaths.h>
+#include <wx/intl.h>
 
 bool Settings::TransferToFile(){
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));

@@ -10,9 +10,9 @@
 #include "variables.h"
 #include "backupprocess.h"
 #include "waitthread.h"
-#include <wx\fileconf.h>
-#include <wx\stdpaths.h>
-#include <wx\dir.h>
+#include <wx/fileconf.h>
+#include <wx/stdpaths.h>
+#include <wx/dir.h>
 
 
 bool BackupData::TransferFromFile(){

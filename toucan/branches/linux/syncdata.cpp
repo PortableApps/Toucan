@@ -9,9 +9,9 @@
 #include "variables.h"
 #include "toucan.h"
 #include "sync.h"
-#include <wx\variant.h>
-#include <wx\fileconf.h>
-#include <wx\stdpaths.h>
+#include <wx/variant.h>
+#include <wx/fileconf.h>
+#include <wx/stdpaths.h>
 
 bool SyncData::TransferFromFile(){
 	wxString strName = GetName();
