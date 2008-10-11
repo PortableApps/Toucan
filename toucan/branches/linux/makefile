@@ -8,8 +8,8 @@ RESCOMP=windres.exe
 RCFILEOBJ=Test_rc.o
 RCFILESRC=Test.rc
 RESOURCEOBJECT=
-OUTPUTPATH=../../../Output/Exec
-OBJECTPATH=../../../Output/Objects
+OUTPUTPATH=../../../Output
+OBJECTPATH=../../../Application/App/toucan
 BUILDPATHS=$(OBJECTPATH)
 PROGRAM=Test
 LIBS=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --exec-prefix="$(WXWIN)/GCCBuildReleaseGTK2Unicode" --libs`
