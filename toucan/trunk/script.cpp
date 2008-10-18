@@ -199,8 +199,9 @@ bool ScriptManager::ParseCommand(int i){
 	}
 	delete config;
 	
-
-	data->Execute(rules);
+	if(!data->Execute(rules)){
+		CleanUp();
+	}
 	
 	return true;	
 }

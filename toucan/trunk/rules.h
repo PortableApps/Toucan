@@ -15,6 +15,7 @@ public:
 	//Rules();
 
 	//Functions
+	bool IsEmpty();
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
 	bool ShouldExclude(wxString strName, bool blIsDir); 

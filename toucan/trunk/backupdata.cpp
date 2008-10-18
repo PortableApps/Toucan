@@ -209,6 +209,9 @@ wxString BackupData::CreateCommand(int i){
 
 
 bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	//Clean up the path passed
 	if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
 		strPath += wxFILE_SEP_PATH;       
@@ -245,7 +248,7 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 		}
 		while (dir.GetNext(&strFilename) );
 	}  
-	return true;
+	return wxGetApp().ShouldAbort();
 }
 
 bool BackupData::Execute(Rules rules){
@@ -275,7 +278,13 @@ bool BackupData::Execute(Rules rules){
 		
 		//Create the list of files to backup
 		OutputProgress(_("Creating file list, this may take some time."));
-		CreateList(file, rules, GetLocations().Item(i), strPath.Length());
+		
+		if(!CreateList(file, rules, GetLocations().Item(i), strPath.Length())){
+			return false;
+		}
+		if(wxGetApp().ShouldAbort()){
+			return false;
+		}
 		file->Write();
 		//Create the process and execute it		
 
