@@ -1,3 +1,5 @@
+;THIS IS A SPECIALIZED VERSION OF THE PORTABLEAPPS.COM INSTALLER AND SHOULD NOT BE USED WITH OTHER APPS
+
 ;Copyright 2007-2008 John T. Haller of PortableApps.com
 
 ;Website: http://PortableApps.com/
@@ -121,8 +123,30 @@ BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
 !insertmacro MUI_PAGE_FINISH
 
 ;=== Languages
-!insertmacro MUI_LANGUAGE "${INSTALLERLANGUAGE}"
-!include PortableApps.comInstallerLANG_${INSTALLERLANGUAGE}.nsh
+;=== THESE BITS WERE ADDED AND ARE NOT YET PART OF THE PORTABLEAPPS.COM INSTALLER
+!insertmacro MUI_LANGUAGE "English"
+!include PortableApps.comInstallerLANG_ENGLISH.nsh
+!insertmacro MUI_LANGUAGE "Dutch"
+!include PortableApps.comInstallerLANG_DUTCH.nsh
+!insertmacro MUI_LANGUAGE "Estonian"
+!include PortableApps.comInstallerLANG_ESTONIAN.nsh
+!insertmacro MUI_LANGUAGE "French"
+!include PortableApps.comInstallerLANG_FRENCH.nsh
+!insertmacro MUI_LANGUAGE "German"
+!include PortableApps.comInstallerLANG_GERMAN.nsh
+!insertmacro MUI_LANGUAGE "Russian"
+!include PortableApps.comInstallerLANG_RUSSIAN.nsh
+!insertmacro MUI_LANGUAGE "Spanish"
+!include PortableApps.comInstallerLANG_SPANISH.nsh
+!insertmacro MUI_LANGUAGE "Polish"
+!include PortableApps.comInstallerLANG_POLISH.nsh
+!insertmacro MUI_LANGUAGE "Hungarian"
+!include PortableApps.comInstallerLANG_HUNGARIAN.nsh
+!insertmacro MUI_LANGUAGE "Bulgarian"
+!include PortableApps.comInstallerLANG_BULGARIAN.nsh
+
+!insertmacro MUI_RESERVEFILE_LANGDLL
+;=== END ADDED BITS
 
 ;=== Variables
 Var FOUNDPORTABLEAPPSPATH

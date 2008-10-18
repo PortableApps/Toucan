@@ -11,8 +11,8 @@ GCCFLAGS = -fvtable-thunks
 endif
 CXX=I:/Mingw/bin/g++.exe
 RESCOMP=I:/Mingw/bin/windres.exe
-OUTPUTPATH=App\toucan
-OBJECTPATH=MinGWUnicodeRelease
+OUTPUTPATH=..\..\Application\App\toucan
+OBJECTPATH=..\..\Output
 BUILDPATHS=$(OBJECTPATH)
 CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -Wall -D__WXMSW__ -D__GNUWIN32__ -D__WIN95__ -DUNICODE
 WARNINGFLAGS=-Wall

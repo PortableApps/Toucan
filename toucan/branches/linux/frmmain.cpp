@@ -1540,50 +1540,48 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 
 void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 {
-	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
-		wxString strPath = m_Sync_Source_Txt->GetValue();
-		/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
-		in the future in the vdtc code*/
-		if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-			strPath = strPath.Left(strPath.Length() - 1); 
-		}
-		m_Sync_Source_Txt->SetValue(strPath);
-		strPath = m_Sync_Dest_Txt->GetValue();
-		if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-			strPath = strPath.Left(strPath.Length() - 1); 
-		}
-		//Get the rules
-		
-		Rules rules;
-		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-		}
-		
-		m_Sync_Dest_Tree->SetRules(rules);
-		
-		//Set the other tree too incase it is a unidirectional function
-		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
-		
-		m_Sync_Dest_Txt->SetValue(strPath);
-		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-		m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-		m_Sync_Dest_Tree->SetPreview(true);
-		m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
-		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-				
-		//Code for equalise function
-		if(m_Sync_Function->GetStringSelection() == _("Equalise")){
-			m_Sync_Source_Tree->SetRules(rules);
-			m_Sync_Source_Tree->DeleteAllItems();
-			m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-			m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-			m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-			m_Sync_Source_Tree->SetPreview(true);
-			m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
-			m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-		}
+	wxString strPath = m_Sync_Source_Txt->GetValue();
+	/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
+	in the future in the vdtc code*/
+	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+		strPath = strPath.Left(strPath.Length() - 1); 
+	}
+	m_Sync_Source_Txt->SetValue(strPath);
+	strPath = m_Sync_Dest_Txt->GetValue();
+	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
+		strPath = strPath.Left(strPath.Length() - 1); 
+	}
+	//Get the rules
+	
+	Rules rules;
+	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+	}
+	
+	m_Sync_Dest_Tree->SetRules(rules);
+	
+	//Set the other tree too incase it is a unidirectional function
+	m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
+	
+	m_Sync_Dest_Txt->SetValue(strPath);
+	m_Sync_Dest_Tree->DeleteAllItems();
+	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+	m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+	m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+	m_Sync_Dest_Tree->SetPreview(true);
+	m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
+	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+			
+	//Code for equalise function
+	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
+		m_Sync_Source_Tree->SetRules(rules);
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+		m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+		m_Sync_Source_Tree->SetPreview(true);
+		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
+		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	}
 }
 
@@ -1954,17 +1952,13 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 
 void frmMain::OnHelpClick(wxCommandEvent& event){
 	//Use win32 method for launching as error with wxShell
-	#ifdef __WXMSW__
 	ShellExecute(NULL, wxT("open"),wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Help.html"), NULL, NULL, SW_SHOWDEFAULT);
-	#elifdef __WXGTK__
-	wxMessageBox(wxT("Error in Linux help file"));
-	#endif
 }
 
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0.1"));
+	info.SetVersion(wxT("2.0.2 Pre-release 2"));
 	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip, hashlib++ and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));

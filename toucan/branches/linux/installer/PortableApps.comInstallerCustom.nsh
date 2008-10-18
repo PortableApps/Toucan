@@ -23,6 +23,9 @@
 	StrCmp $LANGUAGE "1038" 0 +3 ;Hungarian
 		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "hu_HU"
 		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "1026" 0 +3 ;Bulgarian
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "bg_BG"
+		Goto CustomCodePostInstallEnd
 	WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "en_GB" ;=== Fallback to English
 	CustomCodePostInstallEnd:
 !macroend
