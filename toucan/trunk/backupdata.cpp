@@ -248,7 +248,7 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 		}
 		while (dir.GetNext(&strFilename) );
 	}  
-	return wxGetApp().ShouldAbort();
+	return true;
 }
 
 bool BackupData::Execute(Rules rules){
