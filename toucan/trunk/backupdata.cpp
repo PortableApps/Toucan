@@ -272,13 +272,20 @@ bool BackupData::Execute(Rules rules){
 		}
 		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
 		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-
+		
 		//Create the list of files to backup
 		OutputProgress(_("Creating file list, this may take some time."));
 		CreateList(file, rules, GetLocations().Item(i), strPath.Length());
 		file->Write();
-		//Create the process and execute it
-		wxSetWorkingDirectory(GetLocation(i));
+		//Create the process and execute it		
+
+		if(strPath.Length() == 0){
+			strPath = GetLocations().Item(i);
+		}
+		else{
+			strPath += wxFILE_SEP_PATH;
+		}
+		wxSetWorkingDirectory(strPath);
 		PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 		process->SetRealPid(lgPID);
