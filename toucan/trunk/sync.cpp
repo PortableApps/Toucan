@@ -184,25 +184,23 @@ bool SyncFile(SyncData data, Rules rules)
 			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
 			the source file is always copied*/
 			if(wxFileExists(data.GetDest())){	
+				wxDateTime tmTo, tmFrom;
+				wxFileName flTo(data.GetDest());
+				wxFileName flFrom(data.GetSource());
 				
-				hashwrapper *myWrapper = new md5wrapper();
-				std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
-				std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
-				delete myWrapper;
+				flTo.GetTimes(NULL, &tmTo, NULL);
+				flFrom.GetTimes(NULL, &tmFrom, NULL);		
 				
-				if(sourceHash != desinationHash){
-					wxDateTime tmTo, tmFrom;
-					wxFileName flTo(data.GetDest());
-					wxFileName flFrom(data.GetSource());
-					
-					flTo.GetTimes(NULL, &tmTo, NULL);
-					flFrom.GetTimes(NULL, &tmFrom, NULL);		
-					
-					if(data.GetIgnoreDLS()){
-						tmFrom.MakeTimezone(wxDateTime::Local, true);
-					}
-
-					if(tmFrom > tmTo){
+				if(data.GetIgnoreDLS()){
+					tmFrom.MakeTimezone(wxDateTime::Local, true);
+				}
+				//Check to see if the source file is newer than the destination file, subtracts one hour to make up for timestamp errors
+				if(tmFrom.IsLaterThan(tmTo)){
+					hashwrapper *myWrapper = new md5wrapper();
+					std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
+					std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
+					delete myWrapper;
+					if(sourceHash != desinationHash){
 						if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 							if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
 								OutputProgress(data.GetSource() + _("\t updated \t") + data.GetDest());
