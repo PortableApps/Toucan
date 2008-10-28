@@ -1952,7 +1952,9 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 
 void frmMain::OnHelpClick(wxCommandEvent& event){
 	//Use win32 method for launching as error with wxShell
-	ShellExecute(NULL, wxT("open"),wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Help.html"), NULL, NULL, SW_SHOWDEFAULT);
+	#ifdef __WXMSW__
+		ShellExecute(NULL, wxT("open"),wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Help.html"), NULL, NULL, SW_SHOWDEFAULT);
+	#endif
 }
 
 void frmMain::OnAboutClick(wxCommandEvent& event){
