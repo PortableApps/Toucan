@@ -10,9 +10,9 @@
 #include "variables.h"
 #include "backupprocess.h"
 #include "waitthread.h"
-#include <wx/fileconf.h>
-#include <wx/stdpaths.h>
-#include <wx/dir.h>
+#include <wx\fileconf.h>
+#include <wx\stdpaths.h>
+#include <wx\dir.h>
 
 
 bool BackupData::TransferFromFile(){
@@ -248,7 +248,7 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 		}
 		while (dir.GetNext(&strFilename) );
 	}  
-	return wxGetApp().ShouldAbort();
+	return true;
 }
 
 bool BackupData::Execute(Rules rules){
