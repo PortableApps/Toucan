@@ -164,11 +164,15 @@ bool SyncFile(SyncData data, Rules rules)
 	if(wxGetApp().ShouldAbort()){
 		return true;
 	}
-	int iAttributes = FILE_ATTRIBUTE_NORMAL;
+	#ifdef __WXMSW__
+		int iAttributes = FILE_ATTRIBUTE_NORMAL;
+	#endif
 	if(!rules.ShouldExclude(data.GetDest(), false)){
 		if(data.GetIgnoreRO()){
-			iAttributes = GetFileAttributes(data.GetDest());
-			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+			#ifdef __WXMSW__
+				iAttributes = GetFileAttributes(data.GetDest());
+				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+			#endif
 		} 
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
@@ -234,15 +238,17 @@ bool SyncFile(SyncData data, Rules rules)
 		}
 		//Set the old attrributes back
 		if(data.GetIgnoreRO()){
-			SetFileAttributes(data.GetDest(), iAttributes); 
+			#ifdef __WXMSW__
+				SetFileAttributes(data.GetDest(), iAttributes); 
+			#endif
 		} 
-		//Code needs to be added for Linux, Mac also needs to be researched
+	
 		if(data.GetAttributes() == true){
-			//#ifdef(__WXMSW__)
-			int filearrtibs = GetFileAttributes(data.GetSource());
-			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
-			SetFileAttributes(data.GetDest(),filearrtibs);
-			//#endif
+			#ifdef __WXMSW__
+				int filearrtibs = GetFileAttributes(data.GetSource());
+				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
+				SetFileAttributes(data.GetDest(),filearrtibs);
+			#endif
 		}
 		if(data.GetTimeStamps()){
 			wxFileName from(data.GetSource());
@@ -328,20 +334,29 @@ bool FolderTimeLoop(wxString strFrom, wxString strTo){
 	} 
 	delete dir;
 	if (wxDirExists(strTo)){
-		FILETIME ftCreated,ftAccessed,ftModified;
-		HANDLE hFrom = CreateFile(strFrom, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-		if(hFrom == INVALID_HANDLE_VALUE){
-		  return false;
-		}  
-		
-		GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
-		CloseHandle(hFrom);
-		HANDLE hTo = CreateFile(strTo, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-		if(hTo == INVALID_HANDLE_VALUE){
-		  return false;
-		}  
-		SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
-		CloseHandle(hTo);
+		#ifdef __WXMSW__
+			//Need to tidy up this code and submit as a patch to wxWidgets
+			FILETIME ftCreated,ftAccessed,ftModified;
+			HANDLE hFrom = CreateFile(strFrom, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+			if(hFrom == INVALID_HANDLE_VALUE){
+			  return false;
+			}  
+			
+			GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
+			CloseHandle(hFrom);
+			HANDLE hTo = CreateFile(strTo, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+			if(hTo == INVALID_HANDLE_VALUE){
+			  return false;
+			}  
+			SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
+			CloseHandle(hTo);
+		#elifdef __WXGTK__
+			wxFileName from(strTo);
+			wxFileName to(strFrom);
+			wxDateTime access, mod, created;
+			from.GetTimes(&access ,&mod ,&created );
+			to.SetTimes(&access ,&mod , &created); 
+		#endif
 		OutputProgress(_("Set folder timestamps for ") + strTo);
 	}	
 	return true;
