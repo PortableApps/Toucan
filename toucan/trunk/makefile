@@ -1,5 +1,5 @@
 ifeq ($(CONFIG),unicoderelease)
-WXWIN=/home/steve/wxGTK-2.8.8
+WXWIN=/home/steve/wxGTK-2.8.9
 TOOLCHAINNAME=gtk2u
 WXVERSION:=$(shell echo `$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --version`)
 CXX=g++
