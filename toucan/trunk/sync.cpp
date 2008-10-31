@@ -350,7 +350,7 @@ bool FolderTimeLoop(wxString strFrom, wxString strTo){
 			}  
 			SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
 			CloseHandle(hTo);
-		#elifdef __WXGTK__
+		#elif defined(__WXGTK__)
 			wxFileName from(strTo);
 			wxFileName to(strFrom);
 			wxDateTime access, mod, created;
