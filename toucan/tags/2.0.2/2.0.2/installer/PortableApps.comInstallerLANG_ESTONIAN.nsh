@@ -1,0 +1,7 @@
+LangString welcome ${LANG_ESTONIAN} "Paigaldusnõustaja juhib sind läbi ${NAME} paigaldusprotsessi.\r\n\r\nKui sa uuendad ${NAME}, palun sulge programm enne jätkamist.\r\n\r\nJätkamiseks klõpsa Edasi."
+LangString finish ${LANG_ESTONIAN} "${NAME} on paigaldatud.\r\n\r\nPaigaldusnõustaja sulgemiseks klõpsa Lõpeta."
+LangString runwarning ${LANG_ESTONIAN} "Palun sulge ${CLOSENAME} ja vajuta Sobib. Programmi ei saa uuendada kui programm töötab."
+LangString invaliddirectory ${LANG_ESTONIAN} "Valitud sihtkaust on vigane. Palun vali õige kaust."
+LangString notenoughspace ${LANG_ESTONIAN} "Valitud seadmel ei ole programmi paigaldamiseks piisavalt vaba ruumi."
+LangString checkforplatform ${LANG_ESTONIAN} "Kontrollitakse PortableApps.com olemasolu"
+LangString refreshmenu ${LANG_ESTONIAN} "Värskendatakse PortableApps.com Menu"
