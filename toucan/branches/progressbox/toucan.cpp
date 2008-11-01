@@ -67,9 +67,12 @@ bool Toucan::OnInit()
 	m_Script = new ScriptManager();
 	
 	//Make a backup of the files
-	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"), wxGetApp().GetSettingsPath() + wxT("Jobs.old"), true);
-	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Rules.ini"), wxGetApp().GetSettingsPath() + wxT("Rules.old"), true);
-	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"), wxGetApp().GetSettingsPath() + wxT("Scripts.old"), true);
+	{
+		wxLogNull null;
+		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"), wxGetApp().GetSettingsPath() + wxT("Jobs.old"), true);
+		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Rules.ini"), wxGetApp().GetSettingsPath() + wxT("Rules.old"), true);
+		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"), wxGetApp().GetSettingsPath() + wxT("Scripts.old"), true);
+	}
 	
 	//Make sure the jobs file is up to date!
 	wxFileConfig *jobconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -167,9 +170,11 @@ int Toucan::OnExit()
 
 int main(int argc, char* argv[])
 {
+	#ifdef __WXMSW__
 	if(argc == 1){
 		ShowWindow(GetConsoleWindow(), SW_HIDE); 
 	}
+	#endif
 	wxEntry(argc,argv); 
 	return true;
 }

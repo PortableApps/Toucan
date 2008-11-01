@@ -630,13 +630,6 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									j = i;
 								}
 							}
-							//If there is a match
-							/*if(blExists){
-								//If we shouldn't exclude it then set the item colour red to show it has been overwritten
-								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
-									items.Item(j)->SetColour(wxColour(wxT("Red")));
-								}
-							}*/
 							//There isnt a match so we need to add the new folder
 							if(!blExists){
 								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
@@ -662,17 +655,16 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 							if(blExists){
 								//Make sure it shouldnt be excluded
 								if(!_Rules.ShouldExclude(strPath + strFilename, false)){
-									if(_Mode == _("Complete") || _Mode == _("Mirror (Copy)")){
+									if(_Mode == _("Copy") || _Mode == _("Mirror (Copy)")){
 										items.Item(j)->SetColour(wxColour(wxT("Red")));
 									}
 									else if(_Mode == _("Update") || _Mode == _("Mirror (Update)")){
-										wxDateTime tmTo = wxFileModificationTime(_Root + items.Item(j)->GetName());
+										wxDateTime tmTo = wxFileModificationTime(_Root + wxFILE_SEP_PATH + items.Item(j)->GetName());
 										wxDateTime tmFrom = wxFileModificationTime(strPath + strFilename);
+										
 										//Need to put in code to account for timezone settings
-										//if(data.GetIgnoreDLS()){
-										//	tmFrom.MakeTimezone(wxDateTime::Local, true);
-										//}
-										//I.E. strFrom is newer
+									
+										//Code needed here for hash comparisions
 										if(tmFrom.IsLaterThan(tmTo)){
 											items.Item(j)->SetColour(wxColour(wxT("Green")));
 										}
@@ -687,11 +679,6 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									t->SetColour(wxColour(wxT("Blue")));
 									items.Add(t);	
 								}
-								/*else{
-									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
-									t->SetColour(wxColour(wxT("Pink")));
-									items.Add(t);	
-								}*/
 							}
 						}
 					} while (dir.GetNext(&strFilename) );
@@ -701,12 +688,13 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 	}
 
 	if(_Mode == _("Mirror (Copy)") || _Mode == _("Mirror (Update)")){
-		//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
+		//Grab the path that we are in without the root
+		wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
 		for (unsigned int i = 0; i < items.GetCount(); i++) {
-		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
-			if(items.Item(i)->GetColour() == wxColour(wxT("Black"))){
-				items.Item(i)->SetColour(wxColour(wxT("Grey")));
-				//Set colour to grey
+			if(!wxFileExists(_RootOpp + strPathNoRoot + wxFILE_SEP_PATH + items.Item(i)->GetName())){
+				if(items.Item(i)->GetColour() == wxColour(wxT("Black"))){
+					items.Item(i)->SetColour(wxColour(wxT("Grey")));
+				}
 			}
 		}
 	}

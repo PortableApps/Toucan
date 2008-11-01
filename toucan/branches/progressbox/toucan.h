@@ -7,10 +7,10 @@
 #ifndef _TOUCAN_H_
 #define _TOUCAN_H_
 
-#include <wx\wx.h>
-#include <wx\process.h>
-#include <wx\image.h>
-#include <wx\intl.h>
+#include <wx/wx.h>
+#include <wx/process.h>
+#include <wx/image.h>
+#include <wx/intl.h>
 
 #include "frmmain.h"
 #include "settings.h"
@@ -63,3 +63,4 @@ protected:
 DECLARE_APP(Toucan)
 
 #endif
+

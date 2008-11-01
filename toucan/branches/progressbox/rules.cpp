@@ -12,7 +12,19 @@
 #include "toucan.h"
 #include "basicfunctions.h"
 
+bool Rules::IsEmpty(){
+	if(GetFilesToExclude().Count() == 0 && GetFoldersToExclude().Count() == 0 && GetLocationsToInclude().Count() == 0){
+		return true;
+	}
+	return false;
+}
+
 bool Rules::ShouldExclude(wxString strName, bool blIsDir){
+	
+	if(IsEmpty()){
+		return false;
+	}
+	
 	//wxMessageBox(_("Into the match"));
 	bool blMatches = false;
 	//Check to see if there are any matches for also include, if so then immediately retun as no other options need to be checked

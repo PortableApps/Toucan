@@ -7,8 +7,8 @@
 #ifndef H_BACKUPDATA
 #define H_BACKUPDATA
 
-#include <wx\textfile.h>
-#include <wx\string.h>
+#include <wx/textfile.h>
+#include <wx/string.h>
 #include "frmmain.h"
 #include "rootdata.h"
 

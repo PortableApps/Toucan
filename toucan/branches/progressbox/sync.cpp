@@ -164,11 +164,15 @@ bool SyncFile(SyncData data, Rules rules)
 	if(wxGetApp().ShouldAbort()){
 		return true;
 	}
-	int iAttributes = FILE_ATTRIBUTE_NORMAL;
+	#ifdef __WXMSW__
+		int iAttributes = FILE_ATTRIBUTE_NORMAL;
+	#endif
 	if(!rules.ShouldExclude(data.GetDest(), false)){
 		if(data.GetIgnoreRO()){
-			iAttributes = GetFileAttributes(data.GetDest());
-			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+			#ifdef __WXMSW__
+				iAttributes = GetFileAttributes(data.GetDest());
+				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+			#endif
 		} 
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
@@ -184,25 +188,23 @@ bool SyncFile(SyncData data, Rules rules)
 			/*Check to see if the desination file exists, if it does then a time check is made, if not then 
 			the source file is always copied*/
 			if(wxFileExists(data.GetDest())){	
+				wxDateTime tmTo, tmFrom;
+				wxFileName flTo(data.GetDest());
+				wxFileName flFrom(data.GetSource());
 				
-				hashwrapper *myWrapper = new md5wrapper();
-				std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
-				std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
-				delete myWrapper;
+				flTo.GetTimes(NULL, &tmTo, NULL);
+				flFrom.GetTimes(NULL, &tmFrom, NULL);		
 				
-				if(sourceHash != desinationHash){
-					wxDateTime tmTo, tmFrom;
-					wxFileName flTo(data.GetDest());
-					wxFileName flFrom(data.GetSource());
-					
-					flTo.GetTimes(NULL, &tmTo, NULL);
-					flFrom.GetTimes(NULL, &tmFrom, NULL);		
-					
-					if(data.GetIgnoreDLS()){
-						tmFrom.MakeTimezone(wxDateTime::Local, true);
-					}
-
-					if(tmFrom > tmTo){
+				if(data.GetIgnoreDLS()){
+					tmFrom.MakeTimezone(wxDateTime::Local, true);
+				}
+				//Check to see if the source file is newer than the destination file, subtracts one hour to make up for timestamp errors
+				if(tmFrom.IsLaterThan(tmTo)){
+					hashwrapper *myWrapper = new md5wrapper();
+					std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
+					std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
+					delete myWrapper;
+					if(sourceHash != desinationHash){
 						if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 							if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
 								OutputProgress(data.GetSource() + _("\t updated \t") + data.GetDest());
@@ -236,15 +238,17 @@ bool SyncFile(SyncData data, Rules rules)
 		}
 		//Set the old attrributes back
 		if(data.GetIgnoreRO()){
-			SetFileAttributes(data.GetDest(), iAttributes); 
+			#ifdef __WXMSW__
+				SetFileAttributes(data.GetDest(), iAttributes); 
+			#endif
 		} 
-		//Code needs to be added for Linux, Mac also needs to be researched
+	
 		if(data.GetAttributes() == true){
-			//#ifdef(__WXMSW__)
-			int filearrtibs = GetFileAttributes(data.GetSource());
-			SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
-			SetFileAttributes(data.GetDest(),filearrtibs);
-			//#endif
+			#ifdef __WXMSW__
+				int filearrtibs = GetFileAttributes(data.GetSource());
+				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
+				SetFileAttributes(data.GetDest(),filearrtibs);
+			#endif
 		}
 		if(data.GetTimeStamps()){
 			wxFileName from(data.GetSource());
@@ -330,20 +334,29 @@ bool FolderTimeLoop(wxString strFrom, wxString strTo){
 	} 
 	delete dir;
 	if (wxDirExists(strTo)){
-		FILETIME ftCreated,ftAccessed,ftModified;
-		HANDLE hFrom = CreateFile(strFrom, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-		if(hFrom == INVALID_HANDLE_VALUE){
-		  return false;
-		}  
-		
-		GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
-		CloseHandle(hFrom);
-		HANDLE hTo = CreateFile(strTo, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-		if(hTo == INVALID_HANDLE_VALUE){
-		  return false;
-		}  
-		SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
-		CloseHandle(hTo);
+		#ifdef __WXMSW__
+			//Need to tidy up this code and submit as a patch to wxWidgets
+			FILETIME ftCreated,ftAccessed,ftModified;
+			HANDLE hFrom = CreateFile(strFrom, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+			if(hFrom == INVALID_HANDLE_VALUE){
+			  return false;
+			}  
+			
+			GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
+			CloseHandle(hFrom);
+			HANDLE hTo = CreateFile(strTo, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+			if(hTo == INVALID_HANDLE_VALUE){
+			  return false;
+			}  
+			SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
+			CloseHandle(hTo);
+		#elif defined(__WXGTK__)
+			wxFileName from(strTo);
+			wxFileName to(strFrom);
+			wxDateTime access, mod, created;
+			from.GetTimes(&access ,&mod ,&created );
+			to.SetTimes(&access ,&mod , &created); 
+		#endif
 		OutputProgress(_("Set folder timestamps for ") + strTo);
 	}	
 	return true;

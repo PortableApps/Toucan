@@ -7,7 +7,7 @@
 #ifndef H_SECUREDATA
 #define H_SECUREDATA
 
-#include <wx\string.h>
+#include <wx/string.h>
 #include "frmmain.h"
 #include "rootdata.h"
 

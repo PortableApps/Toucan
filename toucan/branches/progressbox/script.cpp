@@ -199,8 +199,9 @@ bool ScriptManager::ParseCommand(int i){
 	}
 	delete config;
 	
-
-	data->Execute(rules);
+	if(!data->Execute(rules)){
+		CleanUp();
+	}
 	
 	return true;	
 }
@@ -222,7 +223,9 @@ bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_Save->Enable(true);
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
+	OutputProgress(wxT(""));
 	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	OutputProgress(_("Elasped: ") + now.Subtract(startTime).Format() + wxT("\n"));
 	OutputProgress(_("Finished"));
 	
 	//Remove finished jobs
@@ -253,8 +256,8 @@ bool ScriptManager::StartUp(){
 	m_ProgressWindow->m_Save->Enable(false);
 	m_ProgressWindow->m_Cancel->Enable(true);	
 	OutputProgress(_("Starting...\n"));
-	wxDateTime now = wxDateTime::Now();
-	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+	startTime = wxDateTime::Now();
+	OutputProgress(_("Time: ") + startTime.FormatISOTime() + wxT("\n"));
 	//Show the window
 	if(wxGetApp().blGUI){
 		m_ProgressWindow->Refresh();
