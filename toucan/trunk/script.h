@@ -42,6 +42,7 @@ class ScriptManager{
 	int m_Command;
 	wxString m_Password;
 	frmProgress* m_ProgressWindow;
+	wxDateTime startTime;
 	
 };
 		
