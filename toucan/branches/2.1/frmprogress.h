@@ -7,16 +7,8 @@
 #ifndef _FRMPROGRESS_H_
 #define _FRMPROGRESS_H_
 
-/*!
- * Includes
- */
-
 #include "wx/frame.h"
 #include "wx/wx.h"
-
-/*!
- * Control identifiers
- */
 
 #define ID_FRMPROGRESS 10007
 #define ID_PANEL 10028
@@ -27,41 +19,25 @@
 #define SYMBOL_FRMPROGRESS_SIZE wxSize(640, 480)
 #define SYMBOL_FRMPROGRESS_POSITION wxDefaultPosition
 
-/*!
- * frmProgress class declaration
- */
-
+/*frmProgress, the main progress window for Toucan*/
 class frmProgress: public wxFrame
 {
-	DECLARE_CLASS( frmProgress )
+	DECLARE_CLASS(frmProgress)
 	DECLARE_EVENT_TABLE()
 
 public:
-	/// Constructors
-	frmProgress();
+	// Constructor
 	frmProgress( wxWindow* parent, wxWindowID id = SYMBOL_FRMPROGRESS_IDNAME, const wxString& caption = SYMBOL_FRMPROGRESS_TITLE, const wxPoint& pos = SYMBOL_FRMPROGRESS_POSITION, const wxSize& size = SYMBOL_FRMPROGRESS_SIZE, long style = SYMBOL_FRMPROGRESS_STYLE );
 
-	bool Create( wxWindow* parent, wxWindowID id = SYMBOL_FRMPROGRESS_IDNAME, const wxString& caption = SYMBOL_FRMPROGRESS_TITLE, const wxPoint& pos = SYMBOL_FRMPROGRESS_POSITION, const wxSize& size = SYMBOL_FRMPROGRESS_SIZE, long style = SYMBOL_FRMPROGRESS_STYLE );
-
-	/// Destructor
-	~frmProgress();
-
-	/// Initialises member variables
+	//Sets up all of the member vaiables
 	void Init();
 
-	/// Creates the controls and sizers
+	// Creates the controls and sizers
 	void CreateControls();
 
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
 	void OnOkClick( wxCommandEvent& event );
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL
 	void OnCancelClick( wxCommandEvent& event );
-
-	/// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_SAVE
 	void OnSaveClick( wxCommandEvent& event );
-	
-	/// wxEVT_CLOSE_WINDOW event handler for ID_PROGRESS
 	void OnCloseWindow( wxCloseEvent& event );
 
 	wxTextCtrl* m_Text;

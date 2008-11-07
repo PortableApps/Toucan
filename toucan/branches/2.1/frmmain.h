@@ -176,16 +176,16 @@ class frmMain: public wxFrame
 	DECLARE_EVENT_TABLE()
 
 public:
-	/// Constructors
+	// Constructor
 	frmMain( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
 	//Deconstructor, for uninitialising AUI
 	~frmMain();
 
-	//To set up all of the member vaiables
+	//Sets up all of the member vaiables
 	void Init();
 
-	/// Creates the controls and sizers
+	// Creates the controls and sizers
 	void CreateControls();
 	
 	//Set up the title bar test
@@ -298,8 +298,6 @@ public:
 	void OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event);
 	void OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event);
 	void OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event);
-
-	////Functions
 
 	// Returns the AUI manager object
 	wxAuiManager& GetAuiManager(){
