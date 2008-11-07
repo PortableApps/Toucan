@@ -145,25 +145,12 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	
 END_EVENT_TABLE()
 
-
 //Constructor
-frmMain::frmMain(){
-	Init();
-}
-
 frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
 	Init();
-	Create(parent, id, caption, pos, size, style);
-}
-
-//Creator
-bool frmMain::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
 	wxFrame::Create(parent, id, caption, pos, size, style);
 	CreateControls();
-	//Centre();
-	return true;
 }
-
 
 //Destructor
 frmMain::~frmMain(){
@@ -201,7 +188,7 @@ void frmMain::Init(){
 	m_Secure_Function = NULL;
 	m_Secure_Pass = NULL;
 	m_Secure_Repass = NULL;
-	m_Rules_Combo = NULL;
+	m_Rules_Name = NULL;
 	m_Rules_FileExclude = NULL;
 	m_Rules_FolderExclude = NULL;
 	m_Rules_LocationInclude = NULL;
@@ -222,8 +209,10 @@ void frmMain::CreateControls()
 	//Set up the correct type of border
 	int BORDER = wxWindow::GetThemedBorderStyle();
 	
+	//Set our min size
 	itemFrame1->SetMinSize(wxSize(760, 450));
 	
+	//Set the font from the settings
 	wxFont font;
 	font.SetNativeFontInfo(wxGetApp().m_Settings->GetFont());
 	itemFrame1->SetFont(font);
@@ -231,7 +220,7 @@ void frmMain::CreateControls()
 	//Set the form up as managed by AUI
 	GetAuiManager().SetManagedWindow(this);
 
-	//Cretae the root AUI notebook
+	//Create the root AUI notebook
 	m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
 
 	//The sync panel
@@ -610,8 +599,8 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer95->Add(itemBoxSizer97, 0, wxALIGN_LEFT|wxALL, 5);
 	wxArrayString m_Rules_ComboStrings;
-	m_Rules_Combo = new wxComboBox( itemPanel93, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY );
-	itemBoxSizer97->Add(m_Rules_Combo, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_Rules_Name = new wxComboBox( itemPanel93, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY );
+	itemBoxSizer97->Add(m_Rules_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton99 = new wxBitmapButton( itemPanel93, ID_RULES_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer97->Add(itemBitmapButton99, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -860,7 +849,7 @@ void frmMain::CreateControls()
 	SetRulesBox(m_Sync_Rules);
 	SetRulesBox(m_Backup_Rules);
 	SetRulesBox(m_Secure_Rules);
-	SetRulesBox(m_Rules_Combo);
+	SetRulesBox(m_Rules_Name);
 
 	//Set up the jobs boxes
 	SetJobsBox(m_Sync_Job_Select, wxT("Sync"));
@@ -886,7 +875,7 @@ void frmMain::CreateControls()
 }
 
 //Get bitmap resources
-wxBitmap frmMain::GetBitmapResource( const wxString& name )
+wxBitmap frmMain::GetBitmapResource(const wxString& name)
 {
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	wxUnusedVar(name);
@@ -947,13 +936,6 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 		return bitmap;
 	}
 	return wxNullBitmap;
-}
-
-//Get icon resources
-wxIcon frmMain::GetIconResource( const wxString& name )
-{
-	wxUnusedVar(name);
-	return wxNullIcon;
 }
 
 
@@ -1132,8 +1114,8 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 	rules.SetFilesToExclude(arrFileExclude);
 	rules.SetFoldersToExclude(arrFolderExclude);
 	//rules.SetFilesToDelete(arrFileDelete);
-	if (m_Rules_Combo->GetStringSelection() != wxEmptyString) {
-		rules.TransferToFile(m_Rules_Combo->GetStringSelection());
+	if (m_Rules_Name->GetStringSelection() != wxEmptyString) {
+		rules.TransferToFile(m_Rules_Name->GetStringSelection());
 	} else {
 		ErrorBox(_("You must select a name for this set of Rules"));
 	}
@@ -1154,8 +1136,8 @@ void frmMain::OnRulesAddClick(wxCommandEvent& event)
 {
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("You must select a name for this set of Rules"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_Combo->AppendString(dialog->GetValue());
-		m_Rules_Combo->SetStringSelection(dialog->GetValue());
+		m_Rules_Name->AppendString(dialog->GetValue());
+		m_Rules_Name->SetStringSelection(dialog->GetValue());
 		m_Rules_LocationInclude->Clear();
 		m_Rules_FileExclude->Clear();
 		m_Rules_FolderExclude->Clear();
@@ -1174,9 +1156,9 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& event)
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
-	config->DeleteGroup(m_Rules_Combo->GetStringSelection());
+	config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	delete config;
-	m_Rules_Combo->Delete(m_Rules_Combo->GetSelection());
+	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
 }
 
 
@@ -1193,7 +1175,7 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 	
 	//Create a new rule set
 	Rules rules;
-	if (rules.TransferFromFile(m_Rules_Combo->GetStringSelection())) {
+	if (rules.TransferFromFile(m_Rules_Name->GetStringSelection())) {
 		//Loop through the array of rules and add them to the form
 		for (unsigned int i = 0; i < rules.GetLocationsToInclude().GetCount(); i++) {
 			m_Rules_LocationInclude->Append(rules.GetLocationsToInclude().Item(i));
@@ -2324,56 +2306,30 @@ void frmMain::OnTabChanged(wxAuiNotebookEvent& event){
 }
 
 void frmMain::SetTitleBarText(){
+	wxString strTitle = wxT("Toucan - ");
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")){
-		if(m_Sync_Job_Select->GetStringSelection() != wxEmptyString){
-			this->SetTitle(wxT("Toucan - ") + m_Sync_Job_Select->GetStringSelection());
-		}
-		else{
-			this->SetTitle(wxT("Toucan"));	
-		}
+		strTitle = strTitle + m_Sync_Job_Select->GetStringSelection();
 	}
 	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
-		if(m_Backup_Job_Select->GetStringSelection() != wxEmptyString){
-			this->SetTitle(wxT("Toucan - ") + m_Backup_Job_Select->GetStringSelection());
-		}
-		else{
-			this->SetTitle(wxT("Toucan"));	
-		}
+		strTitle = strTitle + m_Backup_Job_Select->GetStringSelection();
 	}
 	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
-		if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString){
-			this->SetTitle(wxT("Toucan - ") + m_Secure_Job_Select->GetStringSelection());
-		}
-		else{
-			this->SetTitle(wxT("Toucan"));	
-		}
+		strTitle = strTitle + m_Secure_Job_Select->GetStringSelection();
 	}
 	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Script")){
-		if(m_Script_Name->GetStringSelection() != wxEmptyString){
-			this->SetTitle(wxT("Toucan - ") + m_Script_Name->GetStringSelection());
-		}
-		else{
-			this->SetTitle(wxT("Toucan"));	
-		}
+		strTitle = strTitle + m_Script_Name->GetStringSelection();
 	}
 	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Rules")){
-		if(m_Rules_Combo->GetStringSelection() != wxEmptyString){
-			this->SetTitle(wxT("Toucan - ") + m_Rules_Combo->GetStringSelection());
-		}
-		else{
-			this->SetTitle(wxT("Toucan"));	
-		}
+		strTitle = strTitle + m_Rules_Name->GetStringSelection();
 	}
 	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Portable Variables")){
-		if(m_Pvar_Name->GetStringSelection() != wxEmptyString){
-			this->SetTitle(wxT("Toucan - ") + m_Pvar_Name->GetStringSelection());
-		}
-		else{
-			this->SetTitle(wxT("Toucan"));	
-		}
+		strTitle = strTitle +m_Pvar_Name->GetStringSelection();
 	}	
-	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Settings")){
+	if(strTitle == wxT("Toucan - ")){
 		this->SetTitle(wxT("Toucan"));
-	}	
+	}
+	else{
+		this->SetTitle(strTitle);
+	}
 }
 	
