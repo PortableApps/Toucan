@@ -12,28 +12,19 @@
 #include "frmprogress.h"
 #include "toucan.h"
 
-//The base process
-class BaseProcess : public wxProcess
-{
-    DECLARE_CLASS(BaseProcess)
-public:
-    BaseProcess(wxWindow* win): wxProcess(win) {}
-	
-};
-
-//The actual piped process, this could be merged with the base process
-class PipedProcess : public BaseProcess
+class PipedProcess : public wxProcess
 {
 public:
     DECLARE_CLASS(PipedProcess)
 
-    PipedProcess(frmProgress* window): BaseProcess(window), m_Window(window)
+    PipedProcess(frmProgress* window)
     {
-	//Redirect the process input and output
         Redirect();
     }
 
     virtual bool HasInput();
+	
+	void OnTerminate(int pid, int status);
 	
 	void SetRealPid(long pid);
 	
