@@ -10,18 +10,18 @@
 #include <wx/stdpaths.h>
 
 //Implement frmProgress
-IMPLEMENT_CLASS( frmProgress, wxFrame )
+IMPLEMENT_CLASS(frmProgress, wxFrame)
 
 //frmProgress event table
-BEGIN_EVENT_TABLE( frmProgress, wxFrame )
-	EVT_CLOSE( frmProgress::OnCloseWindow )
-	EVT_BUTTON( wxID_OK, frmProgress::OnOkClick )
-	EVT_BUTTON( wxID_CANCEL, frmProgress::OnCancelClick )
-	EVT_BUTTON( wxID_SAVE, frmProgress::OnSaveClick )
+BEGIN_EVENT_TABLE(frmProgress, wxFrame)
+	EVT_CLOSE(frmProgress::OnCloseWindow)
+	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
+	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
+	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
 END_EVENT_TABLE()
 
 //Constructor
-frmProgress::frmProgress( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style ){
+frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
 	Init();
 	wxFrame::Create( parent, id, caption, pos, size, style );
 	CreateControls();
@@ -37,9 +37,7 @@ void frmProgress::Init(){
 }
 
 //Create controls
-void frmProgress::CreateControls()
-{
-	
+void frmProgress::CreateControls(){
 	//Create a pointer so that we have something to add the items to	
 	frmProgress* Frame = this;
 
@@ -48,7 +46,7 @@ void frmProgress::CreateControls()
 	wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
 	Panel->SetSizer(TopSizer);
 
-		m_Text = new wxTextCtrl(Panel, ID_TEXTCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
+		m_Text = new wxTextCtrl(Panel, ID_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
 		TopSizer->Add(m_Text, 1, wxGROW|wxALL, 5);
 
 		wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -68,16 +66,16 @@ void frmProgress::CreateControls()
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
-void frmProgress::OnOkClick( wxCommandEvent& event ){
+void frmProgress::OnOkClick(wxCommandEvent& event){
 	this->MakeModal(false);
 	this->Show(false);
 }
 
-void frmProgress::OnCancelClick( wxCommandEvent& event ){
+void frmProgress::OnCancelClick(wxCommandEvent& event){
 	wxGetApp().SetAbort(true);
 }
 
-void frmProgress::OnSaveClick( wxCommandEvent& event ){
+void frmProgress::OnSaveClick(wxCommandEvent& event){
 	wxString strCaption = _("Save");
 	wxString strWildcard;
 	strWildcard = wxT("Text Files (*.txt)|*.txt");
@@ -89,7 +87,7 @@ void frmProgress::OnSaveClick( wxCommandEvent& event ){
 	}
 }
 
-void frmProgress::OnCloseWindow( wxCloseEvent& event ){
+void frmProgress::OnCloseWindow(wxCloseEvent& event){
 	this->MakeModal(false);
 	this->Show(false);
 }
