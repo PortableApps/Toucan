@@ -1914,8 +1914,8 @@ void frmMain::OnBackupRatioChanged(wxScrollEvent& event){
 void frmMain::OnBackupAddVarClick(wxCommandEvent& event){
 	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK){
-		m_BackupLocations->Add(window->m_Text->GetValue());
-		m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview->GetValue())));
+		m_BackupLocations->Add(window->m_Location_Text->GetValue());
+		m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview_Text->GetValue())));
 	}
 	delete window;
 }
@@ -1923,8 +1923,8 @@ void frmMain::OnBackupAddVarClick(wxCommandEvent& event){
 void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK){
-		m_SecureLocations->Add(window->m_Text->GetValue());
-		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview->GetValue())));
+		m_SecureLocations->Add(window->m_Location_Text->GetValue());
+		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview_Text->GetValue())));
 	}
 	delete window;	
 }
