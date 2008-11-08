@@ -17,7 +17,7 @@
 #define ID_TEXT_DESTINATION 10005
 #define ID_PASS 10006
 
-/*frmProgress, the  backup restore window for Toucan*/
+/*frmProgress, the backup restore window for Toucan*/
 class frmRestore: public wxDialog
 {    
     DECLARE_EVENT_TABLE()

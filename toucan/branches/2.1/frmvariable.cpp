@@ -11,50 +11,28 @@
 #include "basicfunctions.h"
 #include "variables.h"
 
-IMPLEMENT_DYNAMIC_CLASS( frmVariable, wxDialog )
-
 
 BEGIN_EVENT_TABLE(frmVariable, wxDialog)
-
     EVT_BUTTON(ID_PATH, frmVariable::OnPathClick)
-
     EVT_BUTTON(ID_VARS_ADD, frmVariable::OnVarsAddClick)
-
-    EVT_BUTTON(wxID_OK, frmVariable::OnOkClick)
-
+	EVT_BUTTON(wxID_OK, frmVariable::OnOkClick)
     EVT_BUTTON(wxID_CANCEL, frmVariable::OnCancelClick)
-	
 	EVT_TEXT(ID_TEXT, frmVariable::OnTextChange)
-	
 END_EVENT_TABLE()
 
-
-frmVariable::frmVariable()
-{
-    Init();
-}
 
 frmVariable::frmVariable( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Init();
-    Create(parent, id, caption, pos, size, style);
-}
-
-
-bool frmVariable::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
-{
-    SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
-
     CreateControls();
+	
     if (GetSizer())
     {
         GetSizer()->SetSizeHints(this);
     }
     Centre();
-    return true;
 }
-
 
 void frmVariable::Init()
 {
@@ -125,24 +103,12 @@ void frmVariable::CreateControls()
 wxBitmap frmVariable::GetBitmapResource(const wxString& name)
 {
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
-	wxUnusedVar(name);
 	if (name == _T("add.png")) {
 		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
 	return wxNullBitmap;
 }
-
-wxIcon frmVariable::GetIconResource(const wxString& name)
-{
-    wxUnusedVar(name);
-    return wxNullIcon;
-}
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PATH
- */
 
 void frmVariable::OnPathClick(wxCommandEvent& event)
 {
@@ -152,40 +118,12 @@ void frmVariable::OnPathClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_VARS_ADD
- */
-
-void frmVariable::OnVarsAddClick(wxCommandEvent& event)
-{
+void frmVariable::OnVarsAddClick(wxCommandEvent& event){
     m_Text->WriteText(wxT("@") + m_Variables->GetStringSelection() + wxT("@"));	
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
- */
-
-void frmVariable::OnOkClick(wxCommandEvent& event)
-{
-    event.Skip();
-}
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL
- */
-
-void frmVariable::OnCancelClick(wxCommandEvent& event)
-{
-    event.Skip();
-}
-
 void frmVariable::OnTextChange(wxCommandEvent& event){
-	//wxMessageBox(_("New text!"));
 	wxString strPath = m_Text->GetValue();
-	strPath = Normalise(strPath);
-	strPath = Normalise(strPath);
+	strPath = Normalise(Normalise(strPath));
 	m_Preview->SetValue(strPath);
 }
