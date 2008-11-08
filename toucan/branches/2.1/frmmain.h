@@ -172,12 +172,11 @@ class Settings;
 /*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
 {
-	DECLARE_CLASS( frmMain )
 	DECLARE_EVENT_TABLE()
 
 public:
 	// Constructor
-	frmMain( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
+	frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
 	//Deconstructor, for uninitialising AUI
 	~frmMain();

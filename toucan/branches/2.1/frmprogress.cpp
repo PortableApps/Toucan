@@ -9,9 +9,6 @@
 
 #include <wx/stdpaths.h>
 
-//Implement frmProgress
-IMPLEMENT_CLASS(frmProgress, wxFrame)
-
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_CLOSE(frmProgress::OnCloseWindow)
@@ -41,12 +38,12 @@ void frmProgress::CreateControls(){
 	//Create a pointer so that we have something to add the items to	
 	frmProgress* Frame = this;
 
-	wxPanel* Panel = new wxPanel(Frame, ID_PANEL, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* Panel = new wxPanel(Frame, ID_PANEL_PROGRESS, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 
 	wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
 	Panel->SetSizer(TopSizer);
 
-		m_Text = new wxTextCtrl(Panel, ID_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
+		m_Text = new wxTextCtrl(Panel, ID_PROGRESS_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
 		TopSizer->Add(m_Text, 1, wxGROW|wxALL, 5);
 
 		wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);

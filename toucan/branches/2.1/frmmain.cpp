@@ -27,10 +27,6 @@
 #include "backupdata.h"
 #include "basicfunctions.h"
 
-//Implement frmMain
-IMPLEMENT_CLASS(frmMain, wxFrame)
-
-
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
 

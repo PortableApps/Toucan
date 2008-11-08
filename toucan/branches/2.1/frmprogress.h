@@ -11,23 +11,22 @@
 #include "wx/wx.h"
 
 #define ID_FRMPROGRESS 10007
-#define ID_PANEL 10028
-#define ID_TEXT 10067
+#define ID_PANEL_PROGRESS 10028
+#define ID_PROGRESS_TEXT 10067
 
 /*frmProgress, the main progress window for Toucan*/
 class frmProgress: public wxFrame
 {
-	DECLARE_CLASS(frmProgress)
 	DECLARE_EVENT_TABLE()
 
 public:
-	// Constructor
+	//Constructor
 	frmProgress(wxWindow* parent, wxWindowID id = ID_FRMPROGRESS, const wxString& caption = _("Progress"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(640, 480), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
 
 	//Sets up all of the member vaiables
 	void Init();
 
-	// Creates the controls and sizers
+	//Creates the controls and sizers
 	void CreateControls();
 
 	void OnOkClick(wxCommandEvent& event);
