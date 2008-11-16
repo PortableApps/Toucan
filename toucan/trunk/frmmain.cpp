@@ -943,7 +943,7 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
 		return bitmap;
 	}
 	else if (name == _T("addvar.png")) {
-		wxBitmap bitmap(_T("addvar.png"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap(strPath + _T("addvar.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	return wxNullBitmap;
