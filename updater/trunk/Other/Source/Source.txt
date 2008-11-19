@@ -1,4 +1,2 @@
 The source code for PortableAppsUpdater is available from the PortableAppsUpdater homepage:
 http://portableapps.com/PortableAppsUpdater
-
-The source code for GNU Wget can be found on http://ftp.gnu.org/gnu/wget/ [via http] and ftp://ftp.gnu.org/gnu/wget/ [via FTP]. It can also be found on one of our FTP mirrors. For more download options, see the download information on the Wget Wgiki. 

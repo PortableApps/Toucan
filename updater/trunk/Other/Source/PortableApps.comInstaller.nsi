@@ -1,4 +1,6 @@
-;Copyright 2007-2008 John T. Haller
+;THIS IS A SPECIALIZED VERSION OF THE PORTABLEAPPS.COM INSTALLER AND SHOULD NOT BE USED WITH OTHER APPS
+
+;Copyright 2007-2008 John T. Haller of PortableApps.com
 
 ;Website: http://PortableApps.com/
 
@@ -21,33 +23,8 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-;=== BEGIN: BASIC INFORMATION ===
-;This section contains the basic information about the app
-!define NAME "PortableApps.com Updater"
-!define SHORTNAME "PortableAppsUpdater"
-!define VERSION "0.9.1.0"
-!define FILENAME "PA_UPDATER_1.0_Beta1"
-!define CHECKRUNNING "PortableAppsUpdater.exe"
-!define CLOSENAME "PortableApps.com Updater"
-!define ADDONSDIRECTORYPRESERVE "NONE"
-!define PORTABLEAPPSINSTALLERVERSION "0.9.9.7"
-!define INSTALLERCOMMENTS "For additional details, visit PortableApps.com"
-!define INSTALLERADDITIONALTRADEMARKS "Firefox is a Trademark of The Mozilla Foundation. " ;end this entry with a period and a space if used
-!define INSTALLERLEGALCOPYRIGHT "PortableApps.com and contributors"
-
-;== License.  For no license agreement, comment out the next line by placing a semicolon at the start of it
-;!define LICENSEAGREEMENT "eula.rtf"
-
-;== Multi-Installer.  If making an installer with no options (like additional languages), comment out the next line by placing a semicolon at the start of it
-;!define MAINSECTIONTITLE "AppName Portable (English) [Required]"
-!ifdef MAINSECTIONTITLE
-	!define MAINSECTIONDESCRIPTION "Install the portable app"
-	!define OPTIONALSECTIONTITLE "Additional Languages"
-	!define OPTIONALSECTIONDESCRIPTION "Add multilingual support for this app"
-	!define OPTIONALSECTIONSELECTEDAPPINFOSUFFIX "(Multilingual)"
-	!define OPTIONALSECTIONNOTSELECTEDAPPINFOSUFFIX "(English)"
-!endif
-;=== END: BASIC INFORMATION ===
+!define PORTABLEAPPSINSTALLERVERSION "0.10.1.0"
+!include PortableApps.comInstallerConfig.nsh
 
 !define MAINSECTIONIDX 0
 !ifdef MAINSECTIONTITLE
@@ -63,7 +40,7 @@ VIProductVersion "${VERSION}"
 VIAddVersionKey ProductName "${NAME}"
 VIAddVersionKey Comments "${INSTALLERCOMMENTS}"
 VIAddVersionKey CompanyName "PortableApps.com"
-VIAddVersionKey LegalCopyright "${INSTALLERLEGALCOPYRIGHT}"
+VIAddVersionKey LegalCopyright "PortableApps.com Installer Copyright 2007-2008 PortableApps.com."
 VIAddVersionKey FileDescription "${NAME}"
 VIAddVersionKey FileVersion "${VERSION}"
 VIAddVersionKey ProductVersion "${VERSION}"
@@ -94,19 +71,30 @@ RequestExecutionLevel user
 !insertmacro GetSize
 !insertmacro GetParent
 !include TextFunc.nsh
-;=== BEGIN: OPTIONAL INCLUDE COMPONENTS
-;If the app needs to read or write config files (not INI files), uncomment the needed options
-;!insertmacro ConfigRead
-;!insertmacro ConfigReadS
-;!insertmacro ConfigWrite
-;!insertmacro ConfigWriteS
-;=== END: OPTIONAL INCLUDE COMPONENTS
+
+!ifdef USESCONFIGREAD
+	!insertmacro ConfigRead
+!endif
+!ifdef USESCONFIGREADS
+	!insertmacro ConfigReadS
+!endif
+!ifdef USESCONFIGWRITE
+	!insertmacro ConfigWrite
+!endif
+!ifdef USESCONFIGWRITES
+	!insertmacro ConfigWriteS
+!endif
 
 ;=== Program Icon
-Icon "..\..\App\AppInfo\appicon.ico"
+!ifdef PLUGININSTALLER
+	Icon "PortableApps.comInstallerPlugin.ico"
+	!define MUI_ICON "PortableApps.comInstallerPlugin.ico"
+!else
+	Icon "..\..\App\AppInfo\appicon.ico"
+	!define MUI_ICON "..\..\App\AppInfo\appicon.ico"
+!endif
 
 ;=== Icon & Stye ===
-!define MUI_ICON "..\..\App\AppInfo\appicon.ico"
 BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
 
 ;=== Pages
@@ -130,69 +118,68 @@ BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
 !insertmacro MUI_PAGE_FINISH
 
 ;=== Languages
+;=== THESE BITS WERE ADDED AND ARE NOT YET PART OF THE PORTABLEAPPS.COM INSTALLER
 !insertmacro MUI_LANGUAGE "English"
+!include PortableApps.comInstallerLANG_ENGLISH.nsh
+!insertmacro MUI_LANGUAGE "Dutch"
+!include PortableApps.comInstallerLANG_DUTCH.nsh
+!insertmacro MUI_LANGUAGE "Estonian"
+!include PortableApps.comInstallerLANG_ESTONIAN.nsh
 !insertmacro MUI_LANGUAGE "French"
+!include PortableApps.comInstallerLANG_FRENCH.nsh
 !insertmacro MUI_LANGUAGE "German"
-!insertmacro MUI_LANGUAGE "Italian"
-!insertmacro MUI_LANGUAGE "Portuguese"
+!include PortableApps.comInstallerLANG_GERMAN.nsh
+!insertmacro MUI_LANGUAGE "Russian"
+!include PortableApps.comInstallerLANG_RUSSIAN.nsh
 !insertmacro MUI_LANGUAGE "Spanish"
-!insertmacro MUI_LANGUAGE "Japanese"
-!insertmacro MUI_LANGUAGE "Simpchinese"
-
-; == German translations ==
-!include "LANG_GERMAN.nsh"
-
-; == English translations ==
-!include "LANG_ENGLISH.nsh"
-
-; == French translations ==
-!include "LANG_FRENCH.nsh"
-
-; == Italian translations ==
-!include "LANG_ITALIAN.nsh"
-
-; == Portuguese translations ==
-!include "LANG_PORTUGUESE.nsh"
-
-; == Spanish translations ==
-!include "LANG_SPANISH.nsh"
-
-; == Japanese translations ==
-!include "LANG_JAPANESE.nsh"
-
-; == Traditional Chinese translations ==
-!include "LANG_SIMPCHINESE.nsh"
+!include PortableApps.comInstallerLANG_SPANISH.nsh
+!insertmacro MUI_LANGUAGE "Polish"
+!include PortableApps.comInstallerLANG_POLISH.nsh
+!insertmacro MUI_LANGUAGE "Hungarian"
+!include PortableApps.comInstallerLANG_HUNGARIAN.nsh
+!insertmacro MUI_LANGUAGE "Bulgarian"
+!include PortableApps.comInstallerLANG_BULGARIAN.nsh
+!insertmacro MUI_LANGUAGE "Korean"
+!include PortableApps.comInstallerLANG_KOREAN.nsh
 
 !insertmacro MUI_RESERVEFILE_LANGDLL
+;=== END ADDED BITS
 
 ;=== Variables
 Var FOUNDPORTABLEAPPSPATH
-Var PortableApps.comLocaleID
 !ifdef MAINSECTIONTITLE
 	Var OPTIONAL1DONE
 !endif
 
+;=== Custom Code
+!ifdef USESCUSTOMCODE
+	!include PortableApps.comInstallerCustom.nsh
+!endif
+
 Function .onInit
-	;BEGIN: Init Language Detection Code
-	ReadEnvStr $PortableApps.comLocaleID "PortableApps.comLocaleID"
-	StrCmp $PortableApps.comLocaleID "1031" SetLanguageFromEnvironment ;German
-	StrCmp $PortableApps.comLocaleID "1034" SetLanguageFromEnvironment ;Spain
-	StrCmp $PortableApps.comLocaleID "1036" SetLanguageFromEnvironment ;French
-	StrCmp $PortableApps.comLocaleID "1040" SetLanguageFromEnvironment ;Italian
-	StrCmp $PortableApps.comLocaleID "2070" SetLanguageFromEnvironment ;Portuguese
-	StrCmp $PortableApps.comLocaleID "1041" SetLanguageFromEnvironment ;Japanese
-	StrCmp $PortableApps.comLocaleID "2052" SetLanguageFromEnvironment ;SIMPCHINESE
-	StrCmp $PortableApps.comLocaleID "1033" SetLanguageFromEnvironment ShowLanguageSelector ;English
-	;END: Init Language Detection Code
+	;=== THESE BITS WERE ADDED AND ARE NOT YET PART OF THE PORTABLEAPPS.COM INSTALLER
+	ReadEnvStr $0 "PortableApps.comLocaleID"
+	StrCmp $0 "1061" SetLanguageFromEnvironment ;Estonian
+	StrCmp $0 "1034" SetLanguageFromEnvironment ;Spanish
+	StrCmp $0 "1049" SetLanguageFromEnvironment ;Russian
+	StrCmp $0 "1043" SetLanguageFromEnvironment ;Dutch
+	StrCmp $0 "1031" SetLanguageFromEnvironment ;German
+	StrCmp $0 "1036" SetLanguageFromEnvironment ;French
+	StrCmp $0 "1045" SetLanguageFromEnvironment ;Polish
+	StrCmp $0 "1038" SetLanguageFromEnvironment ;Hungarian
+	StrCmp $0 "1026" SetLanguageFromEnvironment ;Bulgarian
+	StrCmp $0 "1042" SetLanguageFromEnvironment ;Korean
+	StrCmp $0 "1033" SetLanguageFromEnvironment ShowLanguageSelector ;English
 	
 	SetLanguageFromEnvironment:
-		StrCpy $LANGUAGE $PortableApps.comLocaleID
+		StrCpy $LANGUAGE $0
 		Goto GetCommandLineOptions
 
 	ShowLanguageSelector:
 		!insertmacro MUI_LANGDLL_DISPLAY
 
 	GetCommandLineOptions:
+	;=== END ADDED BITS
 	${GetOptions} "$CMDLINE" "/DESTINATION=" $R0
 
 	IfErrors CheckLegacyDestination
@@ -252,8 +239,14 @@ Function LeaveDirectory
 					!endif
 					${GetRoot} `$INSTDIR` $2
 					${DriveSpace} `$2\` "/D=F /S=K" $3 ;=== Space Free on Device
-					${GetSize} `$INSTDIR` "/M=*.* /S=0K /G=1" $4 $5 $6 ;=== Current installation size
-					IntOp $3 $3 + $4 ;=== Space Free + Current Install Size
+
+					!ifndef PLUGININSTALLER ;=== If not a plugin installer, add the current install size to free space
+						${GetSize} `$INSTDIR` "/M=*.* /S=0K /G=1" $4 $5 $6 ;=== Current installation size
+						IntOp $3 $3 + $4 ;=== Space Free + Current Install Size
+					!else
+						Goto CalculateSpaceLeft
+					!endif
+
 					IfFileExists `$INSTDIR\Data` "" CheckPluginsDirectory
 						${GetSize} `$INSTDIR\Data` "/M=*.* /S=0K /G=1" $4 $5 $6 ;=== Size of Data directory
 						IntOp $3 $3 - $4 ;=== Remove the data directory from the free space calculation
@@ -305,14 +298,263 @@ FunctionEnd
 	IntCmp $0 ${SF_SELECTED} MainSkipOptionalCleanup
 		;=== BEGIN: OPTIONAL NOT SELECTED CLEANUP CODE ===
 		;This will be executed before install if the optional section (additional languages, etc) is not selected
+		!ifmacrodef CustomCodeOptionalCleanup
+			!insertmacro CustomCodeOptionalCleanup
+		!endif
 		;=== END: OPTIONAL NOT SELECTED CLEANUP CODE ===
 	MainSkipOptionalCleanup:
 !endif
 	
+	;=== Rename the preserved files so they're not deleted in the next part
+	!ifdef PRESERVEFILE1
+		Rename `$INSTDIR\${PRESERVEFILE1}` `$INSTDIR\~PRESERVEFILE1`
+	!endif
+	!ifdef PRESERVEFILE2
+		Rename `$INSTDIR\${PRESERVEFILE2}` `$INSTDIR\~PRESERVEFILE2`
+	!endif
+	!ifdef PRESERVEFILE3
+		Rename `$INSTDIR\${PRESERVEFILE3}` `$INSTDIR\~PRESERVEFILE3`
+	!endif
+	!ifdef PRESERVEFILE4
+		Rename `$INSTDIR\${PRESERVEFILE4}` `$INSTDIR\~PRESERVEFILE4`
+	!endif
+	!ifdef PRESERVEFILE5
+		Rename `$INSTDIR\${PRESERVEFILE5}` `$INSTDIR\~PRESERVEFILE5`
+	!endif
+	!ifdef PRESERVEFILE6
+		Rename `$INSTDIR\${PRESERVEFILE6}` `$INSTDIR\~PRESERVEFILE6`
+	!endif
+	!ifdef PRESERVEFILE7
+		Rename `$INSTDIR\${PRESERVEFILE7}` `$INSTDIR\~PRESERVEFILE7`
+	!endif
+	!ifdef PRESERVEFILE8
+		Rename `$INSTDIR\${PRESERVEFILE8}` `$INSTDIR\~PRESERVEFILE8`
+	!endif
+	!ifdef PRESERVEFILE9
+		Rename `$INSTDIR\${PRESERVEFILE9}` `$INSTDIR\~PRESERVEFILE9`
+	!endif
+	!ifdef PRESERVEFILE10
+		Rename `$INSTDIR\${PRESERVEFILE10}` `$INSTDIR\~PRESERVEFILE10`
+	!endif
+	
+	;=== Rename the preserved directories so they're not deleted in the next part
+	!ifdef PRESERVEDIRECTORY1
+		Rename `$INSTDIR\${PRESERVEDIRECTORY1}\` `$INSTDIR\~PRESERVEDIRECTORY1\`
+	!endif
+	!ifdef PRESERVEDIRECTORY2
+		Rename `$INSTDIR\${PRESERVEDIRECTORY2}\` `$INSTDIR\~PRESERVEDIRECTORY2\`
+	!endif
+	!ifdef PRESERVEDIRECTORY3
+		Rename `$INSTDIR\${PRESERVEDIRECTORY3}\` `$INSTDIR\~PRESERVEDIRECTORY3\`
+	!endif
+	!ifdef PRESERVEDIRECTORY4
+		Rename `$INSTDIR\${PRESERVEDIRECTORY4}\` `$INSTDIR\~PRESERVEDIRECTORY4\`
+	!endif
+	!ifdef PRESERVEDIRECTORY5
+		Rename `$INSTDIR\${PRESERVEDIRECTORY5}\` `$INSTDIR\~PRESERVEDIRECTORY5\`
+	!endif
+	!ifdef PRESERVEDIRECTORY6
+		Rename `$INSTDIR\${PRESERVEDIRECTORY6}\` `$INSTDIR\~PRESERVEDIRECTORY6\`
+	!endif
+	!ifdef PRESERVEDIRECTORY7
+		Rename `$INSTDIR\${PRESERVEDIRECTORY7}\` `$INSTDIR\~PRESERVEDIRECTORY7\`
+	!endif
+	!ifdef PRESERVEDIRECTORY8
+		Rename `$INSTDIR\${PRESERVEDIRECTORY8}\` `$INSTDIR\~PRESERVEDIRECTORY8\`
+	!endif
+	!ifdef PRESERVEDIRECTORY9
+		Rename `$INSTDIR\${PRESERVEDIRECTORY9}\` `$INSTDIR\~PRESERVEDIRECTORY9\`
+	!endif
+	!ifdef PRESERVEDIRECTORY10
+		Rename `$INSTDIR\${PRESERVEDIRECTORY10}\` `$INSTDIR\~PRESERVEDIRECTORY10\`
+	!endif
+	
+	;=== Remove main directories if necessary
+	!ifdef REMOVEAPPDIRECTORY
+		RMDir /r `$INSTDIR\App`
+	!endif
+	!ifdef REMOVEDATADIRECTORY
+		RMDir /r `$INSTDIR\Data`
+	!endif
+	!ifdef REMOVEOTHERDIRECTORY
+		RMDir /r `$INSTDIR\Other`
+	!endif
+	
+	;=== Remove specific directories
+	!ifdef REMOVEDIRECTORY1
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY1}`
+	!endif
+	!ifdef REMOVEDIRECTORY2
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY2}`
+	!endif
+	!ifdef REMOVEDIRECTORY3
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY3}`
+	!endif
+	!ifdef REMOVEDIRECTORY4
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY4}`
+	!endif
+	!ifdef REMOVEDIRECTORY5
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY5}`
+	!endif
+	!ifdef REMOVEDIRECTORY6
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY6}`
+	!endif
+	!ifdef REMOVEDIRECTORY7
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY7}`
+	!endif
+	!ifdef REMOVEDIRECTORY8
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY8}`
+	!endif
+	!ifdef REMOVEDIRECTORY9
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY9}`
+	!endif
+	!ifdef REMOVEDIRECTORY10
+		RMDir /r `$INSTDIR\${REMOVEDIRECTORY10}`
+	!endif
+	
+	;=== Remove specific files
+	!ifdef REMOVEFILE1
+		Delete `$INSTDIR\${REMOVEFILE1}` 
+	!endif
+	!ifdef REMOVEFILE2
+		Delete `$INSTDIR\${REMOVEFILE2}` 
+	!endif
+	!ifdef REMOVEFILE3
+		Delete `$INSTDIR\${REMOVEFILE3}` 
+	!endif
+	!ifdef REMOVEFILE4
+		Delete `$INSTDIR\${REMOVEFILE4}` 
+	!endif
+	!ifdef REMOVEFILE5
+		Delete `$INSTDIR\${REMOVEFILE5}` 
+	!endif
+	!ifdef REMOVEFILE6
+		Delete `$INSTDIR\${REMOVEFILE6}` 
+	!endif
+	!ifdef REMOVEFILE7
+		Delete `$INSTDIR\${REMOVEFILE7}` 
+	!endif
+	!ifdef REMOVEFILE8
+		Delete `$INSTDIR\${REMOVEFILE8}` 
+	!endif
+	!ifdef REMOVEFILE9
+		Delete `$INSTDIR\${REMOVEFILE9}` 
+	!endif
+	!ifdef REMOVEFILE10
+		Delete `$INSTDIR\${REMOVEFILE10}` 
+	!endif
+	
+	;=== Rename the preserved directories back to their proper names
+	!ifdef PRESERVEDIRECTORY1
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY1}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY1\` `$INSTDIR\${PRESERVEDIRECTORY1}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY2
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY2}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY2\` `$INSTDIR\${PRESERVEDIRECTORY2}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY3
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY3}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY3\` `$INSTDIR\${PRESERVEDIRECTORY3}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY4
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY4}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY4\` `$INSTDIR\${PRESERVEDIRECTORY4}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY5
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY5}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY5\` `$INSTDIR\${PRESERVEDIRECTORY5}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY6
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY6}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY6\` `$INSTDIR\${PRESERVEDIRECTORY6}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY7
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY7}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY7\` `$INSTDIR\${PRESERVEDIRECTORY7}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY8
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY8}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY8\` `$INSTDIR\${PRESERVEDIRECTORY8}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY9
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY9}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY9\` `$INSTDIR\${PRESERVEDIRECTORY9}\`
+	!endif
+	!ifdef PRESERVEDIRECTORY10
+		${GetParent} `$INSTDIR\${PRESERVEDIRECTORY10}\` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEDIRECTORY10\` `$INSTDIR\${PRESERVEDIRECTORY10}\`
+	!endif
+	
+	;=== Rename the preserved files back to their proper names
+	!ifdef PRESERVEFILE1
+		${GetParent} `$INSTDIR\${PRESERVEFILE1}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE1` `$INSTDIR\${PRESERVEFILE1}`
+	!endif
+	!ifdef PRESERVEFILE2
+		${GetParent} `$INSTDIR\${PRESERVEFILE2}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE2` `$INSTDIR\${PRESERVEFILE2}`
+	!endif
+	!ifdef PRESERVEFILE3
+		${GetParent} `$INSTDIR\${PRESERVEFILE3}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE3` `$INSTDIR\${PRESERVEFILE3}`
+	!endif
+	!ifdef PRESERVEFILE4
+		${GetParent} `$INSTDIR\${PRESERVEFILE4}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE4` `$INSTDIR\${PRESERVEFILE4}`
+	!endif
+	!ifdef PRESERVEFILE5
+		${GetParent} `$INSTDIR\${PRESERVEFILE5}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE5` `$INSTDIR\${PRESERVEFILE5}`
+	!endif
+	!ifdef PRESERVEFILE6
+		${GetParent} `$INSTDIR\${PRESERVEFILE6}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE6` `$INSTDIR\${PRESERVEFILE6}`
+	!endif
+	!ifdef PRESERVEFILE7
+		${GetParent} `$INSTDIR\${PRESERVEFILE7}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE7` `$INSTDIR\${PRESERVEFILE7}`
+	!endif
+	!ifdef PRESERVEFILE8
+		${GetParent} `$INSTDIR\${PRESERVEFILE8}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE8` `$INSTDIR\${PRESERVEFILE8}`
+	!endif
+	!ifdef PRESERVEFILE9
+		${GetParent} `$INSTDIR\${PRESERVEFILE9}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE9` `$INSTDIR\${PRESERVEFILE9}`
+	!endif
+	!ifdef PRESERVEFILE10
+		${GetParent} `$INSTDIR\${PRESERVEFILE10}` $R0
+		CreateDirectory $R0
+		Rename `$INSTDIR\~PRESERVEFILE10` `$INSTDIR\${PRESERVEFILE10}`
+	!endif
+	
 	;=== BEGIN: PRE-INSTALL CODE ===
 	;This will be executed before the app is installed.  Useful for cleaning up files no longer used.
-	 Delete '$INSTDIR\Help.chm'
-
+	!ifmacrodef CustomCodePreInstall
+		!insertmacro CustomCodePreInstall
+	!endif
+	;=== END: PRE-INSTALL CODE ===
+	
 	File "..\..\*.*"
 	SetOutPath $INSTDIR\App
 	File /r "..\..\App\*.*"
@@ -322,29 +564,9 @@ FunctionEnd
 	
 	;=== BEGIN: POST-INSTALL CODE ===
 	;This will be executed after the app is installed.  Useful for updating configuration files.
-		StrCmp $LANGUAGE "1031" 0 +3 ;German
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1031"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1034" 0 +3 ;Spanish
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1034"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1036" 0 +3 ;French
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1036"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1040" 0 +3 ;Italian
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1040"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "2070" 0 +3 ;Portuguese
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "2070"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "1041" 0 +3 ;Japanese
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1041"
-	Goto EndPostInstallCode
-	StrCmp $LANGUAGE "2052" 0 +3 ;SIMPCHINESE
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "2052"
-	Goto EndPostInstallCode
-	WriteINIStr $INSTDIR\Data\Settings.ini "General" "Language" "1033" ;=== Fallback to English
-	EndPostInstallCode:
+	!ifmacrodef CustomCodePostInstall
+		!insertmacro CustomCodePostInstall
+	!endif	
 	;=== END: POST-INSTALL CODE ===
 	
 	;=== Refresh PortableApps.com Menu (not final version)
