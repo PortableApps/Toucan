@@ -980,7 +980,12 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 {
 	//Checks to see if it is a top level item that is being removed
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()){
-		m_BackupLocations->Remove(m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection()));
+		//A loop to compare to normalised and non-normalised files
+		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
+			if(Normalise(Normalise(m_BackupLocations->Item(i))) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())){
+				m_BackupLocations->RemoveAt(i);
+			}
+		}
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
 	}
 }
@@ -1010,7 +1015,12 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& event)
 {
 	//Checks to see if it is a top level item that is being removed
 	if (m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection()) == m_Secure_TreeCtrl->GetRootItem()){
-		m_SecureLocations->Remove(m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection()));
+		//A loop to compare to normalised and non-normalised files
+		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
+			if(Normalise(Normalise(m_SecureLocations->Item(i))) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())){
+				m_SecureLocations->RemoveAt(i);
+			}
+		}
 		m_Secure_TreeCtrl->Delete(m_Secure_TreeCtrl->GetSelection());
 	}
 }
@@ -1961,7 +1971,7 @@ void frmMain::OnHelpClick(wxCommandEvent& event){
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0.2"));
+	info.SetVersion(wxT("2.0.3 Pre-release 1"));
 	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip, hashlib++ and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
