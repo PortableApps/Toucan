@@ -5,13 +5,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupprocess.h"
-#include "toucan.h"
-#include "backupdata.h"
 #include "basicfunctions.h"
-#include <wx/textfile.h>
 
-IMPLEMENT_CLASS(BaseProcess, wxProcess)
-IMPLEMENT_CLASS(PipedProcess, BaseProcess)
+IMPLEMENT_CLASS(PipedProcess, wxProcess)
 
 bool PipedProcess::HasInput()
 {
@@ -36,4 +32,8 @@ bool PipedProcess::HasInput()
 
 void PipedProcess::SetRealPid(long pid){
 	m_PID = pid;
+}
+
+void PipedProcess::OnTerminate(int pid, int status){
+	;
 }
