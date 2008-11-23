@@ -342,6 +342,8 @@ void SetSliderText(){
 }
 
 bool UpdateJobs(int version){
+	//Back up the existing file
+	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"), wxGetApp().GetSettingsPath() + wxT("Jobs.old"), true);
 	if(version == 1){
 		//Create a fileconfig item
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -460,6 +462,8 @@ bool UpdateJobs(int version){
 }
 
 bool UpdateRules(int version){
+	//Back up the existing file
+	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Rules.ini"), wxGetApp().GetSettingsPath() + wxT("Rules.old"), true);
 	if(version == 1){
 		//Create a fileconfig item
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
@@ -502,6 +506,8 @@ bool UpdateRules(int version){
 }
 
 bool UpdateScripts(int version){
+	//Back up the existing file	
+	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"), wxGetApp().GetSettingsPath() + wxT("Scripts.old"), true);
 	if(version == 1){
 		//Create a fileconfig item
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));

@@ -4,7 +4,7 @@ CONFIG=unicoderelease
 
 # unicoderelease
 ifeq ($(CONFIG),unicoderelease)
-WXWIN=I:/wxWidgets-2.8.8
+WXWIN=I:/wxWidgets-2.8.9
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks
@@ -19,7 +19,7 @@ WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 DEBUGFLAGS=
 LINKERFLAGS=-Wl, --subsystem,windows
-LIBS=-lhl++ -lwxmsw28u_xrc -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u_html -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxbase28u_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+LIBS=-lhl++ -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u_html -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxbase28u_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/contrib/include" -I"$(WXWIN)/lib/gcc_lib/mswu" -I"I:/hashlib++_0.3.1/src"
 LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"I:/hashlib++_0.3.1/src"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
