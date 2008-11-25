@@ -75,7 +75,7 @@ bool ScriptManager::Validate(){
 		if(strToken == wxT("Backup")){
 			wxString strJob = tkz.GetNextToken();
 			BackupData data;
-			data.SetName(wxT("LastBackupJob"));
+			data.SetName(strJob);
 			if(data.TransferFromFile()){
 				if(data.IsPassword == true){
 					blPassNeeded = true;
