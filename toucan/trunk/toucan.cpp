@@ -136,6 +136,12 @@ bool Toucan::OnInit()
 	}
 	else{
 		ParseCommandLine();
+		//We need to wait for the script manager to finish
+		while(m_Script->GetCommand() <= m_Script->GetCount()){
+			wxMilliSleep(200);
+			wxYield();
+			;
+		}
 		delete MainWindow->m_BackupLocations;
 		delete MainWindow->m_SecureLocations;
 		wxGetApp().MainWindow->Destroy();

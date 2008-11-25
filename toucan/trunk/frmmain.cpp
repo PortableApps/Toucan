@@ -2326,6 +2326,7 @@ void frmMain::OnScriptFinish(wxCommandEvent& event){
 	}
 	else{
 		wxGetApp().m_Script->CleanUp();
+		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
 	}
 }
 

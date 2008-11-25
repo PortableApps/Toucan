@@ -15,7 +15,7 @@ class SyncThread : public wxThread
 {
 public:
 	//Constructor
-	SyncThread(SyncData data, Rules rules, frmMain *main):wxThread(wxTHREAD_JOINABLE){
+	SyncThread(SyncData data, Rules rules, frmMain *main):wxThread(){
 		m_Data = data;
 		m_Rules = rules;
 		m_Main = main;
