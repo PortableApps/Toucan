@@ -18,7 +18,7 @@ wxString Normalise(wxString strFilePath){
 	wxString strReturn = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  
 	wxStringTokenizer tkz(strFilePath, wxT("@"), wxTOKEN_STRTOK);
-	while ( tkz.HasMoreTokens() ){
+	while(tkz.HasMoreTokens()){
         token = tkz.GetNextToken();
 		if(token.Left(1) != wxT("\\") && token.Right(1) != wxT("\\")){
 			wxString strValue;
@@ -61,7 +61,7 @@ wxString Normalise(wxString strFilePath){
 			}
 			else{
 				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11)+ wxT("\\Data\\Variables.ini") );
-				wxFileConfig::Set( config );
+				config->SetExpandEnvVars(false);
 				
 				wxString strRead;
 				//If there is no value in the field with the computers name, or it is empty, then read the value in the 'other' field

@@ -16,6 +16,7 @@
 bool SecureData::TransferFromFile(){
 	//Create a new ficonfig 	
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+	config->SetExpandEnvVars(false);
 	
 	bool blError;
 	wxString strTemp;

@@ -16,6 +16,7 @@
 bool SyncData::TransferFromFile(){
 	wxString strName = GetName();
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
+	config->SetExpandEnvVars(false);
 	
 	bool blError;
 	wxString strTemp;
