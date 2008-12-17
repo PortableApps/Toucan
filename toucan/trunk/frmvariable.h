@@ -7,64 +7,39 @@
 #ifndef _FRMVARIABLE_H_
 #define _FRMVARIABLE_H_
 
-
 #define ID_FRMVARIABLE 10009
-#define ID_TEXT 10010
-#define ID_PATH 10011
-#define ID_VARS 10012
-#define ID_VARS_ADD 10013
-#define ID_PREVIEW 10014
-#define SYMBOL_FRMVARIABLE_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL
-#define SYMBOL_FRMVARIABLE_TITLE _("Insert Variable")
-#define SYMBOL_FRMVARIABLE_IDNAME ID_FRMVARIABLE
-#define SYMBOL_FRMVARIABLE_SIZE wxSize(400, 300)
-#define SYMBOL_FRMVARIABLE_POSITION wxDefaultPosition
+#define ID_LOCATION 10010
+#define ID_LOCATION_TEXT 10011
+#define ID_VARIABLES 10012
+#define ID_VARIABLES_COMBO 10013
+#define ID_PREVIEW_TEXT 10014
 
+/*frmVariable, the window used for inserting variables into Toucan*/
 class frmVariable: public wxDialog
 {    
-    DECLARE_DYNAMIC_CLASS( frmVariable )
     DECLARE_EVENT_TABLE()
 
 public:
+    //Constructor
+    frmVariable( wxWindow* parent, wxWindowID id = ID_FRMVARIABLE, const wxString& caption = _("Insert Variable"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(400, 300), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
 
-    /// Constructors
-	frmVariable();
-
-    frmVariable( wxWindow* parent, wxWindowID id = SYMBOL_FRMVARIABLE_IDNAME, const wxString& caption = SYMBOL_FRMVARIABLE_TITLE, const wxPoint& pos = SYMBOL_FRMVARIABLE_POSITION, const wxSize& size = SYMBOL_FRMVARIABLE_SIZE, long style = SYMBOL_FRMVARIABLE_STYLE );
-
-    /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_FRMVARIABLE_IDNAME, const wxString& caption = SYMBOL_FRMVARIABLE_TITLE, const wxPoint& pos = SYMBOL_FRMVARIABLE_POSITION, const wxSize& size = SYMBOL_FRMVARIABLE_SIZE, long style = SYMBOL_FRMVARIABLE_STYLE );
-
-
-    /// Initialises member variables
+	//Sets up all of the member vaiables
     void Init();
 
-    /// Creates the controls and sizers
+	//Creates the controls and sizers
     void CreateControls();
 
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_PATH
-    void OnPathClick(wxCommandEvent& event);
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_VARS_ADD
-    void OnVarsAddClick(wxCommandEvent& event);
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnLocationClick(wxCommandEvent& event);
+    void OnVariablesClick(wxCommandEvent& event);
     void OnOkClick(wxCommandEvent& event);
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL
     void OnCancelClick(wxCommandEvent& event);
-	
 	void OnTextChange(wxCommandEvent& event);
 
-    /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-
-    wxTextCtrl* m_Text;
-    wxComboBox* m_Variables;
-    wxTextCtrl* m_Preview;
+    wxTextCtrl* m_Location_Text;
+    wxTextCtrl* m_Preview_Text;
+    wxComboBox* m_Variables_Combo;
 };
 
 #endif

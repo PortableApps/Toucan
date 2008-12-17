@@ -14,54 +14,18 @@
 #include <wx/stdpaths.h>
 #include <wx/checkbox.h>
 
-/*!
- * frmRestore type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( frmRestore, wxDialog )
-
-
-/*!
- * frmRestore event table definition
- */
-
-BEGIN_EVENT_TABLE( frmRestore, wxDialog )
-
-	EVT_BUTTON( wxID_OK, frmRestore::OnOkClick )
-
-    EVT_BUTTON( wxID_CANCEL, frmRestore::OnCancelClick )
-	
-	EVT_BUTTON( ID_BUTTON_FILE, frmRestore::OnFileClick )
-
-    EVT_BUTTON( ID_BUTTON_LOCATION, frmRestore::OnLocationClick )
-
+//frmRestore event table
+BEGIN_EVENT_TABLE(frmRestore, wxDialog)
+	EVT_BUTTON(wxID_OK, frmRestore::OnOkClick)
+    EVT_BUTTON(wxID_CANCEL, frmRestore::OnCancelClick)
+	EVT_BUTTON(ID_FILE, frmRestore::OnFileClick)
+    EVT_BUTTON(ID_DESTINATION, frmRestore::OnDestinationClick)
 END_EVENT_TABLE()
 
-
-/*!
- * frmRestore constructors
- */
-
-frmRestore::frmRestore()
-{
+//Constructor
+frmRestore::frmRestore(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
     Init();
-}
-
-frmRestore::frmRestore( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
-{
-    Init();
-    Create(parent, id, caption, pos, size, style);
-}
-
-
-/*!
- * frmRestore creator
- */
-
-bool frmRestore::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
-{
-    SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    wxDialog::Create(parent, id, caption, pos, size, style);
 
     CreateControls();
     if (GetSizer())
@@ -69,95 +33,72 @@ bool frmRestore::Create( wxWindow* parent, wxWindowID id, const wxString& captio
         GetSizer()->SetSizeHints(this);
     }
     Centre();
-    return true;
 }
 
-
-/*!
- * frmRestore destructor
- */
-
-frmRestore::~frmRestore()
-{
-}
-
-
-/*!
- * Member initialisation
- */
-
-void frmRestore::Init()
-{
+//frmRestore initialisation
+void frmRestore::Init(){
     m_File = NULL;
-    m_Location = NULL;
-	m_IsPass = NULL;
+    m_Destination = NULL;
+	m_Pass = NULL;
 }
 
+//Create controls
+void frmRestore::CreateControls(){   
+	//Create a pointer so that we have something to add the items to	
+    frmRestore* Dialog = this;
 
-/*!
- * Control creation for frmRestore
- */
+    wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
+    Dialog->SetSizer(TopSizer);
 
-void frmRestore::CreateControls()
-{    
-    frmRestore* itemDialog1 = this;
+		wxBoxSizer* BackupFileSizer = new wxBoxSizer(wxHORIZONTAL);
+		TopSizer->Add(BackupFileSizer, 0, wxGROW|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
-    itemDialog1->SetSizer(itemBoxSizer2);
+			wxStaticText* BackupFileText = new wxStaticText(Dialog, wxID_STATIC, _("Backup file:"), wxDefaultPosition, wxDefaultSize, 0);
+			BackupFileSizer->Add(BackupFileText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer2->Add(itemBoxSizer3, 0, wxGROW|wxALL, 5);
+			m_File = new wxTextCtrl(Dialog, ID_TEXT_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0);
+			m_File->SetMinSize(wxSize(250,-1));
+			BackupFileSizer->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText4 = new wxStaticText( itemDialog1, wxID_STATIC, _("Backup file:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+			wxButton* BackupFileButton = new wxButton(Dialog, ID_FILE, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0);
+			BackupFileSizer->Add(BackupFileButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_File = new wxTextCtrl( itemDialog1, ID_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	m_File->SetMinSize(wxSize(250,-1));
-    itemBoxSizer3->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+		wxBoxSizer* BackupDestinationSizer = new wxBoxSizer(wxHORIZONTAL);
+		TopSizer->Add(BackupDestinationSizer, 0, wxGROW|wxALL, 5);
 
-    wxButton* itemButton6 = new wxButton( itemDialog1, ID_BUTTON_FILE, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
-    itemBoxSizer3->Add(itemButton6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+			wxStaticText* BackupDestinationText = new wxStaticText(Dialog, wxID_STATIC, _("Restore into:"), wxDefaultPosition, wxDefaultSize, 0);
+			BackupDestinationSizer->Add(BackupDestinationText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer2->Add(itemBoxSizer7, 0, wxGROW|wxALL, 5);
+			m_Destination = new wxTextCtrl(Dialog, ID_TEXT_DESTINATION, _T(""), wxDefaultPosition, wxDefaultSize, 0);
+			m_Destination->SetMinSize(wxSize(250,-1));
+			BackupDestinationSizer->Add(m_Destination, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText8 = new wxStaticText( itemDialog1, wxID_STATIC, _("Restore into:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer7->Add(itemStaticText8, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+			wxButton* BackupDestinationButton = new wxButton(Dialog, ID_DESTINATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+			BackupDestinationSizer->Add(BackupDestinationButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_Location = new wxTextCtrl( itemDialog1, ID_LOCATION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	m_Location->SetMinSize(wxSize(250,-1));
-    itemBoxSizer7->Add(m_Location, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+		m_Pass = new wxCheckBox(Dialog, ID_PASS, _("Password"));
+		TopSizer->Add(m_Pass, 0, wxALL, 10);
 
-    wxButton* itemButton10 = new wxButton( itemDialog1, ID_BUTTON_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
-    itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+		wxStdDialogButtonSizer* ButtonSizer = new wxStdDialogButtonSizer;
+		TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+		
+		wxButton* OKButton = new wxButton(Dialog, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0);
+		ButtonSizer->AddButton(OKButton);
 
-	m_IsPass = new wxCheckBox(itemDialog1, ID_ISPASS, _("Password"));
-    itemBoxSizer2->Add(m_IsPass, 0, wxALL, 10);
+		wxButton* CancelButton = new wxButton(Dialog, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0);
+		ButtonSizer->AddButton(CancelButton);
 
-    wxStdDialogButtonSizer* itemStdDialogButtonSizer11 = new wxStdDialogButtonSizer;
-
-    itemBoxSizer2->Add(itemStdDialogButtonSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-    wxButton* itemButton12 = new wxButton( itemDialog1, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStdDialogButtonSizer11->AddButton(itemButton12);
-
-    wxButton* itemButton13 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStdDialogButtonSizer11->AddButton(itemButton13);
-
-    itemStdDialogButtonSizer11->Realize();
+		ButtonSizer->Realize();
 	
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
- */
-
-void frmRestore::OnOkClick( wxCommandEvent& event )
-{
-	if(m_File->GetValue() != wxEmptyString && m_Location->GetValue() != wxEmptyString){
+//This code needs to be reintegrated in the script system
+void frmRestore::OnOkClick(wxCommandEvent& event){
+	if(m_File->GetValue() != wxEmptyString && m_Destination->GetValue() != wxEmptyString){
 		wxString strPass;
-		if(m_IsPass->IsChecked()){
+		if(m_Pass->IsChecked()){
 			strPass = InputPassword();
 			if(strPass == wxEmptyString){
 				return;
@@ -168,10 +109,6 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 		}
 		frmProgress *window = wxGetApp().ProgressWindow;
 		window->m_Text->Clear();
-		//Send all errors to the text control
-		//wxLogTextCtrl* logTxt = new wxLogTextCtrl(window->m_Text);
-		//delete wxLog::SetActiveTarget(logTxt);
-		//Set up the buttons on the progress box
 		window->m_OK->Enable(false);
 		window->m_Save->Enable(false);
 		window->m_Cancel->Enable(true);
@@ -182,7 +119,7 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 		//Show the window
 		window->Update();
 		//Create the data sets and fill them
-		wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Location->GetValue() + wxT("\" * -r") + strPass;	
+		wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Destination->GetValue() + wxT("\" * -r") + strPass;	
 		
 		window->Show();
 		window->Refresh();
@@ -208,36 +145,19 @@ void frmRestore::OnOkClick( wxCommandEvent& event )
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_CANCEL
- */
-
-void frmRestore::OnCancelClick( wxCommandEvent& event )
-{
+void frmRestore::OnCancelClick(wxCommandEvent& event){
 	this->EndModal(wxID_CANCEL);
 	this->Destroy();
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BUTTON_LOCATION
- */
-
-void frmRestore::OnLocationClick( wxCommandEvent& event )
-{
+void frmRestore::OnDestinationClick(wxCommandEvent& event){
 	wxDirDialog dialog(this,_("Please select the destination folder."), wxEmptyString);
 	if (dialog.ShowModal() == wxID_OK) {
-		m_Location->SetValue(dialog.GetPath());
+		m_Destination->SetValue(dialog.GetPath());
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BUTTON_FILE
- */
-
-void frmRestore::OnFileClick( wxCommandEvent& event )
-{
+void frmRestore::OnFileClick(wxCommandEvent& event){
 	wxFileDialog dialog(this,_("Please choose your backup file"), wxEmptyString, wxEmptyString, wxT("7 Zip (*.7z)|*.7z|Zip Files (*.zip)|*.zip|All Files (*.*)|*.*"), wxFD_OPEN);
 	if (dialog.ShowModal() == wxID_OK) {
 		m_File->SetValue(dialog.GetPath());

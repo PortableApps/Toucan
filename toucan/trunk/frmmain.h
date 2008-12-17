@@ -172,23 +172,19 @@ class Settings;
 /*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
 {
-	DECLARE_CLASS( frmMain )
 	DECLARE_EVENT_TABLE()
 
 public:
-	/// Constructors
-	frmMain();
-	frmMain( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
-
-	bool Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
+	// Constructor
+	frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
 	//Deconstructor, for uninitialising AUI
 	~frmMain();
 
-	//To set up all of the member vaiables
+	//Sets up all of the member vaiables
 	void Init();
 
-	/// Creates the controls and sizers
+	// Creates the controls and sizers
 	void CreateControls();
 	
 	//Set up the title bar test
@@ -302,20 +298,13 @@ public:
 	void OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event);
 	void OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event);
 
-	////Functions
-
 	// Returns the AUI manager object
-	wxAuiManager& GetAuiManager() {
+	wxAuiManager& GetAuiManager(){
 		return m_auiManager;
 	}
 	
 	// Retrieves bitmap resources
-	wxBitmap GetBitmapResource( const wxString& name );
-
-	// Retrieves icon resources
-	wxIcon GetIconResource( const wxString& name );
-
-	////Member variables
+	wxBitmap GetBitmapResource(const wxString& name);
 	
 	//General
 	wxAuiManager m_auiManager;
@@ -359,7 +348,7 @@ public:
 	wxTextCtrl* m_Secure_Repass;
 	
 	//Rules
-	wxComboBox* m_Rules_Combo;
+	wxComboBox* m_Rules_Name;
 	wxListBox* m_Rules_FileExclude;
 	wxListBox* m_Rules_FolderExclude;
 	wxListBox* m_Rules_LocationInclude;
