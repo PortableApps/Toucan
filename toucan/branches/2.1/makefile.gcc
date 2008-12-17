@@ -4,7 +4,7 @@ CONFIG=unicoderelease
 
 # unicoderelease
 ifeq ($(CONFIG),unicoderelease)
-WXWIN=I:/wxWidgets-2.8.9
+WXWIN=I:/wxWidgets-2.8
 GCC_VERSION=3
 ifeq ($(GCC_VERSION),2.95)
 GCCFLAGS = -fvtable-thunks

@@ -334,30 +334,13 @@ bool FolderTimeLoop(wxString strFrom, wxString strTo){
 	} 
 	delete dir;
 	if (wxDirExists(strTo)){
-		#ifdef __WXMSW__
-			//Need to tidy up this code and submit as a patch to wxWidgets
-			FILETIME ftCreated,ftAccessed,ftModified;
-			HANDLE hFrom = CreateFile(strFrom, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-			if(hFrom == INVALID_HANDLE_VALUE){
-			  return false;
-			}  
-			
-			GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
-			CloseHandle(hFrom);
-			HANDLE hTo = CreateFile(strTo, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-			if(hTo == INVALID_HANDLE_VALUE){
-			  return false;
-			}  
-			SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
-			CloseHandle(hTo);
-		#elif defined(__WXGTK__)
-			wxFileName from(strTo);
-			wxFileName to(strFrom);
-			wxDateTime access, mod, created;
-			from.GetTimes(&access ,&mod ,&created );
-			to.SetTimes(&access ,&mod , &created); 
-		#endif
-		OutputProgress(_("Set folder timestamps for ") + strTo);
+		wxFileName from(strFrom);
+		wxFileName to(strTo);
+		wxDateTime access, mod, created;
+		from.GetTimes(&access ,&mod ,&created );
+		if(to.SetTimes(&access ,&mod , &created)){
+			OutputProgress(_("Set folder timestamps for ") + strTo);
+		}
 	}	
 	return true;
 }
