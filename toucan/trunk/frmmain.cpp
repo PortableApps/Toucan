@@ -1288,7 +1288,7 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 	wxCursor cursor(wxCURSOR_ARROWWAIT);
 	this->SetCursor(cursor);
 	SecureData data;
-	data.SetName(m_Sync_Job_Select->GetStringSelection());
+	data.SetName(m_Secure_Job_Select->GetStringSelection());
 	if(data.TransferFromFile()){
 		data.TransferToForm();
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
