@@ -17,8 +17,7 @@ class PipedProcess : public wxProcess
 public:
     DECLARE_CLASS(PipedProcess)
 
-    PipedProcess(frmProgress* window)
-    {
+    PipedProcess(frmProgress* window){
         Redirect();
     }
 
@@ -27,14 +26,11 @@ public:
 	void OnTerminate(int pid, int status);
 	
 	void SetRealPid(long pid);
-	
 	long GetRealPid() {return m_PID;}
 	
-
 protected:
     frmProgress*   m_Window;
 	long m_PID;
 };
-
 
 #endif
