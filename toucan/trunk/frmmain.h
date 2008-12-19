@@ -262,10 +262,7 @@ public:
 	void OnScriptSaveClick(wxCommandEvent& event);	
 	void OnScriptAddClick(wxCommandEvent& event);
 	void OnScriptRemoveClick(wxCommandEvent& event);
-	
-	//Settings
-	void OnFontChange(wxFontPickerEvent& event);
-	
+		
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnHelpClick(wxCommandEvent& event);

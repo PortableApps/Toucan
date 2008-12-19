@@ -102,9 +102,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON (ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick)
 	EVT_COMBOBOX(ID_SCRIPT_NAME, frmMain::OnScriptSelected)
 	
-	//Settings
-	EVT_FONTPICKER_CHANGED(ID_SETTINGS_FONT, frmMain::OnFontChange)	
-	
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
@@ -1974,10 +1971,6 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 			}
 		}
 	}	
-}
-
-void frmMain::OnFontChange(wxFontPickerEvent& event){
-	m_Settings_Font->GetSizer()->Layout();
 }
 
 void frmMain::OnBackupExpandClick(wxCommandEvent& event){
