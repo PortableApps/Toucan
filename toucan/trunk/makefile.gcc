@@ -6,7 +6,7 @@ HASHLIB=I:/hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\Output
-BUILDPATHS=..\..\Application\App\toucan
+BUILDPATH=..\..\Application\App\toucan
 CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__GNUWIN32__ -DUNICODE
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
@@ -22,7 +22,7 @@ RCFILESRC=Toucan.rc
 
 OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
 
-all:	$(BUILDPATHS) $(OUTPUTPATH)/$(PROGRAM)
+all:	$(BUILDPATH) $(BUILDPATH)/$(PROGRAM)
 
 $(OBJECTPATH):
 	-if not exist $(OBJECTPATH) mkdir $(OBJECTPATH)
@@ -34,7 +34,7 @@ clean:
 help:
 	@echo "Usage: make -f makefile.gcc CONFIG=[unicoderelease] [all|clean|help]"
 
-$(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
+$(BUILDPATH)/$(PROGRAM):	$(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) $(LIBPATH) $(LINKERFLAGS) $(LIBS)
 
 $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
