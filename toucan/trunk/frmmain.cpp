@@ -1981,19 +1981,31 @@ void frmMain::OnFontChange(wxFontPickerEvent& event){
 }
 
 void frmMain::OnBackupExpandClick(wxCommandEvent& event){
+	wxBusyCursor cursor;
+	this->Freeze();
 	m_Backup_TreeCtrl->ExpandAll();
+	this->Thaw();
 }
 
 void frmMain::OnSecureExpandClick(wxCommandEvent& event){
+	wxBusyCursor cursor;
+	this->Freeze();
 	m_Secure_TreeCtrl->ExpandAll();
+	this->Thaw();
 }
 
 void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
+	wxBusyCursor cursor;
+	this->Freeze();
 	m_Sync_Source_Tree->ExpandAll();
+	this->Thaw();
 }
 
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
+	wxBusyCursor cursor;
+	this->Freeze();
 	m_Sync_Dest_Tree->ExpandAll();
+	this->Thaw();
 }
 
 void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
