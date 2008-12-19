@@ -937,12 +937,9 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name)
 
 void frmMain::OnBackupAddClick(wxCommandEvent& event)
 {
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
+	wxBusyCursor cursor;
 	m_BackupLocations->Add(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
-	wxCursor stdcursor(wxCURSOR_ARROW);
-	this->SetCursor(stdcursor);
 }
 
 
@@ -971,13 +968,9 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnSecureAddClick(wxCommandEvent& event)
 {
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
-	//Add path to the global list and to the virtualdirtreectrl
+	wxBusyCursor cursor;
 	m_SecureLocations->Add(m_Secure_DirCtrl->GetPath());
 	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
-	wxCursor stdcursor(wxCURSOR_ARROW);
-	this->SetCursor(stdcursor);
 }
 
 
@@ -1010,15 +1003,12 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 	//Need to replace this with a better browser
 	wxDirDialog dialog(this,_("Please select the source folder."), Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
-		wxCursor cursor(wxCURSOR_ARROWWAIT);
-		this->SetCursor(cursor);
+		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
-		wxCursor cursorstd(wxCURSOR_ARROW);
-		this->SetCursor(cursorstd);
 	}
 }
 
@@ -1031,15 +1021,12 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 	//Need to replace this with a better browser	
 	wxDirDialog dialog(this,_("Please select the desination folder."), Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
-		wxCursor cursor(wxCURSOR_ARROWWAIT);
-		this->SetCursor(cursor);
+		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
-		wxCursor stdcursor(wxCURSOR_ARROW);
-		this->SetCursor(stdcursor);
 	}
 }
 
@@ -1200,8 +1187,7 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 
 void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 {
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
+	wxBusyCursor cursor;
 	SecureData data;
 	data.SetName(m_Secure_Job_Select->GetStringSelection());
 	if (data.TransferFromForm()) {
@@ -1217,8 +1203,6 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 	config->Write(data.GetName() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
 	config->Write(data.GetName() + wxT("/Type"),  wxT("Secure"));
 	delete config;
-	wxCursor stdcursor(wxCURSOR_ARROW);
-	this->SetCursor(stdcursor);
 }
 
 
@@ -1258,9 +1242,8 @@ void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 {
+	wxBusyCursor cursor;
 	m_Secure_Rules->SetStringSelection(wxEmptyString);
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
 	SecureData data;
 	data.SetName(m_Secure_Job_Select->GetStringSelection());
 	if(data.TransferFromFile()){
@@ -1270,8 +1253,6 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 		delete config;
 	}
 	SetTitleBarText();
-	wxCursor stdcursor(wxCURSOR_ARROW);
-	this->SetCursor(stdcursor);
 }
 
 
@@ -1283,8 +1264,7 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 
 void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 {
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
+	wxBusyCursor cursor;
 	SyncData data;
 	data.SetName(m_Sync_Job_Select->GetStringSelection());
 	if (data.TransferFromForm()) {
@@ -1300,8 +1280,6 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 	config->Write(data.GetName() + wxT("/Type"),  wxT("Sync"));
 	config->Flush();
 	delete config;
-	wxCursor stdcursor(wxCURSOR_ARROW);
-	this->SetCursor(stdcursor);
 }
 
 /*!
@@ -1310,8 +1288,7 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 
 void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 {
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
+	wxBusyCursor cursor;
 	BackupData data;
 	data.SetName(m_Backup_Job_Select->GetStringSelection());
 	if (data.TransferFromForm()){
@@ -1327,8 +1304,6 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 	config->Write(data.GetName() + wxT("/Type"),  wxT("Backup"));
 	config->Flush();
 	delete config;
-	wxCursor stdcursor(wxCURSOR_ARROW);
-	this->SetCursor(stdcursor);
 }
 
 
@@ -1367,9 +1342,7 @@ void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 {
-	m_Sync_Rules->SetStringSelection(wxEmptyString);
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
+	wxBusyCursor cursor;
 	SyncData data;
 	data.SetName(m_Sync_Job_Select->GetStringSelection());
 	if (data.TransferFromFile()){
@@ -1379,8 +1352,6 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 		delete config;
 	}
 	SetTitleBarText();
-	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(stdcursor);
 }
 
 
@@ -1471,9 +1442,7 @@ void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event)
 
 void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 {
-	m_Backup_Rules->SetStringSelection(wxEmptyString);
-	wxCursor cursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(cursor);
+	wxBusyCursor cursor;
 	BackupData data;
 	data.SetName(m_Backup_Job_Select->GetStringSelection());
 	if (data.TransferFromFile()){
@@ -1484,8 +1453,6 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 	}
 	SetSliderText();
 	SetTitleBarText();
-	wxCursor stdcursor(wxCURSOR_ARROWWAIT);
-	this->SetCursor(stdcursor);
 }
 
 /*!
