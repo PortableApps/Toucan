@@ -147,7 +147,7 @@ frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const
 
 //Destructor
 frmMain::~frmMain(){
-	GetAuiManager().UnInit();
+	m_auiManager.UnInit();
 }
 
 //frmMain initialisation
@@ -211,7 +211,7 @@ void frmMain::CreateControls()
 	itemFrame1->SetFont(font);
 
 	//Set the form up as managed by AUI
-	GetAuiManager().SetManagedWindow(this);
+	m_auiManager.SetManagedWindow(this);
 
 	//Create the root AUI notebook
 	m_Notebook = new wxAuiNotebook( itemFrame1, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER );
@@ -804,10 +804,10 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
 
-	itemFrame1->GetAuiManager().AddPane(m_Notebook, wxAuiPaneInfo()
+	itemFrame1->m_auiManager.AddPane(m_Notebook, wxAuiPaneInfo()
 	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
 
-	GetAuiManager().Update();
+	m_auiManager.Update();
 
 	//Set the settings
 

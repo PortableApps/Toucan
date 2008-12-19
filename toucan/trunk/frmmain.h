@@ -294,11 +294,6 @@ public:
 	void OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event);
 	void OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event);
 	void OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event);
-
-	// Returns the AUI manager object
-	wxAuiManager& GetAuiManager(){
-		return m_auiManager;
-	}
 	
 	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource(const wxString& name);
