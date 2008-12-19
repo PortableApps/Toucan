@@ -33,6 +33,7 @@ int ScriptManager::GetCount(){
 }
 
 void ScriptManager::SetScript(wxArrayString script){
+	m_Script.Clear();
 	m_Script = script;
 }
 

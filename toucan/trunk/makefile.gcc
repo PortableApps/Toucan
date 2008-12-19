@@ -30,6 +30,7 @@ $(OBJECTPATH):
 clean:
 	-if exist $(OBJECTPATH)\*.o del $(OBJECTPATH)\*.o
 	-if exist $(OBJECTPATH)\*.res del $(OBJECTPATH)\*.res
+	-if exist $(BUILDPATH)\toucan.exe del $(BUILDPATH)\toucan.exe
 
 help:
 	@echo "Usage: make -f makefile.gcc CONFIG=[unicoderelease] [all|clean|help]"
