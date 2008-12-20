@@ -931,24 +931,15 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name)
 	return wxNullBitmap;
 }
 
-/*!
-* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_ADD
-*/
-
-void frmMain::OnBackupAddClick(wxCommandEvent& event)
-{
+//ID_BACKUP_ADD
+void frmMain::OnBackupAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	m_BackupLocations->Add(m_Backup_DirCtrl->GetPath());
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
 }
 
-
-/*!
-* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_REMOVE
-*/
-
-void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
-{
+//ID_BACKUP_REMOVE
+void frmMain::OnBackupRemoveClick(wxCommandEvent& event){
 	//Checks to see if it is a top level item that is being removed
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
@@ -961,25 +952,15 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_ADD
- */
-
-void frmMain::OnSecureAddClick(wxCommandEvent& event)
-{
+//ID_SECURE_ADD
+void frmMain::OnSecureAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	m_SecureLocations->Add(m_Secure_DirCtrl->GetPath());
 	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_REMOVE
- */
-
-void frmMain::OnSecureRemoveClick(wxCommandEvent& event)
-{
+//ID_SECURE_REMOVE
+void frmMain::OnSecureRemoveClick(wxCommandEvent& event){
 	//Checks to see if it is a top level item that is being removed
 	if (m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection()) == m_Secure_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
@@ -992,14 +973,8 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_SOURCE_BTN
- */
-
-void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
-{
-
+//ID_SYNC_SOURCE_BTN
+void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event){
 	//Need to replace this with a better browser
 	wxDirDialog dialog(this,_("Please select the source folder."), Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
@@ -1012,12 +987,8 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_DEST_BTN
- */
-
-void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
-{
+//ID_SYNC_DEST_BTN
+void frmMain::OnSyncDestBtnClick(wxCommandEvent& event){
 	//Need to replace this with a better browser	
 	wxDirDialog dialog(this,_("Please select the desination folder."), Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
@@ -1030,13 +1001,8 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEEXCLUDE
- */
-
-void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event)
-{
+//ID_RULES_ADD_FILEEXCLUDE
+void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FileExclude->Append(dialog->GetValue());
@@ -1044,23 +1010,13 @@ void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEEXCLUDE
- */
-
-void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event)
-{
+//ID_RULES_REMOVE_FILEEXCLUDE
+void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event){
 	m_Rules_FileExclude->Delete(m_Rules_FileExclude->GetSelection());
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FOLDEREXCLUDE
- */
-
-void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event)
-{
+//ID_RULES_ADD_FOLDEREXCLUDE
+void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_FolderExclude->Append(dialog->GetValue());
@@ -1068,23 +1024,13 @@ void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FOLDEREXCLUDE
- */
-
-void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& event)
-{
+//ID_RULES_REMOVE_FOLDEREXCLUDE
+void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& event){
 	m_Rules_FolderExclude->Delete(m_Rules_FolderExclude->GetSelection());
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_SAVE
- */
-
-void frmMain::OnRulesSaveClick(wxCommandEvent& event)
-{
+//ID_RULES_SAVE
+void frmMain::OnRulesSaveClick(wxCommandEvent& event){
 	//Get all of the form data into arraystrings
 	wxArrayString arrLocationsInclude, arrFolderExclude, arrFileExclude, arrFileDelete;
 	for (unsigned int i = 0; i < m_Rules_LocationInclude->GetCount(); i++) {
@@ -1112,17 +1058,10 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& event)
 	SetRulesBox(m_Sync_Rules);
 	SetRulesBox(m_Backup_Rules);
 	SetRulesBox(m_Secure_Rules);
-
 }
 
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD
- */
-
-void frmMain::OnRulesAddClick(wxCommandEvent& event)
-{
+//ID_RULES_ADD
+void frmMain::OnRulesAddClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("You must select a name for this set of Rules"), wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_Name->AppendString(dialog->GetValue());
@@ -1134,13 +1073,8 @@ void frmMain::OnRulesAddClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE
- */
-
-void frmMain::OnRulesRemoveClick(wxCommandEvent& event)
-{
+//ID_RULES_REMOVE
+void frmMain::OnRulesRemoveClick(wxCommandEvent& event){
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
@@ -1150,13 +1084,8 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& event)
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
 }
 
-
-/*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_RULES_COMBO
- */
-
-void frmMain::OnRulesComboSelected(wxCommandEvent& event)
-{
+//ID_RULES_COMBO
+void frmMain::OnRulesComboSelected(wxCommandEvent& event){
 	//Clear the existing rules
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
@@ -1179,14 +1108,8 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event)
 	SetTitleBarText();
 }
 
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_SAVE
- */
-
-void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
-{
+//ID_SECURE_JOB_SAVE
+void frmMain::OnSecureJobSaveClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	SecureData data;
 	data.SetName(m_Secure_Job_Select->GetStringSelection());
@@ -1205,13 +1128,8 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event)
 	delete config;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_ADD
- */
-
-void frmMain::OnSecureJobAddClick(wxCommandEvent& event)
-{
+//ID_SECURE_JOB_ADD
+void frmMain::OnSecureJobAddClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxEmptyString, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Secure_Job_Select->Append(dialog->GetValue());
@@ -1220,13 +1138,8 @@ void frmMain::OnSecureJobAddClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_JOB_REMOVE
- */
-
-void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event)
-{
+//ID_SECURE_JOB_REMOVE
+void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event){
 	if (m_Secure_Job_Select->GetStringSelection() != wxEmptyString) {
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
@@ -1235,13 +1148,8 @@ void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SECURE_JOB_SELECT
- */
-
-void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
-{
+//ID_SECURE_JOB_SELECT
+void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	m_Secure_Rules->SetStringSelection(wxEmptyString);
 	SecureData data;
@@ -1255,15 +1163,8 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event)
 	SetTitleBarText();
 }
 
-
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_SAVE
- */
-
-void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
-{
+ //ID_SYNC_JOB_SAVE
+void frmMain::OnSyncJobSaveClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	SyncData data;
 	data.SetName(m_Sync_Job_Select->GetStringSelection());
@@ -1282,12 +1183,8 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event)
 	delete config;
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_SAVE
- */
-
-void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
-{
+//ID_BACKUP_JOB_SAVE
+void frmMain::OnBackupJobSaveClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	BackupData data;
 	data.SetName(m_Backup_Job_Select->GetStringSelection());
@@ -1306,13 +1203,8 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event)
 	delete config;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_ADD
- */
-
-void frmMain::OnSyncJobAddClick(wxCommandEvent& event)
-{
+//ID_SYNC_JOB_ADD
+void frmMain::OnSyncJobAddClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxEmptyString, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Sync_Job_Select->Append(dialog->GetValue());
@@ -1321,13 +1213,8 @@ void frmMain::OnSyncJobAddClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_JOB_REMOVE
- */
-
-void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event)
-{
+//ID_SYNC_JOB_REMOVE
+void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event){
 	if (m_Sync_Job_Select->GetStringSelection() != wxEmptyString) {
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		config->DeleteGroup(m_Sync_Job_Select->GetStringSelection());
@@ -1335,13 +1222,8 @@ void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_SYNC_JOB_SELECT
- */
-
-void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
-{
+//ID_SYNC_JOB_SELECT
+void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	SyncData data;
 	data.SetName(m_Sync_Job_Select->GetStringSelection());
@@ -1354,13 +1236,8 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event)
 	SetTitleBarText();
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_ADD_FILEINCLUDE
- */
-
-void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event)
-{
+//ID_RULES_ADD_FILEINCLUDE
+void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"),wxEmptyString);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_LocationInclude->Append(dialog->GetValue());
@@ -1368,23 +1245,13 @@ void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_RULES_REMOVE_FILEINCLUDE
- */
-
-void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& event)
-{
+//ID_RULES_REMOVE_FILEINCLUDE
+void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& event){
 	m_Rules_LocationInclude->Delete(m_Rules_LocationInclude->GetSelection());
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_LOCATION
- */
-
-void frmMain::OnBackupLocationClick(wxCommandEvent& event)
-{
+//ID_BACKUP_LOCATION
+void frmMain::OnBackupLocationClick(wxCommandEvent& event){
 	if(m_Backup_Function->GetStringSelection() == _("Differential")){
 		wxDirDialog dialog(this,_("Please select the folder to store your backups"),m_Backup_Location->GetValue());
 		if (dialog.ShowModal() == wxID_OK){
@@ -1406,12 +1273,8 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_ADD
- */
-
-void frmMain::OnBackupJobAddClick(wxCommandEvent& event)
-{
+//ID_BACKUP_JOB_ADD
+void frmMain::OnBackupJobAddClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this,  wxEmptyString, _("Job name"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Backup_Job_Select->Append(dialog->GetValue());
@@ -1420,13 +1283,8 @@ void frmMain::OnBackupJobAddClick(wxCommandEvent& event)
 	delete dialog;
 }
 
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_JOB_REMOVE
- */
-
-void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event)
-{
+//ID_BACKUP_JOB_REMOVE
+void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event){
 	if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
 		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 		config->DeleteGroup(m_Backup_Job_Select->GetStringSelection());
@@ -1435,13 +1293,8 @@ void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event)
 	}
 }
 
-
-/*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_BACKUP_JOB_SELECT
- */
-
-void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
-{
+//ID_BACKUP_JOB_SELECT
+void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	BackupData data;
 	data.SetName(m_Backup_Job_Select->GetStringSelection());
@@ -1455,12 +1308,8 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event)
 	SetTitleBarText();
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_OK
- */
-
-void frmMain::OnSyncOKClick(wxCommandEvent& event)
-{
+//ID_SYNC_OK
+void frmMain::OnSyncOKClick(wxCommandEvent& event){
 	SyncData data;
 	data.SetName(wxT("LastSyncJob"));
 	if (data.TransferFromForm()){
@@ -1486,12 +1335,8 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SYNC_PREVIEW
- */
-
-void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
-{
+//ID_SYNC_PREVIEW
+void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 	wxString strPath = m_Sync_Source_Txt->GetValue();
 	/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
 	in the future in the vdtc code*/
@@ -1537,12 +1382,8 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_OK
- */
-
-void frmMain::OnBackupOKClick(wxCommandEvent& event)
-{
+//ID_BACKUP_OK
+void frmMain::OnBackupOKClick(wxCommandEvent& event){
 	BackupData data;
 	data.SetName(wxT("LastBackupJob"));
 	if(data.TransferFromForm()){
@@ -1567,16 +1408,12 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_PREVIEW
- */
-
-void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
-{
+//ID_BACKUP_PREVIEW
+void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		//Create a new rule set and populate it from the form
 		Rules rules;
-		if (m_Backup_Rules->GetStringSelection() != wxEmptyString) {
+		if (m_Backup_Rules->GetStringSelection() != wxEmptyString){
 			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 		}
 		//Set up the tree ctrl for previewing
@@ -1585,7 +1422,7 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
 		//Delete all items and re-add the root
 		m_Backup_TreeCtrl->DeleteAllItems();
 		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
-		for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++) {
+		for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
 			//Loop through all the the filenames listed in the array and read them to the tree
 			m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
 		}
@@ -1594,18 +1431,13 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event)
 	}
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BACKUP_RESTORE
- */
-
-void frmMain::OnBackupRestoreClick(wxCommandEvent& event)
-{
+//ID_BACKUP_RESTORE
+void frmMain::OnBackupRestoreClick(wxCommandEvent& event){
 	frmRestore *window = new frmRestore(NULL, ID_FRMRESTORE, _("Restore"));	
 	window->ShowModal();
 }
 
-void frmMain::OnCloseWindow(wxCloseEvent& event)
-{
+void frmMain::OnCloseWindow(wxCloseEvent& event){
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
@@ -1631,12 +1463,8 @@ void frmMain::OnCloseWindow(wxCloseEvent& event)
 	wxGetApp().ProgressWindow->Destroy();
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_OK
- */
-
-void frmMain::OnSecureOKClick(wxCommandEvent& event)
-{
+//ID_SECURE_OK
+void frmMain::OnSecureOKClick(wxCommandEvent& event){
 	SecureData data;
 	data.SetName(wxT("LastSecureJob"));
 	if (data.TransferFromForm()) {
@@ -1660,12 +1488,8 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event)
 	m_Secure_DirCtrl->ReCreateTree();
 }
 
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SECURE_PREVIEW
- */
-
-void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
-{
+//ID_SECURE_PREVIEW
+void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		//Create a new rule set and populate it from the form
 		Rules rules;
@@ -1687,11 +1511,11 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event)
 	}
 }
 
-void frmMain::OnPvarAddClick(wxCommandEvent& event)
-{	
+//ID_PVAR_ADD
+void frmMain::OnPvarAddClick(wxCommandEvent& event){	
     wxTextEntryDialog dialog(this, _("Please enter the name for the new portable variable"), _("New Portable Variable") ,wxEmptyString, wxOK|wxCANCEL);
 	if(dialog.ShowModal() == wxID_OK){
-        wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
+        wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
         if(!config->HasGroup(dialog.GetValue())){
             m_Pvar_List->ClearAll();
             wxListItem column;
@@ -1713,8 +1537,8 @@ void frmMain::OnPvarAddClick(wxCommandEvent& event)
     }
 }
 
-void frmMain::OnPvarRemoveClick(wxCommandEvent& event)
-{	
+//ID_PVAR_REMOVE
+void frmMain::OnPvarRemoveClick(wxCommandEvent& event){	
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
 	config->DeleteGroup(m_Pvar_Name->GetValue());
 	config->Flush();
@@ -1726,8 +1550,8 @@ void frmMain::OnPvarRemoveClick(wxCommandEvent& event)
 	m_Pvar_List->InsertColumn(1, column);
 }
 
-void frmMain::OnPvarNameSelected(wxCommandEvent& event)
-{	
+//ID_PVAR_NAME
+void frmMain::OnPvarNameSelected(wxCommandEvent& event){	
 	m_Pvar_List->DeleteAllItems();
 	
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
@@ -1756,8 +1580,8 @@ void frmMain::OnPvarNameSelected(wxCommandEvent& event)
     delete config;
 }
 
-void frmMain::OnPvarAddItemClick(wxCommandEvent& event)
-{	
+//ID_PVAR_ADDITEM
+void frmMain::OnPvarAddItemClick(wxCommandEvent& event){	
 	int j = m_Pvar_List->GetItemCount();
 	m_Pvar_List->InsertItem(j, wxT("Test"));
 	m_Pvar_List->SetItem(j, 0, wxGetFullHostName() );
@@ -1779,8 +1603,8 @@ void frmMain::OnPvarAddItemClick(wxCommandEvent& event)
 	delete config;
 }
 
-void frmMain::OnPvarRemoveItemClick(wxCommandEvent& event)
-{	
+//ID_PVAR_REMOVEITEM
+void frmMain::OnPvarRemoveItemClick(wxCommandEvent& event){	
 	wxString selected;
 	long item = -1;
 	for ( ;; )
@@ -1797,8 +1621,8 @@ void frmMain::OnPvarRemoveItemClick(wxCommandEvent& event)
 	delete config;
 }
 
-void frmMain::OnPvarListActivated(wxListEvent& event)
-{	
+//ID_PVAR_LIST
+void frmMain::OnPvarListActivated(wxListEvent& event){	
 	long item = -1;
 	for ( ;; )
 	{
@@ -1825,8 +1649,8 @@ void frmMain::OnPvarListActivated(wxListEvent& event)
 	}
 }
 
-void frmMain::OnScriptExecute(wxCommandEvent& event)
-{	
+//ID_SCRIPT_EXECUTE
+void frmMain::OnScriptExecute(wxCommandEvent& event){	
 	wxArrayString arrLines;
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrLines.Add(m_Script_Rich->GetLineText(i));
@@ -1835,8 +1659,8 @@ void frmMain::OnScriptExecute(wxCommandEvent& event)
 	wxGetApp().m_Script->Execute();
 }
 
-void frmMain::OnScriptSelected(wxCommandEvent& event)
-{	
+//ID_SCRIPT_NAME
+void frmMain::OnScriptSelected(wxCommandEvent& event){	
 	m_Script_Rich->Clear();
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
@@ -1850,8 +1674,8 @@ void frmMain::OnScriptSelected(wxCommandEvent& event)
 	delete config;	
 }
 
-void frmMain::OnScriptSaveClick(wxCommandEvent& event)
-{	
+//ID_SCRIPT_SAVE
+void frmMain::OnScriptSaveClick(wxCommandEvent& event){	
 	wxArrayString arrContents;
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrContents.Add(m_Script_Rich->GetLineText(i));
@@ -1863,15 +1687,15 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& event)
 	
 }
 
-void frmMain::OnScriptRemoveClick(wxCommandEvent& event)
-{	
+//ID_SCRIPT_REMOVE
+void frmMain::OnScriptRemoveClick(wxCommandEvent& event){	
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	config->DeleteGroup(m_Script_Name->GetStringSelection());
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
 }
 
-void frmMain::OnScriptAddClick(wxCommandEvent& event)
-{	
+//ID_SCRIPT_ADD
+void frmMain::OnScriptAddClick(wxCommandEvent& event){	
 	wxTextEntryDialog* dialog = new wxTextEntryDialog(this, _("Please enter the name for the new script"), _("New Script") ,wxEmptyString, wxOK|wxCANCEL);
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Script_Name->Append(dialog->GetValue());
@@ -1880,10 +1704,12 @@ void frmMain::OnScriptAddClick(wxCommandEvent& event)
 	delete dialog;
 }
 
+//ID_BACKUP_RATIO
 void frmMain::OnBackupRatioChanged(wxScrollEvent& event){
 	SetSliderText();
 }
 
+//ID_BACKUP_ADDVAR
 void frmMain::OnBackupAddVarClick(wxCommandEvent& event){
 	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK){
@@ -1893,6 +1719,7 @@ void frmMain::OnBackupAddVarClick(wxCommandEvent& event){
 	delete window;
 }
 
+//ID_SECURE_ADDVAR
 void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
 	if(window->ShowModal() == wxID_OK){
@@ -1902,6 +1729,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 	delete window;	
 }
 
+//wxID_HELP
 void frmMain::OnHelpClick(wxCommandEvent& event){
 	//Use win32 method for launching as error with wxShell
 	#ifdef __WXMSW__
@@ -1909,6 +1737,7 @@ void frmMain::OnHelpClick(wxCommandEvent& event){
 	#endif
 }
 
+//wxID_ABOUT
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
@@ -1920,6 +1749,7 @@ void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutBox(info);
 }
 
+//ID_BACKUP_TREECTRL
 void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
 	if(m_Backup_TreeCtrl->GetItemParent(event.GetItem()) == m_Backup_TreeCtrl->GetRootItem()){
 		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
@@ -1930,6 +1760,7 @@ void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
 	}
 }
 
+//ID_SECURE_TREECTRL
 void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 	if(m_Secure_TreeCtrl->GetItemParent(event.GetItem()) == m_Secure_TreeCtrl->GetRootItem()){
 		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
@@ -1940,6 +1771,7 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 	}	
 }
 
+//ID_BACKUP_EXPAND
 void frmMain::OnBackupExpandClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	this->Freeze();
@@ -1947,6 +1779,7 @@ void frmMain::OnBackupExpandClick(wxCommandEvent& event){
 	this->Thaw();
 }
 
+//ID_SECURE_EXPAND
 void frmMain::OnSecureExpandClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	this->Freeze();
@@ -1954,6 +1787,7 @@ void frmMain::OnSecureExpandClick(wxCommandEvent& event){
 	this->Thaw();
 }
 
+//ID_SYNC_SOURCE_EXPAND
 void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	this->Freeze();
@@ -1961,6 +1795,7 @@ void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
 	this->Thaw();
 }
 
+//ID_SYNC_DEST_EXPAND
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	this->Freeze();
@@ -1968,6 +1803,7 @@ void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
 	this->Thaw();
 }
 
+//ID_BACKUP_TREECTRL
 void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
 	m_Backup_TreeCtrl->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Backup_Rules->GetStringSelection();
@@ -1988,6 +1824,7 @@ void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
 	this->PopupMenu(&menu, event.GetPoint() + this->m_Backup_TreeCtrl->GetPosition());
 }
 
+//ID_MENU_BACKUPFILEEXCLUDE_EXTENSION
 void frmMain::OnMenuBackupFileExcludeExtensionClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -1999,6 +1836,7 @@ void frmMain::OnMenuBackupFileExcludeExtensionClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_BACKUPFILEEXCLUDE_NAME
 void frmMain::OnMenuBackupFileExcludeNameClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2010,6 +1848,7 @@ void frmMain::OnMenuBackupFileExcludeNameClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_BACKUPLOCATIONINCLUDE_EXTENSION
 void frmMain::OnMenuBackupLocationIncludeExtensionClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2021,6 +1860,7 @@ void frmMain::OnMenuBackupLocationIncludeExtensionClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_MENU_BACKUPLOCATIONINCLUDE_NAME
 void frmMain::OnMenuBackupLocationIncludeNameClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2032,6 +1872,7 @@ void frmMain::OnMenuBackupLocationIncludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_MENU_BACKUPFOLDEREXCLUDE_NAME
 void frmMain::OnMenuBackupFolderExcludeNameClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2043,6 +1884,7 @@ void frmMain::OnMenuBackupFolderExcludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_SECURE_TREECTRL
 void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 	m_Secure_TreeCtrl->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Secure_Rules->GetStringSelection();
@@ -2063,6 +1905,7 @@ void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 	this->PopupMenu(&menu, event.GetPoint() + this->m_Secure_TreeCtrl->GetPosition());
 }
 
+//ID_MENU_SECUREFILEEXCLUDE_EXTENSION
 void frmMain::OnMenuSecureFileExcludeExtensionClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2074,6 +1917,7 @@ void frmMain::OnMenuSecureFileExcludeExtensionClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_SECUREFILEEXCLUDE_NAME
 void frmMain::OnMenuSecureFileExcludeNameClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2085,6 +1929,7 @@ void frmMain::OnMenuSecureFileExcludeNameClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_SECURELOCATIONINCLUDE_EXTENSION
 void frmMain::OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2096,6 +1941,7 @@ void frmMain::OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_MENU_SECURELOCATIONINCLUDE_NAME
 void frmMain::OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2107,6 +1953,7 @@ void frmMain::OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_MENU_SECUREFOLDEREXCLUDE_NAME
 void frmMain::OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2118,6 +1965,7 @@ void frmMain::OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_SYNC_SOURCE_TREE
 void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
 	m_Sync_Source_Tree->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Sync_Rules->GetStringSelection();
@@ -2138,6 +1986,7 @@ void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
 	this->PopupMenu(&menu, event.GetPoint() + this->m_Sync_Source_Tree->GetPosition());
 }
 
+//ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION
 void frmMain::OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2149,6 +1998,7 @@ void frmMain::OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_SYNCSOURCEFILEEXCLUDE_NAME
 void frmMain::OnMenuSyncSourceFileExcludeNameClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2160,6 +2010,7 @@ void frmMain::OnMenuSyncSourceFileExcludeNameClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_SYNCSOURCELOCATIONINCLUDE_EXTENSION
 void frmMain::OnMenuSyncSourceLocationIncludeExtensionClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2171,6 +2022,7 @@ void frmMain::OnMenuSyncSourceLocationIncludeExtensionClick(wxCommandEvent& even
 	}		
 }
 
+//ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME
 void frmMain::OnMenuSyncSourceLocationIncludeNameClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2182,6 +2034,7 @@ void frmMain::OnMenuSyncSourceLocationIncludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_MENU_SYNCSOURCEFOLDEREXCLUDE_NAME
 void frmMain::OnMenuSyncSourceFolderExcludeNameClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2193,6 +2046,7 @@ void frmMain::OnMenuSyncSourceFolderExcludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_SYNC_DEST_TREE
 void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
 	m_Sync_Dest_Tree->SelectItem(event.GetItem());
 	wxString strMenuTitle = m_Sync_Rules->GetStringSelection();
@@ -2213,6 +2067,7 @@ void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
 	this->PopupMenu(&menu, event.GetPoint() + this->m_Sync_Dest_Tree->GetPosition());
 }
 
+//ID_MENU_SYNCDESTFILEEXCLUDE_EXTENSION
 void frmMain::OnMenuSyncDestFileExcludeExtensionClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2224,6 +2079,7 @@ void frmMain::OnMenuSyncDestFileExcludeExtensionClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_SYNCDESTFILEEXCLUDE_NAME
 void frmMain::OnMenuSyncDestFileExcludeNameClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2235,6 +2091,7 @@ void frmMain::OnMenuSyncDestFileExcludeNameClick(wxCommandEvent& event){
 	}	
 }
 
+//ID_MENU_SYNCDESTLOCATIONINCLUDE_EXTENSION
 void frmMain::OnMenuSyncDestLocationIncludeExtensionClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2246,6 +2103,7 @@ void frmMain::OnMenuSyncDestLocationIncludeExtensionClick(wxCommandEvent& event)
 	}		
 }
 
+//ID_MENU_SYNCDESTLOCATIONINCLUDE_NAME
 void frmMain::OnMenuSyncDestLocationIncludeNameClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2257,6 +2115,7 @@ void frmMain::OnMenuSyncDestLocationIncludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_MENU_SYNCDESTFOLDEREXCLUDE_NAME
 void frmMain::OnMenuSyncDestFolderExcludeNameClick(wxCommandEvent& event){
 	if(m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules rules;
@@ -2268,6 +2127,7 @@ void frmMain::OnMenuSyncDestFolderExcludeNameClick(wxCommandEvent& event){
 	}		
 }
 
+//ID_SCRIPTFINISH
 void frmMain::OnScriptFinish(wxCommandEvent& event){
 	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
 		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
@@ -2279,6 +2139,7 @@ void frmMain::OnScriptFinish(wxCommandEvent& event){
 	}
 }
 
+//ID_AUINOTEBOOK
 void frmMain::OnTabChanged(wxAuiNotebookEvent& event){
 	SetTitleBarText();
 }
@@ -2310,4 +2171,3 @@ void frmMain::SetTitleBarText(){
 		this->SetTitle(strTitle);
 	}
 }
-	
