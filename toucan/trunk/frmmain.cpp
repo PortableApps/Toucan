@@ -449,7 +449,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* BackupLocationSizer = new wxStaticBoxSizer(BackupLocationStatic, wxHORIZONTAL);
 	BackupRow2->Add(BackupLocationSizer, 1, wxALL, 5);
 
-	m_Backup_Location = new wxTextCtrl( itemPanel35, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Backup_Location = new wxTextCtrl( itemPanel35, ID_BACKUP_LOCATION_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	BackupLocationSizer->Add(m_Backup_Location,1, wxALL, 5);
 
 	wxButton* itemButton49 = new wxButton( itemPanel35, ID_BACKUP_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
