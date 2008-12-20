@@ -267,6 +267,9 @@ public:
 	void OnAboutClick(wxCommandEvent& event);
 	void OnScriptFinish(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
+	void JobAdd(wxComboBox* box);
+	void JobRemove(wxComboBox* box);
+	void JobSave(wxComboBox* box, wxComboBox* rules, const wxString type);
 	
 	//Menu
 	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);

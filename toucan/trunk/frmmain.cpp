@@ -26,6 +26,7 @@
 #include "syncdata.h"
 #include "backupdata.h"
 #include "basicfunctions.h"
+#include "settings.h"
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
@@ -1108,39 +1109,17 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event){
 
 //ID_SECURE_JOB_SAVE
 void frmMain::OnSecureJobSaveClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	SecureData data;
-	data.SetName(m_Secure_Job_Select->GetStringSelection());
-	if (data.TransferFromForm()) {
-		if(data.GetName() != wxEmptyString){
-			data.TransferToFile();
-		} 
-		else{
-			ErrorBox(_("Please chose a job to save to"));
-		}
-	}
-	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
-	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Type"),  wxT("Secure"));
-	wxGetApp().m_Jobs_Config->Flush();
+	JobSave(m_Secure_Job_Select, m_Secure_Rules, wxT("Secure"));
 }
 
 //ID_SECURE_JOB_ADD
 void frmMain::OnSecureJobAddClick(wxCommandEvent& event){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxEmptyString, _("Job name"));
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Secure_Job_Select->Append(dialog->GetValue());
-		m_Secure_Job_Select->SetStringSelection(dialog->GetValue());
-	}
-	delete dialog;
+	JobAdd(m_Secure_Job_Select);
 }
 
 //ID_SECURE_JOB_REMOVE
 void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event){
-	if (m_Secure_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxGetApp().m_Jobs_Config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-		m_Secure_Job_Select->Delete(m_Secure_Job_Select->GetSelection());
-	}
+	JobRemove(m_Secure_Job_Select);
 }
 
 //ID_SECURE_JOB_SELECT
@@ -1158,57 +1137,22 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
 
  //ID_SYNC_JOB_SAVE
 void frmMain::OnSyncJobSaveClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	SyncData data;
-	data.SetName(m_Sync_Job_Select->GetStringSelection());
-	if (data.TransferFromForm()) {
-		if (data.GetName() != wxEmptyString) {
-			data.TransferToFile();
-		} 
-		else {
-			ErrorBox(_("Please chose a job to save to"));
-		}
-	}
-	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
-	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Type"),  wxT("Sync"));
-	wxGetApp().m_Jobs_Config->Flush();
+	JobSave(m_Sync_Job_Select, m_Sync_Rules, wxT("Sync"));
 }
 
 //ID_BACKUP_JOB_SAVE
 void frmMain::OnBackupJobSaveClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	BackupData data;
-	data.SetName(m_Backup_Job_Select->GetStringSelection());
-	if (data.TransferFromForm()){
-		if (data.GetName() != wxEmptyString){
-			data.TransferToFile();
-		} 
-		else{
-			ErrorBox(_("Please chose a job to save to"));
-		}
-	}
-	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
-	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Type"),  wxT("Backup"));
-	wxGetApp().m_Jobs_Config->Flush();
+	JobSave(m_Backup_Job_Select, m_Backup_Rules, wxT("Backup"));
 }
 
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& event){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, wxEmptyString, _("Job name"));
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Sync_Job_Select->Append(dialog->GetValue());
-		m_Sync_Job_Select->SetStringSelection(dialog->GetValue());
-	}
-	delete dialog;
+	JobAdd(m_Sync_Job_Select);
 }
 
 //ID_SYNC_JOB_REMOVE
 void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event){
-	if (m_Sync_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxGetApp().m_Jobs_Config->DeleteGroup(m_Sync_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-		m_Sync_Job_Select->Delete(m_Sync_Job_Select->GetSelection());
-	}
+	JobRemove(m_Sync_Job_Select);	
 }
 
 //ID_SYNC_JOB_SELECT
@@ -1262,21 +1206,12 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event){
 
 //ID_BACKUP_JOB_ADD
 void frmMain::OnBackupJobAddClick(wxCommandEvent& event){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this,  wxEmptyString, _("Job name"));
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Backup_Job_Select->Append(dialog->GetValue());
-		m_Backup_Job_Select->SetStringSelection(dialog->GetValue());
-	}
-	delete dialog;
+	JobAdd(m_Backup_Job_Select);
 }
 
 //ID_BACKUP_JOB_REMOVE
 void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event){
-	if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxGetApp().m_Jobs_Config->DeleteGroup(m_Backup_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-		m_Backup_Job_Select->Delete(m_Backup_Job_Select->GetSelection());
-	}
+	JobRemove(m_Backup_Job_Select);
 }
 
 //ID_BACKUP_JOB_SELECT
@@ -2124,4 +2059,50 @@ void frmMain::SetTitleBarText(){
 	else{
 		this->SetTitle(strTitle);
 	}
+}
+
+void frmMain::JobAdd(wxComboBox* box){
+	wxTextEntryDialog dialog(this, wxEmptyString, _("Job name"));
+	if (dialog.ShowModal() == wxID_OK){
+		box->Append(dialog.GetValue());
+		box->SetStringSelection(dialog.GetValue());
+	}
+}
+
+void frmMain::JobRemove(wxComboBox* box){
+	if (box->GetStringSelection() != wxEmptyString) {
+		wxGetApp().m_Jobs_Config->DeleteGroup(box->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+		box->Delete(m_Sync_Job_Select->GetSelection());
+	}	
+}
+
+void frmMain::JobSave(wxComboBox* box, wxComboBox* rules, const wxString type){
+	wxBusyCursor cursor;
+	RootData* data;
+	if(type == wxT("Sync")){
+		data = new SyncData();
+	}
+	else if(type == wxT("Backup")){
+		data = new BackupData();
+	}
+	else if(type == wxT("Secure")){
+		data = new SecureData();
+	}
+	else{
+		return;
+	}
+	data->SetName(box->GetStringSelection());
+	if (data->TransferFromForm()){
+		if (data->GetName() != wxEmptyString) {
+			data->TransferToFile();
+			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Rules"),  rules->GetStringSelection());
+			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Type"),  wxT("Sync"));
+			wxGetApp().m_Jobs_Config->Flush();
+		}
+		else {
+			ErrorBox(_("Please chose a job to save to"));
+		}
+	} 
+	delete data;
 }
