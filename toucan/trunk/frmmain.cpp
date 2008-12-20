@@ -1773,34 +1773,22 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 
 //ID_BACKUP_EXPAND
 void frmMain::OnBackupExpandClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	this->Freeze();
-	m_Backup_TreeCtrl->ExpandAll();
-	this->Thaw();
+	m_Backup_TreeCtrl->NeatExpandAll(this);
 }
 
 //ID_SECURE_EXPAND
 void frmMain::OnSecureExpandClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	this->Freeze();
-	m_Secure_TreeCtrl->ExpandAll();
-	this->Thaw();
+	m_Secure_TreeCtrl->NeatExpandAll(this);
 }
 
 //ID_SYNC_SOURCE_EXPAND
 void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	this->Freeze();
-	m_Sync_Source_Tree->ExpandAll();
-	this->Thaw();
+	m_Sync_Source_Tree->NeatExpandAll(this);
 }
 
 //ID_SYNC_DEST_EXPAND
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	this->Freeze();
-	m_Sync_Dest_Tree->ExpandAll();
-	this->Thaw();
+	m_Sync_Dest_Tree->NeatExpandAll(this);
 }
 
 //ID_BACKUP_TREECTRL

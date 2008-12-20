@@ -487,6 +487,9 @@ public:
 	void SetMode(wxString mode) {
 		_Mode = mode;
 	}
+	
+	//Neat expand all
+	void NeatExpandAll(wxWindow* topwindow);
 
 private:
 	// WDR: member variable declarations for wxVirtualDirTreeCtrl

@@ -700,3 +700,10 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 	}
 	return;
 }
+
+void wxVirtualDirTreeCtrl::NeatExpandAll(wxWindow* topwindow){
+	wxBusyCursor cursor;
+	topwindow->Freeze();
+	this->ExpandAll();
+	topwindow->Thaw();
+}
