@@ -17,27 +17,24 @@
 
 bool BackupData::TransferFromFile(){
 	wxString strName = GetName();
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->SetExpandEnvVars(false);
-	
+
 	bool blError;
 	int iTemp;
 	wxString strTemp;
 	bool blTemp;
 
-	blError = config->Read(strName + wxT("/BackupLocation"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/BackupLocation"), &strTemp);
 	if(blError){ SetBackupLocation(strTemp); }	
-	blError = config->Read(strName + wxT("/Locations"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Locations"), &strTemp);
 	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
-	blError = config->Read(strName + wxT("/Function"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
-	blError = config->Read(strName + wxT("/Format"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Format"), &strTemp);
 	if(blError){ SetFormat(strTemp); }
-	blError = config->Read(strName + wxT("/Ratio"), &iTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Ratio"), &iTemp);
 	if(blError){ SetRatio(iTemp); }
-	blError = config->Read(strName + wxT("/IsPass"), &blTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/IsPass"), &blTemp);
 	if(blError){ IsPassword = blTemp; }
-	delete config;
 	
 	if(!blError){
 		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
@@ -48,37 +45,34 @@ bool BackupData::TransferFromFile(){
 
 bool BackupData::TransferToFile(){
 	wxString strName = GetName();
-	//Create a new fileconfig object
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	bool blError = false;
 
 	//Delete any existing jobs with this name to ensure correct settings are retained
-	config->DeleteGroup(strName);
-	config->Flush();
+	wxGetApp().m_Jobs_Config->DeleteGroup(strName);
+	wxGetApp().m_Jobs_Config->Flush();
 
 	//Add the files to be written
-	if(!config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
 		blError = true;
 	}
-	if(!config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
 		blError = true;
 	}		
-	if(!config->Write(strName + wxT("/Function"), GetFunction())){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Function"), GetFunction())){
 		blError = true;
 	}
-	if(!config->Write(strName + wxT("/Format"), GetFormat())){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Format"), GetFormat())){
 		blError = true;
 	}
-	if(!config->Write(strName + wxT("/Ratio"), GetRatio())){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Ratio"), GetRatio())){
 		blError = true;
 	}
-	if(!config->Write(strName + wxT("/IsPass"), IsPassword)){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), IsPassword)){
 		blError = true;
 	}
 	
-	//Write the files and delete the fileconfig object
-	config->Flush();
-	delete config;
+	//Write the files
+	wxGetApp().m_Jobs_Config->Flush();
 	
 	if(blError){
 		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));

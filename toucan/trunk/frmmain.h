@@ -15,6 +15,7 @@
 #include <wx/dirctrl.h>
 #include <wx/listctrl.h>
 #include <wx/fontpicker.h>
+#include <wx/fileconf.h>
 
 #include "virtualdirtreectrl.h"
 
@@ -50,7 +51,6 @@ class Settings;
 #define ID_SYNC_IGNOREDS 10070
 
 //Backup 10100-10149
-
 #define ID_PANEL_BACKUP 10100
 #define ID_BACKUP_OK 10101
 #define ID_BACKUP_PREVIEW 10102
@@ -111,7 +111,6 @@ class Settings;
 #define ID_RULES_REMOVE_LOCATIONINCLUDE 10213
 
 //Portable Variables 10250-10299
-
 #define ID_PANEL_PVAR 10250
 #define ID_PVAR_NAME 10251
 #define ID_PVAR_LIST 10252
@@ -121,7 +120,6 @@ class Settings;
 #define ID_PVAR_REMOVEITEM 10256
 
 //Script 10300-10349
-
 #define ID_PANEL_SCRIPT 10301
 #define ID_SCRIPT_NAME 10302
 #define ID_SCRIPT_SAVE 10303
@@ -294,7 +292,7 @@ public:
 	void OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event);
 	void OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event);
 	void OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event);
-	
+
 	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource(const wxString& name);
 	

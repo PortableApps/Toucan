@@ -194,11 +194,9 @@ bool ScriptManager::ParseCommand(int i){
 	}
 	
 	Rules rules;
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-	if (config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
-		rules.TransferFromFile(config->Read(data->GetName() + wxT("/Rules")));
+	if (wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
+		rules.TransferFromFile(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
 	}
-	delete config;
 	
 	if(!data->Execute(rules)){
 		CleanUp();
@@ -226,21 +224,20 @@ bool ScriptManager::CleanUp(){
 	wxDateTime now = wxDateTime::Now();
 	OutputProgress(wxT(""));
 	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	OutputProgress(_("Elasped: ") + now.Subtract(startTime).Format() + wxT("\n"));
+	OutputProgress(_("Elapsed: ") + now.Subtract(startTime).Format() + wxT("\n"));
 	OutputProgress(_("Finished"));
 	
 	//Remove finished jobs
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-	if (config->HasGroup(wxT("LastSyncJob"))){
-		config->DeleteGroup(wxT("LastSyncJob"));
+	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSyncJob"))){
+		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSyncJob"));
 	}
-	if (config->HasGroup(wxT("LastBackupJob"))){
-		config->DeleteGroup(wxT("LastBackupJob"));
+	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastBackupJob"))){
+		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastBackupJob"));
 	}
-	if (config->HasGroup(wxT("LastSecureJob"))){
-		config->DeleteGroup(wxT("LastSecureJob"));
+	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSecureJob"))){
+		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSecureJob"));
 	}
-	delete config;
+	wxGetApp().m_Jobs_Config->Flush();
 	return true;	
 }
 

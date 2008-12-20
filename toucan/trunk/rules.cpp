@@ -125,30 +125,24 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 }
 
 bool Rules::TransferFromFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
-	
 	wxString strTemp;
 
-	config->Read(strName + wxT("/FilesToInclude"), &strTemp);
+	wxGetApp().m_Rules_Config->Read(strName + wxT("/FilesToInclude"), &strTemp);
 	SetLocationsToInclude(StringToArrayString(strTemp, wxT("|")));	
-	config->Read(strName + wxT("/FilesToExclude"), &strTemp);
+	wxGetApp().m_Rules_Config->Read(strName + wxT("/FilesToExclude"), &strTemp);
 	SetFilesToExclude(StringToArrayString(strTemp, wxT("|"))); 	
-	config->Read(strName + wxT("/FoldersToExclude"), &strTemp);
+	wxGetApp().m_Rules_Config->Read(strName + wxT("/FoldersToExclude"), &strTemp);
 	SetFoldersToExclude(StringToArrayString(strTemp, wxT("|"))); 
-	delete config;
 	return true;
 }
 
 bool Rules::TransferToFile(wxString strName){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
-	
 	bool blError;
-	config->DeleteGroup(strName);
-	blError = config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetLocationsToInclude(), wxT("|")));	
-	blError = config->Write(strName + wxT("/FilesToExclude"), ArrayStringToString(GetFilesToExclude(), wxT("|")));	
-	blError = config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("|")));
-	config->Flush();
-	delete config;
+	wxGetApp().m_Rules_Config->DeleteGroup(strName);
+	blError = wxGetApp().m_Rules_Config->Write(strName + wxT("/FilesToInclude"),  ArrayStringToString(GetLocationsToInclude(), wxT("|")));	
+	blError = wxGetApp().m_Rules_Config->Write(strName + wxT("/FilesToExclude"), ArrayStringToString(GetFilesToExclude(), wxT("|")));	
+	blError = wxGetApp().m_Rules_Config->Write(strName + wxT("/FoldersToExclude"), ArrayStringToString(GetFoldersToExclude(), wxT("|")));
+	wxGetApp().m_Rules_Config->Flush();
 	
 	if(!blError){
 		ErrorBox(wxT("There was an error saving to the rules file, \nplease check it is not set as read only or in use."));

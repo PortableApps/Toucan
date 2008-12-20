@@ -190,7 +190,6 @@ void frmMain::Init(){
 	
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
-	
 }
 
 //Create controls
@@ -1078,9 +1077,8 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& event){
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
-	config->DeleteGroup(m_Rules_Name->GetStringSelection());
-	delete config;
+	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
+	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
 }
 
@@ -1121,11 +1119,9 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& event){
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
-	//Create a new fileconfig and write the extra fields to it
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->Write(data.GetName() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
-	config->Write(data.GetName() + wxT("/Type"),  wxT("Secure"));
-	delete config;
+	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Rules"),  m_Secure_Rules->GetStringSelection());
+	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Type"),  wxT("Secure"));
+	wxGetApp().m_Jobs_Config->Flush();
 }
 
 //ID_SECURE_JOB_ADD
@@ -1141,10 +1137,9 @@ void frmMain::OnSecureJobAddClick(wxCommandEvent& event){
 //ID_SECURE_JOB_REMOVE
 void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event){
 	if (m_Secure_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->DeleteGroup(m_Secure_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
 		m_Secure_Job_Select->Delete(m_Secure_Job_Select->GetSelection());
-		delete config;
 	}
 }
 
@@ -1156,9 +1151,7 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
 	data.SetName(m_Secure_Job_Select->GetStringSelection());
 	if(data.TransferFromFile()){
 		data.TransferToForm();
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		m_Secure_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
-		delete config;
+		m_Secure_Rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data.GetName() + wxT("/Rules")));
 	}
 	SetTitleBarText();
 }
@@ -1176,11 +1169,9 @@ void frmMain::OnSyncJobSaveClick(wxCommandEvent& event){
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
-	config->Write(data.GetName() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
-	config->Write(data.GetName() + wxT("/Type"),  wxT("Sync"));
-	config->Flush();
-	delete config;
+	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Rules"),  m_Sync_Rules->GetStringSelection());
+	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Type"),  wxT("Sync"));
+	wxGetApp().m_Jobs_Config->Flush();
 }
 
 //ID_BACKUP_JOB_SAVE
@@ -1196,11 +1187,9 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event){
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->Write(data.GetName() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
-	config->Write(data.GetName() + wxT("/Type"),  wxT("Backup"));
-	config->Flush();
-	delete config;
+	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Rules"),  m_Backup_Rules->GetStringSelection());
+	wxGetApp().m_Jobs_Config->Write(data.GetName() + wxT("/Type"),  wxT("Backup"));
+	wxGetApp().m_Jobs_Config->Flush();
 }
 
 //ID_SYNC_JOB_ADD
@@ -1216,8 +1205,8 @@ void frmMain::OnSyncJobAddClick(wxCommandEvent& event){
 //ID_SYNC_JOB_REMOVE
 void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event){
 	if (m_Sync_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		config->DeleteGroup(m_Sync_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->DeleteGroup(m_Sync_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
 		m_Sync_Job_Select->Delete(m_Sync_Job_Select->GetSelection());
 	}
 }
@@ -1229,9 +1218,7 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event){
 	data.SetName(m_Sync_Job_Select->GetStringSelection());
 	if (data.TransferFromFile()){
 		data.TransferToForm();
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		m_Sync_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
-		delete config;
+		m_Sync_Rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data.GetName() + wxT("/Rules")));
 	}
 	SetTitleBarText();
 }
@@ -1286,10 +1273,9 @@ void frmMain::OnBackupJobAddClick(wxCommandEvent& event){
 //ID_BACKUP_JOB_REMOVE
 void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event){
 	if (m_Backup_Job_Select->GetStringSelection() != wxEmptyString) {
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		config->DeleteGroup(m_Backup_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->DeleteGroup(m_Backup_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
 		m_Backup_Job_Select->Delete(m_Backup_Job_Select->GetSelection());
-		delete config;
 	}
 }
 
@@ -1300,9 +1286,7 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event){
 	data.SetName(m_Backup_Job_Select->GetStringSelection());
 	if (data.TransferFromFile()){
 		data.TransferToForm();
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-		m_Backup_Rules->SetStringSelection(config->Read(data.GetName() + wxT("/Rules")));
-		delete config;
+		m_Backup_Rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data.GetName() + wxT("/Rules")));
 	}
 	SetSliderText();
 	SetTitleBarText();
@@ -1315,11 +1299,9 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event){
 	if (data.TransferFromForm()){
 		if(data.NeededFieldsFilled()){
 			if(data.TransferToFile()){
-				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini") );
-				config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
-				config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
-				config->Flush();
-				delete config;
+				wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
+				wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
+				wxGetApp().m_Jobs_Config->Flush();
 				
 				wxArrayString arrScript;
 				arrScript.Add(wxT("Sync \"LastSyncJob\""));
@@ -1389,11 +1371,9 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event){
 	if(data.TransferFromForm()){
 		if(data.NeededFieldsFilled()){
 			if(data.TransferToFile()){
-				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-				config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
-				config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
-				config->Flush();
-				delete config;
+				wxGetApp().m_Jobs_Config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
+				wxGetApp().m_Jobs_Config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
+				wxGetApp().m_Jobs_Config->Flush();
 				
 				wxArrayString arrScript;
 				arrScript.Add(wxT("Backup \"LastBackupJob\""));
@@ -1459,6 +1439,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	
 	delete m_BackupLocations;
 	delete m_SecureLocations;
+	
 	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
 }
@@ -1470,15 +1451,14 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event){
 	if (data.TransferFromForm()) {
 		if(data.NeededFieldsFilled()){
 			if(data.TransferToFile()){
-				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-				config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
-				config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
+				wxGetApp().m_Jobs_Config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
+				wxGetApp().m_Jobs_Config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
+				wxGetApp().m_Jobs_Config->Flush();
 				wxArrayString arrScript;
 				arrScript.Add(wxT("Secure \"LastSecureJob\""));
 				wxGetApp().SetAbort(false);
 				wxGetApp().m_Script->SetScript(arrScript);
 				wxGetApp().m_Script->Execute();
-				delete config;
 			}
 		}
 		else{
@@ -1515,15 +1495,14 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 void frmMain::OnPvarAddClick(wxCommandEvent& event){	
     wxTextEntryDialog dialog(this, _("Please enter the name for the new portable variable"), _("New Portable Variable") ,wxEmptyString, wxOK|wxCANCEL);
 	if(dialog.ShowModal() == wxID_OK){
-        wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
-        if(!config->HasGroup(dialog.GetValue())){
+        if(!wxGetApp().m_Variables_Config->HasGroup(dialog.GetValue())){
             m_Pvar_List->ClearAll();
             wxListItem column;
             m_Pvar_List->InsertColumn(0, column);
             m_Pvar_List->InsertColumn(1, column);
-            config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
-            config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
-            config->Flush();
+            wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
+            wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
+            wxGetApp().m_Variables_Config->Flush();
             m_Pvar_Name->Append(dialog.GetValue());
             m_Pvar_Name->SetStringSelection(dialog.GetValue());
             m_Pvar_List->InsertItem(0, wxT("Test"));
@@ -1539,9 +1518,8 @@ void frmMain::OnPvarAddClick(wxCommandEvent& event){
 
 //ID_PVAR_REMOVE
 void frmMain::OnPvarRemoveClick(wxCommandEvent& event){	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
-	config->DeleteGroup(m_Pvar_Name->GetValue());
-	config->Flush();
+	wxGetApp().m_Variables_Config->DeleteGroup(m_Pvar_Name->GetValue());
+	wxGetApp().m_Variables_Config->Flush();
 	m_Pvar_Name->Delete(m_Pvar_Name->GetSelection());
 	m_Pvar_Name->SetValue(wxEmptyString);
 	m_Pvar_List->ClearAll();
@@ -1554,30 +1532,29 @@ void frmMain::OnPvarRemoveClick(wxCommandEvent& event){
 void frmMain::OnPvarNameSelected(wxCommandEvent& event){	
 	m_Pvar_List->DeleteAllItems();
 	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
-    config->SetPath(m_Pvar_Name->GetValue());
+    wxGetApp().m_Variables_Config->SetPath(m_Pvar_Name->GetValue());
     
 	long dummy;
     wxString str;
     int i = 0;
 	
-    bool bCont = config->GetFirstEntry(str, dummy);
-    while ( bCont ) {
+    bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
+    while(bCont) {
         m_Pvar_List->InsertItem(i, wxT("Test"));
         m_Pvar_List->SetItem(i, 0, str);
 		//Return the config to the top level
-        config->SetPath(wxT("/"));
-        wxString strTest = config->Read(m_Pvar_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
+        wxGetApp().m_Variables_Config->SetPath(wxT("/"));
+        wxString strTest = wxGetApp().m_Variables_Config->Read(m_Pvar_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
         m_Pvar_List->SetItem(i, 1, strTest);
 		//Put the config location back
-        config->SetPath(m_Pvar_Name->GetValue());    
-        bCont = config->GetNextEntry(str, dummy);
+        wxGetApp().m_Variables_Config->SetPath(m_Pvar_Name->GetValue());    
+        bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
         i++;
     }
 	m_Pvar_List->SetColumnWidth(0, -1);
 	m_Pvar_List->SetColumnWidth(1, -1);
 	SetTitleBarText();
-    delete config;
+    wxGetApp().m_Variables_Config->SetPath(wxT("/"));
 }
 
 //ID_PVAR_ADDITEM
@@ -1597,10 +1574,8 @@ void frmMain::OnPvarAddItemClick(wxCommandEvent& event){
 	else{
 		m_Pvar_List->SetItem(j, 1, wxEmptyString);
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
-	config->Write(m_Pvar_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
-	config->Flush();
-	delete config;
+	wxGetApp().m_Variables_Config->Write(m_Pvar_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
+	wxGetApp().m_Variables_Config->Flush();
 }
 
 //ID_PVAR_REMOVEITEM
@@ -1615,10 +1590,8 @@ void frmMain::OnPvarRemoveItemClick(wxCommandEvent& event){
 		selected = m_Pvar_List->GetItemText(item);
 		m_Pvar_List->DeleteItem(item);
 	}
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
-	config->DeleteEntry(m_Pvar_Name->GetValue() + wxT("/") + selected);
-	config->Flush();
-	delete config;
+	wxGetApp().m_Variables_Config->DeleteEntry(m_Pvar_Name->GetValue() + wxT("/") + selected);
+	wxGetApp().m_Variables_Config->Flush();
 }
 
 //ID_PVAR_LIST
@@ -1642,10 +1615,8 @@ void frmMain::OnPvarListActivated(wxListEvent& event){
 		}
 		m_Pvar_List->SetColumnWidth(0, -1);
 		m_Pvar_List->SetColumnWidth(1, -1);
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini") );
-		config->Write(m_Pvar_Name->GetValue() + wxT("/") + m_Pvar_List->GetItemText(item), location.GetValue());
-		config->Flush();
-		delete config;
+		wxGetApp().m_Variables_Config->Write(m_Pvar_Name->GetValue() + wxT("/") + m_Pvar_List->GetItemText(item), location.GetValue());
+		wxGetApp().m_Variables_Config->Flush();
 	}
 }
 
@@ -1662,8 +1633,7 @@ void frmMain::OnScriptExecute(wxCommandEvent& event){
 //ID_SCRIPT_NAME
 void frmMain::OnScriptSelected(wxCommandEvent& event){	
 	m_Script_Rich->Clear();
-	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
-	wxString strFile = config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
+	wxString strFile = 	wxGetApp().m_Scripts_Config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
 	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
 	unsigned int i;
 	for(i = 0; i < arrContents.Count() - 1; i++){
@@ -1671,7 +1641,6 @@ void frmMain::OnScriptSelected(wxCommandEvent& event){
 	}
 	m_Script_Rich->AppendText(arrContents.Item(i));
 	SetTitleBarText();
-	delete config;	
 }
 
 //ID_SCRIPT_SAVE
@@ -1680,17 +1649,14 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& event){
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrContents.Add(m_Script_Rich->GetLineText(i));
 	}
-	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
-	config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("|")));
-	config->Flush();
-	delete config;
-	
+	wxGetApp().m_Scripts_Config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("|")));
+	wxGetApp().m_Scripts_Config->Flush();
 }
 
 //ID_SCRIPT_REMOVE
 void frmMain::OnScriptRemoveClick(wxCommandEvent& event){	
-	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
-	config->DeleteGroup(m_Script_Name->GetStringSelection());
+	wxGetApp().m_Scripts_Config->DeleteGroup(m_Script_Name->GetStringSelection());
+	wxGetApp().m_Scripts_Config->Flush();
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
 }
 

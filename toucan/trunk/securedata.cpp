@@ -14,20 +14,14 @@
 
 //Grab all of the fields from the form*/
 bool SecureData::TransferFromFile(){
-	//Create a new ficonfig 	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->SetExpandEnvVars(false);
-	
 	bool blError;
 	wxString strTemp;
 
 	//Read the fields from the file, if the read works then add them
-	blError = config->Read(GetName() + wxT("/Locations"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp);
 	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
-	blError = config->Read(GetName() + wxT("/Function"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
-	//Delete the fileconfig as we are finished with it	
-	delete config;
 
 	//If error output a message
 	if(!blError){
@@ -39,19 +33,15 @@ bool SecureData::TransferFromFile(){
 
 //For saving to an ini file
 bool SecureData::TransferToFile(){
-	//Create a new fileconfig object
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	
 	bool blError;
 	//Delete a group if it already exists
-	blError = config->DeleteGroup(GetName());
+	blError = wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 	//Write the fields to the ini file
-	blError = config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")));	
-	blError = config->Write(GetName() + wxT("/Function"), GetFunction());	
+	blError = wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")));	
+	blError = wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction());	
 
-	//Write the contents to the file and then delete the fileconfig object
-	config->Flush();
-	delete config;
+	//Write the contents to the file
+	wxGetApp().m_Jobs_Config->Flush();
 
 	//Output an error message if needed
 	if(!blError){

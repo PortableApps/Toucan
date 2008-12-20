@@ -5,9 +5,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/stdpaths.h>
-#include <wx/list.h>
-#include <wx/listimpl.cpp> 
-#include <wx/snglinst.h>
 #include <wx/splash.h>
 #include <wx/intl.h>
 #include <wx/fileconf.h>
@@ -17,39 +14,14 @@
 #include "backupprocess.h"
 #include "cmdline.h"
 #include "basicfunctions.h"
-
-class Settings;
-class ScriptManager;
+#include "script.h"
+#include "settings.h"
 
 //Because we actually have a console app that is well hidden!
 IMPLEMENT_APP_NO_MAIN(Toucan)
 
-/*!
-* Constructor for Toucan
-*/
-
-Toucan::Toucan()
-{
-	Init();
-}
-
-
-/*!
-* Member initialisation
-*/
-
-void Toucan::Init()
-{
-	blAbort = false;
-}
-
-/*!
-* Initialisation for Toucan
-*/
-
-bool Toucan::OnInit()
-{    
-	
+//Toucan startup
+bool Toucan::OnInit(){    
 	if(argc == 1){
 		blGUI = true;
 	}
@@ -63,6 +35,17 @@ bool Toucan::OnInit()
 	}
 	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
 	
+	//Create the config stuff and set it up
+ 	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
+	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scriptss.ini"));
+	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
+	
+	m_Jobs_Config->SetExpandEnvVars(false);
+	m_Rules_Config->SetExpandEnvVars(false);
+	m_Scripts_Config->SetExpandEnvVars(false);
+	m_Variables_Config->SetExpandEnvVars(false);
+	
 	//Create the settings class amd load the settings
 	m_Settings = new Settings();
 	m_Settings->TransferFromFile();
@@ -71,32 +54,29 @@ bool Toucan::OnInit()
 	m_Script = new ScriptManager();
 	
 	//Make sure the jobs file is up to date!
-	wxFileConfig *jobconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 	int version = 1;
-	jobconfig->Read(wxT("General/Version"), &version);
-	jobconfig->Write(wxT("General/Version"), 202);
-	delete jobconfig;
+	m_Jobs_Config->Read(wxT("General/Version"), &version);
+	m_Jobs_Config->Write(wxT("General/Version"), 202);
+	m_Jobs_Config->Flush();
 	if(version < 202){
 		UpdateJobs(version);
 	}	
 	
 	//Update the script file
-	wxFileConfig *scriptconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	version = 1;
-	scriptconfig->Read(wxT("General/Version"), &version);
-	scriptconfig->Write(wxT("General/Version"), 202);
-	delete scriptconfig;
+	m_Scripts_Config->Read(wxT("General/Version"), &version);
+	m_Scripts_Config->Write(wxT("General/Version"), 202);
+	m_Scripts_Config->Flush();
 	if(version < 202){
 		UpdateRules(version);
 	}
 	
 	
 	//Update the rules file
-	wxFileConfig *rulesconfig = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	version = 1;
-	rulesconfig->Read(wxT("General/Version"), &version);
-	rulesconfig->Write(wxT("General/Version"), 202);
-	delete rulesconfig;
+	m_Rules_Config->Read(wxT("General/Version"), &version);
+	m_Rules_Config->Write(wxT("General/Version"), 202);
+	m_Rules_Config->Flush();
 	if(version < 202){
 		UpdateScripts(version);
 	}	
@@ -150,6 +130,7 @@ bool Toucan::OnInit()
 	return true;
 }
 
+//Language setup
 void Toucan::SetLanguage(wxString strLanguage){
 	int LangCode = wxLocale::FindLanguageInfo(strLanguage)->Language;
 	m_Locale = new wxLocale();
@@ -158,10 +139,7 @@ void Toucan::SetLanguage(wxString strLanguage){
 	m_Locale->AddCatalog(wxT("toucan"));
 }
 
-/*!
-* Cleanup for Toucan
-*/
-
+//Cleanup
 int Toucan::OnExit()
 {    
 	delete m_Locale;
@@ -173,10 +151,12 @@ int Toucan::OnExit()
 int main(int argc, char* argv[])
 {
 	#ifdef __WXMSW__
-	if(argc == 1){
-		ShowWindow(GetConsoleWindow(), SW_HIDE); 
-	}
+		if(argc == 1){
+			//Hide the console window
+			ShowWindow(GetConsoleWindow(), SW_HIDE); 
+		}
 	#endif
+	//Start wxwidgets
 	wxEntry(argc,argv); 
 	return true;
 }

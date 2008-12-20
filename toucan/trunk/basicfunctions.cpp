@@ -14,8 +14,10 @@
 #include <wx/intl.h>
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
+
 #include "basicfunctions.h"
 #include "frmprogress.h"
+#include "frmmain.h"
 #include "toucan.h"
 
 wxFFileOutputStream output(stderr);
@@ -81,58 +83,47 @@ double GetInPB(wxString strValue){
 bool SetRulesBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();
-	//Create a fileconfig item
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
+
 	bool blCont;
 	wxString strValue;
 	long dummy;
 	//Iterate through the groups adding them to the box
-	blCont = config->GetFirstGroup(strValue, dummy);
+	blCont = wxGetApp().m_Rules_Config->GetFirstGroup(strValue, dummy);
 	while (blCont){
 		if(strValue != wxT("General")){
 			box->Append(strValue);
 		}
-		blCont = config->GetNextGroup(strValue, dummy);
+		blCont = wxGetApp().m_Rules_Config->GetNextGroup(strValue, dummy);
 	}
-	//Delete the fileconfig object
-	delete config;
 	return true;
 }
 
 bool SetJobsBox(wxComboBox *box, wxString strType){
-	//Create a fileconfig object	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	bool blCont;
 	wxString strValue;
 	long dummy;
 	//Iterate through all of the groups
-	blCont = config->GetFirstGroup(strValue, dummy);
+	blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
 	while (blCont){
 		//If the group is of the correct type then add it to the combobox
-		if(config->Read(strValue + wxT("/Type")) == strType){
+		if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == strType){
 			box->Append(strValue);
 		}
-		blCont = config->GetNextGroup(strValue, dummy);
+		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 	}
-	//Remove the fileconfig object
-	delete config;
 	return true;
 }
 
 bool SetVariablesBox(wxComboBox *box){
-	//Create a fileconfig object	
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Variables.ini"));
 	bool blCont;
 	wxString strValue;
 	long dummy;
 	//Iterate through all of the groups
-	blCont = config->GetFirstGroup(strValue, dummy);
+	blCont = wxGetApp().m_Variables_Config->GetFirstGroup(strValue, dummy);
 	while (blCont){
 		box->Append(strValue);
-		blCont = config->GetNextGroup(strValue, dummy);
+		blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
 	}
-	//Remove the fileconfig object
-	delete config;
 	return true;
 }
 
@@ -141,21 +132,17 @@ bool SetVariablesBox(wxComboBox *box){
 bool SetScriptsBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();
-	//Create a fileconfig item
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	bool blCont;
 	wxString strValue;
 	long dummy;
 	//Iterate through the groups adding them to the box
-	blCont = config->GetFirstGroup(strValue, dummy);
+	blCont = wxGetApp().m_Scripts_Config->GetFirstGroup(strValue, dummy);
 	while (blCont){
 		if(strValue != wxT("General")){
 			box->Append(strValue);
 		}
-		blCont = config->GetNextGroup(strValue, dummy);
+		blCont = wxGetApp().m_Scripts_Config->GetNextGroup(strValue, dummy);
 	}
-	//Delete the fileconfig object
-	delete config;
 	return true;
 }
 
@@ -257,7 +244,6 @@ wxString InputPassword(){
 			wxLogNull log;
 			res = cmdParser.Parse(false);
 		}
-		wxFileConfig config(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 		if(cmdParser.GetParam(0) == wxT("Script")){
 			if(cmdParser.GetParamCount() == 4 && cmdParser.GetParam(2) == cmdParser.GetParam(3)){
 				return cmdParser.GetParam(2);
@@ -267,7 +253,7 @@ wxString InputPassword(){
 				return wxEmptyString;
 			}
 		}
-		else if(config.Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
+		else if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Secure")){
 			if(cmdParser.GetParamCount() == 3 && cmdParser.GetParam(1) == cmdParser.GetParam(2)){
 				return cmdParser.GetParam(2);
 			}
@@ -276,7 +262,7 @@ wxString InputPassword(){
 				return wxEmptyString;
 			}
 		}
-		else if(config.Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
+		else if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Backup")){
 			if(cmdParser.GetParamCount() == 3){
 				if(cmdParser.GetParam(1) == cmdParser.GetParam(2)){
 					return cmdParser.GetParam(1);
@@ -345,118 +331,110 @@ bool UpdateJobs(int version){
 	//Back up the existing file
 	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"), wxGetApp().GetSettingsPath() + wxT("Jobs.old"), true);
 	if(version == 1){
-		//Create a fileconfig item
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 		bool blCont;
 		wxString strValue;
 		long dummy;
 		//Iterate through the groups adding them to the box
-		blCont = config->GetFirstGroup(strValue, dummy);
-		while (blCont){
-			if(config->Read(strValue + wxT("/Type")) == wxT("Sync")){
+		blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
+		while(blCont){
+			if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Sync")){
 				
-				config->DeleteEntry(strValue + wxT("/Exclusions"));
-				config->DeleteEntry(strValue + wxT("/Preview"));
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Exclusions"));
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Preview"));
 				
 				wxString strTemp;
-				strTemp = config->Read(strValue + wxT("/1"));
-				if(config->Read(strValue + wxT("/Source")) == wxEmptyString){
-					config->Write(strValue + wxT("/Source"), strTemp);
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/1"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Source")) == wxEmptyString){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Source"), strTemp);
 				}
-				strTemp = config->Read(strValue + wxT("/2"));
-				if(config->Read(strValue + wxT("/Dest")) == wxEmptyString){
-					config->Write(strValue + wxT("/Dest"), strTemp);
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/2"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Dest")) == wxEmptyString){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Dest"), strTemp);
 				}
 				
-				config->DeleteEntry(strValue + wxT("/1"));
-				config->DeleteEntry(strValue + wxT("/2"));
-				config->Write(strValue + wxT("/IgnoreReadOnly"), 0);
-				config->Write(strValue + wxT("/IgnoreDaylightSavings"), 0);
-				config->Flush();
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/1"));
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/2"));
+				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/IgnoreReadOnly"), 0);
+				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/IgnoreDaylightSavings"), 0);
+				wxGetApp().m_Jobs_Config->Flush();
 			}
-			else if(config->Read(strValue + wxT("/Type")) == wxT("Backup")){
-				config->DeleteEntry(strValue + wxT("/Exclusions"));
+			else if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Backup")){
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Exclusions"));
 				
 				wxString strTemp;
-				strTemp = config->Read(strValue + wxT("/1"));
-				if(config->Read(strValue + wxT("/Locations")) == wxEmptyString){
-					config->Write(strValue + wxT("/Locations"), wxT("#") + strTemp);
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/1"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations")) == wxEmptyString){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), wxT("#") + strTemp);
 				}
-				strTemp = config->Read(strValue + wxT("/2"));
-				if(config->Read(strValue + wxT("/BackupLocation")) == wxEmptyString){
-					config->Write(strValue + wxT("/BackupLocation"), strTemp);
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/2"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/BackupLocation")) == wxEmptyString){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/BackupLocation"), strTemp);
 				}
-				config->DeleteEntry(strValue + wxT("/1"));
-				config->DeleteEntry(strValue + wxT("/2"));
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/1"));
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/2"));
 				
-				if(config->Read(strValue + wxT("/Function")) == wxT("Incremental")){
-					config->Write(strValue + wxT("/Function"), _("Differential"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Function")) == wxT("Incremental")){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Function"), _("Differential"));
 				}
-				if(config->Read(strValue + wxT("/Format")) == wxT("7 Zip")){
-					config->Write(strValue + wxT("/Format"), _("7-Zip"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Format")) == wxT("7 Zip")){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), _("7-Zip"));
 				}
-				if(config->Read(strValue + wxT("/Ratio")) == wxT("Normal")){
-					config->Write(strValue + wxT("/Ratio"), wxT("3"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Ratio")) == wxT("Normal")){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Ratio"), wxT("3"));
 				}
-				if(config->Read(strValue + wxT("/Ratio")) == wxT("Ultra")){
-					config->Write(strValue + wxT("/Ratio"), wxT("5"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Ratio")) == wxT("Ultra")){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Ratio"), wxT("5"));
 				}
-				config->Write(strValue + wxT("/IsPass"), 0);
-				config->Flush();
+				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/IsPass"), 0);
+				wxGetApp().m_Jobs_Config->Flush();
 			}
-			else if(config->Read(strValue + wxT("/Type")) == wxT("Secure")){
+			else if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Secure")){
 				wxString strTemp;
-				strTemp = config->Read(strValue + wxT("/Files"));
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Files"));
 				strTemp.Replace(wxT("|"), wxT("#"));
-				if(config->Read(strValue + wxT("/Locations")) == wxEmptyString){
-					config->Write(strValue + wxT("/Locations"), strTemp);
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations")) == wxEmptyString){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
 				}
-				config->DeleteEntry(strValue + wxT("/Files"));
-				strTemp = config->Read(strValue + wxT("/Routine"));
-				if(config->Read(strValue + wxT("/Format")) == wxEmptyString){
-					config->Write(strValue + wxT("/Format"), strTemp);
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Files"));
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Routine"));
+				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Format")) == wxEmptyString){
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), strTemp);
 				}
-				config->DeleteEntry(strValue + wxT("/Routine"));
+				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Routine"));
 				
-				config->Flush();
+				wxGetApp().m_Jobs_Config->Flush();
 			}
 				
-			blCont = config->GetNextGroup(strValue, dummy);
+			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
-		//Delete the fileconfig object
-		config->Flush();
-		delete config;
+		wxGetApp().m_Jobs_Config->Flush();
 		version = 200;
 	}
 	if(version == 200){
-		//Create a fileconfig item
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 		bool blCont;
 		wxString strValue;
 		long dummy;
 		//Iterate through the groups adding them to the box
-		blCont = config->GetFirstGroup(strValue, dummy);
+		blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
 		while (blCont){
-			if(config->Read(strValue + wxT("/Type")) == wxT("Backup")){
+			if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Backup")){
 				wxString strTemp;
-				strTemp = config->Read(strValue + wxT("/Locations"));
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations"));
 				strTemp.Replace(wxT("#"), wxT("|"));		
-				config->Write(strValue + wxT("/Locations"), strTemp);
-				config->Flush();
+				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
+				wxGetApp().m_Jobs_Config->Flush();
 			}
-			else if(config->Read(strValue + wxT("/Type")) == wxT("Secure")){
+			else if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Secure")){
 				wxString strTemp;
-				strTemp = config->Read(strValue + wxT("/Locations"));
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations"));
 				strTemp.Replace(wxT("#"), wxT("|"));
-				config->Write(strValue + wxT("/Locations"), strTemp);
-				config->Flush();
+				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
+				wxGetApp().m_Jobs_Config->Flush();
 			}
 				
-			blCont = config->GetNextGroup(strValue, dummy);
+			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
-		//Delete the fileconfig object
-		config->Flush();
-		delete config;
+		wxGetApp().m_Jobs_Config->Flush();
 	}
 	return true;
 }
@@ -465,42 +443,38 @@ bool UpdateRules(int version){
 	//Back up the existing file
 	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Rules.ini"), wxGetApp().GetSettingsPath() + wxT("Rules.old"), true);
 	if(version == 1){
-		//Create a fileconfig item
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 		bool blCont;
 		wxString strValue;
 		long dummy;
 		//Iterate through the groups adding them to the box
-		blCont = config->GetFirstGroup(strValue, dummy);
+		blCont = wxGetApp().m_Rules_Config->GetFirstGroup(strValue, dummy);
 		while (blCont){
 			if(strValue != wxT("General")){
-				if(config->Read(strValue + wxT("/FilesToInclude")) != wxEmptyString){
+				if(wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToInclude")) != wxEmptyString){
 					wxString strTemp;
-					strTemp = config->Read(strValue + wxT("/FilesToInclude"));
+					strTemp = wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToInclude"));
 					strTemp.Replace(wxT("#"), wxT("|"));
-					config->Write(strValue + wxT("/FilesToInclude"), strTemp);
-					config->Flush();
+					wxGetApp().m_Rules_Config->Write(strValue + wxT("/FilesToInclude"), strTemp);
+					wxGetApp().m_Rules_Config->Flush();
 				}	
-				if(config->Read(strValue + wxT("/FilesToExclude")) != wxEmptyString){
+				if(wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToExclude")) != wxEmptyString){
 					wxString strTemp;
-					strTemp = config->Read(strValue + wxT("/FilesToExclude"));
+					strTemp = wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToExclude"));
 					strTemp.Replace(wxT("#"), wxT("|"));
-					config->Write(strValue + wxT("/FilesToExclude"), strTemp);
-					config->Flush();
+					wxGetApp().m_Rules_Config->Write(strValue + wxT("/FilesToExclude"), strTemp);
+					wxGetApp().m_Rules_Config->Flush();
 				}	
-				if(config->Read(strValue + wxT("/FoldersToExclude")) != wxEmptyString){
+				if(wxGetApp().m_Rules_Config->Read(strValue + wxT("/FoldersToExclude")) != wxEmptyString){
 					wxString strTemp;
-					strTemp = config->Read(strValue + wxT("/FoldersToExclude"));
+					strTemp = wxGetApp().m_Rules_Config->Read(strValue + wxT("/FoldersToExclude"));
 					strTemp.Replace(wxT("#"), wxT("|"));
-					config->Write(strValue + wxT("/FoldersToExclude"), strTemp);
-					config->Flush();
+					wxGetApp().m_Rules_Config->Write(strValue + wxT("/FoldersToExclude"), strTemp);
+					wxGetApp().m_Rules_Config->Flush();
 				}			
 			}
-			blCont = config->GetNextGroup(strValue, dummy);
+			blCont = wxGetApp().m_Rules_Config->GetNextGroup(strValue, dummy);
 		}
-		//Delete the fileconfig object
-		config->Flush();
-		delete config;
+		wxGetApp().m_Rules_Config->Flush();
 	}
 	return true;
 }
@@ -509,27 +483,23 @@ bool UpdateScripts(int version){
 	//Back up the existing file	
 	wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"), wxGetApp().GetSettingsPath() + wxT("Scripts.old"), true);
 	if(version == 1){
-		//Create a fileconfig item
-		wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 		bool blCont;
 		wxString strValue;
 		long dummy;
-		blCont = config->GetFirstGroup(strValue, dummy);
+		blCont = wxGetApp().m_Scripts_Config->GetFirstGroup(strValue, dummy);
 		while (blCont){
 			if(strValue != wxT("General")){
-				if(config->Read(strValue + wxT("/Script")) != wxEmptyString){
+				if(wxGetApp().m_Scripts_Config->Read(strValue + wxT("/Script")) != wxEmptyString){
 					wxString strTemp;
-					strTemp = config->Read(strValue + wxT("/Script"));
+					strTemp = wxGetApp().m_Scripts_Config->Read(strValue + wxT("/Script"));
 					strTemp.Replace(wxT("#"), wxT("|"));
-					config->Write(strValue + wxT("/Script"), strTemp);
-					config->Flush();
+					wxGetApp().m_Scripts_Config->Write(strValue + wxT("/Script"), strTemp);
+					wxGetApp().m_Scripts_Config->Flush();
 				}			
 			}
-			blCont = config->GetNextGroup(strValue, dummy);
+			blCont = wxGetApp().m_Scripts_Config->GetNextGroup(strValue, dummy);
 		}
-		//Delete the fileconfig object
-		config->Flush();
-		delete config;
+		wxGetApp().m_Scripts_Config->Flush();
 	}
 	return true;
 }

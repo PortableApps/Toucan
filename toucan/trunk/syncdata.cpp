@@ -15,28 +15,25 @@
 
 bool SyncData::TransferFromFile(){
 	wxString strName = GetName();
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
-	config->SetExpandEnvVars(false);
 	
 	bool blError;
 	wxString strTemp;
 	bool blTemp;
 
-	blError = config->Read(strName + wxT("/Source"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Source"), &strTemp);
 	if(blError){ SetSource(strTemp); }	
-	blError = config->Read(strName + wxT("/Dest"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Dest"), &strTemp);
 	if(blError){ SetDest(strTemp); }	
-	blError = config->Read(strName + wxT("/Function"), &strTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
-	blError = config->Read(strName + wxT("/TimeStamps"), &blTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/TimeStamps"), &blTemp);
 	if(blError){ SetTimeStamps(blTemp); }
-	blError = config->Read(strName + wxT("/Attributes"), &blTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Attributes"), &blTemp);
 	if(blError){ SetAttributes(blTemp); }
-	blError = config->Read(strName + wxT("/IgnoreReadOnly"), &blTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/IgnoreReadOnly"), &blTemp);
 	if(blError){ SetIgnoreRO(blTemp); }
-	blError = config->Read(strName + wxT("/IgnoreDaylightSavings"), &blTemp);
+	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/IgnoreDaylightSavings"), &blTemp);
 	if(blError){ SetIgnoreDLS(blTemp); }
-	delete config;
 	
 	if(!blError){
 		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
@@ -47,20 +44,18 @@ bool SyncData::TransferFromFile(){
 
 bool SyncData::TransferToFile(){
 	wxString strName = GetName();
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""),  wxGetApp().GetSettingsPath()+ wxT("Jobs.ini"));
 	
 	bool blError;
 
-	blError = config->DeleteGroup(strName);
-	blError = config->Write(strName + wxT("/Source"),  GetSource());	
-	blError = config->Write(strName + wxT("/Dest"), GetDest());	
-	blError = config->Write(strName + wxT("/Function"), GetFunction());
-	blError = config->Write(strName + wxT("/TimeStamps"), GetTimeStamps());
-	blError = config->Write(strName + wxT("/Attributes"), GetAttributes());
-	blError = config->Write(strName + wxT("/IgnoreReadOnly"), GetIgnoreRO());
-	blError = config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
-	config->Flush();
-	delete config;
+	blError = wxGetApp().m_Jobs_Config->DeleteGroup(strName);
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/Source"),  GetSource());	
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/Dest"), GetDest());	
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/Function"), GetFunction());
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/TimeStamps"), GetTimeStamps());
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/Attributes"), GetAttributes());
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/IgnoreReadOnly"), GetIgnoreRO());
+	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
+	wxGetApp().m_Jobs_Config->Flush();
 	if(!blError){
 		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
 		return false;

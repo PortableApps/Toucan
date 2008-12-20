@@ -12,6 +12,7 @@
 #include <wx/filename.h>
 
 #include "variables.h"
+#include "toucan.h"
 
 wxString Normalise(wxString strFilePath){
 	wxString token;
@@ -60,15 +61,12 @@ wxString Normalise(wxString strFilePath){
 				strReturn += strValue;
 			}
 			else{
-				wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 11)+ wxT("\\Data\\Variables.ini") );
-				config->SetExpandEnvVars(false);
-				
 				wxString strRead;
 				//If there is no value in the field with the computers name, or it is empty, then read the value in the 'other' field
-				if(config->Read(token + wxT("/") + wxGetFullHostName(), & strRead) == false || config->Read(token + wxT("/") + wxGetFullHostName()) == wxEmptyString)
+				if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), & strRead) == false || wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName()) == wxEmptyString)
 				{
 					//If there is no value in the 'other' field then simply add the name of that section as it must me a folder name	
-					if(config->Read(token + wxT("/") + _("Other"), & strRead) == false){
+					if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + _("Other"), & strRead) == false){
 						strReturn = strReturn + token;                 
 					}
 					else{
