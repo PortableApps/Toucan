@@ -2067,7 +2067,7 @@ void frmMain::JobAdd(wxComboBox* box){
 		box->Append(dialog.GetValue());
 		box->SetStringSelection(dialog.GetValue());
 	}
-	SetTitleBarText()
+	SetTitleBarText();
 }
 
 void frmMain::JobRemove(wxComboBox* box){
@@ -2076,7 +2076,7 @@ void frmMain::JobRemove(wxComboBox* box){
 		wxGetApp().m_Jobs_Config->Flush();
 		box->Delete(m_Sync_Job_Select->GetSelection());
 	}	
-	SetTitleBarText()
+	SetTitleBarText();
 }
 
 void frmMain::JobSave(const wxString name, const wxString rules, const wxString type){
