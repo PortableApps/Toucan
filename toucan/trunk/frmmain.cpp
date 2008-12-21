@@ -1124,15 +1124,7 @@ void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event){
 
 //ID_SECURE_JOB_SELECT
 void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	m_Secure_Rules->SetStringSelection(wxEmptyString);
-	SecureData data;
-	data.SetName(m_Secure_Job_Select->GetStringSelection());
-	if(data.TransferFromFile()){
-		data.TransferToForm();
-		m_Secure_Rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data.GetName() + wxT("/Rules")));
-	}
-	SetTitleBarText();
+	JobLoad(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules, wxT("Secure"));
 }
 
  //ID_SYNC_JOB_SAVE
@@ -1157,14 +1149,7 @@ void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event){
 
 //ID_SYNC_JOB_SELECT
 void frmMain::OnSyncJobSelectSelected(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	SyncData data;
-	data.SetName(m_Sync_Job_Select->GetStringSelection());
-	if (data.TransferFromFile()){
-		data.TransferToForm();
-		m_Sync_Rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data.GetName() + wxT("/Rules")));
-	}
-	SetTitleBarText();
+	JobLoad(m_Sync_Job_Select->GetStringSelection(), m_Sync_Rules, wxT("Sync"));
 }
 
 //ID_RULES_ADD_FILEINCLUDE
@@ -1216,15 +1201,7 @@ void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event){
 
 //ID_BACKUP_JOB_SELECT
 void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	BackupData data;
-	data.SetName(m_Backup_Job_Select->GetStringSelection());
-	if (data.TransferFromFile()){
-		data.TransferToForm();
-		m_Backup_Rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data.GetName() + wxT("/Rules")));
-	}
-	SetSliderText();
-	SetTitleBarText();
+	JobLoad(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules, wxT("Backup"));
 }
 
 //ID_SYNC_OK
@@ -2068,6 +2045,7 @@ void frmMain::JobAdd(wxComboBox* box){
 		box->SetStringSelection(dialog.GetValue());
 	}
 	SetTitleBarText();
+	ClearToDefault();
 }
 
 void frmMain::JobRemove(wxComboBox* box){
@@ -2077,6 +2055,7 @@ void frmMain::JobRemove(wxComboBox* box){
 		box->Delete(box->GetSelection());
 	}	
 	SetTitleBarText();
+	ClearToDefault();
 }
 
 void frmMain::JobSave(const wxString name, const wxString rules, const wxString type){
@@ -2107,4 +2086,58 @@ void frmMain::JobSave(const wxString name, const wxString rules, const wxString 
 		}
 	} 
 	delete data;
+}
+
+void frmMain::JobLoad(const wxString name, wxComboBox* rules, const wxString type){
+	wxBusyCursor cursor;
+	ClearToDefault();
+	RootData* data;
+	if(type == wxT("Sync")){
+		data = new SyncData();
+	}
+	else if(type == wxT("Backup")){
+		data = new BackupData();
+	}
+	else if(type == wxT("Secure")){
+		data = new SecureData();
+	}
+	else{
+		return;
+	}
+	data->SetName(name);
+	if (data->TransferFromFile()){
+		data->TransferToForm();
+		rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
+	}
+	SetTitleBarText();
+}
+
+void frmMain::ClearToDefault(){
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Sync")){
+		m_Sync_Function->SetStringSelection(_("Copy"));
+		m_Sync_Timestamp->SetValue(false);
+		m_Sync_Attributes->SetValue(false);
+		m_Sync_Ignore_Readonly->SetValue(false);
+		m_Sync_Ignore_DaylightS->SetValue(false);
+		m_Sync_Rules->SetStringSelection(wxEmptyString);
+		m_Sync_Source_Txt->SetValue(wxEmptyString);
+		m_Sync_Dest_Txt->SetValue(wxEmptyString);
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->DeleteAllItems();
+	}
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
+		m_Backup_Function->SetStringSelection(_("Complete"));
+		m_Backup_Format->SetStringSelection(_("Zip"));
+		m_Backup_Ratio->SetValue(3);
+		m_Backup_IsPass->SetValue(false);
+		m_Backup_Location->SetValue(wxEmptyString);
+		m_Backup_TreeCtrl->DeleteAllItems();
+		m_BackupLocations->Clear();
+	}
+	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
+		m_Secure_Function->SetStringSelection(_("Encrypt"));
+		m_Secure_Rules->SetStringSelection(wxEmptyString);
+		m_Secure_TreeCtrl->DeleteAllItems();
+		m_SecureLocations->Clear();
+	}
 }

@@ -270,6 +270,8 @@ public:
 	void JobAdd(wxComboBox* box);
 	void JobRemove(wxComboBox* box);
 	void JobSave(const wxString name, const wxString rules, const wxString type);
+	void JobLoad(const wxString name, wxComboBox* rules, const wxString type);
+	void ClearToDefault();
 	
 	//Menu
 	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);
