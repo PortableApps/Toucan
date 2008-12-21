@@ -187,7 +187,7 @@ public:
 	
 	//Set up the title bar test
 	void SetTitleBarText();
-	
+
 	//Sync
 	void OnSyncOKClick(wxCommandEvent& event);
 	void OnSyncPreviewClick(wxCommandEvent& event);
@@ -269,7 +269,7 @@ public:
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	void JobAdd(wxComboBox* box);
 	void JobRemove(wxComboBox* box);
-	void JobSave(wxComboBox* box, wxComboBox* rules, const wxString type);
+	void JobSave(const wxString name, const wxString rules, const wxString type);
 	
 	//Menu
 	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);

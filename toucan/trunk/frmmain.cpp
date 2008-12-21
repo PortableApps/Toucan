@@ -1109,7 +1109,7 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event){
 
 //ID_SECURE_JOB_SAVE
 void frmMain::OnSecureJobSaveClick(wxCommandEvent& event){
-	JobSave(m_Secure_Job_Select, m_Secure_Rules, wxT("Secure"));
+	JobSave(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules->GetStringSelection(), wxT("Secure"));
 }
 
 //ID_SECURE_JOB_ADD
@@ -1137,12 +1137,12 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
 
  //ID_SYNC_JOB_SAVE
 void frmMain::OnSyncJobSaveClick(wxCommandEvent& event){
-	JobSave(m_Sync_Job_Select, m_Sync_Rules, wxT("Sync"));
+	JobSave(m_Sync_Job_Select->GetStringSelection(), m_Sync_Rules->GetStringSelection(), wxT("Sync"));
 }
 
 //ID_BACKUP_JOB_SAVE
 void frmMain::OnBackupJobSaveClick(wxCommandEvent& event){
-	JobSave(m_Backup_Job_Select, m_Backup_Rules, wxT("Backup"));
+	JobSave(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules->GetStringSelection(), wxT("Backup"));
 }
 
 //ID_SYNC_JOB_ADD
@@ -2077,7 +2077,7 @@ void frmMain::JobRemove(wxComboBox* box){
 	}	
 }
 
-void frmMain::JobSave(wxComboBox* box, wxComboBox* rules, const wxString type){
+void frmMain::JobSave(const wxString name, const wxString rules, const wxString type){
 	wxBusyCursor cursor;
 	RootData* data;
 	if(type == wxT("Sync")){
@@ -2092,12 +2092,12 @@ void frmMain::JobSave(wxComboBox* box, wxComboBox* rules, const wxString type){
 	else{
 		return;
 	}
-	data->SetName(box->GetStringSelection());
+	data->SetName(name);
 	if (data->TransferFromForm()){
 		if (data->GetName() != wxEmptyString) {
 			data->TransferToFile();
-			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Rules"),  rules->GetStringSelection());
-			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Type"),  wxT("Sync"));
+			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Rules"),  rules);
+			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Type"),  type);
 			wxGetApp().m_Jobs_Config->Flush();
 		}
 		else {
