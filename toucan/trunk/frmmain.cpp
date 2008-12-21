@@ -2074,7 +2074,7 @@ void frmMain::JobRemove(wxComboBox* box){
 	if (box->GetStringSelection() != wxEmptyString) {
 		wxGetApp().m_Jobs_Config->DeleteGroup(box->GetStringSelection());
 		wxGetApp().m_Jobs_Config->Flush();
-		box->Delete(m_Sync_Job_Select->GetSelection());
+		box->Delete(box->GetSelection());
 	}	
 	SetTitleBarText();
 }
