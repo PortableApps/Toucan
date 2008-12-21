@@ -1206,27 +1206,7 @@ void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event){
 
 //ID_SYNC_OK
 void frmMain::OnSyncOKClick(wxCommandEvent& event){
-	SyncData data;
-	data.SetName(wxT("LastSyncJob"));
-	if (data.TransferFromForm()){
-		if(data.NeededFieldsFilled()){
-			if(data.TransferToFile()){
-				wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Rules"),  m_Sync_Rules->GetStringSelection());
-				wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
-				wxGetApp().m_Jobs_Config->Flush();
-				
-				wxArrayString arrScript;
-				arrScript.Add(wxT("Sync \"LastSyncJob\""));
-				wxGetApp().SetAbort(false);
-				wxGetApp().m_Script->SetScript(arrScript);
-				wxGetApp().m_Script->Execute();
-
-			}
-		}
-		else{
-			ErrorBox(_("Not all of the required fields are filled"));
-		}
-	}
+	Run(m_Sync_Rules->GetStringSelection(), wxT("Sync"));
 }
 
 //ID_SYNC_PREVIEW
@@ -1278,26 +1258,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 
 //ID_BACKUP_OK
 void frmMain::OnBackupOKClick(wxCommandEvent& event){
-	BackupData data;
-	data.SetName(wxT("LastBackupJob"));
-	if(data.TransferFromForm()){
-		if(data.NeededFieldsFilled()){
-			if(data.TransferToFile()){
-				wxGetApp().m_Jobs_Config->Write(wxT("LastBackupJob/Rules"),  m_Backup_Rules->GetStringSelection());
-				wxGetApp().m_Jobs_Config->Write(wxT("LastBackupJob/Type"),  wxT("Backup"));
-				wxGetApp().m_Jobs_Config->Flush();
-				
-				wxArrayString arrScript;
-				arrScript.Add(wxT("Backup \"LastBackupJob\""));
-				wxGetApp().SetAbort(false);
-				wxGetApp().m_Script->SetScript(arrScript);
-				wxGetApp().m_Script->Execute();
-			}
-		}
-		else{
-			ErrorBox(_("Not all of the required fields are filled"));
-		}
-	}
+	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
 }
 
 //ID_BACKUP_PREVIEW
@@ -1358,25 +1319,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 
 //ID_SECURE_OK
 void frmMain::OnSecureOKClick(wxCommandEvent& event){
-	SecureData data;
-	data.SetName(wxT("LastSecureJob"));
-	if (data.TransferFromForm()) {
-		if(data.NeededFieldsFilled()){
-			if(data.TransferToFile()){
-				wxGetApp().m_Jobs_Config->Write(wxT("LastSecureJob/Rules"),  m_Secure_Rules->GetStringSelection());
-				wxGetApp().m_Jobs_Config->Write(wxT("LastSecureJob/Type"),  wxT("Secure"));
-				wxGetApp().m_Jobs_Config->Flush();
-				wxArrayString arrScript;
-				arrScript.Add(wxT("Secure \"LastSecureJob\""));
-				wxGetApp().SetAbort(false);
-				wxGetApp().m_Script->SetScript(arrScript);
-				wxGetApp().m_Script->Execute();
-			}
-		}
-		else{
-			ErrorBox(_("Not all of the required fields are filled"));
-		}
-	}
+	Run(m_Secure_Rules->GetStringSelection(), wxT("Secure"));
 	m_Secure_DirCtrl->ReCreateTree();
 }
 
@@ -2110,6 +2053,7 @@ void frmMain::JobLoad(const wxString name, wxComboBox* rules, const wxString typ
 		rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
 	}
 	SetTitleBarText();
+	delete data;
 }
 
 void frmMain::ClearToDefault(){
@@ -2140,4 +2084,39 @@ void frmMain::ClearToDefault(){
 		m_Secure_TreeCtrl->DeleteAllItems();
 		m_SecureLocations->Clear();
 	}
+}
+
+void frmMain::Run(const wxString rules, const wxString type){
+	RootData* data;
+	if(type == wxT("Sync")){
+		data = new SyncData();
+	}
+	else if(type == wxT("Backup")){
+		data = new BackupData();
+	}
+	else if(type == wxT("Secure")){
+		data = new SecureData();
+	}
+	else{
+		return;
+	}
+	data->SetName(wxT("Last") + type + wxT("Job"));
+	if(data->TransferFromForm()){
+		if(data->NeededFieldsFilled()){
+			if(data->TransferToFile()){
+				wxGetApp().m_Jobs_Config->Write(wxT("Last") + type + wxT("Job/Rules"),  rules);
+				wxGetApp().m_Jobs_Config->Write(wxT("Last") + type + wxT("Job/Type"),  type);
+				wxGetApp().m_Jobs_Config->Flush();	
+				wxArrayString arrScript;
+				arrScript.Add(type + wxT(" \"Last") + type + wxT("Job\""));
+				wxGetApp().SetAbort(false);
+				wxGetApp().m_Script->SetScript(arrScript);
+				wxGetApp().m_Script->Execute();
+			}
+		}
+		else{
+			ErrorBox(_("Not all of the required fields are filled"));
+		}
+	}
+	delete data;
 }

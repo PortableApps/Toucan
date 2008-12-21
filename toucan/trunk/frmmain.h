@@ -272,6 +272,7 @@ public:
 	void JobSave(const wxString name, const wxString rules, const wxString type);
 	void JobLoad(const wxString name, wxComboBox* rules, const wxString type);
 	void ClearToDefault();
+	void Run(const wxString rules, const wxString type);
 	
 	//Menu
 	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);
