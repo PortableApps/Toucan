@@ -181,6 +181,9 @@ bool ScriptManager::ParseCommand(int i){
 		wxPostEvent(wxGetApp().MainWindow, event);	
 		return true;
 	}
+	else{
+		return false;
+	}
 	
 	if(!data->TransferFromFile()){
 		CleanUp();

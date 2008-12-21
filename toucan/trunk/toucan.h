@@ -11,6 +11,7 @@
 #include <wx/process.h>
 #include <wx/image.h>
 #include <wx/intl.h>
+#include <wx/fileconf.h>
 
 class frmMain;
 class frmProgress;

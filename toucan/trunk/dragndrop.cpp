@@ -7,6 +7,7 @@
 #include "dragndrop.h"
 #include "basicfunctions.h"
 #include "toucan.h"
+#include "frmmain.h"
 
 bool DnDFileTree::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
 	//Loop through all of the paths adding each one to the wxVirtualDirTreeCtrl		
