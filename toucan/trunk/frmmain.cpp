@@ -923,6 +923,13 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event){
 	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
 }
 
+//ID_SECURE_ADD
+void frmMain::OnSecureAddClick(wxCommandEvent& event){
+	wxBusyCursor cursor;
+	m_SecureLocations->Add(m_Secure_DirCtrl->GetPath());
+	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
+}
+
 //ID_BACKUP_REMOVE
 void frmMain::OnBackupRemoveClick(wxCommandEvent& event){
 	//Checks to see if it is a top level item that is being removed
@@ -935,13 +942,6 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& event){
 		}
 		m_Backup_TreeCtrl->Delete(m_Backup_TreeCtrl->GetSelection());
 	}
-}
-
-//ID_SECURE_ADD
-void frmMain::OnSecureAddClick(wxCommandEvent& event){
-	wxBusyCursor cursor;
-	m_SecureLocations->Add(m_Secure_DirCtrl->GetPath());
-	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
 }
 
 //ID_SECURE_REMOVE
@@ -995,11 +995,6 @@ void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& event){
 	delete dialog;
 }
 
-//ID_RULES_REMOVE_FILEEXCLUDE
-void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event){
-	m_Rules_FileExclude->Delete(m_Rules_FileExclude->GetSelection());
-}
-
 //ID_RULES_ADD_FOLDEREXCLUDE
 void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event){
 	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),wxEmptyString);
@@ -1007,6 +1002,11 @@ void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& event){
 		m_Rules_FolderExclude->Append(dialog->GetValue());
 	}
 	delete dialog;
+}
+
+//ID_RULES_REMOVE_FILEEXCLUDE
+void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& event){
+	m_Rules_FileExclude->Delete(m_Rules_FileExclude->GetSelection());
 }
 
 //ID_RULES_REMOVE_FOLDEREXCLUDE
@@ -1092,27 +1092,7 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& event){
 	SetTitleBarText();
 }
 
-//ID_SECURE_JOB_SAVE
-void frmMain::OnSecureJobSaveClick(wxCommandEvent& event){
-	JobSave(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules->GetStringSelection(), wxT("Secure"));
-}
-
-//ID_SECURE_JOB_ADD
-void frmMain::OnSecureJobAddClick(wxCommandEvent& event){
-	JobAdd(m_Secure_Job_Select);
-}
-
-//ID_SECURE_JOB_REMOVE
-void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event){
-	JobRemove(m_Secure_Job_Select);
-}
-
-//ID_SECURE_JOB_SELECT
-void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
-	JobLoad(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules, wxT("Secure"));
-}
-
- //ID_SYNC_JOB_SAVE
+//ID_SYNC_JOB_SAVE
 void frmMain::OnSyncJobSaveClick(wxCommandEvent& event){
 	JobSave(m_Sync_Job_Select->GetStringSelection(), m_Sync_Rules->GetStringSelection(), wxT("Sync"));
 }
@@ -1122,14 +1102,49 @@ void frmMain::OnBackupJobSaveClick(wxCommandEvent& event){
 	JobSave(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules->GetStringSelection(), wxT("Backup"));
 }
 
+//ID_SECURE_JOB_SAVE
+void frmMain::OnSecureJobSaveClick(wxCommandEvent& event){
+	JobSave(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules->GetStringSelection(), wxT("Secure"));
+}
+
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& event){
 	JobAdd(m_Sync_Job_Select);
 }
 
+//ID_BACKUP_JOB_ADD
+void frmMain::OnBackupJobAddClick(wxCommandEvent& event){
+	JobAdd(m_Backup_Job_Select);
+}
+
+//ID_SECURE_JOB_ADD
+void frmMain::OnSecureJobAddClick(wxCommandEvent& event){
+	JobAdd(m_Secure_Job_Select);
+}
+
 //ID_SYNC_JOB_REMOVE
 void frmMain::OnSyncJobRemoveClick(wxCommandEvent& event){
 	JobRemove(m_Sync_Job_Select);	
+}
+
+//ID_BACKUP_JOB_REMOVE
+void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event){
+	JobRemove(m_Backup_Job_Select);
+}
+
+//ID_SECURE_JOB_REMOVE
+void frmMain::OnSecureJobRemoveClick(wxCommandEvent& event){
+	JobRemove(m_Secure_Job_Select);
+}
+
+//ID_BACKUP_JOB_SELECT
+void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event){
+	JobLoad(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules, wxT("Backup"));
+}
+
+//ID_SECURE_JOB_SELECT
+void frmMain::OnSecureJobSelectSelected(wxCommandEvent& event){
+	JobLoad(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules, wxT("Secure"));
 }
 
 //ID_SYNC_JOB_SELECT
@@ -1174,24 +1189,20 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event){
 	}
 }
 
-//ID_BACKUP_JOB_ADD
-void frmMain::OnBackupJobAddClick(wxCommandEvent& event){
-	JobAdd(m_Backup_Job_Select);
-}
-
-//ID_BACKUP_JOB_REMOVE
-void frmMain::OnBackupJobRemoveClick(wxCommandEvent& event){
-	JobRemove(m_Backup_Job_Select);
-}
-
-//ID_BACKUP_JOB_SELECT
-void frmMain::OnBackupJobSelectSelected(wxCommandEvent& event){
-	JobLoad(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules, wxT("Backup"));
-}
-
 //ID_SYNC_OK
 void frmMain::OnSyncOKClick(wxCommandEvent& event){
 	Run(m_Sync_Rules->GetStringSelection(), wxT("Sync"));
+}
+
+//ID_BACKUP_OK
+void frmMain::OnBackupOKClick(wxCommandEvent& event){
+	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
+}
+
+//ID_SECURE_OK
+void frmMain::OnSecureOKClick(wxCommandEvent& event){
+	Run(m_Secure_Rules->GetStringSelection(), wxT("Secure"));
+	m_Secure_DirCtrl->ReCreateTree();
 }
 
 //ID_SYNC_PREVIEW
@@ -1241,11 +1252,6 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 	}
 }
 
-//ID_BACKUP_OK
-void frmMain::OnBackupOKClick(wxCommandEvent& event){
-	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
-}
-
 //ID_BACKUP_PREVIEW
 void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
@@ -1263,6 +1269,29 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 		for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
 			//Loop through all the the filenames listed in the array and read them to the tree
 			m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
+		}
+		//Turn off preview
+		m_Backup_TreeCtrl->SetPreview(false);
+	}
+}
+
+//ID_SECURE_PREVIEW
+void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
+	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
+		//Create a new rule set and populate it from the form
+		Rules rules;
+		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
+			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+		}
+		//Set up the tree ctrl for previewing
+		m_Secure_TreeCtrl->SetPreview(true);
+		m_Secure_TreeCtrl->SetRules(rules);
+		//Delete all items and re-add the root
+		m_Secure_TreeCtrl->DeleteAllItems();
+		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+		for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
+			//Loop through all the the filenames listed in the array and readd them to the tree
+			m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
 		}
 		//Turn off preview
 		m_Secure_TreeCtrl->SetPreview(false);
@@ -1303,35 +1332,6 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	
 	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
-}
-
-//ID_SECURE_OK
-void frmMain::OnSecureOKClick(wxCommandEvent& event){
-	Run(m_Secure_Rules->GetStringSelection(), wxT("Secure"));
-	m_Secure_DirCtrl->ReCreateTree();
-}
-
-//ID_SECURE_PREVIEW
-void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
-	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
-		//Create a new rule set and populate it from the form
-		Rules rules;
-		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-		}
-		//Set up the tree ctrl for previewing
-		m_Secure_TreeCtrl->SetPreview(true);
-		m_Secure_TreeCtrl->SetRules(rules);
-		//Delete all items and re-add the root
-		m_Secure_TreeCtrl->DeleteAllItems();
-		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
-		for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
-			//Loop through all the the filenames listed in the array and readd them to the tree
-			m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
-		}
-		//Turn off preview
-		m_Secure_TreeCtrl->SetPreview(false);
-	}
 }
 
 //ID_PVAR_ADD
@@ -1580,24 +1580,18 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 	}	
 }
 
-//ID_BACKUP_EXPAND
-void frmMain::OnBackupExpandClick(wxCommandEvent& event){
-	m_Backup_TreeCtrl->NeatExpandAll(this);
+//ID_SYNC_SOURCE_TREE
+void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
+	menuTree = m_Sync_Source_Tree;
+	menuRules = m_Sync_Rules;
+	CreateMenu(event);
 }
 
-//ID_SECURE_EXPAND
-void frmMain::OnSecureExpandClick(wxCommandEvent& event){
-	m_Secure_TreeCtrl->NeatExpandAll(this);
-}
-
-//ID_SYNC_SOURCE_EXPAND
-void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
-	m_Sync_Source_Tree->NeatExpandAll(this);
-}
-
-//ID_SYNC_DEST_EXPAND
-void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
-	m_Sync_Dest_Tree->NeatExpandAll(this);
+//ID_SYNC_DEST_TREE
+void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
+	menuTree = m_Sync_Dest_Tree;
+	menuRules = m_Sync_Rules;
+	CreateMenu(event);
 }
 
 //ID_BACKUP_TREECTRL
@@ -1614,20 +1608,25 @@ void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 	CreateMenu(event);
 }
 
-//ID_SYNC_SOURCE_TREE
-void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
-	menuTree = m_Sync_Source_Tree;
-	menuRules = m_Sync_Rules;
-	CreateMenu(event);
+//ID_SYNC_SOURCE_EXPAND
+void frmMain::OnSyncSourceExpandClick(wxCommandEvent& event){
+	m_Sync_Source_Tree->NeatExpandAll(this);
 }
 
-//ID_SYNC_DEST_TREE
-void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
-	menuTree = m_Sync_Dest_Tree;
-	menuRules = m_Sync_Rules;
-	CreateMenu(event);
+//ID_SYNC_DEST_EXPAND
+void frmMain::OnSyncDestExpandClick(wxCommandEvent& event){
+	m_Sync_Dest_Tree->NeatExpandAll(this);
 }
 
+//ID_BACKUP_EXPAND
+void frmMain::OnBackupExpandClick(wxCommandEvent& event){
+	m_Backup_TreeCtrl->NeatExpandAll(this);
+}
+
+//ID_SECURE_EXPAND
+void frmMain::OnSecureExpandClick(wxCommandEvent& event){
+	m_Secure_TreeCtrl->NeatExpandAll(this);
+}
 //ID_SCRIPTFINISH
 void frmMain::OnScriptFinish(wxCommandEvent& event){
 	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
@@ -1720,31 +1719,6 @@ void frmMain::JobSave(const wxString name, const wxString rules, const wxString 
 			ErrorBox(_("Please chose a job to save to"));
 		}
 	} 
-	delete data;
-}
-
-void frmMain::JobLoad(const wxString name, wxComboBox* rules, const wxString type){
-	wxBusyCursor cursor;
-	ClearToDefault();
-	RootData* data;
-	if(type == wxT("Sync")){
-		data = new SyncData();
-	}
-	else if(type == wxT("Backup")){
-		data = new BackupData();
-	}
-	else if(type == wxT("Secure")){
-		data = new SecureData();
-	}
-	else{
-		return;
-	}
-	data->SetName(name);
-	if (data->TransferFromFile()){
-		data->TransferToForm();
-		rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
-	}
-	SetTitleBarText();
 	delete data;
 }
 

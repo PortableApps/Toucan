@@ -26,7 +26,6 @@ class Settings;
 #define ID_AUIFRAME 10000
 #define ID_AUINOTEBOOK 10001
 
-
 //Sync 10050-10099
 #define ID_PANEL_SYNC 10050
 #define ID_SYNC_OK 10051
@@ -145,9 +144,6 @@ class Settings;
 
 //Other 10450-10499
 #define ID_SCRIPTFINISH 10450 
-
-
-
 
 /*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
@@ -335,7 +331,6 @@ public:
 	wxArrayString* m_BackupLocations;
 	wxVirtualDirTreeCtrl* menuTree;
 	wxComboBox* menuRules;
-
 };
 
 #endif
