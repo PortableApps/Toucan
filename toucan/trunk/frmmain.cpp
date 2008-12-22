@@ -188,7 +188,7 @@ void frmMain::CreateControls()
 	int BORDER = wxWindow::GetThemedBorderStyle();
 	
 	//Set our min size
-	itemFrame1->SetMinSize(wxSize(760, 450));
+	itemFrame1->SetMinSize(wxSize(780, 450));
 	
 	//Set the font from the settings
 	wxFont font;
@@ -1720,6 +1720,30 @@ void frmMain::JobSave(const wxString name, const wxString rules, const wxString 
 		}
 	} 
 	delete data;
+}
+
+void frmMain::JobLoad(const wxString name, wxComboBox* rules, const wxString type){
+	wxBusyCursor cursor;
+	ClearToDefault();
+	RootData* data;
+	if(type == wxT("Sync")){
+		data = new SyncData();
+	}
+	else if(type == wxT("Backup")){
+		data = new BackupData();
+	}
+	else if(type == wxT("Secure")){
+		data = new SecureData();
+	}
+	else{
+		return;
+	}
+	data->SetName(name);
+	if (data->TransferFromFile()){
+		data->TransferToForm();
+		rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
+	}
+	SetTitleBarText();
 }
 
 void frmMain::ClearToDefault(){
