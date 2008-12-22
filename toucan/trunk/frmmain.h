@@ -137,29 +137,11 @@ class Settings;
 #define ID_SETTINGS_FONT 10353
 
 //Menu 10400-10449
-#define ID_MENU_SYNCSOURCEFILEEXCLUDE_EXTENSION 10400
-#define ID_MENU_SYNCSOURCEFILEEXCLUDE_NAME 10401
-#define ID_MENU_SYNCSOURCEFOLDEREXCLUDE_NAME 10402
-#define ID_MENU_SYNCSOURCELOCATIONINCLUDE_NAME 10403
-#define ID_MENU_SYNCSOURCELOCATIONINCLUDE_EXTENSION 10404
-
-#define ID_MENU_SYNCDESTFILEEXCLUDE_EXTENSION 10405
-#define ID_MENU_SYNCDESTFILEEXCLUDE_NAME 10406
-#define ID_MENU_SYNCDESTFOLDEREXCLUDE_NAME 10407
-#define ID_MENU_SYNCDESTLOCATIONINCLUDE_NAME 10408
-#define ID_MENU_SYNCDESTLOCATIONINCLUDE_EXTENSION 10409
-
-#define ID_MENU_BACKUPFILEEXCLUDE_EXTENSION 10410
-#define ID_MENU_BACKUPFILEEXCLUDE_NAME 10411
-#define ID_MENU_BACKUPFOLDEREXCLUDE_NAME 10412
-#define ID_MENU_BACKUPLOCATIONINCLUDE_NAME 10413
-#define ID_MENU_BACKUPLOCATIONINCLUDE_EXTENSION 10414
-
-#define ID_MENU_SECUREFILEEXCLUDE_EXTENSION 10415
-#define ID_MENU_SECUREFILEEXCLUDE_NAME 10416
-#define ID_MENU_SECUREFOLDEREXCLUDE_NAME 10417
-#define ID_MENU_SECURELOCATIONINCLUDE_NAME 10418
-#define ID_MENU_SECURELOCATIONINCLUDE_EXTENSION 10419
+#define ID_MENU_FILEEXCLUDE_EXTENSION 10400
+#define ID_MENU_FILEEXCLUDE_NAME 10401
+#define ID_MENU_FOLDEREXCLUDE_NAME 10402
+#define ID_MENU_LOCATIONINCLUDE_NAME 10403
+#define ID_MENU_LOCATIONINCLUDE_EXTENSION 10404
 
 //Other 10450-10499
 #define ID_SCRIPTFINISH 10450 
@@ -267,37 +249,22 @@ public:
 	void OnAboutClick(wxCommandEvent& event);
 	void OnScriptFinish(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
+	
+	//Menu
+	void OnMenuFileExcludeExtensionClick(wxCommandEvent& event);
+	void OnMenuFileExcludeNameClick(wxCommandEvent& event);
+	void OnMenuLocationIncludeExtensionClick(wxCommandEvent& event);
+	void OnMenuLocationIncludeNameClick(wxCommandEvent& event);
+	void OnMenuFolderExcludeNameClick(wxCommandEvent& event);
+	
+	//Generalised functions
 	void JobAdd(wxComboBox* box);
 	void JobRemove(wxComboBox* box);
 	void JobSave(const wxString name, const wxString rules, const wxString type);
 	void JobLoad(const wxString name, wxComboBox* rules, const wxString type);
 	void ClearToDefault();
 	void Run(const wxString rules, const wxString type);
-	
-	//Menu
-	void OnMenuSyncSourceFileExcludeExtensionClick(wxCommandEvent& event);
-	void OnMenuSyncSourceFileExcludeNameClick(wxCommandEvent& event);
-	void OnMenuSyncSourceLocationIncludeExtensionClick(wxCommandEvent& event);
-	void OnMenuSyncSourceLocationIncludeNameClick(wxCommandEvent& event);
-	void OnMenuSyncSourceFolderExcludeNameClick(wxCommandEvent& event);
-	
-	void OnMenuSyncDestFileExcludeExtensionClick(wxCommandEvent& event);
-	void OnMenuSyncDestFileExcludeNameClick(wxCommandEvent& event);
-	void OnMenuSyncDestLocationIncludeExtensionClick(wxCommandEvent& event);
-	void OnMenuSyncDestLocationIncludeNameClick(wxCommandEvent& event);
-	void OnMenuSyncDestFolderExcludeNameClick(wxCommandEvent& event);
-	
-	void OnMenuBackupFileExcludeExtensionClick(wxCommandEvent& event);
-	void OnMenuBackupFileExcludeNameClick(wxCommandEvent& event);
-	void OnMenuBackupLocationIncludeExtensionClick(wxCommandEvent& event);
-	void OnMenuBackupLocationIncludeNameClick(wxCommandEvent& event);
-	void OnMenuBackupFolderExcludeNameClick(wxCommandEvent& event);
-	
-	void OnMenuSecureFileExcludeExtensionClick(wxCommandEvent& event);
-	void OnMenuSecureFileExcludeNameClick(wxCommandEvent& event);
-	void OnMenuSecureLocationIncludeExtensionClick(wxCommandEvent& event);
-	void OnMenuSecureLocationIncludeNameClick(wxCommandEvent& event);
-	void OnMenuSecureFolderExcludeNameClick(wxCommandEvent& event);
+	void CreateMenu(wxTreeEvent& event);
 
 	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource(const wxString& name);
@@ -366,6 +333,8 @@ public:
 	//Other
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
+	wxVirtualDirTreeCtrl* menuTree;
+	wxComboBox* menuRules;
 
 };
 
