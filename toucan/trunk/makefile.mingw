@@ -1,45 +1,45 @@
-ifeq ($(CONFIG),unicoderelease)
-WXWIN=/home/steve/wxGTK-2.8.9
-TOOLCHAINNAME=gtk2u
-WXVERSION:=$(shell echo `$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --version`)
-CXX=g++
-CC=gcc
-OUTPUTPATH=../../../Application/App/toucan
-OBJECTPATH=../../../Output
-BUILDPATHS=$(OBJECTPATH)
-PROGRAM=Toucan
-LIBS=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --exec-prefix="$(WXWIN)/GCCBuildReleaseGTK2Unicode" --libs` -lhl++
-LINKERFLAGS=
+##Makefile
+
+WXWIN=I:/wxWidgets-2.8-build
+MINGW=I:/Mingw
+HASHLIB=I:/hashlib++_0.3.1
+CXX=$(MINGW)/bin/g++.exe
+RESCOMP=$(MINGW)/bin/windres.exe
+OBJECTPATH=..\..\Output
+BUILDPATH=..\..\Application\App\toucan
+CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__GNUWIN32__ -DUNICODE
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
-DEBUGFLAGS=
-LIBPATH=-L"/home/steve/hashlib_0.3.1/src"
-CPPINC=`$(WXWIN)/GCCBuildReleaseGTK2Unicode/wx-config --inplace --cxxflags` -I/home/steve/hashlib_0.3.1/src
-GCCFLAGS=
-LDFLAGS=$(LIBS) $(LIBPATH) $(LINKERFLAGS)
-CPPFLAGS=$(CPPINC) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS)
-LIBDIRNAME=$(WXWIN)/GCCBuildReleaseGTK2Unicode/lib /
-RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/contrib/include" --include-dir "$(WXWIN)/GCCBuildReleaseGTK2Unicode/lib/wx/include/gtk2-unicode-release-static-2.8"
-endif
+LINKERFLAGS=-Wl, --subsystem,windows
+LIBS=-lhl++ -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswu" -I"$(HASHLIB)/src"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
+PROGRAM=Toucan.exe
+RCFILEOBJ=Toucan_rc.o
+RCFILESRC=Toucan.rc
 
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
 
-all:	$(BUILDPATHS) $(OUTPUTPATH)/$(PROGRAM)
+all:	$(BUILDPATH) $(BUILDPATH)/$(PROGRAM)
 
 $(OBJECTPATH):
-	mkdir -p $(OBJECTPATH)
+	-if not exist $(OBJECTPATH) mkdir $(OBJECTPATH)
 
 clean:
-	rm -f $(OBJECTPATH)/*.o
-	rm -f $(OBJECTPATH)/*.res
-	rm -f $(OUTPUTPATH)/$(PROGRAM)
+	-if exist $(OBJECTPATH)\*.o del $(OBJECTPATH)\*.o
+	-if exist $(OBJECTPATH)\*.res del $(OBJECTPATH)\*.res
+	-if exist $(BUILDPATH)\toucan.exe del $(BUILDPATH)\toucan.exe
 
 help:
 	@echo "Usage: make -f makefile.gcc CONFIG=[unicoderelease] [all|clean|help]"
 
-$(OUTPUTPATH)/$(PROGRAM):	$(OBJECTS)
+$(BUILDPATH)/$(PROGRAM):	$(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) $(LIBPATH) $(LINKERFLAGS) $(LIBS)
+
+$(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
+	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
 
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
