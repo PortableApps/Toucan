@@ -130,6 +130,8 @@ frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const
 
 //Destructor
 frmMain::~frmMain(){
+	delete m_BackupLocations;
+	delete m_SecureLocations;
 	m_auiManager.UnInit();
 }
 
@@ -848,7 +850,7 @@ void frmMain::CreateControls()
 	m_Sync_Rules->Append(wxEmptyString);
 	m_Backup_Rules->Append(wxEmptyString);
 	m_Secure_Rules->Append(wxEmptyString);
-	
+
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 }
 
@@ -1323,9 +1325,6 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
 	
 	wxGetApp().m_Settings->TransferToFile();
-	
-	delete m_BackupLocations;
-	delete m_SecureLocations;
 	
 	menuTree = NULL;
 	menuRules = NULL;
