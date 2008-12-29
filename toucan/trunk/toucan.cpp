@@ -140,23 +140,14 @@ void Toucan::SetLanguage(wxString strLanguage){
 }
 
 //Cleanup
-int Toucan::OnExit()
-{    
+int Toucan::OnExit(){    
 	delete m_Locale;
 	delete m_Settings;
 	delete m_Script;
 	return wxApp::OnExit();
 }
 
-int main(int argc, char* argv[])
-{
-	#ifdef __WXMSW__
-		if(argc == 1){
-			//Hide the console window
-			ShowWindow(GetConsoleWindow(), SW_HIDE); 
-		}
-	#endif
-	//Start wxwidgets
+int main(int argc, char* argv[]){
 	wxEntry(argc,argv); 
 	return true;
 }
