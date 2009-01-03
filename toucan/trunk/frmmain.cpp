@@ -429,22 +429,20 @@ void frmMain::CreateControls()
 	
 	//Main
 	wxBoxSizer* BackupMain = new wxBoxSizer(wxHORIZONTAL);
-	BackupSizer->Add(BackupMain, 1, wxEXPAND|wxALL, 5);	
+	BackupSizer->Add(BackupMain, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 5);	
 	
 	wxBoxSizer* BackupMainLeft = new wxBoxSizer(wxVERTICAL);	
 	BackupMain->Add(BackupMainLeft, 1, wxEXPAND|wxALL, 5);
 	
-	wxStaticText* itemStaticText52 = new wxStaticText(BackupPanel, wxID_ANY, _("Files to Backup"));
-	BackupMainLeft->Add(itemStaticText52, 0, wxALL, 5);
+	wxStaticText* BackupStaticFiles = new wxStaticText(BackupPanel, wxID_ANY, _("Files to Backup"));
+	BackupMainLeft->Add(BackupStaticFiles, 0, wxALL, 5);
 
-	//wxBoxSizer* itemBoxSizer53 = new wxBoxSizer(wxHORIZONTAL);
-	//BackupMain->Add(itemBoxSizer53, 1, wxGROW|wxALL, 5);
 	m_Backup_DirCtrl = new wxGenericDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME, _T("All files (*.*)|*.*"), 0 );
 	m_Backup_DirCtrl->ShowHidden(true);
 	BackupMainLeft->Add(m_Backup_DirCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer55 = new wxBoxSizer(wxVERTICAL);
-	BackupMain->Add(itemBoxSizer55, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	BackupMain->Add(itemBoxSizer55, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 	
 	wxBitmapButton* itemBitmapButton56 = new wxBitmapButton(BackupPanel, ID_BACKUP_ADD, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer55->Add(itemBitmapButton56, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -454,16 +452,18 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* BackupMainRight = new wxBoxSizer(wxVERTICAL);	
 	BackupMain->Add(BackupMainRight, 1, wxEXPAND|wxALL, 5);
-	
-	wxStaticBox* BackupLocationStatic = new wxStaticBox(BackupPanel, wxID_ANY, _("Backup Location"));
-	wxStaticBoxSizer* BackupLocationSizer = new wxStaticBoxSizer(BackupLocationStatic, wxHORIZONTAL);
-	BackupMainRight->Add(BackupLocationSizer, 0, wxEXPAND|wxALL, 5);
+		
+	wxStaticText* BackupStaticLocation = new wxStaticText(BackupPanel, wxID_ANY, _("Backup Location"));
+	BackupMainRight->Add(BackupStaticLocation, 0, wxALL, 5);
+
+	wxBoxSizer* BackupLocation = new wxBoxSizer(wxHORIZONTAL);
+	BackupMainRight->Add(BackupLocation, 0, wxEXPAND|wxALL, 0);
 
 	m_Backup_Location = new wxTextCtrl(BackupPanel, ID_BACKUP_LOCATION_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-	BackupLocationSizer->Add(m_Backup_Location,1, wxALL, 5);
+	BackupLocation->Add(m_Backup_Location,1, wxALL, 5);
 
 	wxButton* itemButton49 = new wxButton(BackupPanel, ID_BACKUP_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
-	BackupLocationSizer->Add(itemButton49, 0, wxALL, 5);
+	BackupLocation->Add(itemButton49, 0, wxALL, 5);
 
 	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE| BORDER );
 	BackupMainRight->Add(m_Backup_TreeCtrl, 1, wxGROW|wxALL, 5);
