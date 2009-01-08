@@ -57,6 +57,15 @@ wxString Normalise(wxString strFilePath){
 			else if(token == wxT("docs")){	
 				strReturn += wxStandardPaths::Get().GetDocumentsDir();
 			}
+			else if(token == wxT("volume")){
+				#ifdef __WXMSW__
+					wxString strName = wxEmptyString;
+					WCHAR volumeLabel[256]; 
+					GetVolumeInformation(wxGetApp().GetSettingsPath().Left(3), volumeLabel, sizeof(volumeLabel), NULL, 0, NULL, NULL, 0);
+					strName.Printf(wxT("%s"),volumeLabel); 
+					strReturn += strName;
+				#endif
+			}
 			else if(wxGetEnv(token , &strValue)){
 				strReturn += strValue;
 			}
