@@ -202,9 +202,10 @@ bool SyncFile(SyncData data, Rules rules)
 				}
 				//Check to see if the source file is newer than the destination file, subtracts one hour to make up for timestamp errors
 				if(tmFrom.IsLaterThan(tmTo)){
-					md5wrapper myWrapper;
-					std::string sourceHash = myWrapper.getHashFromFile(std::string(data.GetSource().mb_str()));
-					std::string desinationHash = myWrapper.getHashFromFile(std::string(data.GetDest().mb_str()));
+					hashwrapper *myWrapper = new md5wrapper();
+					std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
+					std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
+					delete myWrapper;
 					if(sourceHash != desinationHash){
 						if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 							if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
