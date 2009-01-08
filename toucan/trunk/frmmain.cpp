@@ -662,7 +662,7 @@ void frmMain::CreateControls()
     PvarTop->Add(itemStaticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxArrayString m_Pvar_NameStrings;
-    m_Pvar_Name = new wxComboBox( itemPanel130, ID_PVAR_NAME, _T(""), wxDefaultPosition, wxDefaultSize, m_Pvar_NameStrings, wxCB_DROPDOWN );
+    m_Pvar_Name = new wxComboBox( itemPanel130, ID_PVAR_NAME, _T(""), wxDefaultPosition, wxDefaultSize, m_Pvar_NameStrings, wxCB_DROPDOWN|wxCB_READONLY);
     PvarTop->Add(m_Pvar_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
     wxBitmapButton* PvarAdd = new wxBitmapButton( itemPanel130, ID_PVAR_ADD, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -701,7 +701,7 @@ void frmMain::CreateControls()
 
 
 	wxArrayString itemComboBox134Strings;
-	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN );
+	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN|wxCB_READONLY);
 	ScriptStaticBoxSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -748,7 +748,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* LanguageStaticBoxSizer = new wxStaticBoxSizer(LanguageStaticBox, wxHORIZONTAL);
 	itemBoxSizer1000->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Settings_LanguageStrings = GetLanguages();
-	m_Settings_Language = new wxComboBox( itemPanel143, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN );
+	m_Settings_Language = new wxComboBox( itemPanel143, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
 	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
