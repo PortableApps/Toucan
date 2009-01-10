@@ -124,16 +124,6 @@ bool SetVariablesBox(wxComboBox *box){
 		box->Append(strValue);
 		blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
 	}
-	box->Append(wxT("date"));
-	box->Append(wxT("time"));
-	box->Append(wxT("docs"));
-	box->Append(wxT("drive"));
-	box->Append(wxT("volume"));
-	box->Append(wxT("YYYY"));
-	box->Append(wxT("MM"));
-	box->Append(wxT("DD"));
-	box->Append(wxT("hh"));
-	box->Append(wxT("mm"));
 	return true;
 }
 

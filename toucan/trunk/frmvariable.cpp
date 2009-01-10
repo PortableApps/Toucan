@@ -94,6 +94,16 @@ void frmVariable::CreateControls()
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 	
 	SetVariablesBox(m_Variables_Combo);
+	m_Variables_Combo->Append(wxT("date"));
+	m_Variables_Combo->Append(wxT("time"));
+	m_Variables_Combo->Append(wxT("docs"));
+	m_Variables_Combo->Append(wxT("drive"));
+	m_Variables_Combo->Append(wxT("volume"));
+	m_Variables_Combo->Append(wxT("YYYY"));
+	m_Variables_Combo->Append(wxT("MM"));
+	m_Variables_Combo->Append(wxT("DD"));
+	m_Variables_Combo->Append(wxT("hh"));
+	m_Variables_Combo->Append(wxT("mm"));
 }
 
 wxBitmap frmVariable::GetBitmapResource(const wxString& name)
