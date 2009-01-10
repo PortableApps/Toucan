@@ -130,8 +130,6 @@ frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const
 
 //Destructor
 frmMain::~frmMain(){
-	delete m_BackupLocations;
-	delete m_SecureLocations;
 	m_auiManager.UnInit();
 }
 
@@ -1328,6 +1326,9 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	
 	menuTree = NULL;
 	menuRules = NULL;
+	
+	delete m_BackupLocations;
+	delete m_SecureLocations;
 	
 	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
