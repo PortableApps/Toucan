@@ -119,12 +119,14 @@ bool SetVariablesBox(wxComboBox *box){
 	wxString strValue;
 	long dummy;
 	//Iterate through all of the groups
-	blCont = wxGetApp().m_Variables_Config->GetFirstGroup(strValue, dummy);
-	while (blCont){
-		box->Append(strValue);
-		blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
+	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Variables.ini"))){
+		blCont = wxGetApp().m_Variables_Config->GetFirstGroup(strValue, dummy);
+		while (blCont){
+			box->Append(strValue);
+			blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
+		}
 	}
-	return true;
+	return true;	
 }
 
 
