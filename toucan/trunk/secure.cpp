@@ -13,6 +13,7 @@
 #include "secure.h"
 #include "toucan.h"
 #include "basicfunctions.h"
+#include "variables.h"
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();
@@ -36,7 +37,7 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
 		for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
-			wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(wxGetApp().MainWindow->m_SecureLocations->Item(i));
+			wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_SecureLocations->Item(i))));
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
