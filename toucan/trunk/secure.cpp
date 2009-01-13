@@ -135,6 +135,12 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 			int filearrtibs = GetFileAttributes(strFile);
 			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL); 
 		#endif
+		
+		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
+			//We have a file with the decryped name already there, skip it
+			OutputProgress(_("Failed to decrypt ") + strFile);
+			return true;
+		}
 
 		//Create and execute the command
 		wxString command = wxT("ccrypt -f -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");

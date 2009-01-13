@@ -3,9 +3,9 @@
 CONFIG=unicoderelease
 
 ifeq ($(CONFIG),unicoderelease)
-WXWIN=I:/wxWidgets-2.8-build
-MINGW=I:/Mingw
-HASHLIB=I:/hashlib++_0.3.1
+WXWIN=C:\Programming\wxWidgets-2.8-build
+MINGW=C:\Programming\MinGW
+HASHLIB=C:\Programming\hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\Output
@@ -24,9 +24,9 @@ RCFILESRC=Toucan.rc
 
 else
 ifeq ($(CONFIG),unicodedebug)
-WXWIN=I:/wxWidgets-2.8-build-debug
-MINGW=I:/Mingw
-HASHLIB=I:/hashlib++_0.3.1
+WXWIN=C:\Programming\wxWidgets-2.8-build
+MINGW=C:\Programming\MinGW
+HASHLIB=C:\Programming\hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\Output
