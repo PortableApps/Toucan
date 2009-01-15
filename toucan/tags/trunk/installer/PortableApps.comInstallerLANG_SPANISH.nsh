@@ -1,0 +1,7 @@
+LangString welcome ${LANG_SPANISH} "Este asistente le guiará durante la instalación de ${NAME}.\r\n\r\nSi está actualizando una instalación existente de ${NAME}, ciérrela antes de continuar.\r\n\r\nHaga clic en Siguiente para continuar."
+LangString finish ${LANG_SPANISH} "${NAME} se ha instalado en su dispositivo.\r\n\r\nHaga clic en Finalizar para cerrar este asistente."
+LangString runwarning ${LANG_SPANISH} "Cierre todas las instancias de ${CLOSENAME} y haga clic en Aceptar.  La aplicación portátil no se puede actualizar mientras se está ejecutando."
+LangString invaliddirectory ${LANG_SPANISH} "La carpeta de destino que ha seleccionado no es válida.  Elija una carpeta válida."
+LangString notenoughspace ${LANG_SPANISH} "El dispositivo que ha selecionado para la instalación no dispone de espacio suficiente para esta aplicación."
+LangString checkforplatform ${LANG_SPANISH} "Comprobando la Plataforma PortableApps.com"
+LangString refreshmenu ${LANG_SPANISH} "Actualizando el menú de PortableApps.com"

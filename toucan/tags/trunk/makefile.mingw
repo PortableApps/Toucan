@@ -1,0 +1,132 @@
+##Makefile
+
+CONFIG=unicoderelease
+
+ifeq ($(CONFIG),unicoderelease)
+WXWIN=C:\Programming\wxWidgets-2.8-build
+MINGW=C:\Programming\MinGW
+HASHLIB=C:\Programming\hashlib++_0.3.1
+CXX=$(MINGW)/bin/g++.exe
+RESCOMP=$(MINGW)/bin/windres.exe
+OBJECTPATH=..\..\Output
+BUILDPATH=..\..\Application\App\toucan
+CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__GNUWIN32__ -DUNICODE
+WARNINGFLAGS=-Wall
+OPTFLAGS=-O
+LINKERFLAGS=-Wl, --subsystem,windows
+LIBS=-lhl++ -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_adv -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswu" -I"$(HASHLIB)/src"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
+PROGRAM=Toucan.exe
+RCFILEOBJ=Toucan_rc.o
+RCFILESRC=Toucan.rc
+
+else
+ifeq ($(CONFIG),unicodedebug)
+WXWIN=C:\Programming\wxWidgets-2.8-build
+MINGW=C:\Programming\MinGW
+HASHLIB=C:\Programming\hashlib++_0.3.1
+CXX=$(MINGW)/bin/g++.exe
+RESCOMP=$(MINGW)/bin/windres.exe
+OBJECTPATH=..\..\Output
+BUILDPATH=..\..\Application\App\toucan
+CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__WXDEBUG__ -D__GNUWIN32__ -DUNICODE
+WARNINGFLAGS=-Wall
+OPTFLAGS=-O
+LINKERFLAGS=-Wl, --subsystem,windows
+LIBS=-lhl++ -lwxmsw28ud_richtext -lwxmsw28ud_aui -lwxmsw28ud_adv -lwxmsw28ud_core -lwxbase28ud -lwxbase28ud_net -lwxtiffd -lwxjpegd -lwxpngd -lwxzlibd -lwxregexud -lwxexpatd -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswud" -I"$(HASHLIB)/src"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswud"
+PROGRAM=Toucan.exe
+RCFILEOBJ=Toucan_rc.o
+RCFILESRC=Toucan.rc
+endif
+endif
+
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
+
+all:	$(BUILDPATH) $(BUILDPATH)/$(PROGRAM)
+
+$(OBJECTPATH):
+	-if not exist $(OBJECTPATH) mkdir $(OBJECTPATH)
+
+clean:
+	-if exist $(OBJECTPATH)\*.o del $(OBJECTPATH)\*.o
+	-if exist $(OBJECTPATH)\*.res del $(OBJECTPATH)\*.res
+	-if exist $(BUILDPATH)\toucan.exe del $(BUILDPATH)\toucan.exe
+
+help:
+	@echo "Usage: make -f makefile.gcc CONFIG=[unicoderelease|unicodedebug] [all|clean|help]"
+
+$(BUILDPATH)/$(PROGRAM):	$(OBJECTS)
+	$(CXX) -o $@ $(OBJECTS) $(LIBPATH) $(LINKERFLAGS) $(LIBS)
+
+$(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
+	$(RESCOMP) --use-temp-file -i$< -o$@ $(RESPATH) --include-dir . --define NOPCH
+
+$(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
+
+$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
+
+$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmprogress.cpp
+
+$(OBJECTPATH)/frmrestore.o:	frmrestore.cpp frmrestore.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmrestore.cpp
+
+$(OBJECTPATH)/frmvariable.o:	frmvariable.cpp frmvariable.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
+	
+$(OBJECTPATH)/basicfunctions.o:	basicfunctions.cpp basicfunctions.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) basicfunctions.cpp
+		
+$(OBJECTPATH)/rootdata.o:	rootdata.cpp rootdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) rootdata.cpp
+	
+$(OBJECTPATH)/cmdline.o:	cmdline.cpp cmdline.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) cmdline.cpp
+
+$(OBJECTPATH)/rules.o:	rules.cpp rules.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) rules.cpp
+
+$(OBJECTPATH)/script.o:	script.cpp script.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) script.cpp
+	
+$(OBJECTPATH)/variables.o:	variables.cpp variables.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) variables.cpp
+	
+$(OBJECTPATH)/settings.o:	settings.cpp settings.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) settings.cpp
+
+$(OBJECTPATH)/securedata.o:	securedata.cpp securedata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) securedata.cpp
+
+$(OBJECTPATH)/backupprocess.o:	backupprocess.cpp backupprocess.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupprocess.cpp
+	
+$(OBJECTPATH)/backupdata.o:	backupdata.cpp backupdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupdata.cpp
+	
+$(OBJECTPATH)/syncdata.o:	syncdata.cpp syncdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) syncdata.cpp
+	
+$(OBJECTPATH)/waitthread.o:	waitthread.cpp waitthread.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) waitthread.cpp
+
+$(OBJECTPATH)/dragndrop.o:	dragndrop.cpp dragndrop.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) dragndrop.cpp
+	
+$(OBJECTPATH)/secure.o:	secure.cpp secure.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) secure.cpp
+	
+$(OBJECTPATH)/sync.o:	sync.cpp sync.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync.cpp
+
+$(OBJECTPATH)/vdtc.o:	virtualdirtreectrl.cpp virtualdirtreectrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) virtualdirtreectrl.cpp
+
+.PHONY:	all clean
