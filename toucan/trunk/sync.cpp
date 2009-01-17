@@ -355,8 +355,8 @@ bool FolderTimeLoop(wxString strFrom, wxString strTo){
 			SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
 			CloseHandle(hTo);
 		#elif defined(__WXGTK__)
-			wxFileName from(strTo);
-			wxFileName to(strFrom);
+			wxFileName from(strFrom);
+			wxFileName to(strTo);
 			wxDateTime access, mod, created;
 			from.GetTimes(&access ,&mod ,&created );
 			to.SetTimes(&access ,&mod , &created); 
