@@ -66,6 +66,12 @@ wxString Normalise(wxString strFilePath){
 					strReturn += strName;
 				#endif
 			}
+			else if(token == wxT("label")){
+			 	wxFileConfig* autorun = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath().Left(3) + wxFILE_SEP_PATH + wxT("autorun.inf"));
+				wxString label = autorun->Read(wxT("Autorun/Label"));
+				strReturn += label;
+				delete autorun;
+			}
 			else if(wxGetEnv(token , &strValue)){
 				strReturn += strValue;
 			}
