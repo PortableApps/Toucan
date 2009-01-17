@@ -128,7 +128,6 @@ class Settings;
 #define ID_SCRIPT_CHECK 10307
 #define ID_SCRIPT_EXECUTE 10308
 
-
 //Settings 10350-10399
 #define ID_PANEL_SETTINGS 10350
 #define ID_SETTINGS_TABSTYLE 10351
@@ -144,6 +143,9 @@ class Settings;
 
 //Other 10450-10499
 #define ID_SCRIPTFINISH 10450 
+
+//Help 10500-10549
+#define ID_PANEL_HELP 10500
 
 /*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame

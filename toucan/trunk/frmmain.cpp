@@ -720,20 +720,10 @@ void frmMain::CreateControls()
 	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, 5);
 
 	//Settings
-
-
 	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 
 	wxBoxSizer* itemBoxSizer1000 = new wxBoxSizer(wxVERTICAL);
 	itemPanel143->SetSizer(itemBoxSizer1000);
-
-
-	wxButton* HelpButton = new wxButton( itemPanel143, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer1000->Add(HelpButton, 0, wxALIGN_TOP|wxALL, 10);
-	
-	
-	wxButton* AboutButton = new wxButton( itemPanel143, wxID_ABOUT, _("About"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer1000->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 10);
 
 	wxString m_Settings_TabsStrings[] = {
 		_("Icons and Text"),
@@ -762,6 +752,18 @@ void frmMain::CreateControls()
 	
 	m_Settings_Font->SetSelectedFont(font);
 
+	//Help
+	wxPanel* HelpPanel = new wxPanel(m_Notebook, ID_PANEL_HELP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
+	
+	wxBoxSizer* HelpSizer = new wxBoxSizer(wxVERTICAL);
+	HelpPanel->SetSizer(HelpSizer);
+	
+	wxButton* HelpButton = new wxButton(HelpPanel, wxID_HELP, _("Help"));
+	HelpSizer->Add(HelpButton, 0, wxALIGN_TOP|wxALL, 10);
+	
+	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
+	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 10);
+
 	//Add the panels
 	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
 	wxBitmap backupbitmap = GetBitmapResource(wxT("backup.png"));
@@ -788,6 +790,7 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false, pvarsbitmap);
 	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
+	m_Notebook->AddPage(HelpPanel, _("Help"), false);
 
 	itemFrame1->m_auiManager.AddPane(m_Notebook, wxAuiPaneInfo()
 	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
