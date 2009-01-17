@@ -720,38 +720,36 @@ void frmMain::CreateControls()
 	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, 5);
 
 	//Settings
-	wxPanel* itemPanel143 = new wxPanel( m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxPanel* SettingsPanel = new wxPanel(m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 
-	wxBoxSizer* itemBoxSizer1000 = new wxBoxSizer(wxVERTICAL);
-	itemPanel143->SetSizer(itemBoxSizer1000);
+	wxBoxSizer* SettingsSizer = new wxBoxSizer(wxVERTICAL);
+	SettingsPanel->SetSizer(SettingsSizer);
 
-	wxString m_Settings_TabsStrings[] = {
-		_("Icons and Text"),
-		_("Text")
-	};
-	m_Settings_TabStyle = new wxRadioBox (itemPanel143, ID_SETTINGS_TABSTYLE, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize,2,  m_Settings_TabsStrings,2 ,wxRA_SPECIFY_ROWS);
-	itemBoxSizer1000->Add(m_Settings_TabStyle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
-	
-	wxStaticBox* LanguageStaticBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Language"));
-	wxStaticBoxSizer* LanguageStaticBoxSizer = new wxStaticBoxSizer(LanguageStaticBox, wxHORIZONTAL);
-	itemBoxSizer1000->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
-	wxArrayString m_Settings_LanguageStrings = GetLanguages();
-	m_Settings_Language = new wxComboBox( itemPanel143, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Settings_Language->SetMinSize(wxSize(125, -1));
-	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
-	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
-	
-
+	wxArrayString arrTabStyles;
+	arrTabStyles.Add(_("Icons and Text"));
+	arrTabStyles.Add(_("Text"));
+	m_Settings_TabStyle = new wxRadioBox(SettingsPanel, ID_SETTINGS_TABSTYLE, _("Tab style (requires restart)"), wxDefaultPosition, wxDefaultSize, arrTabStyles, 2, wxRA_SPECIFY_ROWS);
 	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());
+	SettingsSizer->Add(m_Settings_TabStyle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 	
-	wxStaticBox* FontStaticBox = new wxStaticBox(itemPanel143, wxID_ANY, _("Font"));
-	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);	
-	m_Settings_Font = new wxFontPickerCtrl(itemPanel143, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
-	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	itemBoxSizer1000->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+	wxStaticBox* LanguageStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Language"));
+	wxStaticBoxSizer* LanguageStaticBoxSizer = new wxStaticBoxSizer(LanguageStaticBox, wxHORIZONTAL);
+	SettingsSizer->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	
-	m_Settings_Font->SetSelectedFont(font);
+	wxArrayString m_Settings_LanguageStrings = GetLanguages();
+	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Settings_Language->SetMinSize(wxSize(125, -1));
+	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
+	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
+	
+	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
+	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
+	SettingsSizer->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 
+	m_Settings_Font = new wxFontPickerCtrl(SettingsPanel, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
+	m_Settings_Font->SetSelectedFont(font);
+	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
 	//Help
 	wxPanel* HelpPanel = new wxPanel(m_Notebook, ID_PANEL_HELP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	
@@ -772,6 +770,7 @@ void frmMain::CreateControls()
 	wxBitmap scriptbitmap = GetBitmapResource(wxT("script.png"));
 	wxBitmap rulesbitmap = GetBitmapResource(wxT("rules.png"));
 	wxBitmap pvarsbitmap = GetBitmapResource(wxT("pvars.png"));
+	wxBitmap helpbitmap = GetBitmapResource(wxT("help.png"));
 	
 	if(wxGetApp().m_Settings->GetTabStyle() == _("Text")){
 		syncbitmap = wxNullBitmap;
@@ -781,6 +780,7 @@ void frmMain::CreateControls()
 		scriptbitmap = wxNullBitmap;
 		rulesbitmap = wxNullBitmap;
 		pvarsbitmap = wxNullBitmap;
+		helpbitmap = wxNullBitmap;
 	}
 
 	m_Notebook->AddPage(itemPanel6, _("Sync"), false, syncbitmap);
@@ -789,8 +789,8 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
 	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false, pvarsbitmap);
 	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
-	m_Notebook->AddPage(itemPanel143, _("Settings"), false, settingsbitmap);
-	m_Notebook->AddPage(HelpPanel, _("Help"), false);
+	m_Notebook->AddPage(SettingsPanel, _("Settings"), false, settingsbitmap);
+	m_Notebook->AddPage(HelpPanel, _("Help"), false, helpbitmap);
 
 	itemFrame1->m_auiManager.AddPane(m_Notebook, wxAuiPaneInfo()
 	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
@@ -914,6 +914,10 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name)
 	}
 	else if (name == _T("addvar.png")) {
 		wxBitmap bitmap(strPath + _T("addvar.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
+	else if (name == _T("help.png")) {
+		wxBitmap bitmap(strPath + _T("help.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	return wxNullBitmap;
