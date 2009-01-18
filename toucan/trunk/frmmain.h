@@ -110,13 +110,13 @@ class Settings;
 #define ID_RULES_REMOVE_LOCATIONINCLUDE 10213
 
 //Portable Variables 10250-10299
-#define ID_PANEL_PVAR 10250
-#define ID_PVAR_NAME 10251
-#define ID_PVAR_LIST 10252
-#define ID_PVAR_ADD 10253
-#define ID_PVAR_REMOVE 10254
-#define ID_PVAR_ADDITEM 10255
-#define ID_PVAR_REMOVEITEM 10256
+#define ID_PANEL_VARIABLES 10250
+#define ID_VARIABLES_NAME 10251
+#define ID_VARIABLES_LIST 10252
+#define ID_VARIABLES_ADD 10253
+#define ID_VARIABLES_REMOVE 10254
+#define ID_VARIABLES_ADDITEM 10255
+#define ID_VARIABLES_REMOVEITEM 10256
 
 //Script 10300-10349
 #define ID_PANEL_SCRIPT 10301
@@ -227,12 +227,12 @@ public:
 	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);	
 	
 	//Portable Variables
-	void OnPvarAddClick(wxCommandEvent& event);
-	void OnPvarRemoveClick(wxCommandEvent& event);	
-	void OnPvarAddItemClick(wxCommandEvent& event);
-	void OnPvarRemoveItemClick(wxCommandEvent& event);
-	void OnPvarNameSelected(wxCommandEvent& event);
-	void OnPvarListActivated(wxListEvent& event);
+	void OnVariablesAddClick(wxCommandEvent& event);
+	void OnVariablesRemoveClick(wxCommandEvent& event);	
+	void OnVariablesAddItemClick(wxCommandEvent& event);
+	void OnVariablesRemoveItemClick(wxCommandEvent& event);
+	void OnVariablesNameSelected(wxCommandEvent& event);
+	void OnVariablesListActivated(wxListEvent& event);
 	
 	//Script
 	void OnScriptExecute(wxCommandEvent& event);	
@@ -316,8 +316,8 @@ public:
 	wxListBox* m_Rules_FileDelete;
 	
 	//Portable Variables
-	wxComboBox* m_Pvar_Name;
-    wxListCtrl* m_Pvar_List;
+	wxComboBox* m_Variables_Name;
+    wxListCtrl* m_Variables_List;
 	
 	//Script
 	wxTextCtrl* m_Script_Rich;

@@ -89,12 +89,12 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_RULES_REMOVE_LOCATIONINCLUDE, frmMain::OnRulesRemoveLocationincludeClick)
 	
 	//Portable Variables
-	EVT_BUTTON(ID_PVAR_ADD, frmMain::OnPvarAddClick)
-	EVT_BUTTON(ID_PVAR_REMOVE, frmMain::OnPvarRemoveClick )
-	EVT_BUTTON(ID_PVAR_ADDITEM, frmMain::OnPvarAddItemClick)
-	EVT_BUTTON(ID_PVAR_REMOVEITEM, frmMain::OnPvarRemoveItemClick)
-	EVT_COMBOBOX(ID_PVAR_NAME, frmMain::OnPvarNameSelected)
-	EVT_LIST_ITEM_ACTIVATED(ID_PVAR_LIST, frmMain::OnPvarListActivated)
+	EVT_BUTTON(ID_VARIABLES_ADD, frmMain::OnVariablesAddClick)
+	EVT_BUTTON(ID_VARIABLES_REMOVE, frmMain::OnVariablesRemoveClick )
+	EVT_BUTTON(ID_VARIABLES_ADDITEM, frmMain::OnVariablesAddItemClick)
+	EVT_BUTTON(ID_VARIABLES_REMOVEITEM, frmMain::OnVariablesRemoveItemClick)
+	EVT_COMBOBOX(ID_VARIABLES_NAME, frmMain::OnVariablesNameSelected)
+	EVT_LIST_ITEM_ACTIVATED(ID_VARIABLES_LIST, frmMain::OnVariablesListActivated)
 	
 	//Script
 	EVT_BUTTON(ID_SCRIPT_EXECUTE, frmMain::OnScriptExecute)
@@ -646,43 +646,42 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton122 = new wxBitmapButton( itemPanel93, ID_RULES_REMOVE_LOCATIONINCLUDE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer120->Add(itemBitmapButton122, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	//Portable variables
+	//Variables
+	wxPanel* VariablesPanel = new wxPanel(m_Notebook, ID_PANEL_VARIABLES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 
-	wxPanel* itemPanel130 = new wxPanel( m_Notebook, ID_PANEL_PVAR, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	wxBoxSizer* VariablesSizer = new wxBoxSizer(wxVERTICAL);
+    VariablesPanel->SetSizer(VariablesSizer);
 
-	wxBoxSizer* PvarAll = new wxBoxSizer(wxVERTICAL);
-    itemPanel130->SetSizer(PvarAll);
+    wxBoxSizer* VariablesTop = new wxBoxSizer(wxHORIZONTAL);
+    VariablesSizer->Add(VariablesTop, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBoxSizer* PvarTop = new wxBoxSizer(wxHORIZONTAL);
-    PvarAll->Add(PvarTop, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* VariablesStatic = new wxStaticText(VariablesPanel, wxID_STATIC, _("Name"));
+    VariablesTop->Add(VariablesStatic, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText5 = new wxStaticText( itemPanel130, wxID_STATIC, _("Name"), wxDefaultPosition, wxDefaultSize, 0 );
-    PvarTop->Add(itemStaticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxArrayString m_Pvar_NameStrings;
-    m_Pvar_Name = new wxComboBox( itemPanel130, ID_PVAR_NAME, _T(""), wxDefaultPosition, wxDefaultSize, m_Pvar_NameStrings, wxCB_DROPDOWN|wxCB_READONLY);
-    PvarTop->Add(m_Pvar_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxArrayString arrVariables;
+    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
+    VariablesTop->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
-    wxBitmapButton* PvarAdd = new wxBitmapButton( itemPanel130, ID_PVAR_ADD, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-    PvarTop->Add(PvarAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmapButton* VariablesAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, itemFrame1->GetBitmapResource(wxT("add.png")));
+    VariablesTop->Add(VariablesAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmapButton* PvarRemove = new wxBitmapButton( itemPanel130, ID_PVAR_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-    PvarTop->Add(PvarRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmapButton* VariablesRemove = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")));
+    VariablesTop->Add(VariablesRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBoxSizer* PvarBottom = new wxBoxSizer(wxHORIZONTAL);
-    PvarAll->Add(PvarBottom, 1, wxGROW|wxALL, 5);
+    wxBoxSizer* VariablesMain = new wxBoxSizer(wxHORIZONTAL);
+    VariablesSizer->Add(VariablesMain, 1, wxGROW|wxALL, 5);
 
-    m_Pvar_List = new wxListCtrl( itemPanel130, ID_PVAR_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|BORDER );
-    PvarBottom->Add(m_Pvar_List, 1, wxGROW|wxALL, 5);
+    m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|BORDER);
+    VariablesMain->Add(m_Variables_List, 1, wxGROW|wxALL, 5);
 
-    wxBoxSizer* PvarRight = new wxBoxSizer(wxVERTICAL);
-    PvarBottom->Add(PvarRight, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBoxSizer* VariablesRight = new wxBoxSizer(wxVERTICAL);
+    VariablesMain->Add(VariablesRight, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* PvarAddItem = new wxBitmapButton( itemPanel130, ID_PVAR_ADDITEM, itemFrame1->GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-    PvarRight->Add(PvarAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmapButton* VariablesAddItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADDITEM, itemFrame1->GetBitmapResource(wxT("add.png")));
+    VariablesRight->Add(VariablesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmapButton* PvarRemoveItem = new wxBitmapButton( itemPanel130, ID_PVAR_REMOVEITEM, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
-    PvarRight->Add(PvarRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmapButton* VariablesRemoveItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVEITEM, itemFrame1->GetBitmapResource(wxT("remove.png")));
+    VariablesRight->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	//Scripting
 
@@ -787,7 +786,7 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(BackupPanel, _("Backup"), false, backupbitmap);
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
-	m_Notebook->AddPage(itemPanel130, _("Portable Variables"), false, pvarsbitmap);
+	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, pvarsbitmap);
 	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(SettingsPanel, _("Settings"), false, settingsbitmap);
 	m_Notebook->AddPage(HelpPanel, _("Help"), false, helpbitmap);
@@ -838,14 +837,14 @@ void frmMain::CreateControls()
 	SetJobsBox(m_Secure_Job_Select, wxT("Secure"));
 	
 	//Set the portable variables box
-	SetVariablesBox(m_Pvar_Name);
+	SetVariablesBox(m_Variables_Name);
 	
 	//Set the scripts box
 	SetScriptsBox(m_Script_Name);
 	
 	wxListItem column;
-	m_Pvar_List->InsertColumn(0, column);
-	m_Pvar_List->InsertColumn(1, column);
+	m_Variables_List->InsertColumn(0, column);
+	m_Variables_List->InsertColumn(1, column);
 	
 	//Add some blank items to the combo box to allow deselection
 	m_Sync_Rules->Append(wxEmptyString);
@@ -1341,24 +1340,24 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	wxGetApp().ProgressWindow->Destroy();
 }
 
-//ID_PVAR_ADD
-void frmMain::OnPvarAddClick(wxCommandEvent& event){	
+//ID_VARIABLES_ADD
+void frmMain::OnVariablesAddClick(wxCommandEvent& event){	
     wxTextEntryDialog dialog(this, _("Please enter the name for the new portable variable"), _("New Portable Variable") ,wxEmptyString, wxOK|wxCANCEL);
 	if(dialog.ShowModal() == wxID_OK){
         if(!wxGetApp().m_Variables_Config->HasGroup(dialog.GetValue())){
-            m_Pvar_List->ClearAll();
+            m_Variables_List->ClearAll();
             wxListItem column;
-            m_Pvar_List->InsertColumn(0, column);
-            m_Pvar_List->InsertColumn(1, column);
+            m_Variables_List->InsertColumn(0, column);
+            m_Variables_List->InsertColumn(1, column);
             wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
             wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
             wxGetApp().m_Variables_Config->Flush();
-            m_Pvar_Name->Append(dialog.GetValue());
-            m_Pvar_Name->SetStringSelection(dialog.GetValue());
-            m_Pvar_List->InsertItem(0, wxT("Test"));
-            m_Pvar_List->SetItem(0, 0, wxGetFullHostName() );
-            m_Pvar_List->InsertItem(1, wxT("Test"));
-            m_Pvar_List->SetItem(1, 0, _("Other"));
+            m_Variables_Name->Append(dialog.GetValue());
+            m_Variables_Name->SetStringSelection(dialog.GetValue());
+            m_Variables_List->InsertItem(0, wxT("Test"));
+            m_Variables_List->SetItem(0, 0, wxGetFullHostName() );
+            m_Variables_List->InsertItem(1, wxT("Test"));
+            m_Variables_List->SetItem(1, 0, _("Other"));
         }
         else{
             ErrorBox(_("There is already a Portable Variable with this name."));
@@ -1366,23 +1365,23 @@ void frmMain::OnPvarAddClick(wxCommandEvent& event){
     }
 }
 
-//ID_PVAR_REMOVE
-void frmMain::OnPvarRemoveClick(wxCommandEvent& event){	
-	wxGetApp().m_Variables_Config->DeleteGroup(m_Pvar_Name->GetValue());
+//ID_VARIABLES_REMOVE
+void frmMain::OnVariablesRemoveClick(wxCommandEvent& event){	
+	wxGetApp().m_Variables_Config->DeleteGroup(m_Variables_Name->GetValue());
 	wxGetApp().m_Variables_Config->Flush();
-	m_Pvar_Name->Delete(m_Pvar_Name->GetSelection());
-	m_Pvar_Name->SetValue(wxEmptyString);
-	m_Pvar_List->ClearAll();
+	m_Variables_Name->Delete(m_Variables_Name->GetSelection());
+	m_Variables_Name->SetValue(wxEmptyString);
+	m_Variables_List->ClearAll();
 	wxListItem column;
-	m_Pvar_List->InsertColumn(0, column);
-	m_Pvar_List->InsertColumn(1, column);
+	m_Variables_List->InsertColumn(0, column);
+	m_Variables_List->InsertColumn(1, column);
 }
 
-//ID_PVAR_NAME
-void frmMain::OnPvarNameSelected(wxCommandEvent& event){	
-	m_Pvar_List->DeleteAllItems();
+//ID_VARIABLES_NAME
+void frmMain::OnVariablesNameSelected(wxCommandEvent& event){	
+	m_Variables_List->DeleteAllItems();
 	
-    wxGetApp().m_Variables_Config->SetPath(m_Pvar_Name->GetValue());
+    wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());
     
 	long dummy;
     wxString str;
@@ -1390,28 +1389,28 @@ void frmMain::OnPvarNameSelected(wxCommandEvent& event){
 	
     bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
     while(bCont) {
-        m_Pvar_List->InsertItem(i, wxT("Test"));
-        m_Pvar_List->SetItem(i, 0, str);
+        m_Variables_List->InsertItem(i, wxT("Test"));
+        m_Variables_List->SetItem(i, 0, str);
 		//Return the config to the top level
         wxGetApp().m_Variables_Config->SetPath(wxT("/"));
-        wxString strTest = wxGetApp().m_Variables_Config->Read(m_Pvar_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
-        m_Pvar_List->SetItem(i, 1, strTest);
+        wxString strTest = wxGetApp().m_Variables_Config->Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
+        m_Variables_List->SetItem(i, 1, strTest);
 		//Put the config location back
-        wxGetApp().m_Variables_Config->SetPath(m_Pvar_Name->GetValue());    
+        wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());    
         bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
         i++;
     }
-	m_Pvar_List->SetColumnWidth(0, -1);
-	m_Pvar_List->SetColumnWidth(1, -1);
+	m_Variables_List->SetColumnWidth(0, -1);
+	m_Variables_List->SetColumnWidth(1, -1);
 	SetTitleBarText();
     wxGetApp().m_Variables_Config->SetPath(wxT("/"));
 }
 
-//ID_PVAR_ADDITEM
-void frmMain::OnPvarAddItemClick(wxCommandEvent& event){	
-	int j = m_Pvar_List->GetItemCount();
-	m_Pvar_List->InsertItem(j, wxT("Test"));
-	m_Pvar_List->SetItem(j, 0, wxGetFullHostName() );
+//ID_VARIABLES_ADDITEM
+void frmMain::OnVariablesAddItemClick(wxCommandEvent& event){	
+	int j = m_Variables_List->GetItemCount();
+	m_Variables_List->InsertItem(j, wxT("Test"));
+	m_Variables_List->SetItem(j, 0, wxGetFullHostName() );
 	wxString caption = _("Choose a directory");
 	wxString wildcard = wxT("All Files (*.*)|*.*");
 	wxString defaultFilename = wxEmptyString;
@@ -1419,37 +1418,37 @@ void frmMain::OnPvarAddItemClick(wxCommandEvent& event){
 	wxString strPath;
 	wxDirDialog dialog(this, caption, defaultDir);
 	if (dialog.ShowModal() == wxID_OK){
-		m_Pvar_List->SetItem(j, 1, dialog.GetPath());
+		m_Variables_List->SetItem(j, 1, dialog.GetPath());
 	}
 	else{
-		m_Pvar_List->SetItem(j, 1, wxEmptyString);
+		m_Variables_List->SetItem(j, 1, wxEmptyString);
 	}
-	wxGetApp().m_Variables_Config->Write(m_Pvar_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
+	wxGetApp().m_Variables_Config->Write(m_Variables_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
 	wxGetApp().m_Variables_Config->Flush();
 }
 
-//ID_PVAR_REMOVEITEM
-void frmMain::OnPvarRemoveItemClick(wxCommandEvent& event){	
+//ID_VARIABLES_REMOVEITEM
+void frmMain::OnVariablesRemoveItemClick(wxCommandEvent& event){	
 	wxString selected;
 	long item = -1;
 	for ( ;; )
 	{
-		item = m_Pvar_List->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		item = m_Variables_List->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if ( item == -1 )
 		break;
-		selected = m_Pvar_List->GetItemText(item);
-		m_Pvar_List->DeleteItem(item);
+		selected = m_Variables_List->GetItemText(item);
+		m_Variables_List->DeleteItem(item);
 	}
-	wxGetApp().m_Variables_Config->DeleteEntry(m_Pvar_Name->GetValue() + wxT("/") + selected);
+	wxGetApp().m_Variables_Config->DeleteEntry(m_Variables_Name->GetValue() + wxT("/") + selected);
 	wxGetApp().m_Variables_Config->Flush();
 }
 
-//ID_PVAR_LIST
-void frmMain::OnPvarListActivated(wxListEvent& event){	
+//ID_VARIABLES_LIST
+void frmMain::OnVariablesListActivated(wxListEvent& event){	
 	long item = -1;
 	for ( ;; )
 	{
-		item = m_Pvar_List->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		item = m_Variables_List->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if ( item == -1 )
 		break;
 		
@@ -1457,15 +1456,15 @@ void frmMain::OnPvarListActivated(wxListEvent& event){
 		PreviousColumn1.m_itemId = item;
 		PreviousColumn1.m_col = 1;
 		PreviousColumn1.m_mask = wxLIST_MASK_TEXT;
-		m_Pvar_List->GetItem(PreviousColumn1);
+		m_Variables_List->GetItem(PreviousColumn1);
 		wxString strPreviousColumn1 = PreviousColumn1.m_text;
 		wxTextEntryDialog location(this, _("Please insert the location you want to point to."), _("Location"), strPreviousColumn1, wxOK);
 		if(location.ShowModal() == wxID_OK){
-			m_Pvar_List->SetItem(item , 1, location.GetValue());
+			m_Variables_List->SetItem(item , 1, location.GetValue());
 		}
-		m_Pvar_List->SetColumnWidth(0, -1);
-		m_Pvar_List->SetColumnWidth(1, -1);
-		wxGetApp().m_Variables_Config->Write(m_Pvar_Name->GetValue() + wxT("/") + m_Pvar_List->GetItemText(item), location.GetValue());
+		m_Variables_List->SetColumnWidth(0, -1);
+		m_Variables_List->SetColumnWidth(1, -1);
+		wxGetApp().m_Variables_Config->Write(m_Variables_Name->GetValue() + wxT("/") + m_Variables_List->GetItemText(item), location.GetValue());
 		wxGetApp().m_Variables_Config->Flush();
 	}
 }
@@ -1665,8 +1664,8 @@ void frmMain::SetTitleBarText(){
 	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Rules")){
 		strTitle = strTitle + m_Rules_Name->GetStringSelection();
 	}
-	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Portable Variables")){
-		strTitle = strTitle +m_Pvar_Name->GetStringSelection();
+	else if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Variables")){
+		strTitle = strTitle +m_Variables_Name->GetStringSelection();
 	}	
 	if(strTitle == wxT("Toucan - ")){
 		this->SetTitle(wxT("Toucan"));
