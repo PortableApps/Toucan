@@ -149,11 +149,12 @@ int Toucan::OnExit(){
 
 int main(int argc, char* argv[]){
 	#ifdef __WXMSW__
-	if(argc == 1)
-		ShowWindow(GetConsoleWindow(), SW_HIDE); 
+	if(argc == 1){
+		if ( wxGetOsVersion() != wxOS_WINDOWS_9X ) {
+			ShowWindow(GetConsoleWindow(), SW_HIDE); 			
+		}
+	}
 	#endif
 	wxEntry(argc,argv); 
 	return true;
 }
-
-
