@@ -9,6 +9,7 @@
 #include <wx/fileconf.h>
 #include <wx/textctrl.h>
 #include <wx/aui/auibook.h>
+#include <wx/html/helpctrl.h>
 #include <wx/wx.h>
 
 #include "toucan.h"
@@ -755,11 +756,21 @@ void frmMain::CreateControls()
 	wxBoxSizer* HelpSizer = new wxBoxSizer(wxVERTICAL);
 	HelpPanel->SetSizer(HelpSizer);
 	
-	wxButton* HelpButton = new wxButton(HelpPanel, wxID_HELP, _("Help"));
-	HelpSizer->Add(HelpButton, 0, wxALIGN_TOP|wxALL, 10);
+	//wxButton* HelpButton = new wxButton(HelpPanel, wxID_HELP, _("Help"));
+	//HelpSizer->Add(HelpButton, 0, wxALIGN_TOP|wxALL, 5);
 	
 	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
-	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 10);
+	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 5);
+	
+	m_HelpWindow = new wxHtmlHelpWindow;
+   // m_embeddedHtmlHelp.UseConfig(wxGetApp().);
+    wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
+    wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
+    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_DEFAULT_STYLE);
+	m_HelpWindow->DisplayContents();
+	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxALL|wxEXPAND, 5);
+
+
 
 	//Add the panels
 	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));

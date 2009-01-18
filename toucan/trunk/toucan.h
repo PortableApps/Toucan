@@ -12,6 +12,7 @@
 #include <wx/image.h>
 #include <wx/intl.h>
 #include <wx/fileconf.h>
+#include <wx/html/helpctrl.h>
 
 class frmMain;
 class frmProgress;
@@ -52,6 +53,9 @@ class Toucan: public wxApp
 	wxFileConfig* m_Rules_Config;
 	wxFileConfig* m_Scripts_Config;
 	wxFileConfig* m_Variables_Config;
+	
+	//Help Controller
+	wxHtmlHelpController* m_Help;
 	
 	//Are we in GUI mode
 	bool blGUI;

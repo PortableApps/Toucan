@@ -16,6 +16,7 @@
 #include <wx/listctrl.h>
 #include <wx/fontpicker.h>
 #include <wx/fileconf.h>
+#include <wx/html/helpwnd.h>
 
 #include "virtualdirtreectrl.h"
 
@@ -146,6 +147,7 @@ class Settings;
 
 //Help 10500-10549
 #define ID_PANEL_HELP 10500
+#define ID_HELP 10501
 
 /*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
@@ -333,6 +335,9 @@ public:
 	wxArrayString* m_BackupLocations;
 	wxVirtualDirTreeCtrl* menuTree;
 	wxComboBox* menuRules;
+	
+	//Help
+	wxHtmlHelpWindow* m_HelpWindow;
 };
 
 #endif

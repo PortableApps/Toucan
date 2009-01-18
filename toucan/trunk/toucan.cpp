@@ -8,6 +8,8 @@
 #include <wx/splash.h>
 #include <wx/intl.h>
 #include <wx/fileconf.h>
+#include <wx/html/helpctrl.h>
+#include <wx/fs_arc.h>
 
 #include "toucan.h"
 #include "frmmain.h"
@@ -53,6 +55,9 @@ bool Toucan::OnInit(){
 	//Create the script manager
 	m_Script = new ScriptManager();
 	
+	//Set up the help system
+	m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
+	
 	//Make sure the jobs file is up to date!
 	int version = 1;
 	m_Jobs_Config->Read(wxT("General/Version"), &version);
@@ -94,6 +99,7 @@ bool Toucan::OnInit(){
 	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
 	
 	wxInitAllImageHandlers();
+	wxFileSystem::AddHandler(new wxArchiveFSHandler);
 	wxBitmap bitmap;
 	MainWindow = new frmMain(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
 			
