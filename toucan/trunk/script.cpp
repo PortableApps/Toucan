@@ -58,7 +58,7 @@ bool ScriptManager::Validate(){
 				blParseError = true;
 			}
 		}
-		else if(strToken == _("Move") || strToken == _("Copy")){
+		else if(strToken == _("Move") || strToken == _("Copy") || strToken == _("Rename")){
 			if(tkz.CountTokens() != 3){
 				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
 				OutputProgress(strTemp);
@@ -168,6 +168,20 @@ bool ScriptManager::ParseCommand(int i){
 		}
 		else{
 			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
+		}
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+		wxPostEvent(wxGetApp().MainWindow, event);	
+		return true;
+	}
+	else if(strToken == _("Rename")){
+		wxString strSource = tkz.GetNextToken();
+		tkz.GetNextToken();
+		wxString strDest = tkz.GetNextToken();
+		if(wxRenameFile(strSource, strDest, true)){
+			OutputProgress(_("Renamed ") +strSource + wxT("\n"));	
+		}
+		else{
+			OutputProgress(_("Failed to rename ") +strSource + wxT("\n"));
 		}
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().MainWindow, event);	
