@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +106,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
-	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
 	
@@ -756,19 +755,15 @@ void frmMain::CreateControls()
 	wxBoxSizer* HelpSizer = new wxBoxSizer(wxVERTICAL);
 	HelpPanel->SetSizer(HelpSizer);
 	
-	//wxButton* HelpButton = new wxButton(HelpPanel, wxID_HELP, _("Help"));
-	//HelpSizer->Add(HelpButton, 0, wxALIGN_TOP|wxALL, 5);
-	
 	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 5);
 	
 	m_HelpWindow = new wxHtmlHelpWindow;
-   // m_embeddedHtmlHelp.UseConfig(wxGetApp().);
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
     wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
     m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_DEFAULT_STYLE);
 	m_HelpWindow->DisplayContents();
-	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxALL|wxEXPAND, 5);
+	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, 5);
 
 
 
@@ -1553,11 +1548,6 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(window->m_Preview_Text->GetValue())));
 	}
 	delete window;	
-}
-
-//wxID_HELP
-void frmMain::OnHelpClick(wxCommandEvent& event){
-	wxLaunchDefaultBrowser(wxT("file:///") + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("help.html"));
 }
 
 //wxID_ABOUT
