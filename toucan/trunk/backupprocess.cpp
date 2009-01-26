@@ -14,10 +14,8 @@ bool PipedProcess::HasInput()
 	bool hasInput = false;
 	if (IsInputAvailable()){
 		if(wxGetApp().ShouldAbort()){
-			#ifdef __WXMSW__
-				HANDLE hProcess=OpenProcess(PROCESS_ALL_ACCESS,TRUE,this->GetRealPid());
-				TerminateProcess(hProcess,0);
-			#endif
+			wxLogNull null;
+			wxProcess::Kill(this->GetRealPid(), wxSIGKILL);
 		}
 		wxTextInputStream tis(*GetInputStream());
 		wxString msg = tis.ReadLine();
