@@ -40,6 +40,15 @@ public:
 	double GetX() { return m_X; }
 	void SetX(double x) { m_X = x; }	
 	
+	double GetRememberSync() { return m_RememberSync; }
+	void SetRememberSync(bool remember) { m_RememberSync = remember; }	
+	
+	double GetRememberBackup() { return m_RememberBackup; }
+	void SetRememberBackup(bool remember) { m_RememberBackup = remember; }	
+	
+	double GetRememberSecure() { return m_RememberSecure; }
+	void SetRememberSecure(bool remember) { m_RememberSecure = remember; }	
+	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
@@ -49,6 +58,9 @@ private:
 	double m_Width;
 	double m_X;
 	double m_Y;
+	bool m_RememberSync;
+	bool m_RememberBackup;
+	bool m_RememberSecure;
 };
 
 #endif

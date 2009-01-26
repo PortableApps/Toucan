@@ -20,6 +20,9 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/Width"), m_Width);
 	config->Write(wxT("General/X"), m_X);
 	config->Write(wxT("General/Y"), m_Y);
+	config->Write(wxT("General/RememberSync"), m_RememberSync);
+	config->Write(wxT("General/RememberBackup"), m_RememberBackup);
+	config->Write(wxT("General/RememberSecure"), m_RememberSecure);
 	delete config;
 	return true;
 }
@@ -35,6 +38,9 @@ bool Settings::TransferFromFile(){
 	m_Width = 1;
 	m_Y = 0;
 	m_X = 0;
+	m_RememberSync = false;
+	m_RememberBackup = false;
+	m_RememberSecure = false;
 	
 	//Read from the settings file
 	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
@@ -46,6 +52,9 @@ bool Settings::TransferFromFile(){
 	config->Read(wxT("General/Width"), &m_Width);
 	config->Read(wxT("General/X"), &m_X);
 	config->Read(wxT("General/Y"), &m_Y);
+	config->Read(wxT("General/RememberSync"), &m_RememberSync);
+	config->Read(wxT("General/RememberBackup"), &m_RememberBackup);
+	config->Read(wxT("General/RememberSecure"), &m_RememberSecure);
 	delete config;	
 	return true;
 }

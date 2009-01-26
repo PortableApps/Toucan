@@ -824,7 +824,6 @@ void frmMain::CreateControls()
 	m_auiManager.Update();
 
 	//Set the settings
-
 	unsigned int i = 0;
 	unsigned int count = m_Notebook->GetPageCount();
 	while(m_Notebook->GetPageText(m_Notebook->GetSelection()) != wxGetApp().m_Settings->GetPosition()){
@@ -838,6 +837,10 @@ void frmMain::CreateControls()
 			break;
 		}
 	}
+	
+	m_Settings_RememberSync->SetValue(wxGetApp().m_Settings->GetRememberSync());
+	m_Settings_RememberBackup->SetValue(wxGetApp().m_Settings->GetRememberBackup());
+	m_Settings_RememberSecure->SetValue(wxGetApp().m_Settings->GetRememberSecure());
 
 	//Set the drag and drop targets
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
@@ -1348,7 +1351,9 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
 	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
-	
+	wxGetApp().m_Settings->SetRememberSync(m_Settings_RememberSync->GetValue());
+	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
+	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
 	
 	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
 	
