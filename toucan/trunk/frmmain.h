@@ -135,6 +135,9 @@ class Settings;
 #define ID_SETTINGS_TABSTYLE 10351
 #define ID_SETTINGS_LANGUAGE 10352
 #define ID_SETTINGS_FONT 10353
+#define ID_SETTINGS_REMEMBERSYNC 10354
+#define ID_SETTINGS_REMEMBERBACKUP 10355
+#define ID_SETTINGS_REMEMBERSECURE 10356
 
 //Menu 10400-10449
 #define ID_MENU_FILEEXCLUDE_EXTENSION 10400
@@ -329,6 +332,9 @@ public:
 	wxRadioBox* m_Settings_TabStyle;
 	wxComboBox* m_Settings_Language;
  	wxFontPickerCtrl* m_Settings_Font;
+	wxCheckBox* m_Settings_RememberSync;
+	wxCheckBox* m_Settings_RememberBackup;
+	wxCheckBox* m_Settings_RememberSecure;
 
 	//Other
 	wxArrayString* m_SecureLocations;

@@ -725,6 +725,14 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* SettingsSizer = new wxBoxSizer(wxVERTICAL);
 	SettingsPanel->SetSizer(SettingsSizer);
+	
+	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
+	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
+	SettingsSizer->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+
+	m_Settings_Font = new wxFontPickerCtrl(SettingsPanel, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
+	m_Settings_Font->SetSelectedFont(font);
+	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxArrayString arrTabStyles;
 	arrTabStyles.Add(_("Icons and Text"));
@@ -742,15 +750,26 @@ void frmMain::CreateControls()
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
 	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
-	
-	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
-	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
-	SettingsSizer->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 
-	m_Settings_Font = new wxFontPickerCtrl(SettingsPanel, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
-	m_Settings_Font->SetSelectedFont(font);
-	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	//Need to solve this properly
+	wxScreenDC textdc;
+	textdc.SetFont(wxGetApp().m_Settings->GetFont());
+	wxSize textsize = textdc.GetTextExtent(_("Remember Entered Information"));
 	
+	wxStaticBox* FieldsStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Remember Entered Information"));
+	wxStaticBoxSizer* FieldsStaticBoxSizer = new wxStaticBoxSizer(FieldsStaticBox, wxVERTICAL);
+	FieldsStaticBoxSizer->SetMinSize(wxSize(textsize.GetWidth() + 20, -1));
+	SettingsSizer->Add(FieldsStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+	
+	m_Settings_RememberSync = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSYNC, _("Sync"));
+	FieldsStaticBoxSizer->Add(m_Settings_RememberSync, 0, wxALIGN_TOP|wxALL, 5);
+	
+	m_Settings_RememberBackup = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERBACKUP, _("Backup"));
+	FieldsStaticBoxSizer->Add(m_Settings_RememberBackup, 0, wxALIGN_TOP|wxALL, 5);
+	
+	m_Settings_RememberSecure = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSECURE, _("Secure"));
+	FieldsStaticBoxSizer->Add(m_Settings_RememberSecure, 0, wxALIGN_TOP|wxALL, 5);
+
 	//Help
 	wxPanel* HelpPanel = new wxPanel(m_Notebook, ID_PANEL_HELP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	
