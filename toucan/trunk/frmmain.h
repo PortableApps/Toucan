@@ -19,6 +19,7 @@
 #include <wx/html/helpwnd.h>
 
 #include "virtualdirtreectrl.h"
+#include "extendeddirctrl.h"
 
 //Forward declarations
 class Settings;
@@ -293,7 +294,7 @@ public:
 	wxTextCtrl* m_Backup_Location;
 	wxTextCtrl* m_Backup_Pass;
 	wxTextCtrl* m_Backup_Repass;
-	wxGenericDirCtrl* m_Backup_DirCtrl;
+	ExtendedDirCtrl* m_Backup_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
 	wxRadioBox* m_Backup_Format;
@@ -303,7 +304,7 @@ public:
 	//Secure
 	wxComboBox* m_Secure_Rules;
 	wxComboBox* m_Secure_Job_Select;
-	wxGenericDirCtrl* m_Secure_DirCtrl;
+	ExtendedDirCtrl* m_Secure_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Secure_TreeCtrl;
 	wxRadioBox* m_Secure_Function;
 	wxTextCtrl* m_Secure_Pass;

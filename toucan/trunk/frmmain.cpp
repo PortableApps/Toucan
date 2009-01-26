@@ -29,6 +29,8 @@
 #include "basicfunctions.h"
 #include "settings.h"
 
+#include "extendeddirctrl.h"
+
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
 
@@ -435,7 +437,7 @@ void frmMain::CreateControls()
 	wxStaticText* BackupStaticFiles = new wxStaticText(BackupPanel, wxID_ANY, _("Files to Backup"));
 	BackupMainLeft->Add(BackupStaticFiles, 0, wxALL, 5);
 
-	m_Backup_DirCtrl = new wxGenericDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME, _T("All files (*.*)|*.*"), 0 );
+	m_Backup_DirCtrl = new ExtendedDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Backup_DirCtrl->ShowHidden(true);
 	BackupMainLeft->Add(m_Backup_DirCtrl, 1, wxGROW|wxALL, 5);
 
@@ -539,7 +541,7 @@ void frmMain::CreateControls()
 	itemBoxSizer69->Add(itemBoxSizer78, 1, wxGROW|wxALL, 5);
 	
 	
-	m_Secure_DirCtrl = new wxGenericDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
+	m_Secure_DirCtrl = new ExtendedDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Secure_DirCtrl->ShowHidden(true);	
 	itemBoxSizer78->Add(m_Secure_DirCtrl, 1, wxGROW|wxALL, 5);
 
@@ -931,15 +933,21 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name)
 //ID_BACKUP_ADD
 void frmMain::OnBackupAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
-	m_BackupLocations->Add(m_Backup_DirCtrl->GetPath());
-	m_Backup_TreeCtrl->AddNewPath(m_Backup_DirCtrl->GetPath());
+	wxArrayString arrPaths = m_Backup_DirCtrl->GetSelectedPaths();
+	for(unsigned int i = 0; i < arrPaths.Count(); i++){
+		m_BackupLocations->Add(arrPaths.Item(i));
+		m_Backup_TreeCtrl->AddNewPath(arrPaths.Item(i));		
+	}
 }
 
 //ID_SECURE_ADD
 void frmMain::OnSecureAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
-	m_SecureLocations->Add(m_Secure_DirCtrl->GetPath());
-	m_Secure_TreeCtrl->AddNewPath(m_Secure_DirCtrl->GetPath());
+	wxArrayString arrPaths = m_Secure_DirCtrl->GetSelectedPaths();
+	for(unsigned int i = 0; i < arrPaths.Count(); i++){
+		m_SecureLocations->Add(arrPaths.Item(i));
+		m_Secure_TreeCtrl->AddNewPath(arrPaths.Item(i));		
+	}
 }
 
 //ID_BACKUP_REMOVE
