@@ -23,7 +23,14 @@
 IMPLEMENT_APP_NO_MAIN(Toucan)
 
 //Toucan startup
-bool Toucan::OnInit(){    
+bool Toucan::OnInit(){
+	#ifdef __WXMSW__
+		if(argc == 1){
+			if(wxGetOsVersion() != wxOS_WINDOWS_9X){
+				ShowWindow(GetConsoleWindow(), SW_HIDE); 			
+			}			
+		}
+	#endif
 	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn;
@@ -96,7 +103,6 @@ bool Toucan::OnInit(){
 		UpdateScripts(version);
 	}	
 
-	
 	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
 
@@ -155,13 +161,6 @@ int Toucan::OnExit(){
 }
 
 int main(int argc, char* argv[]){
-	#ifdef __WXMSW__
-	if(argc == 1){
-		if ( wxGetOsVersion() != wxOS_WINDOWS_9X ) {
-			ShowWindow(GetConsoleWindow(), SW_HIDE); 			
-		}
-	}
-	#endif
 	wxEntry(argc,argv); 
 	return true;
 }
