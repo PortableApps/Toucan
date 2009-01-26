@@ -24,40 +24,51 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 
 //Toucan startup
 bool Toucan::OnInit(){    
+	//Set the splash screen going
+	wxInitAllImageHandlers();
+	wxSplashScreen *scrn;
+	bool splash = false;
+	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg"))){
+		wxBitmap bitmap;
+		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
+		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, MainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
+		splash = true;
+	}
+
 	if(argc == 1){
 		blGUI = true;
 	}
 	else{
 		blGUI = false;
 	}
-	
+
 	//Make sure the data directory is there
 	if(!wxDirExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data"))){
 		wxMkdir(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data"));
 	}
 	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
-	
+
 	//Create the config stuff and set it up
  	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
 	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
 	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
 	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
-	
+
 	m_Jobs_Config->SetExpandEnvVars(false);
 	m_Rules_Config->SetExpandEnvVars(false);
 	m_Scripts_Config->SetExpandEnvVars(false);
 	m_Variables_Config->SetExpandEnvVars(false);
-	
+
 	//Create the settings class amd load the settings
 	m_Settings = new Settings();
 	m_Settings->TransferFromFile();
-	
+
 	//Create the script manager
 	m_Script = new ScriptManager();
-	
+
 	//Set up the help system
 	m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
-	
+
 	//Make sure the jobs file is up to date!
 	int version = 1;
 	m_Jobs_Config->Read(wxT("General/Version"), &version);
@@ -65,8 +76,8 @@ bool Toucan::OnInit(){
 	m_Jobs_Config->Flush();
 	if(version < 202){
 		UpdateJobs(version);
-	}	
-	
+	}
+
 	//Update the script file
 	version = 1;
 	m_Scripts_Config->Read(wxT("General/Version"), &version);
@@ -75,8 +86,7 @@ bool Toucan::OnInit(){
 	if(version < 202){
 		UpdateRules(version);
 	}
-	
-	
+
 	//Update the rules file
 	version = 1;
 	m_Rules_Config->Read(wxT("General/Version"), &version);
@@ -85,11 +95,11 @@ bool Toucan::OnInit(){
 	if(version < 202){
 		UpdateScripts(version);
 	}	
-	
+
 	
 	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
-	
+
 	//Set up the sizes and so forth
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
@@ -97,28 +107,19 @@ bool Toucan::OnInit(){
 	wxPoint position((int)(m_Settings->GetX() * width), (int)(m_Settings->GetY() * height));
 	wxSize size((int)(m_Settings->GetWidth() * width), (int)(m_Settings->GetHeight() * height));
 	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
-	
-	wxInitAllImageHandlers();
+
 	wxFileSystem::AddHandler(new wxArchiveFSHandler);
-	wxBitmap bitmap;
 	MainWindow = new frmMain(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
-			
 	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
+
 	if(blGUI){
-		if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg"))){
-			bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
-			wxSplashScreen *scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT, 5000, MainWindow, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
-			wxYield();
-			//Sleep for two seconds before destroying the splash screen and showing main frame
-			wxSleep(2);
-			//Now destroy the splashscreen
-			scrn->Destroy(); 
-		}
 		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 			MainWindow->Iconize(false);
-		}	
+		}
 		MainWindow->Show();
-	
+		if(splash){
+			scrn->Destroy(); 
+		}
 	}
 	else{
 		ParseCommandLine();
