@@ -225,6 +225,18 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 				{
 					//Always call the function again to ensure that ALL files and folders are processed
 					CreateList(file, rules, strPath + strFilename, iRootLength);
+					if(!rules.ShouldExclude(strPath + strFilename, true)){
+						if(iRootLength == 0){
+							wxString strCombined = strPath + strFilename;
+							strCombined = strCombined.Right(strCombined.Length() - iRootLength - 3);
+							file->AddLine(strCombined);
+						}
+						else{
+							wxString strCombined = strPath + strFilename;
+							strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
+							file->AddLine(strCombined);
+						}
+					}
 				}
 				//If it is a file
 				else{
