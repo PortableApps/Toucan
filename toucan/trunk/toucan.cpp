@@ -124,6 +124,9 @@ bool Toucan::OnInit(){
 		if(scrn != NULL){
 			scrn->Destroy(); 
 		}
+		else{
+			delete scrn;
+		}
 	}
 	else{
 		ParseCommandLine();
