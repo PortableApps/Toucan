@@ -19,6 +19,10 @@
 #include "script.h"
 #include "settings.h"
 
+#include "syncdata.h"
+#include "backupdata.h"
+#include "securedata.h"
+
 //Because we actually have a console app that is well hidden!
 IMPLEMENT_APP_NO_MAIN(Toucan)
 
@@ -119,6 +123,25 @@ bool Toucan::OnInit(){
 	if(blGUI){
 		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 			MainWindow->Iconize(false);
+		}
+		//Load the saved data here rathert than oninit as it makes calls to wxGetApp() that crash
+		if(m_Jobs_Config->Exists(wxT("SyncRemember")) && m_Settings->GetRememberSync()){
+			SyncData data;
+			data.SetName(wxT("SyncRemember"));
+			data.TransferFromFile();
+			data.TransferToForm();
+		}
+		if(m_Jobs_Config->Exists(wxT("BackupRemember")) && m_Settings->GetRememberBackup()){
+			BackupData bdata;
+			bdata.SetName(wxT("BackupRemember"));
+			bdata.TransferFromFile();		
+			bdata.TransferToForm();
+		}
+		if(m_Jobs_Config->Exists(wxT("SecureRemember")) && m_Settings->GetRememberSecure()){
+			SecureData sdata;
+			sdata.SetName(wxT("SecureRemember"));
+			sdata.TransferFromFile();
+			sdata.TransferToForm();
 		}
 		MainWindow->Show();
 		if(scrn != NULL){

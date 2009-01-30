@@ -107,7 +107,9 @@ bool SetJobsBox(wxComboBox *box, wxString strType){
 	while (blCont){
 		//If the group is of the correct type then add it to the combobox
 		if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == strType){
-			box->Append(strValue);
+			if(strValue != wxT("SyncRemember") && strValue != wxT("BackupRemember") && strValue != wxT("SecureRemember")){
+				box->Append(strValue);				
+			}
 		}
 		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 	}

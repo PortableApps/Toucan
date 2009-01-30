@@ -553,7 +553,7 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton82 = new wxBitmapButton( itemPanel68, ID_SECURE_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer80->Add(itemBitmapButton82, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE | BORDER);
+	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|BORDER);
 	itemBoxSizer78->Add(m_Secure_TreeCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer84 = new wxBoxSizer(wxVERTICAL);
@@ -1355,8 +1355,22 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
 	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
 	
-	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
+	SyncData data;
+	data.SetName(wxT("SyncRemember"));
+	data.TransferFromForm();
+	data.TransferToFile();
 	
+	BackupData bdata;
+	bdata.SetName(wxT("BackupRemember"));
+	bdata.TransferFromForm();
+	bdata.TransferToFile();
+	
+	SecureData sdata;
+	sdata.SetName(wxT("SecureRemember"));
+	sdata.TransferFromForm();
+	sdata.TransferToFile();
+	
+	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
 	
