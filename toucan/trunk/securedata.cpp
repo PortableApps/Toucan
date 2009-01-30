@@ -54,6 +54,9 @@ bool SecureData::TransferToFile(){
 /*This function takes the data in BackupData and fills in the GUI*/
 bool SecureData::TransferToForm(){
 	frmMain *window = wxGetApp().MainWindow;
+	if(window == NULL){
+		return false;
+	}
 	//Delete all of the existing items in the treectrl and readd a root
 	window->m_Secure_TreeCtrl->DeleteAllItems();
 	window->m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
