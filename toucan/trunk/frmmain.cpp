@@ -571,13 +571,12 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
 	itemPanel93->SetSizer(itemBoxSizer94);
 
-	wxBoxSizer* itemBoxSizer95 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer94->Add(itemBoxSizer95, 0, wxALIGN_LEFT|wxALL, 5);
-	wxStaticText* itemStaticText96 = new wxStaticText( itemPanel93, wxID_STATIC, _("Name"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer95->Add(itemStaticText96, 0, wxALIGN_LEFT|wxALL, 5);
-
 	wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer95->Add(itemBoxSizer97, 0, wxALIGN_LEFT|wxALL, 5);
+	itemBoxSizer94->Add(itemBoxSizer97, 0, wxALIGN_LEFT|wxALL, 5);
+	
+	wxStaticText* itemStaticText96 = new wxStaticText( itemPanel93, wxID_STATIC, _("Name"), wxDefaultPosition, wxDefaultSize, 0 );
+	itemBoxSizer97->Add(itemStaticText96, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 10);	
+	
 	wxArrayString m_Rules_ComboStrings;
 	m_Rules_Name = new wxComboBox( itemPanel93, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY );
 	itemBoxSizer97->Add(m_Rules_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
