@@ -657,7 +657,7 @@ void frmMain::CreateControls()
     VariablesSizer->Add(VariablesTop, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* VariablesStatic = new wxStaticText(VariablesPanel, wxID_STATIC, _("Name"));
-    VariablesTop->Add(VariablesStatic, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    VariablesTop->Add(VariablesStatic, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 10);
 
     wxArrayString arrVariables;
     m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
