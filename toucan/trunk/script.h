@@ -23,6 +23,9 @@ class ScriptManager{
 	void SetCommand(int i);
 	int GetCommand();
 	
+	//Get the start time
+	wxDateTime GetTime();
+	
 	//Ensure the script is valid
 	bool Validate();
 	

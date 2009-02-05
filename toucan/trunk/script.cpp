@@ -37,6 +37,10 @@ void ScriptManager::SetScript(wxArrayString script){
 	m_Script = script;
 }
 
+wxDateTime ScriptManager::GetTime(){
+	return startTime;
+}
+
 wxArrayString ScriptManager::GetScript(){
 	return m_Script;
 }
