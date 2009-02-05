@@ -433,9 +433,6 @@ void frmMain::CreateControls()
 	
 	wxBoxSizer* BackupMainLeft = new wxBoxSizer(wxVERTICAL);	
 	BackupMain->Add(BackupMainLeft, 1, wxEXPAND|wxALL, 5);
-	
-	wxStaticText* BackupStaticFiles = new wxStaticText(BackupPanel, wxID_ANY, _("Files to Backup"));
-	BackupMainLeft->Add(BackupStaticFiles, 0, wxALL, 5);
 
 	m_Backup_DirCtrl = new ExtendedDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Backup_DirCtrl->ShowHidden(true);
