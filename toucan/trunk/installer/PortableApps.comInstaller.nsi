@@ -1,6 +1,4 @@
-;THIS IS A SPECIALIZED VERSION OF THE PORTABLEAPPS.COM INSTALLER AND SHOULD NOT BE USED WITH OTHER APPS
-
-;Copyright 2007-2008 John T. Haller of PortableApps.com
+;Copyright 2007-2009 John T. Haller of PortableApps.com
 
 ;Website: http://PortableApps.com/
 
@@ -23,7 +21,7 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-!define PORTABLEAPPSINSTALLERVERSION "0.10.4.0"
+!define PORTABLEAPPSINSTALLERVERSION "0.11.1.0"
 
 !if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
 	!include PortableApps.comInstallerPluginConfig.nsh
@@ -76,6 +74,10 @@ RequestExecutionLevel user
 !insertmacro GetSize
 !insertmacro GetParent
 !include TextFunc.nsh
+!include WordFunc.nsh
+!ifdef USESVERSIONCOMPARE
+	!insertmacro VersionCompare
+!endif
 
 !ifdef USESCONFIGREAD
 	!insertmacro ConfigRead
@@ -123,30 +125,242 @@ BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
 !insertmacro MUI_PAGE_FINISH
 
 ;=== Languages
-;=== THESE BITS WERE ADDED AND ARE NOT YET PART OF THE PORTABLEAPPS.COM INSTALLER
-!insertmacro MUI_LANGUAGE "English"
-!include PortableApps.comInstallerLANG_ENGLISH.nsh
-!insertmacro MUI_LANGUAGE "Dutch"
-!include PortableApps.comInstallerLANG_DUTCH.nsh
-!insertmacro MUI_LANGUAGE "Estonian"
-!include PortableApps.comInstallerLANG_ESTONIAN.nsh
-!insertmacro MUI_LANGUAGE "French"
-!include PortableApps.comInstallerLANG_FRENCH.nsh
-!insertmacro MUI_LANGUAGE "German"
-!include PortableApps.comInstallerLANG_GERMAN.nsh
-!insertmacro MUI_LANGUAGE "Russian"
-!include PortableApps.comInstallerLANG_RUSSIAN.nsh
-!insertmacro MUI_LANGUAGE "Spanish"
-!include PortableApps.comInstallerLANG_SPANISH.nsh
-!insertmacro MUI_LANGUAGE "Polish"
-!include PortableApps.comInstallerLANG_POLISH.nsh
-!insertmacro MUI_LANGUAGE "Hungarian"
-!include PortableApps.comInstallerLANG_HUNGARIAN.nsh
-!insertmacro MUI_LANGUAGE "Bulgarian"
-!include PortableApps.comInstallerLANG_BULGARIAN.nsh
+!ifndef INSTALLERMULTILINGUAL
+	!insertmacro MUI_LANGUAGE "${INSTALLERLANGUAGE}"
+	!include PortableApps.comInstallerLANG_${INSTALLERLANGUAGE}.nsh
+!else
+	!ifdef USES_ENGLISH
+		!insertmacro MUI_LANGUAGE "English"
+		!include PortableApps.comInstallerLANG_ENGLISH.nsh
+	!endif
+	!ifdef USES_AFRIKAANS
+		!insertmacro MUI_LANGUAGE "Afrikaans"
+		!include PortableApps.comInstallerLANG_AFRIKAANS.nsh
+	!endif
+	!ifdef USES_ALBANIAN
+		!insertmacro MUI_LANGUAGE "Albanian"
+		!include PortableApps.comInstallerLANG_ALBANIAN.nsh
+	!endif
+	!ifdef USES_ARABIC
+		!insertmacro MUI_LANGUAGE "Arabic"
+		!include PortableApps.comInstallerLANG_ARABIC.nsh
+	!endif
+	!ifdef USES_BASQUE
+		!insertmacro MUI_LANGUAGE "Basque"
+		!include PortableApps.comInstallerLANG_BASQUE.nsh
+	!endif
+	!ifdef USES_BELARUSIAN
+		!insertmacro MUI_LANGUAGE "Belarusian"
+		!include PortableApps.comInstallerLANG_BELARUSIAN.nsh
+	!endif
+	!ifdef USES_BOSNIAN
+		!insertmacro MUI_LANGUAGE "Bosnian"
+		!include PortableApps.comInstallerLANG_BOSNIAN.nsh
+	!endif
+	!ifdef USES_BRETON
+		!insertmacro MUI_LANGUAGE "Breton"
+		!include PortableApps.comInstallerLANG_BRETON.nsh
+	!endif
+	!ifdef USES_BULGARIAN
+		!insertmacro MUI_LANGUAGE "Bulgarian"
+		!include PortableApps.comInstallerLANG_BULGARIAN.nsh
+	!endif
+	!ifdef USES_CATALAN
+		!insertmacro MUI_LANGUAGE "Catalan"
+		!include PortableApps.comInstallerLANG_CATALAN.nsh
+	!endif
+	!ifdef USES_CROATIAN
+		!insertmacro MUI_LANGUAGE "Croatian"
+		!include PortableApps.comInstallerLANG_CROATIAN.nsh
+	!endif
+	!ifdef USES_CZECH
+		!insertmacro MUI_LANGUAGE "Czech"
+		!include PortableApps.comInstallerLANG_CZECH.nsh
+	!endif
+	!ifdef USES_DANISH
+		!insertmacro MUI_LANGUAGE "Danish"
+		!include PortableApps.comInstallerLANG_DANISH.nsh
+	!endif
+	!ifdef USES_DUTCH
+		!insertmacro MUI_LANGUAGE "Dutch"
+		!include PortableApps.comInstallerLANG_DUTCH.nsh
+	!endif
+	!ifdef USES_ESTONIAN
+		!insertmacro MUI_LANGUAGE "Estonian"
+		!include PortableApps.comInstallerLANG_ESTONIAN.nsh
+	!endif
+	!ifdef USES_FARSI
+		!insertmacro MUI_LANGUAGE "Farsi"
+		!include PortableApps.comInstallerLANG_FARSI.nsh
+	!endif
+	!ifdef USES_FINNISH
+		!insertmacro MUI_LANGUAGE "Finnish"
+		!include PortableApps.comInstallerLANG_FINNISH.nsh
+	!endif
+	!ifdef USES_FRENCH
+		!insertmacro MUI_LANGUAGE "French"
+		!include PortableApps.comInstallerLANG_FRENCH.nsh
+	!endif
+	!ifdef USES_GALICIAN
+		!insertmacro MUI_LANGUAGE "Galician"
+		!include PortableApps.comInstallerLANG_GALICIAN.nsh
+	!endif
+	!ifdef USES_GERMAN
+		!insertmacro MUI_LANGUAGE "German"
+		!include PortableApps.comInstallerLANG_GERMAN.nsh
+	!endif
+	!ifdef USES_GREEK
+		!insertmacro MUI_LANGUAGE "Greek"
+		!include PortableApps.comInstallerLANG_GREEK.nsh
+	!endif
+	!ifdef USES_HEBREW
+		!insertmacro MUI_LANGUAGE "Hebrew"
+		!include PortableApps.comInstallerLANG_HEBREW.nsh
+	!endif
+	!ifdef USES_HUNGARIAN
+		!insertmacro MUI_LANGUAGE "Hungarian"
+		!include PortableApps.comInstallerLANG_HUNGARIAN.nsh
+	!endif
+	!ifdef USES_ICELANDIC
+		!insertmacro MUI_LANGUAGE "Icelandic"
+		!include PortableApps.comInstallerLANG_ICELANDIC.nsh
+	!endif
+	!ifdef USES_INDONESIAN
+		!insertmacro MUI_LANGUAGE "Indonesian"
+		!include PortableApps.comInstallerLANG_INDONESIAN.nsh
+	!endif
+	!ifdef USES_IRISH
+		!insertmacro MUI_LANGUAGE "Irish"
+		!include PortableApps.comInstallerLANG_IRISH.nsh
+	!endif
+	!ifdef USES_ITALIAN
+		!insertmacro MUI_LANGUAGE "Italian"
+		!include PortableApps.comInstallerLANG_ITALIAN.nsh
+	!endif
+	!ifdef USES_JAPANESE
+		!insertmacro MUI_LANGUAGE "Japanese"
+		!include PortableApps.comInstallerLANG_JAPANESE.nsh
+	!endif
+	!ifdef USES_KOREAN
+		!insertmacro MUI_LANGUAGE "Korean"
+		!include PortableApps.comInstallerLANG_KOREAN.nsh
+	!endif
+	!ifdef USES_KURDISH
+		!insertmacro MUI_LANGUAGE "Kurdish"
+		!include PortableApps.comInstallerLANG_KURDISH.nsh
+	!endif
+	!ifdef USES_LATVIAN
+		!insertmacro MUI_LANGUAGE "Latvian"
+		!include PortableApps.comInstallerLANG_LATVIAN.nsh
+	!endif
+	!ifdef USES_LITHUANIAN
+		!insertmacro MUI_LANGUAGE "Lithuanian"
+		!include PortableApps.comInstallerLANG_LITHUANIAN.nsh
+	!endif
+	!ifdef USES_LUXEMBOURGISH
+		!insertmacro MUI_LANGUAGE "Luxembourgish"
+		!include PortableApps.comInstallerLANG_LUXEMBOURGISH.nsh
+	!endif
+	!ifdef USES_MACEDONIAN
+		!insertmacro MUI_LANGUAGE "Macedonian"
+		!include PortableApps.comInstallerLANG_MACEDONIAN.nsh
+	!endif
+	!ifdef USES_MALAY
+		!insertmacro MUI_LANGUAGE "Malay"
+		!include PortableApps.comInstallerLANG_MALAY.nsh
+	!endif
+	!ifdef USES_MONGOLIAN
+		!insertmacro MUI_LANGUAGE "Mongolian"
+		!include PortableApps.comInstallerLANG_MONGOLIAN.nsh
+	!endif
+	!ifdef USES_NORWEGIAN
+		!insertmacro MUI_LANGUAGE "Norwegian"
+		!include PortableApps.comInstallerLANG_NORWEGIAN.nsh
+	!endif
+	!ifdef USES_NORWEGIANNYNORSK
+		!insertmacro MUI_LANGUAGE "NorwegianNynorsk"
+		!include PortableApps.comInstallerLANG_NORWEGIANNYNORSK.nsh
+	!endif
+	!ifdef USES_POLISH
+		!insertmacro MUI_LANGUAGE "Polish"
+		!include PortableApps.comInstallerLANG_POLISH.nsh
+	!endif
+	!ifdef USES_PORTUGUESE
+		!insertmacro MUI_LANGUAGE "Portuguese"
+		!include PortableApps.comInstallerLANG_PORTUGUESE.nsh
+	!endif
+	!ifdef USES_PORTUGUESEBR
+		!insertmacro MUI_LANGUAGE "PortugueseBR"
+		!include PortableApps.comInstallerLANG_PORTUGUESEBR.nsh
+	!endif
+	!ifdef USES_ROMANIAN
+		!insertmacro MUI_LANGUAGE "Romanian"
+		!include PortableApps.comInstallerLANG_ROMANIAN.nsh
+	!endif
+	!ifdef USES_RUSSIAN
+		!insertmacro MUI_LANGUAGE "Russian"
+		!include PortableApps.comInstallerLANG_RUSSIAN.nsh
+	!endif
+	!ifdef USES_SERBIAN
+		!insertmacro MUI_LANGUAGE "Serbian"
+		!include PortableApps.comInstallerLANG_SERBIAN.nsh
+	!endif
+	!ifdef USES_SERBIANLATIN
+		!insertmacro MUI_LANGUAGE "SerbianLatin"
+		!include PortableApps.comInstallerLANG_SERBIANLATIN.nsh
+	!endif
+	!ifdef USES_SIMPCHINESE
+		!insertmacro MUI_LANGUAGE "SimpChinese"
+		!include PortableApps.comInstallerLANG_SIMPCHINESE.nsh
+	!endif
+	!ifdef USES_SLOVAK
+		!insertmacro MUI_LANGUAGE "Slovak"
+		!include PortableApps.comInstallerLANG_SLOVAK.nsh
+	!endif
+	!ifdef USES_SLOVENIAN
+		!insertmacro MUI_LANGUAGE "Slovenian"
+		!include PortableApps.comInstallerLANG_SLOVENIAN.nsh
+	!endif
+	!ifdef USES_SPANISH
+		!insertmacro MUI_LANGUAGE "Spanish"
+		!include PortableApps.comInstallerLANG_SPANISH.nsh
+	!endif
+	!ifdef USES_SPANISHINTERNATIONAL
+		!insertmacro MUI_LANGUAGE "SpanishInternational"
+		!include PortableApps.comInstallerLANG_SPANISHINTERNATIONAL.nsh
+	!endif
+	!ifdef USES_SWEDISH
+		!insertmacro MUI_LANGUAGE "Swedish"
+		!include PortableApps.comInstallerLANG_SWEDISH.nsh
+	!endif
+	!ifdef USES_THAI
+		!insertmacro MUI_LANGUAGE "Thai"
+		!include PortableApps.comInstallerLANG_THAI.nsh
+	!endif
+	!ifdef USES_TRADCHINESE
+		!insertmacro MUI_LANGUAGE "TradChinese"
+		!include PortableApps.comInstallerLANG_TRADCHINESE.nsh
+	!endif
+	!ifdef USES_TURKISH
+		!insertmacro MUI_LANGUAGE "Turkish"
+		!include PortableApps.comInstallerLANG_TURKISH.nsh
+	!endif
+	!ifdef USES_UKRANIAN
+		!insertmacro MUI_LANGUAGE "Ukrainian"
+		!include PortableApps.comInstallerLANG_UKRAINIAN.nsh
+	!endif
+	!ifdef USES_UZBEK
+		!insertmacro MUI_LANGUAGE "Uzbek"
+		!include PortableApps.comInstallerLANG_UZBEK.nsh
+	!endif
+	!ifdef USES_WELSH
+		!insertmacro MUI_LANGUAGE "Welsh"
+		!include PortableApps.comInstallerLANG_WELSH.nsh
+	!endif
+	
+	!insertmacro MUI_RESERVEFILE_LANGDLL
+!endif
 
-!insertmacro MUI_RESERVEFILE_LANGDLL
-;=== END ADDED BITS
 
 ;=== Variables
 Var FOUNDPORTABLEAPPSPATH
@@ -164,6 +378,194 @@ Var FOUNDPORTABLEAPPSPATH
 !endif
 
 Function .onInit
+	SetSilent normal
+
+	!ifdef INSTALLERMULTILINGUAL
+		ReadEnvStr $0 "PortableApps.comLocaleID"
+		!ifdef USES_ENGLISH
+			StrCmp $0 "1033" SetLanguageFromEnvironment ;ENGLISH
+		!endif
+		!ifdef USES_AFRIKAANS
+			StrCmp $0 "1078" SetLanguageFromEnvironment ;AFRIKAANS
+		!endif
+		!ifdef USES_ALBANIAN
+			StrCmp $0 "1052" SetLanguageFromEnvironment ;ALBANIAN
+		!endif
+		!ifdef USES_ARABIC
+			StrCmp $0 "1025" SetLanguageFromEnvironment ;ARABIC
+		!endif
+		!ifdef USES_BASQUE
+			StrCmp $0 "1069" SetLanguageFromEnvironment ;BASQUE
+		!endif
+		!ifdef USES_BELARUSIAN
+			StrCmp $0 "1059" SetLanguageFromEnvironment ;BELARUSIAN
+		!endif
+		!ifdef USES_BOSNIAN
+			StrCmp $0 "5146" SetLanguageFromEnvironment ;BOSNIAN
+		!endif
+		!ifdef USES_BRETON
+			StrCmp $0 "1150" SetLanguageFromEnvironment ;BRETON
+		!endif
+		!ifdef USES_BULGARIAN
+			StrCmp $0 "1026" SetLanguageFromEnvironment ;BULGARIAN
+		!endif
+		!ifdef USES_CATALAN
+			StrCmp $0 "1027" SetLanguageFromEnvironment ;CATALAN
+		!endif
+		!ifdef USES_CROATIAN
+			StrCmp $0 "1050" SetLanguageFromEnvironment ;CROATIAN
+		!endif
+		!ifdef USES_CZECH
+			StrCmp $0 "1029" SetLanguageFromEnvironment ;CZECH
+		!endif
+		!ifdef USES_DANISH
+			StrCmp $0 "1030" SetLanguageFromEnvironment ;DANISH
+		!endif
+		!ifdef USES_DUTCH
+			StrCmp $0 "1043" SetLanguageFromEnvironment ;DUTCH
+		!endif
+		!ifdef USES_ESTONIAN
+			StrCmp $0 "1061" SetLanguageFromEnvironment ;ESTONIAN
+		!endif
+		!ifdef USES_FARSI
+			StrCmp $0 "1065" SetLanguageFromEnvironment ;FARSI
+		!endif
+		!ifdef USES_FINNISH
+			StrCmp $0 "1035" SetLanguageFromEnvironment ;FINNISH
+		!endif
+		!ifdef USES_FRENCH
+			StrCmp $0 "1036" SetLanguageFromEnvironment ;FRENCH
+		!endif
+		!ifdef USES_GALICIAN
+			StrCmp $0 "1110" SetLanguageFromEnvironment ;GALICIAN
+		!endif
+		!ifdef USES_GERMAN
+			StrCmp $0 "1031" SetLanguageFromEnvironment ;GERMAN
+		!endif
+		!ifdef USES_GREEK
+			StrCmp $0 "1032" SetLanguageFromEnvironment ;GREEK
+		!endif
+		!ifdef USES_HEBREW
+			StrCmp $0 "1037" SetLanguageFromEnvironment ;HEBREW
+		!endif
+		!ifdef USES_HUNGARIAN
+			StrCmp $0 "1038" SetLanguageFromEnvironment ;HUNGARIAN
+		!endif
+		!ifdef USES_ICELANDIC
+			StrCmp $0 "1039" SetLanguageFromEnvironment ;ICELANDIC
+		!endif
+		!ifdef USES_INDONESIAN
+			StrCmp $0 "1057" SetLanguageFromEnvironment ;INDONESIAN
+		!endif
+		!ifdef USES_IRISH
+			StrCmp $0 "2108" SetLanguageFromEnvironment ;IRISH
+		!endif
+		!ifdef USES_ITALIAN
+			StrCmp $0 "1040" SetLanguageFromEnvironment ;ITALIAN
+		!endif
+		!ifdef USES_JAPANESE
+			StrCmp $0 "1041" SetLanguageFromEnvironment ;JAPANESE
+		!endif
+		!ifdef USES_KOREAN
+			StrCmp $0 "1042" SetLanguageFromEnvironment ;KOREAN
+		!endif
+		!ifdef USES_KURDISH
+			StrCmp $0 "9999" SetLanguageFromEnvironment ;KURDISH
+		!endif
+		!ifdef USES_LATVIAN
+			StrCmp $0 "1062" SetLanguageFromEnvironment ;LATVIAN
+		!endif
+		!ifdef USES_LITHUANIAN
+			StrCmp $0 "1063" SetLanguageFromEnvironment ;LITHUANIAN
+		!endif
+		!ifdef USES_LUXEMBOURGISH
+			StrCmp $0 "4103" SetLanguageFromEnvironment ;LUXEMBOURGISH
+		!endif
+		!ifdef USES_MACEDONIAN
+			StrCmp $0 "1071" SetLanguageFromEnvironment ;MACEDONIAN
+		!endif
+		!ifdef USES_MALAY
+			StrCmp $0 "1086" SetLanguageFromEnvironment ;MALAY
+		!endif
+		!ifdef USES_MONGOLIAN
+			StrCmp $0 "1104" SetLanguageFromEnvironment ;MONGOLIAN
+		!endif
+		!ifdef USES_NORWEGIAN
+			StrCmp $0 "1044" SetLanguageFromEnvironment ;NORWEGIAN
+		!endif
+		!ifdef USES_NORWEGIANNYNORSK
+			StrCmp $0 "2068" SetLanguageFromEnvironment ;NORWEGIANNYNORSK
+		!endif
+		!ifdef USES_POLISH
+			StrCmp $0 "1045" SetLanguageFromEnvironment ;POLISH
+		!endif
+		!ifdef USES_PORTUGUESE
+			StrCmp $0 "2070" SetLanguageFromEnvironment ;PORTUGUESE
+		!endif
+		!ifdef USES_PORTUGUESEBR
+			StrCmp $0 "1046" SetLanguageFromEnvironment ;PORTUGUESEBR
+		!endif
+		!ifdef USES_ROMANIAN
+			StrCmp $0 "1048" SetLanguageFromEnvironment ;ROMANIAN
+		!endif
+		!ifdef USES_RUSSIAN
+			StrCmp $0 "1049" SetLanguageFromEnvironment ;RUSSIAN
+		!endif
+		!ifdef USES_SERBIAN
+			StrCmp $0 "3098" SetLanguageFromEnvironment ;SERBIAN
+		!endif
+		!ifdef USES_SERBIANLATIN
+			StrCmp $0 "2074" SetLanguageFromEnvironment ;SERBIANLATIN
+		!endif
+		!ifdef USES_SIMPCHINESE
+			StrCmp $0 "2052" SetLanguageFromEnvironment ;SIMPCHINESE
+		!endif
+		!ifdef USES_SLOVAK
+			StrCmp $0 "1051" SetLanguageFromEnvironment ;SLOVAK
+		!endif
+		!ifdef USES_SLOVENIAN
+			StrCmp $0 "1060" SetLanguageFromEnvironment ;SLOVENIAN
+		!endif
+		!ifdef USES_SPANISH
+			StrCmp $0 "1034" SetLanguageFromEnvironment ;SPANISH
+		!endif
+		!ifdef USES_SPANISHINTERNATIONAL
+			StrCmp $0 "3082" SetLanguageFromEnvironment ;SPANISHINTERNATIONAL
+		!endif
+		!ifdef USES_SWEDISH
+			StrCmp $0 "1053" SetLanguageFromEnvironment ;SWEDISH
+		!endif
+		!ifdef USES_THAI
+			StrCmp $0 "1054" SetLanguageFromEnvironment ;THAI
+		!endif
+		!ifdef USES_TRADCHINESE
+			StrCmp $0 "1028" SetLanguageFromEnvironment ;TRADCHINESE
+		!endif
+		!ifdef USES_TURKISH
+			StrCmp $0 "1055" SetLanguageFromEnvironment ;TURKISH
+		!endif
+		!ifdef USES_UKRAINIAN
+			StrCmp $0 "1058" SetLanguageFromEnvironment ;UKRAINIAN
+		!endif
+		!ifdef USES_UZBEK
+			StrCmp $0 "1091" SetLanguageFromEnvironment ;UZBEK
+		!endif
+		!ifdef USES_WELSH
+			StrCmp $0 "1160" SetLanguageFromEnvironment ;WELSH
+		!endif
+		
+		Goto ShowLanguageSelector ;None of the above
+		
+		SetLanguageFromEnvironment:
+			StrCpy $LANGUAGE $0
+			Goto GetCommandLineOptions
+
+		ShowLanguageSelector:
+			!insertmacro MUI_LANGDLL_DISPLAY
+
+		GetCommandLineOptions:
+	!endif
+	
 	${GetOptions} "$CMDLINE" "/DESTINATION=" $R0
 
 	IfErrors CheckLegacyDestination

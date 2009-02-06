@@ -1,4 +1,4 @@
-;Copyright 2007-2008 John T. Haller of PortableApps.com
+;Copyright 2007-2009 John T. Haller of PortableApps.com
 ;Website: http://PortableApps.com/
 
 ;This software is OSI Certified Open Source Software.
@@ -26,19 +26,83 @@
 ;cleanup when the optional features are not selected is needed, it can be included in the
 ;PortableApps.comInstallerCustom.nsi which is detailed within that file.
 
-;LAST UPDATED FOR INSTALLER VERSION: 0.10.4
+;LAST UPDATED FOR INSTALLER VERSION: 0.11.1
 
 ;== Basic Information.  Basic information about the portable app
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
-!define VERSION "2.0.2.0"
-!define FILENAME "Toucan_2.0.2_PRERELEASE2"
+!define VERSION "2.0.4.0"
+!define FILENAME "Toucan_2.0.4"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins
 !define INSTALLERCOMMENTS "For additional details, visit PortableApps.com"
 !define INSTALLERADDITIONALTRADEMARKS "" ;end this entry with a period and a space if used
-!define INSTALLERLANGUAGE "English" ;one of the NSIS pre-defined languages supported: English, French, Italian, German, Japanese, SimpChinese
+!define INSTALLERMULTILINGUAL "true" ;uncomment this entry for multilingual installers
+
+!ifndef INSTALLERMULTILINGUAL
+	;== Single language installer
+	!define INSTALLERLANGUAGE "English" ;one of the NSIS pre-defined languages supported: English, French, Italian, German, Japanese, SimpChinese
+!else
+	;== Multilingual installer, uncomment the lanuages used
+	!define USES_ENGLISH "true"
+	;!define USES_AFRIKAANS "true"
+	;!define USES_ALBANIAN "true"
+	;!define USES_ARABIC "true"
+	;!define USES_BASQUE "true"
+	;!define USES_BELARUSIAN "true"
+	;!define USES_BOSNIAN "true"
+	;!define USES_BRETON "true"
+	!define USES_BULGARIAN "true"
+	;!define USES_CATALAN "true"
+	;!define USES_CROATIAN "true"
+	;!define USES_CZECH "true"
+	;!define USES_DANISH "true"
+	!define USES_DUTCH "true"
+	!define USES_ESTONIAN "true"
+	;!define USES_FARSI "true"
+	;!define USES_FINNISH "true"
+	!define USES_FRENCH "true"
+	;!define USES_GALICIAN "true"
+	!define USES_GERMAN "true"
+	;!define USES_GREEK "true"
+	;!define USES_HEBREW "true"
+	!define USES_HUNGARIAN "true"
+	;!define USES_ICELANDIC "true"
+	;!define USES_INDONESIAN "true"
+	;!define USES_IRISH "true"
+	!define USES_ITALIAN "true"
+	;!define USES_JAPANESE "true"
+	!define USES_KOREAN "true"
+	;!define USES_KURDISH "true"
+	;!define USES_LATVIAN "true"
+	;!define USES_LITHUANIAN "true"
+	;!define USES_LUXEMBOURGISH "true"
+	;!define USES_MACEDONIAN "true"
+	;!define USES_MALAY "true"
+	;!define USES_MONGOLIAN "true"
+	;!define USES_NORWEGIAN "true"
+	;!define USES_NORWEGIANNYNORSK "true"
+	!define USES_POLISH "true"
+	;!define USES_PORTUGUESE "true"
+	;!define USES_PORTUGUESEBR "true"
+	;!define USES_ROMANIAN "true"
+	!define USES_RUSSIAN "true"
+	;!define USES_SERBIAN "true"
+	;!define USES_SERBIANLATIN "true"
+	;!define USES_SIMPCHINESE "true"
+	;!define USES_SLOVAK "true"
+	;!define USES_SLOVENIAN "true"
+	!define USES_SPANISH "true"
+	;!define USES_SPANISHINTERNATIONAL "true"
+	;!define USES_SWEDISH "true"
+	;!define USES_THAI "true"
+	;!define USES_TRADCHINESE "true"
+	;!define USES_TURKISH "true"
+	;!define USES_UKRANIAN "true"
+	;!define USES_UZBECK "true"
+	;!define USES_WELSH "true"
+!endif
 
 ;== License.  For no license agreement, comment out the next line by placing a semicolon at the start of it
 ;!define LICENSEAGREEMENT "eula.rtf"
@@ -57,9 +121,9 @@
 ;!define PLUGININSTALLER "true"
 
 ;== Remove Main Directories.  If you want to remove one of the main directories before installing (useful with upgrades) uncomment the appropriate line.
-!define REMOVEAPPDIRECTORY "true"
+;!define REMOVEAPPDIRECTORY "true"
 ;!define REMOVEDATADIRECTORY "true" ;Normally this should not be used
-!define REMOVEOTHERDIRECTORY "true"
+;!define REMOVEOTHERDIRECTORY "true"
 
 ;== Preserve Specific Directories.  If you are removing directories but wish to preserve a specific directory, define them here.
 ;!define PRESERVEDIRECTORY1 "App\Example\Plugins"
@@ -115,3 +179,4 @@
 ;!define USESCONFIGREADS "true" ;Uncomment this line if you need to use ConfigReadS functions in your custom code
 ;!define USESCONFIGWRITE "true" ;Uncomment this line if you need to use ConfigWrite functions in your custom code
 ;!define USESCONFIGWRITES "true" ;Uncomment this line if you need to use ConfigWriteS functions in your custom code
+;!define USESVERSIONCOMPARE "true" ;Uncomment this line if you need to use VersionCompare functions in your custom code
