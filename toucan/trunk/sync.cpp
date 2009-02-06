@@ -166,12 +166,15 @@ bool SyncFile(SyncData data, Rules rules)
 	}
 	bool ShouldTimeStamp = false;
 	#ifdef __WXMSW__
-		int iAttributes = FILE_ATTRIBUTE_NORMAL;
+		long iAttributes = 0;
 	#endif
 	if(!rules.ShouldExclude(data.GetDest(), false)){
 		if(data.GetIgnoreRO()){
 			#ifdef __WXMSW__
 				iAttributes = GetFileAttributes(data.GetDest());
+				if(iAttributes == -1){
+					iAttributes = FILE_ATTRIBUTE_NORMAL;					
+				}
 				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
 			#endif
 		} 
@@ -240,7 +243,7 @@ bool SyncFile(SyncData data, Rules rules)
 		if(wxGetApp().ShouldAbort()){
 			return true;
 		}
-		//Set the old attrributes back
+		//Set the old attributes back
 		if(data.GetIgnoreRO()){
 			#ifdef __WXMSW__
 				SetFileAttributes(data.GetDest(), iAttributes); 
