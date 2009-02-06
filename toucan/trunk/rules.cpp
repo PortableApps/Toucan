@@ -20,41 +20,53 @@ bool Rules::IsEmpty(){
 }
 
 bool Rules::ShouldExclude(wxString strName, bool blIsDir){
-	
+	//If there are no rules then return false
 	if(IsEmpty()){
 		return false;
 	}
-	
-	//wxMessageBox(_("Into the match"));
-	bool blMatches = false;
-	//Check to see if there are any matches for also include, if so then immediately retun as no other options need to be checked
+	//If there are any matches for inclusions then immediately retun as no other options need to be checked
 	for(unsigned int r = 0; r < arrLocationsToInclude.Count(); r++){
-		wxRegEx regMatch; 
-		regMatch.Compile(arrLocationsToInclude.Item(r), wxRE_ICASE| wxRE_EXTENDED);
-		if(regMatch.IsValid()){
-			if(regMatch.Matches(strName)){
-				return false; 
+		wxString strInclusion = arrLocationsToInclude.Item(r);
+		//If it is a regex then regex match it
+		if(strInclusion.Left(1) == wxT("*")){
+			wxRegEx regMatch; 
+			regMatch.Compile(strInclusion.Right(strInclusion.Length() -1), wxRE_ICASE| wxRE_EXTENDED);
+			if(regMatch.IsValid()){
+				if(regMatch.Matches(strName)){
+					return false; 
+				}
+			}
+		}
+		//Otherwise plain text match
+		else{
+			if(strName.Lower().Find(strInclusion.Lower()) != wxNOT_FOUND){
+				return false;
 			}
 		}
 	}
-	//If the name is a directory
-	if(blIsDir){
-		//wxMessageBox(_("Tis a folder"));
-		for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
-		wxRegEx regMatch;
-		regMatch.Compile(arrFoldersToExclude.Item(j), wxRE_ICASE| wxRE_EXTENDED);
+	//Always check the directory exclusions as a file that is in an excluded directory should be excluded
+	for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
+		wxString strFolderExclusion = arrFoldersToExclude.Item(j);
+		//If it is a regex then regex match it
+		if(strFolderExclusion.Left(1) == wxT("*")){
+			wxRegEx regMatch;
+			regMatch.Compile(strFolderExclusion.Right(strFolderExclusion.Length() - 1), wxRE_ICASE| wxRE_EXTENDED);
 			if(regMatch.IsValid()){
 				if(regMatch.Matches(strName)){
-					//wxMessageBox(_("Excluding folder"), strName);
 					return true; 
 				}
 			}
 		}
+		//Otherwise plain text match
+		else{
+			if(strName.Lower().Find(strFolderExclusion.Lower()) != wxNOT_FOUND){
+				return true;
+			}
+		}
 	}
-	//It is a file
-	else{
+	//It is a file so run the extra checks as well
+	if(!blIsDir){
 		for(unsigned int j = 0; j < arrFilesToExclude.Count(); j++){
-			//Create  strExclusion and set it to the current exclusion we are checking against
 			wxString strExclusion = arrFilesToExclude.Item(j);
 			//Check to see if it is a filesize based exclusion
 			if(strExclusion.Left(1) == wxT("<") || strExclusion.Left(1) == wxT(">")){
@@ -63,7 +75,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 					wxFileName flName(strName);
 					wxString strNameSize = flName.GetHumanReadableSize();
 					double dFileSize = GetInPB(strNameSize);
-					double dExclusionSize = GetInPB(strExclusion.Right(strExclusion.Length() - 2));
+					double dExclusionSize = GetInPB(strExclusion.Right(strExclusion.Length() - 1));
 					if(strExclusion.Left(1) == wxT("<")){
 						if(dFileSize < dExclusionSize){
 							return true;
@@ -77,51 +89,46 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 				}
 			}
 			//Check to see if it is a date, but NOT a size
-			if(strExclusion.Left(1) == wxT("<") && strExclusion.Right(1) != wxT("B")){
+			else if(strExclusion.Left(1) == wxT("<") && strExclusion.Right(1) != wxT("B")){
 				wxFileName flName(strName);
 				wxDateTime date;								
-				date.ParseDate(arrFilesToExclude.Item(j));
+				date.ParseDate(strExclusion.Right(strExclusion.Length() - 1));
 				if(flName.GetModificationTime().IsEarlierThan(date)){
 					return true; 
 				}
 			}
 			//Other date direction
-			if(strExclusion.Left(1) == wxT(">") && strExclusion.Right(1) != wxT("B")){
+			else if(strExclusion.Left(1) == wxT(">") && strExclusion.Right(1) != wxT("B")){
 				wxFileName flName(strName);
 				wxDateTime date;								
-				date.ParseDate(arrFilesToExclude.Item(j));
+				date.ParseDate(strExclusion.Right(strExclusion.Length() - 1));
 				if(flName.GetModificationTime().IsLaterThan(date)){
 					return true; 
 				}
 			}
-			
-			//Check to see if there is a match in the filename, including any regex bits
-			wxRegEx regMatch;
-			regMatch.Compile(strExclusion, wxRE_ICASE| wxRE_EXTENDED);
-			if(regMatch.IsValid()){
-				if(regMatch.Matches(strName)){
-					return true; 
-				}
-			}
-			else{
-				wxMessageBox(_("Error with Regex"));
-			}
-		}
-		//Need to check to see if it is in an excluded folder as in this case it still needs to be excluded
-		for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
-			wxRegEx regMatch;
-			regMatch.Compile(arrFoldersToExclude.Item(j), wxRE_ICASE| wxRE_EXTENDED);
-			//wxMessageBox(arrFoldersToExclude.Item(j));
+			//Check to see if it is a regex
+			else if(strExclusion.Left(1) == wxT("*")){
+				//Check to see if there is a match in the filename, including any regex bits
+				wxRegEx regMatch;
+				regMatch.Compile(strExclusion.Right(strExclusion.Length() - 1), wxRE_ICASE| wxRE_EXTENDED);
 				if(regMatch.IsValid()){
 					if(regMatch.Matches(strName)){
-						//wxMessageBox(_("Excluding folder"));
 						return true; 
 					}
 				}
+				else{
+					wxMessageBox(_("Error with Regex"));
+				}
 			}
+			//Else plain text match it
+			else{
+				if(strName.Lower().Find(strExclusion.Lower()) != wxNOT_FOUND){
+					return true;
+				}
+			}
+		}
 	}
-	//wxMessageBox(_("Returning as normal"));
-	return blMatches;
+	return false;
 }
 
 bool Rules::TransferFromFile(wxString strName){
