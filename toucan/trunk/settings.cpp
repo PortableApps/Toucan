@@ -10,8 +10,16 @@
 #include <wx/stdpaths.h>
 #include <wx/intl.h>
 
+Settings::Settings(wxString path){
+	config = new wxFileConfig( wxT(""), wxT(""), path);
+}
+
+Settings::~Settings(){
+	delete config;
+}
+
 bool Settings::TransferToFile(){
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
+	
 	config->Write(wxT("General/Tabs"), m_TabStyle);
 	config->Write(wxT("General/Position"), m_Position);
 	config->Write(wxT("General/LanguageCode"), m_LanguageCode);
@@ -23,7 +31,6 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/RememberSync"), m_RememberSync);
 	config->Write(wxT("General/RememberBackup"), m_RememberBackup);
 	config->Write(wxT("General/RememberSecure"), m_RememberSecure);
-	delete config;
 	return true;
 }
 
@@ -43,7 +50,6 @@ bool Settings::TransferFromFile(){
 	m_RememberSecure = false;
 	
 	//Read from the settings file
-	wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), wxGetApp().GetSettingsPath()+ wxT("Settings.ini"));
 	config->Read(wxT("General/Tabs"), &m_TabStyle);
 	config->Read(wxT("General/Position"), &m_Position);
 	config->Read(wxT("General/LanguageCode"), &m_LanguageCode);
@@ -55,6 +61,5 @@ bool Settings::TransferFromFile(){
 	config->Read(wxT("General/RememberSync"), &m_RememberSync);
 	config->Read(wxT("General/RememberBackup"), &m_RememberBackup);
 	config->Read(wxT("General/RememberSecure"), &m_RememberSecure);
-	delete config;	
 	return true;
 }

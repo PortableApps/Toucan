@@ -69,7 +69,7 @@ bool Toucan::OnInit(){
 	m_Variables_Config->SetExpandEnvVars(false);
 
 	//Create the settings class amd load the settings
-	m_Settings = new Settings();
+	m_Settings = new Settings(GetSettingsPath()+ wxT("Settings.ini"));
 	m_Settings->TransferFromFile();
 
 	//Create the script manager

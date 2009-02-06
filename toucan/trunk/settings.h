@@ -9,10 +9,14 @@
 
 #include <wx/string.h>
 #include <wx/intl.h>
+#include <wx/fileconf.h>
 
 class Settings{
 	
 public:
+	Settings(wxString path);
+	~Settings();
+
 	bool TransferToFile();
 	bool TransferFromFile();
 	
@@ -49,6 +53,8 @@ public:
 	double GetRememberSecure() { return m_RememberSecure; }
 	void SetRememberSecure(bool remember) { m_RememberSecure = remember; }	
 	
+	wxFileConfig* GetConfig() { return config; }
+	
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
@@ -61,6 +67,7 @@ private:
 	bool m_RememberSync;
 	bool m_RememberBackup;
 	bool m_RememberSecure;
+	wxFileConfig* config;
 };
 
 #endif
