@@ -782,8 +782,6 @@ void frmMain::CreateControls()
 	m_HelpWindow->DisplayContents();
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, 5);
 
-
-
 	//Add the panels
 	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
 	wxBitmap backupbitmap = GetBitmapResource(wxT("backup.png"));
