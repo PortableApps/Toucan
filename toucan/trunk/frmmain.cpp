@@ -876,9 +876,6 @@ void frmMain::CreateControls()
 	m_Secure_Rules->Append(wxEmptyString);
 
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
-	
-	//This is a dummy item as the font picker doesnt have a label
-	wxString LangDummy = _("Choose Font");
 }
 
 //Get bitmap resources
