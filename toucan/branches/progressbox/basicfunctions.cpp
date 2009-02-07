@@ -55,7 +55,9 @@ void ErrorBox(wxString strMessage){
 
 void OutputProgress(wxString strValue){
 	if(wxGetApp().blGUI == true){
-		wxGetApp().ProgressWindow->m_Text->AppendText(strValue + wxT("\n"));
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
+		event.SetString(strValue + wxT("\n"));
+		wxPostEvent(wxGetApp().ProgressWindow, event);
 	}
 	else{
 		cout<<strValue + wxT("\n");

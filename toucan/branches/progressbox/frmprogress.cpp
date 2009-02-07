@@ -110,5 +110,5 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 
 //ID_SCRIPTPROGRESS
 void frmProgress::OnScriptProgress(wxCommandEvent& event){
-
+	m_Text->AppendText(event.GetString());
 }
