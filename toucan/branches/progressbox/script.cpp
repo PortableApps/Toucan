@@ -19,6 +19,7 @@
 #include "variables.h"
 #include "basicfunctions.h"
 #include "rootdata.h"
+#include "loglistctrl.h"
 
 void ScriptManager::SetCommand(int i){
 	m_Command = i;
@@ -266,10 +267,13 @@ bool ScriptManager::StartUp(){
 	//Set up all of the form related stuff
 	m_ProgressWindow = wxGetApp().ProgressWindow;
 	m_ProgressWindow->MakeModal();
-	m_ProgressWindow->m_Text->Clear();
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(m_ProgressWindow->m_Text);
-	delete wxLog::SetActiveTarget(logTxt);
+	m_ProgressWindow->m_List->DeleteAllItems();
+	wxListItem column;
+	m_ProgressWindow->m_List->InsertColumn(0, column);
+	m_ProgressWindow->m_List->InsertColumn(1, column);
+	//Send all errors to the list control
+	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
+	delete wxLog::SetActiveTarget(logList);
 	//Set up the buttons on the progress box
 	m_ProgressWindow->m_OK->Enable(false);
 	m_ProgressWindow->m_Save->Enable(false);

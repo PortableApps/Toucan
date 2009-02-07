@@ -10,10 +10,13 @@
 #include <wx/wx.h>
 #include <wx/frame.h>
 
+class wxListCtrl;
+
 //Window 10000 - 10049
 #define ID_FRMPROGRESS 10000
 #define ID_PANEL_PROGRESS 10001
-#define ID_PROGRESS_TEXT 10002
+//define ID_PROGRESS_TEXT 10002
+#define ID_PROGRESS_LIST 10002
 
 //Script 10050 - 10099
 #define ID_SCRIPTFINISH 10050
@@ -42,7 +45,8 @@ public:
 	void OnScriptFinish(wxCommandEvent& event);
 	void OnScriptProgress(wxCommandEvent& event);
 
-	wxTextCtrl* m_Text;
+	//wxTextCtrl* m_Text;
+	wxListCtrl* m_List;
 	wxButton* m_OK;
 	wxButton* m_Cancel;
 	wxButton* m_Save;

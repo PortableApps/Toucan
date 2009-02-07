@@ -10,6 +10,7 @@
 
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
+#include <wx/listctrl.h>
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
@@ -34,7 +35,8 @@ frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& captio
 
 //frmProgress initialisation
 void frmProgress::Init(){
-	m_Text = NULL;
+	//m_Text = NULL;
+	m_List = NULL;
 	m_OK = NULL;
 	m_Cancel = NULL;
 	m_Save = NULL;
@@ -50,20 +52,28 @@ void frmProgress::CreateControls(){
 	wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
 	Panel->SetSizer(TopSizer);
 
-		m_Text = new wxTextCtrl(Panel, ID_PROGRESS_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
-		TopSizer->Add(m_Text, 1, wxGROW|wxALL, 5);
+	//m_Text = new wxTextCtrl(Panel, ID_PROGRESS_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
+	//TopSizer->Add(m_Text, 1, wxGROW|wxALL, 5);
+	
+	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
+	TopSizer->Add(m_List, 1, wxGROW|wxALL, 5);
 
-		wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
-		TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
+	TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-			m_OK = new wxButton(Panel, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-			ButtonSizer->Add(m_OK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_OK = new wxButton(Panel, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	ButtonSizer->Add(m_OK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-			m_Cancel = new wxButton(Panel, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-			ButtonSizer->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_Cancel = new wxButton(Panel, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	ButtonSizer->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-			m_Save = new wxButton(Panel, wxID_SAVE, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-			ButtonSizer->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_Save = new wxButton(Panel, wxID_SAVE, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	ButtonSizer->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	
+	//Add columns
+	wxListItem column;
+	m_List->InsertColumn(0, column);
+	m_List->InsertColumn(1, column);
 	
 	//Set the form icon
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
@@ -80,7 +90,7 @@ void frmProgress::OnCancelClick(wxCommandEvent& event){
 }
 
 void frmProgress::OnSaveClick(wxCommandEvent& event){
-	wxString strCaption = _("Save");
+	/*wxString strCaption = _("Save");
 	wxString strWildcard;
 	strWildcard = wxT("Text Files (*.txt)|*.txt");
 	wxString defaultFilename = wxEmptyString;
@@ -88,7 +98,7 @@ void frmProgress::OnSaveClick(wxCommandEvent& event){
 	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxSAVE);
 	if (dialog.ShowModal() == wxID_OK) {
 		m_Text->SaveFile(dialog.GetPath());
-	}
+	}*/
 }
 
 void frmProgress::OnCloseWindow(wxCloseEvent& event){
@@ -110,5 +120,7 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 
 //ID_SCRIPTPROGRESS
 void frmProgress::OnScriptProgress(wxCommandEvent& event){
-	m_Text->AppendText(event.GetString());
+	//m_Text->AppendText(event.GetString());
+	m_List->InsertItem(m_List->GetItemCount() - 1, wxT("NewItem"));
+	m_List->SetItem(m_List->GetItemCount() -1, 1, event.GetString());
 }
