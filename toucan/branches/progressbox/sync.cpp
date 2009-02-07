@@ -181,7 +181,7 @@ bool SyncFile(SyncData data, Rules rules)
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 				if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-					OutputProgress(data.GetSource() + _("\t copied to \t") + data.GetDest());
+					OutputProgress(wxT("Copied ") + data.GetSource());
 					ShouldTimeStamp = true;
 				}
 			}
@@ -212,7 +212,7 @@ bool SyncFile(SyncData data, Rules rules)
 					if(sourceHash != desinationHash){
 						if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 							if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-								OutputProgress(data.GetSource() + _("\t updated \t") + data.GetDest());
+								OutputProgress(wxT("Updated ") + data.GetSource());
 								ShouldTimeStamp = true;
 							}
 						}
@@ -225,7 +225,7 @@ bool SyncFile(SyncData data, Rules rules)
 			else{
 				if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 					if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-						OutputProgress(data.GetSource() + _("\t copied to \t") + data.GetDest());
+						OutputProgress(wxT("Copied ") + data.GetSource());
 						ShouldTimeStamp = true;
 					}
 				}

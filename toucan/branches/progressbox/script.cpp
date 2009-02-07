@@ -245,8 +245,8 @@ bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
 	OutputProgress(wxT(""));
-	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	OutputProgress(_("Elapsed: ") + now.Subtract(startTime).Format() + wxT("\n"));
+	OutputProgress(now.FormatTime(), _("Time"));
+	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
 	OutputProgress(_("Finished"));
 	
 	//Remove finished jobs
@@ -268,24 +268,25 @@ bool ScriptManager::StartUp(){
 	m_ProgressWindow = wxGetApp().ProgressWindow;
 	m_ProgressWindow->MakeModal();
 	m_ProgressWindow->m_List->DeleteAllItems();
-	wxListItem column;
-	m_ProgressWindow->m_List->InsertColumn(0, column);
-	m_ProgressWindow->m_List->InsertColumn(1, column);
 	//Send all errors to the list control
 	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
 	delete wxLog::SetActiveTarget(logList);
 	//Set up the buttons on the progress box
 	m_ProgressWindow->m_OK->Enable(false);
 	m_ProgressWindow->m_Save->Enable(false);
-	m_ProgressWindow->m_Cancel->Enable(true);	
-	OutputProgress(_("Starting...\n"));
+	m_ProgressWindow->m_Cancel->Enable(true);
+	
+	//Send a blank item to get the item count up
+	OutputProgress(wxT(""));
 	startTime = wxDateTime::Now();
-	OutputProgress(_("Time: ") + startTime.FormatISOTime() + wxT("\n"));
+	OutputProgress(startTime.FormatTime(), _("Starting..."));
+	OutputProgress(wxT(""));
 	//Show the window
 	if(wxGetApp().blGUI){
 		m_ProgressWindow->Refresh();
 		m_ProgressWindow->Update();
 		m_ProgressWindow->Show();
 	}
+	m_ProgressWindow->m_List->SetColumnWidth(1, m_ProgressWindow->m_List->GetClientSize().GetWidth() - m_ProgressWindow->m_List->GetColumnWidth(0));
 	return true;
 }

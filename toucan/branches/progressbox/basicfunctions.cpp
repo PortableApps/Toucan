@@ -57,11 +57,24 @@ void OutputProgress(wxString strValue){
 	if(wxGetApp().blGUI == true){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
 		event.SetString(strValue + wxT("\n"));
+		event.SetInt(-1);
 		wxPostEvent(wxGetApp().ProgressWindow, event);
 	}
 	else{
 		cout<<strValue + wxT("\n");
 	}		
+}
+
+void OutputProgress(wxString time, wxString message){
+	if(wxGetApp().blGUI == true){
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
+		event.SetString(time + message);
+		event.SetInt(time.Length());
+		wxPostEvent(wxGetApp().ProgressWindow, event);
+	}
+	else{
+		cout<<message + wxT("\n");
+	}	
 }
 
 double GetInPB(wxString strValue){

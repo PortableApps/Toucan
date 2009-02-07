@@ -71,9 +71,8 @@ void frmProgress::CreateControls(){
 	ButtonSizer->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	//Add columns
-	wxListItem column;
-	m_List->InsertColumn(0, column);
-	m_List->InsertColumn(1, column);
+	m_List->InsertColumn(0, _("Time"));
+	m_List->InsertColumn(1, _("Status"));
 	
 	//Set the form icon
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
@@ -121,6 +120,13 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 //ID_SCRIPTPROGRESS
 void frmProgress::OnScriptProgress(wxCommandEvent& event){
 	//m_Text->AppendText(event.GetString());
-	m_List->InsertItem(m_List->GetItemCount() - 1, wxT("NewItem"));
-	m_List->SetItem(m_List->GetItemCount() -1, 1, event.GetString());
+	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	if(event.GetInt() == -1){
+		m_List->SetItem(index, 1, event.GetString());
+	}
+	//There was also a date, so spilt the string up
+	else{
+		m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
+		m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
+	}
 }
