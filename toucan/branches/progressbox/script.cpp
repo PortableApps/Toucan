@@ -141,7 +141,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
 		}
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Move")){
@@ -160,7 +160,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Failed to move ") +strSource + wxT("\n"));		
 		}
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Copy")){
@@ -174,7 +174,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
 		}
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Rename")){
@@ -188,7 +188,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Failed to rename ") +strSource + wxT("\n"));
 		}
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Execute")){
@@ -196,7 +196,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else{

@@ -147,13 +147,11 @@ class Settings;
 #define ID_MENU_LOCATIONINCLUDE_EXTENSION 10404
 
 //Other 10450-10499
-#define ID_SCRIPTFINISH 10450 
 
 //Help 10500-10549
 #define ID_PANEL_HELP 10500
 #define ID_HELP 10501
 
-/*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
 {
 	DECLARE_EVENT_TABLE()
@@ -162,7 +160,7 @@ public:
 	// Constructor
 	frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
-	//Deconstructor, for uninitialising AUI
+	//Destructor, for uninitialising AUI
 	~frmMain();
 
 	//Sets up all of the member vaiables
@@ -250,7 +248,6 @@ public:
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
-	void OnScriptFinish(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	
 	//Menu

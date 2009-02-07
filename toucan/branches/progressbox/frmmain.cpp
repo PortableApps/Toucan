@@ -117,9 +117,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_MENU(ID_MENU_LOCATIONINCLUDE_EXTENSION, frmMain::OnMenuLocationIncludeExtensionClick)
 	EVT_MENU(ID_MENU_LOCATIONINCLUDE_NAME, frmMain::OnMenuLocationIncludeNameClick)
 	EVT_MENU(ID_MENU_FOLDEREXCLUDE_NAME, frmMain::OnMenuFolderExcludeNameClick)
-
-	//ScriptManager
-	EVT_BUTTON(ID_SCRIPTFINISH, frmMain::OnScriptFinish)
 	
 END_EVENT_TABLE()
 
@@ -1670,17 +1667,6 @@ void frmMain::OnBackupExpandClick(wxCommandEvent& event){
 //ID_SECURE_EXPAND
 void frmMain::OnSecureExpandClick(wxCommandEvent& event){
 	m_Secure_TreeCtrl->NeatExpandAll(this);
-}
-//ID_SCRIPTFINISH
-void frmMain::OnScriptFinish(wxCommandEvent& event){
-	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
-		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-		wxGetApp().m_Script->ParseCommand(wxGetApp().m_Script->GetCommand() - 1);
-	}
-	else{
-		wxGetApp().m_Script->CleanUp();
-		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-	}
 }
 
 //ID_AUINOTEBOOK

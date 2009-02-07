@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +86,7 @@ void *SyncThread::Entry(){
 		wxMutexGuiLeave();
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().MainWindow, event);
+	wxPostEvent(wxGetApp().ProgressWindow, event);
 	//As we are finished cancel any aborts
 	wxGetApp().SetAbort(false);
 	return NULL;

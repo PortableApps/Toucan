@@ -1,12 +1,14 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "toucan.h"
 #include "frmprogress.h"
+#include "script.h"
 
+#include <wx/wx.h>
 #include <wx/stdpaths.h>
 
 //frmProgress event table
@@ -15,6 +17,11 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
+	
+	//ScriptManager
+	EVT_BUTTON(ID_SCRIPTFINISH, frmProgress::OnScriptFinish)
+	EVT_BUTTON(ID_SCRIPTPROGRESS, frmProgress::OnScriptProgress)
+	
 END_EVENT_TABLE()
 
 //Constructor
@@ -87,4 +94,21 @@ void frmProgress::OnSaveClick(wxCommandEvent& event){
 void frmProgress::OnCloseWindow(wxCloseEvent& event){
 	this->MakeModal(false);
 	this->Show(false);
+}
+
+//ID_SCRIPTFINISH
+void frmProgress::OnScriptFinish(wxCommandEvent& event){
+	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
+		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
+		wxGetApp().m_Script->ParseCommand(wxGetApp().m_Script->GetCommand() - 1);
+	}
+	else{
+		wxGetApp().m_Script->CleanUp();
+		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
+	}
+}
+
+//ID_SCRIPTPROGRESS
+void frmProgress::OnScriptProgress(wxCommandEvent& event){
+
 }
