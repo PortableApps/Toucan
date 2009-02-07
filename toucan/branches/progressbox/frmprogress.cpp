@@ -129,4 +129,5 @@ void frmProgress::OnScriptProgress(wxCommandEvent& event){
 		m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
 		m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
 	}
+	m_List->EnsureVisible(index);
 }
