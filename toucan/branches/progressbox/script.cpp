@@ -245,9 +245,8 @@ bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
 	OutputProgress(wxT(""));
-	OutputProgress(now.FormatTime(), _("Time"));
 	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
-	OutputProgress(_("Finished"));
+	OutputProgress(now.FormatTime(), _("Finished"));
 	
 	//Resize the second column to show all of the text
 	m_ProgressWindow->m_List->SetColumnWidth(1, -1);
@@ -282,7 +281,7 @@ bool ScriptManager::StartUp(){
 	//Send a blank item to get the item count up
 	OutputProgress(wxT(""));
 	startTime = wxDateTime::Now();
-	OutputProgress(startTime.FormatTime(), _("Starting..."));
+	OutputProgress(startTime.FormatTime(), _("Starting"));
 	OutputProgress(wxT(""));
 	//Show the window
 	if(wxGetApp().blGUI){
