@@ -13,6 +13,7 @@
 
 #include <wx/stdpaths.h>
 #include <wx/checkbox.h>
+#include <wx/listctrl.h>
 
 //frmRestore event table
 BEGIN_EVENT_TABLE(frmRestore, wxDialog)
@@ -108,14 +109,12 @@ void frmRestore::OnOkClick(wxCommandEvent& event){
 			}
 		}
 		frmProgress *window = wxGetApp().ProgressWindow;
-		window->m_Text->Clear();
+		window->m_List->DeleteAllItems();
 		window->m_OK->Enable(false);
 		window->m_Save->Enable(false);
 		window->m_Cancel->Enable(true);
 		
-		window->m_Text->AppendText(_("Starting...\n"));
-		wxDateTime now = wxDateTime::Now();
-		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
+		OutputProgress(wxDateTime::Now().FormatTime(), _("Starting..."));
 		//Show the window
 		window->Update();
 		//Create the data sets and fill them
@@ -138,9 +137,7 @@ void frmRestore::OnOkClick(wxCommandEvent& event){
 		window->m_OK->Enable(true);
 		window->m_Save->Enable(true);
 		window->m_Cancel->Enable(false);
-		now = wxDateTime::Now();
-		window->m_Text->AppendText(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-		window->m_Text->AppendText(_("Finished"));
+		OutputProgress(wxDateTime::Now().FormatTime(),_("Finished"));
 		wxGetApp().SetAbort(false);
 	}
 }
