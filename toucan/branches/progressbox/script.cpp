@@ -249,6 +249,9 @@ bool ScriptManager::CleanUp(){
 	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
 	OutputProgress(_("Finished"));
 	
+	//Resize the second column to show all of the text
+	m_ProgressWindow->m_List->SetColumnWidth(1, -1);
+	
 	//Remove finished jobs
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSyncJob"))){
 		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSyncJob"));
