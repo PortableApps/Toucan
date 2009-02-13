@@ -277,6 +277,9 @@ bool ScriptManager::CleanUp(){
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSecureJob"))){
 		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSecureJob"));
 	}
+	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastRestoreJob"))){
+		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastRestoreJob"));
+	}
 	wxGetApp().m_Jobs_Config->Flush();
 	wxGetApp().MainWindow->m_Notebook->Enable();
 	return true;	
