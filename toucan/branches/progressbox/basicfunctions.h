@@ -22,6 +22,7 @@ void ErrorBox(wxString strMessage);
 //Basic function to write output to progress form, used to keep code clean, with optional date
 void OutputProgress(wxString strValue);
 void OutputProgress(wxString time, wxString message);
+void OutputBlank();
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/

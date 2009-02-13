@@ -80,6 +80,16 @@ void OutputProgress(wxString time, wxString message){
 	}	
 }
 
+void OutputBlank(){
+	if(wxGetApp().blGUI == true){
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
+		wxPostEvent(wxGetApp().ProgressWindow, event);
+	}
+	else{
+		cout<<wxT("\n");
+	}	
+}
+
 double GetInPB(wxString strValue){
 	wxString strSize = strValue.Right(2);
 	wxVariant var = strValue.Left(strValue.Length() - 2);

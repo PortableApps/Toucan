@@ -244,7 +244,7 @@ bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_Save->Enable(true);
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
-	OutputProgress(wxT(""));
+	OutputBlank();
 	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
 	OutputProgress(now.FormatTime(), _("Finished"));
 	
@@ -279,10 +279,10 @@ bool ScriptManager::StartUp(){
 	m_ProgressWindow->m_Cancel->Enable(true);
 	
 	//Send a blank item to get the item count up
-	OutputProgress(wxT(""));
+	OutputBlank();
 	startTime = wxDateTime::Now();
 	OutputProgress(startTime.FormatTime(), _("Starting"));
-	OutputProgress(wxT(""));
+	OutputBlank();
 	//Show the window
 	if(wxGetApp().blGUI){
 		m_ProgressWindow->Refresh();

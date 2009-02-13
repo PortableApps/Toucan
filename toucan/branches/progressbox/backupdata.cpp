@@ -301,7 +301,7 @@ bool BackupData::Execute(Rules rules){
 		
 		//Create the list of files to backup
 		OutputProgress(_("Creating file list, this may take some time."));
-		
+
 		if(!CreateList(file, rules, GetLocations().Item(i), strPath.Length())){
 			return false;
 		}
@@ -309,8 +309,9 @@ bool BackupData::Execute(Rules rules){
 			return false;
 		}
 		file->Write();
+		OutputBlank();
+		
 		//Create the process and execute it		
-
 		if(strPath.Length() == 0){
 			strPath = GetLocations().Item(i);
 		}

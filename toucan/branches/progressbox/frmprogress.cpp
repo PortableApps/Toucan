@@ -22,6 +22,7 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	//ScriptManager
 	EVT_BUTTON(ID_SCRIPTFINISH, frmProgress::OnScriptFinish)
 	EVT_BUTTON(ID_SCRIPTPROGRESS, frmProgress::OnScriptProgress)
+	EVT_BUTTON(ID_SCRIPTBLANK, frmProgress::OnScriptBlank)
 	
 END_EVENT_TABLE()
 
@@ -133,4 +134,10 @@ void frmProgress::OnScriptProgress(wxCommandEvent& event){
 		Refresh();
 		Update();
 	}
+}
+
+//ID_SCRIPTBLANK
+void frmProgress::OnScriptBlank(wxCommandEvent& event){
+	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	m_List->SetItem(index, 1, wxEmptyString);
 }
