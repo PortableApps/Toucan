@@ -54,9 +54,12 @@ void ErrorBox(wxString strMessage){
 }
 
 void OutputProgress(wxString strValue){
+	if(strValue == wxT("")){
+		return;
+	}
 	if(wxGetApp().blGUI == true){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
-		event.SetString(strValue + wxT("\n"));
+		event.SetString(strValue);
 		event.SetInt(-1);
 		wxPostEvent(wxGetApp().ProgressWindow, event);
 	}

@@ -119,7 +119,6 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 
 //ID_SCRIPTPROGRESS
 void frmProgress::OnScriptProgress(wxCommandEvent& event){
-	//m_Text->AppendText(event.GetString());
 	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
 	if(event.GetInt() == -1){
 		m_List->SetItem(index, 1, event.GetString());
