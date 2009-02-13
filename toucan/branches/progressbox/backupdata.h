@@ -70,9 +70,6 @@ private:
 	wxString strFormat;
 	//Need to change this to a sliding scale from 1 to 5
 	int strRatio;
-	//A password if one is used	
-	wxString strPass;
-
 };
 
 #endif

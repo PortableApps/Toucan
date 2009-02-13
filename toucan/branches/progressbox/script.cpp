@@ -20,6 +20,7 @@
 #include "basicfunctions.h"
 #include "rootdata.h"
 #include "loglistctrl.h"
+#include "restoredata.h"
 
 void ScriptManager::SetCommand(int i){
 	m_Command = i;
@@ -56,7 +57,7 @@ bool ScriptManager::Validate(){
 		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 		wxString strToken = tkz.GetNextToken();
 		strToken.Trim();
-		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup")){
+		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup") || strToken == wxT("Restore")){
 			if(tkz.CountTokens() != 1){
 				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
 				OutputProgress(strTemp);
@@ -79,8 +80,18 @@ bool ScriptManager::Validate(){
 			blPassNeeded = true;
 		}
 		if(strToken == wxT("Backup")){
-			wxString strJob = tkz.GetNextToken();
 			BackupData data;
+			wxString strJob = tkz.GetNextToken();
+			data.SetName(strJob);
+			if(data.TransferFromFile()){
+				if(data.IsPassword == true){
+					blPassNeeded = true;
+				}
+			}
+		}
+		if(strToken == wxT("Restore")){
+			RestoreData data;
+			wxString strJob = tkz.GetNextToken();
 			data.SetName(strJob);
 			if(data.TransferFromFile()){
 				if(data.IsPassword == true){
@@ -130,6 +141,11 @@ bool ScriptManager::ParseCommand(int i){
 	}
 	else if(strToken == wxT("Secure")){
 		data = new SecureData();
+		strToken = tkz.GetNextToken();
+		data->SetName(strToken);
+	}
+	else if(strToken == wxT("Restore")){
+		data = new RestoreData();
 		strToken = tkz.GetNextToken();
 		data->SetName(strToken);
 	}

@@ -4,16 +4,15 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "frmrestore.h"
-#include "frmprogress.h"
-#include "backupprocess.h"
+#include "restoredata.h"
 #include "toucan.h"
-#include "waitthread.h"
+#include "frmrestore.h"
+#include "script.h"
 #include "basicfunctions.h"
 
-#include <wx/stdpaths.h>
 #include <wx/checkbox.h>
 #include <wx/listctrl.h>
+#include <wx/stdpaths.h>
 
 //frmRestore event table
 BEGIN_EVENT_TABLE(frmRestore, wxDialog)
@@ -51,95 +50,72 @@ void frmRestore::CreateControls(){
     wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
     Dialog->SetSizer(TopSizer);
 
-		wxBoxSizer* BackupFileSizer = new wxBoxSizer(wxHORIZONTAL);
-		TopSizer->Add(BackupFileSizer, 0, wxGROW|wxALL, 5);
+	wxBoxSizer* BackupFileSizer = new wxBoxSizer(wxHORIZONTAL);
+	TopSizer->Add(BackupFileSizer, 0, wxGROW|wxALL, 5);
 
-			wxStaticText* BackupFileText = new wxStaticText(Dialog, wxID_STATIC, _("Backup file:"), wxDefaultPosition, wxDefaultSize, 0);
-			BackupFileSizer->Add(BackupFileText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxStaticText* BackupFileText = new wxStaticText(Dialog, wxID_STATIC, _("Backup file:"), wxDefaultPosition, wxDefaultSize, 0);
+	BackupFileSizer->Add(BackupFileText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-			m_File = new wxTextCtrl(Dialog, ID_TEXT_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0);
-			m_File->SetMinSize(wxSize(250,-1));
-			BackupFileSizer->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_File = new wxTextCtrl(Dialog, ID_TEXT_FILE, _T(""), wxDefaultPosition, wxDefaultSize, 0);
+	m_File->SetMinSize(wxSize(250,-1));
+	BackupFileSizer->Add(m_File, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-			wxButton* BackupFileButton = new wxButton(Dialog, ID_FILE, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0);
-			BackupFileSizer->Add(BackupFileButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* BackupFileButton = new wxButton(Dialog, ID_FILE, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0);
+	BackupFileSizer->Add(BackupFileButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-		wxBoxSizer* BackupDestinationSizer = new wxBoxSizer(wxHORIZONTAL);
-		TopSizer->Add(BackupDestinationSizer, 0, wxGROW|wxALL, 5);
+	wxBoxSizer* BackupDestinationSizer = new wxBoxSizer(wxHORIZONTAL);
+	TopSizer->Add(BackupDestinationSizer, 0, wxGROW|wxALL, 5);
 
-			wxStaticText* BackupDestinationText = new wxStaticText(Dialog, wxID_STATIC, _("Restore into:"), wxDefaultPosition, wxDefaultSize, 0);
-			BackupDestinationSizer->Add(BackupDestinationText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxStaticText* BackupDestinationText = new wxStaticText(Dialog, wxID_STATIC, _("Restore into:"), wxDefaultPosition, wxDefaultSize, 0);
+	BackupDestinationSizer->Add(BackupDestinationText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-			m_Destination = new wxTextCtrl(Dialog, ID_TEXT_DESTINATION, _T(""), wxDefaultPosition, wxDefaultSize, 0);
-			m_Destination->SetMinSize(wxSize(250,-1));
-			BackupDestinationSizer->Add(m_Destination, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_Destination = new wxTextCtrl(Dialog, ID_TEXT_DESTINATION, _T(""), wxDefaultPosition, wxDefaultSize, 0);
+	m_Destination->SetMinSize(wxSize(250,-1));
+	BackupDestinationSizer->Add(m_Destination, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-			wxButton* BackupDestinationButton = new wxButton(Dialog, ID_DESTINATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
-			BackupDestinationSizer->Add(BackupDestinationButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* BackupDestinationButton = new wxButton(Dialog, ID_DESTINATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
+	BackupDestinationSizer->Add(BackupDestinationButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-		m_Pass = new wxCheckBox(Dialog, ID_PASS, _("Password"));
-		TopSizer->Add(m_Pass, 0, wxALL, 10);
+	m_Pass = new wxCheckBox(Dialog, ID_PASS, _("Password"));
+	TopSizer->Add(m_Pass, 0, wxALL, 10);
 
-		wxStdDialogButtonSizer* ButtonSizer = new wxStdDialogButtonSizer;
-		TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	wxStdDialogButtonSizer* ButtonSizer = new wxStdDialogButtonSizer;
+	TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 		
-		wxButton* OKButton = new wxButton(Dialog, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0);
-		ButtonSizer->AddButton(OKButton);
+	wxButton* OKButton = new wxButton(Dialog, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0);
+	ButtonSizer->AddButton(OKButton);
 
-		wxButton* CancelButton = new wxButton(Dialog, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0);
-		ButtonSizer->AddButton(CancelButton);
+	wxButton* CancelButton = new wxButton(Dialog, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0);
+	ButtonSizer->AddButton(CancelButton);
 
-		ButtonSizer->Realize();
-	
+	ButtonSizer->Realize();
+
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 //This code needs to be reintegrated in the script system
 void frmRestore::OnOkClick(wxCommandEvent& event){
-	if(m_File->GetValue() != wxEmptyString && m_Destination->GetValue() != wxEmptyString){
-		wxString strPass;
-		if(m_Pass->IsChecked()){
-			strPass = InputPassword();
-			if(strPass == wxEmptyString){
-				return;
-			}
-			else{
-				strPass = wxT(" -p") + strPass;
-			}
+	RestoreData* data = new RestoreData;
+	data->SetName(wxT("LastRestoreJob"));
+	data->SetBackupFile(m_File->GetValue());
+	data->SetBackupFolder(m_Destination->GetValue());
+	data->IsPassword = m_Pass->GetValue();
+	if(data->NeededFieldsFilled()){
+		if(data->TransferToFile()){
+			wxGetApp().m_Jobs_Config->Write(wxT("LastRestoreJob/Type"),  wxT("Restore"));
+			wxGetApp().m_Jobs_Config->Flush();	
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Restore \"LastRestoreJob\""));
+			wxGetApp().SetAbort(false);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->Execute();
 		}
-		frmProgress *window = wxGetApp().ProgressWindow;
-		window->m_List->DeleteAllItems();
-		window->m_OK->Enable(false);
-		window->m_Save->Enable(false);
-		window->m_Cancel->Enable(true);
-		
-		OutputProgress(wxDateTime::Now().FormatTime(), _("Starting..."));
-		//Show the window
-		window->Update();
-		//Create the data sets and fill them
-		wxString strCommand =  wxT("7za.exe  x -aoa \"") + m_File->GetValue() + wxT("\" -o\"") + m_Destination->GetValue() + wxT("\" * -r") + strPass;	
-		
-		window->Show();
-		window->Refresh();
-		window->Update();
-
-		//Cretae the process, execute it
-		PipedProcess *process = new PipedProcess(window);
-		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-		process->SetRealPid(lgPID);
-		WaitThread *thread = new WaitThread(lgPID, process);
-		thread->Create();
-		thread->Run();
-		thread->Wait();
-		while(process->HasInput())
-			;
-		window->m_OK->Enable(true);
-		window->m_Save->Enable(true);
-		window->m_Cancel->Enable(false);
-		OutputProgress(wxDateTime::Now().FormatTime(),_("Finished"));
-		wxGetApp().SetAbort(false);
 	}
+	else{
+		ErrorBox(_("Not all of the required fields are filled"));
+	}
+	delete data;
 }
 
 void frmRestore::OnCancelClick(wxCommandEvent& event){
