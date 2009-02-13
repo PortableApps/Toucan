@@ -10,8 +10,7 @@
 #include "frmprogress.h"
 
 class ScriptManager{
-	public:
-	
+public:
 	//Get and set the internal script
 	void SetScript(wxArrayString script);
 	wxArrayString GetScript();
@@ -28,25 +27,20 @@ class ScriptManager{
 	
 	//Ensure the script is valid
 	bool Validate();
-	
 	//Start the script
 	bool Execute();
-	
 	//Runs a speciic command in the script
 	bool ParseCommand(int i);
 	
-	//Clean up when finished
 	bool CleanUp();
 	bool StartUp();
 	
-	private:
-	
+private:
 	wxArrayString m_Script;
 	int m_Command;
 	wxString m_Password;
 	frmProgress* m_ProgressWindow;
 	wxDateTime startTime;
-	
 };
 		
 #endif

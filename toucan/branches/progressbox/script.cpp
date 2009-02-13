@@ -262,14 +262,15 @@ bool ScriptManager::CleanUp(){
 		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSecureJob"));
 	}
 	wxGetApp().m_Jobs_Config->Flush();
+	wxGetApp().MainWindow->m_Notebook->Enable();
 	return true;	
 }
 
 bool ScriptManager::StartUp(){
 	//Set up all of the form related stuff
 	m_ProgressWindow = wxGetApp().ProgressWindow;
-	m_ProgressWindow->MakeModal();
 	m_ProgressWindow->m_List->DeleteAllItems();
+	wxGetApp().MainWindow->m_Notebook->Disable();
 	//Send all errors to the list control
 	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
 	delete wxLog::SetActiveTarget(logList);
