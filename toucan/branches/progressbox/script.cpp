@@ -20,7 +20,6 @@
 #include "basicfunctions.h"
 #include "rootdata.h"
 #include "loglistctrl.h"
-#include "restoredata.h"
 
 void ScriptManager::SetCommand(int i){
 	m_Command = i;
@@ -89,18 +88,7 @@ bool ScriptManager::Validate(){
 				}
 			}
 		}
-		if(strToken == wxT("Restore")){
-			RestoreData data;
-			wxString strJob = tkz.GetNextToken();
-			data.SetName(strJob);
-			if(data.TransferFromFile()){
-				if(data.IsPassword == true){
-					blPassNeeded = true;
-				}
-			}
-		}
 	}
-	
 	if(blPassNeeded){
 		wxString strPass = InputPassword();
 		if(strPass == wxEmptyString){
@@ -144,11 +132,6 @@ bool ScriptManager::ParseCommand(int i){
 		strToken = tkz.GetNextToken();
 		data->SetName(strToken);
 	}
-	else if(strToken == wxT("Restore")){
-		data = new RestoreData();
-		strToken = tkz.GetNextToken();
-		data->SetName(strToken);
-	}
 	else if(strToken == _("Delete")){
 		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxRemoveFile(strSource)){
@@ -170,11 +153,11 @@ bool ScriptManager::ParseCommand(int i){
 				OutputProgress(_("Moved") +strSource + wxT("\n"));	
 			}
 			else{
-				OutputProgress(_("Failed to move ") +strSource + wxT("\n"));
+				OutputProgress(_("Failed to move ") + strSource + wxT("\n"));
 			}
 		}
 		else{
-			OutputProgress(_("Failed to move ") +strSource + wxT("\n"));		
+			OutputProgress(_("Failed to move ") + strSource + wxT("\n"));		
 		}
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	

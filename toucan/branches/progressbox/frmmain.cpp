@@ -18,7 +18,6 @@
 
 #include "frmmain.h"
 #include "frmprogress.h"
-#include "frmrestore.h"
 #include "frmvariable.h"
 
 #include "script.h"
@@ -50,7 +49,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
-	EVT_BUTTON(ID_BACKUP_RESTORE, frmMain::OnBackupRestoreClick)
 	EVT_BUTTON(ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick)
 	EVT_BUTTON(ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick)
 	EVT_BUTTON(ID_BACKUP_ADD, frmMain::OnBackupAddClick)
@@ -382,6 +380,7 @@ void frmMain::CreateControls()
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
 	m_Backup_FunctionStrings.Add(_("Differential"));
+	m_Backup_FunctionStrings.Add(_("Restore"));
 	m_Backup_Function = new wxRadioBox(BackupPanel, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Function->SetSelection(0);
 	BackupTop->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
@@ -414,16 +413,13 @@ void frmMain::CreateControls()
 	//Buttons
 	wxBoxSizer* BackupButtons = new wxBoxSizer(wxVERTICAL);
 	BackupTop->Add(BackupButtons, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
-	
+
 	wxButton* BackupOK = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
 	BackupButtons->Add(BackupOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
+
 	wxButton* BackupPreview = new wxButton(BackupPanel, ID_BACKUP_PREVIEW , _("Preview"));
 	BackupButtons->Add(BackupPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
-	
-	wxButton* BackupRestore = new wxButton(BackupPanel, ID_BACKUP_RESTORE , _("Restore"));
-	BackupButtons->Add(BackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
-	
+
 	//Main
 	wxBoxSizer* BackupMain = new wxBoxSizer(wxHORIZONTAL);
 	BackupSizer->Add(BackupMain, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 5);	
@@ -1207,6 +1203,12 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event){
 			m_Backup_Location->SetValue(dialog.GetPath());
 		}
 	}
+	else if(m_Backup_Function->GetStringSelection() == _("Restore")){
+		wxDirDialog dialog(this,_("Restore into:"),m_Backup_Location->GetValue());
+		if (dialog.ShowModal() == wxID_OK){
+			m_Backup_Location->SetValue(dialog.GetPath());
+		}
+	}
 	else{
 		wxString strWildcard;
 		if(m_Backup_Format->GetStringSelection() == _("7-Zip")){
@@ -1329,12 +1331,6 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 		//Turn off preview
 		m_Secure_TreeCtrl->SetPreview(false);
 	}
-}
-
-//ID_BACKUP_RESTORE
-void frmMain::OnBackupRestoreClick(wxCommandEvent& event){
-	frmRestore *window = new frmRestore(NULL, ID_FRMRESTORE, _("Restore"));	
-	window->ShowModal();
 }
 
 void frmMain::OnCloseWindow(wxCloseEvent& event){

@@ -187,6 +187,9 @@ wxString BackupData::CreateCommand(int i){
 	else if(GetFunction() == _("Update")){
 		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
 	}
+	else if(GetFunction() == _("Restore")){
+		strCommand =  wxT("7za.exe  x -aoa \"") + GetLocation(i) + wxT("\" -o\"") + GetBackupLocation() + wxT("\" * -r") + GetPassword();	
+	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
 		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {
@@ -227,31 +230,17 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 					//Always call the function again to ensure that ALL files and folders are processed
 					CreateList(file, rules, strPath + strFilename, iRootLength);
 					if(!rules.ShouldExclude(strPath + strFilename, true)){
-						if(iRootLength == 0){
-							wxString strCombined = strPath + strFilename;
-							strCombined = strCombined.Right(strCombined.Length() - iRootLength - 3);
-							file->AddLine(strCombined);
-						}
-						else{
-							wxString strCombined = strPath + strFilename;
-							strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
-							file->AddLine(strCombined);
-						}
+						wxString strCombined = strPath + strFilename;
+						strCombined = strCombined.Right(strCombined.Length() - iRootLength);
+						file->AddLine(strCombined);
 					}
 				}
 				//If it is a file
 				else{
 					if(!rules.ShouldExclude(strPath + strFilename, false)){
-						if(iRootLength == 0){
-							wxString strCombined = strPath + strFilename;
-							strCombined = strCombined.Right(strCombined.Length() - iRootLength - 3);
-							file->AddLine(strCombined);
-						}
-						else{
-							wxString strCombined = strPath + strFilename;
-							strCombined = strCombined.Right(strCombined.Length() - iRootLength - 1);
-							file->AddLine(strCombined);
-						}
+						wxString strCombined = strPath + strFilename;
+						strCombined = strCombined.Right(strCombined.Length() - iRootLength);
+						file->AddLine(strCombined);
 					}
 				}
 			}
@@ -261,14 +250,8 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 	//We have been passed a file
 	else{
 		if(!rules.ShouldExclude(strPath, false)){
-			if(iRootLength == 0){
-				strPath = strPath.Right(strPath.Length() - iRootLength - 3);
-				file->AddLine(strPath);
-			}
-			else{
-				strPath = strPath.Right(strPath.Length() - iRootLength - 1);
-				file->AddLine(strPath);
-			}
+			strPath = strPath.Right(strPath.Length() - iRootLength);
+			file->AddLine(strPath);
 		}		
 	}
 	return true;
@@ -276,49 +259,50 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 
 bool BackupData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
-		SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
-		SetLocation(i, Normalise(Normalise(GetLocation(i))));
-		
-		wxString strCommand;
-		//Open the text file for the file paths and clear it
-		wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Includes.txt"));
-		if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Includes.txt"))){
-			file->Open();
-			file->Clear();
+		wxString path = GetLocation(i);
+		bool isDir = false;
+		//If we have a directory clean it up
+		if(wxDirExists(path)){
+			if (path[path.length()-1] != wxFILE_SEP_PATH) {
+				path += wxFILE_SEP_PATH;       
+			}
+			isDir = true;
+		}
+		//If we are not running a restore job we need to create a list file
+		if(GetFunction() != _("Restore")){
+			//Set up the include file
+			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Includes.txt"));
+			if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Includes.txt"))){
+				file->Open();
+				file->Clear();
+				file->Write();
+			}
+			else{
+				file->Create();
+			}
+			wxFileName filename(path);
+			int length; 
+			//If we have a directory then take of the last dir and take off one for the remaining slash
+			if(isDir){
+				filename.RemoveLastDir();
+				length = filename.GetFullPath().Length() - 1;
+				//If we are root we need to add the one back on
+				if(path.Length() == 3){
+					length += 1;
+				}
+			}
+			//For files remove the filename and the remaining slash
+			else{
+				length = filename.GetPath().Length() - 1;
+				path = filename.GetPath();
+			}
+			if(!CreateList(file, rules, GetLocations().Item(i), length)){
+				return false;
+			}
 			file->Write();
 		}
-		else{
-			file->Create();
-		}
-		//Create the command to execute
-		strCommand = CreateCommand(i);
-		wxString strPath = GetLocations().Item(i);
-		if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-			strPath += wxFILE_SEP_PATH;       
-		}
-		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-		strPath = strPath.BeforeLast(wxFILE_SEP_PATH);
-		
-		//Create the list of files to backup
-		OutputProgress(_("Creating file list, this may take some time."));
-
-		if(!CreateList(file, rules, GetLocations().Item(i), strPath.Length())){
-			return false;
-		}
-		if(wxGetApp().ShouldAbort()){
-			return false;
-		}
-		file->Write();
-		OutputBlank();
-		
-		//Create the process and execute it		
-		if(strPath.Length() == 0){
-			strPath = GetLocations().Item(i);
-		}
-		else{
-			strPath += wxFILE_SEP_PATH;
-		}
-		wxSetWorkingDirectory(strPath);
+		wxString strCommand = CreateCommand(i);
+		wxSetWorkingDirectory(path);
 		PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 		process->SetRealPid(lgPID);

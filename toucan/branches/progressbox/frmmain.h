@@ -55,7 +55,6 @@ class Settings;
 #define ID_PANEL_BACKUP 10100
 #define ID_BACKUP_OK 10101
 #define ID_BACKUP_PREVIEW 10102
-#define ID_BACKUP_RESTORE 10103
 #define ID_BACKUP_JOB_SELECT 10104
 #define ID_BACKUP_JOB_SAVE 10105
 #define ID_BACKUP_JOB_ADD 10106
@@ -189,7 +188,6 @@ public:
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
 	void OnBackupPreviewClick(wxCommandEvent& event);
-	void OnBackupRestoreClick(wxCommandEvent& event);
 	void OnBackupLocationClick(wxCommandEvent& event);
 	void OnBackupAddClick(wxCommandEvent& event);
 	void OnBackupRemoveClick(wxCommandEvent& event);

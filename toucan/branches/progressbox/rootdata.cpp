@@ -6,7 +6,7 @@
 
 #include "rootdata.h"
 
-//Just a stub to allow this to correctly be compiled into an object
+//Just a stub to allow this to correctly be compiled
 
 RootData::RootData(){
 	;
