@@ -285,11 +285,8 @@ bool BackupData::Execute(Rules rules){
 			//If we have a directory then take of the last dir and take off one for the remaining slash
 			if(isDir){
 				filename.RemoveLastDir();
-				length = filename.GetFullPath().Length() - 1;
-				//If we are root we need to add the one back on
-				if(path.Length() == 3){
-					length += 1;
-				}
+				length = filename.GetFullPath().Length();
+				path = filename.GetFullPath();
 			}
 			//For files remove the filename and the remaining slash
 			else{
