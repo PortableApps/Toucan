@@ -292,6 +292,9 @@ bool BackupData::Execute(Rules rules){
 			else{
 				length = filename.GetPath().Length() - 1;
 				path = filename.GetPath();
+				if(path.Length() != 3){
+					length += 2;
+				}
 			}
 			if(!CreateList(file, rules, GetLocations().Item(i), length)){
 				return false;
