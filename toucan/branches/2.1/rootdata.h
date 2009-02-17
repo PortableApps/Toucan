@@ -39,6 +39,7 @@ public:
 	void SetPassword(wxString password) { m_Password = password; }
 	wxString GetPassword(){ return m_Password; }
 	
+private:
 	
 	wxString m_Name;
 	wxString m_Password;
