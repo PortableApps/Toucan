@@ -5,12 +5,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupdata.h"
-#include "basicfunctions.h"
-#include "toucan.h"
-#include "variables.h"
-#include "backupprocess.h"
-#include "waitthread.h"
-#include "script.h"
+#include "../basicfunctions.h"
+#include "../toucan.h"
+#include "../variables.h"
+#include "../backupprocess.h"
+#include "../waitthread.h"
+#include "../script.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include <wx/dir.h>

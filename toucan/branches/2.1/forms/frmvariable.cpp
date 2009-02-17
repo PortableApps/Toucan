@@ -8,8 +8,8 @@
 #include <wx/stdpaths.h>
 
 #include "frmvariable.h"
-#include "basicfunctions.h"
-#include "variables.h"
+#include "../basicfunctions.h"
+#include "../variables.h"
 
 
 BEGIN_EVENT_TABLE(frmVariable, wxDialog)

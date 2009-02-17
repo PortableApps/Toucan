@@ -9,7 +9,7 @@
 
 #include <wx/textfile.h>
 #include <wx/string.h>
-#include "frmmain.h"
+#include "../forms/frmmain.h"
 #include "rootdata.h"
 
 /*The backupdata class contains all of the information needed for backups, except the ruels. Includes

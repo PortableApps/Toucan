@@ -12,16 +12,16 @@
 #include <wx/fs_arc.h>
 
 #include "toucan.h"
-#include "frmmain.h"
+#include "forms/frmmain.h"
 #include "backupprocess.h"
 #include "cmdline.h"
 #include "basicfunctions.h"
 #include "script.h"
 #include "settings.h"
 
-#include "syncdata.h"
-#include "backupdata.h"
-#include "securedata.h"
+#include "data/syncdata.h"
+#include "data/backupdata.h"
+#include "data/securedata.h"
 
 //Because we actually have a console app that is well hidden!
 IMPLEMENT_APP_NO_MAIN(Toucan)

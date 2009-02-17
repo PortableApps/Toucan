@@ -7,7 +7,7 @@
 #ifndef H_SCRIPT
 #define H_SCRIPT
 
-#include "frmprogress.h"
+#include "forms/frmprogress.h"
 
 class ScriptManager{
 public:

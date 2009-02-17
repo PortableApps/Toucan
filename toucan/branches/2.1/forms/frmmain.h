@@ -18,8 +18,8 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpwnd.h>
 
-#include "virtualdirtreectrl.h"
-#include "extendeddirctrl.h"
+#include "../controls/virtualdirtreectrl.h"
+#include "../controls/extendeddirctrl.h"
 
 //Forward declarations
 class Settings;

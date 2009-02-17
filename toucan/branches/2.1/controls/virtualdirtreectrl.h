@@ -16,7 +16,7 @@
 #include <wx/filesys.h>
 #include <wx/imaglist.h>
 
-#include "rules.h"
+#include "../rules.h"
 
 enum {
 	VDTC_TI_ROOT = 0,

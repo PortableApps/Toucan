@@ -15,10 +15,10 @@
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
 
-#include "basicfunctions.h"
-#include "frmprogress.h"
-#include "frmmain.h"
 #include "toucan.h"
+#include "basicfunctions.h"
+#include "forms/frmprogress.h"
+#include "forms/frmmain.h"
 
 wxFFileOutputStream output(stderr);
 wxTextOutputStream cout(output);

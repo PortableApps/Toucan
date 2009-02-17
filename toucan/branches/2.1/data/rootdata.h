@@ -8,7 +8,7 @@
 #define H_ROOTDATA
 
 #include <wx/string.h>
-#include "frmmain.h"
+#include "../forms/frmmain.h"
 
 //This class serves as the basis for all of the data classes
 

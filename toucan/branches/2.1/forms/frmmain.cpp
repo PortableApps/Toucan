@@ -12,23 +12,20 @@
 #include <wx/html/helpctrl.h>
 #include <wx/wx.h>
 
-#include "toucan.h"
-#include "virtualdirtreectrl.h"
-#include "dragndrop.h"
-
 #include "frmmain.h"
 #include "frmprogress.h"
 #include "frmvariable.h"
-
-#include "script.h"
-#include "variables.h"
-#include "securedata.h"
-#include "syncdata.h"
-#include "backupdata.h"
-#include "basicfunctions.h"
-#include "settings.h"
-
-#include "extendeddirctrl.h"
+#include "../toucan.h"
+#include "../dragndrop.h"
+#include "../script.h"
+#include "../basicfunctions.h"
+#include "../settings.h"
+#include "../variables.h"
+#include "../data/securedata.h"
+#include "../data/syncdata.h"
+#include "../data/backupdata.h"
+#include "../controls/extendeddirctrl.h"
+#include "../controls/virtualdirtreectrl.h"
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)

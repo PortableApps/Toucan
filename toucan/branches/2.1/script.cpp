@@ -10,16 +10,16 @@
 
 #include "script.h"
 #include "waitthread.h"
-#include "syncdata.h"
 #include "sync.h"
-#include "backupdata.h"
 #include "backupprocess.h"
-#include "securedata.h"
 #include "secure.h"
 #include "variables.h"
 #include "basicfunctions.h"
-#include "rootdata.h"
-#include "loglistctrl.h"
+#include "data/rootdata.h"
+#include "data/syncdata.h"
+#include "data/backupdata.h"
+#include "data/securedata.h"
+#include "controls/loglistctrl.h"
 
 void ScriptManager::SetCommand(int i){
 	m_Command = i;

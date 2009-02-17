@@ -69,20 +69,20 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
+$(OBJECTPATH)/frmmain.o:	forms/frmmain.cpp forms/frmmain.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmmain.cpp
 
-$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmprogress.cpp
+$(OBJECTPATH)/frmprogress.o:	forms/frmprogress.cpp forms/frmprogress.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmprogress.cpp
 
-$(OBJECTPATH)/frmvariable.o:	frmvariable.cpp frmvariable.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
+$(OBJECTPATH)/frmvariable.o:	forms/frmvariable.cpp forms/frmvariable.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmvariable.cpp
 	
 $(OBJECTPATH)/basicfunctions.o:	basicfunctions.cpp basicfunctions.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) basicfunctions.cpp
 		
-$(OBJECTPATH)/rootdata.o:	rootdata.cpp rootdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) rootdata.cpp
+$(OBJECTPATH)/rootdata.o:	data/rootdata.cpp data/rootdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/rootdata.cpp
 	
 $(OBJECTPATH)/cmdline.o:	cmdline.cpp cmdline.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) cmdline.cpp
@@ -99,17 +99,17 @@ $(OBJECTPATH)/variables.o:	variables.cpp variables.h
 $(OBJECTPATH)/settings.o:	settings.cpp settings.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) settings.cpp
 
-$(OBJECTPATH)/securedata.o:	securedata.cpp securedata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) securedata.cpp
+$(OBJECTPATH)/securedata.o:	data/securedata.cpp data/securedata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/securedata.cpp
 
 $(OBJECTPATH)/backupprocess.o:	backupprocess.cpp backupprocess.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupprocess.cpp
 	
-$(OBJECTPATH)/backupdata.o:	backupdata.cpp backupdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupdata.cpp
+$(OBJECTPATH)/backupdata.o:	data/backupdata.cpp data/backupdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/backupdata.cpp
 	
-$(OBJECTPATH)/syncdata.o:	syncdata.cpp syncdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) syncdata.cpp
+$(OBJECTPATH)/syncdata.o:	data/syncdata.cpp data/syncdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/syncdata.cpp
 	
 $(OBJECTPATH)/waitthread.o:	waitthread.cpp waitthread.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) waitthread.cpp
@@ -123,13 +123,13 @@ $(OBJECTPATH)/secure.o:	secure.cpp secure.h
 $(OBJECTPATH)/sync.o:	sync.cpp sync.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync.cpp
 	
-$(OBJECTPATH)/edc.o:	extendeddirctrl.cpp extendeddirctrl.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) extendeddirctrl.cpp
+$(OBJECTPATH)/edc.o:	controls/extendeddirctrl.cpp controls/extendeddirctrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/extendeddirctrl.cpp
 	
-$(OBJECTPATH)/loglist.o:	loglistctrl.cpp loglistctrl.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) loglistctrl.cpp
+$(OBJECTPATH)/loglist.o:	controls/loglistctrl.cpp controls/loglistctrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/loglistctrl.cpp
 
-$(OBJECTPATH)/vdtc.o:	virtualdirtreectrl.cpp virtualdirtreectrl.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) virtualdirtreectrl.cpp
+$(OBJECTPATH)/vdtc.o:	controls/virtualdirtreectrl.cpp controls/virtualdirtreectrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/virtualdirtreectrl.cpp
 
 .PHONY:	all clean

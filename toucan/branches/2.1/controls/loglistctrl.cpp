@@ -4,8 +4,8 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "basicfunctions.h"
 #include "loglistctrl.h"
+#include "../basicfunctions.h"
 #include <wx/datetime.h>
 #include <wx/listctrl.h>
 

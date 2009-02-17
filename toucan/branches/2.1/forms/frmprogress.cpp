@@ -4,9 +4,9 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "toucan.h"
 #include "frmprogress.h"
-#include "script.h"
+#include "../script.h"
+#include "../toucan.h"
 
 #include <wx/wx.h>
 #include <wx/stdpaths.h>

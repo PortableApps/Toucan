@@ -8,9 +8,8 @@
 #define H_DRAGNDROP
 
 #include "basicfunctions.h"
-#include "virtualdirtreectrl.h"
+#include "controls/virtualdirtreectrl.h"
 #include <wx/dnd.h>
-
 
 /*File droptarget to a wxVirtualDirTreeCtrl, multiple files allowed*/
 class DnDFileTree : public wxFileDropTarget

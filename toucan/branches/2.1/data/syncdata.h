@@ -7,7 +7,7 @@
 #ifndef H_SYNCDATA
 #define H_SYNCDATA
 
-#include "frmmain.h"
+#include "../forms/frmmain.h"
 #include "rootdata.h"
 #include <wx/string.h>
 

@@ -6,10 +6,10 @@
 
 #include "sync.h"
 #include "basicfunctions.h"
-#include "frmprogress.h"
-#include "frmmain.h"
 #include "toucan.h"
 #include "variables.h"
+#include "forms/frmprogress.h"
+#include "forms/frmmain.h"
 
 //Include the hashlib++ library for MD5 support
 #include <hashlibpp.h>

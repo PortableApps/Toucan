@@ -5,10 +5,10 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "securedata.h"
-#include "basicfunctions.h"
-#include "toucan.h"
-#include "variables.h"
-#include "secure.h"
+#include "../basicfunctions.h"
+#include "../toucan.h"
+#include "../variables.h"
+#include "../secure.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
