@@ -18,6 +18,8 @@
 
 void *SyncThread::Entry(){
 	//Launch the correct set of loops
+	m_Data.SetLength(m_Data.GetSource().Length());
+	m_Data.SetPreText(_("Source"));
 	if(m_Data.GetFunction() == _("Copy") || m_Data.GetFunction() == _("Update")){
 		SyncLoop(m_Data, m_Rules);
 		if(m_Data.GetTimeStamps()){
@@ -34,6 +36,8 @@ void *SyncThread::Entry(){
 		wxString strTemp = m_Data.GetSource();
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
+		m_Data.SetPreText(_("Destination"));
+		m_Data.SetLength(m_Data.GetSource().Length());
 		//Run the mirror loop
 		m_Data.SetFunction(_("Mirror (Copy)"));
 		SyncLoop(m_Data, m_Rules);
@@ -51,6 +55,8 @@ void *SyncThread::Entry(){
 		wxString strTemp = m_Data.GetSource();
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
+		m_Data.SetPreText(_("Destination"));
+		m_Data.SetLength(m_Data.GetSource().Length());
 		//Run the mirror loop
 		m_Data.SetFunction(_("Mirror (Update)"));
 		SyncLoop(m_Data, m_Rules);
@@ -67,6 +73,8 @@ void *SyncThread::Entry(){
 		wxString strTemp = m_Data.GetSource();
 		m_Data.SetSource(m_Data.GetDest());
 		m_Data.SetDest(strTemp);
+		m_Data.SetPreText(_("Destination"));
+		m_Data.SetLength(m_Data.GetSource().Length());
 		m_Data.SetFunction(_("Update"));
 		SyncLoop(m_Data, m_Rules);
 		if(m_Data.GetTimeStamps()){
@@ -108,7 +116,7 @@ bool SyncLoop(SyncData data, Rules rules)
 	if (strFrom[strFrom.length()-1] != wxFILE_SEP_PATH) {
 		strFrom += wxFILE_SEP_PATH;       
 	}
-	if (!wxDirExists(strTo)){
+	if(!wxDirExists(strTo)){
 		if(!rules.ShouldExclude(strTo, true)){
 			wxMkdir(strTo);
 		}
@@ -181,7 +189,7 @@ bool SyncFile(SyncData data, Rules rules)
 		if(data.GetFunction() == _("Copy")){	
 			if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 				if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-					OutputProgress(wxT("Copied ") + data.GetSource());
+					OutputProgress(wxT("Copied  ") + data.GetPreText() +  data.GetSource().Right(data.GetSource().Length() - data.GetLength()));
 					ShouldTimeStamp = true;
 				}
 			}
@@ -212,7 +220,7 @@ bool SyncFile(SyncData data, Rules rules)
 					if(sourceHash != desinationHash){
 						if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 							if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-								OutputProgress(wxT("Updated ") + data.GetSource());
+								OutputProgress(wxT("Updated  ") + data.GetPreText() + data.GetSource().Right(data.GetSource().Length() - data.GetLength()));
 								ShouldTimeStamp = true;
 							}
 						}
@@ -225,7 +233,7 @@ bool SyncFile(SyncData data, Rules rules)
 			else{
 				if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 					if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-						OutputProgress(wxT("Copied ") + data.GetSource());
+						OutputProgress(wxT("Copied  ") + data.GetPreText() + data.GetSource().Right(data.GetSource().Length() - data.GetLength()));
 						ShouldTimeStamp = true;
 					}
 				}
@@ -237,7 +245,7 @@ bool SyncFile(SyncData data, Rules rules)
 		if(data.GetFunction() == _("Mirror (Copy)") || data.GetFunction() == _("Mirror (Update)")){	
 			if(!wxFileExists(data.GetDest())){
 				wxRemoveFile(data.GetSource());
-				OutputProgress(_("Removed ") + data.GetSource());
+				OutputProgress(_("Removed  ") + data.GetPreText() + data.GetSource().Right(data.GetSource().Length() - data.GetLength()));
 			}
 		}
 		if(wxGetApp().ShouldAbort()){

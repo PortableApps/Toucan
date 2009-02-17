@@ -40,6 +40,9 @@ public:
 	void SetFunction(wxString function) { strFunction = function; }
 	wxString GetFunction() { return strFunction; }
 
+	void SetPreText(wxString text) { strPreText = text; }
+	wxString GetPreText() { return strPreText; }
+
 	void SetTimeStamps(bool timestamps) { blTimeStamps = timestamps; }
 	bool GetTimeStamps() { return blTimeStamps; }
 
@@ -57,6 +60,8 @@ private:
 	wxString strSource;
 	wxString strDest;
 	wxString strFunction;
+	//To put before  the output text
+	wxString strPreText;
 	bool blTimeStamps;
 	bool blAttributes;
 	bool blIgnoreRO;
