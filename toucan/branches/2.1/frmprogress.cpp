@@ -23,7 +23,7 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(ID_SCRIPTFINISH, frmProgress::OnScriptFinish)
 	EVT_BUTTON(ID_SCRIPTPROGRESS, frmProgress::OnScriptProgress)
 	EVT_BUTTON(ID_SCRIPTBLANK, frmProgress::OnScriptBlank)
-	
+
 END_EVENT_TABLE()
 
 //Constructor
@@ -36,16 +36,15 @@ frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& captio
 
 //frmProgress initialisation
 void frmProgress::Init(){
-	//m_Text = NULL;
 	m_List = NULL;
 	m_OK = NULL;
 	m_Cancel = NULL;
 	m_Save = NULL;
+	m_Gauge = NULL;
 }
 
 //Create controls
 void frmProgress::CreateControls(){
-	//Create a pointer so that we have something to add the items to	
 	frmProgress* Frame = this;
 
 	wxPanel* Panel = new wxPanel(Frame, ID_PANEL_PROGRESS, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
@@ -53,9 +52,9 @@ void frmProgress::CreateControls(){
 	wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
 	Panel->SetSizer(TopSizer);
 
-	//m_Text = new wxTextCtrl(Panel, ID_PROGRESS_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_RICH2 );
-	//TopSizer->Add(m_Text, 1, wxGROW|wxALL, 5);
-	
+	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100);
+	TopSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
+
 	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
 	TopSizer->Add(m_List, 1, wxGROW|wxALL, 5);
 

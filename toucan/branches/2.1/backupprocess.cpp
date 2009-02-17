@@ -25,6 +25,7 @@ bool PipedProcess::HasInput()
 		else{
 			OutputProgress(msg);
 		}
+		IncrementGauge();
 		//Need a window update or refresh in here
 		wxMilliSleep(50);
 		hasInput = true;

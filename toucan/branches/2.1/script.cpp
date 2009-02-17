@@ -243,6 +243,9 @@ bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_Save->Enable(true);
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
+	}
 	OutputBlank();
 	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
 	OutputProgress(now.FormatTime(), _("Finished"));

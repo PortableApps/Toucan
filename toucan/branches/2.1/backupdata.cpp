@@ -300,6 +300,14 @@ bool BackupData::Execute(Rules rules){
 				return false;
 			}
 			file->Write();
+			//Set up the progress bar
+			EnableGauge(true);
+			SetGaugeRange(file->GetLineCount());
+			SetGaugeValue(0);
+		}
+		else{
+			SetGaugeValue(0);
+			EnableGauge(false);
 		}
 		wxString strCommand = CreateCommand(i);
 		wxSetWorkingDirectory(path);

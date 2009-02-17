@@ -90,6 +90,28 @@ void OutputBlank(){
 	}	
 }
 
+void SetGaugeRange(int range){
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		wxGetApp().ProgressWindow->m_Gauge->SetRange(range);		
+	}
+}
+
+void SetGaugeValue(int value){
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		wxGetApp().ProgressWindow->m_Gauge->SetValue(value);
+	}
+}
+
+void IncrementGauge(){
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		wxGetApp().ProgressWindow->m_Gauge->SetValue(wxGetApp().ProgressWindow->m_Gauge->GetValue() + 1);
+	}
+}
+
+void EnableGauge(bool enable){
+	wxGetApp().ProgressWindow->m_Gauge->Enable(enable);
+}
+
 double GetInPB(wxString strValue){
 	wxString strSize = strValue.Right(2);
 	wxVariant var = strValue.Left(strValue.Length() - 2);

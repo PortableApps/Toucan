@@ -24,6 +24,12 @@ void OutputProgress(wxString strValue);
 void OutputProgress(wxString time, wxString message);
 void OutputBlank();
 
+//Functions to set up the progress bar
+void SetGaugeRange(int range);
+void SetGaugeValue(int value);
+void IncrementGauge();
+void EnableGauge(bool enable);
+
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/
 double GetInPB(wxString strValue);
