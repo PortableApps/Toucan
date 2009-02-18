@@ -1,0 +1,625 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Toucan 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-18 15:09-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Steve Lamerton <steve.lamerton@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\SVN\\trunk\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\SVN\\trunk\n"
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/backupdata.cpp:42
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/securedata.cpp:33
+msgid ""
+"There was an error reading from the jobs file, \n"
+"please check it is not set as read only or in use."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/backupdata.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/securedata.cpp:57
+msgid ""
+"There was an error saving to the jobs file, \n"
+"please check it is not set as read only or in use."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/backupdata.cpp:188
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:403
+msgid "Complete"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/backupdata.cpp:191
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:280
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:404
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:21
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:45
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:62
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:70
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:183
+msgid "Update"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/backupdata.cpp:195
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:391
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:405
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1433
+msgid "Differential"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/backupdata.cpp:280
+msgid "Creating file list, this may take some time."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:51
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2014
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2089
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2164
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2239
+msgid "Error"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:211
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:214
+msgid "Please enter your password"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:220
+msgid "Sorry the passwords do not match"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:230
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1247
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1357
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1460
+msgid "Job name"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:231
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:243
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:252
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:432
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:134
+msgid "Password"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:232
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:244
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:253
+msgid "Repeated password"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:236
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:248
+msgid "Operation"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:237
+msgid "Backup file"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:238
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:249
+msgid "File of paths"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:239
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:250
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:284
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:554
+msgid "Function"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:240
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:413
+msgid "Format"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:241
+msgid "Compression level"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:251
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:270
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:453
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:539
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:819
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2357
+msgid "Rules"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:266
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:275
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:285
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:299
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:310
+msgid "You need to repeat the password and ensure the two passwords are identical"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:324
+msgid "None"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:327
+msgid "Fastest"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:330
+msgid "Fast"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:333
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:420
+msgid "Default"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:336
+msgid "Maximum"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:339
+msgid "Ultra"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/basicfunctions.cpp:394
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:412
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1441
+msgid "7-Zip"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/cmdline.cpp:22
+msgid "Welcome to the Toucan command line system.\n"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/cmdline.cpp:86
+msgid "You have specified the wrong number of options"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/cmdline.cpp:232
+msgid "Sorry the command is not recognised"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:253
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:386
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:521
+msgid "Job Name"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:279
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:60
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:161
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:21
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:28
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:173
+msgid "Copy"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:281
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:27
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:38
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:138
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:228
+msgid "Mirror (Copy)"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:282
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:44
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:55
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:138
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:228
+msgid "Mirror (Update)"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:283
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1577
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:61
+msgid "Equalise"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:288
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:428
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1750
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1757
+msgid "Other"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:291
+msgid "Retain Timestamps"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:295
+msgid "Retain Attributes"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:299
+msgid "Ignore Read-Only"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:303
+msgid "Ignore Daylight Savings"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:311
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:439
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:561
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmprogress.cpp:107
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:140
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmvariable.cpp:105
+msgid "OK"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:314
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:442
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:564
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmvariable.cpp:96
+msgid "Preview"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:324
+msgid "Source"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:349
+msgid "Destination"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:406
+msgid "Type"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:411
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1444
+msgid "Zip"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:417
+msgid "Compression Level"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:445
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1652
+msgid "Restore"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:463
+msgid "Backup Location"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:479
+msgid "Files to Backup"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:552
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:96
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:107
+msgid "Encrypt"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:553
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:99
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:131
+msgid "Decrypt"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:606
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:691
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:728
+msgid "Name"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:626
+msgid "Files to exclude (file name, path or extension)"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:645
+msgid "Folders to exclude (folder name or path)"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:664
+msgid "Locations to always include (file/folder name, path or  file extension)"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:746
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:53
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:175
+msgid "Execute"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:763
+msgid "Help"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:767
+msgid "About"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:771
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/settings.cpp:29
+msgid "Icons and Text"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:772
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:806
+msgid "Text"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:774
+msgid "Tab style (requires restart)"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:777
+msgid "Language"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:789
+msgid "Font"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:816
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2325
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/settings.cpp:30
+msgid "Sync"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:817
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2333
+msgid "Backup"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:818
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2341
+msgid "Secure"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:820
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2365
+msgid "Portable Variables"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:821
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2349
+msgid "Script"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:822
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:2373
+msgid "Settings"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1027
+msgid "Please select the source folder."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1048
+msgid "Please select the desination folder."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1069
+msgid "File to exclude"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1093
+msgid "Folder to exclude"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1138
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1155
+msgid "You must select a name for this set of Rules"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1228
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1311
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1338
+msgid "Please chose a job to save to"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1409
+msgid "Location to include"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1434
+msgid "Please select the folder to store your backups"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1447
+msgid "Please choose a file to backup to"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1533
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1614
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1706
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:188
+msgid "Not all of the required fields are filled"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1741
+msgid "Please enter the name for the new portable variable"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1741
+msgid "New Portable Variable"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1760
+msgid "There is already a Portable Variable with this name."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1813
+msgid "Choose a directory"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1864
+msgid "Please insert the location you want to point to."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1864
+msgid "Location"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1924
+msgid "Please enter the name for the new script"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1924
+msgid "New Script"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1937
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmmain.cpp:1946
+msgid "Insert Variable"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmprogress.cpp:110
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:143
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmvariable.cpp:108
+msgid "Cancel"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmprogress.cpp:113
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmprogress.cpp:146
+msgid "Save"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:111
+msgid "Backup file:"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:124
+msgid "Restore into:"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:179
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:256
+msgid "Starting...\n"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:181
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:205
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:226
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:258
+msgid "Time: "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:206
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:227
+msgid "Finished"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:228
+msgid "Please select the destination folder."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmrestore.cpp:241
+msgid "Please choose your backup file"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmvariable.cpp:149
+msgid "Please select a folder."
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/rules.cpp:107
+msgid "Error with Regex"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:53
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:130
+msgid "Delete"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:55
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:62
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:60
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:142
+msgid "Move"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:68
+#, c-format
+msgid " not recognised on line %d"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:133
+msgid "Deleted "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:136
+msgid "Failed to delete "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:148
+msgid "Moved"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:151
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:155
+msgid "Failed to move "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:166
+msgid "Copied "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:169
+msgid "Failed to copy "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/script.cpp:178
+msgid "Executed "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:124
+msgid "Encrypted "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:127
+msgid "Failed to encrypt "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:149
+msgid "Decrypted "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/secure.cpp:152
+msgid "Failed to decrypt "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:81
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:82
+msgid "Hidden text"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:176
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:220
+msgid "\t copied to \t"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:208
+msgid "\t updated \t"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:231
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:288
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:298
+msgid "Removed "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:267
+msgid "Toucan tried to delete a root directory. This has been forbidden for your own safety"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/sync.cpp:347
+msgid "Set folder timestamps for "
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/toucan.cpp:121
+#: C:\Users\Steven\Desktop\Toucan\SVN\trunk/frmprogress.h:25
+msgid "Progress"
+msgstr ""
+
