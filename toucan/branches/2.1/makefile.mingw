@@ -5,7 +5,6 @@ CONFIG=unicoderelease
 ifeq ($(CONFIG),unicoderelease)
 WXWIN=C:\Programming\wxWidgets-2.8-build
 MINGW=C:\Programming\MinGW
-HASHLIB=C:\Programming\hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\..\Output
@@ -14,9 +13,9 @@ CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__GNUW
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 LINKERFLAGS=-Wl, --subsystem,windows
-LIBS=-lhl++ -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_html -lwxmsw28u_adv -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
-CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswu" -I"$(HASHLIB)/src"
-LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+LIBS=-lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_html -lwxmsw28u_adv -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswu"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
 PROGRAM=Toucan.exe
 RCFILEOBJ=Toucan_rc.o
@@ -26,7 +25,6 @@ else
 ifeq ($(CONFIG),unicodedebug)
 WXWIN=C:\Programming\wxWidgets-2.8-build
 MINGW=C:\Programming\MinGW
-HASHLIB=C:\Programming\hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\..\Output
@@ -35,9 +33,9 @@ CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__WXDE
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 LINKERFLAGS=-Wl, --subsystem,windows
-LIBS=-lhl++ -lwxmsw28ud_richtext -lwxmsw28ud_aui -lwxmsw28ud_html -lwxmsw28ud_adv -lwxmsw28ud_core -lwxbase28ud -lwxbase28ud_net -lwxtiffd -lwxjpegd -lwxpngd -lwxzlibd -lwxregexud -lwxexpatd -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
-CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswud" -I"$(HASHLIB)/src"
-LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+LIBS=-lwxmsw28ud_richtext -lwxmsw28ud_aui -lwxmsw28ud_html -lwxmsw28ud_adv -lwxmsw28ud_core -lwxbase28ud -lwxbase28ud_net -lwxtiffd -lwxjpegd -lwxpngd -lwxzlibd -lwxregexud -lwxexpatd -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswud"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswud"
 PROGRAM=Toucan.exe
 RCFILEOBJ=Toucan_rc.o
@@ -45,7 +43,7 @@ RCFILESRC=Toucan.rc
 endif
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/edc.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/loglist.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/md5.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/edc.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/loglist.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 all:	$(BUILDPATH) $(BUILDPATH)/$(PROGRAM)
 
@@ -131,5 +129,8 @@ $(OBJECTPATH)/loglist.o:	controls/loglistctrl.cpp controls/loglistctrl.h
 
 $(OBJECTPATH)/vdtc.o:	controls/virtualdirtreectrl.cpp controls/virtualdirtreectrl.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/virtualdirtreectrl.cpp
+	
+$(OBJECTPATH)/md5.o:	md5.cpp md5.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) md5.cpp
 
 .PHONY:	all clean

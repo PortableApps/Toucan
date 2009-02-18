@@ -4,15 +4,13 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
+#include "md5.h"
 #include "sync.h"
 #include "basicfunctions.h"
 #include "toucan.h"
 #include "variables.h"
 #include "forms/frmprogress.h"
 #include "forms/frmmain.h"
-
-//Include the hashlib++ library for MD5 support
-#include <hashlibpp.h>
 
 #include <wx/dir.h>
 
@@ -213,11 +211,8 @@ bool SyncFile(SyncData data, Rules rules)
 				}
 				//Check to see if the source file is newer than the destination file, subtracts one hour to make up for timestamp errors
 				if(tmFrom.IsLaterThan(tmTo)){
-					hashwrapper *myWrapper = new md5wrapper();
-					std::string sourceHash = myWrapper->getHashFromFile(std::string(data.GetSource().mb_str()));
-					std::string desinationHash = myWrapper->getHashFromFile(std::string(data.GetDest().mb_str()));
-					delete myWrapper;
-					if(sourceHash != desinationHash){
+					wxMD5* md5 = new wxMD5();
+					if(md5->GetFileMD5(data.GetSource()) != md5->GetFileMD5(data.GetDest())){
 						if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 							if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
 								OutputProgress(wxT("Updated  ") + data.GetPreText() + data.GetSource().Right(data.GetSource().Length() - data.GetLength()));
@@ -228,6 +223,7 @@ bool SyncFile(SyncData data, Rules rules)
 							wxRemoveFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
 						}
 					}
+					delete md5;
 				}
 			}
 			else{
