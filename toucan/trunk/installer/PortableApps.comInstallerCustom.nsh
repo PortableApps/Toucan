@@ -32,6 +32,21 @@
 	StrCmp $LANGUAGE "1040" 0 +3 ;Italian
 		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "it_IT"
 		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "1046" 0 +3 ;Portuguese (Brazilian)
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "pt_BR"
+		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "2070" 0 +3 ;Portuguese
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "pt_PT"
+		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "1055" 0 +3 ;Turkish
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "tr_TR"
+		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "1029" 0 +3 ;Czech
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "cs_CS"
+		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "1028" 0 +3 ;Chinese Traditional
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "cs_CS"
+		Goto CustomCodePostInstallEnd
 	WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "en_GB" ;=== Fallback to English
 	CustomCodePostInstallEnd:
 !macroend
