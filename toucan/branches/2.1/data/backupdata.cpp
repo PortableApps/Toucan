@@ -259,6 +259,10 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 }
 
 bool BackupData::Execute(Rules rules){
+	//Expand all of the variables
+	for(unsigned int i = 0; i < GetLocations().Count(); i++){
+		SetLocation(i, Normalise(Normalise(GetLocation(i))));
+	}
 	//Set up the progress bar
 	OutputProgress(_("Setting up progress bar"));
 	FileCounter counter;
