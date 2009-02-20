@@ -160,5 +160,6 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
  			OutputProgress(_("Failed to decrypt  ") + strFile.Right(strFile.Length() - data.GetLength()));
 		}
 	}
+	IncrementGauge();
 	return true;
 }

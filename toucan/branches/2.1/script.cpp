@@ -289,6 +289,8 @@ bool ScriptManager::StartUp(){
 	startTime = wxDateTime::Now();
 	OutputProgress(startTime.FormatTime(), _("Starting"));
 	OutputBlank();
+	
+	SetGaugeValue(0);
 	//Show the window
 	if(wxGetApp().blGUI){
 		m_ProgressWindow->Refresh();
