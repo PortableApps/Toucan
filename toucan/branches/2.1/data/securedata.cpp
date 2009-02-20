@@ -96,16 +96,16 @@ void SecureData::Output(){
 }
 
 bool SecureData::Execute(Rules rules){
+	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
+		SetLocation(i, Normalise(GetLocation(i)));
+		SetLocation(i, Normalise(GetLocation(i)));
+	}
 	//Set up the progress bar
 	OutputProgress(_("Setting up progress bar"));
 	FileCounter counter;
 	counter.AddPaths(GetLocations());
 	counter.Count();
 	SetGaugeRange(counter.GetCount());
-	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		SetLocation(i, Normalise(GetLocation(i)));
-		SetLocation(i, Normalise(GetLocation(i)));
-	}
 	//Call the secure function
 	Secure(*this, rules, wxGetApp().ProgressWindow);
 	return true;
