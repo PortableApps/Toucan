@@ -269,6 +269,7 @@ bool SyncFile(SyncData data, Rules rules)
 			to.SetTimes(&access ,&mod , &created); 
 		}			
 	}
+	IncrementGauge();
 	return true;
 }
 
