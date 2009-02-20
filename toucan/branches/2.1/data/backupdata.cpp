@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupdata.h"
+#include "../filecounter.h"
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../variables.h"
@@ -258,6 +259,12 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 }
 
 bool BackupData::Execute(Rules rules){
+	//Set up the progress bar
+	OutputProgress(_("Setting up progress bar"));
+	FileCounter counter;
+	counter.AddPaths(GetLocations());
+	counter.Count();
+	SetGaugeRange(counter.GetCount());
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		wxString path = GetLocation(i);
 		bool isDir = false;
@@ -296,13 +303,13 @@ bool BackupData::Execute(Rules rules){
 					length += 2;
 				}
 			}
+			OutputProgress(_("Creating file list, this may take some time."));
 			if(!CreateList(file, rules, GetLocations().Item(i), length)){
 				return false;
 			}
 			file->Write();
 			//Set up the progress bar
 			EnableGauge(true);
-			SetGaugeRange(file->GetLineCount());
 			SetGaugeValue(0);
 		}
 		else{
