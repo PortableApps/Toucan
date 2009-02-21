@@ -89,15 +89,37 @@ void frmProgress::OnCancelClick(wxCommandEvent& event){
 }
 
 void frmProgress::OnSaveClick(wxCommandEvent& event){
-	/*wxString strCaption = _("Save");
+	wxString strCaption = _("Save");
 	wxString strWildcard;
 	strWildcard = wxT("Text Files (*.txt)|*.txt");
 	wxString defaultFilename = wxEmptyString;
 	wxString defaultDir = wxT("/");
 	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxSAVE);
-	if (dialog.ShowModal() == wxID_OK) {
-		m_Text->SaveFile(dialog.GetPath());
-	}*/
+	if(dialog.ShowModal() == wxID_OK){
+		wxTextFile file(dialog.GetPath());
+		if(wxFileExists(dialog.GetPath())){
+			file.Open();
+			file.Clear();
+			file.Write();
+		}
+		else{
+			file.Create();
+		}
+		for(int i = 0; i < m_List->GetItemCount() - 1; i++){
+			wxListItem itemcol1, itemcol2;
+
+			itemcol1.m_itemId = i;
+			itemcol1.m_col = 0;
+			itemcol1.m_mask = wxLIST_MASK_TEXT;
+			m_List->GetItem(itemcol1);
+			itemcol2.m_itemId = i;
+			itemcol2.m_col = 1;
+			itemcol2.m_mask = wxLIST_MASK_TEXT;
+			m_List->GetItem(itemcol2);
+			file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+		}
+	file.Write();
+	}
 }
 
 void frmProgress::OnCloseWindow(wxCloseEvent& event){
