@@ -1,3 +1,5 @@
+;Courtesy of mandricus, taniservice
+
 LangString welcome ${LANG_ITALIAN} "Questa procedura vi guiderà durante l'installazione di ${NAME}.\r\n\r\nSe state aggiornando una installazione già esistente di ${NAME}, vi invitiamo a chiuderla prima di procedere.\r\n\r\nPremere  su Continua per proseguire."
 LangString finish ${LANG_ITALIAN} "${NAME} è stato installato sulla vostra periferica.\r\n\r\nPremere Fine per terminare questa procedura."
 LangString runwarning ${LANG_ITALIAN} "Vi invitiamo a chiudere tutte le sessioni aperte di ${CLOSENAME} e quindi premere su OK.  L'applicazione portatile non può essere aggiornata mentre è in esecuzione."

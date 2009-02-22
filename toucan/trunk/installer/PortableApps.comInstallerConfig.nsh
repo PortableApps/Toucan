@@ -26,13 +26,13 @@
 ;cleanup when the optional features are not selected is needed, it can be included in the
 ;PortableApps.comInstallerCustom.nsi which is detailed within that file.
 
-;LAST UPDATED FOR INSTALLER VERSION: 0.11.1
+;LAST UPDATED FOR INSTALLER VERSION: 0.12.x
 
 ;== Basic Information.  Basic information about the portable app
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
-!define VERSION "2.0.5.0"
-!define FILENAME "Toucan_2.0.5"
+!define VERSION "2.0.6.0"
+!define FILENAME "Toucan_2.0.6"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins
@@ -99,7 +99,7 @@
 	;!define USES_THAI "true"
 	!define USES_TRADCHINESE "true"
 	!define USES_TURKISH "true"
-	;!define USES_UKRANIAN "true"
+	;!define USES_UKRAINIAN "true"
 	;!define USES_UZBECK "true"
 	;!define USES_WELSH "true"
 !endif
@@ -115,6 +115,7 @@
 	!define OPTIONALSECTIONDESCRIPTION "Add multilingual support for this app"
 	!define OPTIONALSECTIONSELECTEDAPPINFOSUFFIX "(Multilingual)"
 	!define OPTIONALSECTIONNOTSELECTEDAPPINFOSUFFIX "(English)"
+	;!define OPTIONALSECTIONPRESELECTEDIFNONENGLISHINSTALL "true" ;Uncomment this line if you want the optional piece selected by default if the user chooses an install language other than English
 !endif
 
 ;== Plugin Installer.  If this is a plugin installer (not a full app installer), uncomment this line to skip adding the app size to the free space calculation and files in root directory

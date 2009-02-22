@@ -21,7 +21,7 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-!define PORTABLEAPPSINSTALLERVERSION "0.11.1.0"
+!define PORTABLEAPPSINSTALLERVERSION "0.12.0.0"
 
 !if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
 	!include PortableApps.comInstallerPluginConfig.nsh
@@ -43,12 +43,12 @@ VIProductVersion "${VERSION}"
 VIAddVersionKey ProductName "${NAME}"
 VIAddVersionKey Comments "${INSTALLERCOMMENTS}"
 VIAddVersionKey CompanyName "PortableApps.com"
-VIAddVersionKey LegalCopyright "PortableApps.com Installer Copyright 2007-2008 PortableApps.com."
+VIAddVersionKey LegalCopyright "PortableApps.com Installer Copyright 2007-2009 PortableApps.com."
 VIAddVersionKey FileDescription "${NAME}"
 VIAddVersionKey FileVersion "${VERSION}"
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey InternalName "${NAME}"
-VIAddVersionKey LegalTrademarks "${INSTALLERADDITIONALTRADEMARKS}PortableApps.com is a Trademark of Rare Ideas, LLC."
+VIAddVersionKey LegalTrademarks "${INSTALLERADDITIONALTRADEMARKS}PortableApps.com is a registered trademark of Rare Ideas, LLC."
 VIAddVersionKey OriginalFilename "${FILENAME}.paf.exe"
 VIAddVersionKey PortableApps.comInstallerVersion "${PORTABLEAPPSINSTALLERVERSION}"
 ;VIAddVersionKey PrivateBuild ""
@@ -102,7 +102,7 @@ RequestExecutionLevel user
 !endif
 
 ;=== Icon & Stye ===
-BrandingText "PortableApps.com - Your Digital Life, Anywhere™"
+BrandingText "PortableApps.com - Your Digital Life, Anywhere®"
 
 ;=== Pages
 !define MUI_WELCOMEFINISHPAGE_BITMAP "PortableApps.comInstaller.bmp"
@@ -590,6 +590,14 @@ Function .onInit
 		StrCpy $INSTDIR "\${SHORTNAME}"
 
 	InitDone:
+		!ifdef MAINSECTIONTITLE
+			!ifdef OPTIONALSECTIONPRESELECTEDIFNONENGLISHINSTALL
+				StrCmp $LANGUAGE "1033" LeaveUnselected
+					SectionSetFlags 1 ${OPTIONALSECTIONIDX}
+
+				LeaveUnselected:
+			!endif
+		!endif
 FunctionEnd
 
 Function LeaveDirectory
