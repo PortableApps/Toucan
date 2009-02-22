@@ -1,0 +1,7 @@
+LangString welcome ${LANG_PORTUGUESEBR} "Este assistente irá guiá-lo durante o processo de instalação do ${NAME}.\r\n\r\nCaso você esteja atualizando uma instalação existente do ${NAME}, por favor feche-a antes de prosseguir.\r\n\r\nClique em Próximo para continuar."
+LangString finish ${LANG_PORTUGUESEBR} "${NAME} foi instalado em seu dispositivo.\r\n\r\nClique em Finalizar para fechar este assistente."
+LangString runwarning ${LANG_PORTUGUESEBR} "Por favor, feche todas as janelas do ${CLOSENAME} e em seguida clique em OK. O PortableApps.com não poderá atualizá-lo caso esteja sendo executado."
+LangString invaliddirectory ${LANG_PORTUGUESEBR} "A pasta de destino que você selecionou é inválida. Por favor selecione uma pasta válida."
+LangString notenoughspace ${LANG_PORTUGUESEBR} "O dispositivo que você selecionou não possui espaço livre suficiente para este aplicativo."
+LangString checkforplatform ${LANG_PORTUGUESEBR} "Procurando pela plataforma PortableApps.com"
+LangString refreshmenu ${LANG_PORTUGUESEBR} "Atualizando o menu PortableApps.com"

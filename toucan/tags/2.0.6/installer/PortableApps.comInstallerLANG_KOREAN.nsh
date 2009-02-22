@@ -1,0 +1,7 @@
+LangString welcome ${LANG_KOREAN} "이 마법사가 ${NAME} 설치를 안내해 줄 것입니다.\r\n\r\n만약 이미 설치된 ${NAME}에 대해 업그레이드 중이라면, 진행하기 전에 먼저 그 창을 닫으십시오.\r\n\r\n계속하려면 다음을 누르십시오."
+LangString finish ${LANG_KOREAN} "사용자 장치에 ${NAME} 설치가 완료되었습니다.\r\n\r\n이 마법사를 닫으려면 마침 버튼을 누르십시오."
+LangString runwarning ${LANG_KOREAN} "${CLOSENAME}의 모든 인스턴스를 닫은 후 확인 버튼을 누르십시오.  이동식 응용 프로그램은 실행 중에 업그레이드 할 수 없습니다."
+LangString invaliddirectory ${LANG_KOREAN} "선택한 대상 폴더가 유효하지 않습니다. 올바른 폴더를 선택하여 주십시오."
+LangString notenoughspace ${LANG_KOREAN} "선택된 장치에 이 응용 프로그램을 설치할 공간이 충분하지 않습니다."
+LangString checkforplatform ${LANG_KOREAN} "PortableApps.com 플랫폼 확인 중"
+LangString refreshmenu ${LANG_KOREAN} "PortableApps.com 메뉴 초기화 중"
