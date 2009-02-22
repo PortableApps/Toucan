@@ -35,20 +35,21 @@ bool Toucan::OnInit(){
 			}			
 		}
 	#endif
-	//Set the splash screen going
-	wxInitAllImageHandlers();
-	wxSplashScreen *scrn = NULL;
-	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg"))){
-		wxBitmap bitmap;
-		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
-		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
-	}
 
 	if(argc == 1){
 		blGUI = true;
 	}
 	else{
 		blGUI = false;
+	}
+
+	//Set the splash screen going
+	wxInitAllImageHandlers();
+	wxSplashScreen *scrn = NULL;
+	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")) && blGUI){
+		wxBitmap bitmap;
+		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
+		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
 	}
 
 	//Make sure the data directory is there
