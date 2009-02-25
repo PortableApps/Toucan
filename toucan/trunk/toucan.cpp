@@ -30,7 +30,7 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 bool Toucan::OnInit(){
 	#ifdef __WXMSW__
 		if(argc == 1){
-			if(wxGetOsVersion() != wxOS_WINDOWS_9X){
+			if(wxGetOsVersion() == wxOS_WINDOWS_NT){
 				ShowWindow(GetConsoleWindow(), SW_HIDE); 			
 			}			
 		}
