@@ -8,6 +8,7 @@
 #include <wx/dir.h>
 #include <wx/busyinfo.h>
 #include <wx/artprov.h>
+#include <hashlibpp.h>
 #include "virtualdirtreectrl.h"
 
 // WDR: class implementations
@@ -661,12 +662,19 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 									else if(_Mode == _("Update") || _Mode == _("Mirror (Update)")){
 										wxDateTime tmTo = wxFileModificationTime(_Root + wxFILE_SEP_PATH + items.Item(j)->GetName());
 										wxDateTime tmFrom = wxFileModificationTime(strPath + strFilename);
-										
+
 										//Need to put in code to account for timezone settings
-									
-										//Code needed here for hash comparisions
+
 										if(tmFrom.IsLaterThan(tmTo)){
-											items.Item(j)->SetColour(wxColour(wxT("Green")));
+											hashwrapper *myWrapper = new md5wrapper();
+											wxString source = _Root + wxFILE_SEP_PATH + items.Item(j)->GetName();
+											wxString dest = strPath + strFilename;
+											std::string sourceHash = myWrapper->getHashFromFile(std::string(source.mb_str()));
+											std::string desinationHash = myWrapper->getHashFromFile(std::string(dest.mb_str()));
+											delete myWrapper;
+											if(sourceHash != desinationHash){
+												items.Item(j)->SetColour(wxColour(wxT("Green")));
+											}
 										}
 									}
 								}
