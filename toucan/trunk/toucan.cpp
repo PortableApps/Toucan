@@ -10,6 +10,7 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpctrl.h>
 #include <wx/fs_arc.h>
+#include <wx/utils.h>
 
 #include "toucan.h"
 #include "frmmain.h"
