@@ -21,7 +21,7 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-!define PORTABLEAPPSINSTALLERVERSION "0.12.0.0"
+!define PORTABLEAPPSINSTALLERVERSION "0.12.3.0"
 
 !if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
 	!include PortableApps.comInstallerPluginConfig.nsh

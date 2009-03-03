@@ -1,7 +1,9 @@
-LangString welcome ${LANG_PORTUGUESEBR} "Este assistente irá guiá-lo durante o processo de instalação do ${NAME}.\r\n\r\nCaso você esteja atualizando uma instalação existente do ${NAME}, por favor feche-a antes de prosseguir.\r\n\r\nClique em Próximo para continuar."
-LangString finish ${LANG_PORTUGUESEBR} "${NAME} foi instalado em seu dispositivo.\r\n\r\nClique em Finalizar para fechar este assistente."
-LangString runwarning ${LANG_PORTUGUESEBR} "Por favor, feche todas as janelas do ${CLOSENAME} e em seguida clique em OK. O PortableApps.com não poderá atualizá-lo caso esteja sendo executado."
-LangString invaliddirectory ${LANG_PORTUGUESEBR} "A pasta de destino que você selecionou é inválida. Por favor selecione uma pasta válida."
-LangString notenoughspace ${LANG_PORTUGUESEBR} "O dispositivo que você selecionou não possui espaço livre suficiente para este aplicativo."
-LangString checkforplatform ${LANG_PORTUGUESEBR} "Procurando pela plataforma PortableApps.com"
-LangString refreshmenu ${LANG_PORTUGUESEBR} "Atualizando o menu PortableApps.com"
+;Courtesy of ptmb, lflcorreia, dedalusjmmr 
+
+LangString welcome ${LANG_PORTUGUESEBR} "Este assistente irá guiá-lo na instalação da aplicação ${NAME}.\r\n\r\nSe está a actualizar uma instalação existente de ${NAME}, por favor feche-a antes de continuar.\r\n\r\nClique em Seguinte para continuar."
+LangString finish ${LANG_PORTUGUESEBR} "${NAME} foi instalado no seu dispositivo.\r\n\r\nClique em Terminar para fechar este assistente."
+LangString runwarning ${LANG_PORTUGUESEBR} "Por favor feche todas as instâncias de ${CLOSENAME} e depois clique em OK. A aplicação portátil não pode ser actualizada enquanto está a ser executada."
+LangString invaliddirectory ${LANG_PORTUGUESEBR} "A pasta de destino que seleccionou é inválida. Por favor escolha uma pasta válida."
+LangString notenoughspace ${LANG_PORTUGUESEBR} "O dispositivo que seleccionou para a instalação não tem espaço livre suficiente para esta aplicação."
+LangString checkforplatform ${LANG_PORTUGUESEBR} "A localizar a Plataforma PortableApps.com"
+LangString refreshmenu ${LANG_PORTUGUESEBR} "A recarregar o Menu PortableApps.com"
