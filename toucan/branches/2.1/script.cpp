@@ -153,6 +153,8 @@ bool ScriptManager::ProgressBarSetup(){
 			if(data.GetFunction() != _("Restore")){
 				counter.AddPaths(data.GetLocations());
 			}
+			//Add an extra three for the message 7zip sends
+			count += 3;
 		}
 		else if(strToken == wxT("Secure")){
 			SecureData data;
@@ -219,6 +221,7 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
@@ -238,6 +241,7 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to move ") + strSource + wxT("\n"));		
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
@@ -252,6 +256,7 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
@@ -266,6 +271,7 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to rename ") +strSource + wxT("\n"));
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
@@ -274,6 +280,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxString strExecute = Normalise(Normalise(tkz.GetNextToken()));
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
