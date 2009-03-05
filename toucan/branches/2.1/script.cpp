@@ -21,29 +21,46 @@
 #include "data/securedata.h"
 #include "controls/loglistctrl.h"
 
-void ScriptManager::SetCommand(int i){
-	m_Command = i;
+bool ScriptManager::Execute(){
+	StartUp();
+	if(!Validate()){
+		CleanUp();
+	}
+	if(GetCount() != 0){
+		SetCommand(1);
+		ParseCommand(0);
+	}
+	return true;
 }
 
-int ScriptManager::GetCommand(){
-	return m_Command;
-}
-
-int ScriptManager::GetCount(){
-	return m_Script.GetCount();
-}
-
-void ScriptManager::SetScript(wxArrayString script){
-	m_Script.Clear();
-	m_Script = script;
-}
-
-wxDateTime ScriptManager::GetTime(){
-	return startTime;
-}
-
-wxArrayString ScriptManager::GetScript(){
-	return m_Script;
+bool ScriptManager::StartUp(){
+	//Set up all of the form related stuff
+	m_ProgressWindow = wxGetApp().ProgressWindow;
+	m_ProgressWindow->m_List->DeleteAllItems();
+	wxGetApp().MainWindow->m_Notebook->Disable();
+	//Send all errors to the list control
+	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
+	delete wxLog::SetActiveTarget(logList);
+	//Set up the buttons on the progress box
+	m_ProgressWindow->m_OK->Enable(false);
+	m_ProgressWindow->m_Save->Enable(false);
+	m_ProgressWindow->m_Cancel->Enable(true);
+	
+	//Send a blank item to get the item count up
+	OutputBlank();
+	startTime = wxDateTime::Now();
+	OutputProgress(startTime.FormatTime(), _("Starting"));
+	OutputBlank();
+	
+	SetGaugeValue(0);
+	//Show the window
+	if(wxGetApp().blGUI){
+		m_ProgressWindow->Refresh();
+		m_ProgressWindow->Update();
+		m_ProgressWindow->Show();
+	}
+	m_ProgressWindow->m_List->SetColumnWidth(1, m_ProgressWindow->m_List->GetClientSize().GetWidth() - m_ProgressWindow->m_List->GetColumnWidth(0));
+	return true;
 }
 
 bool ScriptManager::Validate(){
@@ -226,18 +243,6 @@ bool ScriptManager::ParseCommand(int i){
 	return true;	
 }
 
-bool ScriptManager::Execute(){
-	StartUp();
-	if(!Validate()){
-		CleanUp();
-	}
-	if(GetCount() != 0){
-		SetCommand(1);
-		ParseCommand(0);
-	}
-	return true;
-}
-
 bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_OK->Enable(true);
 	m_ProgressWindow->m_Save->Enable(true);
@@ -269,34 +274,4 @@ bool ScriptManager::CleanUp(){
 	wxGetApp().m_Jobs_Config->Flush();
 	wxGetApp().MainWindow->m_Notebook->Enable();
 	return true;	
-}
-
-bool ScriptManager::StartUp(){
-	//Set up all of the form related stuff
-	m_ProgressWindow = wxGetApp().ProgressWindow;
-	m_ProgressWindow->m_List->DeleteAllItems();
-	wxGetApp().MainWindow->m_Notebook->Disable();
-	//Send all errors to the list control
-	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
-	delete wxLog::SetActiveTarget(logList);
-	//Set up the buttons on the progress box
-	m_ProgressWindow->m_OK->Enable(false);
-	m_ProgressWindow->m_Save->Enable(false);
-	m_ProgressWindow->m_Cancel->Enable(true);
-	
-	//Send a blank item to get the item count up
-	OutputBlank();
-	startTime = wxDateTime::Now();
-	OutputProgress(startTime.FormatTime(), _("Starting"));
-	OutputBlank();
-	
-	SetGaugeValue(0);
-	//Show the window
-	if(wxGetApp().blGUI){
-		m_ProgressWindow->Refresh();
-		m_ProgressWindow->Update();
-		m_ProgressWindow->Show();
-	}
-	m_ProgressWindow->m_List->SetColumnWidth(1, m_ProgressWindow->m_List->GetClientSize().GetWidth() - m_ProgressWindow->m_List->GetColumnWidth(0));
-	return true;
 }
