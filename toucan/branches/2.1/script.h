@@ -16,7 +16,7 @@ public:
 	bool Validate();
 	//Start the script
 	bool Execute();
-	//Runs a speciic command in the script
+	//Runs a specific command in the script
 	bool ParseCommand(int i);
 
 	bool CleanUp();
