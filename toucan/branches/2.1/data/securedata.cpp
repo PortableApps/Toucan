@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -97,7 +97,6 @@ void SecureData::Output(){
 
 bool SecureData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 	}
 	//Call the secure function
