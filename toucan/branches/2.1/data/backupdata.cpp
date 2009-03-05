@@ -269,6 +269,7 @@ bool BackupData::Execute(Rules rules){
 	counter.AddPaths(GetLocations());
 	counter.Count();
 	SetGaugeRange(counter.GetCount());
+	SetGaugeValue(0);
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		wxString path = GetLocation(i);
 		bool isDir = false;
@@ -314,10 +315,8 @@ bool BackupData::Execute(Rules rules){
 			file->Write();
 			//Set up the progress bar
 			EnableGauge(true);
-			SetGaugeValue(0);
 		}
 		else{
-			SetGaugeValue(0);
 			EnableGauge(false);
 		}
 		wxString strCommand = CreateCommand(i);
