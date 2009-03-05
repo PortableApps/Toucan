@@ -117,14 +117,6 @@ void SyncData::Output(){
 bool SyncData::Execute(Rules rules){
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
-	OutputProgress(_("Setting up progress bar"));
-	FileCounter counter;
-	counter.AddPath(GetSource());
-	if(GetFunction() == _("Equalise")){
-		counter.AddPath(GetDest());
-	}
-	counter.Count();
-	SetGaugeRange(counter.GetCount());
 	//Create a new Sync thread and run it (needs to use Wait())
 	SyncThread *thread = new SyncThread(*this, rules, wxGetApp().MainWindow);
 	thread->Create();

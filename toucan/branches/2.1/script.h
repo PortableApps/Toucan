@@ -18,6 +18,8 @@ public:
 	bool Execute();
 	//Runs a specific command in the script
 	bool ParseCommand(int i);
+	//Set up the progress bar
+	bool ProgressBarSetup();
 
 	bool CleanUp();
 	bool StartUp();

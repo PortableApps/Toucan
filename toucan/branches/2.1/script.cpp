@@ -15,6 +15,7 @@
 #include "secure.h"
 #include "variables.h"
 #include "basicfunctions.h"
+#include "filecounter.h"
 #include "data/rootdata.h"
 #include "data/syncdata.h"
 #include "data/backupdata.h"
@@ -25,6 +26,9 @@ bool ScriptManager::Execute(){
 	StartUp();
 	if(!Validate()){
 		CleanUp();
+	}
+	if(wxGetApp().blGUI){
+		ProgressBarSetup();
 	}
 	if(GetCount() != 0){
 		SetCommand(1);
@@ -119,6 +123,64 @@ bool ScriptManager::Validate(){
 	if(blParseError){
 		return false;
 	}
+	return true;
+}
+
+bool ScriptManager::ProgressBarSetup(){
+	OutputProgress(_("Setting up progress bar"));
+	long count = 0;
+	FileCounter counter;
+	for(unsigned int i = 0; i < GetScript().GetCount(); i++){
+		wxString strLine = m_Script.Item(i);
+		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
+		wxString strToken = tkz.GetNextToken();
+		strToken.Trim();
+		if(strToken == wxT("Sync")){
+			SyncData data;
+			strToken = tkz.GetNextToken();
+			data.SetName(strToken);
+			data.TransferFromFile();
+			counter.AddPath(data.GetSource());
+			if(data.GetFunction() == _("Equalise")){
+				counter.AddPath(data.GetDest());			
+			}
+		}	
+		else if(strToken == wxT("Backup")){
+			BackupData data;
+			strToken = tkz.GetNextToken();
+			data.SetName(strToken);
+			data.TransferFromFile();
+			if(data.GetFunction() != _("Restore")){
+				counter.AddPaths(data.GetLocations());
+			}
+		}
+		else if(strToken == wxT("Secure")){
+			SecureData data;
+			strToken = tkz.GetNextToken();
+			data.SetName(strToken);
+			data.TransferFromFile();
+			counter.AddPaths(data.GetLocations());
+		}
+		else if(strToken == _("Delete")){
+			count++;
+		}
+		else if(strToken == _("Move")){
+			count++;
+		}
+		else if(strToken == _("Copy")){
+			count++;
+		}
+		else if(strToken == _("Rename")){
+			count++;
+		}
+		else if(strToken == _("Execute")){
+			count++;
+		}
+	}
+	counter.Count();
+	count += counter.GetCount();
+	SetGaugeValue(0);
+	SetGaugeRange(count);
 	return true;
 }
 

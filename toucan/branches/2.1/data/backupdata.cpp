@@ -263,13 +263,6 @@ bool BackupData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 	}
-	//Set up the progress bar
-	OutputProgress(_("Setting up progress bar"));
-	FileCounter counter;
-	counter.AddPaths(GetLocations());
-	counter.Count();
-	SetGaugeRange(counter.GetCount());
-	SetGaugeValue(0);
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		wxString path = GetLocation(i);
 		bool isDir = false;

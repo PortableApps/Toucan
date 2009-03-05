@@ -100,12 +100,6 @@ bool SecureData::Execute(Rules rules){
 		SetLocation(i, Normalise(GetLocation(i)));
 		SetLocation(i, Normalise(GetLocation(i)));
 	}
-	//Set up the progress bar
-	OutputProgress(_("Setting up progress bar"));
-	FileCounter counter;
-	counter.AddPaths(GetLocations());
-	counter.Count();
-	SetGaugeRange(counter.GetCount());
 	//Call the secure function
 	Secure(*this, rules, wxGetApp().ProgressWindow);
 	return true;
