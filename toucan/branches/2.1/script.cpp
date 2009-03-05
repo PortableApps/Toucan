@@ -27,7 +27,7 @@ bool ScriptManager::Execute(){
 	if(!Validate()){
 		CleanUp();
 	}
-	if(wxGetApp().blGUI){
+	if(wxGetApp().GetUsesGUI()){
 		ProgressBarSetup();
 	}
 	if(GetCount() != 0){
@@ -58,7 +58,7 @@ bool ScriptManager::StartUp(){
 	
 	SetGaugeValue(0);
 	//Show the window
-	if(wxGetApp().blGUI){
+	if(wxGetApp().GetUsesGUI()){
 		m_ProgressWindow->Refresh();
 		m_ProgressWindow->Update();
 		m_ProgressWindow->Show();

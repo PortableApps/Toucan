@@ -79,7 +79,7 @@ void *SyncThread::Entry(){
 			FolderTimeLoop(m_Data.GetSource(), m_Data.GetDest());
 		}
 	}
-	if(wxGetApp().blGUI){
+	if(wxGetApp().GetUsesGUI()){
 		wxMutexGuiEnter();
 		m_Main->m_Sync_Source_Tree->DeleteAllItems();
 		m_Main->m_Sync_Dest_Tree->DeleteAllItems();

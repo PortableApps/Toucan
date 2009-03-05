@@ -57,7 +57,7 @@ void OutputProgress(wxString strValue){
 	if(strValue == wxT("")){
 		return;
 	}
-	if(wxGetApp().blGUI == true){
+	if(wxGetApp().GetUsesGUI()){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
 		event.SetString(strValue);
 		event.SetInt(-1);
@@ -69,7 +69,7 @@ void OutputProgress(wxString strValue){
 }
 
 void OutputProgress(wxString time, wxString message){
-	if(wxGetApp().blGUI == true){
+	if(wxGetApp().GetUsesGUI()){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
 		event.SetString(time + message);
 		event.SetInt(time.Length());
@@ -81,7 +81,7 @@ void OutputProgress(wxString time, wxString message){
 }
 
 void OutputBlank(){
-	if(wxGetApp().blGUI == true){
+	if(wxGetApp().GetUsesGUI()){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
 		wxPostEvent(wxGetApp().ProgressWindow, event);
 	}
@@ -248,7 +248,7 @@ wxArrayString GetTranslatorNames(){
 
 wxString InputPassword(){
 	wxString strNewPass;
-	if(wxGetApp().blGUI == true){
+	if(wxGetApp().GetUsesGUI()){
 		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
 		if (dialog.ShowModal() == wxID_OK) {
 			strNewPass = dialog.GetValue();

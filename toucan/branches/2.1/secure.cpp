@@ -34,7 +34,7 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 			}
 		}
 	}
-	if(wxGetApp().blGUI){
+	if(wxGetApp().GetUsesGUI()){
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
 		for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){

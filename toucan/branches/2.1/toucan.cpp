@@ -45,10 +45,10 @@ bool Toucan::OnInit(){
 	}
 
 	if(argc == 1){
-		blGUI = true;
+		SetUsesGUI(true);
 	}
 	else{
-		blGUI = false;
+		SetUsesGUI(false);
 	}
 
 	//Make sure the data directory is there
