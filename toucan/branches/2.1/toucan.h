@@ -59,14 +59,12 @@ class Toucan: public wxApp
 	
 	//Help Controller
 	wxHtmlHelpController* m_Help;
-		
-protected:
+	
+private:
 	//Abort the current job
 	bool blAbort;
 	//The settings path
 	wxString strSettingsPath;
-	
-private:
 	//Are we in GUI mode
 	bool blGUI;
 };
