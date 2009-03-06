@@ -144,9 +144,6 @@ bool ScriptManager::ProgressBarSetup(){
 			if(data.GetFunction() == _("Equalise")){
 				counter.AddPath(data.GetDest());			
 			}
-			counter.Count();
-			count += counter.GetCount();
-			counter.Clear();
 		}	
 		else if(strToken == wxT("Backup")){
 			BackupData data;
@@ -158,11 +155,6 @@ bool ScriptManager::ProgressBarSetup(){
 			}
 			//Add an extra three for the message 7zip sends
 			count += 3;
-			counter.Count();
-			count += counter.GetCount();
-			//Add twice for the list file creation
-			count += counter.GetCount();
-			counter.Clear();
 		}
 		else if(strToken == wxT("Secure")){
 			SecureData data;
@@ -170,9 +162,6 @@ bool ScriptManager::ProgressBarSetup(){
 			data.SetName(strToken);
 			data.TransferFromFile();
 			counter.AddPaths(data.GetLocations());
-			counter.Count();
-			count += counter.GetCount();
-			counter.Clear();
 		}
 		else if(strToken == _("Delete")){
 			count++;
@@ -190,6 +179,8 @@ bool ScriptManager::ProgressBarSetup(){
 			count++;
 		}
 	}
+	counter.Count();
+	count += counter.GetCount();
 	SetGaugeValue(0);
 	SetGaugeRange(count);
 	return true;

@@ -242,8 +242,7 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 						wxString strCombined = strPath + strFilename;
 						strCombined = strCombined.Right(strCombined.Length() - iRootLength);
 						file->AddLine(strCombined);
-					}	
-					IncrementGauge();
+					}
 				}
 			}
 			while (dir.GetNext(&strFilename) );
@@ -254,8 +253,7 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 		if(!rules.ShouldExclude(strPath, false)){
 			strPath = strPath.Right(strPath.Length() - iRootLength);
 			file->AddLine(strPath);
-		}	
-		IncrementGauge();
+		}		
 	}
 	return true;
 }

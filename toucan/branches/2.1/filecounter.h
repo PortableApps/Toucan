@@ -16,8 +16,7 @@ public:
 	void AddPaths(wxArrayString paths);
 	long GetCount();
 	bool Count();
-	bool Clear();
-
+	
 private:
 	//This is the actualy counting function
 	bool CountFolder(wxString path);
