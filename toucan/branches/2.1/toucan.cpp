@@ -23,8 +23,7 @@
 #include "data/backupdata.h"
 #include "data/securedata.h"
 
-//Because we actually have a console app that is well hidden!
-IMPLEMENT_APP_NO_MAIN(Toucan)
+IMPLEMENT_APP(Toucan)
 
 //Toucan startup
 bool Toucan::OnInit(){
@@ -182,9 +181,4 @@ int Toucan::OnExit(){
 	delete m_Settings;
 	delete m_Script;
 	return wxApp::OnExit();
-}
-
-int main(int argc, char* argv[]){
-	wxEntry(argc,argv); 
-	return true;
 }
