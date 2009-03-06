@@ -57,3 +57,9 @@ bool FileCounter::CountFolder(wxString path){
 	} 
 	return true;
 }
+
+bool FileCounter::Clear(){
+	m_Paths.Clear();
+	m_Count = 0;
+	return false;
+}
