@@ -1,39 +1,49 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_SYNC
-#define H_SHYC
+#define H_SYNC
 
+#include <map>
+#include <vector>
 #include <wx/thread.h>
-
 #include "data/syncdata.h"
+	
+enum location{
+	SOURCE = 1,
+	DESTINATION = 2
+};
 
 class SyncThread : public wxThread
 {
 public:
 	//Constructor
-	SyncThread(SyncData data, Rules rules, frmMain *main):wxThread(){
+	SyncThread(SyncData data, Rules rules):wxThread(){
 		m_Data = data;
 		m_Rules = rules;
-		m_Main = main;
 	}
-	//Main function, all stuff goes in here
+	//Thread entry
 	virtual void *Entry();
 
 private:
+	//Functions
+	//Adds all the contents of a folder to a std::vector
+	std::vector<wxString> FolderContentsToVector(wxString path);
+	//Merges two vectors into a map(wxString, location)
+	std::map<wxString, location> MergeVectorsToMap(std::vector<wxString> sourcevec, std::vector<wxString> destinationvec);
+	//Iterates through the map and calles the appropriate copying operations
+	bool OperationCaller(std::map<wxString, location>);
+	//The functions that do the copying
+	bool OnSourceNotDestination(wxString path);
+	bool OnNotSourceDestination(wxString path);
+	bool OnSourceAndDestination(wxString path);
+	//Variables
 	SyncData m_Data;
 	Rules m_Rules;
-	frmMain* m_Main;
 };
 
-bool SyncLoop(SyncData data, Rules rules);
-bool SyncFile(SyncData data, Rules rules);
-
-bool DirectoryRemove(wxString strLocation);
-
-bool FolderTimeLoop(wxString strFrom, wxString strTo);
 
 #endif
