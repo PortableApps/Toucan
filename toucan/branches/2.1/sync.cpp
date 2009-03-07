@@ -23,7 +23,7 @@ std::map<wxString, location> SyncThread::MergeVectorsToMap(std::vector<wxString>
 	
 }
 
-bool SyncThreadOperationCaller(std::map<wxString, location>){
+bool SyncThread::OperationCaller(std::map<wxString, location>){
 	
 }
 
