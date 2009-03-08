@@ -78,7 +78,74 @@ bool SyncThread::OperationCaller(std::map<wxString, location> paths){
 }
 
 bool SyncThread::OnSourceNotDest(wxString path){
-	
+	if(wxDirExists(m_Data->GetSource() + path)){
+		//We need to call the function again with our new folder
+		
+	}
+	else{
+		//About if needed
+		if(wxGetApp().ShouldAbort()){
+			return true;
+		}
+		//Only copy timestamp if file was copied
+		bool ShouldTimeStamp = false;
+		#ifdef __WXMSW__
+			long iAttributes = 0;
+		#endif
+		if(rules.ShouldExclude(data.GetDest(), false)){
+			return false;
+		}
+		//Ignore read only if needed
+		if(data.GetIgnoreRO()){
+			#ifdef __WXMSW__
+				iAttributes = GetFileAttributes(data.GetDest());
+				if(iAttributes == -1){
+					iAttributes = FILE_ATTRIBUTE_NORMAL;					
+				}
+				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+			#endif
+		}
+		//Copy the file using a temp file to help reduce corruption
+		if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
+			if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
+				OutputProgress(data.GetSource() + _("\t copied to \t") + data.GetDest());
+				ShouldTimeStamp = true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+		//Remove the temp file
+		if(wxFileExists(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+			wxRemoveFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+		}
+		//Set the old attributes back
+		if(data.GetIgnoreRO()){
+			#ifdef __WXMSW__
+				SetFileAttributes(data.GetDest(), iAttributes); 
+			#endif
+		} 
+		//Set the attributes if needed
+		if(data.GetAttributes() == true){
+			#ifdef __WXMSW__
+				int filearrtibs = GetFileAttributes(data.GetSource());
+				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
+				SetFileAttributes(data.GetDest(),filearrtibs);
+			#endif
+		}
+		//Set the timestamps if needed
+		if(data.GetTimeStamps() && ShouldTimeStamp){
+			wxFileName from(data.GetSource());
+			wxFileName to(data.GetDest());
+			wxDateTime access, mod, created;
+			from.GetTimes(&access ,&mod ,&created );
+			to.SetTimes(&access ,&mod , &created); 
+		}			
+		return true;
+	}
 }
 
 bool SyncThread::OnNotSourceDest(wxString path){
