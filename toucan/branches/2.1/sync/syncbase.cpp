@@ -61,5 +61,30 @@ std::map<wxString, location> SyncBase::MergeListsToMap(std::list<wxString> sourc
 }
 
 bool SyncBase::OperationCaller(std::map<wxString, location> paths){
-
+	for(std::map<wxString, location>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+		if(wxDirExists(sourceroot + (*iter).first)){
+			if((*iter).second == SOURCE){
+				OnSourceNotDestFolder((*iter).first);
+			}
+			else if((*iter).second == DEST){
+				OnNotSourceDestFolder((*iter).first);				
+			}
+			else if((*iter).second == SOURCE|DEST){
+				OnSourceAndDestFolder((*iter).first);
+			}
+		}
+		//We have a file
+		else{
+			if((*iter).second == SOURCE){
+				OnSourceNotDestFile((*iter).first);
+			}
+			else if((*iter).second == DEST){
+				OnNotSourceDestFile((*iter).first);				
+			}
+			else if((*iter).second == SOURCE|DEST){
+				OnSourceAndDestFile((*iter).first);
+			}			
+		}
+	}
+	return true;
 }
