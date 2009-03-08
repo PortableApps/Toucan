@@ -14,7 +14,7 @@
 	
 enum location{
 	SOURCE = 1,
-	DESTINATION = 2
+	DEST = 2
 };
 
 class SyncThread : public wxThread

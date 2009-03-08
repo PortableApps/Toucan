@@ -11,7 +11,8 @@
 
 void *SyncThread::Entry(){
 	std::list<wxString> source = FolderContentsToList(m_Data.GetSource());
-	std::list<wxString> destination = FolderContentsToList(m_Data.GetDest());
+	std::list<wxString> dest = FolderContentsToList(m_Data.GetDest());
+	std::map<wxString, location> paths = MergeListsToMap(source, dest);
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 	wxPostEvent(wxGetApp().ProgressWindow, event);
 	return NULL;
@@ -37,16 +38,43 @@ std::list<wxString> SyncThread::FolderContentsToList(wxString path){
 }
 
 std::map<wxString, location> SyncThread::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
+	std::list<wxString>::iterator iter;
+	std::list<wxString>::iterator destiter;
 	std::map<wxString, location> mergeresult;
-	//Iterate through all of the paths in the source vector
-	std::list<wxString>::iterator sourceiter;
-	for(sourceiter = sourcelist.begin(); sourceiter != sourcelist.end(); ++sourceiter){
+	for(iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
+		bool destexists = false;
+		for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
+			if(*destiter == *iter){
+				destexists = true;
+				destlist.erase(destiter);
+				break;
+			}
+		}
+		location where = SOURCE;
+		if(destexists){
+			where = location(SOURCE|DEST);
+		}
+		mergeresult[*iter] = where;
+	}
+	for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
+		mergeresult[*destiter] = location(DEST);
 	}
 	return mergeresult;
 }
 
-bool SyncThread::OperationCaller(std::map<wxString, location>){
-	
+bool SyncThread::OperationCaller(std::map<wxString, location> paths){
+	for(std::map<wxString, location>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+		if((*iter).second == location(SOURCE)){
+			OnSourceNotDest((*iter).first);
+		}
+		else if((*iter).second == DEST){
+			OnNotSourceDest((*iter).first);			
+		}
+		else if((*iter).second == SOURCE|DEST){
+			OnSourceAndDest((*iter).first);		
+		}
+	}
+	return true;
 }
 
 bool SyncThread::OnSourceNotDest(wxString path){

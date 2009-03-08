@@ -118,7 +118,7 @@ bool SyncData::Execute(Rules rules){
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
 	//Create a new Sync thread and run it (needs to use Wait())
-	SyncThread *thread = new SyncThread(*this, rules, wxGetApp().MainWindow);
+	SyncThread *thread = new SyncThread(*this, rules);
 	thread->Create();
 	thread->Run();
 	return true;
