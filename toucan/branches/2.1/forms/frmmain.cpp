@@ -22,8 +22,8 @@
 #include "../settings.h"
 #include "../variables.h"
 #include "../data/securedata.h"
-#include "../data/syncdata.h"
 #include "../data/backupdata.h"
+#include "../sync/syncdata.h"
 #include "../controls/extendeddirctrl.h"
 #include "../controls/virtualdirtreectrl.h"
 

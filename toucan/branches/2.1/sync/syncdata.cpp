@@ -5,10 +5,10 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncdata.h"
+#include "syncthread.h"
 #include "../basicfunctions.h"
 #include "../variables.h"
 #include "../toucan.h"
-#include "../sync.h"
 #include "../filecounter.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>

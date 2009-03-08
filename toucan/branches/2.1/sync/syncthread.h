@@ -10,7 +10,7 @@
 #include <map>
 #include <list>
 #include <wx/thread.h>
-#include "data/syncdata.h"
+#include "syncdata.h"
 	
 enum location{
 	SOURCE = 1,

@@ -19,7 +19,7 @@
 #include "script.h"
 #include "settings.h"
 
-#include "data/syncdata.h"
+#include "sync/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
 

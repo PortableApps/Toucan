@@ -13,7 +13,7 @@
 #include "script.h"
 #include "basicfunctions.h"
 #include "toucan.h"
-#include "data/syncdata.h"
+#include "sync/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
 

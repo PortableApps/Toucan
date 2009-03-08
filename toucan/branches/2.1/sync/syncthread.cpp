@@ -4,9 +4,10 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "toucan.h"
-#include "sync.h"
-#include "forms/frmprogress.h"
+#include "../basicfunctions.h"
+#include "../toucan.h"
+#include "../forms/frmprogress.h"
+#include "syncthread.h"
 #include <wx/dir.h>
 
 void *SyncThread::Entry(){
@@ -78,7 +79,7 @@ bool SyncThread::OperationCaller(std::map<wxString, location> paths){
 }
 
 bool SyncThread::OnSourceNotDest(wxString path){
-	if(wxDirExists(m_Data->GetSource() + path)){
+	if(wxDirExists(m_Data.GetSource() + path)){
 		//We need to call the function again with our new folder
 		
 	}
@@ -92,23 +93,23 @@ bool SyncThread::OnSourceNotDest(wxString path){
 		#ifdef __WXMSW__
 			long iAttributes = 0;
 		#endif
-		if(rules.ShouldExclude(data.GetDest(), false)){
+		if(m_Rules.ShouldExclude(m_Data.GetDest(), false)){
 			return false;
 		}
 		//Ignore read only if needed
-		if(data.GetIgnoreRO()){
+		if(m_Data.GetIgnoreRO()){
 			#ifdef __WXMSW__
-				iAttributes = GetFileAttributes(data.GetDest());
+				iAttributes = GetFileAttributes(m_Data.GetDest());
 				if(iAttributes == -1){
 					iAttributes = FILE_ATTRIBUTE_NORMAL;					
 				}
-				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
+				SetFileAttributes(m_Data.GetDest(),FILE_ATTRIBUTE_NORMAL); 
 			#endif
 		}
 		//Copy the file using a temp file to help reduce corruption
-		if(wxCopyFile(data.GetSource(), wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
-			if(wxRenameFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), data.GetDest(), true)){
-				OutputProgress(data.GetSource() + _("\t copied to \t") + data.GetDest());
+		if(wxCopyFile(m_Data.GetSource(), wxPathOnly(m_Data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
+			if(wxRenameFile(wxPathOnly(m_Data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), m_Data.GetDest(), true)){
+				OutputProgress(m_Data.GetSource() + _("\t copied to \t") + m_Data.GetDest());
 				ShouldTimeStamp = true;
 			}
 			else{
@@ -119,27 +120,27 @@ bool SyncThread::OnSourceNotDest(wxString path){
 			return false;
 		}
 		//Remove the temp file
-		if(wxFileExists(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
-			wxRemoveFile(wxPathOnly(data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+		if(wxFileExists(wxPathOnly(m_Data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+			wxRemoveFile(wxPathOnly(m_Data.GetDest()) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
 		}
 		//Set the old attributes back
-		if(data.GetIgnoreRO()){
+		if(m_Data.GetIgnoreRO()){
 			#ifdef __WXMSW__
-				SetFileAttributes(data.GetDest(), iAttributes); 
+				SetFileAttributes(m_Data.GetDest(), iAttributes); 
 			#endif
 		} 
 		//Set the attributes if needed
-		if(data.GetAttributes() == true){
+		if(m_Data.GetAttributes() == true){
 			#ifdef __WXMSW__
-				int filearrtibs = GetFileAttributes(data.GetSource());
-				SetFileAttributes(data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
-				SetFileAttributes(data.GetDest(),filearrtibs);
+				int filearrtibs = GetFileAttributes(m_Data.GetSource());
+				SetFileAttributes(m_Data.GetDest(),FILE_ATTRIBUTE_NORMAL);                       
+				SetFileAttributes(m_Data.GetDest(),filearrtibs);
 			#endif
 		}
 		//Set the timestamps if needed
-		if(data.GetTimeStamps() && ShouldTimeStamp){
-			wxFileName from(data.GetSource());
-			wxFileName to(data.GetDest());
+		if(m_Data.GetTimeStamps() && ShouldTimeStamp){
+			wxFileName from(m_Data.GetSource());
+			wxFileName to(m_Data.GetDest());
 			wxDateTime access, mod, created;
 			from.GetTimes(&access ,&mod ,&created );
 			to.SetTimes(&access ,&mod , &created); 

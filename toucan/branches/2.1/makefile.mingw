@@ -43,7 +43,7 @@ RCFILESRC=Toucan.rc
 endif
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/md5.o $(OBJECTPATH)/filecounter.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/edc.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/loglist.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/md5.o $(OBJECTPATH)/filecounter.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/syncbase.o $(OBJECTPATH)/syncfiles.o $(OBJECTPATH)/syncpreview.o $(OBJECTPATH)/syncthread.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/edc.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/loglist.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 all:	$(BUILDPATH) $(BUILDPATH)/$(PROGRAM)
 
@@ -75,13 +75,34 @@ $(OBJECTPATH)/frmprogress.o:	forms/frmprogress.cpp forms/frmprogress.h
 
 $(OBJECTPATH)/frmvariable.o:	forms/frmvariable.cpp forms/frmvariable.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmvariable.cpp
-	
-$(OBJECTPATH)/basicfunctions.o:	basicfunctions.cpp basicfunctions.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) basicfunctions.cpp
-		
+
+$(OBJECTPATH)/syncthread.o:	sync/syncthread.cpp sync/syncthread.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncthread.cpp
+
+$(OBJECTPATH)/syncdata.o:	sync/syncdata.cpp sync/syncdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncdata.cpp
+
+$(OBJECTPATH)/syncbase.o:	sync/syncbase.cpp sync/syncbase.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncbase.cpp
+
+$(OBJECTPATH)/syncfiles.o:	sync/syncfiles.cpp sync/syncfiles.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncfiles.cpp
+
+$(OBJECTPATH)/syncpreview.o:	sync/syncpreview.cpp sync/syncpreview.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncpreview.cpp
+
 $(OBJECTPATH)/rootdata.o:	data/rootdata.cpp data/rootdata.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/rootdata.cpp
-	
+
+$(OBJECTPATH)/backupdata.o:	data/backupdata.cpp data/backupdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/backupdata.cpp
+
+$(OBJECTPATH)/securedata.o:	data/securedata.cpp data/securedata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/securedata.cpp
+
+$(OBJECTPATH)/basicfunctions.o:	basicfunctions.cpp basicfunctions.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) basicfunctions.cpp
+
 $(OBJECTPATH)/cmdline.o:	cmdline.cpp cmdline.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) cmdline.cpp
 
@@ -97,18 +118,9 @@ $(OBJECTPATH)/variables.o:	variables.cpp variables.h
 $(OBJECTPATH)/settings.o:	settings.cpp settings.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) settings.cpp
 
-$(OBJECTPATH)/securedata.o:	data/securedata.cpp data/securedata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/securedata.cpp
-
 $(OBJECTPATH)/backupprocess.o:	backupprocess.cpp backupprocess.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupprocess.cpp
-	
-$(OBJECTPATH)/backupdata.o:	data/backupdata.cpp data/backupdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/backupdata.cpp
-	
-$(OBJECTPATH)/syncdata.o:	data/syncdata.cpp data/syncdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/syncdata.cpp
-	
+
 $(OBJECTPATH)/waitthread.o:	waitthread.cpp waitthread.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) waitthread.cpp
 
@@ -117,9 +129,6 @@ $(OBJECTPATH)/dragndrop.o:	dragndrop.cpp dragndrop.h
 	
 $(OBJECTPATH)/secure.o:	secure.cpp secure.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) secure.cpp
-	
-$(OBJECTPATH)/sync.o:	sync.cpp sync.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync.cpp
 	
 $(OBJECTPATH)/edc.o:	controls/extendeddirctrl.cpp controls/extendeddirctrl.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/extendeddirctrl.cpp
