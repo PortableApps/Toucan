@@ -22,6 +22,9 @@ std::list<wxString> SyncBase::FolderContentsToList(wxString path){
 	if (path[path.length()-1] != wxFILE_SEP_PATH) {
 		path += wxFILE_SEP_PATH;       
 	}
+	if(!wxDirExists(path)){
+		wxMkdir(path);
+	}
 	if(wxDirExists(path)){
 		wxString filename;
 		wxDir dir(path);

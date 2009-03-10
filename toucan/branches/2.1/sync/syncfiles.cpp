@@ -5,6 +5,7 @@
 
 #include "syncbase.h"
 #include "syncfiles.h"
+#include "../basicfunctions.h"
 #include <list>
 #include <map>
 #include <wx/string.h>
@@ -24,20 +25,64 @@ bool SyncFiles::Execute(){
 }
 
 bool SyncFiles::OnSourceNotDestFile(wxString path){
-	
+	wxString source = sourceroot + path;
+	wxString dest = destroot + path;
+	if(data->GetFunction() == _("Copy")){
+		CopyFile(source, dest);
+	}
+	return true;
 }
 bool SyncFiles::OnNotSourceDestFile(wxString path){
-	
+	wxString source = sourceroot + path;
+	wxString dest = destroot + path;
+	if(data->GetFunction() == _("Copy")){
+		//Do nothing
+	}
+	return true;
 }
 bool SyncFiles::OnSourceAndDestFile(wxString path){
-	
+	wxString source = sourceroot + path;
+	wxString dest = destroot + path;
+	if(data->GetFunction() == _("Copy")){
+		CopyFile(source, dest);
+	}
+	return true;
 }
 bool SyncFiles::OnSourceNotDestFolder(wxString path){
-	
+	//Call
+	wxString source = sourceroot + path;
+	wxString dest = destroot + path;
+	if(data->GetFunction() == _("Copy")){
+		SyncFiles sync(source, dest, data);
+		sync.Execute();
+	}
+	return true;
 }
 bool SyncFiles::OnNotSourceDestFolder(wxString path){
-	
+	wxString source = sourceroot + path;
+	wxString dest = destroot + path;
+	if(data->GetFunction() == _("Copy")){
+		//Do nothing
+	}
+	return true;
 }
 bool SyncFiles::OnSourceAndDestFolder(wxString path){
-	
+	wxString source = sourceroot + path;
+	wxString dest = destroot + path;
+	if(data->GetFunction() == _("Copy")){
+		SyncFiles sync(source, dest, data);
+		sync.Execute();
+	}
+	return true;
+}
+
+bool SyncFiles::CopyFile(wxString source, wxString dest){
+	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
+		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
+			OutputProgress(wxT("Copied  ") + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+		}
+	}
+	if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+		wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+	}
 }

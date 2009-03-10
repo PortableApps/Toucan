@@ -21,6 +21,8 @@ private:
 	bool OnSourceNotDestFolder(wxString path);
 	bool OnNotSourceDestFolder(wxString path);
 	bool OnSourceAndDestFolder(wxString path);
+	//Uses a temp file to copy neatly, currently only returns true, wxWidgets will output error messages
+	bool CopyFile(wxString source, wxString dest);
 };
 
 #endif
