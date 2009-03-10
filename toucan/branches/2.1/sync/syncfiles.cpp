@@ -3,7 +3,11 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
+#include "syncbase.h"
 #include "syncfiles.h"
+#include <list>
+#include <map>
+#include <wx/string.h>
 
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata){
 	this->sourceroot = syncsource;
@@ -12,7 +16,11 @@ SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata)
 }
 
 bool SyncFiles::Execute(){
-	
+	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
+	std::list<wxString> destpaths = FolderContentsToList(destroot);
+	std::map<wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
+	OperationCaller(mergeresult);
+	return true;
 }
 
 bool SyncFiles::OnSourceNotDestFile(wxString path){

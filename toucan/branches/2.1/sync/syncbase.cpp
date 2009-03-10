@@ -35,10 +35,10 @@ std::list<wxString> SyncBase::FolderContentsToList(wxString path){
 	return paths;
 }
 
-std::map<wxString, location> SyncBase::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
+std::map<wxString, short> SyncBase::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
 	std::list<wxString>::iterator iter;
 	std::list<wxString>::iterator destiter;
-	std::map<wxString, location> mergeresult;
+	std::map<wxString, short> mergeresult;
 	for(iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
 		bool destexists = false;
 		for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
@@ -48,40 +48,40 @@ std::map<wxString, location> SyncBase::MergeListsToMap(std::list<wxString> sourc
 				break;
 			}
 		}
-		location where = SOURCE;
+		short where = 1;
 		if(destexists){
-			where = location(SOURCE|DEST);
+			where = 3;
 		}
 		mergeresult[*iter] = where;
 	}
 	for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
-		mergeresult[*destiter] = location(DEST);
+		mergeresult[*destiter] = 2;
 	}
 	return mergeresult;
 }
 
-bool SyncBase::OperationCaller(std::map<wxString, location> paths){
-	for(std::map<wxString, location>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+bool SyncBase::OperationCaller(std::map<wxString, short> paths){
+	for(std::map<wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + (*iter).first)){
-			if((*iter).second == SOURCE){
+			if((*iter).second == 1){
 				OnSourceNotDestFolder((*iter).first);
 			}
-			else if((*iter).second == DEST){
+			else if((*iter).second == 2){
 				OnNotSourceDestFolder((*iter).first);				
 			}
-			else if((*iter).second == SOURCE|DEST){
+			else if((*iter).second == 3){
 				OnSourceAndDestFolder((*iter).first);
 			}
 		}
 		//We have a file
 		else{
-			if((*iter).second == SOURCE){
+			if((*iter).second == 1){
 				OnSourceNotDestFile((*iter).first);
 			}
-			else if((*iter).second == DEST){
+			else if((*iter).second == 2){
 				OnNotSourceDestFile((*iter).first);				
 			}
-			else if((*iter).second == SOURCE|DEST){
+			else if((*iter).second == 3){
 				OnSourceAndDestFile((*iter).first);
 			}			
 		}
