@@ -17,13 +17,13 @@ enum location{
 };
 
 class SyncBase{
-public:
+private:
 	SyncBase();
 	virtual ~SyncBase();
 
 	//Adds all the contents of a folder to a std::list
 	std::list<wxString> FolderContentsToList(wxString path);
-	//Merges two lists into a map(wxString, location), will location specifying where the items were merged from
+	//Merges two lists into a map(wxString, location), with location specifying where the items were merged from
 	std::map<wxString, location> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
 	//Iterates through the map and calles the appropriate copying operations
 	bool OperationCaller(std::map<wxString, location>);
@@ -34,8 +34,7 @@ public:
 	virtual bool OnSourceNotDestFolder(wxString path) = 0;
 	virtual bool OnNotSourceDestFolder(wxString path) = 0;
 	virtual bool OnSourceAndDestFolder(wxString path) = 0;
-
-private:
+	//Store the root paths we have so we can pass them onto the next level of folders if needed
 	wxString sourceroot;
 	wxString destroot;
 };
