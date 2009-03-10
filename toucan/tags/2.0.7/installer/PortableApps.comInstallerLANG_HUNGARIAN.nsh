@@ -1,0 +1,7 @@
+LangString welcome ${LANG_HUNGARIAN} "Ez a varázsló végigvezeti Önt a(z) ${NAME} telepítési folyamatán.\r\n\r\nJavasoljuk, hogy ha a(z) ${NAME} meglévõ példányát frissíti, indítás elõtt zárja be az alkalmazást. \r\n\r\nKattintson a Tovább gomra a folytatáshoz."
+LangString finish ${LANG_HUNGARIAN} "A(z) ${NAME} telepítve lett az Ön által megadott eszközre.\r\n\r\nA telepítés befejezéséhez kattintson a Bezárás gombra."
+LangString runwarning ${LANG_HUNGARIAN} "Kérjük, zárjon be minden futó ${CLOSENAME} nevû alkalmazást és kattintson az OK gombra. A hordozható programok csomag nem lépes a fájlokat frissíteni, amíg ez az alkalmazás fut."
+LangString invaliddirectory ${LANG_HUNGARIAN} "A megadott célmappa érvénytelen. Kérjük válasszon egy érvényes célmappát."
+LangString notenoughspace ${LANG_HUNGARIAN} "A kiválasztott eszközön nincsen elegendõ hely az alkalmazás telepítéséhez."
+LangString checkforplatform ${LANG_HUNGARIAN} "PortableApps.com Platform ellenõrzése"
+LangString refreshmenu ${LANG_HUNGARIAN} "PortableApps.com Menü frissítése"
