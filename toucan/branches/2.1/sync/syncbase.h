@@ -10,6 +10,7 @@
 #include <map>
 #include <list>
 #include <wx/string.h>
+#include "syncdata.h"
 
 enum location{
 	SOURCE = 1,
@@ -17,10 +18,17 @@ enum location{
 };
 
 class SyncBase{
-private:
+public:
 	SyncBase();
 	virtual ~SyncBase();
 
+	//Store the root paths we have so we can pass them onto the next level of folders if needed
+	wxString sourceroot;
+	wxString destroot;
+	//We need to know what sort of operation we are doing
+	SyncData* data;
+
+private:
 	//Adds all the contents of a folder to a std::list
 	std::list<wxString> FolderContentsToList(wxString path);
 	//Merges two lists into a map(wxString, location), with location specifying where the items were merged from
@@ -34,9 +42,6 @@ private:
 	virtual bool OnSourceNotDestFolder(wxString path) = 0;
 	virtual bool OnNotSourceDestFolder(wxString path) = 0;
 	virtual bool OnSourceAndDestFolder(wxString path) = 0;
-	//Store the root paths we have so we can pass them onto the next level of folders if needed
-	wxString sourceroot;
-	wxString destroot;
 };
 
 #endif
