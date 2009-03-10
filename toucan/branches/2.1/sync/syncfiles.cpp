@@ -25,33 +25,33 @@ bool SyncFiles::Execute(){
 }
 
 bool SyncFiles::OnSourceNotDestFile(wxString path){
-	wxString source = sourceroot + path;
-	wxString dest = destroot + path;
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy")){
 		CopyFile(source, dest);
 	}
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFile(wxString path){
-	wxString source = sourceroot + path;
-	wxString dest = destroot + path;
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy")){
 		//Do nothing
 	}
 	return true;
 }
 bool SyncFiles::OnSourceAndDestFile(wxString path){
-	wxString source = sourceroot + path;
-	wxString dest = destroot + path;
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy")){
 		CopyFile(source, dest);
 	}
 	return true;
 }
 bool SyncFiles::OnSourceNotDestFolder(wxString path){
-	//Call
-	wxString source = sourceroot + path;
-	wxString dest = destroot + path;
+	//Call the function on the next subfolder
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy")){
 		SyncFiles sync(source, dest, data);
 		sync.Execute();
@@ -59,16 +59,16 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFolder(wxString path){
-	wxString source = sourceroot + path;
-	wxString dest = destroot + path;
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy")){
 		//Do nothing
 	}
 	return true;
 }
 bool SyncFiles::OnSourceAndDestFolder(wxString path){
-	wxString source = sourceroot + path;
-	wxString dest = destroot + path;
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy")){
 		SyncFiles sync(source, dest, data);
 		sync.Execute();
