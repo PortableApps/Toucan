@@ -15,8 +15,6 @@
 #include <wx/filename.h>
 #include <wx/dir.h>
 
-// ATTN : All of the options still need to be implemented
-
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules){
 	this->sourceroot = syncsource;
 	this->destroot = syncdest;
@@ -97,14 +95,58 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 }
 
 bool SyncFiles::CopyFile(wxString source, wxString dest){
+	bool ShouldTimeStamp = false;
+	#ifdef __WXMSW__
+		long iAttributes = 0;
+	#endif
+	if(data->GetIgnoreRO()){
+		#ifdef __WXMSW__
+			iAttributes = GetFileAttributes(dest);
+			if(iAttributes == -1){
+				iAttributes = FILE_ATTRIBUTE_NORMAL;					
+			}
+			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL); 
+		#endif
+	} 
+
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
 			OutputProgress(wxT("Copied  ") + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+			ShouldTimeStamp = true;
+		}
+		else{
+			return false;
 		}
 	}
-	if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
-		wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+	else{
+		return false;
 	}
+	if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+		if(!wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+			return false;
+		}
+	}
+	//Set the old attributes back
+	if(data->GetIgnoreRO()){
+		#ifdef __WXMSW__
+			SetFileAttributes(dest, iAttributes); 
+		#endif
+	} 
+	
+	if(data->GetAttributes()){
+		#ifdef __WXMSW__
+			int filearrtibs = GetFileAttributes(source);
+			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL);                       
+			SetFileAttributes(dest,filearrtibs);
+		#endif
+	}
+	if(data->GetTimeStamps() && ShouldTimeStamp){
+		wxFileName from(source);
+		wxFileName to(dest);
+		wxDateTime access, mod, created;
+		from.GetTimes(&access ,&mod ,&created );
+		to.SetTimes(&access ,&mod , &created); 
+	}	
 	return true;
 }
 
@@ -114,6 +156,10 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 	wxFileName flFrom(source);
 	flTo.GetTimes(NULL, &tmTo, NULL);
 	flFrom.GetTimes(NULL, &tmFrom, NULL);		
+
+	if(data->GetIgnoreDLS()){
+		tmFrom.MakeTimezone(wxDateTime::Local, true);
+	}
 
 	if(tmFrom.IsLaterThan(tmTo)){
 		CopyFileHash(source, dest);
