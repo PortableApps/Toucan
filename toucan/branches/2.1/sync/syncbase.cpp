@@ -66,27 +66,31 @@ std::map<wxString, short> SyncBase::MergeListsToMap(std::list<wxString> sourceli
 bool SyncBase::OperationCaller(std::map<wxString, short> paths){
 	for(std::map<wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first)){
-			if((*iter).second == 1){
-				OnSourceNotDestFolder((*iter).first);
-			}
-			else if((*iter).second == 2){
-				OnNotSourceDestFolder((*iter).first);				
-			}
-			else if((*iter).second == 3){
-				OnSourceAndDestFolder((*iter).first);
+			if(!rules.ShouldExclude(destroot + wxFILE_SEP_PATH + (*iter).first, true)){
+				if((*iter).second == 1){
+					OnSourceNotDestFolder((*iter).first);
+				}
+				else if((*iter).second == 2){
+					OnNotSourceDestFolder((*iter).first);				
+				}
+				else if((*iter).second == 3){
+					OnSourceAndDestFolder((*iter).first);
+				}
 			}
 		}
 		//We have a file
 		else{
-			if((*iter).second == 1){
-				OnSourceNotDestFile((*iter).first);
+			if(!rules.ShouldExclude(destroot + wxFILE_SEP_PATH + (*iter).first, false)){
+				if((*iter).second == 1){
+					OnSourceNotDestFile((*iter).first);
+				}
+				else if((*iter).second == 2){
+					OnNotSourceDestFile((*iter).first);				
+				}
+				else if((*iter).second == 3){
+					OnSourceAndDestFile((*iter).first);
+				}
 			}
-			else if((*iter).second == 2){
-				OnNotSourceDestFile((*iter).first);				
-			}
-			else if((*iter).second == 3){
-				OnSourceAndDestFile((*iter).first);
-			}			
 		}
 	}
 	return true;
