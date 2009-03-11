@@ -9,10 +9,11 @@
 
 #include "syncbase.h"
 #include "syncdata.h"
+#include "../rules.h"
 
 class SyncFiles : public SyncBase{
 public:
-	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata);
+	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules rules);
 	bool Execute();
 private:
 	bool OnSourceNotDestFile(wxString path);
@@ -23,6 +24,11 @@ private:
 	bool OnSourceAndDestFolder(wxString path);
 	//Uses a temp file to copy neatly, currently only returns true, wxWidgets will output error messages
 	bool CopyFile(wxString source, wxString dest);
+	//Implement an MD5 check before a CopyFile
+	bool CopyFileHash(wxString source, wxString dest);
+	bool RemoveDirectory(wxString path);
+	//Implement a timestamp check before a CopyFileHash
+	bool UpdateFile(wxString source, wxString dest);
 };
 
 #endif
