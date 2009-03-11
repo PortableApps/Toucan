@@ -51,7 +51,7 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		//Swap them around as we are essentially in reverse
-		UpdateFile(dest, source);
+		CopyFile(dest, source);
 	}
 	IncrementGauge();
 	return true;
