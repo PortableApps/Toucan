@@ -37,7 +37,6 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Whatever function we have we always copy in this case
 	CopyFile(source, dest);
-	IncrementGauge();
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFile(wxString path){
@@ -53,7 +52,6 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 		//Swap them around as we are essentially in reverse
 		CopyFile(dest, source);
 	}
-	IncrementGauge();
 	return true;
 }
 bool SyncFiles::OnSourceAndDestFile(wxString path){
@@ -66,7 +64,6 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 	else if(data->GetFunction() == _("Update")){
 		UpdateFile(source, dest);
 	}
-	IncrementGauge();
 	return true;
 }
 bool SyncFiles::OnSourceNotDestFolder(wxString path){
@@ -158,6 +155,10 @@ bool SyncFiles::RemoveDirectory(wxString path){
 			else{
 				if(wxRemoveFile(path + filename)){
                     OutputProgress(_("Removed ") + path + filename);
+					//We have to increment the gauge for ourself here
+					if(wxGetApp().GetUsesGUI()){
+						IncrementGauge();					
+					}
                 }
             }
 	

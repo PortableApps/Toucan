@@ -141,7 +141,8 @@ bool ScriptManager::ProgressBarSetup(){
 			data.SetName(strToken);
 			data.TransferFromFile();
 			counter.AddPath(data.GetSource());
-			if(data.GetFunction() == _("Equalise")){
+			//Add both paths for mirror and equalise as they look at both sides
+			if(data.GetFunction() == _("Equalise") || data.GetFunction() == _("Mirror")){
 				counter.AddPath(data.GetDest());			
 			}
 		}	

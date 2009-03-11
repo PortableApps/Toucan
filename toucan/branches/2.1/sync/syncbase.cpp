@@ -5,6 +5,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncbase.h"
+#include "../toucan.h"
+#include "../basicfunctions.h"
 #include <wx/dir.h>
 #include <wx/filefn.h>
 
@@ -89,6 +91,14 @@ bool SyncBase::OperationCaller(std::map<wxString, short> paths){
 				}
 				else if((*iter).second == 3){
 					OnSourceAndDestFile((*iter).first);
+				}
+			}
+			//Update the progress bar for files only
+			if(wxGetApp().GetUsesGUI()){
+				IncrementGauge();
+				//If we have a file in both folders then increment again as we only do one pass
+				if((*iter).second == 3){
+					IncrementGauge();					
 				}
 			}
 		}
