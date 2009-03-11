@@ -65,7 +65,7 @@ std::map<wxString, short> SyncBase::MergeListsToMap(std::list<wxString> sourceli
 
 bool SyncBase::OperationCaller(std::map<wxString, short> paths){
 	for(std::map<wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
-		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first)){
+		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if(!rules.ShouldExclude(destroot + wxFILE_SEP_PATH + (*iter).first, true)){
 				if((*iter).second == 1){
 					OnSourceNotDestFolder((*iter).first);
