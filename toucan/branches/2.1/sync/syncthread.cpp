@@ -13,6 +13,7 @@ void *SyncThread::Entry(){
 	SyncFiles sync(m_Data.GetSource(), m_Data.GetDest(), &m_Data, m_Rules);
 	sync.Execute();
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	event.SetInt(1);
 	wxPostEvent(wxGetApp().ProgressWindow, event);
 	return NULL;
 }

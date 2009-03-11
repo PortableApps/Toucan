@@ -4,7 +4,9 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
+#include "frmmain.h"
 #include "frmprogress.h"
+#include "../variables.h"
 #include "../script.h"
 #include "../toucan.h"
 
@@ -136,6 +138,21 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 	else{
 		wxGetApp().m_Script->CleanUp();
 		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
+		//The int specifies wwhich sort of job has just finished so we can refresh it correctly
+		//1 - Sync
+		//Others - Not yet implmented
+		if(event.GetInt() == 1){
+			if(wxGetApp().GetUsesGUI()){
+				wxGetApp().MainWindow->m_Sync_Source_Tree->DeleteAllItems();
+				wxGetApp().MainWindow->m_Sync_Dest_Tree->DeleteAllItems();
+				
+				wxGetApp().MainWindow->m_Sync_Source_Tree->AddRoot(_("Hidden text"));
+				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddRoot(_("Hidden text"));
+				
+				wxGetApp().MainWindow->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_Sync_Source_Txt->GetValue())));
+				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_Sync_Dest_Txt->GetValue())));		
+			}
+		}
 	}
 }
 
