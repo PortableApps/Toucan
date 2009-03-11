@@ -71,6 +71,10 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
+	//Set the timestamps if needed
+	if(data->GetTimeStamps()){
+		CopyFolderTimestamp(source, dest);
+	}
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFolder(wxString path){
@@ -82,6 +86,9 @@ bool SyncFiles::OnNotSourceDestFolder(wxString path){
 	if(data->GetFunction() == _("Equalise")){
 		SyncFiles sync(source, dest, data, rules);
 		sync.Execute();
+		if(data->GetTimeStamps()){
+			CopyFolderTimestamp(dest, source);
+		}
 	}
 	return true;
 }
@@ -91,6 +98,9 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
+	if(data->GetTimeStamps()){
+		CopyFolderTimestamp(source, dest);
+	}
 	return true;
 }
 
@@ -217,4 +227,31 @@ bool SyncFiles::RemoveDirectory(wxString path){
         OutputProgress(_("Removed ") + path);
     }
 	return true;
+}
+
+bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
+	// ATTN : Can be replaced when move to wxWidgets 2.9, or patch backport
+	#ifdef __WXMSW__
+		//Need to tidy up this code and submit as a patch to wxWidgets
+		FILETIME ftCreated,ftAccessed,ftModified;
+		HANDLE hFrom = CreateFile(source, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		if(hFrom == INVALID_HANDLE_VALUE){
+		  return false;
+		}  
+		
+		GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
+		CloseHandle(hFrom);
+		HANDLE hTo = CreateFile(dest, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		if(hTo == INVALID_HANDLE_VALUE){
+		  return false;
+		}  
+		SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
+		CloseHandle(hTo);
+	#else
+		wxFileName from(source);
+		wxFileName to(dest);
+		wxDateTime access, mod, created;
+		from.GetTimes(&access ,&mod ,&created );
+		to.SetTimes(&access ,&mod , &created); 
+	#endif
 }

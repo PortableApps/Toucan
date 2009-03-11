@@ -29,6 +29,7 @@ private:
 	bool RemoveDirectory(wxString path);
 	//Implement a timestamp check before a CopyFileHash
 	bool UpdateFile(wxString source, wxString dest);
+	bool CopyFolderTimestamp(wxString source, wxString dest);
 };
 
 #endif
