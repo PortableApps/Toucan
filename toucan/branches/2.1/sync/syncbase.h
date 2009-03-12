@@ -33,7 +33,7 @@ public:
 	//3 = source and dest
 	std::map<wxString, short> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
 	//Iterates through the map and calles the appropriate copying operations
-	bool OperationCaller(std::map<wxString, short>);
+	bool OperationCaller(std::map<wxString, short> paths);
 
 private:
 	//The functions that do the copying

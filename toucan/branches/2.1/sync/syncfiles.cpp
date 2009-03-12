@@ -254,4 +254,5 @@ bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
 		from.GetTimes(&access ,&mod ,&created );
 		to.SetTimes(&access ,&mod , &created); 
 	#endif
+	return true;
 }

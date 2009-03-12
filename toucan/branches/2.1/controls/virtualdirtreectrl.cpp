@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Jorgen Bodde & Steven Lamerton
-// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -9,6 +9,8 @@
 #include <wx/busyinfo.h>
 #include <wx/artprov.h>
 #include "virtualdirtreectrl.h"
+#include "../sync/syncdata.h"
+#include "../sync/syncpreview.h"
 
 // WDR: class implementations
 
@@ -589,115 +591,19 @@ void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 
 void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
-	//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
-	for (unsigned int i = 0; i < items.GetCount(); i++) {
-		wxString strComplete = path.GetPath() + items.Item(i)->GetName();
-		if (_Rules.ShouldExclude(strComplete, false)) {
-			items.Item(i)->SetColour(wxColour(wxT("Red")));
-		} else {
-			items.Item(i)->SetColour(wxColour(wxT("Black")));
-		}
+	bool issource;
+	if(this->GetId() == ID_SYNC_SOURCE_TREE){
+		issource = true;
 	}
-	//Make sure that we a in sync and that we are actually supposed to preview!
-	if (_IsSync) {
-		if (_Preview) {
-			//Grab the path that we are in without the root
-			wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
-			//Create a wxFilename ut of the path we are in, but the opposite root
-			wxFileName name(_RootOpp + strPathNoRoot);
-			//Check if it is actually a directory
-			if (wxDirExists(name.GetFullPath())) {
-				wxString strFilename;
-				wxDir dir(name.GetFullPath());
-				bool blDir = dir.GetFirst(&strFilename);
-				//If the path is ok, it should because because it was earlier, but you never can tell if you are going to get hit by a pesky neutrino!
-				if (blDir) {
-					//Loop through all of the files and folders in the directory
-					do {
-						//Set the path to the array items name, ensuring that it has a trailing slash
-						wxString strPath = name.GetFullPath();
-						if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-							strPath += wxFILE_SEP_PATH;       
-						}
-						//If the item in the array is a folder
-						if (wxDirExists(strPath + strFilename)) {
-							bool blExists = false;
-							unsigned int j = 0;
-							//Loop through the whole array, seeing if any of them are the same as in the folder in the opp dir
-							for(unsigned int i = 0; i < items.GetCount(); i++){
-								if(items.Item(i)->GetName() == strFilename){
-									blExists = true;
-									j = i;
-								}
-							}
-							//There isnt a match so we need to add the new folder
-							if(!blExists){
-								if(!_Rules.ShouldExclude(strPath + strFilename, true)){
-									VdtcTreeItemBase *t = this->AddDirItem(strFilename);
-									t->SetColour(wxColour(wxT("Blue")));
-									items.Add(t);	
-								}
-							}
-								
-						}
-						//If it is a file
-						else {
-							//Check to see if there is already a file with that name
-							bool blExists = false;
-							unsigned int j = 0;
-							for(unsigned int i = 0; i < items.GetCount(); i++){
-								if(items.Item(i)->GetName() == strFilename){
-									blExists = true;
-									j = i;
-								}
-							}
-							//If there is
-							if(blExists){
-								//Make sure it shouldnt be excluded
-								if(!_Rules.ShouldExclude(strPath + strFilename, false)){
-									if(_Mode == _("Copy") || _Mode == _("Mirror (Copy)")){
-										items.Item(j)->SetColour(wxColour(wxT("Red")));
-									}
-									else if(_Mode == _("Update") || _Mode == _("Mirror (Update)")){
-										wxDateTime tmTo = wxFileModificationTime(_Root + wxFILE_SEP_PATH + items.Item(j)->GetName());
-										wxDateTime tmFrom = wxFileModificationTime(strPath + strFilename);
-										
-										//Need to put in code to account for timezone settings
-									
-										//Code needed here for hash comparisions
-										if(tmFrom.IsLaterThan(tmTo)){
-											items.Item(j)->SetColour(wxColour(wxT("Green")));
-										}
-									}
-								}
-							}
-							//If there isnt
-							else{
-								//Make sure it shouldnt be excluded
-								if(!_Rules.ShouldExclude(strPath + strFilename, false)){
-									VdtcTreeItemBase *t = this->AddFileItem(strFilename);
-									t->SetColour(wxColour(wxT("Blue")));
-									items.Add(t);	
-								}
-							}
-						}
-					} while (dir.GetNext(&strFilename) );
-				}
-			}
-		}
+	else{
+		issource = false;
 	}
-
-	if(_Mode == _("Mirror (Copy)") || _Mode == _("Mirror (Update)")){
-		//Grab the path that we are in without the root
-		wxString strPathNoRoot = path.GetPath().Right(path.GetPath().Length() - _Root.Length());
-		for (unsigned int i = 0; i < items.GetCount(); i++) {
-			if(!wxFileExists(_RootOpp + strPathNoRoot + wxFILE_SEP_PATH + items.Item(i)->GetName())){
-				if(items.Item(i)->GetColour() == wxColour(wxT("Black"))){
-					items.Item(i)->SetColour(wxColour(wxT("Grey")));
-				}
-			}
-		}
-	}
+	SyncData data;
+	data.TransferFromForm();
+	wxString source = path.GetPath();
+	wxString dest = _RootOpp + path.GetPath().Right(path.GetPath().Length() - _Root.Length());
+	SyncPreview preview(source, dest, &data, _Rules, issource);
+	items = preview.Execute();
 	return;
 }
 
