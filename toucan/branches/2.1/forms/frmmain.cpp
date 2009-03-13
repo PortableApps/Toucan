@@ -938,6 +938,7 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name)
 //ID_BACKUP_ADD
 void frmMain::OnBackupAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
+	m_Backup_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Backup_DirCtrl->GetSelectedPaths();
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_BackupLocations->Add(arrPaths.Item(i));
@@ -948,6 +949,7 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event){
 //ID_SECURE_ADD
 void frmMain::OnSecureAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
+	m_Secure_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Secure_DirCtrl->GetSelectedPaths();
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_SecureLocations->Add(arrPaths.Item(i));
@@ -1301,8 +1303,6 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 			//Loop through all the the filenames listed in the array and read them to the tree
 			m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
 		}
-		//Turn off preview
-		m_Backup_TreeCtrl->SetPreview(false);
 	}
 }
 
@@ -1324,8 +1324,6 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 			//Loop through all the the filenames listed in the array and readd them to the tree
 			m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
 		}
-		//Turn off preview
-		m_Secure_TreeCtrl->SetPreview(false);
 	}
 }
 

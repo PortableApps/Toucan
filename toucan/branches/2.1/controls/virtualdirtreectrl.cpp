@@ -591,19 +591,38 @@ void wxVirtualDirTreeCtrl::OnAddedItems(const wxTreeItemId &parent)
 
 void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
-	bool issource;
-	if(this->GetId() == ID_SYNC_SOURCE_TREE){
-		issource = true;
+	//If we are previewing and are in backup or secure
+	if(!_IsSync && _Preview){
+		//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
+		for (unsigned int i = 0; i < items.GetCount(); i++) {
+			wxString strComplete = path.GetPath() + items.Item(i)->GetName();
+			bool isdir = false;
+			if(wxDirExists(strComplete)){
+				isdir = true;
+			}
+			if (_Rules.ShouldExclude(strComplete, isdir)) {
+				items.Item(i)->SetColour(wxColour(wxT("Red")));
+			} 
+			else {
+				items.Item(i)->SetColour(wxColour(wxT("Black")));
+			}
+		}
 	}
-	else{
-		issource = false;
+	else if(_IsSync && _Preview){
+		bool issource;
+		if(this->GetId() == ID_SYNC_SOURCE_TREE){
+			issource = true;
+		}
+		else{
+			issource = false;
+		}
+		SyncData data;
+		data.TransferFromForm();
+		wxString source = path.GetPath();
+		wxString dest = _RootOpp + path.GetPath().Right(path.GetPath().Length() - _Root.Length());
+		SyncPreview preview(source, dest, &data, _Rules, issource);
+		items = preview.Execute();
 	}
-	SyncData data;
-	data.TransferFromForm();
-	wxString source = path.GetPath();
-	wxString dest = _RootOpp + path.GetPath().Right(path.GetPath().Length() - _Root.Length());
-	SyncPreview preview(source, dest, &data, _Rules, issource);
-	items = preview.Execute();
 	return;
 }
 
