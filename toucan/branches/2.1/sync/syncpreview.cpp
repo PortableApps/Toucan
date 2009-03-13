@@ -57,26 +57,53 @@ bool SyncPreview::OperationCaller(std::map<wxString, short> paths){
 }
 
 bool SyncPreview::OnSourceNotDestFile(wxString path){
-	
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	wxString colour;
+	wxMessageBox(path, wxT("SourceNotDest"));
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_FILE, path);
+	items.Add(item);
 	return true;
 }
 bool SyncPreview::OnNotSourceDestFile(wxString path){
-
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	wxString colour;
+	wxMessageBox(path, wxT("NotSourceDest"));
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_FILE, path);
+	items.Add(item);
 	return true;
 }
 bool SyncPreview::OnSourceAndDestFile(wxString path){
-
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	wxString colour;
+	wxMessageBox(path, wxT("SourceAndDest"));
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_FILE, path);
+	items.Add(item);
 	return true;
 }
 bool SyncPreview::OnSourceNotDestFolder(wxString path){
-	//Simply reutrn as the virtualdirtreectrl does the folder handling
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	wxString colour;
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_DIR, path);
+	items.Add(item);
 	return true;
 }
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
-	//Simply reutrn as the virtualdirtreectrl does the folder handling
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	wxString colour;
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_DIR, path);
+	items.Add(item);
 	return true;
 }
 bool SyncPreview::OnSourceAndDestFolder(wxString path){
-	//Simply reutrn as the virtualdirtreectrl does the folder handling
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	wxString colour;
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_DIR, path);
+	items.Add(item);
 	return true;
 }

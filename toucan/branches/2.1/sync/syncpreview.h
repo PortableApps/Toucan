@@ -25,9 +25,9 @@ private:
 	bool OnSourceNotDestFolder(wxString path);
 	bool OnNotSourceDestFolder(wxString path);
 	bool OnSourceAndDestFolder(wxString path);
-	VdtcTreeItemBaseArray items;
 	//This tells us on which side of the operation we are on
 	bool sourcetree;
+	VdtcTreeItemBaseArray items;
 };
 
 #endif
