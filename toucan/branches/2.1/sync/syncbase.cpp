@@ -12,7 +12,7 @@
 
 //Just a stub to allow this to correctly be compiled
 SyncBase::SyncBase(){
-	;
+	preview = false;
 }
 
 SyncBase::~SyncBase(){
@@ -24,8 +24,10 @@ std::list<wxString> SyncBase::FolderContentsToList(wxString path){
 	if (path[path.length()-1] != wxFILE_SEP_PATH) {
 		path += wxFILE_SEP_PATH;       
 	}
-	if(!wxDirExists(path)){
-		wxMkdir(path);
+	if(!preview){
+		if(!wxDirExists(path)){
+			wxMkdir(path);
+		}
 	}
 	if(wxDirExists(path)){
 		wxString filename;

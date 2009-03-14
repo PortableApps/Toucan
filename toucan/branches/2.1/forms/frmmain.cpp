@@ -834,9 +834,6 @@ void frmMain::CreateControls()
 	
 	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
 	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
-	
-	m_Sync_Source_Tree->SetSync(true);
-	m_Sync_Dest_Tree->SetSync(true);
 
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
@@ -993,7 +990,6 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event){
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
@@ -1007,7 +1003,6 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event){
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
@@ -1259,17 +1254,10 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 	}
 	
 	m_Sync_Dest_Tree->SetRules(rules);
-	
-	//Set the other tree too incase it is a unidirectional function
-	m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
-	
 	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-	m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	m_Sync_Dest_Tree->SetPreview(true);
-	m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
 	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 			
 	//Code for equalise function
@@ -1277,10 +1265,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 		m_Sync_Source_Tree->SetRules(rules);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-		m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
 		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	}
 }

@@ -15,13 +15,13 @@ class SyncFiles : public SyncBase{
 public:
 	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules rules);
 	bool Execute();
-private:
-	bool OnSourceNotDestFile(wxString path);
-	bool OnNotSourceDestFile(wxString path);
-	bool OnSourceAndDestFile(wxString path);
-	bool OnSourceNotDestFolder(wxString path);
-	bool OnNotSourceDestFolder(wxString path);
-	bool OnSourceAndDestFolder(wxString path);
+protected:
+	virtual bool OnSourceNotDestFile(wxString path);
+	virtual bool OnNotSourceDestFile(wxString path);
+	virtual bool OnSourceAndDestFile(wxString path);
+	virtual bool OnSourceNotDestFolder(wxString path);
+	virtual bool OnNotSourceDestFolder(wxString path);
+	virtual bool OnSourceAndDestFolder(wxString path);
 	//Uses a temp file to copy neatly, currently only returns true, wxWidgets will output error messages
 	bool CopyFile(wxString source, wxString dest);
 	//Implement an MD5 check before a CopyFile

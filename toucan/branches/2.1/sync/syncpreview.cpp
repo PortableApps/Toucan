@@ -11,12 +11,9 @@
 #include <map>
 #include <wx/string.h>
 
-SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules, bool issource){
-	this->sourceroot = syncsource;
-	this->destroot = syncdest;
-	this->data = syncdata;
-	this->rules = syncrules;
+SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules, bool issource) : SyncFiles(syncsource, syncdest, syncdata, syncrules){
 	this->sourcetree = issource;
+	this->preview = true;
 }
 
 VdtcTreeItemBaseArray SyncPreview::Execute(){
@@ -53,57 +50,5 @@ bool SyncPreview::OperationCaller(std::map<wxString, short> paths){
 			}
 		}
 	}
-	return true;
-}
-
-bool SyncPreview::OnSourceNotDestFile(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	wxString colour;
-	wxMessageBox(path, wxT("SourceNotDest"));
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_FILE, path);
-	items.Add(item);
-	return true;
-}
-bool SyncPreview::OnNotSourceDestFile(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	wxString colour;
-	wxMessageBox(path, wxT("NotSourceDest"));
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_FILE, path);
-	items.Add(item);
-	return true;
-}
-bool SyncPreview::OnSourceAndDestFile(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	wxString colour;
-	wxMessageBox(path, wxT("SourceAndDest"));
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_FILE, path);
-	items.Add(item);
-	return true;
-}
-bool SyncPreview::OnSourceNotDestFolder(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	wxString colour;
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_DIR, path);
-	items.Add(item);
-	return true;
-}
-bool SyncPreview::OnNotSourceDestFolder(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	wxString colour;
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_DIR, path);
-	items.Add(item);
-	return true;
-}
-bool SyncPreview::OnSourceAndDestFolder(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	wxString colour;
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_ICON_DIR, path);
-	items.Add(item);
 	return true;
 }
