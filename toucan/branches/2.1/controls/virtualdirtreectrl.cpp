@@ -618,9 +618,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 		}
 		SyncData data;
 		data.TransferFromForm();
-		wxString source = path.GetPath();
-		wxString dest = _RootOpp + path.GetPath().Right(path.GetPath().Length() - _Root.Length());
-		SyncPreview preview(source, dest, &data, _Rules, issource);
+		SyncPreview preview(data.GetSource(), data.GetDest(), &data, _Rules, issource);
 		items = preview.Execute();
 	}
 	return;

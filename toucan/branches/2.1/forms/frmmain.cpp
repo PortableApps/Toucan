@@ -860,6 +860,9 @@ void frmMain::CreateControls()
 	m_Sync_Rules->Append(wxEmptyString);
 	m_Backup_Rules->Append(wxEmptyString);
 	m_Secure_Rules->Append(wxEmptyString);
+	
+	m_Sync_Dest_Tree->SetSync(true);
+	m_Sync_Source_Tree->SetSync(true);
 
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 }
@@ -1246,28 +1249,25 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
 		strPath = strPath.Left(strPath.Length() - 1); 
 	}
+	m_Sync_Dest_Txt->SetValue(strPath);
+
 	//Get the rules
-	
 	Rules rules;
 	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
 		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
 	}
-	
+
 	m_Sync_Dest_Tree->SetRules(rules);
-	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 	m_Sync_Dest_Tree->SetPreview(true);
 	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 			
-	//Code for equalise function
-	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
-		m_Sync_Source_Tree->SetRules(rules);
-		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-	}
+	m_Sync_Source_Tree->SetRules(rules);
+	m_Sync_Source_Tree->DeleteAllItems();
+	m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+	m_Sync_Source_Tree->SetPreview(true);
+	m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 }
 
 //ID_BACKUP_PREVIEW

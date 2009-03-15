@@ -41,10 +41,8 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror")){
-		//We have a file that is not in the soure, so delete it
-		if(wxRemoveFile(dest)){
-			OutputProgress(_("Removed  ") + data->GetPreText() + source.Right(source.Length() - data->GetLength()));			
-		}
+		//Use a function so it can be overwritten in preview
+		RemoveFile(dest);
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		//Swap them around as we are essentially in reverse
@@ -55,7 +53,7 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 bool SyncFiles::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Update")){
+	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror")){
 		//Use the hash check version to minimise copying
 		CopyFileHash(source, dest);
 	}
@@ -255,4 +253,10 @@ bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
 		to.SetTimes(&access ,&mod , &created); 
 	#endif
 	return true;
+}
+
+bool SyncFiles::RemoveFile(wxString path){
+	if(wxRemoveFile(path)){
+		OutputProgress(_("Removed  ") + data->GetPreText() + path.Right(path.Length() - data->GetLength()));			
+	}
 }

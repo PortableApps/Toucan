@@ -478,15 +478,6 @@ public:
 	void SetSync(bool sync) {
 		_IsSync = sync;
 	}
-	void SetRoot(wxString root) {
-		_Root = root;
-	}
-	void SetRootOpp(wxString rootopp) {
-		_RootOpp = rootopp;
-	}
-	void SetMode(wxString mode) {
-		_Mode = mode;
-	}
 	
 	//Neat expand all
 	void NeatExpandAll(wxWindow* topwindow);

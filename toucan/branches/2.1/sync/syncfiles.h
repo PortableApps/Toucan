@@ -30,6 +30,7 @@ protected:
 	//Implement a timestamp check before a CopyFileHash
 	bool UpdateFile(wxString source, wxString dest);
 	bool CopyFolderTimestamp(wxString source, wxString dest);
+	bool RemoveFile(wxString path);
 };
 
 #endif
