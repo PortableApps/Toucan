@@ -31,6 +31,8 @@ protected:
 	bool UpdateFile(wxString source, wxString dest);
 	bool CopyFolderTimestamp(wxString source, wxString dest);
 	bool RemoveFile(wxString path);
+	//Copy the newer file to the older location
+	bool SourceAndDestCopy(wxString source, wxString dest);
 };
 
 #endif

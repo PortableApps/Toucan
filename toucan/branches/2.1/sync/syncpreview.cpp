@@ -131,35 +131,49 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 				}	
 			}
 		}
+		else if(data->GetFunction() == _("Equalise")){
+			wxDateTime tmTo, tmFrom;
+			wxFileName flTo(dest);
+			wxFileName flFrom(source);
+			flTo.GetTimes(NULL, &tmTo, NULL);
+			flFrom.GetTimes(NULL, &tmFrom, NULL);		
+
+			if(data->GetIgnoreDLS()){
+				tmFrom.MakeTimezone(wxDateTime::Local, true);
+			}
+
+			if(tmFrom.IsLaterThan(tmTo)){
+				wxMD5* md5 = new wxMD5();
+				if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
+					int pos = GetItemLocation(path, &destitems);
+					if(pos != -1){
+						destitems.Item(pos)->SetColour(wxT("Green"));			
+					}
+				}	
+			}
+			else if(tmTo.IsLaterThan(tmFrom)){
+				wxMD5* md5 = new wxMD5();
+				if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
+					int pos = GetItemLocation(path, &sourceitems);
+					if(pos != -1){
+						sourceitems.Item(pos)->SetColour(wxT("Green"));			
+					}
+				}					
+			}
+		}
 	}
 	return true;
 }
 bool SyncPreview::OnSourceNotDestFolder(wxString path){
-	/*//Call the function on the next subfolder
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	//Always recurse into the next directory
-	SyncFiles sync(source, dest, data, rules);
-	sync.Execute();
-	//Set the timestamps if needed
-	if(data->GetTimeStamps()){
-		CopyFolderTimestamp(source, dest);
-	}*/
 	return true;
 }
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
-	/*wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror")){
-		RemoveDirectory(dest);
-	}
-	if(data->GetFunction() == _("Equalise")){
-		SyncFiles sync(source, dest, data, rules);
-		sync.Execute();
-		if(data->GetTimeStamps()){
-			CopyFolderTimestamp(dest, source);
+		int pos = GetItemLocation(path, &destitems);
+		if(pos != -1){
+			destitems.Item(pos)->SetColour(wxT("Green"));			
 		}
-	}*/
+	}
 	return true;
 }
 bool SyncPreview::OnSourceAndDestFolder(wxString path){

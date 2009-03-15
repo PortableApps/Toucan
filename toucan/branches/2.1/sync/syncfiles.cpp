@@ -60,6 +60,9 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 	else if(data->GetFunction() == _("Update")){
 		UpdateFile(source, dest);
 	}
+	else if(data->GetFunction() == _("Equalise")){
+		SourceAndDestCopy(source, dest);
+	}
 	return true;
 }
 bool SyncFiles::OnSourceNotDestFolder(wxString path){
@@ -259,4 +262,25 @@ bool SyncFiles::RemoveFile(wxString path){
 	if(wxRemoveFile(path)){
 		OutputProgress(_("Removed  ") + data->GetPreText() + path.Right(path.Length() - data->GetLength()));			
 	}
+	return true;
+}
+
+bool SyncFiles::SourceAndDestCopy(wxString source, wxString dest){
+	wxDateTime tmTo, tmFrom;
+	wxFileName flTo(dest);
+	wxFileName flFrom(source);
+	flTo.GetTimes(NULL, &tmTo, NULL);
+	flFrom.GetTimes(NULL, &tmFrom, NULL);		
+
+	if(data->GetIgnoreDLS()){
+		tmFrom.MakeTimezone(wxDateTime::Local, true);
+	}
+
+	if(tmFrom.IsLaterThan(tmTo)){
+		CopyFileHash(source, dest);
+	}
+	else if(tmTo.IsLaterThan(tmFrom)){
+		CopyFileHash(dest, source);
+	}
+	return true;	
 }
