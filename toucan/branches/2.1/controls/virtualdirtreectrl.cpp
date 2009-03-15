@@ -609,16 +609,19 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 		}
 	}
 	else if(_IsSync && _Preview){
+		SyncData data;
+		data.TransferFromForm();
+		wxString end;
 		bool issource;
 		if(this->GetId() == ID_SYNC_SOURCE_TREE){
+			end = path.GetPath().Right(path.GetPath().Length() - data.GetSource().Length());
 			issource = true;
 		}
 		else{
+			end = path.GetPath().Right(path.GetPath().Length() - data.GetDest().Length());
 			issource = false;
 		}
-		SyncData data;
-		data.TransferFromForm();
-		SyncPreview preview(data.GetSource(), data.GetDest(), &data, _Rules, issource);
+		SyncPreview preview(data.GetSource() + end, data.GetDest() + end, &data, _Rules, issource);
 		items = preview.Execute();
 	}
 	return;

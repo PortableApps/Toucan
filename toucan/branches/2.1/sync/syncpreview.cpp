@@ -165,26 +165,25 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 	return true;
 }
 bool SyncPreview::OnSourceNotDestFolder(wxString path){
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	if(!rules.ShouldExclude(source, false)){
+		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+		item->SetColour(wxT("Blue"));
+		destitems.Add(item);
+	}
 	return true;
 }
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
 	if(data->GetFunction() == _("Mirror")){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
-			destitems.Item(pos)->SetColour(wxT("Green"));			
+			destitems.Item(pos)->SetColour(wxT("Red"));			
 		}
 	}
 	return true;
 }
 bool SyncPreview::OnSourceAndDestFolder(wxString path){
-	/*wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	//Always recurse into the next directory
-	SyncFiles sync(source, dest, data, rules);
-	sync.Execute();
-	if(data->GetTimeStamps()){
-		CopyFolderTimestamp(source, dest);
-	}*/
 	return true;
 }
 
