@@ -175,10 +175,19 @@ bool SyncPreview::OnSourceNotDestFolder(wxString path){
 	return true;
 }
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror")){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
 			destitems.Item(pos)->SetColour(wxT("Red"));			
+		}
+	}
+	else if(data->GetFunction() == _("Equalise")){
+		if(!rules.ShouldExclude(dest, false)){
+			VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+			item->SetColour(wxT("Blue"));
+			sourceitems.Add(item);
 		}
 	}
 	return true;
