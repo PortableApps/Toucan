@@ -153,6 +153,16 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_Sync_Dest_Txt->GetValue())));		
 			}
 		}
+		//We have finished, if on windows flash the taskbar to let the user know
+		#ifdef __WXMSW__
+			FLASHWINFO info;
+			info.uCount = 3;
+			info.dwFlags = FLASHW_TRAY|FLASHW_TIMERNOFG;
+			info.dwTimeout = 0;
+			info.hwnd = (HWND) this->GetHWND();
+			info.cbSize = sizeof(info);
+			FlashWindowEx(&info); 
+		#endif
 	}
 }
 
