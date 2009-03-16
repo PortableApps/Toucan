@@ -8,8 +8,8 @@
 #define H_SECUREDATA
 
 #include <wx/string.h>
-#include "frmmain.h"
 #include "rootdata.h"
+#include "../forms/frmmain.h"
 
 /*Securedata class stores all information needed for sync operations
 excluding the rule set. Also includes functions for copying too and from

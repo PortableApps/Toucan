@@ -12,24 +12,20 @@
 #include <wx/html/helpctrl.h>
 #include <wx/wx.h>
 
-#include "toucan.h"
-#include "virtualdirtreectrl.h"
-#include "dragndrop.h"
-
 #include "frmmain.h"
 #include "frmprogress.h"
-#include "frmrestore.h"
 #include "frmvariable.h"
-
-#include "script.h"
-#include "variables.h"
-#include "securedata.h"
-#include "syncdata.h"
-#include "backupdata.h"
-#include "basicfunctions.h"
-#include "settings.h"
-
-#include "extendeddirctrl.h"
+#include "../toucan.h"
+#include "../dragndrop.h"
+#include "../script.h"
+#include "../basicfunctions.h"
+#include "../settings.h"
+#include "../variables.h"
+#include "../data/securedata.h"
+#include "../data/backupdata.h"
+#include "../sync/syncdata.h"
+#include "../controls/extendeddirctrl.h"
+#include "../controls/virtualdirtreectrl.h"
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
@@ -50,7 +46,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
-	EVT_BUTTON(ID_BACKUP_RESTORE, frmMain::OnBackupRestoreClick)
 	EVT_BUTTON(ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick)
 	EVT_BUTTON(ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick)
 	EVT_BUTTON(ID_BACKUP_ADD, frmMain::OnBackupAddClick)
@@ -117,9 +112,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_MENU(ID_MENU_LOCATIONINCLUDE_EXTENSION, frmMain::OnMenuLocationIncludeExtensionClick)
 	EVT_MENU(ID_MENU_LOCATIONINCLUDE_NAME, frmMain::OnMenuLocationIncludeNameClick)
 	EVT_MENU(ID_MENU_FOLDEREXCLUDE_NAME, frmMain::OnMenuFolderExcludeNameClick)
-
-	//ScriptManager
-	EVT_BUTTON(ID_SCRIPTFINISH, frmMain::OnScriptFinish)
 	
 END_EVENT_TABLE()
 
@@ -250,8 +242,7 @@ void frmMain::CreateControls()
 	wxArrayString m_Sync_FunctionStrings;
 	m_Sync_FunctionStrings.Add(_("Copy"));
 	m_Sync_FunctionStrings.Add(_("Update"));
-	m_Sync_FunctionStrings.Add(_("Mirror (Copy)"));
-	m_Sync_FunctionStrings.Add(_("Mirror (Update)"));
+	m_Sync_FunctionStrings.Add(_("Mirror"));
 	m_Sync_FunctionStrings.Add(_("Equalise"));
 	m_Sync_Function = new wxRadioBox( itemPanel6, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 1, wxRA_SPECIFY_COLS );
 	m_Sync_Function->SetSelection(0);
@@ -385,6 +376,7 @@ void frmMain::CreateControls()
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
 	m_Backup_FunctionStrings.Add(_("Differential"));
+	m_Backup_FunctionStrings.Add(_("Restore"));
 	m_Backup_Function = new wxRadioBox(BackupPanel, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Function->SetSelection(0);
 	BackupTop->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
@@ -417,16 +409,13 @@ void frmMain::CreateControls()
 	//Buttons
 	wxBoxSizer* BackupButtons = new wxBoxSizer(wxVERTICAL);
 	BackupTop->Add(BackupButtons, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
-	
+
 	wxButton* BackupOK = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
 	BackupButtons->Add(BackupOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
+
 	wxButton* BackupPreview = new wxButton(BackupPanel, ID_BACKUP_PREVIEW , _("Preview"));
 	BackupButtons->Add(BackupPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
-	
-	wxButton* BackupRestore = new wxButton(BackupPanel, ID_BACKUP_RESTORE , _("Restore"));
-	BackupButtons->Add(BackupRestore, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
-	
+
 	//Main
 	wxBoxSizer* BackupMain = new wxBoxSizer(wxHORIZONTAL);
 	BackupSizer->Add(BackupMain, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 5);	
@@ -845,9 +834,6 @@ void frmMain::CreateControls()
 	
 	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
 	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
-	
-	m_Sync_Source_Tree->SetSync(true);
-	m_Sync_Dest_Tree->SetSync(true);
 
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
@@ -874,6 +860,9 @@ void frmMain::CreateControls()
 	m_Sync_Rules->Append(wxEmptyString);
 	m_Backup_Rules->Append(wxEmptyString);
 	m_Secure_Rules->Append(wxEmptyString);
+	
+	m_Sync_Dest_Tree->SetSync(true);
+	m_Sync_Source_Tree->SetSync(true);
 
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 }
@@ -949,6 +938,7 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name)
 //ID_BACKUP_ADD
 void frmMain::OnBackupAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
+	m_Backup_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Backup_DirCtrl->GetSelectedPaths();
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_BackupLocations->Add(arrPaths.Item(i));
@@ -959,6 +949,7 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event){
 //ID_SECURE_ADD
 void frmMain::OnSecureAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
+	m_Secure_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Secure_DirCtrl->GetSelectedPaths();
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_SecureLocations->Add(arrPaths.Item(i));
@@ -1002,7 +993,6 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& event){
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
@@ -1016,7 +1006,6 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& event){
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(dialog.GetPath())));
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
@@ -1210,6 +1199,12 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event){
 			m_Backup_Location->SetValue(dialog.GetPath());
 		}
 	}
+	else if(m_Backup_Function->GetStringSelection() == _("Restore")){
+		wxDirDialog dialog(this,_("Restore into:"),m_Backup_Location->GetValue());
+		if (dialog.ShowModal() == wxID_OK){
+			m_Backup_Location->SetValue(dialog.GetPath());
+		}
+	}
 	else{
 		wxString strWildcard;
 		if(m_Backup_Format->GetStringSelection() == _("7-Zip")){
@@ -1254,38 +1249,25 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
 	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
 		strPath = strPath.Left(strPath.Length() - 1); 
 	}
+	m_Sync_Dest_Txt->SetValue(strPath);
+
 	//Get the rules
-	
 	Rules rules;
 	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
 		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
 	}
-	
+
 	m_Sync_Dest_Tree->SetRules(rules);
-	
-	//Set the other tree too incase it is a unidirectional function
-	m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());	
-	
-	m_Sync_Dest_Txt->SetValue(strPath);
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Dest_Tree->SetRoot(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-	m_Sync_Dest_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	m_Sync_Dest_Tree->SetPreview(true);
-	m_Sync_Dest_Tree->SetMode(m_Sync_Function->GetStringSelection());
 	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 			
-	//Code for equalise function
-	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
-		m_Sync_Source_Tree->SetRules(rules);
-		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetRoot(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-		m_Sync_Source_Tree->SetRootOpp(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->SetMode(m_Sync_Function->GetStringSelection());
-		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-	}
+	m_Sync_Source_Tree->SetRules(rules);
+	m_Sync_Source_Tree->DeleteAllItems();
+	m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+	m_Sync_Source_Tree->SetPreview(true);
+	m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 }
 
 //ID_BACKUP_PREVIEW
@@ -1306,8 +1288,6 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 			//Loop through all the the filenames listed in the array and read them to the tree
 			m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
 		}
-		//Turn off preview
-		m_Backup_TreeCtrl->SetPreview(false);
 	}
 }
 
@@ -1329,15 +1309,7 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 			//Loop through all the the filenames listed in the array and readd them to the tree
 			m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
 		}
-		//Turn off preview
-		m_Secure_TreeCtrl->SetPreview(false);
 	}
-}
-
-//ID_BACKUP_RESTORE
-void frmMain::OnBackupRestoreClick(wxCommandEvent& event){
-	frmRestore *window = new frmRestore(NULL, ID_FRMRESTORE, _("Restore"));	
-	window->ShowModal();
 }
 
 void frmMain::OnCloseWindow(wxCloseEvent& event){
@@ -1594,8 +1566,8 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& event){
 void frmMain::OnAboutClick(wxCommandEvent& event){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.0.7"));
-	info.SetCopyright(wxT("(C) 2006-2008 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip, hashlib++ and ccrypt are by their respective teams.\nAll items (C) their owners."));
+	info.SetVersion(wxT("2.1.0 Development Test 1"));
+	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip, hashlib++ and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
 	info.SetTranslators(GetTranslatorNames());
@@ -1670,17 +1642,6 @@ void frmMain::OnBackupExpandClick(wxCommandEvent& event){
 //ID_SECURE_EXPAND
 void frmMain::OnSecureExpandClick(wxCommandEvent& event){
 	m_Secure_TreeCtrl->NeatExpandAll(this);
-}
-//ID_SCRIPTFINISH
-void frmMain::OnScriptFinish(wxCommandEvent& event){
-	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
-		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-		wxGetApp().m_Script->ParseCommand(wxGetApp().m_Script->GetCommand() - 1);
-	}
-	else{
-		wxGetApp().m_Script->CleanUp();
-		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-	}
 }
 
 //ID_AUINOTEBOOK

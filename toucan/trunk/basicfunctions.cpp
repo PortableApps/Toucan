@@ -15,10 +15,10 @@
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
 
-#include "basicfunctions.h"
-#include "frmprogress.h"
-#include "frmmain.h"
 #include "toucan.h"
+#include "basicfunctions.h"
+#include "forms/frmprogress.h"
+#include "forms/frmmain.h"
 
 wxFFileOutputStream output(stderr);
 wxTextOutputStream cout(output);
@@ -54,12 +54,62 @@ void ErrorBox(wxString strMessage){
 }
 
 void OutputProgress(wxString strValue){
-	if(wxGetApp().blGUI == true){
-		wxGetApp().ProgressWindow->m_Text->AppendText(strValue + wxT("\n"));
+	if(strValue == wxT("")){
+		return;
+	}
+	if(wxGetApp().GetUsesGUI()){
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
+		event.SetString(strValue);
+		event.SetInt(-1);
+		wxPostEvent(wxGetApp().ProgressWindow, event);
 	}
 	else{
 		cout<<strValue + wxT("\n");
 	}		
+}
+
+void OutputProgress(wxString time, wxString message){
+	if(wxGetApp().GetUsesGUI()){
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
+		event.SetString(time + message);
+		event.SetInt(time.Length());
+		wxPostEvent(wxGetApp().ProgressWindow, event);
+	}
+	else{
+		cout<<message + wxT("\n");
+	}	
+}
+
+void OutputBlank(){
+	if(wxGetApp().GetUsesGUI()){
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
+		wxPostEvent(wxGetApp().ProgressWindow, event);
+	}
+	else{
+		cout<<wxT("\n");
+	}	
+}
+
+void SetGaugeRange(int range){
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		wxGetApp().ProgressWindow->m_Gauge->SetRange(range);		
+	}
+}
+
+void SetGaugeValue(int value){
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		wxGetApp().ProgressWindow->m_Gauge->SetValue(value);
+	}
+}
+
+void IncrementGauge(){
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		wxGetApp().ProgressWindow->m_Gauge->SetValue(wxGetApp().ProgressWindow->m_Gauge->GetValue() + 1);
+	}
+}
+
+void EnableGauge(bool enable){
+	wxGetApp().ProgressWindow->m_Gauge->Enable(enable);
 }
 
 double GetInPB(wxString strValue){
@@ -198,7 +248,7 @@ wxArrayString GetTranslatorNames(){
 
 wxString InputPassword(){
 	wxString strNewPass;
-	if(wxGetApp().blGUI == true){
+	if(wxGetApp().GetUsesGUI()){
 		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
 		if (dialog.ShowModal() == wxID_OK) {
 			strNewPass = dialog.GetValue();

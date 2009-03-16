@@ -21,7 +21,7 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-!define PORTABLEAPPSINSTALLERVERSION "0.12.3.0"
+!define PORTABLEAPPSINSTALLERVERSION "0.12.4.0"
 
 !if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
 	!include PortableApps.comInstallerPluginConfig.nsh
@@ -969,12 +969,12 @@ FunctionEnd
 	${GetParent} `$INSTDIR` $0
 	;=== Check that it exists at the right location
 	DetailPrint '$(checkforplatform)'
-	IfFileExists `$0\PortableApps.com\App\PortableAppsPlatform.exe` "" TheEnd
+	IfFileExists `$0\PortableApps.com\PortableAppsPlatform.exe` "" TheEnd
 		;=== Check that it's the real deal so we aren't hanging with no response
-		MoreInfo::GetProductName `$0\PortableApps.com\App\PortableAppsPlatform.exe`
+		MoreInfo::GetProductName `$0\PortableApps.com\PortableAppsPlatform.exe`
 		Pop $1
 		StrCmp $1 "PortableApps.com Platform" "" TheEnd
-		MoreInfo::GetCompanyName `$0\PortableApps.com\App\PortableAppsPlatform.exe`
+		MoreInfo::GetCompanyName `$0\PortableApps.com\PortableAppsPlatform.exe`
 		Pop $1
 		StrCmp $1 "PortableApps.com" "" TheEnd
 		
@@ -983,10 +983,16 @@ FunctionEnd
 		StrCmp $R0 "1" "" TheEnd
 		
 		;=== Send message for the Menu to refresh
-		StrCpy $2 'PortableApps.comPlatformWindowMessageToRefresh$0\PortableApps.com\App\PortableAppsPlatform.exe'
-		System::Call "user32::RegisterWindowMessage(t r2) i .r3"
 		DetailPrint '$(refreshmenu)'
-		SendMessage 65535 $3 0 0
+		IfFileExists `$0\PortableApps.com\App\PortableAppsPlatform.exe` SendOldRefreshMessage
+			StrCpy $2 'PortableApps.comPlatformWindowMessageToRefresh$0\PortableApps.com\PortableAppsPlatform.exe'
+			System::Call "user32::RegisterWindowMessage(t r2) i .r3"
+			SendMessage 65535 $3 0 0 /TIMEOUT=1
+			Goto TheEnd
+		SendOldRefreshMessage:
+			StrCpy $2 'PortableApps.comPlatformWindowMessageToRefresh$0\PortableApps.com\App\PortableAppsPlatform.exe'
+			System::Call "user32::RegisterWindowMessage(t r2) i .r3"
+			SendMessage 65535 $3 0 0 /TIMEOUT=1
 	TheEnd:
 SectionEnd
 

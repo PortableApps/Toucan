@@ -10,39 +10,61 @@
 
 #include "script.h"
 #include "waitthread.h"
-#include "syncdata.h"
-#include "sync.h"
-#include "backupdata.h"
 #include "backupprocess.h"
-#include "securedata.h"
 #include "secure.h"
 #include "variables.h"
 #include "basicfunctions.h"
-#include "rootdata.h"
+#include "filecounter.h"
+#include "data/rootdata.h"
+#include "sync/syncdata.h"
+#include "sync/syncthread.h"
+#include "data/backupdata.h"
+#include "data/securedata.h"
+#include "controls/loglistctrl.h"
 
-void ScriptManager::SetCommand(int i){
-	m_Command = i;
+bool ScriptManager::Execute(){
+	StartUp();
+	if(!Validate()){
+		CleanUp();
+	}
+	if(wxGetApp().GetUsesGUI()){
+		ProgressBarSetup();
+	}
+	if(GetCount() != 0){
+		SetCommand(1);
+		ParseCommand(0);
+	}
+	return true;
 }
 
-int ScriptManager::GetCommand(){
-	return m_Command;
-}
-
-int ScriptManager::GetCount(){
-	return m_Script.GetCount();
-}
-
-void ScriptManager::SetScript(wxArrayString script){
-	m_Script.Clear();
-	m_Script = script;
-}
-
-wxDateTime ScriptManager::GetTime(){
-	return startTime;
-}
-
-wxArrayString ScriptManager::GetScript(){
-	return m_Script;
+bool ScriptManager::StartUp(){
+	//Set up all of the form related stuff
+	m_ProgressWindow = wxGetApp().ProgressWindow;
+	m_ProgressWindow->m_List->DeleteAllItems();
+	wxGetApp().MainWindow->m_Notebook->Disable();
+	//Send all errors to the list control
+	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
+	delete wxLog::SetActiveTarget(logList);
+	//Set up the buttons on the progress box
+	m_ProgressWindow->m_OK->Enable(false);
+	m_ProgressWindow->m_Save->Enable(false);
+	m_ProgressWindow->m_Cancel->Enable(true);
+	
+	//Send a blank item to get the item count up
+	OutputBlank();
+	startTime = wxDateTime::Now();
+	OutputProgress(startTime.FormatTime(), _("Starting"));
+	OutputBlank();
+	
+	SetGaugeValue(0);
+	//Show the window
+	if(wxGetApp().GetUsesGUI()){
+		m_ProgressWindow->Refresh();
+		m_ProgressWindow->Update();
+		m_ProgressWindow->Show();
+	}
+	m_ProgressWindow->m_List->SetColumnWidth(1, m_ProgressWindow->m_List->GetClientSize().GetWidth() - m_ProgressWindow->m_List->GetColumnWidth(0));
+	return true;
 }
 
 bool ScriptManager::Validate(){
@@ -55,7 +77,7 @@ bool ScriptManager::Validate(){
 		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 		wxString strToken = tkz.GetNextToken();
 		strToken.Trim();
-		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup")){
+		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup") || strToken == wxT("Restore")){
 			if(tkz.CountTokens() != 1){
 				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
 				OutputProgress(strTemp);
@@ -78,8 +100,8 @@ bool ScriptManager::Validate(){
 			blPassNeeded = true;
 		}
 		if(strToken == wxT("Backup")){
-			wxString strJob = tkz.GetNextToken();
 			BackupData data;
+			wxString strJob = tkz.GetNextToken();
 			data.SetName(strJob);
 			if(data.TransferFromFile()){
 				if(data.IsPassword == true){
@@ -88,7 +110,6 @@ bool ScriptManager::Validate(){
 			}
 		}
 	}
-	
 	if(blPassNeeded){
 		wxString strPass = InputPassword();
 		if(strPass == wxEmptyString){
@@ -102,6 +123,67 @@ bool ScriptManager::Validate(){
 	if(blParseError){
 		return false;
 	}
+	return true;
+}
+
+bool ScriptManager::ProgressBarSetup(){
+	OutputProgress(_("Setting up progress bar"));
+	long count = 0;
+	FileCounter counter;
+	for(unsigned int i = 0; i < GetScript().GetCount(); i++){
+		wxString strLine = m_Script.Item(i);
+		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
+		wxString strToken = tkz.GetNextToken();
+		strToken.Trim();
+		if(strToken == wxT("Sync")){
+			SyncData data;
+			strToken = tkz.GetNextToken();
+			data.SetName(strToken);
+			data.TransferFromFile();
+			counter.AddPath(data.GetSource());
+			//Add both paths for mirror and equalise as they look at both sides
+			if(data.GetFunction() == _("Equalise") || data.GetFunction() == _("Mirror")){
+				counter.AddPath(data.GetDest());			
+			}
+		}	
+		else if(strToken == wxT("Backup")){
+			BackupData data;
+			strToken = tkz.GetNextToken();
+			data.SetName(strToken);
+			data.TransferFromFile();
+			if(data.GetFunction() != _("Restore")){
+				counter.AddPaths(data.GetLocations());
+			}
+			//Add an extra three for the message 7zip sends
+			count += 3;
+		}
+		else if(strToken == wxT("Secure")){
+			SecureData data;
+			strToken = tkz.GetNextToken();
+			data.SetName(strToken);
+			data.TransferFromFile();
+			counter.AddPaths(data.GetLocations());
+		}
+		else if(strToken == _("Delete")){
+			count++;
+		}
+		else if(strToken == _("Move")){
+			count++;
+		}
+		else if(strToken == _("Copy")){
+			count++;
+		}
+		else if(strToken == _("Rename")){
+			count++;
+		}
+		else if(strToken == _("Execute")){
+			count++;
+		}
+	}
+	counter.Count();
+	count += counter.GetCount();
+	SetGaugeValue(0);
+	SetGaugeRange(count);
 	return true;
 }
 
@@ -140,8 +222,9 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Move")){
@@ -153,14 +236,15 @@ bool ScriptManager::ParseCommand(int i){
 				OutputProgress(_("Moved") +strSource + wxT("\n"));	
 			}
 			else{
-				OutputProgress(_("Failed to move ") +strSource + wxT("\n"));
+				OutputProgress(_("Failed to move ") + strSource + wxT("\n"));
 			}
 		}
 		else{
-			OutputProgress(_("Failed to move ") +strSource + wxT("\n"));		
+			OutputProgress(_("Failed to move ") + strSource + wxT("\n"));		
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Copy")){
@@ -173,8 +257,9 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Rename")){
@@ -187,16 +272,18 @@ bool ScriptManager::ParseCommand(int i){
 		else{
 			OutputProgress(_("Failed to rename ") +strSource + wxT("\n"));
 		}
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else if(strToken == _("Execute")){
 		wxString strExecute = Normalise(Normalise(tkz.GetNextToken()));
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
+		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().MainWindow, event);	
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
 	else{
@@ -226,27 +313,20 @@ bool ScriptManager::ParseCommand(int i){
 	return true;	
 }
 
-bool ScriptManager::Execute(){
-	StartUp();
-	if(!Validate()){
-		CleanUp();
-	}
-	if(GetCount() != 0){
-		SetCommand(1);
-		ParseCommand(0);
-	}
-	return true;
-}
-
 bool ScriptManager::CleanUp(){
 	m_ProgressWindow->m_OK->Enable(true);
 	m_ProgressWindow->m_Save->Enable(true);
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
-	OutputProgress(wxT(""));
-	OutputProgress(_("Time: ") + now.FormatISOTime() + wxT("\n"));
-	OutputProgress(_("Elapsed: ") + now.Subtract(startTime).Format() + wxT("\n"));
-	OutputProgress(_("Finished"));
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
+	}
+	OutputBlank();
+	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
+	OutputProgress(now.FormatTime(), _("Finished"));
+	
+	//Resize the second column to show all of the text
+	m_ProgressWindow->m_List->SetColumnWidth(1, -1);
 	
 	//Remove finished jobs
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSyncJob"))){
@@ -258,30 +338,10 @@ bool ScriptManager::CleanUp(){
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSecureJob"))){
 		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSecureJob"));
 	}
-	wxGetApp().m_Jobs_Config->Flush();
-	return true;	
-}
-
-bool ScriptManager::StartUp(){
-	//Set up all of the form related stuff
-	m_ProgressWindow = wxGetApp().ProgressWindow;
-	m_ProgressWindow->MakeModal();
-	m_ProgressWindow->m_Text->Clear();
-	//Send all errors to the text control
-	wxLogTextCtrl* logTxt = new wxLogTextCtrl(m_ProgressWindow->m_Text);
-	delete wxLog::SetActiveTarget(logTxt);
-	//Set up the buttons on the progress box
-	m_ProgressWindow->m_OK->Enable(false);
-	m_ProgressWindow->m_Save->Enable(false);
-	m_ProgressWindow->m_Cancel->Enable(true);	
-	OutputProgress(_("Starting...\n"));
-	startTime = wxDateTime::Now();
-	OutputProgress(_("Time: ") + startTime.FormatISOTime() + wxT("\n"));
-	//Show the window
-	if(wxGetApp().blGUI){
-		m_ProgressWindow->Refresh();
-		m_ProgressWindow->Update();
-		m_ProgressWindow->Show();
+	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastRestoreJob"))){
+		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastRestoreJob"));
 	}
-	return true;
+	wxGetApp().m_Jobs_Config->Flush();
+	wxGetApp().MainWindow->m_Notebook->Enable();
+	return true;	
 }

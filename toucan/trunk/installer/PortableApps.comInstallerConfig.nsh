@@ -31,8 +31,8 @@
 ;== Basic Information.  Basic information about the portable app
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
-!define VERSION "2.0.7.0"
-!define FILENAME "Toucan_2.0.7"
+!define VERSION "2.1.0.0"
+!define FILENAME "Toucan_2.1.0_DEVTEST1"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins

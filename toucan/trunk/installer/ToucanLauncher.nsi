@@ -22,7 +22,7 @@
 !define NAME "Toucan"
 !define FRIENDLYNAME "Toucan"
 !define APP "Toucan"
-!define VER "2.0.7.0"
+!define VER "2.1.0.0"
 !define WEBSITE "PortableApps.com/Toucan"
 
 ;=== Program Details

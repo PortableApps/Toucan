@@ -19,8 +19,13 @@ bool PipedProcess::HasInput()
 		}
 		wxTextInputStream tis(*GetInputStream());
 		wxString msg = tis.ReadLine();
-		//Need to change this to OutputProgress
-		OutputProgress(msg);
+		if(msg.Left(7) == wxT("WARNING")){
+			OutputProgress(wxDateTime::Now().FormatTime(), msg);
+		}
+		else{
+			OutputProgress(msg);
+		}
+		IncrementGauge();
 		//Need a window update or refresh in here
 		wxMilliSleep(50);
 		hasInput = true;

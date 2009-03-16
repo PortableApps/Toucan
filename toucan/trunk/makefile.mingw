@@ -5,18 +5,17 @@ CONFIG=unicoderelease
 ifeq ($(CONFIG),unicoderelease)
 WXWIN=C:\Programming\wxWidgets-2.8-build
 MINGW=C:\Programming\MinGW
-HASHLIB=C:\Programming\hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\Output
 BUILDPATH=..\..\Application\App\toucan
-CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__GNUWIN32__ -DUNICODE -D__WIN95__
+CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__GNUWIN32__ -DUNICODE
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 LINKERFLAGS=-Wl, --subsystem,windows
-LIBS=-lunicows -lhl++ -lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_html -lwxmsw28u_adv -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
-CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswu" -I"$(HASHLIB)/src"
-LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+LIBS=-lwxmsw28u_richtext -lwxmsw28u_aui -lwxmsw28u_html -lwxmsw28u_adv -lwxmsw28u_core -lwxbase28u -lwxbase28u_net -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswu"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswu"
 PROGRAM=Toucan.exe
 RCFILEOBJ=Toucan_rc.o
@@ -26,18 +25,17 @@ else
 ifeq ($(CONFIG),unicodedebug)
 WXWIN=C:\Programming\wxWidgets-2.8-build
 MINGW=C:\Programming\MinGW
-HASHLIB=C:\Programming\hashlib++_0.3.1
 CXX=$(MINGW)/bin/g++.exe
 RESCOMP=$(MINGW)/bin/windres.exe
 OBJECTPATH=..\..\Output
 BUILDPATH=..\..\Application\App\toucan
-CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__WXDEBUG__ -D__GNUWIN32__ -DUNICODE -D__WIN95__
+CPPFLAGS=-fno-rtti -fno-pcc-struct-return -fstrict-aliasing -D__WXMSW__ -D__WXDEBUG__ -D__GNUWIN32__ -DUNICODE
 WARNINGFLAGS=-Wall
 OPTFLAGS=-O
 LINKERFLAGS=-Wl, --subsystem,windows
-LIBS=-lunicows -lhl++ -lwxmsw28ud_richtext -lwxmsw28ud_aui -lwxmsw28ud_html -lwxmsw28ud_adv -lwxmsw28ud_core -lwxbase28ud -lwxbase28ud_net -lwxtiffd -lwxjpegd -lwxpngd -lwxzlibd -lwxregexud -lwxexpatd -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
-CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswud" -I"$(HASHLIB)/src"
-LIBPATH=-L"$(WXWIN)/lib/gcc_lib"  -L"$(HASHLIB)/src"
+LIBS=-lwxmsw28ud_richtext -lwxmsw28ud_aui -lwxmsw28ud_html -lwxmsw28ud_adv -lwxmsw28ud_core -lwxbase28ud -lwxbase28ud_net -lwxtiffd -lwxjpegd -lwxpngd -lwxzlibd -lwxregexud -lwxexpatd -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+CPPINC=-I"$(WXWIN)/include" -I"$(WXWIN)/lib/gcc_lib/mswud"
+LIBPATH=-L"$(WXWIN)/lib/gcc_lib"
 RESPATH=--include-dir "$(WXWIN)/include" --include-dir "$(WXWIN)/lib/gcc_lib/mswud"
 PROGRAM=Toucan.exe
 RCFILEOBJ=Toucan_rc.o
@@ -45,7 +43,7 @@ RCFILESRC=Toucan.rc
 endif
 endif
 
-OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmrestore.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/sync.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/edc.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
+OBJECTS=$(OBJECTPATH)/toucan.o $(OBJECTPATH)/frmmain.o $(OBJECTPATH)/frmprogress.o $(OBJECTPATH)/frmvariable.o $(OBJECTPATH)/basicfunctions.o $(OBJECTPATH)/md5.o $(OBJECTPATH)/filecounter.o $(OBJECTPATH)/rootdata.o $(OBJECTPATH)/variables.o $(OBJECTPATH)/script.o $(OBJECTPATH)/cmdline.o $(OBJECTPATH)/secure.o $(OBJECTPATH)/syncbase.o $(OBJECTPATH)/syncfiles.o $(OBJECTPATH)/syncpreview.o $(OBJECTPATH)/syncthread.o $(OBJECTPATH)/dragndrop.o $(OBJECTPATH)/waitthread.o $(OBJECTPATH)/vdtc.o $(OBJECTPATH)/rules.o $(OBJECTPATH)/settings.o $(OBJECTPATH)/edc.o $(OBJECTPATH)/securedata.o $(OBJECTPATH)/backupprocess.o $(OBJECTPATH)/backupdata.o $(OBJECTPATH)/loglist.o $(OBJECTPATH)/syncdata.o $(OBJECTPATH)/$(RCFILEOBJ)
 
 all:	$(BUILDPATH) $(BUILDPATH)/$(PROGRAM)
 
@@ -69,24 +67,42 @@ $(OBJECTPATH)/$(RCFILEOBJ):	$(RCFILESRC)
 $(OBJECTPATH)/toucan.o:	toucan.cpp toucan.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) toucan.cpp
 
-$(OBJECTPATH)/frmmain.o:	frmmain.cpp frmmain.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmmain.cpp
+$(OBJECTPATH)/frmmain.o:	forms/frmmain.cpp forms/frmmain.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmmain.cpp
 
-$(OBJECTPATH)/frmprogress.o:	frmprogress.cpp frmprogress.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmprogress.cpp
+$(OBJECTPATH)/frmprogress.o:	forms/frmprogress.cpp forms/frmprogress.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmprogress.cpp
 
-$(OBJECTPATH)/frmrestore.o:	frmrestore.cpp frmrestore.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmrestore.cpp
+$(OBJECTPATH)/frmvariable.o:	forms/frmvariable.cpp forms/frmvariable.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) forms/frmvariable.cpp
 
-$(OBJECTPATH)/frmvariable.o:	frmvariable.cpp frmvariable.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) frmvariable.cpp
-	
+$(OBJECTPATH)/syncthread.o:	sync/syncthread.cpp sync/syncthread.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncthread.cpp
+
+$(OBJECTPATH)/syncdata.o:	sync/syncdata.cpp sync/syncdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncdata.cpp
+
+$(OBJECTPATH)/syncbase.o:	sync/syncbase.cpp sync/syncbase.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncbase.cpp
+
+$(OBJECTPATH)/syncfiles.o:	sync/syncfiles.cpp sync/syncfiles.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncfiles.cpp
+
+$(OBJECTPATH)/syncpreview.o:	sync/syncpreview.cpp sync/syncpreview.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync/syncpreview.cpp
+
+$(OBJECTPATH)/rootdata.o:	data/rootdata.cpp data/rootdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/rootdata.cpp
+
+$(OBJECTPATH)/backupdata.o:	data/backupdata.cpp data/backupdata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/backupdata.cpp
+
+$(OBJECTPATH)/securedata.o:	data/securedata.cpp data/securedata.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) data/securedata.cpp
+
 $(OBJECTPATH)/basicfunctions.o:	basicfunctions.cpp basicfunctions.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) basicfunctions.cpp
-		
-$(OBJECTPATH)/rootdata.o:	rootdata.cpp rootdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) rootdata.cpp
-	
+
 $(OBJECTPATH)/cmdline.o:	cmdline.cpp cmdline.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) cmdline.cpp
 
@@ -102,18 +118,9 @@ $(OBJECTPATH)/variables.o:	variables.cpp variables.h
 $(OBJECTPATH)/settings.o:	settings.cpp settings.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) settings.cpp
 
-$(OBJECTPATH)/securedata.o:	securedata.cpp securedata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) securedata.cpp
-
 $(OBJECTPATH)/backupprocess.o:	backupprocess.cpp backupprocess.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupprocess.cpp
-	
-$(OBJECTPATH)/backupdata.o:	backupdata.cpp backupdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) backupdata.cpp
-	
-$(OBJECTPATH)/syncdata.o:	syncdata.cpp syncdata.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) syncdata.cpp
-	
+
 $(OBJECTPATH)/waitthread.o:	waitthread.cpp waitthread.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) waitthread.cpp
 
@@ -123,13 +130,19 @@ $(OBJECTPATH)/dragndrop.o:	dragndrop.cpp dragndrop.h
 $(OBJECTPATH)/secure.o:	secure.cpp secure.h
 	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) secure.cpp
 	
-$(OBJECTPATH)/sync.o:	sync.cpp sync.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) sync.cpp
+$(OBJECTPATH)/edc.o:	controls/extendeddirctrl.cpp controls/extendeddirctrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/extendeddirctrl.cpp
 	
-$(OBJECTPATH)/edc.o:	extendeddirctrl.cpp extendeddirctrl.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) extendeddirctrl.cpp
+$(OBJECTPATH)/loglist.o:	controls/loglistctrl.cpp controls/loglistctrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/loglistctrl.cpp
 
-$(OBJECTPATH)/vdtc.o:	virtualdirtreectrl.cpp virtualdirtreectrl.h
-	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) virtualdirtreectrl.cpp
+$(OBJECTPATH)/vdtc.o:	controls/virtualdirtreectrl.cpp controls/virtualdirtreectrl.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) controls/virtualdirtreectrl.cpp
+	
+$(OBJECTPATH)/md5.o:	md5.cpp md5.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) md5.cpp
+	
+$(OBJECTPATH)/filecounter.o:	filecounter.cpp filecounter.h
+	$(CXX) -c -o $@ $(CPPFLAGS) $(GCCFLAGS) $(DEBUGFLAGS) $(OPTFLAGS) $(WARNINGFLAGS) $(CPPINC) filecounter.cpp
 
 .PHONY:	all clean

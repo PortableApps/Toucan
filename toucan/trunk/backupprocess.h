@@ -9,7 +9,7 @@
 
 #include <wx/process.h>
 #include <wx/txtstrm.h>
-#include "frmprogress.h"
+#include "forms/frmprogress.h"
 #include "toucan.h"
 
 class PipedProcess : public wxProcess

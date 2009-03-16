@@ -13,9 +13,9 @@
 #include "script.h"
 #include "basicfunctions.h"
 #include "toucan.h"
-#include "syncdata.h"
-#include "backupdata.h"
-#include "securedata.h"
+#include "sync/syncdata.h"
+#include "data/backupdata.h"
+#include "data/securedata.h"
 
 
 bool ParseCommandLine(){
@@ -30,7 +30,7 @@ bool ParseCommandLine(){
 	}
 	//Script
 	else if(iArgs == 3){
-		cmdParser.AddParam(wxT("Opertion"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(wxT("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(wxT("Script Name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 	}
 	//Job name with password

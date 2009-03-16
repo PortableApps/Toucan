@@ -16,7 +16,7 @@
 #include <wx/filesys.h>
 #include <wx/imaglist.h>
 
-#include "rules.h"
+#include "../rules.h"
 
 enum {
 	VDTC_TI_ROOT = 0,
@@ -477,15 +477,6 @@ public:
 	}
 	void SetSync(bool sync) {
 		_IsSync = sync;
-	}
-	void SetRoot(wxString root) {
-		_Root = root;
-	}
-	void SetRootOpp(wxString rootopp) {
-		_RootOpp = rootopp;
-	}
-	void SetMode(wxString mode) {
-		_Mode = mode;
 	}
 	
 	//Neat expand all

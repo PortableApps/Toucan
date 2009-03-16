@@ -1,14 +1,15 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "securedata.h"
-#include "basicfunctions.h"
-#include "toucan.h"
-#include "variables.h"
-#include "secure.h"
+#include "../basicfunctions.h"
+#include "../toucan.h"
+#include "../variables.h"
+#include "../secure.h"
+#include "../filecounter.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
@@ -96,8 +97,7 @@ void SecureData::Output(){
 
 bool SecureData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		SetLocation(i, Normalise(GetLocation(i)));
-		SetLocation(i, Normalise(GetLocation(i)));
+		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 	}
 	//Call the secure function
 	Secure(*this, rules, wxGetApp().ProgressWindow);

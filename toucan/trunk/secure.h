@@ -7,9 +7,9 @@
 #ifndef H_SECURE
 #define H_SECURE
 
-#include "securedata.h"
 #include "rules.h"
-#include "frmprogress.h"
+#include "forms/frmprogress.h"
+#include "data/securedata.h"
 
 bool Secure(SecureData data, Rules rules, frmProgress *window);
 bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window);

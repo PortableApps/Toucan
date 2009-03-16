@@ -10,47 +10,44 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpctrl.h>
 #include <wx/fs_arc.h>
-#include <wx/utils.h>
 
 #include "toucan.h"
-#include "frmmain.h"
+#include "forms/frmmain.h"
 #include "backupprocess.h"
 #include "cmdline.h"
 #include "basicfunctions.h"
 #include "script.h"
 #include "settings.h"
 
-#include "syncdata.h"
-#include "backupdata.h"
-#include "securedata.h"
+#include "sync/syncdata.h"
+#include "data/backupdata.h"
+#include "data/securedata.h"
 
-//Because we actually have a console app that is well hidden!
-IMPLEMENT_APP_NO_MAIN(Toucan)
+IMPLEMENT_APP(Toucan)
 
 //Toucan startup
 bool Toucan::OnInit(){
 	#ifdef __WXMSW__
 		if(argc == 1){
-			if(wxGetOsVersion() == wxOS_WINDOWS_NT){
+			if(wxGetOsVersion() != wxOS_WINDOWS_9X){
 				ShowWindow(GetConsoleWindow(), SW_HIDE); 			
 			}			
 		}
 	#endif
-
-	if(argc == 1){
-		blGUI = true;
-	}
-	else{
-		blGUI = false;
-	}
-
 	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn = NULL;
-	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")) && blGUI){
+	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg"))){
 		wxBitmap bitmap;
 		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
 		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
+	}
+
+	if(argc == 1){
+		SetUsesGUI(true);
+	}
+	else{
+		SetUsesGUI(false);
 	}
 
 	//Make sure the data directory is there
@@ -184,9 +181,4 @@ int Toucan::OnExit(){
 	delete m_Settings;
 	delete m_Script;
 	return wxApp::OnExit();
-}
-
-int main(int argc, char* argv[]){
-	wxEntry(argc,argv); 
-	return true;
 }

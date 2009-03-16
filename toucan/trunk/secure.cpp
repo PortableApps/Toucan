@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2007 Steven Lamerton
+// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -23,6 +23,7 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		if(wxGetApp().ShouldAbort()){
 			return true;
 		}
+		data.SetLength(arrLocation.Item(i).Length() + 1);
 		//Need to add normalisation to SecureData
 		if(arrLocation.Item(i) != wxEmptyString){
 			if(wxDirExists(arrLocation.Item(i))){
@@ -33,7 +34,7 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 			}
 		}
 	}
-	if(wxGetApp().blGUI){
+	if(wxGetApp().GetUsesGUI()){
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
 		for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
@@ -41,7 +42,7 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().MainWindow, event);	
+	wxPostEvent(wxGetApp().ProgressWindow, event);	
 	return true;
 }
 
@@ -122,10 +123,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 		#endif
 		
 		if(lgReturn == 0){        
-			OutputProgress(_("Encrypted ") + strFile);
+			OutputProgress(_("Encrypted  ") + strFile.Right(strFile.Length() - data.GetLength()));
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile);
+			OutputProgress(_("Failed to encrypt  ") + strFile.Right(strFile.Length() - data.GetLength()));
 		}
 	}
 
@@ -138,7 +139,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
 			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + strFile);
+			OutputProgress(_("Failed to decrypt  ") + strFile.Right(strFile.Length() - data.GetLength()));
 			return true;
 		}
 
@@ -153,11 +154,12 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 		#endif
 
 		if(lgReturn == 0){       
- 			OutputProgress(_("Decrypted ") + strFile);
+ 			OutputProgress(_("Decrypted  ") + strFile.Right(strFile.Length() - data.GetLength()));
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile);
+ 			OutputProgress(_("Failed to decrypt  ") + strFile.Right(strFile.Length() - data.GetLength()));
 		}
 	}
+	IncrementGauge();
 	return true;
 }

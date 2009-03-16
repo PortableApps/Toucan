@@ -18,8 +18,8 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpwnd.h>
 
-#include "virtualdirtreectrl.h"
-#include "extendeddirctrl.h"
+#include "../controls/virtualdirtreectrl.h"
+#include "../controls/extendeddirctrl.h"
 
 //Forward declarations
 class Settings;
@@ -55,7 +55,6 @@ class Settings;
 #define ID_PANEL_BACKUP 10100
 #define ID_BACKUP_OK 10101
 #define ID_BACKUP_PREVIEW 10102
-#define ID_BACKUP_RESTORE 10103
 #define ID_BACKUP_JOB_SELECT 10104
 #define ID_BACKUP_JOB_SAVE 10105
 #define ID_BACKUP_JOB_ADD 10106
@@ -147,13 +146,11 @@ class Settings;
 #define ID_MENU_LOCATIONINCLUDE_EXTENSION 10404
 
 //Other 10450-10499
-#define ID_SCRIPTFINISH 10450 
 
 //Help 10500-10549
 #define ID_PANEL_HELP 10500
 #define ID_HELP 10501
 
-/*frmMain, the main form for Toucan*/
 class frmMain: public wxFrame
 {
 	DECLARE_EVENT_TABLE()
@@ -162,7 +159,7 @@ public:
 	// Constructor
 	frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
 
-	//Deconstructor, for uninitialising AUI
+	//Destructor, for uninitialising AUI
 	~frmMain();
 
 	//Sets up all of the member vaiables
@@ -191,7 +188,6 @@ public:
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
 	void OnBackupPreviewClick(wxCommandEvent& event);
-	void OnBackupRestoreClick(wxCommandEvent& event);
 	void OnBackupLocationClick(wxCommandEvent& event);
 	void OnBackupAddClick(wxCommandEvent& event);
 	void OnBackupRemoveClick(wxCommandEvent& event);
@@ -250,7 +246,6 @@ public:
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
-	void OnScriptFinish(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	
 	//Menu

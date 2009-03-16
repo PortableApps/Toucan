@@ -34,6 +34,9 @@ class Toucan: public wxApp
 	
 	wxString GetSettingsPath() { return strSettingsPath; }
 	void SetSettingsPath(wxString settingspath) { strSettingsPath = settingspath; }
+	
+	void SetUsesGUI(bool gui) { blGUI = gui; }
+	bool GetUsesGUI() { return blGUI; }
 		
 	//The two persistant forms
 	frmMain* MainWindow;
@@ -57,14 +60,13 @@ class Toucan: public wxApp
 	//Help Controller
 	wxHtmlHelpController* m_Help;
 	
-	//Are we in GUI mode
-	bool blGUI;
-		
-protected:
+private:
 	//Abort the current job
 	bool blAbort;
 	//The settings path
 	wxString strSettingsPath;
+	//Are we in GUI mode
+	bool blGUI;
 };
 
 DECLARE_APP(Toucan)

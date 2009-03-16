@@ -19,8 +19,16 @@ void MessageBox(wxString strMessage, wxString strCaption);
 //Messagebox with error icon
 void ErrorBox(wxString strMessage);
 
-//Basic function to write output to progress form, used to keep code clean
+//Basic function to write output to progress form, used to keep code clean, with optional date
 void OutputProgress(wxString strValue);
+void OutputProgress(wxString time, wxString message);
+void OutputBlank();
+
+//Functions to set up the progress bar
+void SetGaugeRange(int range);
+void SetGaugeValue(int value);
+void IncrementGauge();
+void EnableGauge(bool enable);
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/

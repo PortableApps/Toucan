@@ -9,7 +9,7 @@
 
 #include <wx/textfile.h>
 #include <wx/string.h>
-#include "frmmain.h"
+#include "../forms/frmmain.h"
 #include "rootdata.h"
 
 /*The backupdata class contains all of the information needed for backups, except the ruels. Includes
@@ -70,9 +70,6 @@ private:
 	wxString strFormat;
 	//Need to change this to a sliding scale from 1 to 5
 	int strRatio;
-	//A password if one is used	
-	wxString strPass;
-
 };
 
 #endif

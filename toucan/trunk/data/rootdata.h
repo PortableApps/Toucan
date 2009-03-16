@@ -8,7 +8,7 @@
 #define H_ROOTDATA
 
 #include <wx/string.h>
-#include "frmmain.h"
+#include "../forms/frmmain.h"
 
 //This class serves as the basis for all of the data classes
 
@@ -38,11 +38,16 @@ public:
 	
 	void SetPassword(wxString password) { m_Password = password; }
 	wxString GetPassword(){ return m_Password; }
-	
-	
+
+	void SetLength(int length) { m_StartLength = length; }
+	int GetLength(){ return m_StartLength; }
+
+private:
+
 	wxString m_Name;
 	wxString m_Password;
-	
+	int m_StartLength;
+
 };
 
 #endif

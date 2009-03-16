@@ -5,10 +5,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncdata.h"
-#include "basicfunctions.h"
-#include "variables.h"
-#include "toucan.h"
-#include "sync.h"
+#include "syncthread.h"
+#include "../basicfunctions.h"
+#include "../variables.h"
+#include "../toucan.h"
+#include "../filecounter.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -116,9 +117,8 @@ void SyncData::Output(){
 bool SyncData::Execute(Rules rules){
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
-
 	//Create a new Sync thread and run it (needs to use Wait())
-	SyncThread *thread = new SyncThread(*this, rules, wxGetApp().MainWindow);
+	SyncThread *thread = new SyncThread(*this, rules);
 	thread->Create();
 	thread->Run();
 	return true;
