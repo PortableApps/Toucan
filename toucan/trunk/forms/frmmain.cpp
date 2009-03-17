@@ -43,6 +43,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SYNC_DEST_BTN, frmMain::OnSyncDestBtnClick)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_SOURCE_TREE, frmMain::OnSyncSourceTreeRightClick)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_DEST_TREE, frmMain::OnSyncDestTreeRightClick)
+	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_SOURCE_TREE, frmMain::OnSyncTreeCtrlTooltip)
+	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -1894,4 +1896,19 @@ void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& event){
 		rules.SetFoldersToExclude(arrFolderExclude);
 		rules.TransferToFile(menuRules->GetStringSelection());
 	}		
+}
+
+void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
+	wxVirtualDirTreeCtrl* tree = static_cast<wxVirtualDirTreeCtrl*> (event.GetEventObject());
+	VdtcTreeItemBase* item = static_cast<VdtcTreeItemBase*> (tree->GetItemData(event.GetItem()));
+
+	if(item->GetColour() == wxColour(wxT("Blue"))){
+		event.SetToolTip(_("Copied"));
+	}
+	else if(item->GetColour() == wxColour(wxT("Grey"))){
+		event.SetToolTip(_("Deleted"));
+	}
+	else if(item->GetColour() == wxColour(wxT("Green"))){
+		event.SetToolTip(_("Overwritten"));
+	}
 }
