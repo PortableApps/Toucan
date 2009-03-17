@@ -263,6 +263,7 @@ bool BackupData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 	}
+	SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		wxString path = GetLocation(i);
 		bool isDir = false;
