@@ -32,7 +32,7 @@
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
 !define VERSION "2.1.0.0"
-!define FILENAME "Toucan_2.1.0_DEVTEST1"
+!define FILENAME "Toucan_2.1.0_DEVTEST2"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins
