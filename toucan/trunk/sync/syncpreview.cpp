@@ -180,7 +180,7 @@ bool SyncPreview::OnNotSourceDestFolder(wxString path){
 	if(data->GetFunction() == _("Mirror")){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
-			destitems.Item(pos)->SetColour(wxT("Red"));			
+			destitems.Item(pos)->SetColour(wxT("Grey"));			
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
