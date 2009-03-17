@@ -157,10 +157,15 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 		#ifdef __WXMSW__
 			FLASHWINFO info;
 			info.uCount = 3;
-			info.dwFlags = FLASHW_TRAY|FLASHW_TIMERNOFG;
 			info.dwTimeout = 0;
 			info.hwnd = (HWND) this->GetHWND();
 			info.cbSize = sizeof(info);
+			if(wxWindow::FindFocus() == this){
+				info.dwFlags = FLASHW_ALL|FLASHW_TIMERNOFG;			
+			}
+			else{
+				info.dwFlags = FLASHW_ALL;					
+			}
 			FlashWindowEx(&info); 
 		#endif
 	}
