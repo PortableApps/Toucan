@@ -228,13 +228,18 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 				//If it is a directory
 				if(wxDirExists(strPath + strFilename))
 				{
+					//If the direcotry doesnt have any subfiles then we can safely add it to the file list
+					wxDir* dircheck = new wxDir(strPath + strFilename);
+					if(!dircheck->HasFiles() && !dircheck->HasSubDirs()){
+						if(!rules.ShouldExclude(strPath + strFilename, true)){
+							wxString strCombined = strPath + strFilename;
+							strCombined = strCombined.Right(strCombined.Length() - iRootLength);
+							file->AddLine(strCombined);
+						}
+					}
+					delete dircheck;
 					//Always call the function again to ensure that ALL files and folders are processed
 					CreateList(file, rules, strPath + strFilename, iRootLength);
-					if(!rules.ShouldExclude(strPath + strFilename, true)){
-						wxString strCombined = strPath + strFilename;
-						strCombined = strCombined.Right(strCombined.Length() - iRootLength);
-						file->AddLine(strCombined);
-					}
 				}
 				//If it is a file
 				else{
