@@ -16,8 +16,18 @@
 #include <wx/dir.h>
 
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules){
-	this->sourceroot = syncsource;
-	this->destroot = syncdest;
+	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
+		this->sourceroot = syncsource.Left(syncsource.Length() - 1);
+	}
+	else{
+		sourceroot = syncsource;
+	}
+	if(syncdest[syncdest.Length() - 1] == wxFILE_SEP_PATH){
+		this->destroot = syncdest.Left(syncdest.Length() - 1);
+	}
+	else{
+		destroot = syncdest;
+	}
 	this->data = syncdata;
 	this->rules = syncrules;
 }

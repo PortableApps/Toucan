@@ -1240,18 +1240,6 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event){
 
 //ID_SYNC_PREVIEW
 void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
-	wxString strPath = m_Sync_Source_Txt->GetValue();
-	/*Stupid horrible hack as folders do not have a trailing slash whereas roots do, nasty horrible code that needs to be changed
-	in the future in the vdtc code*/
-	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-		strPath = strPath.Left(strPath.Length() - 1); 
-	}
-	m_Sync_Source_Txt->SetValue(strPath);
-	strPath = m_Sync_Dest_Txt->GetValue();
-	if (strPath[strPath.length()-1] == wxFILE_SEP_PATH) {
-		strPath = strPath.Left(strPath.Length() - 1); 
-	}
-	m_Sync_Dest_Txt->SetValue(strPath);
 
 	//Get the rules
 	Rules rules;
