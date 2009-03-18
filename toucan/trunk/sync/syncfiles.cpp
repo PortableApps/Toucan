@@ -198,6 +198,9 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 }
 
 bool SyncFiles::RemoveDirectory(wxString path){
+	if(wxGetApp().ShouldAbort()){
+		return true;
+	}
 	// ATTN : Can be replaced when move to wxWidgets 2.9
 	if(wxGetApp().ShouldAbort()){
 		return true;
@@ -216,6 +219,9 @@ bool SyncFiles::RemoveDirectory(wxString path){
 	bool blDir = dir->GetFirst(&filename);
 	if(blDir){
 		do {
+			if(wxGetApp().ShouldAbort()){
+				return true;
+			}
 			if(wxDirExists(path + filename)){
 				RemoveDirectory(path + filename);
 			}
