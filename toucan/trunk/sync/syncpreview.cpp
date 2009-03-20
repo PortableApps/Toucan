@@ -73,8 +73,11 @@ bool SyncPreview::OnSourceNotDestFile(wxString path){
 	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
 	if(!rules.ShouldExclude(source, false)){
 		item->SetColour(wxT("Blue"));
+		destitems.Add(item);
 	}
-	destitems.Add(item);
+	else{
+		delete item;
+	}
 	return true;
 }
 
@@ -94,9 +97,11 @@ bool SyncPreview::OnNotSourceDestFile(wxString path){
 			VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
 			if(!rules.ShouldExclude(dest, false)){
 				item->SetColour(wxT("Blue"));
-
+				sourceitems.Add(item);
 			}
-			sourceitems.Add(item);
+			else{
+				delete item;
+			}
 		}
 	}
 	return true;
@@ -173,7 +178,7 @@ bool SyncPreview::OnSourceNotDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
-	if(!rules.ShouldExclude(source, false)){
+	if(!rules.ShouldExclude(source, true)){
 		item->SetColour(wxT("Blue"));
 		}
 	else{
