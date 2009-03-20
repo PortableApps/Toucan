@@ -43,34 +43,42 @@ bool SyncFiles::Execute(){
 bool SyncFiles::OnSourceNotDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	//Whatever function we have we always copy in this case
-	CopyFile(source, dest);
+	//Whatever function we have we always copy in this case, unless it is excluded
+	if(!rules.ShouldExclude(source, false)){
+		CopyFile(source, dest);		
+	}
+
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror")){
-		//Use a function so it can be overwritten in preview
-		RemoveFile(dest);
+		if(!rules.ShouldExclude(dest, false)){
+			RemoveFile(dest);			
+		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
-		//Swap them around as we are essentially in reverse
-		CopyFile(dest, source);
+		if(!rules.ShouldExclude(dest, false)){
+			//Swap them around as we are essentially in reverse
+			CopyFile(dest, source);
+		}
 	}
 	return true;
 }
 bool SyncFiles::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror")){
-		//Use the hash check version to minimise copying
-		CopyFileHash(source, dest);
+	if(!rules.ShouldExclude(source, false)){
+		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror")){
+			//Use the hash check version to minimise copying
+			CopyFileHash(source, dest);
+		}
+		else if(data->GetFunction() == _("Update")){
+			UpdateFile(source, dest);
+		}		
 	}
-	else if(data->GetFunction() == _("Update")){
-		UpdateFile(source, dest);
-	}
-	else if(data->GetFunction() == _("Equalise")){
+	if(data->GetFunction() == _("Equalise")){
 		SourceAndDestCopy(source, dest);
 	}
 	return true;
@@ -293,10 +301,14 @@ bool SyncFiles::SourceAndDestCopy(wxString source, wxString dest){
 	}
 
 	if(tmFrom.IsLaterThan(tmTo)){
-		CopyFileHash(source, dest);
+		if(!rules.ShouldExclude(source, false)){
+			CopyFileHash(source, dest);			
+		}
 	}
 	else if(tmTo.IsLaterThan(tmFrom)){
-		CopyFileHash(dest, source);
+		if(!rules.ShouldExclude(dest, false)){
+			CopyFileHash(dest, source);
+		}
 	}
 	return true;	
 }
