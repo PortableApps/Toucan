@@ -73,30 +73,26 @@ bool SyncBase::OperationCaller(std::map<wxString, short> paths){
 			return true;
 		}
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
-			if(!rules.ShouldExclude(destroot + wxFILE_SEP_PATH + (*iter).first, true)){
-				if((*iter).second == 1){
-					OnSourceNotDestFolder((*iter).first);
-				}
-				else if((*iter).second == 2){
-					OnNotSourceDestFolder((*iter).first);				
-				}
-				else if((*iter).second == 3){
-					OnSourceAndDestFolder((*iter).first);
-				}
+			if((*iter).second == 1){
+				OnSourceNotDestFolder((*iter).first);
+			}
+			else if((*iter).second == 2){
+				OnNotSourceDestFolder((*iter).first);				
+			}
+			else if((*iter).second == 3){
+				OnSourceAndDestFolder((*iter).first);
 			}
 		}
 		//We have a file
 		else{
-			if(!rules.ShouldExclude(destroot + wxFILE_SEP_PATH + (*iter).first, false)){
-				if((*iter).second == 1){
-					OnSourceNotDestFile((*iter).first);
-				}
-				else if((*iter).second == 2){
-					OnNotSourceDestFile((*iter).first);				
-				}
-				else if((*iter).second == 3){
-					OnSourceAndDestFile((*iter).first);
-				}
+			if((*iter).second == 1){
+				OnSourceNotDestFile((*iter).first);
+			}
+			else if((*iter).second == 2){
+				OnNotSourceDestFile((*iter).first);				
+			}
+			else if((*iter).second == 3){
+				OnSourceAndDestFile((*iter).first);
 			}
 			//Update the progress bar for files only
 			if(wxGetApp().GetUsesGUI()){

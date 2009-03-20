@@ -70,11 +70,11 @@ bool SyncPreview::OperationCaller(std::map<wxString, short> paths){
 bool SyncPreview::OnSourceNotDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
 	if(!rules.ShouldExclude(source, false)){
-		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
 		item->SetColour(wxT("Blue"));
-		destitems.Add(item);
 	}
+	destitems.Add(item);
 	return true;
 }
 
@@ -85,12 +85,17 @@ bool SyncPreview::OnNotSourceDestFile(wxString path){
 		if(data->GetFunction() == _("Mirror")){
 			int pos = GetItemLocation(path, &destitems);
 			if(pos != -1){
-				destitems.Item(pos)->SetColour(wxT("Grey"));			
+				if(!rules.ShouldExclude(dest, false)){
+					destitems.Item(pos)->SetColour(wxT("Grey"));						
+				}
 			}
 		}
 		else if(data->GetFunction() == _("Equalise")){
 			VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
-			item->SetColour(wxT("Blue"));
+			if(!rules.ShouldExclude(dest, false)){
+				item->SetColour(wxT("Blue"));
+
+			}
 			sourceitems.Add(item);
 		}
 	}
@@ -167,28 +172,38 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 bool SyncPreview::OnSourceNotDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
 	if(!rules.ShouldExclude(source, false)){
-		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
 		item->SetColour(wxT("Blue"));
-		destitems.Add(item);
+		}
+	else{
+		item->SetColour(wxT("Red"));
 	}
+	destitems.Add(item);
 	return true;
 }
+
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror")){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
-			destitems.Item(pos)->SetColour(wxT("Grey"));			
+			if(!rules.ShouldExclude(dest, true)){
+				destitems.Item(pos)->SetColour(wxT("Grey"));				
+			}		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
-		if(!rules.ShouldExclude(dest, false)){
-			VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+		if(!rules.ShouldExclude(dest, true)){
 			item->SetColour(wxT("Blue"));
-			sourceitems.Add(item);
+
 		}
+		else{
+			item->SetColour(wxT("Red"));
+		}
+		sourceitems.Add(item);
 	}
 	return true;
 }
