@@ -90,9 +90,15 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
-	//Set the timestamps if needed
-	if(data->GetTimeStamps()){
-		CopyFolderTimestamp(source, dest);
+	wxDir dir(dest);
+	if(!dir.HasFiles() && !dir.HasSubDirs() && rules.ShouldExclude(source, true)){
+		wxRmdir(dest);
+	}
+	else{
+		//Set the timestamps if needed
+		if(data->GetTimeStamps()){
+			CopyFolderTimestamp(source, dest);
+		}	
 	}
 	return true;
 }
@@ -100,13 +106,22 @@ bool SyncFiles::OnNotSourceDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror")){
-		RemoveDirectory(dest);
+		if(!rules.ShouldExclude(dest, true)){
+			RemoveDirectory(dest);		
+		}
 	}
 	if(data->GetFunction() == _("Equalise")){
 		SyncFiles sync(source, dest, data, rules);
 		sync.Execute();
-		if(data->GetTimeStamps()){
-			CopyFolderTimestamp(dest, source);
+		wxDir dir(source);
+		if(!dir.HasFiles() && !dir.HasSubDirs() && rules.ShouldExclude(dest, true)){
+			wxRmdir(dest);
+		}
+		else{
+			//Set the timestamps if needed
+			if(data->GetTimeStamps()){
+				CopyFolderTimestamp(dest, source);
+			}	
 		}
 	}
 	return true;
@@ -117,8 +132,15 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
-	if(data->GetTimeStamps()){
-		CopyFolderTimestamp(source, dest);
+	wxDir dir(dest);
+	if(!dir.HasFiles() && !dir.HasSubDirs() && rules.ShouldExclude(source, true)){
+		wxRmdir(dest);
+	}
+	else{
+		//Set the timestamps if needed
+		if(data->GetTimeStamps()){
+			CopyFolderTimestamp(source, dest);
+		}	
 	}
 	return true;
 }
