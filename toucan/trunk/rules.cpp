@@ -91,7 +91,7 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 				}
 			}
 			//Check to see if it is a date, but NOT a size
-			else if(strExclusion.Left(1) == wxT("<") && strExclusion.Right(1) != wxT("B")){
+			if(strExclusion.Left(1) == wxT("<") && strExclusion.Right(1) != wxT("B")){
 				wxFileName flName(strName);
 				wxDateTime date;								
 				date.ParseDate(strExclusion.Right(strExclusion.Length() - 1));
