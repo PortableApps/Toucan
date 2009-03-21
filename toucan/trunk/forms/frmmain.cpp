@@ -1753,6 +1753,8 @@ void frmMain::ClearToDefault(){
 		m_Sync_Dest_Txt->SetValue(wxEmptyString);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->SetPreview(false);
+		m_Sync_Dest_Tree->SetPreview(false);
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
 		m_Backup_Function->SetStringSelection(_("Complete"));
