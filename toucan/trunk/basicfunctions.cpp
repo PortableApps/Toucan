@@ -113,16 +113,38 @@ void EnableGauge(bool enable){
 }
 
 double GetInPB(wxString strValue){
-	wxString strSize = strValue.Right(2);
-	wxVariant var = strValue.Left(strValue.Length() - 2);
+	wxString strSize;
+	wxVariant var;
+	//The size is in bytes so the length is all but one
+	if(strValue.Right(2).Left(1) != wxT("k") && strValue.Right(2).Left(1) != wxT("M") && strValue.Right(2).Left(1) != wxT("G")){
+		if(strValue.Right(1) == wxT("B")){
+			var = strValue.Left(strValue.Length() - 1);
+			strSize = strValue.Right(1);
+		}
+		else{
+			//We do not know what unit is being used
+			return 0;
+		}
+	}
+	//The size is in a larger unit, so it all but two
+	else{
+		var = strValue.Left(strValue.Length() - 2);
+		strSize = strValue.Right(2);
+	}
 	double dSize = var.GetDouble();
-	if(strSize = wxT("kB")){
+	if(strSize == wxT("B")){
 		dSize = dSize/1024;
+		strSize = wxT("kB");
 	}
-	if(strSize = wxT("MB")){
+	if(strSize == wxT("kB")){
 		dSize = dSize/1024;
+		strSize = wxT("MB");
 	}
-	if(strSize = wxT("GB")){
+	if(strSize == wxT("MB")){
+		dSize = dSize/1024;
+		strSize = wxT("GB");
+	}
+	if(strSize == wxT("GB")){
 		dSize = dSize/1024;
 	}
 	//Conveting to PB, should be plenty big for a while

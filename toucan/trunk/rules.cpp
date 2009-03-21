@@ -73,9 +73,11 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 				if(strExclusion.Right(2) == wxT("kB") || strExclusion.Right(2) == wxT("MB") || strExclusion.Right(2) == wxT("GB")){
 					//We can now be sure that this is a size exclusion
 					wxFileName flName(strName);
-					wxString strNameSize = flName.GetHumanReadableSize();
-					double dFileSize = GetInPB(strNameSize);
-					double dExclusionSize = GetInPB(strExclusion.Right(strExclusion.Length() - 1));
+					wxString strFileSize = flName.GetHumanReadableSize();
+					strFileSize.Replace(wxT(" "), wxT(""));
+					double dFileSize = GetInPB(strFileSize);
+					wxString strSize = strExclusion.Right(strExclusion.Length() - 1);
+					double dExclusionSize = GetInPB(strSize);
 					if(strExclusion.Left(1) == wxT("<")){
 						if(dFileSize < dExclusionSize){
 							return true;
