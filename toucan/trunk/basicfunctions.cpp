@@ -57,37 +57,26 @@ void OutputProgress(wxString strValue){
 	if(strValue == wxT("")){
 		return;
 	}
-	if(wxGetApp().GetUsesGUI()){
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
-		event.SetString(strValue);
-		event.SetInt(-1);
-		wxPostEvent(wxGetApp().ProgressWindow, event);
-	}
-	else{
-		cout<<strValue + wxT("\n");
-	}		
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
+	event.SetString(strValue);
+	event.SetInt(-1);
+	wxPostEvent(wxGetApp().ProgressWindow, event);
+	//Also output to the command line if it exists
+	cout << strValue + wxT("\n");	
 }
 
 void OutputProgress(wxString time, wxString message){
-	if(wxGetApp().GetUsesGUI()){
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
-		event.SetString(time + message);
-		event.SetInt(time.Length());
-		wxPostEvent(wxGetApp().ProgressWindow, event);
-	}
-	else{
-		cout<<message + wxT("\n");
-	}	
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
+	event.SetString(time + message);
+	event.SetInt(time.Length());
+	wxPostEvent(wxGetApp().ProgressWindow, event);
+	cout << time << wxT("  ") << message + wxT("\n");
 }
 
 void OutputBlank(){
-	if(wxGetApp().GetUsesGUI()){
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
-		wxPostEvent(wxGetApp().ProgressWindow, event);
-	}
-	else{
-		cout<<wxT("\n");
-	}	
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
+	wxPostEvent(wxGetApp().ProgressWindow, event);
+	cout << wxT("\n");	
 }
 
 void SetGaugeRange(int range){

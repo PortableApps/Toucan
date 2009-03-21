@@ -37,7 +37,7 @@ bool Toucan::OnInit(){
 	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn = NULL;
-	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg"))){
+	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")) && argc == 1){
 		wxBitmap bitmap;
 		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
 		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
@@ -68,7 +68,7 @@ bool Toucan::OnInit(){
 	m_Variables_Config->SetExpandEnvVars(false);
 
 	//Create the settings class amd load the settings
-	m_Settings = new Settings(GetSettingsPath()+ wxT("Settings.ini"));
+	m_Settings = new Settings(GetSettingsPath() + wxT("Settings.ini"));
 	m_Settings->TransferFromFile();
 
 	//Create the script manager
@@ -158,6 +158,23 @@ bool Toucan::OnInit(){
 			wxYield();
 			;
 		}
+		//Write out a log so we know what happened
+		wxTextFile file;
+		file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
+		for(int i = 0; i < ProgressWindow->m_List->GetItemCount() - 1; i++){
+			wxListItem itemcol1, itemcol2;
+
+			itemcol1.m_itemId = i;
+		 	itemcol1.m_col = 0;
+			itemcol1.m_mask = wxLIST_MASK_TEXT;
+			ProgressWindow->m_List->GetItem(itemcol1);
+			itemcol2.m_itemId = i;
+			itemcol2.m_col = 1;
+			itemcol2.m_mask = wxLIST_MASK_TEXT;
+			ProgressWindow->m_List->GetItem(itemcol2);
+			file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+		}
+		file.Write();
 		delete MainWindow->m_BackupLocations;
 		delete MainWindow->m_SecureLocations;
 		wxGetApp().MainWindow->Destroy();
