@@ -61,6 +61,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_COMMAND_SCROLL_CHANGED(ID_BACKUP_RATIO, frmMain::OnBackupRatioChanged)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeCtrlTooltip)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeRightClick)
+	EVT_RADIOBOX(ID_BACKUP_FUNCTION, frmMain::OnBackupFunctionSelected)
 
 	//Secure
 	EVT_BUTTON(ID_SECURE_OK, frmMain::OnSecureOKClick)
@@ -1902,5 +1903,17 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 	}
 	else if(item->GetColour() == wxColour(wxT("Green"))){
 		event.SetToolTip(_("Overwritten"));
+	}
+	else if(item->GetColour() == wxColour(wxT("Red"))){
+		event.SetToolTip(_("Excluded"));
+	}
+}
+
+void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
+	if(event.GetString() == _("Restore")){
+		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Disable();
+	}
+	else{
+		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();	
 	}
 }
