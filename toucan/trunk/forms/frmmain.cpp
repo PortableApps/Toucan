@@ -1764,12 +1764,14 @@ void frmMain::ClearToDefault(){
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
 		m_BackupLocations->Clear();
+		m_Backup_TreeCtrl->SetPreview(false);
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
 		m_Secure_Function->SetStringSelection(_("Encrypt"));
 		m_Secure_Rules->SetStringSelection(wxEmptyString);
 		m_Secure_TreeCtrl->DeleteAllItems();
 		m_SecureLocations->Clear();
+		m_Backup_TreeCtrl->SetPreview(false);
 	}
 }
 
