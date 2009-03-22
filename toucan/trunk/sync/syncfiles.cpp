@@ -148,16 +148,24 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 bool SyncFiles::CopyFile(wxString source, wxString dest){
 	bool ShouldTimeStamp = false;
 	#ifdef __WXMSW__
-		long iAttributes = 0;
+		long destAttributes = 0;
+		long sourceAttributes = 0;
 	#endif
 	if(data->GetIgnoreRO()){
 		#ifdef __WXMSW__
-			iAttributes = GetFileAttributes(dest);
-			if(iAttributes == -1){
-				iAttributes = FILE_ATTRIBUTE_NORMAL;					
+			destAttributes = GetFileAttributes(dest);
+			if(destAttributes == -1){
+				destAttributes = FILE_ATTRIBUTE_NORMAL;					
 			}
 			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL); 
+			sourceAttributes = GetFileAttributes(source);
+			if(sourceAttributes == -1){
+				sourceAttributes = FILE_ATTRIBUTE_NORMAL;					
+			}
+			SetFileAttributes(source,FILE_ATTRIBUTE_NORMAL); 
 		#endif
+		//To make sure that we can copy attributes and such
+		
 	} 
 
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
@@ -177,20 +185,6 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 			return false;
 		}
 	}
-	//Set the old attributes back
-	if(data->GetIgnoreRO()){
-		#ifdef __WXMSW__
-			SetFileAttributes(dest, iAttributes); 
-		#endif
-	} 
-	
-	if(data->GetAttributes()){
-		#ifdef __WXMSW__
-			int filearrtibs = GetFileAttributes(source);
-			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL);                       
-			SetFileAttributes(dest,filearrtibs);
-		#endif
-	}
 	if(data->GetTimeStamps() && ShouldTimeStamp){
 		wxFileName from(source);
 		wxFileName to(dest);
@@ -198,6 +192,20 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 		from.GetTimes(&access ,&mod ,&created );
 		to.SetTimes(&access ,&mod , &created); 
 	}	
+	//Set the old attributes back
+	if(data->GetIgnoreRO()){
+		#ifdef __WXMSW__
+			SetFileAttributes(dest, destAttributes); 
+			SetFileAttributes(source, sourceAttributes); 
+		#endif
+	} 
+	if(data->GetAttributes()){
+		#ifdef __WXMSW__
+			int filearrtibs = GetFileAttributes(source);
+			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL);                       
+			SetFileAttributes(dest,filearrtibs);
+		#endif
+	}
 	return true;
 }
 
