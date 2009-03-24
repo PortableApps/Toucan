@@ -45,9 +45,12 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Whatever function we have we always copy in this case, unless it is excluded
 	if(!rules.ShouldExclude(source, false)){
-		CopyFile(source, dest);		
+		if(CopyFile(source, dest)){
+			if(data->GetMove()){
+				RemoveFile(source);
+			}
+		}	
 	}
-
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFile(wxString path){
@@ -61,7 +64,11 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	else if(data->GetFunction() == _("Equalise")){
 		if(!rules.ShouldExclude(dest, false)){
 			//Swap them around as we are essentially in reverse
-			CopyFile(dest, source);
+			if(CopyFile(dest, source)){
+				if(data->GetMove()){
+					RemoveFile(dest);
+				}
+			}
 		}
 	}
 	return true;
@@ -72,10 +79,18 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 	if(!rules.ShouldExclude(source, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror")){
 			//Use the hash check version to minimise copying
-			CopyFileHash(source, dest);
+			if(CopyFileHash(source, dest)){
+				if(data->GetMove()){
+					RemoveFile(source);
+				}				
+			}
 		}
 		else if(data->GetFunction() == _("Update")){
-			UpdateFile(source, dest);
+			if(UpdateFile(source, dest)){
+				if(data->GetMove()){
+					RemoveFile(source);
+				}					
+			}
 		}		
 	}
 	if(data->GetFunction() == _("Equalise")){
@@ -90,15 +105,21 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
-	wxDir dir(dest);
-	if(!dir.HasFiles() && !dir.HasSubDirs() && rules.ShouldExclude(source, true)){
+	wxDir destdir(dest);
+	wxDir sourcedir(source);
+	if(!destdir.HasFiles() && !destdir.HasSubDirs() && rules.ShouldExclude(source, true)){
 		wxRmdir(dest);
+		return false;
 	}
 	else{
 		//Set the timestamps if needed
 		if(data->GetTimeStamps()){
 			CopyFolderTimestamp(source, dest);
 		}	
+	}
+	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetMove()){
+		//If we are moving and there are no files left then we need to remove the folder
+		wxRmdir(source);
 	}
 	return true;
 }
@@ -132,15 +153,21 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
-	wxDir dir(dest);
-	if(!dir.HasFiles() && !dir.HasSubDirs() && rules.ShouldExclude(source, true)){
+	wxDir destdir(dest);
+	wxDir sourcedir(source);
+	if(!destdir.HasFiles() && !destdir.HasSubDirs() && rules.ShouldExclude(source, true)){
 		wxRmdir(dest);
+		return false;
 	}
 	else{
 		//Set the timestamps if needed
 		if(data->GetTimeStamps()){
 			CopyFolderTimestamp(source, dest);
 		}	
+	}
+	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetMove()){
+		//If we are moving and there are no files left then we need to remove the folder
+		wxRmdir(source);
 	}
 	return true;
 }
@@ -164,8 +191,6 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 			}
 			SetFileAttributes(source,FILE_ATTRIBUTE_NORMAL); 
 		#endif
-		//To make sure that we can copy attributes and such
-		
 	} 
 
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
@@ -221,17 +246,17 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 	}
 
 	if(tmFrom.IsLaterThan(tmTo)){
-		CopyFileHash(source, dest);
+		return CopyFileHash(source, dest);
 	}
-	return true;
+	return false;
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
-	wxMD5* md5 = new wxMD5();
-	if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
-		CopyFile(source, dest);
+	wxMD5 md5;
+	if(md5.GetFileMD5(source) != md5.GetFileMD5(dest)){
+		return CopyFile(source, dest);
 	}
-	delete md5;
+	//Return true as it is already there
 	return true;
 }
 
@@ -314,7 +339,7 @@ bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
 
 bool SyncFiles::RemoveFile(wxString path){
 	if(wxRemoveFile(path)){
-		OutputProgress(_("Removed  ") + data->GetPreText() + path.Right(path.Length() - data->GetLength()));			
+		OutputProgress(_("Removed  ") + path);			
 	}
 	return true;
 }
