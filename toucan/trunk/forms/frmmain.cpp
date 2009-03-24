@@ -144,6 +144,7 @@ void frmMain::Init(){
 	m_Sync_Attributes = NULL;
 	m_Sync_Ignore_Readonly = NULL;
 	m_Sync_Ignore_DaylightS = NULL;
+	m_Sync_Move = NULL;
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
 	m_Backup_Location = NULL;
@@ -270,6 +271,9 @@ void frmMain::CreateControls()
 	m_Sync_Ignore_DaylightS->SetValue(false);
 	itemStaticBoxSizer30->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, 5);
 	
+	m_Sync_Move = new wxCheckBox(itemPanel6, ID_SYNC_MOVE, _("Move"));
+	m_Sync_Move->SetValue(false);
+	itemStaticBoxSizer30->Add(m_Sync_Move, 0, wxALIGN_LEFT|wxALL, 5);	
 	
 	wxBoxSizer* itemBoxSizer002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer28->Add(itemBoxSizer002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	

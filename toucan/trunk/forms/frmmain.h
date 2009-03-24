@@ -50,6 +50,7 @@ class Settings;
 #define ID_SYNC_ATTRIB 10068
 #define ID_SYNC_IGNORERO 10069
 #define ID_SYNC_IGNOREDS 10070
+#define ID_SYNC_MOVE 10071
 
 //Backup 10100-10149
 #define ID_PANEL_BACKUP 10100
@@ -284,6 +285,7 @@ public:
 	wxCheckBox* m_Sync_Attributes;
 	wxCheckBox* m_Sync_Ignore_Readonly;
 	wxCheckBox* m_Sync_Ignore_DaylightS;
+	wxCheckBox* m_Sync_Move;
 	
 	//Backup
 	wxComboBox* m_Backup_Job_Select;
