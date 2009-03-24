@@ -1,2 +1,0 @@
-The source code for PortableAppsUpdater is available from the PortableAppsUpdater homepage:
-http://portableapps.com/PortableAppsUpdater
