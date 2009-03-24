@@ -45,6 +45,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_DEST_TREE, frmMain::OnSyncDestTreeRightClick)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_SOURCE_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
+	EVT_RADIOBOX(ID_SYNC_FUNCTION, frmMain::OnSyncFunctionSelected)
 	
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -1919,5 +1920,14 @@ void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 	}
 	else{
 		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();	
+	}
+}
+
+void frmMain::OnSyncFunctionSelected(wxCommandEvent& event){
+	if(event.GetString() == _("Copy") || event.GetString() == _("Update")){
+		m_Sync_Move->Enable();
+	}
+	else{
+		m_Sync_Move->Disable();	
 	}
 }
