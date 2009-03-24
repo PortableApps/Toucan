@@ -50,11 +50,13 @@ public:
 	bool GetAttributes() { return blAttributes; }
 
 	void SetIgnoreRO(bool ignorero) { blIgnoreRO = ignorero; }
-	bool  GetIgnoreRO() { return blIgnoreRO; }
+	bool GetIgnoreRO() { return blIgnoreRO; }
 
 	void SetIgnoreDLS(bool ignoredls) { blIgnoreDLS = ignoredls; }
-	bool  GetIgnoreDLS() { return blIgnoreDLS; }
+	bool GetIgnoreDLS() { return blIgnoreDLS; }
 	
+	void SetMove(bool move) { blMove = move; }
+	bool GetMove() { return blMove; }	
 
 private:
 	wxString strSource;
@@ -66,7 +68,7 @@ private:
 	bool blAttributes;
 	bool blIgnoreRO;
 	bool blIgnoreDLS;
-
+	bool blMove;
 };
 
 #endif
