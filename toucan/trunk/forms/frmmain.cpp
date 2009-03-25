@@ -245,10 +245,11 @@ void frmMain::CreateControls()
 	wxArrayString m_Sync_FunctionStrings;
 	m_Sync_FunctionStrings.Add(_("Copy"));
 	m_Sync_FunctionStrings.Add(_("Update"));
-	m_Sync_FunctionStrings.Add(_("Move"));
 	m_Sync_FunctionStrings.Add(_("Mirror"));
 	m_Sync_FunctionStrings.Add(_("Equalise"));
-	m_Sync_Function = new wxRadioBox( itemPanel6, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 1, wxRA_SPECIFY_COLS );
+	m_Sync_FunctionStrings.Add(_("Move"));
+	m_Sync_FunctionStrings.Add(_("Clean"));
+	m_Sync_Function = new wxRadioBox( itemPanel6, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 4, wxRA_SPECIFY_ROWS );
 	m_Sync_Function->SetSelection(0);
 	itemBoxSizer28->Add(m_Sync_Function, 0, wxALIGN_TOP|wxALL, 5);
 
