@@ -75,6 +75,12 @@ bool SyncPreview::OnSourceNotDestFile(wxString path){
 		if(!rules.ShouldExclude(source, false)){
 			item->SetColour(wxT("Blue"));
 			destitems.Add(item);
+			if(data->GetFunction() == _("Move")){
+				int pos = GetItemLocation(path, &sourceitems);
+				if(pos != -1){
+					sourceitems.Item(pos)->SetColour(wxT("Grey"));						
+				}
+			}
 		}
 		else{
 			delete item;
@@ -113,12 +119,18 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!rules.ShouldExclude(dest, false)){
-		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror")){
+		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			wxMD5* md5 = new wxMD5();
 			if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
 				int pos = GetItemLocation(path, &destitems);
 				if(pos != -1){
-					destitems.Item(pos)->SetColour(wxT("Green"));			
+					destitems.Item(pos)->SetColour(wxT("Green"));		
+					if(data->GetFunction() == _("Move")){
+						int pos = GetItemLocation(path, &sourceitems);
+						if(pos != -1){
+							sourceitems.Item(pos)->SetColour(wxT("Grey"));						
+						}
+					}
 				}
 			}		
 		}
@@ -183,11 +195,17 @@ bool SyncPreview::OnSourceNotDestFolder(wxString path){
 		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
 		if(!rules.ShouldExclude(source, true)){
 			item->SetColour(wxT("Blue"));
-			}
+		}
 		else{
 			item->SetColour(wxT("Red"));
 		}
 		destitems.Add(item);
+		if(data->GetFunction() == _("Move")){
+			int pos = GetItemLocation(path, &sourceitems);
+			if(pos != -1){
+				sourceitems.Item(pos)->SetColour(wxT("Red"));						
+			}
+		}
 		return true;	
 	}
 }
@@ -217,6 +235,16 @@ bool SyncPreview::OnNotSourceDestFolder(wxString path){
 	return true;
 }
 bool SyncPreview::OnSourceAndDestFolder(wxString path){
+	wxString source = sourceroot + wxFILE_SEP_PATH + path;
+	wxString dest = destroot + wxFILE_SEP_PATH + path;
+	if(data->GetFunction() == _("Move")){
+		int pos = GetItemLocation(path, &sourceitems);
+		if(pos != -1){
+			if(!rules.ShouldExclude(source, true)){
+				sourceitems.Item(pos)->SetColour(wxT("Red"));				
+			}		
+		}
+	}
 	return true;
 }
 
