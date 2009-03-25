@@ -1905,9 +1905,9 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 	else if(item->GetColour() == wxColour(wxT("Green"))){
 		event.SetToolTip(_("Overwritten"));
 	}
-	else if(item->GetColour() == wxColour(wxT("Red"))){
-		event.SetToolTip(_("Excluded"));
-	}
+	//else if(item->GetColour() == wxColour(wxT("Red"))){
+	//	event.SetToolTip(_("Excluded"));
+	//}
 }
 
 void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
