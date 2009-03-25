@@ -46,7 +46,7 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 	//Whatever function we have we always copy in this case, unless it is excluded
 	if(!rules.ShouldExclude(source, false)){
 		if(CopyFile(source, dest)){
-			if(data->GetMove()){
+			if(data->GetFunction() == _("Move")){
 				RemoveFile(source);
 			}
 		}	
@@ -64,11 +64,7 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	else if(data->GetFunction() == _("Equalise")){
 		if(!rules.ShouldExclude(dest, false)){
 			//Swap them around as we are essentially in reverse
-			if(CopyFile(dest, source)){
-				if(data->GetMove()){
-					RemoveFile(dest);
-				}
-			}
+			CopyFile(dest, source);
 		}
 	}
 	return true;
@@ -77,20 +73,16 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!rules.ShouldExclude(source, false)){
-		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror")){
+		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			//Use the hash check version to minimise copying
 			if(CopyFileHash(source, dest)){
-				if(data->GetMove()){
+				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
 				}				
 			}
 		}
 		else if(data->GetFunction() == _("Update")){
-			if(UpdateFile(source, dest)){
-				if(data->GetMove()){
-					RemoveFile(source);
-				}					
-			}
+			UpdateFile(source, dest);			
 		}		
 	}
 	if(data->GetFunction() == _("Equalise")){
@@ -117,7 +109,7 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 			CopyFolderTimestamp(source, dest);
 		}	
 	}
-	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetMove()){
+	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
 		//If we are moving and there are no files left then we need to remove the folder
 		wxRmdir(source);
 	}
@@ -165,7 +157,7 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 			CopyFolderTimestamp(source, dest);
 		}	
 	}
-	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetMove()){
+	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
 		//If we are moving and there are no files left then we need to remove the folder
 		wxRmdir(source);
 	}

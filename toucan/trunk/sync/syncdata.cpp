@@ -35,8 +35,6 @@ bool SyncData::TransferFromFile(){
 	if(blError){ SetIgnoreRO(blTemp); }
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/IgnoreDaylightSavings"), &blTemp);
 	if(blError){ SetIgnoreDLS(blTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Move"), &blTemp);
-	if(blError){ SetIgnoreDLS(blTemp); }
 	
 	if(!blError){
 		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
@@ -58,7 +56,6 @@ bool SyncData::TransferToFile(){
 	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/Attributes"), GetAttributes());
 	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/IgnoreReadOnly"), GetIgnoreRO());
 	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
-	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/Move"), GetMove());
 	wxGetApp().m_Jobs_Config->Flush();
 	if(!blError){
 		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
@@ -87,7 +84,6 @@ bool SyncData::TransferToForm(){
 	window->m_Sync_Attributes->SetValue(GetAttributes());
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
 	window->m_Sync_Ignore_DaylightS->SetValue(GetIgnoreDLS());
-	window->m_Sync_Move->SetValue(GetMove());
 	return false;
 }
 
@@ -100,7 +96,6 @@ bool SyncData::TransferFromForm(){
 	SetAttributes(window->m_Sync_Attributes->GetValue());
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
-	SetMove(window->m_Sync_Move->GetValue());
 	return true;	
 }
 
@@ -117,8 +112,6 @@ void SyncData::Output(){
 	MessageBox(varTemp.GetString(), wxT("Ignore Readonly?"));
 	varTemp = GetIgnoreDLS();
 	MessageBox(varTemp.GetString(), wxT("Ignore Daylight Savings?"));
-	varTemp = GetMove();
-	MessageBox(varTemp.GetString(), wxT("Move?"));
 }
 
 bool SyncData::Execute(Rules rules){

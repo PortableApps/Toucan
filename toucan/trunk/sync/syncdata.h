@@ -54,9 +54,6 @@ public:
 
 	void SetIgnoreDLS(bool ignoredls) { blIgnoreDLS = ignoredls; }
 	bool GetIgnoreDLS() { return blIgnoreDLS; }
-	
-	void SetMove(bool move) { blMove = move; }
-	bool GetMove() { return blMove; }	
 
 private:
 	wxString strSource;
@@ -68,7 +65,6 @@ private:
 	bool blAttributes;
 	bool blIgnoreRO;
 	bool blIgnoreDLS;
-	bool blMove;
 };
 
 #endif

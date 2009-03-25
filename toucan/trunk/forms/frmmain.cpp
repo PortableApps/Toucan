@@ -45,8 +45,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_DEST_TREE, frmMain::OnSyncDestTreeRightClick)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_SOURCE_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
-	EVT_RADIOBOX(ID_SYNC_FUNCTION, frmMain::OnSyncFunctionSelected)
-	
+
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
 	EVT_BUTTON(ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick)
@@ -145,7 +144,6 @@ void frmMain::Init(){
 	m_Sync_Attributes = NULL;
 	m_Sync_Ignore_Readonly = NULL;
 	m_Sync_Ignore_DaylightS = NULL;
-	m_Sync_Move = NULL;
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
 	m_Backup_Location = NULL;
@@ -247,6 +245,7 @@ void frmMain::CreateControls()
 	wxArrayString m_Sync_FunctionStrings;
 	m_Sync_FunctionStrings.Add(_("Copy"));
 	m_Sync_FunctionStrings.Add(_("Update"));
+	m_Sync_FunctionStrings.Add(_("Move"));
 	m_Sync_FunctionStrings.Add(_("Mirror"));
 	m_Sync_FunctionStrings.Add(_("Equalise"));
 	m_Sync_Function = new wxRadioBox( itemPanel6, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 1, wxRA_SPECIFY_COLS );
@@ -271,10 +270,6 @@ void frmMain::CreateControls()
 	m_Sync_Ignore_DaylightS = new wxCheckBox( itemPanel6, ID_SYNC_IGNOREDS, _("Ignore Daylight Savings"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_Sync_Ignore_DaylightS->SetValue(false);
 	itemStaticBoxSizer30->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, 5);
-	
-	m_Sync_Move = new wxCheckBox(itemPanel6, ID_SYNC_MOVE, _("Move"));
-	m_Sync_Move->SetValue(false);
-	itemStaticBoxSizer30->Add(m_Sync_Move, 0, wxALIGN_LEFT|wxALL, 5);	
 	
 	wxBoxSizer* itemBoxSizer002 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer28->Add(itemBoxSizer002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
@@ -1920,14 +1915,5 @@ void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 	}
 	else{
 		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();	
-	}
-}
-
-void frmMain::OnSyncFunctionSelected(wxCommandEvent& event){
-	if(event.GetString() == _("Copy") || event.GetString() == _("Update")){
-		m_Sync_Move->Enable();
-	}
-	else{
-		m_Sync_Move->Disable();	
 	}
 }

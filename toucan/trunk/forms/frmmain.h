@@ -286,7 +286,6 @@ public:
 	wxCheckBox* m_Sync_Attributes;
 	wxCheckBox* m_Sync_Ignore_Readonly;
 	wxCheckBox* m_Sync_Ignore_DaylightS;
-	wxCheckBox* m_Sync_Move;
 	
 	//Backup
 	wxComboBox* m_Backup_Job_Select;
