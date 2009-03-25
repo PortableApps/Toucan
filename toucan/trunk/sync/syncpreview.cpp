@@ -68,15 +68,17 @@ bool SyncPreview::OperationCaller(std::map<wxString, short> paths){
 }
 
 bool SyncPreview::OnSourceNotDestFile(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
-	if(!rules.ShouldExclude(source, false)){
-		item->SetColour(wxT("Blue"));
-		destitems.Add(item);
-	}
-	else{
-		delete item;
+	if(data->GetFunction() != _("Clean")){
+		wxString source = sourceroot + wxFILE_SEP_PATH + path;
+		wxString dest = destroot + wxFILE_SEP_PATH + path;
+		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
+		if(!rules.ShouldExclude(source, false)){
+			item->SetColour(wxT("Blue"));
+			destitems.Add(item);
+		}
+		else{
+			delete item;
+		}	
 	}
 	return true;
 }
@@ -85,7 +87,7 @@ bool SyncPreview::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!rules.ShouldExclude(dest, false)){
-		if(data->GetFunction() == _("Mirror")){
+		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 			int pos = GetItemLocation(path, &destitems);
 			if(pos != -1){
 				if(!rules.ShouldExclude(dest, false)){
@@ -175,23 +177,25 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 	return true;
 }
 bool SyncPreview::OnSourceNotDestFolder(wxString path){
-	wxString source = sourceroot + wxFILE_SEP_PATH + path;
-	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
-	if(!rules.ShouldExclude(source, true)){
-		item->SetColour(wxT("Blue"));
+	if(data->GetFunction() != _("Clean")){
+		wxString source = sourceroot + wxFILE_SEP_PATH + path;
+		wxString dest = destroot + wxFILE_SEP_PATH + path;
+		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+		if(!rules.ShouldExclude(source, true)){
+			item->SetColour(wxT("Blue"));
+			}
+		else{
+			item->SetColour(wxT("Red"));
 		}
-	else{
-		item->SetColour(wxT("Red"));
+		destitems.Add(item);
+		return true;	
 	}
-	destitems.Add(item);
-	return true;
 }
 
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(data->GetFunction() == _("Mirror")){
+	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
 			if(!rules.ShouldExclude(dest, true)){
