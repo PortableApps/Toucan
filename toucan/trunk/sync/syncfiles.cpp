@@ -43,12 +43,14 @@ bool SyncFiles::Execute(){
 bool SyncFiles::OnSourceNotDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	//Whatever function we have we always copy in this case, unless it is excluded
-	if(!rules.ShouldExclude(source, false)){
-		if(CopyFile(source, dest)){
-			if(data->GetFunction() == _("Move")){
-				RemoveFile(source);
-			}
+	//Clean doesnt copy any files
+	if(data->GetFunction() != _("Clean")){
+		if(!rules.ShouldExclude(source, false)){
+			if(CopyFile(source, dest)){
+				if(data->GetFunction() == _("Move")){
+					RemoveFile(source);
+				}
+			}	
 		}	
 	}
 	return true;
@@ -56,7 +58,7 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 bool SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(data->GetFunction() == _("Mirror")){
+	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, false)){
 			RemoveFile(dest);			
 		}
@@ -97,33 +99,35 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
-	wxDir destdir(dest);
-	wxDir sourcedir(source);
-	if(!destdir.HasFiles() && !destdir.HasSubDirs() && rules.ShouldExclude(source, true)){
-		wxRmdir(dest);
-		return false;
-	}
-	else{
-		//Set the timestamps if needed
-		if(data->GetTimeStamps()){
-			CopyFolderTimestamp(source, dest);
-		}	
-	}
-	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
-		//If we are moving and there are no files left then we need to remove the folder
-		wxRmdir(source);
+	if(data->GetFunction() != _("Clean")){
+		wxDir destdir(dest);
+		wxDir sourcedir(source);
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && rules.ShouldExclude(source, true)){
+			wxRmdir(dest);
+			return false;
+		}
+		else{
+			//Set the timestamps if needed
+			if(data->GetTimeStamps()){
+				CopyFolderTimestamp(source, dest);
+			}	
+		}
+		if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
+			//If we are moving and there are no files left then we need to remove the folder
+			wxRmdir(source);
+		}
 	}
 	return true;
 }
 bool SyncFiles::OnNotSourceDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(data->GetFunction() == _("Mirror")){
+	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, true)){
 			RemoveDirectory(dest);		
 		}
 	}
-	if(data->GetFunction() == _("Equalise")){
+	else if(data->GetFunction() == _("Equalise")){
 		SyncFiles sync(source, dest, data, rules);
 		sync.Execute();
 		wxDir dir(source);
@@ -145,21 +149,23 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 	//Always recurse into the next directory
 	SyncFiles sync(source, dest, data, rules);
 	sync.Execute();
-	wxDir destdir(dest);
-	wxDir sourcedir(source);
-	if(!destdir.HasFiles() && !destdir.HasSubDirs() && rules.ShouldExclude(source, true)){
-		wxRmdir(dest);
-		return false;
-	}
-	else{
-		//Set the timestamps if needed
-		if(data->GetTimeStamps()){
-			CopyFolderTimestamp(source, dest);
-		}	
-	}
-	if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
-		//If we are moving and there are no files left then we need to remove the folder
-		wxRmdir(source);
+	if(data->GetFunction() != _("Clean")){
+		wxDir destdir(dest);
+		wxDir sourcedir(source);
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && rules.ShouldExclude(source, true)){
+			wxRmdir(dest);
+			return false;
+		}
+		else{
+			//Set the timestamps if needed
+			if(data->GetTimeStamps()){
+				CopyFolderTimestamp(source, dest);
+			}	
+		}
+		if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
+			//If we are moving and there are no files left then we need to remove the folder
+			wxRmdir(source);
+		}
 	}
 	return true;
 }
