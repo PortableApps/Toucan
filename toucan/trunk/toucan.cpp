@@ -80,9 +80,9 @@ bool Toucan::OnInit(){
 	//Make sure the jobs file is up to date!
 	int version = 1;
 	m_Jobs_Config->Read(wxT("General/Version"), &version);
-	m_Jobs_Config->Write(wxT("General/Version"), 202);
+	m_Jobs_Config->Write(wxT("General/Version"), 204);
 	m_Jobs_Config->Flush();
-	if(version < 202){
+	if(version < 204){
 		UpdateJobs(version);
 	}
 

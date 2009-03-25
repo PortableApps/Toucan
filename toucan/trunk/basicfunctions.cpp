@@ -502,6 +502,27 @@ bool UpdateJobs(int version){
 			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Jobs_Config->Flush();
+		version = 202;
+	}
+	if(version == 202){
+		bool blCont;
+		wxString strValue;
+		long dummy;
+		//Iterate through the groups adding them to the box
+		blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
+		while (blCont){
+			if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Sync")){
+				wxString strTemp;
+				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Function"));
+				if(strTemp == _("Mirror (Copy)") || strTemp == _("Mirror (Update)")){
+					strTemp = _("Mirror");
+				}
+				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Function"), strTemp);
+				wxGetApp().m_Jobs_Config->Flush();
+			}
+			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
+		}
+		wxGetApp().m_Jobs_Config->Flush();
 	}
 	return true;
 }
