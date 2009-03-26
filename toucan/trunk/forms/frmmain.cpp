@@ -944,6 +944,12 @@ void frmMain::OnBackupAddClick(wxCommandEvent& event){
 	wxBusyCursor cursor;
 	m_Backup_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Backup_DirCtrl->GetSelectedPaths();
+	int added = arrPaths.GetCount();
+	int existing = m_BackupLocations->GetCount();
+	if(m_Backup_Function->GetStringSelection() == _("Differential") && added + existing > 1){
+		ErrorBox(_("Differential only supports one folder"));
+		return;
+	}
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_BackupLocations->Add(arrPaths.Item(i));
 		m_Backup_TreeCtrl->AddNewPath(arrPaths.Item(i));		
