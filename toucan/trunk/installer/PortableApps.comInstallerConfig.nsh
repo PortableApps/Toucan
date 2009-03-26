@@ -32,7 +32,7 @@
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
 !define VERSION "2.1.0.0"
-!define FILENAME "Toucan_2.1.0_DEVTEST3"
+!define FILENAME "Toucan_2.1.0_PRERELEASE1"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins
@@ -90,7 +90,7 @@
 	!define USES_RUSSIAN "true"
 	;!define USES_SERBIAN "true"
 	;!define USES_SERBIANLATIN "true"
-	;!define USES_SIMPCHINESE "true"
+	!define USES_SIMPCHINESE "true"
 	;!define USES_SLOVAK "true"
 	;!define USES_SLOVENIAN "true"
 	!define USES_SPANISH "true"

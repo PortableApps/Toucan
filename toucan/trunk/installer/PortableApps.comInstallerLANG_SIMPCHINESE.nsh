@@ -1,0 +1,7 @@
+LangString welcome ${LANG_SIMPCHINESE} "本安装向导将引导您安装 ${NAME}.\r\n\r\n如果您打算升级旧版本的 ${NAME}, 请在操作之前关闭它.\r\n\r\n点击 下一步 继续."
+LangString finish ${LANG_SIMPCHINESE} "${NAME} 已经被安装到您的设备上了.\r\n\r\n点击 结束 来关闭本安装向导."
+LangString runwarning ${LANG_SIMPCHINESE} "请关闭所有与 ${CLOSENAME} 相关的程序，然后点击 确定.  当PortableApp软件在运行时，是不能进行升级的."
+LangString invaliddirectory ${LANG_SIMPCHINESE} "您选择的安装目录无效，请选择一个有效的目录."
+LangString notenoughspace ${LANG_SIMPCHINESE} "您选择的安装设备没有足够的空间来安装本套件."
+LangString checkforplatform ${LANG_SIMPCHINESE} "正在检查 PortableApps.com 平台"
+LangString refreshmenu ${LANG_SIMPCHINESE} "正在更新 PortableApps.com 菜单"
