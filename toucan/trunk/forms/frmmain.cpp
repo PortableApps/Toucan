@@ -1903,10 +1903,10 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 	VdtcTreeItemBase* item = static_cast<VdtcTreeItemBase*> (tree->GetItemData(event.GetItem()));
 
 	if(item->GetColour() == wxColour(wxT("Blue"))){
-		event.SetToolTip(_("Copied"));
+		event.SetToolTip(_("Copied "));
 	}
 	else if(item->GetColour() == wxColour(wxT("Grey"))){
-		event.SetToolTip(_("Deleted"));
+		event.SetToolTip(_("Deleted "));
 	}
 	else if(item->GetColour() == wxColour(wxT("Green"))){
 		event.SetToolTip(_("Overwritten"));

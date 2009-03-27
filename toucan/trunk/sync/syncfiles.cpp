@@ -193,7 +193,7 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
-			OutputProgress(wxT("Copied  ") + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+			OutputProgress(wxT("Copied ") + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
 			ShouldTimeStamp = true;
 		}
 		else{
@@ -337,7 +337,7 @@ bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
 
 bool SyncFiles::RemoveFile(wxString path){
 	if(wxRemoveFile(path)){
-		OutputProgress(_("Removed  ") + path);			
+		OutputProgress(_("Removed ") + path);			
 	}
 	return true;
 }
