@@ -206,8 +206,8 @@ bool SyncPreview::OnSourceNotDestFolder(wxString path){
 				sourceitems.Item(pos)->SetColour(wxT("Red"));						
 			}
 		}
-		return true;	
 	}
+	return true;
 }
 
 bool SyncPreview::OnNotSourceDestFolder(wxString path){
