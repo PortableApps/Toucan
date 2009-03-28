@@ -1248,24 +1248,23 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event){
 
 //ID_SYNC_PREVIEW
 void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
-
-	//Get the rules
-	Rules rules;
 	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+		//Get the rules
+		Rules rules;
 		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		
+		m_Sync_Dest_Tree->SetRules(rules);
+		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->SetPreview(true);
+		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+				
+		m_Sync_Source_Tree->SetRules(rules);
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->SetPreview(true);
+		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	}
-
-	m_Sync_Dest_Tree->SetRules(rules);
-	m_Sync_Dest_Tree->DeleteAllItems();
-	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Dest_Tree->SetPreview(true);
-	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-			
-	m_Sync_Source_Tree->SetRules(rules);
-	m_Sync_Source_Tree->DeleteAllItems();
-	m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Source_Tree->SetPreview(true);
-	m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 }
 
 //ID_BACKUP_PREVIEW
@@ -1292,9 +1291,7 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		//Create a new rule set and populate it from the form
 		Rules rules;
-		if (m_Secure_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-		}
+		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
 		//Set up the tree ctrl for previewing
 		m_Secure_TreeCtrl->SetPreview(true);
 		m_Secure_TreeCtrl->SetRules(rules);
