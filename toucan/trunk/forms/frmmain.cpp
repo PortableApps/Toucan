@@ -1248,60 +1248,60 @@ void frmMain::OnSecureOKClick(wxCommandEvent& event){
 
 //ID_SYNC_PREVIEW
 void frmMain::OnSyncPreviewClick(wxCommandEvent& event){
-	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
 		//Get the rules
 		Rules rules;
-		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-		
+		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+		}	
+
 		m_Sync_Dest_Tree->SetRules(rules);
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->SetPreview(true);
 		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-				
+
 		m_Sync_Source_Tree->SetRules(rules);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetPreview(true);
 		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
-	}
 }
 
 //ID_BACKUP_PREVIEW
 void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
+	//Create a new rule set and populate it from the form
+	Rules rules;
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
-		//Create a new rule set and populate it from the form
-		Rules rules;
 		rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
-		//Set up the tree ctrl for previewing
-		m_Backup_TreeCtrl->SetPreview(true);
-		m_Backup_TreeCtrl->SetRules(rules);
-		//Delete all items and re-add the root
-		m_Backup_TreeCtrl->DeleteAllItems();
-		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
-		for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
-			//Loop through all the the filenames listed in the array and read them to the tree
-			m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
-		}
+	}
+	//Set up the tree ctrl for previewing
+	m_Backup_TreeCtrl->SetPreview(true);
+	m_Backup_TreeCtrl->SetRules(rules);
+	//Delete all items and re-add the root
+	m_Backup_TreeCtrl->DeleteAllItems();
+	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
+		//Loop through all the the filenames listed in the array and read them to the tree
+		m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(m_BackupLocations->Item(i))));
 	}
 }
 
 //ID_SECURE_PREVIEW
 void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
+	//Create a new rule set and populate it from the form
+	Rules rules;
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
-		//Create a new rule set and populate it from the form
-		Rules rules;
 		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
-		//Set up the tree ctrl for previewing
-		m_Secure_TreeCtrl->SetPreview(true);
-		m_Secure_TreeCtrl->SetRules(rules);
-		//Delete all items and re-add the root
-		m_Secure_TreeCtrl->DeleteAllItems();
-		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
-		for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
-			//Loop through all the the filenames listed in the array and readd them to the tree
-			m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
-		}
+	}
+	//Set up the tree ctrl for previewing
+	m_Secure_TreeCtrl->SetPreview(true);
+	m_Secure_TreeCtrl->SetRules(rules);
+	//Delete all items and re-add the root
+	m_Secure_TreeCtrl->DeleteAllItems();
+	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
+		//Loop through all the the filenames listed in the array and readd them to the tree
+		m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(m_SecureLocations->Item(i))));
 	}
 }
 
