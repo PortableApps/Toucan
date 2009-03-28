@@ -1273,9 +1273,7 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		//Create a new rule set and populate it from the form
 		Rules rules;
-		if (m_Backup_Rules->GetStringSelection() != wxEmptyString){
-			rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
-		}
+		rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 		//Set up the tree ctrl for previewing
 		m_Backup_TreeCtrl->SetPreview(true);
 		m_Backup_TreeCtrl->SetRules(rules);
