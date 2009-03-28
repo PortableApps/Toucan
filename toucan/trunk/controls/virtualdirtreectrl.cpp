@@ -603,9 +603,6 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 			if (_Rules.ShouldExclude(strComplete, isdir)) {
 				items.Item(i)->SetColour(wxColour(wxT("Red")));
 			} 
-			else {
-				items.Item(i)->SetColour(wxColour(wxT("Black")));
-			}
 		}
 	}
 	else if(_IsSync && _Preview){
