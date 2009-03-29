@@ -151,6 +151,7 @@ class Settings;
 //Help 10500-10549
 #define ID_PANEL_HELP 10500
 #define ID_HELP 10501
+#define ID_HELP_TESTS 10502
 
 class frmMain: public wxFrame
 {
@@ -249,6 +250,7 @@ public:
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
+	void OnTestsClick(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	
 	//Menu
