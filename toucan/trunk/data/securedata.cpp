@@ -15,6 +15,7 @@
 
 //Grab all of the fields from the form*/
 bool SecureData::TransferFromFile(){
+	//ATTN : Needs cleanup
 	bool blError;
 	wxString strTemp;
 
@@ -34,6 +35,7 @@ bool SecureData::TransferFromFile(){
 
 //For saving to an ini file
 bool SecureData::TransferToFile(){
+	//ATTN : Needs cleanup
 	bool blError;
 	//Delete a group if it already exists
 	blError = wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
@@ -54,6 +56,7 @@ bool SecureData::TransferToFile(){
 
 /*This function takes the data in BackupData and fills in the GUI*/
 bool SecureData::TransferToForm(){
+	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 	if(window == NULL){
 		return false;
@@ -78,6 +81,7 @@ bool SecureData::TransferToForm(){
 /* This function sets all of the fields in SyncData based on the user inputted data in the
 Main program window.*/
 bool SecureData::TransferFromForm(){
+	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 
 	SetLocations(*wxGetApp().MainWindow->m_SecureLocations);
@@ -99,13 +103,13 @@ bool SecureData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
 		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 	}
-	//Call the secure function
 	Secure(*this, rules, wxGetApp().ProgressWindow);
 	return true;
 }
 
 
 bool SecureData::NeededFieldsFilled(){
+	//ATTN : Needs cleanup
 	bool blFilled = true;
 	if(arrLocations.Count() == 0){
 		blFilled = false;

@@ -12,7 +12,7 @@
 #include "../forms/frmmain.h"
 
 /*Securedata class stores all information needed for sync operations
-excluding the rule set. Also includes functions for copying too and from
+excluding the rule set. Also includes functions for copying to and from
 the gui and ini files*/
 class SecureData : public RootData{
 

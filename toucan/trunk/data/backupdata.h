@@ -15,7 +15,7 @@
 /*The backupdata class contains all of the information needed for backups, except the ruels. Includes
 functiosn for writing the data to and from the gui and an ini file*/
 class BackupData : public RootData{
-
+	//ATTN : Replace IsPassword
 public:
 	//Functions
 	bool TransferToFile();

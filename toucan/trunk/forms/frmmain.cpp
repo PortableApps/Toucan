@@ -874,6 +874,7 @@ void frmMain::CreateControls()
 //Get bitmap resources
 wxBitmap frmMain::GetBitmapResource(const wxString& name)
 {
+	//ATTN : Do we really need this, bitmaps are only loaded once
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	wxUnusedVar(name);
 	if (name == _T("save.png")) {

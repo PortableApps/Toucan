@@ -18,6 +18,7 @@
 
 
 bool BackupData::TransferFromFile(){
+	//ATTN : Needs cleanup
 	wxString strName = GetName();
 
 	bool blError;
@@ -84,6 +85,7 @@ bool BackupData::TransferToFile(){
 }
 
 bool BackupData::TransferToForm(){
+	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 	if(window == NULL){
 		return false;
@@ -110,6 +112,7 @@ bool BackupData::TransferToForm(){
 /* This function sets all of the fields in SyncData based on the user inputted data in the
 Main program window.*/
 bool BackupData::TransferFromForm(){
+	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 
 	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
@@ -123,6 +126,7 @@ bool BackupData::TransferFromForm(){
 
 /*This is a debugging tool only, not for use in release  versions of Toucan */
 void BackupData::Output(){
+	//ATTN : Needs updating for all outputs
 	MessageBox(GetBackupLocation(), wxT("Backup Location"));
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
 		MessageBox(GetLocations().Item(i), wxT("Location"));
@@ -212,6 +216,7 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 	if(wxGetApp().ShouldAbort()){
 		return true;
 	}
+	//ATTN : Will need to change in wxWidgets 2.9.0
 	wxGetApp().Yield();
 	if(wxDirExists(strPath)){
 		//Clean up the path passed
