@@ -16,7 +16,6 @@
 #include "frmprogress.h"
 #include "frmvariable.h"
 #include "../toucan.h"
-#include "../tests.h"
 #include "../dragndrop.h"
 #include "../script.h"
 #include "../basicfunctions.h"
@@ -27,6 +26,10 @@
 #include "../sync/syncdata.h"
 #include "../controls/extendeddirctrl.h"
 #include "../controls/virtualdirtreectrl.h"
+
+#ifdef __WXDEBUG__
+#include "../tests.h"
+#endif
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
@@ -108,8 +111,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
-	EVT_BUTTON(ID_HELP_TESTS, frmMain::OnTestsClick)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
+#ifdef __WXDEBUG__
+	EVT_BUTTON(ID_HELP_TESTS, frmMain::OnTestsClick)
+#endif
 	
 	//Menu
 	EVT_MENU(ID_MENU_FILEEXCLUDE_EXTENSION, frmMain::OnMenuFileExcludeExtensionClick)
@@ -770,8 +775,10 @@ void frmMain::CreateControls()
 	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 5);
 	
+#ifdef __WXDEBUG__
 	wxButton* TestButton = new wxButton(HelpPanel, ID_HELP_TESTS, _("Run Tests"));
 	HelpSizer->Add(TestButton, 0, wxALIGN_TOP|wxALL, 5);
+#endif
 	
 	m_HelpWindow = new wxHtmlHelpWindow;
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
@@ -1926,7 +1933,9 @@ void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 	}
 }
 
+#ifdef __WXDEBUG__
 void frmMain::OnTestsClick(wxCommandEvent &event){
 	wxGetApp().ProgressWindow->Show();
 	Tests test;	
 }
+#endif

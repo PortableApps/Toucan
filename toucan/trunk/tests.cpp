@@ -11,12 +11,13 @@
 #include <map>
 
 Tests::Tests(){
-	SetGaugeRange(9);
+	total = 9;
+	SetGaugeRange(total);
 	OutputBlank();
 	failures = 0;
 	Variables();
 	OutputProgress(wxString::Format(wxT("%d failures"), failures));
-	OutputProgress(wxString::Format(wxT("%d successes"), 9 - failures));
+	OutputProgress(wxString::Format(wxT("%d successes"), total - failures));
 }
 
 void Tests::Variables(){
@@ -37,6 +38,7 @@ void Tests::Variables(){
 			OutputProgress((*iter).first + wxT(" failed"));
 			failures++;
 		}
+		IncrementGauge();
 	}
 	return;
 }
