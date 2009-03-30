@@ -10,7 +10,8 @@
 class Tests{
 public:
 	Tests();
-	void Variables();
+	void VariablesTest();
+	void RulesTest();
 
 private:
 	int failures;
