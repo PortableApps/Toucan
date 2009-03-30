@@ -11,7 +11,7 @@
 #include <map>
 
 Tests::Tests(){
-	total = 9;
+	total = 10;
 	SetGaugeRange(total);
 	OutputBlank();
 	failures = 0;
@@ -32,6 +32,8 @@ void Tests::Variables(){
 	list[wxT("@mm@")] = wxDateTime::Now().Format(wxT("%M"));
 	list[wxT("@drive@")] =  wxT("C:\\");
 	list[wxT("@docs@")] =  wxT("C:\\Users\\Steven\\Documents");
+	//A more complex test
+	list[wxT("@drive@\\testdir\\@date@.zip")] = wxT("C:\\testdir\\") + wxDateTime::Now().FormatISODate() + wxT(".zip");
 
 	for(std::map<wxString, wxString>::iterator iter = list.begin(); iter != list.end(); ++iter){
 		if(Normalise(Normalise((*iter).first)) != (*iter).second){
