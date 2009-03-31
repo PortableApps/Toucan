@@ -53,13 +53,14 @@ void Tests::RulesTest(){
 	//Filepath and is it a directory
 	std::map<wxString, bool> list;
 	//Set up the paths
-	list[(wxT("C:\\"))] = true; //Included
-	list[(wxT("C:\\test.doc"))] = false; //Excluded
-	list[(wxT("C:\\Users\\Test\\Documents\\"))] = true; //Included
-	list[(wxT("C:\\Users\\Test\\Documents\\TEST.txt"))] = false; //Excluded
-	list[(wxT("C:\\Users\\Test\\Documents\\test.txt"))] = false; //Excluded
-	list[(wxT("C:\\Users\\Testexclude\\test.txt"))] = false; //Excluded
-	list[(wxT("C:\\Users\\Testexclude\\specialchars++.txt"))] = true; //Included
+	//Should exclude?
+	list[(wxT("C:\\"))] = false; //Included
+	list[(wxT("C:\\test.doc"))] = true; //Excluded
+	list[(wxT("C:\\Users\\Test\\Documents\\"))] = false; //Included
+	list[(wxT("C:\\Users\\Test\\Documents\\TEST.txt"))] = true; //Excluded
+	list[(wxT("C:\\Users\\Test\\Documents\\test.txt"))] = true; //Excluded
+	list[(wxT("C:\\Users\\Testexclude\\test.txt"))] = true; //Excluded
+	list[(wxT("C:\\Users\\Testexclude\\specialchars++.txt"))] = false; //Included
 	//Add the exclusions and inclusions
 	fileexclude.Add(wxT(".doc"));
 	fileexclude.Add(wxT("test"));
@@ -74,7 +75,7 @@ void Tests::RulesTest(){
 		if((*iter).first.Right(1) == wxFILE_SEP_PATH){
 			isdir = true;	
 		}
-		if(rules.ShouldExclude((*iter).first, isdir) == (*iter).second){
+		if(rules.ShouldExclude((*iter).first, isdir) != (*iter).second){
 			OutputProgress((*iter).first + wxT(" failed"));
 			failures++;
 		}
