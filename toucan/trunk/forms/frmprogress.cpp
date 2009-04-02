@@ -81,16 +81,16 @@ void frmProgress::CreateControls(){
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
-void frmProgress::OnOkClick(wxCommandEvent& event){
+void frmProgress::OnOkClick(wxCommandEvent& WXUNUSED(event)){
 	this->MakeModal(false);
 	this->Show(false);
 }
 
-void frmProgress::OnCancelClick(wxCommandEvent& event){
+void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().SetAbort(true);
 }
 
-void frmProgress::OnSaveClick(wxCommandEvent& event){
+void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 	wxString strCaption = _("Save");
 	wxString strWildcard;
 	strWildcard = wxT("Text Files (*.txt)|*.txt");
@@ -124,7 +124,7 @@ void frmProgress::OnSaveClick(wxCommandEvent& event){
 	}
 }
 
-void frmProgress::OnCloseWindow(wxCloseEvent& event){
+void frmProgress::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 	this->MakeModal(false);
 	this->Show(false);
 }
@@ -187,7 +187,7 @@ void frmProgress::OnScriptProgress(wxCommandEvent& event){
 }
 
 //ID_SCRIPTBLANK
-void frmProgress::OnScriptBlank(wxCommandEvent& event){
+void frmProgress::OnScriptBlank(wxCommandEvent& WXUNUSED(event)){
 	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
 	m_List->SetItem(index, 1, wxEmptyString);
 }

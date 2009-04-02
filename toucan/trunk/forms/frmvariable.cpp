@@ -117,7 +117,7 @@ wxBitmap frmVariable::GetBitmapResource(const wxString& name)
 	return wxNullBitmap;
 }
 
-void frmVariable::OnLocationClick(wxCommandEvent& event)
+void frmVariable::OnLocationClick(wxCommandEvent& WXUNUSED(event))
 {
 	wxDirDialog dialog(this,_("Please select a folder."));
 	if (dialog.ShowModal() == wxID_OK) {
@@ -125,11 +125,11 @@ void frmVariable::OnLocationClick(wxCommandEvent& event)
 	}
 }
 
-void frmVariable::OnVariablesClick(wxCommandEvent& event){
+void frmVariable::OnVariablesClick(wxCommandEvent& WXUNUSED(event)){
 	m_Location_Text->WriteText(wxT("@") + m_Variables_Combo->GetStringSelection() + wxT("@"));	
 }
 
-void frmVariable::OnTextChange(wxCommandEvent& event){
+void frmVariable::OnTextChange(wxCommandEvent& WXUNUSED(event)){
 	wxString strPath = m_Location_Text->GetValue();
 	strPath = Normalise(Normalise(strPath));
 	m_Preview_Text->SetValue(strPath);

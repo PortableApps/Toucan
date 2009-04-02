@@ -190,7 +190,7 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 	return value;
 }
 
-void wxVirtualDirTreeCtrl::GetFiles(VdtcTreeItemBase *parent, VdtcTreeItemBaseArray &items, const wxFileName &path)
+void wxVirtualDirTreeCtrl::GetFiles(VdtcTreeItemBase *WXUNUSED(parent), VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
 	wxFileName fpath;
 	wxString fname;
@@ -225,7 +225,7 @@ void wxVirtualDirTreeCtrl::GetFiles(VdtcTreeItemBase *parent, VdtcTreeItemBaseAr
 	}
 }
 
-void wxVirtualDirTreeCtrl::GetDirectories(VdtcTreeItemBase *parent, VdtcTreeItemBaseArray &items, const wxFileName &path)
+void wxVirtualDirTreeCtrl::GetDirectories(VdtcTreeItemBase *WXUNUSED(parent), VdtcTreeItemBaseArray &items, const wxFileName &path)
 {
 	wxFileName fpath;
 	wxString fname;
@@ -554,29 +554,29 @@ VdtcTreeItemBase *wxVirtualDirTreeCtrl::OnCreateTreeItem(int type, const wxStrin
 	return new VdtcTreeItemBase(type, name);
 }
 
-bool wxVirtualDirTreeCtrl::OnAddRoot(VdtcTreeItemBase &item, const wxFileName &name)
+bool wxVirtualDirTreeCtrl::OnAddRoot(VdtcTreeItemBase &WXUNUSED(item), const wxFileName &WXUNUSED(name))
 {
 	// allow adding
 	return true;
 }
 
-bool wxVirtualDirTreeCtrl::OnDirectoryScanBegin(const wxFileName &path)
+bool wxVirtualDirTreeCtrl::OnDirectoryScanBegin(const wxFileName &WXUNUSED(path))
 {
 	// allow all paths
 	return true;
 }
 
-bool wxVirtualDirTreeCtrl::OnAddFile(VdtcTreeItemBase &item, const wxFileName &name)
+bool wxVirtualDirTreeCtrl::OnAddFile(VdtcTreeItemBase &WXUNUSED(item), const wxFileName &WXUNUSED(name))
 {
 	return true;
 }
 
-bool wxVirtualDirTreeCtrl::OnAddDirectory(VdtcTreeItemBase &item, const wxFileName &name)
+bool wxVirtualDirTreeCtrl::OnAddDirectory(VdtcTreeItemBase &WXUNUSED(item), const wxFileName &WXUNUSED(name))
 {
 	return true;
 }
 
-void wxVirtualDirTreeCtrl::OnAddNewPath(const wxString &root)
+void wxVirtualDirTreeCtrl::OnAddNewPath(const wxString &WXUNUSED(root))
 {
 	// do nothing here, but it can be used to start initialisation
 	// based upon the setting of the root (which means a renewal from the tree)

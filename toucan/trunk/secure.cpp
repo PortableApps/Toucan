@@ -27,10 +27,10 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		//Need to add normalisation to SecureData
 		if(arrLocation.Item(i) != wxEmptyString){
 			if(wxDirExists(arrLocation.Item(i))){
-				CryptDir(arrLocation.Item(i), data, rules, window);
+				CryptDir(arrLocation.Item(i), data, rules);
 			}
 			else if(wxFileExists(arrLocation.Item(i))){
-				CryptFile(arrLocation.Item(i), data, rules, window);
+				CryptFile(arrLocation.Item(i), data, rules);
 			}
 		}
 	}
@@ -42,14 +42,14 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().ProgressWindow, event);	
+	wxPostEvent(window, event);	
 	return true;
 }
 
 
 /*The main loop for the Secure process. It is called by Secure initially and then either calls itself when it reaches a
 folder or CryptFile when it reaches a file.*/
-bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window)
+bool CryptDir(wxString strPath, SecureData data, Rules rules)
 {   
 	if(wxGetApp().ShouldAbort()){
 		return true;
@@ -64,10 +64,10 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 				return true;
 			}
 			if (wxDirExists(strPath + wxFILE_SEP_PATH + filename) ){
-				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
+				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules);
 			}
 			else{
-				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
+				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules);
 			}
 		}
 		while (dir.GetNext(&filename) );
@@ -76,7 +76,7 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 }
 
 
-bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* window)
+bool CryptFile(wxString strFile, SecureData data, Rules rules)
 {
 	if(wxGetApp().ShouldAbort()){
 		return true;

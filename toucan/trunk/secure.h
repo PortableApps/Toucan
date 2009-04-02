@@ -12,7 +12,7 @@
 #include "data/securedata.h"
 
 bool Secure(SecureData data, Rules rules, frmProgress *window);
-bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window);
-bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* window);
+bool CryptDir(wxString strPath, SecureData data, Rules rules);
+bool CryptFile(wxString strFile, SecureData data, Rules rules);
 
 #endif 

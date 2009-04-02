@@ -325,7 +325,7 @@ bool BackupData::Execute(Rules rules){
 		}
 		wxString strCommand = CreateCommand(i);
 		wxSetWorkingDirectory(path);
-		PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
+		PipedProcess *process = new PipedProcess();
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 		process->SetRealPid(lgPID);
 		WaitThread *thread = new WaitThread(lgPID, process);

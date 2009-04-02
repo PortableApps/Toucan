@@ -9,7 +9,7 @@
 #include "toucan.h"
 #include "forms/frmmain.h"
 
-bool DnDFileTree::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
+bool DnDFileTree::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){
 	//Loop through all of the paths adding each one to the wxVirtualDirTreeCtrl		
 	for(unsigned int i = 0; i < arrFilenames.GetCount(); i++){
 		m_Tree->AddNewPath(arrFilenames.Item(i));
@@ -24,7 +24,7 @@ bool DnDFileTree::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFile
 	return true;
 }
 
-bool DnDFileTreeText::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& arrFilenames){
+bool DnDFileTreeText::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){
 	//Only add the first item as Sync only supports one to one syncing		
 	m_Text->SetValue(arrFilenames.Item(0));
 	m_Tree->DeleteAllItems();
