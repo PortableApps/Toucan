@@ -120,10 +120,10 @@ bool ParseCommandLine(){
 		data.SetSource(cmdParser.GetParam(1));
 		data.SetDest(cmdParser.GetParam(2));
 		data.SetFunction(cmdParser.GetParam(3));
-		data.SetTimeStamps(cmdParser.GetParam(5));
-		data.SetAttributes(cmdParser.GetParam(6));
-		data.SetIgnoreRO(cmdParser.GetParam(7));
-		data.SetIgnoreDLS(cmdParser.GetParam(8));
+		data.SetTimeStamps(wxAtoi(cmdParser.GetParam(5)));
+		data.SetAttributes(wxAtoi(cmdParser.GetParam(6)));
+		data.SetIgnoreRO(wxAtoi(cmdParser.GetParam(7)));
+		data.SetIgnoreDLS(wxAtoi(cmdParser.GetParam(8)));
 		if(data.TransferToFile()){
 			wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));
 			wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
