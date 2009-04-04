@@ -188,9 +188,6 @@ void frmMain::CreateControls()
 	//Create a pointer so that we have something to add the items to	
 	frmMain* itemFrame1 = this;
 	
-	//Set up the correct type of border
-	int BORDER = wxWindow::GetThemedBorderStyle();
-	
 	//Set our min size
 	itemFrame1->SetMinSize(wxSize(780, 450));
 	
@@ -311,7 +308,7 @@ void frmMain::CreateControls()
 	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0 );
 	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_HIDE_ROOT | wxTR_SINGLE | BORDER );
+	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_HIDE_ROOT | wxTR_SINGLE | wxBORDER_THEME );
 	itemBoxSizer2002->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton006 = new wxBitmapButton( itemPanel6, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -337,7 +334,7 @@ void frmMain::CreateControls()
 	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0 );
 	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_HIDE_ROOT | wxTR_SINGLE | BORDER );
+	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_HIDE_ROOT | wxTR_SINGLE | wxBORDER_THEME );
 	itemBoxSizer2001->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton005 = new wxBitmapButton( itemPanel6, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -462,7 +459,7 @@ void frmMain::CreateControls()
 	wxButton* itemButton49 = new wxButton(BackupPanel, ID_BACKUP_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
 	BackupLocation->Add(itemButton49, 0, wxALL, 5);
 
-	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE| BORDER );
+	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE| wxBORDER_THEME );
 	BackupMainRight->Add(m_Backup_TreeCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxVERTICAL);
@@ -550,7 +547,7 @@ void frmMain::CreateControls()
 	wxBitmapButton* itemBitmapButton82 = new wxBitmapButton( itemPanel68, ID_SECURE_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer80->Add(itemBitmapButton82, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|BORDER);
+	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
 	itemBoxSizer78->Add(m_Secure_TreeCtrl, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer84 = new wxBoxSizer(wxVERTICAL);
@@ -595,7 +592,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer104 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer102->Add(itemBoxSizer104, 1, wxGROW|wxALL, 5);
 	wxArrayString m_Rules_FileExcludeStrings;
-	m_Rules_FileExclude = new wxListBox( itemPanel93, ID_RULE_FILE_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FileExcludeStrings, wxLB_SINGLE|BORDER );
+	m_Rules_FileExclude = new wxListBox( itemPanel93, ID_RULE_FILE_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FileExcludeStrings, wxLB_SINGLE|wxBORDER_THEME );
 	itemBoxSizer104->Add(m_Rules_FileExclude, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer106 = new wxBoxSizer(wxVERTICAL);
@@ -614,7 +611,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer111 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer109->Add(itemBoxSizer111, 1, wxGROW|wxALL, 5);
 	wxArrayString m_Rules_FolderExcludeStrings;
-	m_Rules_FolderExclude = new wxListBox( itemPanel93, ID_RULES_FOLDER_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FolderExcludeStrings, wxLB_SINGLE|BORDER );
+	m_Rules_FolderExclude = new wxListBox( itemPanel93, ID_RULES_FOLDER_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FolderExcludeStrings, wxLB_SINGLE|wxBORDER_THEME);
 	itemBoxSizer111->Add(m_Rules_FolderExclude, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer113 = new wxBoxSizer(wxVERTICAL);
@@ -633,7 +630,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer118 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer116->Add(itemBoxSizer118, 1, wxGROW|wxALL, 5);
 	wxArrayString m_Rules_LocationIncludeStrings;
-	m_Rules_LocationInclude = new wxListBox( itemPanel93, ID_RULES_LOCATION_INCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_LocationIncludeStrings, wxLB_SINGLE|BORDER );
+	m_Rules_LocationInclude = new wxListBox( itemPanel93, ID_RULES_LOCATION_INCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_LocationIncludeStrings, wxLB_SINGLE|wxBORDER_THEME);
 	itemBoxSizer118->Add(m_Rules_LocationInclude, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* itemBoxSizer120 = new wxBoxSizer(wxVERTICAL);
@@ -669,7 +666,7 @@ void frmMain::CreateControls()
     wxBoxSizer* VariablesMain = new wxBoxSizer(wxHORIZONTAL);
     VariablesSizer->Add(VariablesMain, 1, wxGROW|wxALL, 5);
 
-    m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|BORDER);
+    m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
     VariablesMain->Add(m_Variables_List, 1, wxGROW|wxALL, 5);
 
     wxBoxSizer* VariablesRight = new wxBoxSizer(wxVERTICAL);
@@ -713,7 +710,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer138 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer132->Add(itemBoxSizer138, 1, wxGROW|wxALL, 5);
-	m_Script_Rich = new wxTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxTE_MULTILINE|BORDER);
+	m_Script_Rich = new wxTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxTE_MULTILINE|wxBORDER_THEME);
 	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, 5);
 
 	//Settings
