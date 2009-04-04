@@ -10,6 +10,7 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpctrl.h>
 #include <wx/fs_arc.h>
+#include <wx/dir.h>
 
 #include "toucan.h"
 #include "forms/frmmain.h"
@@ -183,6 +184,14 @@ bool Toucan::OnInit(){
 	return true;
 }
 
+void Toucan::CleanTemp(){
+	wxArrayString files;
+	wxDir::GetAllFiles(GetSettingsPath(), &files, wxT("*.tmp"), wxDIR_FILES);
+	for(unsigned int i = 0; i < files.GetCount(); i++){
+		wxRemoveFile(files.Item(i));
+	}
+}
+
 //Language setup
 void Toucan::SetLanguage(wxString strLanguage){
 	int LangCode = wxLocale::FindLanguageInfo(strLanguage)->Language;
@@ -193,7 +202,8 @@ void Toucan::SetLanguage(wxString strLanguage){
 }
 
 //Cleanup
-int Toucan::OnExit(){    
+int Toucan::OnExit(){   
+	CleanTemp();
 	delete m_Locale;
 	delete m_Settings;
 	delete m_Script;

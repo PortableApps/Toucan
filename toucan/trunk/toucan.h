@@ -61,6 +61,8 @@ class Toucan: public wxApp
 	wxHtmlHelpController* m_Help;
 	
 private:
+	//Clean up the temporary files that might be in the data folder
+	void CleanTemp();
 	//Abort the current job
 	bool blAbort;
 	//The settings path
