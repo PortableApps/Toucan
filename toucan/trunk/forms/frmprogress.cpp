@@ -96,7 +96,7 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 	strWildcard = wxT("Text Files (*.txt)|*.txt");
 	wxString defaultFilename = wxEmptyString;
 	wxString defaultDir = wxT("/");
-	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxSAVE);
+	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxFD_SAVE);
 	if(dialog.ShowModal() == wxID_OK){
 		wxTextFile file(dialog.GetPath());
 		if(wxFileExists(dialog.GetPath())){
