@@ -1830,7 +1830,8 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 	menuTree->SelectItem(event.GetItem());
 	wxString strMenuTitle = menuRules->GetStringSelection();
 	if(strMenuTitle == wxEmptyString){
-		strMenuTitle = _("Error");
+		//If no rules are selected then return
+		return;
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
