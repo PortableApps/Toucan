@@ -1507,13 +1507,28 @@ void frmMain::OnScriptExecute(wxCommandEvent& event){
 void frmMain::OnScriptSelected(wxCommandEvent& event){	
 	m_Script_Rich->Clear();
 	wxString strFile = 	wxGetApp().m_Scripts_Config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
-	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
-	unsigned int i;
-	for(i = 0; i < arrContents.Count() - 1; i++){
-		m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\r\n"));
+	//Remove trailing | if it exists
+	if(strFile.Right(1) == wxT("|")){
+		strFile = strFile.Left(strFile.Length() - 1);
+		if(strFile.Length() == 0){
+			return;
+		}
 	}
-	m_Script_Rich->AppendText(arrContents.Item(i));
-	SetTitleBarText();
+	//We should now have a nicely formatted array of one command per line
+	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
+	//If we have more then one item then we need to add line breaks between them
+	if(arrContents.GetCount() > 1){
+		unsigned int i;
+		for(i = 0; i < arrContents.Count() - 1; i++){
+			m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\n"));
+		}
+		m_Script_Rich->AppendText(arrContents.Item(i));
+		SetTitleBarText();
+	}
+	//If only one item then just add it
+	else if(arrContents.GetCount() == 1){
+		m_Script_Rich->AppendText(arrContents.Item(0));		
+	}
 }
 
 //ID_SCRIPT_SAVE
