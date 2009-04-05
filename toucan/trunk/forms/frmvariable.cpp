@@ -15,6 +15,7 @@
 BEGIN_EVENT_TABLE(frmVariable, wxDialog)
     EVT_BUTTON(ID_LOCATION, frmVariable::OnLocationClick)
     EVT_BUTTON(ID_VARIABLES, frmVariable::OnVariablesClick)
+    EVT_BUTTON(wxID_CANCEL, frmVariable::OnCancelClick)
 	EVT_TEXT(ID_LOCATION_TEXT, frmVariable::OnTextChange)
 END_EVENT_TABLE()
 
@@ -92,7 +93,7 @@ void frmVariable::CreateControls()
 		
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
-	
+
 	SetVariablesBox(m_Variables_Combo);
 	m_Variables_Combo->Append(wxT("date"));
 	m_Variables_Combo->Append(wxT("time"));
@@ -133,4 +134,8 @@ void frmVariable::OnTextChange(wxCommandEvent& event){
 	wxString strPath = m_Location_Text->GetValue();
 	strPath = Normalise(Normalise(strPath));
 	m_Preview_Text->SetValue(strPath);
+}
+
+void frmVariable::OnCancelClick(wxCommandEvent& event){
+	this->EndModal(wxID_CANCEL);
 }

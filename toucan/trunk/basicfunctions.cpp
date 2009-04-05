@@ -181,10 +181,10 @@ bool SetVariablesBox(wxComboBox *box){
 	bool blCont;
 	wxString strValue;
 	long dummy;
-	//Iterate through all of the groups
+	//Iterate through all of the group
 	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Variables.ini"))){
 		blCont = wxGetApp().m_Variables_Config->GetFirstGroup(strValue, dummy);
-		while (blCont){
+		while(blCont){
 			box->Append(strValue);
 			blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
 		}
