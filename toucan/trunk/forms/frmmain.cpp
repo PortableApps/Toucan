@@ -1288,6 +1288,7 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& event){
 		rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 	}
 	//Set up the tree ctrl for previewing
+	m_Backup_TreeCtrl->SetSync(false);
 	m_Backup_TreeCtrl->SetPreview(true);
 	m_Backup_TreeCtrl->SetRules(rules);
 	//Delete all items and re-add the root
@@ -1307,6 +1308,7 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& event){
 		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
 	}
 	//Set up the tree ctrl for previewing
+	m_Secure_TreeCtrl->SetSync(false);
 	m_Secure_TreeCtrl->SetPreview(true);
 	m_Secure_TreeCtrl->SetRules(rules);
 	//Delete all items and re-add the root
