@@ -242,19 +242,36 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 	if(data->GetIgnoreDLS()){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
-
+	//The odds of the file being modified later and yet being exactly the same are minimal, just copy it
 	if(tmFrom.IsLaterThan(tmTo)){
-		return CopyFileHash(source, dest);
+		return CopyFile(source, dest);
 	}
 	return false;
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
-	wxMD5 md5;
-	if(md5.GetFileMD5(source) != md5.GetFileMD5(dest)){
+	wxFileInputStream sourcestream(source);
+	wxFileInputStream deststream(dest);
+	//The files are different sizes and so must be different
+	if(sourcestream.GetSize() != deststream.GetSize()){
 		return CopyFile(source, dest);
 	}
-	//Return true as it is already there
+	size_t size = sourcestream.GetSize();
+	char sourcebuf[1024];
+	char destbuf[1024];
+	size_t bytesLeft=size;
+	while(bytesLeft > 0){
+		size_t bytesToRead=wxMin((size_t) sizeof(sourcebuf),bytesLeft);
+		sourcestream.Read((void*)sourcebuf,bytesToRead);
+		deststream.Read((void*)destbuf,bytesToRead);
+		if(strncmp(sourcebuf, destbuf, bytesToRead)){
+			//Our strings differ, so copy the files
+			//ATTN : In furutre update the files in place
+			return CopyFile(source, dest);
+		}
+		bytesLeft-=bytesToRead;
+	}
+	//The two files are actually the same, but return true to timestamps can be updated
 	return true;
 }
 
