@@ -242,28 +242,37 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 	if(data->GetIgnoreDLS()){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
-	//The odds of the file being modified later and yet being exactly the same are minimal, just copy it
 	if(tmFrom.IsLaterThan(tmTo)){
-		return CopyFile(source, dest);
+		return CopyFileHash(source, dest);
 	}
 	return false;
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
+	//ATTN : Still need to work out optimal chunk size
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
-	//The files are different sizes and so must be different
-	if(sourcestream.GetSize() != deststream.GetSize()){
-		return CopyFile(source, dest);
+	if(sourcestream.GetLength() != deststream.GetLength()){
+		return CopyFile(source, dest);			
 	}
-	size_t size = sourcestream.GetSize();
-	char sourcebuf[1024];
-	char destbuf[1024];
-	size_t bytesLeft=size;
+	//Something is wrong with out streams, return error
+	if(!sourcestream.IsOk() || !deststream.IsOk()){
+		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+		return false;
+	}
+	wxFileOffset size = sourcestream.GetLength();
+	//We read in 10MB chunks
+	char sourcebuf[10240000];
+	char destbuf[102400000];
+	wxFileOffset bytesLeft=size;
 	while(bytesLeft > 0){
-		size_t bytesToRead=wxMin((size_t) sizeof(sourcebuf),bytesLeft);
+		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
 		sourcestream.Read((void*)sourcebuf,bytesToRead);
 		deststream.Read((void*)destbuf,bytesToRead);
+		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
+			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+			return false;
+		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead)){
 			//Our strings differ, so copy the files
 			//ATTN : In furutre update the files in place
