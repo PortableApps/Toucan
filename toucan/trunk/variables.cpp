@@ -90,7 +90,7 @@ wxString Normalise(wxString strFilePath){
 					}		
 				}
 				else{
-					strReturn += strRead;
+					strReturn += token;
 				}
 			}
 		}
