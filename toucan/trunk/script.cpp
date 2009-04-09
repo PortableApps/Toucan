@@ -217,10 +217,10 @@ bool ScriptManager::ParseCommand(int i){
 	else if(strToken == _("Delete")){
 		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxRemoveFile(strSource)){
-			OutputProgress(_("Deleted ") +strSource + wxT("\n"));	
+			OutputProgress(_("Deleted ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
+			OutputProgress(_("Failed to delete ") + strSource);				
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -233,14 +233,14 @@ bool ScriptManager::ParseCommand(int i){
 		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxCopyFile(strSource, strDest, true)){
 			if(wxRemoveFile(strSource)){
-				OutputProgress(_("Moved") +strSource + wxT("\n"));	
+				OutputProgress(_("Moved") + strSource);	
 			}
 			else{
-				OutputProgress(_("Failed to move ") + strSource + wxT("\n"));
+				OutputProgress(_("Failed to move ") + strSource);
 			}
 		}
 		else{
-			OutputProgress(_("Failed to move ") + strSource + wxT("\n"));		
+			OutputProgress(_("Failed to move ") + strSource);		
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -252,10 +252,10 @@ bool ScriptManager::ParseCommand(int i){
 		tkz.GetNextToken();
 		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxCopyFile(strSource, strDest, true)){
-			OutputProgress(_("Copied ") +strSource + wxT("\n"));	
+			OutputProgress(_("Copied ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
+			OutputProgress(_("Failed to copy ") +strSource);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -267,10 +267,10 @@ bool ScriptManager::ParseCommand(int i){
 		tkz.GetNextToken();
 		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxRenameFile(strSource, strDest, true)){
-			OutputProgress(_("Renamed ") +strSource + wxT("\n"));	
+			OutputProgress(_("Renamed ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to rename ") +strSource + wxT("\n"));
+			OutputProgress(_("Failed to rename ") + strSource);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -280,7 +280,7 @@ bool ScriptManager::ParseCommand(int i){
 	else if(strToken == _("Execute")){
 		wxString strExecute = Normalise(Normalise(tkz.GetNextToken()));
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
-		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
+		OutputProgress(_("Executed ") + strExecute);
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
