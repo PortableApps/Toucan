@@ -1,3 +1,4 @@
+/////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
 // Copyright:   Copyright (C) 2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
@@ -260,10 +261,14 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
 		return false;
 	}
+	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
-	//We read in 10MB chunks
-	char sourcebuf[10240000];
-	char destbuf[102400000];
+	if(size > 2000000000){
+		return CopyFile(source, dest);			
+	}
+	//We read in 1MB chunks
+	char sourcebuf[1000000];
+	char destbuf[1000000];
 	wxFileOffset bytesLeft=size;
 	while(bytesLeft > 0){
 		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
@@ -275,7 +280,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead)){
 			//Our strings differ, so copy the files
-			//ATTN : In furutre update the files in place
+			//ATTN : In future update the files in place
 			return CopyFile(source, dest);
 		}
 		bytesLeft-=bytesToRead;
