@@ -34,6 +34,8 @@ private:
 	bool OnSourceNotDestFolder(wxString path);
 	bool OnNotSourceDestFolder(wxString path);
 	bool OnSourceAndDestFolder(wxString path);
+	//This function does the file stream stuff
+	bool ShouldCopy(wxString source, wxString dest);
 };
 
 #endif
