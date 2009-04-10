@@ -187,7 +187,10 @@ bool ScriptManager::ProgressBarSetup(){
 	return true;
 }
 
-bool ScriptManager::ParseCommand(int i){	
+bool ScriptManager::ParseCommand(int i){
+	if(wxGetApp().ShouldAbort()){
+		return false;
+	}
 	wxDateTime now = wxDateTime::Now();
 	
 	wxString strLine = m_Script.Item(i);
