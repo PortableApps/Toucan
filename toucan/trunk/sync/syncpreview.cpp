@@ -6,6 +6,8 @@
 
 #include "syncbase.h"
 #include "syncpreview.h"
+#include "../toucan.h"
+#include "../forms/frmprogress.h"
 #include <list>
 #include <map>
 #include <wx/string.h>
@@ -274,6 +276,7 @@ bool SyncPreview::ShouldCopy(wxString source, wxString dest){
 	char destbuf[1000000];
 	wxFileOffset bytesLeft=size;
 	while(bytesLeft > 0){
+		wxGetApp().Yield();
 		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
 		sourcestream.Read((void*)sourcebuf,bytesToRead);
 		deststream.Read((void*)destbuf,bytesToRead);

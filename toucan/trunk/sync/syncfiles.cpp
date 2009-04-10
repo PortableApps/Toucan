@@ -6,7 +6,6 @@
 
 #include "syncbase.h"
 #include "syncfiles.h"
-#include "../md5.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include <list>
@@ -14,6 +13,7 @@
 #include <wx/string.h>
 #include <wx/datetime.h>
 #include <wx/filename.h>
+#include <wx/wfstream.h>
 #include <wx/dir.h>
 
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules){

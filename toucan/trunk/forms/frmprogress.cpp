@@ -143,6 +143,10 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 		//Others - Not yet implmented
 		if(event.GetInt() == 1){
 			if(wxGetApp().GetUsesGUI()){
+				//Turn off the preview
+				wxGetApp().MainWindow->m_Sync_Source_Tree->SetSync(false);
+				wxGetApp().MainWindow->m_Sync_Dest_Tree->SetSync(false);
+				
 				wxGetApp().MainWindow->m_Sync_Source_Tree->DeleteAllItems();
 				wxGetApp().MainWindow->m_Sync_Dest_Tree->DeleteAllItems();
 				
