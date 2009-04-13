@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -19,6 +19,8 @@
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
 #include "forms/frmmain.h"
+
+//ATTN : This needs clearing up into smaller files
 
 wxFFileOutputStream output(stderr);
 wxTextOutputStream cout(output);
@@ -192,8 +194,6 @@ bool SetVariablesBox(wxComboBox *box){
 	return true;	
 }
 
-
-
 bool SetScriptsBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();
@@ -210,7 +210,6 @@ bool SetScriptsBox(wxComboBox *box){
 	}
 	return true;
 }
-
 
 wxArrayString GetLanguages(){
 	wxArrayString arrLang;
@@ -229,10 +228,9 @@ wxArrayString GetLanguages(){
 				}
 			}
 		}
-		while (dir.GetNext(&strFilename) );
+		while (dir.GetNext(&strFilename));
 	} 
 	return arrLang;
-	
 }
 
 wxArrayString GetTranslatorNames(){
@@ -251,10 +249,9 @@ wxArrayString GetTranslatorNames(){
 				}
 			}
 		}
-		while (dir.GetNext(&strFilename) );
+		while (dir.GetNext(&strFilename));
 	} 
 	return arrNames;
-	
 }
 
 wxString InputPassword(){
@@ -363,8 +360,7 @@ wxString InputPassword(){
 				}
 			}
 		}
-	}	
-	
+	}
 	return wxEmptyString;
 }
 
@@ -471,7 +467,6 @@ bool UpdateJobs(int version){
 				
 				wxGetApp().m_Jobs_Config->Flush();
 			}
-				
 			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Jobs_Config->Flush();
@@ -498,7 +493,6 @@ bool UpdateJobs(int version){
 				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
 				wxGetApp().m_Jobs_Config->Flush();
 			}
-				
 			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Jobs_Config->Flush();
