@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -24,17 +24,24 @@ bool ParseCommandLine(){
 	int res;
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 	int iArgs = wxGetApp().argc;
-	//Script
-	if(iArgs == 2){
-		cmdParser.AddParam(wxT("Script Name"));
-	}
 	//Job
+	if(iArgs == 2){
+		cmdParser.AddParam(wxT("Job"));
+	}
+	//Job with password
+	if(iArgs == 4){
+		cmdParser.AddParam(wxT("Job"));
+		cmdParser.AddParam(wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+	}
+	//Script
 	else if(iArgs == 3){
-		cmdParser.AddParam(wxT("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
-		cmdParser.AddParam(wxT("Job Name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(wxT("Script"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		cmdParser.AddParam(wxT("Script Name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 	}
 	//Script with password
-	else if(iArgs == 4){
+	else if(iArgs == 5){
+		cmdParser.AddParam(wxT("Script"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(wxT("Script Name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
