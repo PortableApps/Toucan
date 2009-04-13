@@ -159,12 +159,12 @@ bool Toucan::OnInit(){
 		}
 	}
 	else{
-		ParseCommandLine();
-		//We need to wait for the script manager to finish
-		while(m_Script->GetCommand() <= m_Script->GetCount()){
-			wxMilliSleep(200);
-			wxYield();
-			;
+		if(ParseCommandLine()){
+			//We need to wait for the script manager to finish
+			while(m_Script->GetCommand() <= m_Script->GetCount()){
+				wxMilliSleep(200);
+				wxYield();
+			}
 		}
 		//Write out a log so we know what happened
 		wxTextFile file;
