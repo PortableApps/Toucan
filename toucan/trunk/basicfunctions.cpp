@@ -346,26 +346,22 @@ wxString InputPassword(){
 				return wxT("Password not needed");
 			}
 		}
-		else if(cmdParser.GetParam(0) == wxT("Secure")){
-			if(cmdParser.GetParamCount() == 6){
-				if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
-					return cmdParser.GetParam(4);
-				}
-				else{
-					cout<<_("You need to repeat the password and ensure the two passwords are identical");
-					return wxEmptyString;
-				}
+		else if(cmdParser.GetParam(0) == wxT("Secure") && cmdParser.GetParamCount() == 6){
+			if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
+				return cmdParser.GetParam(4);
+			}
+			else{
+				cout<<_("You need to repeat the password and ensure the two passwords are identical");
+				return wxEmptyString;
 			}
 		}
-		else if(cmdParser.GetParam(0) == wxT("Backup")){
-			if(cmdParser.GetParamCount() == 9){
-				if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
-					return cmdParser.GetParam(7);
-				}
-				else{
-					cout<<_("You need to repeat the password and ensure the two passwords are identical");
-					return wxEmptyString;
-				}
+		else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 9){
+			if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
+				return cmdParser.GetParam(7);
+			}
+			else{
+				cout<<_("You need to repeat the password and ensure the two passwords are identical");
+				return wxEmptyString;
 			}
 		}
 	}
