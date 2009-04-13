@@ -50,12 +50,19 @@ bool Toucan::OnInit(){
 	else{
 		SetUsesGUI(false);
 	}
+	//Work out where the settings dir is. Firstly get the exe dir
+	wxFileName settingspath = wxFileName::DirName((wxPathOnly(wxStandardPaths::Get().GetExecutablePath())));
+	//Next remove the \App\toucan
+	settingspath.RemoveLastDir();
+	settingspath.RemoveLastDir();
+	//And the add \Data
+	settingspath.AppendDir(wxT("Data"));
 
+	SetSettingsPath(settingspath.GetFullPath());
 	//Make sure the data directory is there
-	if(!wxDirExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data"))){
-		wxMkdir(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data"));
+	if(!wxDirExists(GetSettingsPath())){
+		wxMkdir(GetSettingsPath());
 	}
-	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
 
 	//Create the config stuff and set it up
  	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
