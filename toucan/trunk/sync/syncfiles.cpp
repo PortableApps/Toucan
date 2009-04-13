@@ -250,6 +250,9 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
+	if(data->GetDisableHash()){
+		return CopyFile(source, dest);
+	}
 	//ATTN : Still need to work out optimal chunk size
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);

@@ -256,6 +256,9 @@ int SyncPreview::GetItemLocation(wxString path, VdtcTreeItemBaseArray* array){
 }
 
 bool SyncPreview::ShouldCopy(wxString source, wxString dest){
+	if(data->GetDisableHash()){
+		return true;
+	}
 	//See the real CopyFileHash for more info
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
