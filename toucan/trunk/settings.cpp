@@ -31,7 +31,8 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/RememberSync"), m_RememberSync);
 	config->Write(wxT("General/RememberBackup"), m_RememberBackup);
 	config->Write(wxT("General/RememberSecure"), m_RememberSecure);
-	config->Write(wxT("Sync/DisableStream"), m_RememberSecure);
+	config->Write(wxT("Sync/DisableStream"), m_DisableStream);
+	config->Write(wxT("CommandLine/DisableLog"), m_DisableLog);
 	return true;
 }
 
@@ -50,6 +51,7 @@ bool Settings::TransferFromFile(){
 	m_RememberBackup = false;
 	m_RememberSecure = false;
 	m_DisableStream = false;
+	m_DisableLog = false;
 	
 	//Read from the settings file
 	config->Read(wxT("General/Tabs"), &m_TabStyle);
@@ -64,5 +66,6 @@ bool Settings::TransferFromFile(){
 	config->Read(wxT("General/RememberBackup"), &m_RememberBackup);
 	config->Read(wxT("General/RememberSecure"), &m_RememberSecure);
 	config->Read(wxT("Sync/DisableStream"), &m_DisableStream);
+	config->Read(wxT("CommandLine/DisableLog"), &m_DisableLog);
 	return true;
 }

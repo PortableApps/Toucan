@@ -166,23 +166,25 @@ bool Toucan::OnInit(){
 				wxYield();
 			}
 		}
-		//Write out a log so we know what happened
-		wxTextFile file;
-		file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
-		for(int i = 0; i < ProgressWindow->m_List->GetItemCount() - 1; i++){
-			wxListItem itemcol1, itemcol2;
+		if(!m_Settings->GetDisableLog()){
+			//Write out a log so we know what happened
+			wxTextFile file;
+			file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
+			for(int i = 0; i < ProgressWindow->m_List->GetItemCount() - 1; i++){
+				wxListItem itemcol1, itemcol2;
 
-			itemcol1.m_itemId = i;
-		 	itemcol1.m_col = 0;
-			itemcol1.m_mask = wxLIST_MASK_TEXT;
-			ProgressWindow->m_List->GetItem(itemcol1);
-			itemcol2.m_itemId = i;
-			itemcol2.m_col = 1;
-			itemcol2.m_mask = wxLIST_MASK_TEXT;
-			ProgressWindow->m_List->GetItem(itemcol2);
-			file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+				itemcol1.m_itemId = i;
+				itemcol1.m_col = 0;
+				itemcol1.m_mask = wxLIST_MASK_TEXT;
+				ProgressWindow->m_List->GetItem(itemcol1);
+				itemcol2.m_itemId = i;
+				itemcol2.m_col = 1;
+				itemcol2.m_mask = wxLIST_MASK_TEXT;
+				ProgressWindow->m_List->GetItem(itemcol2);
+				file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+			}
+			file.Write();
 		}
-		file.Write();
 		delete MainWindow->m_BackupLocations;
 		delete MainWindow->m_SecureLocations;
 		wxGetApp().MainWindow->Destroy();
