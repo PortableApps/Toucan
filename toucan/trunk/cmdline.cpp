@@ -29,7 +29,7 @@ bool ParseCommandLine(){
 		cmdParser.AddParam(wxT("Job"));
 	}
 	//Job with password
-	if(iArgs == 4){
+	else if(iArgs == 4){
 		cmdParser.AddParam(wxT("Job"));
 		cmdParser.AddParam(wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
