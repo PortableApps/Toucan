@@ -776,7 +776,7 @@ void frmMain::CreateControls()
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 5);
 	
 #ifdef __WXDEBUG__
-	wxButton* TestButton = new wxButton(HelpPanel, ID_HELP_TESTS, _("Run Tests"));
+	wxButton* TestButton = new wxButton(HelpPanel, ID_HELP_TESTS, wxT("Run Tests"));
 	HelpSizer->Add(TestButton, 0, wxALIGN_TOP|wxALL, 5);
 #endif
 	
