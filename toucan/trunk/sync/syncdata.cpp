@@ -119,10 +119,18 @@ bool SyncData::Execute(Rules rules){
 	blDisableHash = wxGetApp().m_Settings->GetDisableStream();
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
-	//Create a new Sync thread and run it (needs to use Wait())
-	SyncThread *thread = new SyncThread(*this, rules);
+	//Create a new Sync thread and run it
+	//If we are running in the command line then we need joinable so the app doesnt return early
+	wxThreadKind type = wxTHREAD_DETACHED;
+	if(!wxGetApp().GetUsesGUI()){
+		type = wxTHREAD_JOINABLE;
+	}
+	SyncThread *thread = new SyncThread(*this, rules, type);
 	thread->Create();
 	thread->Run();
+	if(!wxGetApp().GetUsesGUI()){
+		thread->Wait();
+	}
 	return true;
 }
 

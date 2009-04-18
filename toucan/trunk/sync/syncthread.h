@@ -14,7 +14,7 @@ class SyncThread : public wxThread
 {
 public:
 	//Constructor
-	SyncThread(SyncData data, Rules rules):wxThread(){
+	SyncThread(SyncData data, Rules rules, wxThreadKind type):wxThread(type){
 		m_Data = data;
 		m_Rules = rules;
 	}
