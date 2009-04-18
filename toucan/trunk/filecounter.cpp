@@ -54,7 +54,7 @@ bool FileCounter::CountFolder(wxString path){
 				m_Count++;
 			}
 		}
-		while (dir.GetNext(&strFilename) );
+		while(dir.GetNext(&strFilename));
 	} 
 	return true;
 }
