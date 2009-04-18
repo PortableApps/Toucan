@@ -1250,6 +1250,10 @@ void frmMain::OnSyncOKClick(wxCommandEvent& event){
 
 //ID_BACKUP_OK
 void frmMain::OnBackupOKClick(wxCommandEvent& event){
+	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
+		ErrorBox(_("Differential only supports one folder"));
+		return;
+	}
 	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
 }
 
