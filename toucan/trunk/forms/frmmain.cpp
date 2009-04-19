@@ -1254,6 +1254,13 @@ void frmMain::OnBackupOKClick(wxCommandEvent& event){
 		ErrorBox(_("Differential only supports one folder"));
 		return;
 	}
+	//Differential needs a folder to store its files in
+	if(m_Backup_Function->GetStringSelection() ==_("Differential") && m_Backup_Location->GetValue() != wxEmptyString){
+		if(m_Backup_Location->GetValue().Right(3) == wxT(".7z") || m_Backup_Location->GetValue().Right(4) == wxT(".zip")){
+			ErrorBox(_("Please select the folder to store your backups"));
+			return;
+		}
+	}
 	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
 }
 
