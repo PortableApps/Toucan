@@ -29,7 +29,14 @@ long FileCounter::GetCount(){
 
 bool FileCounter::Count(){
 	for(unsigned int i = 0; i < m_Paths.Count(); i++){
-		CountFolder(m_Paths.Item(i));
+		if(wxDirExists(m_Paths.Item(i))){
+			CountFolder(m_Paths.Item(i));		
+		}
+		//We have a file and not a folder
+		else{
+			m_Count++;
+		}
+
 	}
 	return true;
 }
