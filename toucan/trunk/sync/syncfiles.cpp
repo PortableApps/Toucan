@@ -288,7 +288,14 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 		}
 		bytesLeft-=bytesToRead;
 	}
-	//The two files are actually the same, but return true to timestamps can be updated
+	//The two files are actually the same, but update the timestamps
+	if(data->GetTimeStamps()){
+		wxFileName from(source);
+		wxFileName to(dest);
+		wxDateTime access, mod, created;
+		from.GetTimes(&access ,&mod ,&created );
+		to.SetTimes(&access ,&mod , &created); 
+	}	
 	return true;
 }
 
