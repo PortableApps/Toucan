@@ -26,6 +26,7 @@ bool ScriptManager::Execute(){
 	StartUp();
 	if(!Validate()){
 		CleanUp();
+		return false;
 	}
 	if(wxGetApp().GetUsesGUI()){
 		ProgressBarSetup();
@@ -344,10 +345,12 @@ bool ScriptManager::CleanUp(){
 	OutputBlank();
 	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
 	OutputProgress(now.FormatTime(), _("Finished"));
-	
+
+	//Yield here to make sure all output is shown
+	wxGetApp().Yield();
 	//Resize the second column to show all of the text
 	m_ProgressWindow->m_List->SetColumnWidth(1, -1);
-	
+
 	//Remove finished jobs
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSyncJob"))){
 		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSyncJob"));
