@@ -444,7 +444,7 @@ bool UpdateJobs(int version){
 					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Function"), _("Differential"));
 				}
 				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Format")) == wxT("7 Zip")){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), _("7-Zip"));
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), wxT("7-Zip"));
 				}
 				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Ratio")) == wxT("Normal")){
 					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Ratio"), wxT("3"));

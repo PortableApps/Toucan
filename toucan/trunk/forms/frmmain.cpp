@@ -393,8 +393,8 @@ void frmMain::CreateControls()
 	BackupTop->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Backup_FormatStrings;
-	m_Backup_FormatStrings.Add(_("Zip"));
-	m_Backup_FormatStrings.Add(_("7-Zip"));
+	m_Backup_FormatStrings.Add(wxT("Zip"));
+	m_Backup_FormatStrings.Add(wxT("7-Zip"));
 	m_Backup_Format = new wxRadioBox(BackupPanel, ID_BACKUP_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Backup_FormatStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Format->SetSelection(0);
 	BackupTop->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
@@ -1230,10 +1230,10 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& event){
 	}
 	else{
 		wxString strWildcard;
-		if(m_Backup_Format->GetStringSelection() == _("7-Zip")){
+		if(m_Backup_Format->GetStringSelection() == wxT("7-Zip")){
 			strWildcard = wxT("7 Zip (*.7z)|*.7z|All Files (*.*)|*.*");
 		}
-		else if(m_Backup_Format->GetStringSelection() == _("Zip")){
+		else if(m_Backup_Format->GetStringSelection() == wxT("Zip")){
 			strWildcard = wxT("Zip Files (*.zip)|*.zip|All Files (*.*)|*.*");
 		}		
 		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxPathOnly(m_Backup_Location->GetValue()), wxEmptyString, strWildcard, wxFD_SAVE);
@@ -1809,7 +1809,7 @@ void frmMain::ClearToDefault(){
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
 		m_Backup_Function->SetStringSelection(_("Complete"));
-		m_Backup_Format->SetStringSelection(_("Zip"));
+		m_Backup_Format->SetStringSelection(wxT("Zip"));
 		m_Backup_Ratio->SetValue(3);
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
