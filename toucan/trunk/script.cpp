@@ -68,60 +68,77 @@ bool ScriptManager::StartUp(){
 }
 
 bool ScriptManager::Validate(){
-	//First check that the whole script is valid (basic number of parameters check)
-	wxString strLine, strTemp;
-	bool blParseError = false;
-	bool blPassNeeded = false;
+	//Check the script to see if it is valid, check number of parameters and job name
 	for(unsigned int i = 0; i < m_Script.Count(); i++){
-		strLine = m_Script.Item(i); 
-		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
-		wxString strToken = tkz.GetNextToken();
-		strToken.Trim();
-		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup")){
+		//Split the script line up into tokens, quote mark limited
+		wxStringTokenizer tkz(m_Script.Item(i), wxT("\""), wxTOKEN_STRTOK);
+		wxString token = tkz.GetNextToken();
+		token.Trim();
+		if(token == wxT("Sync") || token == wxT("Secure") || token == _("Delete") || token == _("Execute") || token == wxT("Backup")){
 			if(tkz.CountTokens() != 1){
-				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
-				OutputProgress(strTemp);
-				blParseError = true;
+				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
+				return false;
 			}
-		}
-		else if(strToken == _("Move") || strToken == _("Copy") || strToken == _("Rename")){
-			if(tkz.CountTokens() != 3){
-				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
-				OutputProgress(strTemp);
-				blParseError = true;
+			//We have the correct number of parameters, check the job names
+			if(token == wxT("Sync")){
+				SyncData data;
+				data.SetName(tkz.GetNextToken());
+				if(data.TransferFromFile()){
+					//We dont yet need to do anything special for Sync
+					;
+				}
+				else{
+					OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+					return false;
+				}
 			}
-		}
-		else{
-			strTemp.Printf(strToken + _(" not recognised on line %d"), i+1);
-			OutputProgress(strTemp);
-			blParseError = true;
-		}
-		if(strToken == wxT("Secure")){
-			blPassNeeded = true;
-		}
-		if(strToken == wxT("Backup")){
-			BackupData data;
-			wxString strJob = tkz.GetNextToken();
-			data.SetName(strJob);
-			if(data.TransferFromFile()){
-				if(data.IsPassword == true){
-					blPassNeeded = true;
+			else if(token == wxT("Backup")){
+				BackupData data;
+				data.SetName(tkz.GetNextToken());
+				if(data.TransferFromFile()){
+					if(data.IsPassword == true){
+						wxString pass = InputPassword();
+						if(pass == wxEmptyString){
+							return false;
+						}
+						else{
+							m_Password = pass;
+						}
+					}
+				}
+				else{
+					OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+					return false;
+				}
+			}
+			else if(token == wxT("Secure")){
+				SecureData data;
+				data.SetName(tkz.GetNextToken());
+				if(data.TransferFromFile()){
+					wxString pass = InputPassword();
+					if(pass == wxEmptyString){
+						return false;
+					}
+					else{
+						m_Password = pass;
+					}
+				}
+				else{
+					OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+					return false;
 				}
 			}
 		}
-	}
-	if(blPassNeeded){
-		wxString strPass = InputPassword();
-		if(strPass == wxEmptyString){
-			CleanUp();
-			return false;
+		else if(token == _("Move") || token == _("Copy") || token == _("Rename")){
+			if(tkz.CountTokens() != 3){
+				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
+				return false;
+			}
 		}
 		else{
-			m_Password = strPass;
+			OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+			return false;
 		}
-	}	
-	if(blParseError){
-		return false;
 	}
 	return true;
 }

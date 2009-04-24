@@ -22,6 +22,10 @@ bool SyncData::TransferFromFile(){
 	wxString strTemp;
 	bool blTemp;
 
+	if(!wxGetApp().m_Jobs_Config->Exists(strName)){
+		return false;
+	}
+
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Source"), &strTemp);
 	if(blError){ SetSource(strTemp); }	
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Dest"), &strTemp);

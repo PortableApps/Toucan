@@ -19,6 +19,10 @@ bool SecureData::TransferFromFile(){
 	bool blError;
 	wxString strTemp;
 
+	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
+		return false;
+	}
+
 	//Read the fields from the file, if the read works then add them
 	blError = wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp);
 	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
