@@ -70,6 +70,7 @@ bool ScriptManager::StartUp(){
 
 bool ScriptManager::Validate(){
 	//Check the script to see if it is valid, check number of parameters and job name
+	bool valid = true;
 	for(unsigned int i = 0; i < m_Script.Count(); i++){
 		//Split the script line up into tokens, quote mark limited
 		wxStringTokenizer tkz(m_Script.Item(i), wxT("\""), wxTOKEN_STRTOK);
@@ -78,7 +79,7 @@ bool ScriptManager::Validate(){
 		if(token == wxT("Sync") || token == wxT("Secure") || token == _("Delete") || token == _("Execute") || token == wxT("Backup")){
 			if(tkz.CountTokens() != 1){
 				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
-				return false;
+				valid = false;
 			}
 			//We have the correct number of parameters, check the job names
 			if(token == wxT("Sync")){
@@ -91,7 +92,7 @@ bool ScriptManager::Validate(){
 				}
 				else{
 					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
-					return false;
+					valid = false;
 				}
 			}
 			else if(token == wxT("Backup")){
@@ -102,7 +103,7 @@ bool ScriptManager::Validate(){
 					if(data.IsPassword == true){
 						wxString pass = InputPassword();
 						if(pass == wxEmptyString){
-							return false;
+							valid = false;
 						}
 						else{
 							m_Password = pass;
@@ -111,7 +112,7 @@ bool ScriptManager::Validate(){
 				}
 				else{
 					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
-					return false;
+					valid = false;
 				}
 			}
 			else if(token == wxT("Secure")){
@@ -121,7 +122,7 @@ bool ScriptManager::Validate(){
 				if(data.TransferFromFile()){
 					wxString pass = InputPassword();
 					if(pass == wxEmptyString){
-						return false;
+						valid = false;
 					}
 					else{
 						m_Password = pass;
@@ -129,22 +130,22 @@ bool ScriptManager::Validate(){
 				}
 				else{
 					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
-					return false;
+					valid = false;
 				}
 			}
 		}
 		else if(token == _("Move") || token == _("Copy") || token == _("Rename")){
 			if(tkz.CountTokens() != 3){
 				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
-				return false;
+				valid = false;
 			}
 		}
 		else{
 			OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
-			return false;
+			valid = false;
 		}
 	}
-	return true;
+	return valid;
 }
 
 bool ScriptManager::ProgressBarSetup(){
