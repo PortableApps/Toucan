@@ -82,20 +82,22 @@ bool ScriptManager::Validate(){
 			}
 			//We have the correct number of parameters, check the job names
 			if(token == wxT("Sync")){
+				wxString job = tkz.GetNextToken();
 				SyncData data;
-				data.SetName(tkz.GetNextToken());
+				data.SetName(job);
 				if(data.TransferFromFile()){
 					//We dont yet need to do anything special for Sync
 					;
 				}
 				else{
-					OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
 					return false;
 				}
 			}
 			else if(token == wxT("Backup")){
+				wxString job = tkz.GetNextToken();
 				BackupData data;
-				data.SetName(tkz.GetNextToken());
+				data.SetName(job);
 				if(data.TransferFromFile()){
 					if(data.IsPassword == true){
 						wxString pass = InputPassword();
@@ -108,13 +110,14 @@ bool ScriptManager::Validate(){
 					}
 				}
 				else{
-					OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
 					return false;
 				}
 			}
 			else if(token == wxT("Secure")){
+				wxString job = tkz.GetNextToken();
 				SecureData data;
-				data.SetName(tkz.GetNextToken());
+				data.SetName(job);
 				if(data.TransferFromFile()){
 					wxString pass = InputPassword();
 					if(pass == wxEmptyString){
@@ -125,7 +128,7 @@ bool ScriptManager::Validate(){
 					}
 				}
 				else{
-					OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
 					return false;
 				}
 			}
