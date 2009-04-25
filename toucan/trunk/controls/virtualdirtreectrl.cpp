@@ -9,6 +9,7 @@
 #include <wx/busyinfo.h>
 #include <wx/artprov.h>
 #include "virtualdirtreectrl.h"
+#include "../variables.h"
 #include "../sync/syncdata.h"
 #include "../sync/syncpreview.h"
 
@@ -595,7 +596,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 	if(!_IsSync && _Preview){
 		//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
 		for (unsigned int i = 0; i < items.GetCount(); i++) {
-			wxString strComplete = path.GetPath() + items.Item(i)->GetName();
+			wxString strComplete = path.GetPath() + wxFILE_SEP_PATH + items.Item(i)->GetName();
 			bool isdir = false;
 			if(wxDirExists(strComplete)){
 				isdir = true;
@@ -608,6 +609,8 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 	else if(_IsSync && _Preview){
 		SyncData data;
 		data.TransferFromForm();
+		data.SetSource(Normalise(Normalise(data.GetSource())));
+		data.SetDest(Normalise(Normalise(data.GetDest())));
 		wxString end;
 		bool issource;
 		if(this->GetId() == ID_SYNC_SOURCE_TREE){

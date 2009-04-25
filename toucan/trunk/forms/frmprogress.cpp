@@ -54,7 +54,7 @@ void frmProgress::CreateControls(){
 	wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
 	Panel->SetSizer(TopSizer);
 
-	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100);
+	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100, wxDefaultPosition, wxDefaultSize, wxGA_SMOOTH|wxGA_HORIZONTAL);
 	TopSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
 
 	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
@@ -143,6 +143,10 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 		//Others - Not yet implmented
 		if(event.GetInt() == 1){
 			if(wxGetApp().GetUsesGUI()){
+				//Turn off the preview
+				wxGetApp().MainWindow->m_Sync_Source_Tree->SetSync(false);
+				wxGetApp().MainWindow->m_Sync_Dest_Tree->SetSync(false);
+				
 				wxGetApp().MainWindow->m_Sync_Source_Tree->DeleteAllItems();
 				wxGetApp().MainWindow->m_Sync_Dest_Tree->DeleteAllItems();
 				

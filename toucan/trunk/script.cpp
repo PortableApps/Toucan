@@ -26,6 +26,7 @@ bool ScriptManager::Execute(){
 	StartUp();
 	if(!Validate()){
 		CleanUp();
+		return false;
 	}
 	if(wxGetApp().GetUsesGUI()){
 		ProgressBarSetup();
@@ -68,62 +69,83 @@ bool ScriptManager::StartUp(){
 }
 
 bool ScriptManager::Validate(){
-	//First check that the whole script is valid (basic number of parameters check)
-	wxString strLine, strTemp;
-	bool blParseError = false;
-	bool blPassNeeded = false;
+	//Check the script to see if it is valid, check number of parameters and job name
+	bool valid = true;
 	for(unsigned int i = 0; i < m_Script.Count(); i++){
-		strLine = m_Script.Item(i); 
-		wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
-		wxString strToken = tkz.GetNextToken();
-		strToken.Trim();
-		if(strToken == wxT("Sync") || strToken == wxT("Secure") || strToken == _("Delete") || strToken == _("Execute") || strToken == wxT("Backup") || strToken == wxT("Restore")){
+		//Split the script line up into tokens, quote mark limited
+		wxStringTokenizer tkz(m_Script.Item(i), wxT("\""), wxTOKEN_STRTOK);
+		wxString token = tkz.GetNextToken();
+		token.Trim();
+		if(token == wxT("Sync") || token == wxT("Secure") || token == _("Delete") || token == _("Execute") || token == wxT("Backup")){
 			if(tkz.CountTokens() != 1){
-				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
-				OutputProgress(strTemp);
-				blParseError = true;
+				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
+				valid = false;
 			}
-		}
-		else if(strToken == _("Move") || strToken == _("Copy") || strToken == _("Rename")){
-			if(tkz.CountTokens() != 3){
-				strTemp.Printf(_("Line %d has an incorrect number of parameters"), i+1);
-				OutputProgress(strTemp);
-				blParseError = true;
+			//We have the correct number of parameters, check the job names
+			if(token == wxT("Sync")){
+				wxString job = tkz.GetNextToken();
+				SyncData data;
+				data.SetName(job);
+				if(data.TransferFromFile()){
+					//We dont yet need to do anything special for Sync
+					;
+				}
+				else{
+					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
+					valid = false;
+				}
 			}
-		}
-		else{
-			strTemp.Printf(strToken + _(" not recognised on line %d"), i+1);
-			OutputProgress(strTemp);
-			blParseError = true;
-		}
-		if(strToken == wxT("Secure")){
-			blPassNeeded = true;
-		}
-		if(strToken == wxT("Backup")){
-			BackupData data;
-			wxString strJob = tkz.GetNextToken();
-			data.SetName(strJob);
-			if(data.TransferFromFile()){
-				if(data.IsPassword == true){
-					blPassNeeded = true;
+			else if(token == wxT("Backup")){
+				wxString job = tkz.GetNextToken();
+				BackupData data;
+				data.SetName(job);
+				if(data.TransferFromFile()){
+					if(data.IsPassword == true){
+						wxString pass = InputPassword();
+						if(pass == wxEmptyString){
+							valid = false;
+						}
+						else{
+							m_Password = pass;
+						}
+					}
+				}
+				else{
+					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
+					valid = false;
+				}
+			}
+			else if(token == wxT("Secure")){
+				wxString job = tkz.GetNextToken();
+				SecureData data;
+				data.SetName(job);
+				if(data.TransferFromFile()){
+					wxString pass = InputPassword();
+					if(pass == wxEmptyString){
+						valid = false;
+					}
+					else{
+						m_Password = pass;
+					}
+				}
+				else{
+					OutputProgress(wxString::Format(job + _(" not recognised on line %d"), i+1));
+					valid = false;
 				}
 			}
 		}
-	}
-	if(blPassNeeded){
-		wxString strPass = InputPassword();
-		if(strPass == wxEmptyString){
-			CleanUp();
-			return false;
+		else if(token == _("Move") || token == _("Copy") || token == _("Rename")){
+			if(tkz.CountTokens() != 3){
+				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
+				valid = false;
+			}
 		}
 		else{
-			m_Password = strPass;
+			OutputProgress(wxString::Format(token + _(" not recognised on line %d"), i+1));
+			valid = false;
 		}
-	}	
-	if(blParseError){
-		return false;
 	}
-	return true;
+	return valid;
 }
 
 bool ScriptManager::ProgressBarSetup(){
@@ -187,7 +209,10 @@ bool ScriptManager::ProgressBarSetup(){
 	return true;
 }
 
-bool ScriptManager::ParseCommand(int i){	
+bool ScriptManager::ParseCommand(int i){
+	if(wxGetApp().ShouldAbort()){
+		return false;
+	}
 	wxDateTime now = wxDateTime::Now();
 	
 	wxString strLine = m_Script.Item(i);
@@ -217,10 +242,10 @@ bool ScriptManager::ParseCommand(int i){
 	else if(strToken == _("Delete")){
 		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxRemoveFile(strSource)){
-			OutputProgress(_("Deleted ") +strSource + wxT("\n"));	
+			OutputProgress(_("Deleted ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to delete ") +strSource + wxT("\n"));				
+			OutputProgress(_("Failed to delete ") + strSource);				
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -233,14 +258,14 @@ bool ScriptManager::ParseCommand(int i){
 		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxCopyFile(strSource, strDest, true)){
 			if(wxRemoveFile(strSource)){
-				OutputProgress(_("Moved") +strSource + wxT("\n"));	
+				OutputProgress(_("Moved") + strSource);	
 			}
 			else{
-				OutputProgress(_("Failed to move ") + strSource + wxT("\n"));
+				OutputProgress(_("Failed to move ") + strSource);
 			}
 		}
 		else{
-			OutputProgress(_("Failed to move ") + strSource + wxT("\n"));		
+			OutputProgress(_("Failed to move ") + strSource);		
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -252,10 +277,10 @@ bool ScriptManager::ParseCommand(int i){
 		tkz.GetNextToken();
 		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxCopyFile(strSource, strDest, true)){
-			OutputProgress(_("Copied ") +strSource + wxT("\n"));	
+			OutputProgress(_("Copied ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to copy ") +strSource + wxT("\n"));
+			OutputProgress(_("Failed to copy ") +strSource);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -267,10 +292,10 @@ bool ScriptManager::ParseCommand(int i){
 		tkz.GetNextToken();
 		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
 		if(wxRenameFile(strSource, strDest, true)){
-			OutputProgress(_("Renamed ") +strSource + wxT("\n"));	
+			OutputProgress(_("Renamed ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to rename ") +strSource + wxT("\n"));
+			OutputProgress(_("Failed to rename ") + strSource);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -280,7 +305,7 @@ bool ScriptManager::ParseCommand(int i){
 	else if(strToken == _("Execute")){
 		wxString strExecute = Normalise(Normalise(tkz.GetNextToken()));
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
-		OutputProgress(_("Executed ") + strExecute + wxT("\n"));
+		OutputProgress(_("Executed ") + strExecute);
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
@@ -324,10 +349,12 @@ bool ScriptManager::CleanUp(){
 	OutputBlank();
 	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
 	OutputProgress(now.FormatTime(), _("Finished"));
-	
+
+	//Yield here to make sure all output is shown
+	wxGetApp().Yield();
 	//Resize the second column to show all of the text
 	m_ProgressWindow->m_List->SetColumnWidth(1, -1);
-	
+
 	//Remove finished jobs
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSyncJob"))){
 		wxGetApp().m_Jobs_Config->DeleteGroup(wxT("LastSyncJob"));

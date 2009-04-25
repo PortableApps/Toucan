@@ -10,6 +10,7 @@
 #include "../variables.h"
 #include "../toucan.h"
 #include "../filecounter.h"
+#include "../settings.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -20,6 +21,10 @@ bool SyncData::TransferFromFile(){
 	bool blError;
 	wxString strTemp;
 	bool blTemp;
+
+	if(!wxGetApp().m_Jobs_Config->Exists(strName)){
+		return false;
+	}
 
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Source"), &strTemp);
 	if(blError){ SetSource(strTemp); }	
@@ -115,12 +120,21 @@ void SyncData::Output(){
 }
 
 bool SyncData::Execute(Rules rules){
+	blDisableHash = wxGetApp().m_Settings->GetDisableStream();
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
-	//Create a new Sync thread and run it (needs to use Wait())
-	SyncThread *thread = new SyncThread(*this, rules);
+	//Create a new Sync thread and run it
+	//If we are running in the command line then we need joinable so the app doesnt return early
+	wxThreadKind type = wxTHREAD_DETACHED;
+	if(!wxGetApp().GetUsesGUI()){
+		type = wxTHREAD_JOINABLE;
+	}
+	SyncThread *thread = new SyncThread(*this, rules, type);
 	thread->Create();
 	thread->Run();
+	if(!wxGetApp().GetUsesGUI()){
+		thread->Wait();
+	}
 	return true;
 }
 

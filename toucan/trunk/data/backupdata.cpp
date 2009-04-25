@@ -26,6 +26,10 @@ bool BackupData::TransferFromFile(){
 	wxString strTemp;
 	bool blTemp;
 
+	if(!wxGetApp().m_Jobs_Config->Exists(strName)){
+		return false;
+	}
+
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/BackupLocation"), &strTemp);
 	if(blError){ SetBackupLocation(strTemp); }	
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Locations"), &strTemp);

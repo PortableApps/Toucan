@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -19,6 +19,8 @@
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
 #include "forms/frmmain.h"
+
+//ATTN : This needs clearing up into smaller files
 
 wxFFileOutputStream output(stderr);
 wxTextOutputStream cout(output);
@@ -181,18 +183,16 @@ bool SetVariablesBox(wxComboBox *box){
 	bool blCont;
 	wxString strValue;
 	long dummy;
-	//Iterate through all of the groups
+	//Iterate through all of the group
 	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Variables.ini"))){
 		blCont = wxGetApp().m_Variables_Config->GetFirstGroup(strValue, dummy);
-		while (blCont){
+		while(blCont){
 			box->Append(strValue);
 			blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
 		}
 	}
 	return true;	
 }
-
-
 
 bool SetScriptsBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
@@ -211,7 +211,6 @@ bool SetScriptsBox(wxComboBox *box){
 	return true;
 }
 
-
 wxArrayString GetLanguages(){
 	wxArrayString arrLang;
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
@@ -229,10 +228,9 @@ wxArrayString GetLanguages(){
 				}
 			}
 		}
-		while (dir.GetNext(&strFilename) );
+		while (dir.GetNext(&strFilename));
 	} 
 	return arrLang;
-	
 }
 
 wxArrayString GetTranslatorNames(){
@@ -251,10 +249,9 @@ wxArrayString GetTranslatorNames(){
 				}
 			}
 		}
-		while (dir.GetNext(&strFilename) );
+		while (dir.GetNext(&strFilename));
 	} 
 	return arrNames;
-	
 }
 
 wxString InputPassword(){
@@ -278,12 +275,20 @@ wxString InputPassword(){
 	else{
 		wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 		int iArgs = wxGetApp().argc;
+		//Job with password
 		if(iArgs == 4){
 			cmdParser.AddParam(_("Job name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		}
-		//Backup job all specified with password
+		//Script with password
+		else if(iArgs == 5){
+			cmdParser.AddParam(wxT("Script"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(wxT("Script Name"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+			cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
+		}
+		//Backup with password
 		else if(iArgs == 10){
 			cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Backup file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
@@ -295,7 +300,7 @@ wxString InputPassword(){
 			cmdParser.AddParam(_("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		}
-		//Secure all specified
+		//Secure
 		else if(iArgs == 7){
 			cmdParser.AddParam(_("Operation"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(_("File of paths"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
@@ -341,30 +346,25 @@ wxString InputPassword(){
 				return wxT("Password not needed");
 			}
 		}
-		else if(cmdParser.GetParam(0) == wxT("Secure")){
-			if(cmdParser.GetParamCount() == 6){
-				if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
-					return cmdParser.GetParam(4);
-				}
-				else{
-					cout<<_("You need to repeat the password and ensure the two passwords are identical");
-					return wxEmptyString;
-				}
+		else if(cmdParser.GetParam(0) == wxT("Secure") && cmdParser.GetParamCount() == 6){
+			if(cmdParser.GetParam(4) == cmdParser.GetParam(5)){
+				return cmdParser.GetParam(4);
+			}
+			else{
+				cout<<_("You need to repeat the password and ensure the two passwords are identical");
+				return wxEmptyString;
 			}
 		}
-		else if(cmdParser.GetParam(0) == wxT("Backup")){
-			if(cmdParser.GetParamCount() == 9){
-				if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
-					return cmdParser.GetParam(7);
-				}
-				else{
-					cout<<_("You need to repeat the password and ensure the two passwords are identical");
-					return wxEmptyString;
-				}
+		else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 9){
+			if(cmdParser.GetParam(7) == cmdParser.GetParam(8)){
+				return cmdParser.GetParam(7);
+			}
+			else{
+				cout<<_("You need to repeat the password and ensure the two passwords are identical");
+				return wxEmptyString;
 			}
 		}
-	}	
-	
+	}
 	return wxEmptyString;
 }
 
@@ -444,7 +444,7 @@ bool UpdateJobs(int version){
 					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Function"), _("Differential"));
 				}
 				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Format")) == wxT("7 Zip")){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), _("7-Zip"));
+					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), wxT("7-Zip"));
 				}
 				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Ratio")) == wxT("Normal")){
 					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Ratio"), wxT("3"));
@@ -471,7 +471,6 @@ bool UpdateJobs(int version){
 				
 				wxGetApp().m_Jobs_Config->Flush();
 			}
-				
 			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Jobs_Config->Flush();
@@ -498,7 +497,6 @@ bool UpdateJobs(int version){
 				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
 				wxGetApp().m_Jobs_Config->Flush();
 			}
-				
 			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Jobs_Config->Flush();

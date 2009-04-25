@@ -51,7 +51,11 @@ public:
 	void SetRememberBackup(bool remember) { m_RememberBackup = remember; }	
 	
 	bool GetRememberSecure() { return m_RememberSecure; }
-	void SetRememberSecure(bool remember) { m_RememberSecure = remember; }	
+	void SetRememberSecure(bool remember) { m_RememberSecure = remember; }
+	
+	bool GetDisableStream() { return m_DisableStream; }
+	
+	bool GetDisableLog() { return m_DisableLog; }
 	
 	wxFileConfig* GetConfig() { return config; }
 	
@@ -67,6 +71,8 @@ private:
 	bool m_RememberSync;
 	bool m_RememberBackup;
 	bool m_RememberSecure;
+	bool m_DisableStream;
+	bool m_DisableLog;
 	wxFileConfig* config;
 };
 

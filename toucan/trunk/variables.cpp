@@ -78,8 +78,9 @@ wxString Normalise(wxString strFilePath){
 			else{
 				wxString strRead;
 				//If there is no value in the field with the computers name, or it is empty, then read the value in the 'other' field
-				if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), & strRead) == false || wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName()) == wxEmptyString)
-				{
+				//Also a quick check at the start to make sure there are actually groups in the file or it seems to multilate the whole config object
+				if(wxGetApp().m_Variables_Config->GetNumberOfGroups() != 0 && (wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), & strRead) == false || wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName()) == wxEmptyString))
+				{			
 					//If there is no value in the 'other' field then simply add the name of that section as it must me a folder name	
 					if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + _("Other"), & strRead) == false){
 						strReturn = strReturn + token;                 
@@ -89,7 +90,7 @@ wxString Normalise(wxString strFilePath){
 					}		
 				}
 				else{
-					strReturn += strRead;
+					strReturn += token;
 				}
 			}
 		}

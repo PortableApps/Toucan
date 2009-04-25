@@ -6,6 +6,7 @@
 
 #include "filecounter.h"
 #include "toucan.h"
+#include "variables.h"
 #include <wx/dir.h>
 
 FileCounter::FileCounter(){
@@ -13,12 +14,12 @@ FileCounter::FileCounter(){
 }
 
 void FileCounter::AddPath(wxString path){
-	m_Paths.Add(path);
+	m_Paths.Add(Normalise(Normalise(path)));
 }
 
 void FileCounter::AddPaths(wxArrayString paths){
 	for(unsigned int i = 0; i < paths.Count(); i++){
-		m_Paths.Add(paths.Item(i));
+		m_Paths.Add(Normalise(Normalise(paths.Item(i))));
 	}
 }
 
@@ -28,7 +29,14 @@ long FileCounter::GetCount(){
 
 bool FileCounter::Count(){
 	for(unsigned int i = 0; i < m_Paths.Count(); i++){
-		CountFolder(m_Paths.Item(i));
+		if(wxDirExists(m_Paths.Item(i))){
+			CountFolder(m_Paths.Item(i));		
+		}
+		//We have a file and not a folder
+		else{
+			m_Count++;
+		}
+
 	}
 	return true;
 }
@@ -53,7 +61,7 @@ bool FileCounter::CountFolder(wxString path){
 				m_Count++;
 			}
 		}
-		while (dir.GetNext(&strFilename) );
+		while(dir.GetNext(&strFilename));
 	} 
 	return true;
 }

@@ -1,3 +1,4 @@
+/////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
 // Copyright:   Copyright (C) 2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
@@ -5,7 +6,6 @@
 
 #include "syncbase.h"
 #include "syncfiles.h"
-#include "../md5.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include <list>
@@ -13,6 +13,7 @@
 #include <wx/string.h>
 #include <wx/datetime.h>
 #include <wx/filename.h>
+#include <wx/wfstream.h>
 #include <wx/dir.h>
 
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules){
@@ -242,7 +243,6 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 	if(data->GetIgnoreDLS()){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
-
 	if(tmFrom.IsLaterThan(tmTo)){
 		return CopyFileHash(source, dest);
 	}
@@ -250,11 +250,52 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
-	wxMD5 md5;
-	if(md5.GetFileMD5(source) != md5.GetFileMD5(dest)){
+	if(data->GetDisableHash()){
 		return CopyFile(source, dest);
 	}
-	//Return true as it is already there
+	//ATTN : Still need to work out optimal chunk size
+	wxFileInputStream sourcestream(source);
+	wxFileInputStream deststream(dest);
+	if(sourcestream.GetLength() != deststream.GetLength()){
+		return CopyFile(source, dest);			
+	}
+	//Something is wrong with out streams, return error
+	if(!sourcestream.IsOk() || !deststream.IsOk()){
+		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+		return false;
+	}
+	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
+	wxFileOffset size = sourcestream.GetLength();
+	if(size > 2000000000){
+		return CopyFile(source, dest);			
+	}
+	//We read in 1MB chunks
+	char sourcebuf[1000000];
+	char destbuf[1000000];
+	wxFileOffset bytesLeft=size;
+	while(bytesLeft > 0){
+		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
+		sourcestream.Read((void*)sourcebuf,bytesToRead);
+		deststream.Read((void*)destbuf,bytesToRead);
+		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
+			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+			return false;
+		}
+		if(strncmp(sourcebuf, destbuf, bytesToRead)){
+			//Our strings differ, so copy the files
+			//ATTN : In future update the files in place
+			return CopyFile(source, dest);
+		}
+		bytesLeft-=bytesToRead;
+	}
+	//The two files are actually the same, but update the timestamps
+	if(data->GetTimeStamps()){
+		wxFileName from(source);
+		wxFileName to(dest);
+		wxDateTime access, mod, created;
+		from.GetTimes(&access ,&mod ,&created );
+		to.SetTimes(&access ,&mod , &created); 
+	}	
 	return true;
 }
 

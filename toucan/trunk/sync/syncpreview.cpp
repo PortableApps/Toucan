@@ -6,10 +6,12 @@
 
 #include "syncbase.h"
 #include "syncpreview.h"
-#include "../md5.h"
+#include "../toucan.h"
+#include "../forms/frmprogress.h"
 #include <list>
 #include <map>
 #include <wx/string.h>
+#include <wx/wfstream.h>
 
 SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules, bool issource) : SyncFiles(syncsource, syncdest, syncdata, syncrules){
 	this->sourcetree = issource;
@@ -120,8 +122,7 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!rules.ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
-			wxMD5* md5 = new wxMD5();
-			if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
+			if(ShouldCopy(source, dest)){
 				int pos = GetItemLocation(path, &destitems);
 				if(pos != -1){
 					destitems.Item(pos)->SetColour(wxT("Green"));		
@@ -146,8 +147,7 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 			}
 
 			if(tmFrom.IsLaterThan(tmTo)){
-				wxMD5* md5 = new wxMD5();
-				if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
+				if(ShouldCopy(source, dest)){
 					int pos = GetItemLocation(path, &destitems);
 					if(pos != -1){
 						destitems.Item(pos)->SetColour(wxT("Green"));			
@@ -167,8 +167,7 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 			}
 
 			if(tmFrom.IsLaterThan(tmTo)){
-				wxMD5* md5 = new wxMD5();
-				if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
+				if(ShouldCopy(source, dest)){
 					int pos = GetItemLocation(path, &destitems);
 					if(pos != -1){
 						destitems.Item(pos)->SetColour(wxT("Green"));			
@@ -176,8 +175,7 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 				}	
 			}
 			else if(tmTo.IsLaterThan(tmFrom)){
-				wxMD5* md5 = new wxMD5();
-				if(md5->GetFileMD5(source) != md5->GetFileMD5(dest)){
+				if(ShouldCopy(dest, source)){
 					int pos = GetItemLocation(path, &sourceitems);
 					if(pos != -1){
 						sourceitems.Item(pos)->SetColour(wxT("Green"));			
@@ -255,4 +253,44 @@ int SyncPreview::GetItemLocation(wxString path, VdtcTreeItemBaseArray* array){
 		}
 	}
 	return -1;
+}
+
+bool SyncPreview::ShouldCopy(wxString source, wxString dest){
+	if(data->GetDisableHash()){
+		return true;
+	}
+	//See the real CopyFileHash for more info
+	wxFileInputStream sourcestream(source);
+	wxFileInputStream deststream(dest);
+	if(sourcestream.GetLength() != deststream.GetLength()){
+		return true;	
+	}
+	//Something is wrong with out streams, return error
+	if(!sourcestream.IsOk() || !deststream.IsOk()){
+		return false;
+	}
+	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
+	wxFileOffset size = sourcestream.GetLength();
+	if(size > 2000000000){
+		return true;
+	}
+	//We read in 1MB chunks
+	char sourcebuf[1000000];
+	char destbuf[1000000];
+	wxFileOffset bytesLeft=size;
+	while(bytesLeft > 0){
+		wxGetApp().Yield();
+		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
+		sourcestream.Read((void*)sourcebuf,bytesToRead);
+		deststream.Read((void*)destbuf,bytesToRead);
+		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
+			return false;
+		}
+		if(strncmp(sourcebuf, destbuf, bytesToRead)){
+			return true;
+		}
+		bytesLeft-=bytesToRead;
+	}
+	//The two files are actually the same
+	return false;
 }

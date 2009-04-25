@@ -390,8 +390,8 @@ void frmMain::CreateControls()
 	BackupTop->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Backup_FormatStrings;
-	m_Backup_FormatStrings.Add(_("Zip"));
-	m_Backup_FormatStrings.Add(_("7-Zip"));
+	m_Backup_FormatStrings.Add(wxT("Zip"));
+	m_Backup_FormatStrings.Add(wxT("7-Zip"));
 	m_Backup_Format = new wxRadioBox(BackupPanel, ID_BACKUP_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Backup_FormatStrings, 1, wxRA_SPECIFY_COLS );
 	m_Backup_Format->SetSelection(0);
 	BackupTop->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
@@ -773,7 +773,7 @@ void frmMain::CreateControls()
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 5);
 	
 #ifdef __WXDEBUG__
-	wxButton* TestButton = new wxButton(HelpPanel, ID_HELP_TESTS, _("Run Tests"));
+	wxButton* TestButton = new wxButton(HelpPanel, ID_HELP_TESTS, wxT("Run Tests"));
 	HelpSizer->Add(TestButton, 0, wxALIGN_TOP|wxALL, 5);
 #endif
 	
@@ -1227,10 +1227,10 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	else{
 		wxString strWildcard;
-		if(m_Backup_Format->GetStringSelection() == _("7-Zip")){
+		if(m_Backup_Format->GetStringSelection() == wxT("7-Zip")){
 			strWildcard = wxT("7 Zip (*.7z)|*.7z|All Files (*.*)|*.*");
 		}
-		else if(m_Backup_Format->GetStringSelection() == _("Zip")){
+		else if(m_Backup_Format->GetStringSelection() == wxT("Zip")){
 			strWildcard = wxT("Zip Files (*.zip)|*.zip|All Files (*.*)|*.*");
 		}		
 		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxPathOnly(m_Backup_Location->GetValue()), wxEmptyString, strWildcard, wxFD_SAVE);
@@ -1247,6 +1247,17 @@ void frmMain::OnSyncOKClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_OK
 void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
+		ErrorBox(_("Differential only supports one folder"));
+		return;
+	}
+	//Differential needs a folder to store its files in
+	if(m_Backup_Function->GetStringSelection() ==_("Differential") && m_Backup_Location->GetValue() != wxEmptyString){
+		if(m_Backup_Location->GetValue().Right(3) == wxT(".7z") || m_Backup_Location->GetValue().Right(4) == wxT(".zip")){
+			ErrorBox(_("Please select the folder to store your backups"));
+			return;
+		}
+	}
 	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
 }
 
@@ -1258,23 +1269,30 @@ void frmMain::OnSecureOKClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_PREVIEW
 void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
-		//Get the rules
-		Rules rules;
-		if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-			rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
-		}	
+	wxBusyCursor cursor;
+	m_Notebook->Disable();
+	//Get the rules
+	Rules rules;
+	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
+		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+	}	
+	m_Sync_Dest_Tree->SetRules(rules);
+	m_Sync_Dest_Tree->DeleteAllItems();
+	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+	m_Sync_Dest_Tree->SetPreview(true);
+	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 
-		m_Sync_Dest_Tree->SetRules(rules);
-		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->SetPreview(true);
-		m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
-
-		m_Sync_Source_Tree->SetRules(rules);
-		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+	m_Sync_Source_Tree->SetRules(rules);
+	m_Sync_Source_Tree->DeleteAllItems();
+	m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
 		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+	}
+	else{
+		m_Sync_Source_Tree->SetPreview(false);
+	}
+	m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+	m_Notebook->Enable();
 }
 
 //ID_BACKUP_PREVIEW
@@ -1285,6 +1303,7 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& WXUNUSED(event)){
 		rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
 	}
 	//Set up the tree ctrl for previewing
+	m_Backup_TreeCtrl->SetSync(false);
 	m_Backup_TreeCtrl->SetPreview(true);
 	m_Backup_TreeCtrl->SetRules(rules);
 	//Delete all items and re-add the root
@@ -1304,6 +1323,7 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& WXUNUSED(event)){
 		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
 	}
 	//Set up the tree ctrl for previewing
+	m_Secure_TreeCtrl->SetSync(false);
 	m_Secure_TreeCtrl->SetPreview(true);
 	m_Secure_TreeCtrl->SetRules(rules);
 	//Delete all items and re-add the root
@@ -1504,13 +1524,28 @@ void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){	
 	m_Script_Rich->Clear();
 	wxString strFile = 	wxGetApp().m_Scripts_Config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
-	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
-	unsigned int i;
-	for(i = 0; i < arrContents.Count() - 1; i++){
-		m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\r\n"));
+	//Remove trailing | if it exists
+	if(strFile.Right(1) == wxT("|")){
+		strFile = strFile.Left(strFile.Length() - 1);
+		if(strFile.Length() == 0){
+			return;
+		}
 	}
-	m_Script_Rich->AppendText(arrContents.Item(i));
-	SetTitleBarText();
+	//We should now have a nicely formatted array of one command per line
+	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
+	//If we have more then one item then we need to add line breaks between them
+	if(arrContents.GetCount() > 1){
+		unsigned int i;
+		for(i = 0; i < arrContents.Count() - 1; i++){
+			m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\n"));
+		}
+		m_Script_Rich->AppendText(arrContents.Item(i));
+		SetTitleBarText();
+	}
+	//If only one item then just add it
+	else if(arrContents.GetCount() == 1){
+		m_Script_Rich->AppendText(arrContents.Item(0));		
+	}
 }
 
 //ID_SCRIPT_SAVE
@@ -1569,7 +1604,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.1.0 Pre-Release 2"));
+	info.SetVersion(wxT("2.1.0 Pre-Release 5"));
 	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip, hashlib++ and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
@@ -1771,7 +1806,7 @@ void frmMain::ClearToDefault(){
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
 		m_Backup_Function->SetStringSelection(_("Complete"));
-		m_Backup_Format->SetStringSelection(_("Zip"));
+		m_Backup_Format->SetStringSelection(wxT("Zip"));
 		m_Backup_Ratio->SetValue(3);
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
@@ -1827,7 +1862,8 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 	menuTree->SelectItem(event.GetItem());
 	wxString strMenuTitle = menuRules->GetStringSelection();
 	if(strMenuTitle == wxEmptyString){
-		strMenuTitle = _("Error");
+		//If no rules are selected then return
+		return;
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){

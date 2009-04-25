@@ -55,6 +55,8 @@ public:
 	void SetIgnoreDLS(bool ignoredls) { blIgnoreDLS = ignoredls; }
 	bool GetIgnoreDLS() { return blIgnoreDLS; }
 
+	bool GetDisableHash() { return blDisableHash; }
+
 private:
 	wxString strSource;
 	wxString strDest;
@@ -65,6 +67,7 @@ private:
 	bool blAttributes;
 	bool blIgnoreRO;
 	bool blIgnoreDLS;
+	bool blDisableHash;
 };
 
 #endif

@@ -10,6 +10,7 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpctrl.h>
 #include <wx/fs_arc.h>
+#include <wx/dir.h>
 
 #include "toucan.h"
 #include "forms/frmmain.h"
@@ -49,12 +50,19 @@ bool Toucan::OnInit(){
 	else{
 		SetUsesGUI(false);
 	}
+	//Work out where the settings dir is. Firstly get the exe dir
+	wxFileName settingspath = wxFileName::DirName((wxPathOnly(wxStandardPaths::Get().GetExecutablePath())));
+	//Next remove the \App\toucan
+	settingspath.RemoveLastDir();
+	settingspath.RemoveLastDir();
+	//And the add \Data
+	settingspath.AppendDir(wxT("Data"));
 
+	SetSettingsPath(settingspath.GetFullPath());
 	//Make sure the data directory is there
-	if(!wxDirExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data"))){
-		wxMkdir(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data"));
+	if(!wxDirExists(GetSettingsPath())){
+		wxMkdir(GetSettingsPath());
 	}
-	SetSettingsPath(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Length() - 10) + wxT("Data") + wxFILE_SEP_PATH);
 
 	//Create the config stuff and set it up
  	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
@@ -152,35 +160,39 @@ bool Toucan::OnInit(){
 	}
 	else{
 		ParseCommandLine();
-		//We need to wait for the script manager to finish
-		while(m_Script->GetCommand() <= m_Script->GetCount()){
-			wxMilliSleep(200);
-			wxYield();
-			;
-		}
-		//Write out a log so we know what happened
-		wxTextFile file;
-		file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
-		for(int i = 0; i < ProgressWindow->m_List->GetItemCount() - 1; i++){
-			wxListItem itemcol1, itemcol2;
+		if(!m_Settings->GetDisableLog()){
+			//Write out a log so we know what happened
+			wxTextFile file;
+			file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
+			for(int i = 0; i < ProgressWindow->m_List->GetItemCount() - 1; i++){
+				wxListItem itemcol1, itemcol2;
 
-			itemcol1.m_itemId = i;
-		 	itemcol1.m_col = 0;
-			itemcol1.m_mask = wxLIST_MASK_TEXT;
-			ProgressWindow->m_List->GetItem(itemcol1);
-			itemcol2.m_itemId = i;
-			itemcol2.m_col = 1;
-			itemcol2.m_mask = wxLIST_MASK_TEXT;
-			ProgressWindow->m_List->GetItem(itemcol2);
-			file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+				itemcol1.m_itemId = i;
+				itemcol1.m_col = 0;
+				itemcol1.m_mask = wxLIST_MASK_TEXT;
+				ProgressWindow->m_List->GetItem(itemcol1);
+				itemcol2.m_itemId = i;
+				itemcol2.m_col = 1;
+				itemcol2.m_mask = wxLIST_MASK_TEXT;
+				ProgressWindow->m_List->GetItem(itemcol2);
+				file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+			}
+			file.Write();
 		}
-		file.Write();
 		delete MainWindow->m_BackupLocations;
 		delete MainWindow->m_SecureLocations;
 		wxGetApp().MainWindow->Destroy();
 		wxGetApp().ProgressWindow->Destroy();
 	}
 	return true;
+}
+
+void Toucan::CleanTemp(){
+	wxArrayString files;
+	wxDir::GetAllFiles(GetSettingsPath(), &files, wxT("*.tmp"), wxDIR_FILES);
+	for(unsigned int i = 0; i < files.GetCount(); i++){
+		wxRemoveFile(files.Item(i));
+	}
 }
 
 //Language setup
@@ -193,7 +205,8 @@ void Toucan::SetLanguage(wxString strLanguage){
 }
 
 //Cleanup
-int Toucan::OnExit(){    
+int Toucan::OnExit(){   
+	CleanTemp();
 	delete m_Locale;
 	delete m_Settings;
 	delete m_Script;
