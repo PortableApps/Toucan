@@ -4,13 +4,15 @@
   <include file="presets/wx.bkl"/>
 
     <exe id="Toucan" template="wx">
+		<app-type>gui</app-type>
         <runtime-libs>static</runtime-libs>
 		<cxx-rtti>off</cxx-rtti>
 		<warnings>max</warnings>
 		<dirname>Output</dirname>
+		<define>_CRT_SECURE_NO_WARNINGS</define>
 
         <sources>backupprocess.cpp basicfunctions.cpp cmdline.cpp dragndrop.cpp</sources>
-		<sources>filecounter.cpp md5.cpp rules.cpp script.cpp secure.cpp</sources>
+		<sources>filecounter.cpp rules.cpp script.cpp secure.cpp</sources>
 		<sources>settings.cpp tests.cpp toucan.cpp variables.cpp waitthread.cpp</sources>
 		<sources>controls/extendeddirctrl.cpp controls/loglistctrl.cpp controls/virtualdirtreectrl.cpp</sources>
 		<sources>data/backupdata.cpp data/rootdata.cpp data/securedata.cpp</sources>
@@ -18,14 +20,13 @@
 		<sources>sync/syncbase.cpp sync/syncdata.cpp sync/syncfiles.cpp sync/syncpreview.cpp sync/syncthread.cpp</sources>
 		
         <headers>backupprocess.h basicfunctions.h cmdline.h dragndrop.h</headers>
-		<headers>filecounter.h md5.h rules.h script.h secure.h</headers>
+		<headers>filecounter.h rules.h script.h secure.h</headers>
 		<headers>settings.h tests.h toucan.h variables.h waitthread.h</headers>
 		<headers>controls/extendeddirctrl.h controls/loglistctrl.h controls/virtualdirtreectrl.h</headers>
 		<headers>data/backupdata.h data/rootdata.h data/securedata.h</headers>
 		<headers>forms/frmmain.h forms/frmprogress.h forms/frmvariable.h</headers>
 		<headers>sync/syncbase.h sync/syncdata.h sync/syncfiles.h sync/syncpreview.h sync/syncthread.h</headers>
 
-		<wx-lib>richtext</wx-lib>
         <wx-lib>aui</wx-lib>
         <wx-lib>html</wx-lib>
         <wx-lib>adv</wx-lib>
