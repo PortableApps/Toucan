@@ -136,6 +136,6 @@ void frmVariable::OnTextChange(wxCommandEvent& WXUNUSED(event)){
 	m_Preview_Text->SetValue(strPath);
 }
 
-void frmVariable::OnCancelClick(wxCommandEvent& event){
+void frmVariable::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
 	this->EndModal(wxID_CANCEL);
 }
