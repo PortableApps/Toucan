@@ -38,7 +38,7 @@ WX_VERSION ?= 28
 WX_MONOLITHIC ?= 0
 
 # The directory where wxWidgets library is installed 
-WX_DIR ?= C:/Programming/wxWidgets-2.8-STABLE
+WX_DIR ?= C:\Programming\wxWidgets-2.8-build
 
 APPPATH=..\..\..\Application\App\toucan
 OUTPATH=..\..\..\Output
@@ -162,11 +162,12 @@ endif
 all: test_for_selected_wxbuild $(APPPATH)/Toucan.exe
 
 clean: 
-	-if exist $(OUTPATH)/*.o del $(OUTPATH)/*.o
-	-if exist $(OUTPATH)/*.d del $(OUTPATH)/*.d
-	-if exist $(APPPATH)/Toucan.exe del $(APPPATH)/Toucan.exe
+	-if exist $(OUTPATH)\*.o del $(OUTPATH)\*.o
+	-if exist $(OUTPATH)\*.d del $(OUTPATH)\*.d
+	-if exist $(APPPATH)\Toucan.exe del $(APPPATH)\Toucan.exe
 
 test_for_selected_wxbuild: 
+	echo $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
 	echo ----------------------------------------------------------------------------
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
