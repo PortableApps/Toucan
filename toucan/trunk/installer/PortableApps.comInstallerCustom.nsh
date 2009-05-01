@@ -50,6 +50,9 @@
 	StrCmp $LANGUAGE "2052 " 0 +3 ;Chinese Simplified
 		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "zh_CN"
 		Goto CustomCodePostInstallEnd
+	StrCmp $LANGUAGE "1041 " 0 +3 ;Japanese
+		WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "jp_JP"
+		Goto CustomCodePostInstallEnd
 	WriteINIStr $INSTDIR\Data\Settings.ini "General" "LanguageCode" "en_GB" ;=== Fallback to English
 	CustomCodePostInstallEnd:
 !macroend

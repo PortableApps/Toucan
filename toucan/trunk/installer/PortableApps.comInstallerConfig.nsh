@@ -26,19 +26,20 @@
 ;cleanup when the optional features are not selected is needed, it can be included in the
 ;PortableApps.comInstallerCustom.nsi which is detailed within that file.
 
-;LAST UPDATED FOR INSTALLER VERSION: 0.12.x
+;LAST UPDATED FOR INSTALLER VERSION: 0.13.x
 
 ;== Basic Information.  Basic information about the portable app
 !define NAME "Toucan"
 !define SHORTNAME "Toucan"
 !define VERSION "2.1.0.0"
-!define FILENAME "Toucan_2.1.0_PRERELEASE5"
+!define FILENAME "Toucan_2.1.0"
 !define CHECKRUNNING "Toucan.exe"
 !define CLOSENAME "Toucan"
 !define ADDONSDIRECTORYPRESERVE "NONE" ;use "NONE" for no plugins directory or relative to install directory: App\AppName\plugins
 !define INSTALLERCOMMENTS "For additional details, visit PortableApps.com"
 !define INSTALLERADDITIONALTRADEMARKS "" ;end this entry with a period and a space if used
 !define INSTALLERMULTILINGUAL "true" ;uncomment this entry for multilingual installers
+!define INCLUDEINSTALLERSOURCE "true" ;uncoment this entry to include the PortableApps.com Installer source code
 
 !ifndef INSTALLERMULTILINGUAL
 	;== Single language installer
@@ -72,7 +73,7 @@
 	;!define USES_INDONESIAN "true"
 	;!define USES_IRISH "true"
 	!define USES_ITALIAN "true"
-	;!define USES_JAPANESE "true"
+	!define USES_JAPANESE "true"
 	!define USES_KOREAN "true"
 	;!define USES_KURDISH "true"
 	;!define USES_LATVIAN "true"

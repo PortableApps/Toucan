@@ -12,7 +12,7 @@
 #include <map>
 
 Tests::Tests(){
-	total = 17;
+	total = 18;
 	SetGaugeRange(total);
 	OutputBlank();
 	failures = 0;
@@ -34,6 +34,8 @@ void Tests::VariablesTest(){
 	list[wxT("@mm@")] = wxDateTime::Now().Format(wxT("%M"));
 	list[wxT("@drive@")] =  wxT("C:\\");
 	list[wxT("@docs@")] =  wxT("C:\\Users\\Steven\\Documents");
+	//Test for @ in path
+	list[wxT("C:\\thisisa@test\\path.doc")] = wxT("C:\\thisisa@test\\path.doc");
 	//A more complex test
 	list[wxT("@drive@\\testdir\\@date@.zip")] = wxT("C:\\testdir\\") + wxDateTime::Now().FormatISODate() + wxT(".zip");
 

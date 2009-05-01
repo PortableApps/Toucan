@@ -1,5 +1,4 @@
 ;Copyright 2007-2009 John T. Haller of PortableApps.com
-
 ;Website: http://PortableApps.com/
 
 ;This software is OSI Certified Open Source Software.
@@ -21,7 +20,7 @@
 
 ;EXCEPTION: Can be used with non-GPL apps distributed by PortableApps.com
 
-!define PORTABLEAPPSINSTALLERVERSION "0.12.4.0"
+!define PORTABLEAPPSINSTALLERVERSION "0.13.3.0"
 
 !if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
 	!include PortableApps.comInstallerPluginConfig.nsh
@@ -108,254 +107,257 @@ BrandingText "PortableApps.com - Your Digital Life, Anywhere®"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "PortableApps.comInstaller.bmp"
 !define MUI_WELCOMEPAGE_TITLE "${NAME}"
 !define MUI_WELCOMEPAGE_TEXT "$(welcome)"
-!define MUI_COMPONENTSPAGE_SMALLDESC
+!define MUI_PAGE_CUSTOMFUNCTION_PRE PreWelcome
 !insertmacro MUI_PAGE_WELCOME
 !ifdef LICENSEAGREEMENT
 	!define MUI_LICENSEPAGE_CHECKBOX
 	!insertmacro MUI_PAGE_LICENSE "${LICENSEAGREEMENT}"
 !endif
 !ifdef MAINSECTIONTITLE
+	!define MUI_COMPONENTSPAGE_SMALLDESC
 	!insertmacro MUI_PAGE_COMPONENTS
 !endif
 !define MUI_DIRECTORYPAGE_VERIFYONLEAVE
+!define MUI_PAGE_CUSTOMFUNCTION_PRE PreDirectory
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE LeaveDirectory
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !define MUI_FINISHPAGE_TEXT "$(finish)"
+!define MUI_PAGE_CUSTOMFUNCTION_PRE PreFinish
 !insertmacro MUI_PAGE_FINISH
 
 ;=== Languages
 !ifndef INSTALLERMULTILINGUAL
 	!insertmacro MUI_LANGUAGE "${INSTALLERLANGUAGE}"
-	!include PortableApps.comInstallerLANG_${INSTALLERLANGUAGE}.nsh
+	!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_${INSTALLERLANGUAGE}.nsh
 !else
 	!ifdef USES_ENGLISH
 		!insertmacro MUI_LANGUAGE "English"
-		!include PortableApps.comInstallerLANG_ENGLISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ENGLISH.nsh
 	!endif
 	!ifdef USES_AFRIKAANS
 		!insertmacro MUI_LANGUAGE "Afrikaans"
-		!include PortableApps.comInstallerLANG_AFRIKAANS.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_AFRIKAANS.nsh
 	!endif
 	!ifdef USES_ALBANIAN
 		!insertmacro MUI_LANGUAGE "Albanian"
-		!include PortableApps.comInstallerLANG_ALBANIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ALBANIAN.nsh
 	!endif
 	!ifdef USES_ARABIC
 		!insertmacro MUI_LANGUAGE "Arabic"
-		!include PortableApps.comInstallerLANG_ARABIC.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ARABIC.nsh
 	!endif
 	!ifdef USES_BASQUE
 		!insertmacro MUI_LANGUAGE "Basque"
-		!include PortableApps.comInstallerLANG_BASQUE.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_BASQUE.nsh
 	!endif
 	!ifdef USES_BELARUSIAN
 		!insertmacro MUI_LANGUAGE "Belarusian"
-		!include PortableApps.comInstallerLANG_BELARUSIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_BELARUSIAN.nsh
 	!endif
 	!ifdef USES_BOSNIAN
 		!insertmacro MUI_LANGUAGE "Bosnian"
-		!include PortableApps.comInstallerLANG_BOSNIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_BOSNIAN.nsh
 	!endif
 	!ifdef USES_BRETON
 		!insertmacro MUI_LANGUAGE "Breton"
-		!include PortableApps.comInstallerLANG_BRETON.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_BRETON.nsh
 	!endif
 	!ifdef USES_BULGARIAN
 		!insertmacro MUI_LANGUAGE "Bulgarian"
-		!include PortableApps.comInstallerLANG_BULGARIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_BULGARIAN.nsh
 	!endif
 	!ifdef USES_CATALAN
 		!insertmacro MUI_LANGUAGE "Catalan"
-		!include PortableApps.comInstallerLANG_CATALAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_CATALAN.nsh
 	!endif
 	!ifdef USES_CROATIAN
 		!insertmacro MUI_LANGUAGE "Croatian"
-		!include PortableApps.comInstallerLANG_CROATIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_CROATIAN.nsh
 	!endif
 	!ifdef USES_CZECH
 		!insertmacro MUI_LANGUAGE "Czech"
-		!include PortableApps.comInstallerLANG_CZECH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_CZECH.nsh
 	!endif
 	!ifdef USES_DANISH
 		!insertmacro MUI_LANGUAGE "Danish"
-		!include PortableApps.comInstallerLANG_DANISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_DANISH.nsh
 	!endif
 	!ifdef USES_DUTCH
 		!insertmacro MUI_LANGUAGE "Dutch"
-		!include PortableApps.comInstallerLANG_DUTCH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_DUTCH.nsh
 	!endif
 	!ifdef USES_ESTONIAN
 		!insertmacro MUI_LANGUAGE "Estonian"
-		!include PortableApps.comInstallerLANG_ESTONIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ESTONIAN.nsh
 	!endif
 	!ifdef USES_FARSI
 		!insertmacro MUI_LANGUAGE "Farsi"
-		!include PortableApps.comInstallerLANG_FARSI.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_FARSI.nsh
 	!endif
 	!ifdef USES_FINNISH
 		!insertmacro MUI_LANGUAGE "Finnish"
-		!include PortableApps.comInstallerLANG_FINNISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_FINNISH.nsh
 	!endif
 	!ifdef USES_FRENCH
 		!insertmacro MUI_LANGUAGE "French"
-		!include PortableApps.comInstallerLANG_FRENCH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_FRENCH.nsh
 	!endif
 	!ifdef USES_GALICIAN
 		!insertmacro MUI_LANGUAGE "Galician"
-		!include PortableApps.comInstallerLANG_GALICIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_GALICIAN.nsh
 	!endif
 	!ifdef USES_GERMAN
 		!insertmacro MUI_LANGUAGE "German"
-		!include PortableApps.comInstallerLANG_GERMAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_GERMAN.nsh
 	!endif
 	!ifdef USES_GREEK
 		!insertmacro MUI_LANGUAGE "Greek"
-		!include PortableApps.comInstallerLANG_GREEK.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_GREEK.nsh
 	!endif
 	!ifdef USES_HEBREW
 		!insertmacro MUI_LANGUAGE "Hebrew"
-		!include PortableApps.comInstallerLANG_HEBREW.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_HEBREW.nsh
 	!endif
 	!ifdef USES_HUNGARIAN
 		!insertmacro MUI_LANGUAGE "Hungarian"
-		!include PortableApps.comInstallerLANG_HUNGARIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_HUNGARIAN.nsh
 	!endif
 	!ifdef USES_ICELANDIC
 		!insertmacro MUI_LANGUAGE "Icelandic"
-		!include PortableApps.comInstallerLANG_ICELANDIC.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ICELANDIC.nsh
 	!endif
 	!ifdef USES_INDONESIAN
 		!insertmacro MUI_LANGUAGE "Indonesian"
-		!include PortableApps.comInstallerLANG_INDONESIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_INDONESIAN.nsh
 	!endif
 	!ifdef USES_IRISH
 		!insertmacro MUI_LANGUAGE "Irish"
-		!include PortableApps.comInstallerLANG_IRISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_IRISH.nsh
 	!endif
 	!ifdef USES_ITALIAN
 		!insertmacro MUI_LANGUAGE "Italian"
-		!include PortableApps.comInstallerLANG_ITALIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ITALIAN.nsh
 	!endif
 	!ifdef USES_JAPANESE
 		!insertmacro MUI_LANGUAGE "Japanese"
-		!include PortableApps.comInstallerLANG_JAPANESE.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_JAPANESE.nsh
 	!endif
 	!ifdef USES_KOREAN
 		!insertmacro MUI_LANGUAGE "Korean"
-		!include PortableApps.comInstallerLANG_KOREAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_KOREAN.nsh
 	!endif
 	!ifdef USES_KURDISH
 		!insertmacro MUI_LANGUAGE "Kurdish"
-		!include PortableApps.comInstallerLANG_KURDISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_KURDISH.nsh
 	!endif
 	!ifdef USES_LATVIAN
 		!insertmacro MUI_LANGUAGE "Latvian"
-		!include PortableApps.comInstallerLANG_LATVIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_LATVIAN.nsh
 	!endif
 	!ifdef USES_LITHUANIAN
 		!insertmacro MUI_LANGUAGE "Lithuanian"
-		!include PortableApps.comInstallerLANG_LITHUANIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_LITHUANIAN.nsh
 	!endif
 	!ifdef USES_LUXEMBOURGISH
 		!insertmacro MUI_LANGUAGE "Luxembourgish"
-		!include PortableApps.comInstallerLANG_LUXEMBOURGISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_LUXEMBOURGISH.nsh
 	!endif
 	!ifdef USES_MACEDONIAN
 		!insertmacro MUI_LANGUAGE "Macedonian"
-		!include PortableApps.comInstallerLANG_MACEDONIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_MACEDONIAN.nsh
 	!endif
 	!ifdef USES_MALAY
 		!insertmacro MUI_LANGUAGE "Malay"
-		!include PortableApps.comInstallerLANG_MALAY.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_MALAY.nsh
 	!endif
 	!ifdef USES_MONGOLIAN
 		!insertmacro MUI_LANGUAGE "Mongolian"
-		!include PortableApps.comInstallerLANG_MONGOLIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_MONGOLIAN.nsh
 	!endif
 	!ifdef USES_NORWEGIAN
 		!insertmacro MUI_LANGUAGE "Norwegian"
-		!include PortableApps.comInstallerLANG_NORWEGIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_NORWEGIAN.nsh
 	!endif
 	!ifdef USES_NORWEGIANNYNORSK
 		!insertmacro MUI_LANGUAGE "NorwegianNynorsk"
-		!include PortableApps.comInstallerLANG_NORWEGIANNYNORSK.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_NORWEGIANNYNORSK.nsh
 	!endif
 	!ifdef USES_POLISH
 		!insertmacro MUI_LANGUAGE "Polish"
-		!include PortableApps.comInstallerLANG_POLISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_POLISH.nsh
 	!endif
 	!ifdef USES_PORTUGUESE
 		!insertmacro MUI_LANGUAGE "Portuguese"
-		!include PortableApps.comInstallerLANG_PORTUGUESE.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_PORTUGUESE.nsh
 	!endif
 	!ifdef USES_PORTUGUESEBR
 		!insertmacro MUI_LANGUAGE "PortugueseBR"
-		!include PortableApps.comInstallerLANG_PORTUGUESEBR.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_PORTUGUESEBR.nsh
 	!endif
 	!ifdef USES_ROMANIAN
 		!insertmacro MUI_LANGUAGE "Romanian"
-		!include PortableApps.comInstallerLANG_ROMANIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_ROMANIAN.nsh
 	!endif
 	!ifdef USES_RUSSIAN
 		!insertmacro MUI_LANGUAGE "Russian"
-		!include PortableApps.comInstallerLANG_RUSSIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_RUSSIAN.nsh
 	!endif
 	!ifdef USES_SERBIAN
 		!insertmacro MUI_LANGUAGE "Serbian"
-		!include PortableApps.comInstallerLANG_SERBIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SERBIAN.nsh
 	!endif
 	!ifdef USES_SERBIANLATIN
 		!insertmacro MUI_LANGUAGE "SerbianLatin"
-		!include PortableApps.comInstallerLANG_SERBIANLATIN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SERBIANLATIN.nsh
 	!endif
 	!ifdef USES_SIMPCHINESE
 		!insertmacro MUI_LANGUAGE "SimpChinese"
-		!include PortableApps.comInstallerLANG_SIMPCHINESE.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SIMPCHINESE.nsh
 	!endif
 	!ifdef USES_SLOVAK
 		!insertmacro MUI_LANGUAGE "Slovak"
-		!include PortableApps.comInstallerLANG_SLOVAK.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SLOVAK.nsh
 	!endif
 	!ifdef USES_SLOVENIAN
 		!insertmacro MUI_LANGUAGE "Slovenian"
-		!include PortableApps.comInstallerLANG_SLOVENIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SLOVENIAN.nsh
 	!endif
 	!ifdef USES_SPANISH
 		!insertmacro MUI_LANGUAGE "Spanish"
-		!include PortableApps.comInstallerLANG_SPANISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SPANISH.nsh
 	!endif
 	!ifdef USES_SPANISHINTERNATIONAL
 		!insertmacro MUI_LANGUAGE "SpanishInternational"
-		!include PortableApps.comInstallerLANG_SPANISHINTERNATIONAL.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SPANISHINTERNATIONAL.nsh
 	!endif
 	!ifdef USES_SWEDISH
 		!insertmacro MUI_LANGUAGE "Swedish"
-		!include PortableApps.comInstallerLANG_SWEDISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_SWEDISH.nsh
 	!endif
 	!ifdef USES_THAI
 		!insertmacro MUI_LANGUAGE "Thai"
-		!include PortableApps.comInstallerLANG_THAI.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_THAI.nsh
 	!endif
 	!ifdef USES_TRADCHINESE
 		!insertmacro MUI_LANGUAGE "TradChinese"
-		!include PortableApps.comInstallerLANG_TRADCHINESE.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_TRADCHINESE.nsh
 	!endif
 	!ifdef USES_TURKISH
 		!insertmacro MUI_LANGUAGE "Turkish"
-		!include PortableApps.comInstallerLANG_TURKISH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_TURKISH.nsh
 	!endif
 	!ifdef USES_UKRANIAN
 		!insertmacro MUI_LANGUAGE "Ukrainian"
-		!include PortableApps.comInstallerLANG_UKRAINIAN.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_UKRAINIAN.nsh
 	!endif
 	!ifdef USES_UZBEK
 		!insertmacro MUI_LANGUAGE "Uzbek"
-		!include PortableApps.comInstallerLANG_UZBEK.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_UZBEK.nsh
 	!endif
 	!ifdef USES_WELSH
 		!insertmacro MUI_LANGUAGE "Welsh"
-		!include PortableApps.comInstallerLANG_WELSH.nsh
+		!include PortableApps.comInstallerLanguages\PortableApps.comInstallerLANG_WELSH.nsh
 	!endif
 	
 	!insertmacro MUI_RESERVEFILE_LANGDLL
@@ -367,6 +369,8 @@ Var FOUNDPORTABLEAPPSPATH
 !ifdef MAINSECTIONTITLE
 	Var OPTIONAL1DONE
 !endif
+Var AUTOMATEDINSTALL
+Var AUTOCLOSE
 
 ;=== Custom Code
 !ifdef USESCUSTOMCODE
@@ -569,8 +573,9 @@ Function .onInit
 	${GetOptions} "$CMDLINE" "/DESTINATION=" $R0
 
 	IfErrors CheckLegacyDestination
+		ClearErrors
 		StrCpy $INSTDIR "$R0${SHORTNAME}"
-		Goto InitDone
+		Goto CheckForPlatform
 
 	CheckLegacyDestination:
 		ClearErrors
@@ -588,7 +593,34 @@ Function .onInit
 		
 	DefaultDestination:
 		StrCpy $INSTDIR "\${SHORTNAME}"
+		Goto InitDone
 
+	CheckForPlatform:
+		;=== Check for PortableApps.com Platform
+		${GetParent} `$INSTDIR` $0
+		;=== Check that it exists at the right location
+		DetailPrint '$(checkforplatform)'
+		IfFileExists `$0\PortableApps.com\PortableAppsPlatform.exe` "" InitDone
+			;=== Check that it's the real deal
+			MoreInfo::GetProductName `$0\PortableApps.com\PortableAppsPlatform.exe`
+			Pop $1
+			StrCmp $1 "PortableApps.com Platform" "" InitDone
+			MoreInfo::GetCompanyName `$0\PortableApps.com\PortableAppsPlatform.exe`
+			Pop $1
+			StrCmp $1 "PortableApps.com" "" InitDone
+		
+			;=== Check that it's running
+			FindProcDLL::FindProc "PortableAppsPlatform.exe"
+			StrCmp $R0 "1" "" InitDone
+		
+			;=== Do a partially automated install
+			StrCpy $AUTOMATEDINSTALL "true"
+			
+			${GetOptions} "$CMDLINE" "/AUTOCLOSE=" $R0
+			IfErrors InitDone
+			StrCmp $R0 "true" "" InitDone
+				StrCpy $AUTOCLOSE "true"
+	
 	InitDone:
 		!ifdef MAINSECTIONTITLE
 			!ifdef OPTIONALSECTIONPRESELECTEDIFNONENGLISHINSTALL
@@ -598,6 +630,59 @@ Function .onInit
 				LeaveUnselected:
 			!endif
 		!endif
+FunctionEnd
+
+Function PreWelcome
+	StrCmp $AUTOMATEDINSTALL "true" "" PreWelcomeEnd
+		Abort
+	PreWelcomeEnd:
+FunctionEnd
+
+Function PreDirectory
+	StrCmp $AUTOMATEDINSTALL "true" "" PreDirectoryEnd
+		SectionGetSize ${MAINSECTIONIDX} $1 ;=== Space Required for App
+		!ifdef MAINSECTIONTITLE
+			SectionGetFlags ${OPTIONALSECTIONIDX} $9
+			IntOp $9 $9 & ${SF_SELECTED}
+			IntCmp $9 ${SF_SELECTED} "" NoOptions
+				SectionGetSize ${OPTIONALSECTIONIDX} $2 ;=== Space Required for App
+			IntOp $1 $1 + $2
+			NoOptions:
+		!endif
+		${GetRoot} `$INSTDIR` $2
+		${DriveSpace} `$2\` "/D=F /S=K" $3 ;=== Space Free on Device
+
+		!ifndef PLUGININSTALLER ;=== If not a plugin installer, add the current install size to free space
+			IfFileExists `$INSTDIR` "" CalculateSpaceLeft
+				${GetSize} `$INSTDIR` "/M=*.* /S=0K /G=1" $4 $5 $6 ;=== Current installation size
+				IntOp $3 $3 + $4 ;=== Space Free + Current Install Size
+		!else
+			Goto CalculateSpaceLeft
+		!endif
+
+		IfFileExists `$INSTDIR\Data` "" CheckPluginsDirectory
+			${GetSize} `$INSTDIR\Data` "/M=*.* /S=0K /G=1" $4 $5 $6 ;=== Size of Data directory
+			IntOp $3 $3 - $4 ;=== Remove the data directory from the free space calculation
+
+	CheckPluginsDirectory:
+		StrCmp `${ADDONSDIRECTORYPRESERVE}` "NONE" CalculateSpaceLeft
+			IfFileExists `$INSTDIR\${ADDONSDIRECTORYPRESERVE}` "" CalculateSpaceLeft
+				${GetSize} `$INSTDIR\${ADDONSDIRECTORYPRESERVE}` "/M=*.* /S=0K /G=1" $4 $5 $6 ;=== Size of Data directory
+				IntOp $3 $3 - $4 ;=== Remove the plugins directory from the free space calculation
+
+	CalculateSpaceLeft:
+		IntCmp $3 $1 NotEnoughSpaceNoUpgrade NotEnoughSpaceNoUpgrade
+		Goto DoAutomatedInstall
+
+	NotEnoughSpaceNoUpgrade:
+		MessageBox MB_OK `$(notenoughspace)`
+		Goto PreDirectoryEnd
+
+	DoAutomatedInstall:
+		Abort
+		Goto PreDirectoryEnd
+
+	PreDirectoryEnd:
 FunctionEnd
 
 Function LeaveDirectory
@@ -662,6 +747,12 @@ Function LeaveDirectory
 				EndNotEnoughSpace:
 				${Break}
 		${EndSwitch}
+FunctionEnd
+
+Function PreFinish
+	StrCmp $AUTOCLOSE "true" "" PreFinishEnd
+		Abort
+	PreFinishEnd:
 FunctionEnd
 
 Function GetDrivesCallBack
@@ -950,13 +1041,32 @@ FunctionEnd
 	;=== END: PRE-INSTALL CODE ===
 	
 	!ifndef PLUGININSTALLER
-		File "..\..\*.*"
+		File /x thumbs.db "..\..\*.*"
 	!endif
 	SetOutPath $INSTDIR\App
-	File /r "..\..\App\*.*"
+	File /r /x thumbs.db "..\..\App\*.*"
 	SetOutPath $INSTDIR\Other
-	File /r "..\..\Other\*.*"
+	File /r /x thumbs.db /x PortableApps.comInstaller*.* "..\..\Other\*.*"
+
+	SetOutPath $INSTDIR\Other\Source
+	!if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
+		File "..\..\Other\Source\PortableApps.comInstallerPluginConfig.nsh"
+	!else
+		File "..\..\Other\Source\PortableApps.comInstallerConfig.nsh"
+	!endif
+	
+	!ifdef USESCUSTOMCODE
+		!if ${__FILE__} == "PortableApps.comInstallerPlugin.nsi"
+			File "..\..\Other\Source\PortableApps.comInstallerPluginCustom.nsh"
+		!else
+			File "..\..\Other\Source\PortableApps.comInstallerCustom.nsh"
+		!endif
+	!endif
 	CreateDirectory "$INSTDIR\Data"
+	
+	!ifdef INCLUDEINSTALLERSOURCE
+		File /r /x PortableApps.comInstallerConfig-EXAMPLE.nsh /x PortableApps.comInstallerConfig.nsh /x PortableApps.comInstallerPluginConfig.nsh /x PortableApps.comInstallerCustom.nsh /x PortableApps.comInstallerPluginCustom.nsh "..\..\Other\Source\PortableApps.comInstaller*.*"
+	!endif
 	
 	;=== BEGIN: POST-INSTALL CODE ===
 	;This will be executed after the app is installed.  Useful for updating configuration files.
