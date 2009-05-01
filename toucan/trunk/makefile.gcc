@@ -167,7 +167,6 @@ clean:
 	-if exist $(APPPATH)\Toucan.exe del $(APPPATH)\Toucan.exe
 
 test_for_selected_wxbuild: 
-	echo $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
 	echo ----------------------------------------------------------------------------
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
