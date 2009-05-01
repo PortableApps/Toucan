@@ -1084,10 +1084,19 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 	} else {
 		ErrorBox(_("You must select a name for this set of Rules"));
 	}
+	//Store what the old selected rules were
+	wxString sync, backup, secure;
+	sync = m_Sync_Rules->GetStringSelection();
+	backup = m_Backup_Rules->GetStringSelection();
+	secure = m_Secure_Rules->GetStringSelection();
 	//Set up the rules boxes
 	SetRulesBox(m_Sync_Rules);
 	SetRulesBox(m_Backup_Rules);
 	SetRulesBox(m_Secure_Rules);
+	//Set them to old values
+	m_Sync_Rules->SetStringSelection(sync);
+	m_Backup_Rules->SetStringSelection(backup);
+	m_Secure_Rules->SetStringSelection(secure);
 }
 
 //ID_RULES_ADD
