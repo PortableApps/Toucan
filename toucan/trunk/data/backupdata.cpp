@@ -31,9 +31,9 @@ bool BackupData::TransferFromFile(){
 	}
 
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/BackupLocation"), &strTemp);
-	if(blError){ SetBackupLocation(strTemp); }	
+	if(blError){ SetFileLocation(strTemp); }	
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Locations"), &strTemp);
-	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
+	if(blError){ SetSourceLocations(StringToArrayString(strTemp, wxT("|"))); }	
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Function"), &strTemp);
 	if(blError){ SetFunction(strTemp); }
 	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Format"), &strTemp);
@@ -59,10 +59,10 @@ bool BackupData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->Flush();
 
 	//Add the files to be written
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetFileLocation())){
 		blError = true;
 	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetSourceLocations(), wxT("|")))){
 		blError = true;
 	}		
 	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Function"), GetFunction())){
@@ -94,16 +94,16 @@ bool BackupData::TransferToForm(){
 	if(window == NULL){
 		return false;
 	}
-	window->m_Backup_Location->SetValue(GetBackupLocation());
+	window->m_Backup_Location->SetValue(GetFileLocation());
 	window->m_Backup_TreeCtrl->DeleteAllItems();
 	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	
 	//Remove all of the items in the filepath list
 	wxGetApp().MainWindow->m_BackupLocations->Clear();
 	//Add the new locations to the treectrl and the list
-	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
-		wxGetApp().MainWindow->m_BackupLocations->Add(GetLocations().Item(j));
-		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocations().Item(j))));
+	for(unsigned int j = 0; j < GetSourceLocations().GetCount(); j++){
+		wxGetApp().MainWindow->m_BackupLocations->Add(GetSourceLocation(j));
+		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetSourceLocation(j))));
 	}
 	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());
@@ -119,8 +119,8 @@ bool BackupData::TransferFromForm(){
 	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 
-	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
-	SetBackupLocation(window->m_Backup_Location->GetValue()); 
+	SetSourceLocations(*wxGetApp().MainWindow->m_BackupLocations);
+	SetFileLocation(window->m_Backup_Location->GetValue()); 
 	SetFunction(window->m_Backup_Function->GetStringSelection()); 
 	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
 	SetRatio(window->m_Backup_Ratio->GetValue());
@@ -131,9 +131,9 @@ bool BackupData::TransferFromForm(){
 /*This is a debugging tool only, not for use in release  versions of Toucan */
 void BackupData::Output(){
 	//ATTN : Needs updating for all outputs
-	MessageBox(GetBackupLocation(), wxT("Backup Location"));
-	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		MessageBox(GetLocations().Item(i), wxT("Location"));
+	MessageBox(GetFileLocation(), wxT("Backup Location"));
+	for(unsigned int i = 0; i < GetSourceLocations().GetCount(); i++){
+		MessageBox(GetSourceLocation(i), wxT("Location"));
 	}
 	MessageBox(GetFunction(), wxT("Function"));
 	MessageBox(GetFormat(), wxT("Format"));
@@ -143,7 +143,7 @@ wxString BackupData::CreateCommand(int i){
 	
 	wxString strCommand, strTempDir;
 	//Setting up to use the first item in the array.
-	wxString strSecond = GetLocations().Item(i);
+	wxString strSecond = GetSourceLocation(i);
 	
 	//strSolid is only used if 7zip is chosen to allow updating
 	wxString strSolid = wxEmptyString;
@@ -188,28 +188,28 @@ wxString BackupData::CreateCommand(int i){
 		}
 	}
    
-	strTempDir = wxT(" -w\"") + wxPathOnly(GetBackupLocation()) + wxT("\"");
+	strTempDir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");
 
 	if(GetFunction() == _("Complete")){
-		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
+		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
 	}
 	else if(GetFunction() == _("Restore")){
-		strCommand =  wxT("7za.exe  x -aoa \"") + GetLocation(i) + wxT("\" -o\"") + GetBackupLocation() + wxT("\" * -r") + GetPassword();	
+		strCommand =  wxT("7za.exe  x -aoa \"") + GetSourceLocation(i) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword();	
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
-		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {
-			SetBackupLocation(GetBackupLocation() + wxFILE_SEP_PATH);       
+		if (GetFileLocation()[GetFileLocation().length()-1] != wxFILE_SEP_PATH) {
+			SetFileLocation(GetFileLocation() + wxFILE_SEP_PATH);       
 		}
-		if(wxFileExists(GetBackupLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
+		if(wxFileExists(GetFileLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxGetApp().m_Script->GetTime();
-			strCommand = wxT("7za.exe u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
+			strCommand = wxT("7za.exe u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
 		}
 		else{
-			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT(" \"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
 		}
 	}
 	return strCommand;
@@ -274,12 +274,12 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 
 bool BackupData::Execute(Rules rules){
 	//Expand all of the variables
-	for(unsigned int i = 0; i < GetLocations().Count(); i++){
-		SetLocation(i, Normalise(Normalise(GetLocation(i))));
+	for(unsigned int i = 0; i < GetSourceLocations().Count(); i++){
+		SetSourceLocation(i, Normalise(Normalise(GetSourceLocation(i))));
 	}
-	SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
-	for(unsigned int i = 0; i < GetLocations().Count(); i++){
-		wxString path = GetLocation(i);
+	SetFileLocation(Normalise(Normalise(GetFileLocation())));
+	for(unsigned int i = 0; i < GetSourceLocations().Count(); i++){
+		wxString path = GetSourceLocation(i);
 		bool isDir = false;
 		//If we have a directory clean it up
 		if(wxDirExists(path)){
@@ -317,7 +317,7 @@ bool BackupData::Execute(Rules rules){
 				}
 			}
 			OutputProgress(_("Creating file list, this may take some time."));
-			if(!CreateList(file, rules, GetLocations().Item(i), length)){
+			if(!CreateList(file, rules, GetSourceLocation(i), length)){
 				return false;
 			}
 			file->Write();
@@ -346,10 +346,10 @@ bool BackupData::Execute(Rules rules){
 
 bool BackupData::NeededFieldsFilled(){
 	bool blFilled = true;
-	if(arrLocations.Count() == 0){
+	if(GetSourceLocations().Count() == 0){
 		blFilled = false;
 	}
-	if(GetBackupLocation() == wxEmptyString){
+	if(GetFileLocation() == wxEmptyString){
 		blFilled = false;
 	}
 	if(GetFunction() == wxEmptyString){

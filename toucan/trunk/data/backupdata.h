@@ -37,39 +37,29 @@ public:
 	//Used to create the exclusions list
 	bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength);
 
-	//Inline functions
-	void SetBackupLocation(wxString location) {strBackupLocation = location; }
-	wxString GetBackupLocation() { return strBackupLocation; }
-	
-	void SetLocations(wxArrayString locations) { arrLocations = locations; }
-	wxArrayString GetLocations() { return arrLocations; }
-	
-	void SetLocation(int i, wxString location) { arrLocations.Item(i) = location; }
-	wxString GetLocation(int i) { return arrLocations.Item(i); }
-
-	void SetFunction(wxString function) { strFunction = function; }
-	wxString GetFunction() { return strFunction; }
-
-	void SetFormat(wxString format) { strFormat = format; }
-	wxString GetFormat() { return strFormat; }
-
-	void SetRatio(int ratio) { strRatio = ratio; }
-	int GetRatio() { return strRatio; }
+	//Setters / Getters
+	void SetFileLocation(const wxString& FileLocation) {this->m_FileLocation = FileLocation;}
+	void SetFormat(const wxString& Format) {this->m_Format = Format;}
+	void SetFunction(const wxString& Function) {this->m_Function = Function;}
+	void SetRatio(const int& Ratio) {this->m_Ratio = Ratio;}
+	void SetSourceLocations(const wxArrayString& SourceLocations) {this->m_SourceLocations = SourceLocations;}
+	void SetSourceLocation(const int& i, const wxString& SourceLocation) {this->m_SourceLocations.Item(i) = SourceLocation;}
+	const wxString& GetFileLocation() const {return m_FileLocation;}
+	const wxString& GetFormat() const {return m_Format;}
+	const wxString& GetFunction() const {return m_Function;}
+	const int& GetRatio() const {return m_Ratio;}
+	const wxArrayString& GetSourceLocations() const {return m_SourceLocations;}
+	const wxString& GetSourceLocation(const int& i) const {return m_SourceLocations.Item(i);}
 	
 	//Is a password needed?
 	bool IsPassword;
 	
 private:
-	//Contains the filepath to the backup file
-	wxString strBackupLocation;
-	//A list of paths to be used for backup
-	wxArrayString arrLocations;
-	//Complete, update, Differential, restore
-	wxString strFunction;
-	//7zip, zip
-	wxString strFormat;
-	//Need to change this to a sliding scale from 1 to 5
-	int strRatio;
+	wxString m_FileLocation;
+	wxArrayString m_SourceLocations;
+	wxString m_Function;
+	wxString m_Format;
+	int m_Ratio;
 };
 
 #endif

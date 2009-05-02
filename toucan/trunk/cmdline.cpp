@@ -147,7 +147,7 @@ bool ParseCommandLine(){
 		BackupData data;
 		data.SetName(wxT("LastBackupJob"));
 		data.IsPassword = false;
-		data.SetBackupLocation(cmdParser.GetParam(1));
+		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
 		wxArrayString arrLocations;
 		file.Open(cmdParser.GetParam(2));
@@ -155,7 +155,7 @@ bool ParseCommandLine(){
 			arrLocations.Add(file.GetLine(i));
 		}
 		file.Close();
-		data.SetLocations(arrLocations);
+		data.SetSourceLocations(arrLocations);
 		data.SetFunction(cmdParser.GetParam(3));
 		data.SetFormat(cmdParser.GetParam(4));
 		wxVariant varTemp = cmdParser.GetParam(5);
@@ -176,7 +176,7 @@ bool ParseCommandLine(){
 		BackupData data;
 		data.SetName(wxT("LastBackupJob"));
 		data.IsPassword = true;
-		data.SetBackupLocation(cmdParser.GetParam(1));
+		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
 		wxArrayString arrLocations;
 		file.Open(cmdParser.GetParam(2));
@@ -184,7 +184,7 @@ bool ParseCommandLine(){
 			arrLocations.Add(file.GetLine(i));
 		}
 		file.Close();
-		data.SetLocations(arrLocations);
+		data.SetSourceLocations(arrLocations);
 		data.SetFunction(cmdParser.GetParam(3));
 		data.SetFormat(cmdParser.GetParam(4));
 		wxVariant varTemp = cmdParser.GetParam(5);
