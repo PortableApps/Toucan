@@ -9,6 +9,7 @@
 
 #include <wx/thread.h>
 #include "syncdata.h"
+#include "../rules.h"
 
 class SyncThread : public wxThread
 {

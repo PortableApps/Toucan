@@ -11,6 +11,7 @@
 #include "../toucan.h"
 #include "../filecounter.h"
 #include "../settings.h"
+#include "../forms/frmmain.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -120,7 +121,7 @@ void SyncData::Output(){
 }
 
 bool SyncData::Execute(Rules rules){
-	blDisableHash = wxGetApp().m_Settings->GetDisableStream();
+	SetDisableHash(wxGetApp().m_Settings->GetDisableStream());
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
 	//Create a new Sync thread and run it

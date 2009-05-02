@@ -7,6 +7,7 @@
 #include <wx/arrstr.h>
 #include <wx/tokenzr.h>
 #include <wx/fileconf.h>
+#include <wx/listctrl.h>
 
 #include "script.h"
 #include "waitthread.h"
@@ -21,6 +22,7 @@
 #include "data/backupdata.h"
 #include "data/securedata.h"
 #include "controls/loglistctrl.h"
+#include "forms/frmmain.h"
 
 bool ScriptManager::Execute(){
 	StartUp();
