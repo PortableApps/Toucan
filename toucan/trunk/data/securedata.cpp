@@ -14,24 +14,24 @@
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
-//Grab all of the fields from the form*/
 bool SecureData::TransferFromFile(){
-	//ATTN : Needs cleanup
-	bool blError;
+	bool error = false;
 	wxString strTemp;
 
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
 		return false;
 	}
 
-	//Read the fields from the file, if the read works then add them
-	blError = wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp);
-	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
-	blError = wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp);
-	if(blError){ SetFunction(strTemp); }
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp)){
+		SetLocations(StringToArrayString(strTemp, wxT("|")));
+	}
+	else{ error = true; }
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp)){
+		SetFunction(strTemp);
+	}
+	else{ error = true; }
 
-	//If error output a message
-	if(!blError){
+	if(error){
 		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
