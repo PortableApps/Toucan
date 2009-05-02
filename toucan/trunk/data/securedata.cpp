@@ -115,7 +115,7 @@ bool SecureData::Execute(Rules rules){
 bool SecureData::NeededFieldsFilled(){
 	//ATTN : Needs cleanup
 	bool blFilled = true;
-	if(arrLocations.Count() == 0){
+	if(GetLocations().Count() == 0){
 		blFilled = false;
 	}
 	if(GetFunction() == wxEmptyString){
