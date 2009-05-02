@@ -5,17 +5,17 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupdata.h"
-#include "../filecounter.h"
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../variables.h"
 #include "../backupprocess.h"
 #include "../waitthread.h"
 #include "../script.h"
+#include "../forms/frmmain.h"
+#include <wx/textfile.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include <wx/dir.h>
-
 
 bool BackupData::TransferFromFile(){
 	//ATTN : Needs cleanup
@@ -44,7 +44,7 @@ bool BackupData::TransferFromFile(){
 	if(blError){ IsPassword = blTemp; }
 	
 	if(!blError){
-		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -82,7 +82,7 @@ bool BackupData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->Flush();
 	
 	if(blError){
-		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -131,12 +131,12 @@ bool BackupData::TransferFromForm(){
 /*This is a debugging tool only, not for use in release  versions of Toucan */
 void BackupData::Output(){
 	//ATTN : Needs updating for all outputs
-	MessageBox(GetFileLocation(), wxT("Backup Location"));
+	wxMessageBox(GetFileLocation(), wxT("Backup Location"));
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		MessageBox(GetLocation(i), wxT("Location"));
+		wxMessageBox(GetLocation(i), wxT("Location"));
 	}
-	MessageBox(GetFunction(), wxT("Function"));
-	MessageBox(GetFormat(), wxT("Format"));
+	wxMessageBox(GetFunction(), wxT("Function"));
+	wxMessageBox(GetFormat(), wxT("Format"));
 }
 
 wxString BackupData::CreateCommand(int i){

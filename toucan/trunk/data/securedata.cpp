@@ -10,6 +10,7 @@
 #include "../variables.h"
 #include "../secure.h"
 #include "../filecounter.h"
+#include "../forms/frmmain.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
@@ -31,7 +32,7 @@ bool SecureData::TransferFromFile(){
 
 	//If error output a message
 	if(!blError){
-		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -52,7 +53,7 @@ bool SecureData::TransferToFile(){
 
 	//Output an error message if needed
 	if(!blError){
-		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -97,10 +98,10 @@ bool SecureData::TransferFromForm(){
 /*Output function, for debugging only*/
 void SecureData::Output(){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		MessageBox(GetLocations().Item(i), wxT("Location"));
+		wxMessageBox(GetLocations().Item(i), wxT("Location"));
 	}
-	MessageBox(GetFunction(), wxT("Function"));
-	MessageBox(GetPassword(), wxT("Pass"));
+	wxMessageBox(GetFunction(), wxT("Function"));
+	wxMessageBox(GetPassword(), wxT("Pass"));
 }
 
 bool SecureData::Execute(Rules rules){

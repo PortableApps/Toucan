@@ -1,15 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_BACKUPDATA
 #define H_BACKUPDATA
 
-#include <wx/textfile.h>
+class wxTextFile;
+
 #include <wx/string.h>
-#include "../forms/frmmain.h"
+#include <wx/arrstr.h>
 #include "rootdata.h"
 
 /*The backupdata class contains all of the information needed for backups, except the ruels. Includes

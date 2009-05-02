@@ -14,11 +14,6 @@ wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator);
 //Used for turning a string into an arraystring when the string are seperated by strSeperator, used when read from ini files
 wxArrayString StringToArrayString(wxString strMain, wxString strSeperator);
 
-//Basic messagebox
-void MessageBox(wxString strMessage, wxString strCaption);
-//Messagebox with error icon
-void ErrorBox(wxString strMessage);
-
 //Basic function to write output to progress form, used to keep code clean, with optional date
 void OutputProgress(wxString strValue);
 void OutputProgress(wxString time, wxString message);

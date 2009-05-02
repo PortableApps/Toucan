@@ -42,7 +42,7 @@ bool SyncData::TransferFromFile(){
 	if(blError){ SetIgnoreDLS(blTemp); }
 	
 	if(!blError){
-		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -63,7 +63,7 @@ bool SyncData::TransferToFile(){
 	blError = wxGetApp().m_Jobs_Config->Write(strName + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS());
 	wxGetApp().m_Jobs_Config->Flush();
 	if(!blError){
-		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -105,18 +105,18 @@ bool SyncData::TransferFromForm(){
 }
 
 void SyncData::Output(){
-	MessageBox (GetSource(), wxT("Source"));
-	MessageBox(GetDest(), wxT("Destination"));
-	MessageBox(GetFunction(), wxT("Function"));
+	wxMessageBox (GetSource(), wxT("Source"));
+	wxMessageBox(GetDest(), wxT("Destination"));
+	wxMessageBox(GetFunction(), wxT("Function"));
 	wxVariant varTemp;
 	varTemp = GetTimeStamps();
-	MessageBox(varTemp.GetString(), wxT("Timestamps?"));
+	wxMessageBox(varTemp.GetString(), wxT("Timestamps?"));
 	varTemp = GetAttributes();
-	MessageBox(varTemp.GetString(), wxT("Attributes?"));
+	wxMessageBox(varTemp.GetString(), wxT("Attributes?"));
 	varTemp = GetIgnoreRO();
-	MessageBox(varTemp.GetString(), wxT("Ignore Readonly?"));
+	wxMessageBox(varTemp.GetString(), wxT("Ignore Readonly?"));
 	varTemp = GetIgnoreDLS();
-	MessageBox(varTemp.GetString(), wxT("Ignore Daylight Savings?"));
+	wxMessageBox(varTemp.GetString(), wxT("Ignore Daylight Savings?"));
 }
 
 bool SyncData::Execute(Rules rules){

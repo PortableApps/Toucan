@@ -154,7 +154,7 @@ bool Rules::TransferToFile(wxString strName){
 	wxGetApp().m_Rules_Config->Flush();
 	
 	if(!blError){
-		ErrorBox(wxT("There was an error saving to the rules file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(wxT("There was an error saving to the rules file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;

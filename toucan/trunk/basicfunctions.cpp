@@ -47,14 +47,6 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 	return arrMain;
 }
 
-void MessageBox(wxString strMessage, wxString strCaption){
-	wxMessageBox(strMessage, strCaption, wxICON_INFORMATION);
-}
-
-void ErrorBox(wxString strMessage){
-	wxMessageBox(strMessage, _("Error"), wxICON_ERROR);
-}
-
 void OutputProgress(wxString strValue){
 	if(strValue == wxT("")){
 		return;
@@ -266,7 +258,7 @@ wxString InputPassword(){
 					return strNewPass;
 				}
 				else{
-					ErrorBox(_("Sorry the passwords do not match"));
+					wxMessageBox(_("Sorry the passwords do not match"), _("Error"), wxICON_ERROR);
 					return wxEmptyString;
 				}
 			}

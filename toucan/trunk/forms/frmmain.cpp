@@ -957,7 +957,7 @@ void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 	int added = arrPaths.GetCount();
 	int existing = m_BackupLocations->GetCount();
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && added + existing > 1){
-		ErrorBox(_("Differential only supports one folder"));
+		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR);
 		return;
 	}
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
@@ -1079,10 +1079,11 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 	rules.SetFilesToExclude(arrFileExclude);
 	rules.SetFoldersToExclude(arrFolderExclude);
 	//rules.SetFilesToDelete(arrFileDelete);
-	if (m_Rules_Name->GetStringSelection() != wxEmptyString) {
+	if(m_Rules_Name->GetStringSelection() != wxEmptyString){
 		rules.TransferToFile(m_Rules_Name->GetStringSelection());
-	} else {
-		ErrorBox(_("You must select a name for this set of Rules"));
+	}
+	else{
+		wxMessageBox(_("You must select a name for this set of Rules"), _("Error"), wxICON_ERROR);
 	}
 	//Store what the old selected rules were
 	wxString sync, backup, secure;
@@ -1257,13 +1258,13 @@ void frmMain::OnSyncOKClick(wxCommandEvent& WXUNUSED(event)){
 //ID_BACKUP_OK
 void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
-		ErrorBox(_("Differential only supports one folder"));
+		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR);
 		return;
 	}
 	//Differential needs a folder to store its files in
 	if(m_Backup_Function->GetStringSelection() ==_("Differential") && m_Backup_Location->GetValue() != wxEmptyString){
 		if(m_Backup_Location->GetValue().Right(3) == wxT(".7z") || m_Backup_Location->GetValue().Right(4) == wxT(".zip")){
-			ErrorBox(_("Please select the folder to store your backups"));
+			wxMessageBox(_("Please select the folder to store your backups"), _("Error"), wxICON_ERROR);
 			return;
 		}
 	}
@@ -1410,7 +1411,7 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
             m_Variables_List->SetItem(1, 0, _("Other"));
         }
         else{
-            ErrorBox(_("There is already a Portable Variable with this name."));
+            wxMessageBox(_("There is already a Portable Variable with this name."), _("Error"), wxICON_ERROR);
         }
     }
 }
@@ -1768,7 +1769,7 @@ void frmMain::JobSave(const wxString name, const wxString rules, const wxString 
 			wxGetApp().m_Jobs_Config->Flush();
 		}
 		else {
-			ErrorBox(_("Please chose a job to save to"));
+			wxMessageBox(_("Please chose a job to save to"), _("Error"), wxICON_ERROR);
 		}
 	} 
 	delete data;
@@ -1861,7 +1862,7 @@ void frmMain::Run(const wxString rules, const wxString type){
 			}
 		}
 		else{
-			ErrorBox(_("Not all of the required fields are filled"));
+			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		}
 	}
 	delete data;

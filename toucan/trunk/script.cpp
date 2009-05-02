@@ -319,7 +319,7 @@ bool ScriptManager::ParseCommand(int i){
 		CleanUp();
 	}
 	if(!data->NeededFieldsFilled()){
-		ErrorBox(_("Not all of the required fields are filled"));
+		wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		CleanUp();
 	}
 	if(data->NeedsPassword()){
