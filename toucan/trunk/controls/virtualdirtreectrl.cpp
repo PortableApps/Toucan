@@ -12,7 +12,6 @@
 #include "../variables.h"
 #include "../sync/syncdata.h"
 #include "../sync/syncpreview.h"
-#include "../forms/frmmain.h"
 
 // WDR: class implementations
 

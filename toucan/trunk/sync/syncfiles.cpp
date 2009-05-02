@@ -4,7 +4,6 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "syncbase.h"
 #include "syncfiles.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
