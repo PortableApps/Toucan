@@ -174,7 +174,7 @@ bool ScriptManager::ProgressBarSetup(){
 			data.SetName(strToken);
 			data.TransferFromFile();
 			if(data.GetFunction() != _("Restore")){
-				counter.AddPaths(data.GetSourceLocations());
+				counter.AddPaths(data.GetLocations());
 			}
 			//Add an extra three for the message 7zip sends
 			count += 3;

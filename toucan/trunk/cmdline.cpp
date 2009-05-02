@@ -155,7 +155,7 @@ bool ParseCommandLine(){
 			arrLocations.Add(file.GetLine(i));
 		}
 		file.Close();
-		data.SetSourceLocations(arrLocations);
+		data.SetLocations(arrLocations);
 		data.SetFunction(cmdParser.GetParam(3));
 		data.SetFormat(cmdParser.GetParam(4));
 		wxVariant varTemp = cmdParser.GetParam(5);
@@ -184,7 +184,7 @@ bool ParseCommandLine(){
 			arrLocations.Add(file.GetLine(i));
 		}
 		file.Close();
-		data.SetSourceLocations(arrLocations);
+		data.SetLocations(arrLocations);
 		data.SetFunction(cmdParser.GetParam(3));
 		data.SetFormat(cmdParser.GetParam(4));
 		wxVariant varTemp = cmdParser.GetParam(5);
