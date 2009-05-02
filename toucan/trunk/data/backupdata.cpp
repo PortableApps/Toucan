@@ -18,32 +18,46 @@
 #include <wx/dir.h>
 
 bool BackupData::TransferFromFile(){
-	//ATTN : Needs cleanup
-	wxString strName = GetName();
-
-	bool blError;
+	bool error = false;
 	int iTemp;
 	wxString strTemp;
 	bool blTemp;
 
-	if(!wxGetApp().m_Jobs_Config->Exists(strName)){
+	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
 		return false;
 	}
 
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/BackupLocation"), &strTemp);
-	if(blError){ SetFileLocation(strTemp); }	
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Locations"), &strTemp);
-	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Function"), &strTemp);
-	if(blError){ SetFunction(strTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Format"), &strTemp);
-	if(blError){ SetFormat(strTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Ratio"), &iTemp);
-	if(blError){ SetRatio(iTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/IsPass"), &blTemp);
-	if(blError){ IsPassword = blTemp; }
-	
-	if(!blError){
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/BackupLocation"), &strTemp)){
+		SetFileLocation(strTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp)){
+		SetLocations(StringToArrayString(strTemp, wxT("|")));
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp)){
+		SetFunction(strTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Format"), &strTemp)){
+		SetFormat(strTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Ratio"), &iTemp)){
+		SetRatio(iTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &blTemp)){
+		IsPassword = blTemp;
+	}
+	else{ error = true; }
+
+	if(error){
 		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
