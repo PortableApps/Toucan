@@ -4,7 +4,7 @@
   <include file="presets/wx.bkl"/>
 
     <exe id="Toucan" template="wx">
-		<app-type>gui</app-type>
+		<app-type>console</app-type>
         <runtime-libs>static</runtime-libs>
 		<cxx-rtti>off</cxx-rtti>
 		<warnings>max</warnings>
