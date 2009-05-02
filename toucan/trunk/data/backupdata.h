@@ -42,21 +42,21 @@ public:
 	void SetFormat(const wxString& Format) {this->m_Format = Format;}
 	void SetFunction(const wxString& Function) {this->m_Function = Function;}
 	void SetRatio(const int& Ratio) {this->m_Ratio = Ratio;}
-	void SetLocations(const wxArrayString& SourceLocations) {this->m_SourceLocations = SourceLocations;}
-	void SetLocation(const int& i, const wxString& SourceLocation) {this->m_SourceLocations.Item(i) = SourceLocation;}
+	void SetLocations(const wxArrayString& Locations) {this->m_Locations = Locations;}
+	void SetLocation(const int& i, const wxString& Location) {this->m_Locations.Item(i) = Location;}
 	const wxString& GetFileLocation() const {return m_FileLocation;}
 	const wxString& GetFormat() const {return m_Format;}
 	const wxString& GetFunction() const {return m_Function;}
 	const int& GetRatio() const {return m_Ratio;}
-	const wxArrayString& GetLocations() const {return m_SourceLocations;}
-	const wxString& GetLocation(const int& i) const {return m_SourceLocations.Item(i);}
+	const wxArrayString& GetLocations() const {return m_Locations;}
+	const wxString& GetLocation(const int& i) const {return m_Locations.Item(i);}
 	
 	//Is a password needed?
 	bool IsPassword;
 	
 private:
 	wxString m_FileLocation;
-	wxArrayString m_SourceLocations;
+	wxArrayString m_Locations;
 	wxString m_Function;
 	wxString m_Format;
 	int m_Ratio;
