@@ -104,7 +104,6 @@ bool BackupData::TransferToFile(){
 }
 
 bool BackupData::TransferToForm(){
-	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 	if(window == NULL){
 		return false;
@@ -114,10 +113,10 @@ bool BackupData::TransferToForm(){
 	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	
 	//Remove all of the items in the filepath list
-	wxGetApp().MainWindow->m_BackupLocations->Clear();
+	window->m_BackupLocations->Clear();
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
-		wxGetApp().MainWindow->m_BackupLocations->Add(GetLocation(j));
+		window->m_BackupLocations->Add(GetLocation(j));
 		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocation(j))));
 	}
 	//Set the rest of the window up
@@ -128,13 +127,10 @@ bool BackupData::TransferToForm(){
 	return false;
 }
 
-/* This function sets all of the fields in SyncData based on the user inputted data in the
-Main program window.*/
 bool BackupData::TransferFromForm(){
-	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 
-	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
+	SetLocations(*window->m_BackupLocations);
 	SetFileLocation(window->m_Backup_Location->GetValue()); 
 	SetFunction(window->m_Backup_Function->GetStringSelection()); 
 	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
