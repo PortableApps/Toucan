@@ -81,19 +81,15 @@ bool SecureData::TransferToForm(){
 	return true;
 }
 
-/* This function sets all of the fields in SyncData based on the user inputted data in the
-Main program window.*/
 bool SecureData::TransferFromForm(){
-	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 
-	SetLocations(*wxGetApp().MainWindow->m_SecureLocations);
+	SetLocations(*window->m_SecureLocations);
 	SetFunction(window->m_Secure_Function->GetStringSelection());
 
 	return true;	
 }
 
-/*Output function, for debugging only*/
 void SecureData::Output(){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
 		wxMessageBox(GetLocations().Item(i), wxT("Location"));
@@ -112,7 +108,6 @@ bool SecureData::Execute(Rules rules){
 
 
 bool SecureData::NeededFieldsFilled(){
-	//ATTN : Needs cleanup
 	bool blFilled = true;
 	if(GetLocations().Count() == 0){
 		blFilled = false;
