@@ -263,15 +263,25 @@ public:
 	void OnMenuLocationIncludeNameClick(wxCommandEvent& event);
 	void OnMenuFolderExcludeNameClick(wxCommandEvent& event);
 	
-	//Generalised functions
+	//Job functions
 	void JobAdd(wxComboBox* box);
 	void JobRemove(wxComboBox* box);
 	void JobSave(const wxString name, const wxString rules, const wxString type);
 	void JobLoad(const wxString name, wxComboBox* rules, const wxString type);
+	
+	//Reset the form to its empty state
 	void ClearToDefault();
+	
+	//Run a job
 	void Run(const wxString rules, const wxString type);
+	
+	//Create the popup menu for rules
 	void CreateMenu(wxTreeEvent& event);
+	
+	//Update the backup compression slider
 	void SetSliderText();
+	
+	//Language functions
 	wxArrayString GetLanguages();
 	wxArrayString GetTranslatorNames();
 
