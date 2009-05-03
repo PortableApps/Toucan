@@ -143,15 +143,14 @@ bool BackupData::TransferFromForm(){
 	return true;	
 }
 
-/*This is a debugging tool only, not for use in release  versions of Toucan */
 void BackupData::Output(){
-	//ATTN : Needs updating for all outputs
 	wxMessageBox(GetFileLocation(), wxT("Backup Location"));
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		wxMessageBox(GetLocation(i), wxT("Location"));
+		wxMessageBox(GetLocation(i), wxString::Format(wxT("Location %d"), i));
 	}
 	wxMessageBox(GetFunction(), wxT("Function"));
 	wxMessageBox(GetFormat(), wxT("Format"));
+	wxMessageBox(wxString::Format(wxT("%d"), GetRatio()), wxT("Compression Ratio"));
 }
 
 wxString BackupData::CreateCommand(int i){
