@@ -9,7 +9,6 @@
 #include "../toucan.h"
 #include "../variables.h"
 #include "../secure.h"
-#include "../filecounter.h"
 #include "../forms/frmmain.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
