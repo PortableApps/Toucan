@@ -38,7 +38,6 @@ bool SecureData::TransferFromFile(){
 	return true;
 }
 
-//For saving to an ini file
 bool SecureData::TransferToFile(){
 	bool error = false;
 
@@ -61,26 +60,23 @@ bool SecureData::TransferToFile(){
 	return true;
 }
 
-/*This function takes the data in BackupData and fills in the GUI*/
 bool SecureData::TransferToForm(){
-	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 	if(window == NULL){
 		return false;
 	}
-	//Delete all of the existing items in the treectrl and readd a root
+
 	window->m_Secure_TreeCtrl->DeleteAllItems();
 	window->m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
-	//Remove all of the filepaths from the list
-	for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
-		wxGetApp().MainWindow->m_SecureLocations->RemoveAt(i);
+
+	for(unsigned int i = 0; i < window->m_SecureLocations->GetCount(); i++){
+		window->m_SecureLocations->RemoveAt(i);
 	}
-	//Add the new filepaths to the list and the treectrl
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
-		wxGetApp().MainWindow->m_SecureLocations->Add(GetLocations().Item(k));
+		window->m_SecureLocations->Add(GetLocations().Item(k));
 		window->m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocations().Item(k))));
 	}
-	//Set up the rest of the window
+
 	window->m_Secure_Function->SetStringSelection(GetFunction());
 	return true;
 }
