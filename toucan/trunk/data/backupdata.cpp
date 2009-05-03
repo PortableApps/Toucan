@@ -54,7 +54,7 @@ bool BackupData::TransferFromFile(){
 	else{ error = true; }
 
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &blTemp)){
-		IsPassword = blTemp;
+		SetUsesPassword(blTemp);
 	}
 	else{ error = true; }
 
@@ -89,7 +89,7 @@ bool BackupData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Ratio"), GetRatio())){
 		blError = true;
 	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), IsPassword)){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), GetUsesPassword())){
 		blError = true;
 	}
 	
@@ -123,7 +123,7 @@ bool BackupData::TransferToForm(){
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
-	window->m_Backup_IsPass->SetValue(IsPassword);
+	window->m_Backup_IsPass->SetValue(GetUsesPassword());
 	return false;
 }
 
@@ -135,7 +135,7 @@ bool BackupData::TransferFromForm(){
 	SetFunction(window->m_Backup_Function->GetStringSelection()); 
 	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
 	SetRatio(window->m_Backup_Ratio->GetValue());
-	IsPassword = window->m_Backup_IsPass->GetValue();
+	SetUsesPassword(window->m_Backup_IsPass->GetValue());
 	return true;	
 }
 

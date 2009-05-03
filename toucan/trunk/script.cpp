@@ -104,7 +104,7 @@ bool ScriptManager::Validate(){
 				BackupData data;
 				data.SetName(job);
 				if(data.TransferFromFile()){
-					if(data.IsPassword == true){
+					if(data.GetUsesPassword()){
 						wxString pass = InputPassword();
 						if(pass == wxEmptyString){
 							valid = false;

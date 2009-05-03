@@ -143,7 +143,7 @@ bool ParseCommandLine(){
 	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 7){
 		BackupData data;
 		data.SetName(wxT("LastBackupJob"));
-		data.IsPassword = false;
+		data.SetUsesPassword(false);
 		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
 		wxArrayString arrLocations;
@@ -172,7 +172,7 @@ bool ParseCommandLine(){
 	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 9){
 		BackupData data;
 		data.SetName(wxT("LastBackupJob"));
-		data.IsPassword = true;
+		data.SetUsesPassword(true);
 		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
 		wxArrayString arrLocations;
