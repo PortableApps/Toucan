@@ -4,8 +4,8 @@
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef H_WAIT
-#define H_WAIT
+#ifndef H_WAITTHREAD
+#define H_WAITTHREAD
 
 class PipedProcess;
 #include <wx/thread.h>
