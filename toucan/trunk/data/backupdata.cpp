@@ -69,11 +69,9 @@ bool BackupData::TransferToFile(){
 	wxString strName = GetName();
 	bool blError = false;
 
-	//Delete any existing jobs with this name to ensure correct settings are retained
 	wxGetApp().m_Jobs_Config->DeleteGroup(strName);
 	wxGetApp().m_Jobs_Config->Flush();
 
-	//Add the files to be written
 	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetFileLocation())){
 		blError = true;
 	}
@@ -92,10 +90,9 @@ bool BackupData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), GetUsesPassword())){
 		blError = true;
 	}
-	
-	//Write the files
+
 	wxGetApp().m_Jobs_Config->Flush();
-	
+
 	if(blError){
 		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
