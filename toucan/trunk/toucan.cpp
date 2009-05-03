@@ -128,7 +128,7 @@ bool Toucan::OnInit(){
 	MainWindow = new frmMain(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
 	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
 
-	if(blGUI){
+	if(GetUsesGUI()){
 		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 			MainWindow->Iconize(false);
 		}

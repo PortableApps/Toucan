@@ -42,7 +42,7 @@ bool FileCounter::Count(){
 }
 
 bool FileCounter::CountFolder(wxString path){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	wxGetApp().Yield();

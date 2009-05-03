@@ -14,7 +14,7 @@ bool PipedProcess::HasInput()
 {
 	bool hasInput = false;
 	if (IsInputAvailable()){
-		if(wxGetApp().ShouldAbort()){
+		if(wxGetApp().GetAbort()){
 			wxLogNull null;
 			wxProcess::Kill(this->GetRealPid(), wxSIGKILL);
 		}

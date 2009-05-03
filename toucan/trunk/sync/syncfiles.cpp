@@ -301,11 +301,11 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 }
 
 bool SyncFiles::DeleteDirectory(wxString path){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	// ATTN : Can be replaced when move to wxWidgets 2.9
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	//Make sure that the correct ending is appended
@@ -322,7 +322,7 @@ bool SyncFiles::DeleteDirectory(wxString path){
 	bool blDir = dir->GetFirst(&filename);
 	if(blDir){
 		do {
-			if(wxGetApp().ShouldAbort()){
+			if(wxGetApp().GetAbort()){
 				return true;
 			}
 			if(wxDirExists(path + filename)){

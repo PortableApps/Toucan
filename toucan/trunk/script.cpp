@@ -214,7 +214,7 @@ bool ScriptManager::ProgressBarSetup(){
 }
 
 bool ScriptManager::ParseCommand(int i){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return false;
 	}
 	wxDateTime now = wxDateTime::Now();

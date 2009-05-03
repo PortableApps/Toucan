@@ -224,7 +224,7 @@ wxString BackupData::CreateCommand(int i){
 
 
 bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	wxGetApp().Yield();
