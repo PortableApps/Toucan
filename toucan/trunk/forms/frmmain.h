@@ -7,22 +7,20 @@
 #ifndef _FRMMAIN_H_
 #define _FRMMAIN_H_
 
+class wxFrame;
+class wxTreeCtrl;
+class wxDirCtrl;
+class wxListCtrl;
+class wxListEvent;
+class wxHtmlHelpWindow;
+class wxFontPickerCtrl;
+class Settings;
+class ExtendedDirCtrl;
+
 #include <wx/aui/framemanager.h>
-#include <wx/frame.h>
-#include <wx/toolbar.h>
 #include <wx/aui/auibook.h>
-#include <wx/treectrl.h>
-#include <wx/dirctrl.h>
-#include <wx/listctrl.h>
-#include <wx/fontpicker.h>
-#include <wx/fileconf.h>
-#include <wx/html/helpwnd.h>
 
 #include "../controls/virtualdirtreectrl.h"
-#include "../controls/extendeddirctrl.h"
-
-//Forward declarations
-class Settings;
 
 //Main controls 10000-10049
 #define ID_AUIFRAME 10000

@@ -1,11 +1,10 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "dragndrop.h"
-#include "basicfunctions.h"
 #include "toucan.h"
 #include "forms/frmmain.h"
 
@@ -30,9 +29,5 @@ bool DnDFileTreeText::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), cons
 	m_Tree->DeleteAllItems();
 	m_Tree->AddRoot(wxT("Hidden root"));
 	m_Tree->AddNewPath(arrFilenames.Item(0));
-	//Return a message to the user if they have tried to add more than one item
-	if(arrFilenames.GetCount() < 1){
-		//MessageBox(_("Only the first item you dragged was added"), _("Warning"));
-	}
 	return true;
 }

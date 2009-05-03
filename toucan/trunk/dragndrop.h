@@ -1,14 +1,15 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_DRAGNDROP
 #define H_DRAGNDROP
 
-#include "basicfunctions.h"
-#include "controls/virtualdirtreectrl.h"
+class wxVirtualDirTreeCtrl;
+class wxTextCtrl;
+
 #include <wx/dnd.h>
 
 /*File droptarget to a wxVirtualDirTreeCtrl, multiple files allowed*/

@@ -8,8 +8,8 @@
 #define H_SETTINGS
 
 #include <wx/string.h>
-#include <wx/intl.h>
-#include <wx/fileconf.h>
+
+class wxFileConfig;
 
 class Settings{
 	
@@ -19,10 +19,10 @@ public:
 
 	bool TransferToFile();
 	bool TransferFromFile();
-	
+
 	wxString GetPosition() { return m_Position; }
 	void SetPosition(wxString position) { m_Position = position; }
-	
+
 	wxString GetTabStyle() { return m_TabStyle; }
 	void SetTabStyle(wxString tabstyle) { m_TabStyle = tabstyle; }
 	

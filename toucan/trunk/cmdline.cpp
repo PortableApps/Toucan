@@ -5,8 +5,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
-#include <wx/wfstream.h>
-#include <wx/txtstrm.h>
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
 #include "cmdline.h"
@@ -16,7 +14,6 @@
 #include "sync/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
-
 
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system.\n"));

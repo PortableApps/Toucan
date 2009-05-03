@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -37,7 +37,6 @@ public:
 	}
 	
 private:
-
 	wxArrayString arrFoldersToExclude;
 	wxArrayString arrLocationsToInclude;
 	wxArrayString arrFilesToExclude;

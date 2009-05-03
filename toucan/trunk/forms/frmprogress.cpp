@@ -13,6 +13,7 @@
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
+#include <wx/textfile.h>
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)

@@ -1,10 +1,14 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Copyright:   Copyright (C) 2008 2009 Steven Lamerton
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "waitthread.h"
+#include "backupprocess.h"
+#ifdef __WXMSW__
+	#include <windows.h>
+#endif
 
 void *WaitThread::Entry(){
 	#ifdef __WXMSW__

@@ -7,9 +7,9 @@
 #include <wx/stdpaths.h>
 #include <wx/aboutdlg.h>
 #include <wx/fileconf.h>
-#include <wx/textctrl.h>
-#include <wx/aui/auibook.h>
 #include <wx/html/helpctrl.h>
+#include <wx/listctrl.h>
+#include <wx/fontpicker.h>
 #include <wx/wx.h>
 
 #include "frmmain.h"
@@ -25,7 +25,6 @@
 #include "../data/backupdata.h"
 #include "../sync/syncdata.h"
 #include "../controls/extendeddirctrl.h"
-#include "../controls/virtualdirtreectrl.h"
 
 #ifdef __WXDEBUG__
 #include "../tests.h"

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -9,8 +9,6 @@
 
 #include <wx/process.h>
 #include <wx/txtstrm.h>
-#include "forms/frmprogress.h"
-#include "toucan.h"
 
 class PipedProcess : public wxProcess
 {

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -8,16 +8,13 @@
 #define _TOUCAN_H_
 
 #include <wx/wx.h>
-#include <wx/process.h>
-#include <wx/image.h>
-#include <wx/intl.h>
-#include <wx/fileconf.h>
-#include <wx/html/helpctrl.h>
 
 class frmMain;
 class frmProgress;
 class Settings;
 class ScriptManager;
+class wxFileConfig;
+class wxHtmlHelpController;
 
 class Toucan: public wxApp
 {    

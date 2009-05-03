@@ -12,9 +12,11 @@
 
 #include "secure.h"
 #include "toucan.h"
-#include "basicfunctions.h"
 #include "variables.h"
+#include "basicfunctions.h"
+#include "data/securedata.h"
 #include "forms/frmmain.h"
+#include "forms/frmprogress.h"
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();

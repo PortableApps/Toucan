@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -9,17 +9,18 @@
 #include <wx/intl.h>
 #include <wx/fileconf.h>
 #include <wx/html/helpctrl.h>
+#include <wx/listctrl.h>
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 
 #include "toucan.h"
 #include "forms/frmmain.h"
+#include "forms/frmprogress.h"
 #include "backupprocess.h"
 #include "cmdline.h"
 #include "basicfunctions.h"
 #include "script.h"
 #include "settings.h"
-
 #include "sync/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"

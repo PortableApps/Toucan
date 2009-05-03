@@ -1,11 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupprocess.h"
 #include "basicfunctions.h"
+#include "toucan.h"
 
 IMPLEMENT_CLASS(PipedProcess, wxProcess)
 

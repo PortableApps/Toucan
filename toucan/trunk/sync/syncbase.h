@@ -14,9 +14,11 @@
 #include "../rules.h"
 
 class SyncBase{
+
 public:
 	SyncBase();
 	virtual ~SyncBase();
+
 protected:
 	//Store the root paths we have so we can pass them onto the next level of folders if needed
 	wxString sourceroot;
@@ -35,6 +37,7 @@ protected:
 	//Iterates through the map and calles the appropriate copying operations
 	bool OperationCaller(std::map<wxString, short> paths);
 	bool preview;
+
 private:
 	//The functions that do the copying
 	virtual bool OnSourceNotDestFile(wxString path) = 0;

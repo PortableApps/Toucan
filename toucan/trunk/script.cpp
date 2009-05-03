@@ -9,6 +9,7 @@
 #include <wx/fileconf.h>
 #include <wx/listctrl.h>
 
+#include "toucan.h"
 #include "script.h"
 #include "waitthread.h"
 #include "backupprocess.h"
@@ -23,6 +24,7 @@
 #include "data/securedata.h"
 #include "controls/loglistctrl.h"
 #include "forms/frmmain.h"
+#include "forms/frmprogress.h"
 
 bool ScriptManager::Execute(){
 	StartUp();

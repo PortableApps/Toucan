@@ -1,13 +1,15 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_BASICFUNCTIONS
 #define H_BASICFUNCTIONS
 
-#include <wx/combobox.h>
+class wxComboBox;
+class wxString;
+class wxArrayString;
 
 //Turns an array string into a string with the strings seperated by strSeperator, used when writing to ini files
 wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator);
@@ -42,7 +44,7 @@ wxArrayString GetTranslatorNames();
 //For use either from the command line or the GUI
 wxString InputPassword();
 
-//For the baclup compression level slider
+//For the backup compression level slider
 void SetSliderText();
 
 //On each run of Toucan to ensure the jobs are up to date

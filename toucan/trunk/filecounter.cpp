@@ -5,8 +5,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "filecounter.h"
-#include "toucan.h"
 #include "variables.h"
+#include "toucan.h"
 #include <wx/dir.h>
 
 FileCounter::FileCounter(){
