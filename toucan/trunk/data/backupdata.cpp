@@ -10,7 +10,6 @@
 #include "../variables.h"
 #include "../backupprocess.h"
 #include "../waitthread.h"
-#include "../script.h"
 #include "../forms/frmmain.h"
 #include <wx/textfile.h>
 #include <wx/fileconf.h>
@@ -219,7 +218,7 @@ wxString BackupData::CreateCommand(int i){
 			SetFileLocation(GetFileLocation() + wxFILE_SEP_PATH);       
 		}
 		if(wxFileExists(GetFileLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
-			wxDateTime now = wxGetApp().m_Script->GetTime();
+			wxDateTime now = wxDateTime::Now();
 			strCommand = wxT("7za.exe u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
 		}
 		else{
