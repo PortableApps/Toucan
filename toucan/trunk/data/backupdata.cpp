@@ -230,7 +230,6 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 	if(wxGetApp().ShouldAbort()){
 		return true;
 	}
-	//ATTN : Will need to change in wxWidgets 2.9.0
 	wxGetApp().Yield();
 	if(wxDirExists(strPath)){
 		//Clean up the path passed
