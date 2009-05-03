@@ -37,15 +37,8 @@ bool SetJobsBox(wxComboBox *box, wxString strType);
 bool SetVariablesBox(wxComboBox *box);
 bool SetScriptsBox(wxComboBox *box);
 
-//Language support functions
-wxArrayString GetLanguages();
-wxArrayString GetTranslatorNames();
-
 //For use either from the command line or the GUI
 wxString InputPassword();
-
-//For the backup compression level slider
-void SetSliderText();
 
 //On each run of Toucan to ensure the jobs are up to date
 bool UpdateJobs(int version);

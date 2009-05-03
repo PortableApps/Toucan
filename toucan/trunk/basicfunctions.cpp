@@ -18,7 +18,6 @@
 #include "toucan.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
-#include "forms/frmmain.h"
 
 //ATTN : This needs clearing up into smaller files
 
@@ -203,49 +202,6 @@ bool SetScriptsBox(wxComboBox *box){
 	return true;
 }
 
-wxArrayString GetLanguages(){
-	wxArrayString arrLang;
-	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
-	wxDir dir(strPath);
-	wxString strFilename;
-	bool blDir = dir.GetFirst(&strFilename);
-	if(blDir){
-		do {
-			if(wxDirExists(strPath + strFilename))
-			{
-				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
-					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
-					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
-				}
-			}
-		}
-		while (dir.GetNext(&strFilename));
-	} 
-	return arrLang;
-}
-
-wxArrayString GetTranslatorNames(){
-	wxArrayString arrNames;
-	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
-	wxDir dir(strPath);
-	wxString strFilename;
-	bool blDir = dir.GetFirst(&strFilename);
-	if(blDir){
-		do {
-			if(wxDirExists(strPath + strFilename))
-			{
-				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
-					arrNames.Add(config->Read(wxT("General/Translator")));
-				}
-			}
-		}
-		while (dir.GetNext(&strFilename));
-	} 
-	return arrNames;
-}
-
 wxString InputPassword(){
 	wxString strNewPass;
 	if(wxGetApp().GetUsesGUI()){
@@ -358,30 +314,6 @@ wxString InputPassword(){
 		}
 	}
 	return wxEmptyString;
-}
-
-void SetSliderText(){
-	frmMain *window = wxGetApp().MainWindow;
-	switch(window->m_Backup_Ratio->GetValue()){
-		case 0:
-			window->m_Backup_Ratio_Text->SetLabel(_("None"));
-			break;
-		case 1:
-			window->m_Backup_Ratio_Text->SetLabel(_("Fastest"));
-			break;
-		case 2:
-			window->m_Backup_Ratio_Text->SetLabel(_("Fast"));
-			break;
-		case 3:
-			window->m_Backup_Ratio_Text->SetLabel(_("Default"));
-			break;
-		case 4:
-			window->m_Backup_Ratio_Text->SetLabel(_("Maximum"));
-			break;
-		case 5:
-			window->m_Backup_Ratio_Text->SetLabel(_("Ultra"));
-			break;
-	}
 }
 
 bool UpdateJobs(int version){

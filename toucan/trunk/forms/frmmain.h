@@ -16,11 +16,10 @@ class wxHtmlHelpWindow;
 class wxFontPickerCtrl;
 class Settings;
 class ExtendedDirCtrl;
+class wxVirtualDirTreeCtrl;
 
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
-
-#include "../controls/virtualdirtreectrl.h"
 
 //Main controls 10000-10049
 #define ID_AUIFRAME 10000
@@ -266,6 +265,9 @@ public:
 	void ClearToDefault();
 	void Run(const wxString rules, const wxString type);
 	void CreateMenu(wxTreeEvent& event);
+	void SetSliderText();
+	wxArrayString GetLanguages();
+	wxArrayString GetTranslatorNames();
 
 	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource(const wxString& name);

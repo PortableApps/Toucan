@@ -10,6 +10,7 @@
 #include <wx/html/helpctrl.h>
 #include <wx/listctrl.h>
 #include <wx/fontpicker.h>
+#include <wx/dir.h>
 #include <wx/wx.h>
 
 #include "frmmain.h"
@@ -1981,3 +1982,69 @@ void frmMain::OnTestsClick(wxCommandEvent& WXUNUSED(event)){
 	Tests test;	
 }
 #endif
+
+void frmMain::SetSliderText(){
+	switch(m_Backup_Ratio->GetValue()){
+		case 0:
+			m_Backup_Ratio_Text->SetLabel(_("None"));
+			break;
+		case 1:
+			m_Backup_Ratio_Text->SetLabel(_("Fastest"));
+			break;
+		case 2:
+			m_Backup_Ratio_Text->SetLabel(_("Fast"));
+			break;
+		case 3:
+			m_Backup_Ratio_Text->SetLabel(_("Default"));
+			break;
+		case 4:
+			m_Backup_Ratio_Text->SetLabel(_("Maximum"));
+			break;
+		case 5:
+			m_Backup_Ratio_Text->SetLabel(_("Ultra"));
+			break;
+	}
+}
+
+wxArrayString frmMain::GetLanguages(){
+	wxArrayString arrLang;
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
+	wxDir dir(strPath);
+	wxString strFilename;
+	bool blDir = dir.GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxDirExists(strPath + strFilename))
+			{
+				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
+					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
+				}
+			}
+		}
+		while (dir.GetNext(&strFilename));
+	} 
+	return arrLang;
+}
+
+wxArrayString frmMain::GetTranslatorNames(){
+	wxArrayString arrNames;
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
+	wxDir dir(strPath);
+	wxString strFilename;
+	bool blDir = dir.GetFirst(&strFilename);
+	if(blDir){
+		do {
+			if(wxDirExists(strPath + strFilename))
+			{
+				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+					arrNames.Add(config->Read(wxT("General/Translator")));
+				}
+			}
+		}
+		while (dir.GetNext(&strFilename));
+	} 
+	return arrNames;
+}
