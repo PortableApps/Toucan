@@ -10,36 +10,31 @@
 #include <wx/arrstr.h>
 
 class Rules{
-public:
-	//Constructor
-	//Rules();
 
+public:
 	//Functions
 	bool IsEmpty();
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
 	bool ShouldExclude(wxString strName, bool blIsDir); 
 	
-	//Inline Functions
-	void SetFilesToExclude(wxArrayString filestoexclude){ arrFilesToExclude = filestoexclude; }
-	wxArrayString GetFilesToExclude() { return arrFilesToExclude; }
-	
-	void SetLocationsToInclude(wxArrayString locationstoinclude){ arrLocationsToInclude = locationstoinclude; }
-	wxArrayString GetLocationsToInclude() { return arrLocationsToInclude; }
-	
-	void SetFoldersToExclude(wxArrayString folderstoexclude){ arrFoldersToExclude = folderstoexclude; }
-	wxArrayString GetFoldersToExclude() { return arrFoldersToExclude; }
+	void SetFilesToExclude(const wxArrayString& FilesToExclude) {this->m_FilesToExclude = FilesToExclude;}
+	void SetFoldersToExclude(const wxArrayString& FoldersToExclude) {this->m_FoldersToExclude = FoldersToExclude;}
+	void SetLocationsToInclude(const wxArrayString& LocationsToInclude) {this->m_LocationsToInclude = LocationsToInclude;}
+	const wxArrayString& GetFilesToExclude() const {return m_FilesToExclude;}
+	const wxArrayString& GetFoldersToExclude() const {return m_FoldersToExclude;}
+	const wxArrayString& GetLocationsToInclude() const {return m_LocationsToInclude;}
 	
 	void Clear(){
-		arrFoldersToExclude.Clear();
-		arrLocationsToInclude.Clear();
-		arrFilesToExclude.Clear();
+		m_FoldersToExclude.Clear();
+		m_LocationsToInclude.Clear();
+		m_FilesToExclude.Clear();
 	}
 	
 private:
-	wxArrayString arrFoldersToExclude;
-	wxArrayString arrLocationsToInclude;
-	wxArrayString arrFilesToExclude;
+	wxArrayString m_FoldersToExclude;
+	wxArrayString m_LocationsToInclude;
+	wxArrayString m_FilesToExclude;
 
 };	
 

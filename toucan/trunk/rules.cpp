@@ -25,8 +25,8 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 		return false;
 	}
 	//If there are any matches for inclusions then immediately retun as no other options need to be checked
-	for(unsigned int r = 0; r < arrLocationsToInclude.Count(); r++){
-		wxString strInclusion = arrLocationsToInclude.Item(r);
+	for(unsigned int r = 0; r < m_LocationsToInclude.Count(); r++){
+		wxString strInclusion = m_LocationsToInclude.Item(r);
 		//If it is a regex then regex match it
 		if(strInclusion.Left(1) == wxT("*")){
 			wxRegEx regMatch; 
@@ -45,8 +45,8 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 		}
 	}
 	//Always check the directory exclusions as a file that is in an excluded directory should be excluded
-	for(unsigned int j = 0; j < arrFoldersToExclude.Count(); j++){
-		wxString strFolderExclusion = arrFoldersToExclude.Item(j);
+	for(unsigned int j = 0; j < m_FoldersToExclude.Count(); j++){
+		wxString strFolderExclusion = m_FoldersToExclude.Item(j);
 		//If it is a regex then regex match it
 		if(strFolderExclusion.Left(1) == wxT("*")){
 			wxRegEx regMatch;
@@ -66,8 +66,8 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 	}
 	//It is a file so run the extra checks as well
 	if(!blIsDir){
-		for(unsigned int j = 0; j < arrFilesToExclude.Count(); j++){
-			wxString strExclusion = arrFilesToExclude.Item(j);
+		for(unsigned int j = 0; j < m_FilesToExclude.Count(); j++){
+			wxString strExclusion = m_FilesToExclude.Item(j);
 			//Check to see if it is a filesize based exclusion
 			if(strExclusion.Left(1) == wxT("<") || strExclusion.Left(1) == wxT(">")){
 				if(strExclusion.Right(2) == wxT("kB") || strExclusion.Right(2) == wxT("MB") || strExclusion.Right(2) == wxT("GB")){
