@@ -12,6 +12,7 @@
 #include "../filecounter.h"
 #include "../settings.h"
 #include "../forms/frmmain.h"
+#include "../controls/virtualdirtreectrl.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>

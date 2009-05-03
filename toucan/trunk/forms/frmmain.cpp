@@ -26,6 +26,7 @@
 #include "../data/backupdata.h"
 #include "../sync/syncdata.h"
 #include "../controls/extendeddirctrl.h"
+#include "../controls/virtualdirtreectrl.h"
 
 #ifdef __WXDEBUG__
 #include "../tests.h"

@@ -17,6 +17,12 @@ class wxFontPickerCtrl;
 class Settings;
 class ExtendedDirCtrl;
 class wxVirtualDirTreeCtrl;
+class wxTreeEvent;
+class wxComboBox;
+class wxTextCtrl;
+class wxCheckBox;
+class wxStaticText;
+class wxListBox;
 
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>

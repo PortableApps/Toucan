@@ -9,8 +9,8 @@
 
 class SyncData;
 class Rules;
-
 #include "syncbase.h"
+#include <wx/string.h>
 
 class SyncFiles : public SyncBase{
 public:
@@ -23,12 +23,11 @@ protected:
 	virtual bool OnSourceNotDestFolder(wxString path);
 	virtual bool OnNotSourceDestFolder(wxString path);
 	virtual bool OnSourceAndDestFolder(wxString path);
-	bool CopyFile(wxString source, wxString dest);
+	bool CopyFilePlain(wxString source, wxString dest);
 	bool CopyFileHash(wxString source, wxString dest);
-	bool RemoveDirectory(wxString path);
-	//Implement a timestamp check before a CopyFileHash
-	bool UpdateFile(wxString source, wxString dest);
+	bool CopyFileTimestamp(wxString source, wxString dest);
 	bool CopyFolderTimestamp(wxString source, wxString dest);
+	bool DeleteDirectory(wxString path);
 	bool RemoveFile(wxString path);
 	//Copy the newer file to the older location
 	bool SourceAndDestCopy(wxString source, wxString dest);

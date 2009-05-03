@@ -9,6 +9,7 @@
 #include "../variables.h"
 #include "../script.h"
 #include "../toucan.h"
+#include "../controls/virtualdirtreectrl.h"
 
 #include <wx/wx.h>
 #include <wx/stdpaths.h>

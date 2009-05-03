@@ -5,6 +5,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncfiles.h"
+#include "syncdata.h"
+#include "../rules.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include <list>
@@ -46,9 +48,9 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 	//Clean doesnt copy any files
 	if(data->GetFunction() != _("Clean")){
 		if(!rules.ShouldExclude(source, false)){
-			if(CopyFile(source, dest)){
+			if(CopyFilePlain(source, dest)){
 				if(data->GetFunction() == _("Move")){
-					RemoveFile(source);
+					DeleteFile(source);
 				}
 			}	
 		}	
@@ -60,13 +62,13 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, false)){
-			RemoveFile(dest);			
+			DeleteFile(dest);			
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		if(!rules.ShouldExclude(dest, false)){
 			//Swap them around as we are essentially in reverse
-			CopyFile(dest, source);
+			CopyFilePlain(dest, source);
 		}
 	}
 	return true;
@@ -79,12 +81,12 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 			//Use the hash check version to minimise copying
 			if(CopyFileHash(source, dest)){
 				if(data->GetFunction() == _("Move")){
-					RemoveFile(source);
+					DeleteFile(source);
 				}				
 			}
 		}
 		else if(data->GetFunction() == _("Update")){
-			UpdateFile(source, dest);			
+			CopyFileTimestamp(source, dest);			
 		}		
 	}
 	if(data->GetFunction() == _("Equalise")){
@@ -170,7 +172,7 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 	return true;
 }
 
-bool SyncFiles::CopyFile(wxString source, wxString dest){
+bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
 	bool ShouldTimeStamp = false;
 	#ifdef __WXMSW__
 		long destAttributes = 0;
@@ -232,7 +234,7 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::UpdateFile(wxString source, wxString dest){
+bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
 	wxDateTime tmTo, tmFrom;
 	wxFileName flTo(dest);
 	wxFileName flFrom(source);
@@ -250,13 +252,13 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	if(data->GetDisableHash()){
-		return CopyFile(source, dest);
+		return CopyFilePlain(source, dest);
 	}
 	//ATTN : Still need to work out optimal chunk size
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
 	if(sourcestream.GetLength() != deststream.GetLength()){
-		return CopyFile(source, dest);			
+		return CopyFilePlain(source, dest);			
 	}
 	//Something is wrong with out streams, return error
 	if(!sourcestream.IsOk() || !deststream.IsOk()){
@@ -266,7 +268,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
 	if(size > 2000000000){
-		return CopyFile(source, dest);			
+		return CopyFilePlain(source, dest);			
 	}
 	//We read in 1MB chunks
 	char sourcebuf[1000000];
@@ -283,7 +285,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 		if(strncmp(sourcebuf, destbuf, bytesToRead)){
 			//Our strings differ, so copy the files
 			//ATTN : In future update the files in place
-			return CopyFile(source, dest);
+			return CopyFilePlain(source, dest);
 		}
 		bytesLeft-=bytesToRead;
 	}
@@ -298,7 +300,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::RemoveDirectory(wxString path){
+bool SyncFiles::DeleteDirectory(wxString path){
 	if(wxGetApp().ShouldAbort()){
 		return true;
 	}

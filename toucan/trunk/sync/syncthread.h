@@ -8,8 +8,9 @@
 #define H_SYNCTHREAD
 
 #include <wx/thread.h>
-#include "syncdata.h"
 #include "../rules.h"
+
+class SyncData;
 
 class SyncThread : public wxThread
 {

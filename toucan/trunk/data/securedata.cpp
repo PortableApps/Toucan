@@ -10,6 +10,7 @@
 #include "../variables.h"
 #include "../secure.h"
 #include "../forms/frmmain.h"
+#include "../controls/virtualdirtreectrl.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 
