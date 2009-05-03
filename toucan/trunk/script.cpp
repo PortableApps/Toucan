@@ -57,8 +57,8 @@ bool ScriptManager::StartUp(){
 	
 	//Send a blank item to get the item count up
 	OutputBlank();
-	startTime = wxDateTime::Now();
-	OutputProgress(startTime.FormatTime(), _("Starting"));
+	m_Time = wxDateTime::Now();
+	OutputProgress(m_Time.FormatTime(), _("Starting"));
 	OutputBlank();
 	
 	SetGaugeValue(0);
@@ -351,7 +351,7 @@ bool ScriptManager::CleanUp(){
 		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
 	}
 	OutputBlank();
-	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
+	OutputProgress(now.Subtract(m_Time).Format(), _("Elapsed"));
 	OutputProgress(now.FormatTime(), _("Finished"));
 
 	//Yield here to make sure all output is shown
