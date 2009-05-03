@@ -40,19 +40,21 @@ bool SecureData::TransferFromFile(){
 
 //For saving to an ini file
 bool SecureData::TransferToFile(){
-	//ATTN : Needs cleanup
-	bool blError;
-	//Delete a group if it already exists
-	blError = wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
-	//Write the fields to the ini file
-	blError = wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")));	
-	blError = wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction());	
+	bool error = false;
 
-	//Write the contents to the file
+	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 	wxGetApp().m_Jobs_Config->Flush();
 
-	//Output an error message if needed
-	if(!blError){
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
+		error = true;
+	}
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())){
+		error = true;
+	}
+
+	wxGetApp().m_Jobs_Config->Flush();
+
+	if(error){
 		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
