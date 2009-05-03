@@ -10,8 +10,8 @@
 #include <wx/process.h>
 #include <wx/txtstrm.h>
 
-class PipedProcess : public wxProcess
-{
+class PipedProcess : public wxProcess{
+	
 public:
     DECLARE_CLASS(PipedProcess)
 
@@ -20,14 +20,13 @@ public:
     }
 
     virtual bool HasInput();
-	
 	void OnTerminate(int pid, int status);
+
+	void SetRealPid(const long& RealPID) {this->m_RealPID = RealPID;}
+	const long& GetRealPid() const {return m_RealPID;}
 	
-	void SetRealPid(long pid);
-	long GetRealPid() {return m_PID;}
-	
-protected:
-	long m_PID;
+private:
+	long m_RealPID;
 };
 
 #endif

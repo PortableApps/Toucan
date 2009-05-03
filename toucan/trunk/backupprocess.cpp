@@ -34,10 +34,6 @@ bool PipedProcess::HasInput()
 	return hasInput;
 }
 
-void PipedProcess::SetRealPid(long pid){
-	m_PID = pid;
-}
-
 void PipedProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
 	;
 }
