@@ -1977,7 +1977,7 @@ void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 }
 
 #ifdef __WXDEBUG__
-void frmMain::OnTestsClick(wxCommandEvent &event){
+void frmMain::OnTestsClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().ProgressWindow->Show();
 	Tests test;	
 }
