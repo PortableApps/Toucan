@@ -27,10 +27,6 @@
 #include "../controls/extendeddirctrl.h"
 #include "../controls/virtualdirtreectrl.h"
 
-#ifdef __WXDEBUG__
-#include "../tests.h"
-#endif
-
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
 
@@ -774,12 +770,7 @@ void frmMain::CreateControls()
 	
 	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, 5);
-	
-#ifdef __WXDEBUG__
-	wxButton* TestButton = new wxButton(HelpPanel, ID_HELP_TESTS, wxT("Run Tests"));
-	HelpSizer->Add(TestButton, 0, wxALIGN_TOP|wxALL, 5);
-#endif
-	
+
 	m_HelpWindow = new wxHtmlHelpWindow;
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
     wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
