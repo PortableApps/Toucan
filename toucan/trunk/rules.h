@@ -11,13 +11,10 @@
 
 class Rules{
 public:
-	//Constructor
-	//Rules();
-
 	//Functions
-	bool IsEmpty();
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
+	bool IsEmpty();
 	bool ShouldExclude(wxString strName, bool blIsDir); 
 	
 	//Inline Functions

@@ -106,7 +106,6 @@ wxString Normalise(wxString strFilePath){
 			previousmatched = false;
 		}
 	}
-
 	if(strReturn.Length() == 2 && strReturn.Right(1) == wxT(":")){
 		strReturn += wxFILE_SEP_PATH;
 	}	
