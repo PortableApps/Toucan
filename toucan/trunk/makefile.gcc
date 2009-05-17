@@ -67,7 +67,6 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_script.o \
 	$(OUTPATH)/Toucan_secure.o \
 	$(OUTPATH)/Toucan_settings.o \
-	$(OUTPATH)/Toucan_tests.o \
 	$(OUTPATH)/Toucan_toucan.o \
 	$(OUTPATH)/Toucan_variables.o \
 	$(OUTPATH)/Toucan_waitthread.o \
