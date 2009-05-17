@@ -250,7 +250,6 @@ public:
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
-	void OnTestsClick(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	
 	//Menu

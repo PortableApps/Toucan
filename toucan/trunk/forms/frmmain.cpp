@@ -108,9 +108,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
-#ifdef __WXDEBUG__
-	EVT_BUTTON(ID_HELP_TESTS, frmMain::OnTestsClick)
-#endif
 	
 	//Menu
 	EVT_MENU(ID_MENU_FILEEXCLUDE_EXTENSION, frmMain::OnMenuFileExcludeExtensionClick)
@@ -1959,10 +1956,3 @@ void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();	
 	}
 }
-
-#ifdef __WXDEBUG__
-void frmMain::OnTestsClick(wxCommandEvent &event){
-	wxGetApp().ProgressWindow->Show();
-	Tests test;	
-}
-#endif
