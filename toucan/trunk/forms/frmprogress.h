@@ -8,8 +8,8 @@
 #define _FRMPROGRESS_H_
 
 #include <wx/wx.h>
-#include <wx/frame.h>
 
+class wxFrame;
 class wxListCtrl;
 
 //Window 10000 - 10049

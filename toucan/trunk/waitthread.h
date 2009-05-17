@@ -1,13 +1,14 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef H_WAIT
-#define H_WAIT
+#ifndef H_WAITTHREAD
+#define H_WAITTHREAD
 
-#include "backupprocess.h"
+class PipedProcess;
+#include <wx/thread.h>
 
 class WaitThread : public wxThread
 {

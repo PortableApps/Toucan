@@ -5,46 +5,61 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupdata.h"
-#include "../filecounter.h"
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../variables.h"
 #include "../backupprocess.h"
 #include "../waitthread.h"
-#include "../script.h"
+#include "../forms/frmmain.h"
+#include "../forms/frmprogress.h"
+#include "../controls/virtualdirtreectrl.h"
+#include <wx/textfile.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include <wx/dir.h>
 
-
 bool BackupData::TransferFromFile(){
-	//ATTN : Needs cleanup
-	wxString strName = GetName();
-
-	bool blError;
+	bool error = false;
 	int iTemp;
 	wxString strTemp;
 	bool blTemp;
 
-	if(!wxGetApp().m_Jobs_Config->Exists(strName)){
+	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
 		return false;
 	}
 
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/BackupLocation"), &strTemp);
-	if(blError){ SetBackupLocation(strTemp); }	
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Locations"), &strTemp);
-	if(blError){ SetLocations(StringToArrayString(strTemp, wxT("|"))); }	
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Function"), &strTemp);
-	if(blError){ SetFunction(strTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Format"), &strTemp);
-	if(blError){ SetFormat(strTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/Ratio"), &iTemp);
-	if(blError){ SetRatio(iTemp); }
-	blError = wxGetApp().m_Jobs_Config->Read(strName + wxT("/IsPass"), &blTemp);
-	if(blError){ IsPassword = blTemp; }
-	
-	if(!blError){
-		ErrorBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."));
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/BackupLocation"), &strTemp)){
+		SetFileLocation(strTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp)){
+		SetLocations(StringToArrayString(strTemp, wxT("|")));
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp)){
+		SetFunction(strTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Format"), &strTemp)){
+		SetFormat(strTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Ratio"), &iTemp)){
+		SetRatio(iTemp);
+	}
+	else{ error = true; }
+
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &blTemp)){
+		SetUsesPassword(blTemp);
+	}
+	else{ error = true; }
+
+	if(error){
+		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -54,12 +69,10 @@ bool BackupData::TransferToFile(){
 	wxString strName = GetName();
 	bool blError = false;
 
-	//Delete any existing jobs with this name to ensure correct settings are retained
 	wxGetApp().m_Jobs_Config->DeleteGroup(strName);
 	wxGetApp().m_Jobs_Config->Flush();
 
-	//Add the files to be written
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetBackupLocation())){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetFileLocation())){
 		blError = true;
 	}
 	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
@@ -74,76 +87,70 @@ bool BackupData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Ratio"), GetRatio())){
 		blError = true;
 	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), IsPassword)){
+	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), GetUsesPassword())){
 		blError = true;
 	}
-	
-	//Write the files
+
 	wxGetApp().m_Jobs_Config->Flush();
-	
+
 	if(blError){
-		ErrorBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."));
+		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
 }
 
 bool BackupData::TransferToForm(){
-	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 	if(window == NULL){
 		return false;
 	}
-	window->m_Backup_Location->SetValue(GetBackupLocation());
+	window->m_Backup_Location->SetValue(GetFileLocation());
 	window->m_Backup_TreeCtrl->DeleteAllItems();
 	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	
 	//Remove all of the items in the filepath list
-	wxGetApp().MainWindow->m_BackupLocations->Clear();
+	window->m_BackupLocations->Clear();
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
-		wxGetApp().MainWindow->m_BackupLocations->Add(GetLocations().Item(j));
-		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocations().Item(j))));
+		window->m_BackupLocations->Add(GetLocation(j));
+		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocation(j))));
 	}
 	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
-	window->m_Backup_IsPass->SetValue(IsPassword);
+	window->m_Backup_IsPass->SetValue(GetUsesPassword());
 	return false;
 }
 
-/* This function sets all of the fields in SyncData based on the user inputted data in the
-Main program window.*/
 bool BackupData::TransferFromForm(){
-	//ATTN : Need to move to all use window pointer
 	frmMain *window = wxGetApp().MainWindow;
 
-	SetLocations(*wxGetApp().MainWindow->m_BackupLocations);
-	SetBackupLocation(window->m_Backup_Location->GetValue()); 
+	SetLocations(*window->m_BackupLocations);
+	SetFileLocation(window->m_Backup_Location->GetValue()); 
 	SetFunction(window->m_Backup_Function->GetStringSelection()); 
 	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
 	SetRatio(window->m_Backup_Ratio->GetValue());
-	IsPassword = window->m_Backup_IsPass->GetValue();
+	SetUsesPassword(window->m_Backup_IsPass->GetValue());
 	return true;	
 }
 
-/*This is a debugging tool only, not for use in release  versions of Toucan */
 void BackupData::Output(){
-	//ATTN : Needs updating for all outputs
-	MessageBox(GetBackupLocation(), wxT("Backup Location"));
+	wxMessageBox(GetFileLocation(), wxT("Backup Location"));
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		MessageBox(GetLocations().Item(i), wxT("Location"));
+		wxMessageBox(GetLocation(i), wxString::Format(wxT("Location %d"), i));
 	}
-	MessageBox(GetFunction(), wxT("Function"));
-	MessageBox(GetFormat(), wxT("Format"));
+	wxMessageBox(GetFunction(), wxT("Function"));
+	wxMessageBox(GetFormat(), wxT("Format"));
+	wxMessageBox(wxString::Format(wxT("%d"), GetRatio()), wxT("Compression Ratio"));
 }
 
 wxString BackupData::CreateCommand(int i){
 	
 	wxString strCommand, strTempDir;
 	//Setting up to use the first item in the array.
-	wxString strSecond = GetLocations().Item(i);
+	wxString strSecond = GetLocation(i);
 	
 	//strSolid is only used if 7zip is chosen to allow updating
 	wxString strSolid = wxEmptyString;
@@ -188,28 +195,28 @@ wxString BackupData::CreateCommand(int i){
 		}
 	}
    
-	strTempDir = wxT(" -w\"") + wxPathOnly(GetBackupLocation()) + wxT("\"");
+	strTempDir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");
 
 	if(GetFunction() == _("Complete")){
-		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
+		strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
+		strCommand = wxT("7za.exe u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
 	}
 	else if(GetFunction() == _("Restore")){
-		strCommand =  wxT("7za.exe  x -aoa \"") + GetLocation(i) + wxT("\" -o\"") + GetBackupLocation() + wxT("\" * -r") + GetPassword();	
+		strCommand =  wxT("7za.exe  x -aoa \"") + GetLocation(i) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword();	
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
-		if (GetBackupLocation()[GetBackupLocation().length()-1] != wxFILE_SEP_PATH) {
-			SetBackupLocation(GetBackupLocation() + wxFILE_SEP_PATH);       
+		if (GetFileLocation()[GetFileLocation().length()-1] != wxFILE_SEP_PATH) {
+			SetFileLocation(GetFileLocation() + wxFILE_SEP_PATH);       
 		}
-		if(wxFileExists(GetBackupLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
-			wxDateTime now = wxGetApp().m_Script->GetTime();
-			strCommand = wxT("7za.exe u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT("\" -u- -up0q3x2z0!\"") + GetBackupLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + strFormat + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
+		if(wxFileExists(GetFileLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
+			wxDateTime now = wxDateTime::Now();
+			strCommand = wxT("7za.exe u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
 		}
 		else{
-			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetBackupLocation() + wxT("BaseFile.") + strFormat + wxT(" \"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
+			strCommand = wxT("7za.exe a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
 		}
 	}
 	return strCommand;
@@ -217,10 +224,9 @@ wxString BackupData::CreateCommand(int i){
 
 
 bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
-	//ATTN : Will need to change in wxWidgets 2.9.0
 	wxGetApp().Yield();
 	if(wxDirExists(strPath)){
 		//Clean up the path passed
@@ -277,7 +283,7 @@ bool BackupData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		SetLocation(i, Normalise(Normalise(GetLocation(i))));
 	}
-	SetBackupLocation(Normalise(Normalise(GetBackupLocation())));
+	SetFileLocation(Normalise(Normalise(GetFileLocation())));
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		wxString path = GetLocation(i);
 		bool isDir = false;
@@ -317,7 +323,7 @@ bool BackupData::Execute(Rules rules){
 				}
 			}
 			OutputProgress(_("Creating file list, this may take some time."));
-			if(!CreateList(file, rules, GetLocations().Item(i), length)){
+			if(!CreateList(file, rules, GetLocation(i), length)){
 				return false;
 			}
 			file->Write();
@@ -329,7 +335,7 @@ bool BackupData::Execute(Rules rules){
 		}
 		wxString strCommand = CreateCommand(i);
 		wxSetWorkingDirectory(path);
-		PipedProcess *process = new PipedProcess(wxGetApp().ProgressWindow);
+		PipedProcess *process = new PipedProcess();
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 		process->SetRealPid(lgPID);
 		WaitThread *thread = new WaitThread(lgPID, process);
@@ -346,10 +352,10 @@ bool BackupData::Execute(Rules rules){
 
 bool BackupData::NeededFieldsFilled(){
 	bool blFilled = true;
-	if(arrLocations.Count() == 0){
+	if(GetLocations().Count() == 0){
 		blFilled = false;
 	}
-	if(GetBackupLocation() == wxEmptyString){
+	if(GetFileLocation() == wxEmptyString){
 		blFilled = false;
 	}
 	if(GetFunction() == wxEmptyString){

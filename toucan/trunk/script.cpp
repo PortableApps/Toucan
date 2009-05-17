@@ -7,7 +7,9 @@
 #include <wx/arrstr.h>
 #include <wx/tokenzr.h>
 #include <wx/fileconf.h>
+#include <wx/listctrl.h>
 
+#include "toucan.h"
 #include "script.h"
 #include "waitthread.h"
 #include "backupprocess.h"
@@ -21,6 +23,8 @@
 #include "data/backupdata.h"
 #include "data/securedata.h"
 #include "controls/loglistctrl.h"
+#include "forms/frmmain.h"
+#include "forms/frmprogress.h"
 
 bool ScriptManager::Execute(){
 	StartUp();
@@ -53,8 +57,8 @@ bool ScriptManager::StartUp(){
 	
 	//Send a blank item to get the item count up
 	OutputBlank();
-	startTime = wxDateTime::Now();
-	OutputProgress(startTime.FormatTime(), _("Starting"));
+	m_Time = wxDateTime::Now();
+	OutputProgress(m_Time.FormatTime(), _("Starting"));
 	OutputBlank();
 	
 	SetGaugeValue(0);
@@ -100,7 +104,7 @@ bool ScriptManager::Validate(){
 				BackupData data;
 				data.SetName(job);
 				if(data.TransferFromFile()){
-					if(data.IsPassword == true){
+					if(data.GetUsesPassword()){
 						wxString pass = InputPassword();
 						if(pass == wxEmptyString){
 							valid = false;
@@ -210,7 +214,7 @@ bool ScriptManager::ProgressBarSetup(){
 }
 
 bool ScriptManager::ParseCommand(int i){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return false;
 	}
 	wxDateTime now = wxDateTime::Now();
@@ -319,7 +323,7 @@ bool ScriptManager::ParseCommand(int i){
 		CleanUp();
 	}
 	if(!data->NeededFieldsFilled()){
-		ErrorBox(_("Not all of the required fields are filled"));
+		wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		CleanUp();
 	}
 	if(data->NeedsPassword()){
@@ -347,7 +351,7 @@ bool ScriptManager::CleanUp(){
 		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
 	}
 	OutputBlank();
-	OutputProgress(now.Subtract(startTime).Format(), _("Elapsed"));
+	OutputProgress(now.Subtract(m_Time).Format(), _("Elapsed"));
 	OutputProgress(now.FormatTime(), _("Finished"));
 
 	//Yield here to make sure all output is shown

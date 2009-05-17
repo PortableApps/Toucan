@@ -5,8 +5,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "filecounter.h"
-#include "toucan.h"
 #include "variables.h"
+#include "toucan.h"
 #include <wx/dir.h>
 
 FileCounter::FileCounter(){
@@ -42,7 +42,7 @@ bool FileCounter::Count(){
 }
 
 bool FileCounter::CountFolder(wxString path){
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	wxGetApp().Yield();

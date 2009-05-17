@@ -8,57 +8,44 @@
 #define H_SETTINGS
 
 #include <wx/string.h>
-#include <wx/intl.h>
-#include <wx/fileconf.h>
+class wxFileConfig;
 
 class Settings{
-	
+
 public:
 	Settings(wxString path);
 	~Settings();
 
 	bool TransferToFile();
 	bool TransferFromFile();
-	
-	wxString GetPosition() { return m_Position; }
-	void SetPosition(wxString position) { m_Position = position; }
-	
-	wxString GetTabStyle() { return m_TabStyle; }
-	void SetTabStyle(wxString tabstyle) { m_TabStyle = tabstyle; }
-	
-	wxString GetLanguageCode() { return m_LanguageCode; }
-	void SetLanguageCode(wxString langcode) { m_LanguageCode = langcode; }
-	
-	wxString GetFont() { return m_Font; }
-	void SetFont(wxString font) { m_Font = font; }	
-	
-	double GetHeight() { return m_Height; }
-	void SetHeight(float height) { m_Height = height; }	
-	
-	double GetWidth() { return m_Width; }
-	void SetWidth(float width) { m_Width = width; }	
-	
-	double GetY() { return m_Y; }
-	void SetY(double y) { m_Y = y; }	
-	
-	double GetX() { return m_X; }
-	void SetX(double x) { m_X = x; }	
-	
-	double GetRememberSync() { return m_RememberSync; }
-	void SetRememberSync(bool remember) { m_RememberSync = remember; }	
-	
-	double GetRememberBackup() { return m_RememberBackup; }
-	void SetRememberBackup(bool remember) { m_RememberBackup = remember; }	
-	
-	double GetRememberSecure() { return m_RememberSecure; }
-	void SetRememberSecure(bool remember) { m_RememberSecure = remember; }
-	
-	bool GetDisableStream() { return m_DisableStream; }
-	
-	bool GetDisableLog() { return m_DisableLog; }
-	
+
 	wxFileConfig* GetConfig() { return config; }
-	
+
+	void SetFont(const wxString& Font) {this->m_Font = Font;}
+	void SetHeight(const double& Height) {this->m_Height = Height;}
+	void SetLanguageCode(const wxString& LanguageCode) {this->m_LanguageCode = LanguageCode;}
+	void SetPosition(const wxString& Position) {this->m_Position = Position;}
+	void SetRememberBackup(const bool& RememberBackup) {this->m_RememberBackup = RememberBackup;}
+	void SetRememberSecure(const bool& RememberSecure) {this->m_RememberSecure = RememberSecure;}
+	void SetRememberSync(const bool& RememberSync) {this->m_RememberSync = RememberSync;}
+	void SetTabStyle(const wxString& TabStyle) {this->m_TabStyle = TabStyle;}
+	void SetWidth(const double& Width) {this->m_Width = Width;}
+	void SetX(const double& X) {this->m_X = X;}
+	void SetY(const double& Y) {this->m_Y = Y;}
+	const bool& GetDisableLog() const {return m_DisableLog;}
+	const bool& GetDisableStream() const {return m_DisableStream;}
+	const wxString& GetFont() const {return m_Font;}
+	const double& GetHeight() const {return m_Height;}
+	const wxString& GetLanguageCode() const {return m_LanguageCode;}
+	const wxString& GetPosition() const {return m_Position;}
+	const bool& GetRememberBackup() const {return m_RememberBackup;}
+	const bool& GetRememberSecure() const {return m_RememberSecure;}
+	const bool& GetRememberSync() const {return m_RememberSync;}
+	const wxString& GetTabStyle() const {return m_TabStyle;}
+	const double& GetWidth() const {return m_Width;}
+	const double& GetX() const {return m_X;}
+	const double& GetY() const {return m_Y;}
+
 private:
 	wxString m_Position;
 	wxString m_TabStyle;

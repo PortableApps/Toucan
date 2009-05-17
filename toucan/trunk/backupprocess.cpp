@@ -1,11 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2008 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupprocess.h"
 #include "basicfunctions.h"
+#include "toucan.h"
 
 IMPLEMENT_CLASS(PipedProcess, wxProcess)
 
@@ -13,7 +14,7 @@ bool PipedProcess::HasInput()
 {
 	bool hasInput = false;
 	if (IsInputAvailable()){
-		if(wxGetApp().ShouldAbort()){
+		if(wxGetApp().GetAbort()){
 			wxLogNull null;
 			wxProcess::Kill(this->GetRealPid(), wxSIGKILL);
 		}
@@ -33,10 +34,6 @@ bool PipedProcess::HasInput()
 	return hasInput;
 }
 
-void PipedProcess::SetRealPid(long pid){
-	m_PID = pid;
-}
-
-void PipedProcess::OnTerminate(int pid, int status){
+void PipedProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
 	;
 }

@@ -7,11 +7,11 @@
 #ifndef H_SCRIPT
 #define H_SCRIPT
 
-#include "forms/frmprogress.h"
+class frmProgress;
 
 class ScriptManager{
-public:
 
+public:
 	//Ensure the script is valid
 	bool Validate();
 	//Start the script
@@ -24,23 +24,19 @@ public:
 	bool CleanUp();
 	bool StartUp();
 
-	//Inline functions
-	void SetCommand(int i){ m_Command = i; }
-	int GetCommand(){ return m_Command; }
-
-	int GetCount(){ return m_Script.GetCount(); }
-
-	void SetScript(wxArrayString script){ m_Script = script; }
-	wxArrayString GetScript(){ return m_Script; }
-
-	wxDateTime GetTime(){ return startTime; }
+	void SetCommand(const int& Command) {this->m_Command = Command;}
+	void SetScript(const wxArrayString& Script) {this->m_Script = Script;}
+	const int& GetCommand() const {return m_Command;}
+	const wxArrayString& GetScript() const {return m_Script;}
+	const wxDateTime& GetTime() const {return m_Time;}
+	const int GetCount() const {return m_Script.GetCount();}
 
 private:
 	wxArrayString m_Script;
 	int m_Command;
 	wxString m_Password;
 	frmProgress* m_ProgressWindow;
-	wxDateTime startTime;
+	wxDateTime m_Time;
 };
-		
+
 #endif

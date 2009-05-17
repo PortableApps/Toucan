@@ -5,8 +5,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
-#include <wx/wfstream.h>
-#include <wx/txtstrm.h>
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
 #include "cmdline.h"
@@ -29,7 +27,6 @@
 #include <cxxtest/RealDescriptions.h>
 #include <cxxtest/ErrorPrinter.h>
 #include "test.h"
-
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system.\n"));
 
@@ -142,10 +139,10 @@ bool ParseCommandLine(){
 		data.SetSource(cmdParser.GetParam(1));
 		data.SetDest(cmdParser.GetParam(2));
 		data.SetFunction(cmdParser.GetParam(3));
-		data.SetTimeStamps(cmdParser.GetParam(5));
-		data.SetAttributes(cmdParser.GetParam(6));
-		data.SetIgnoreRO(cmdParser.GetParam(7));
-		data.SetIgnoreDLS(cmdParser.GetParam(8));
+		data.SetTimeStamps(wxAtoi(cmdParser.GetParam(5)));
+		data.SetAttributes(wxAtoi(cmdParser.GetParam(6)));
+		data.SetIgnoreRO(wxAtoi(cmdParser.GetParam(7)));
+		data.SetIgnoreDLS(wxAtoi(cmdParser.GetParam(8)));
 		if(data.TransferToFile()){
 			wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));
 			wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));
@@ -161,8 +158,8 @@ bool ParseCommandLine(){
 	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 7){
 		BackupData data;
 		data.SetName(wxT("LastBackupJob"));
-		data.IsPassword = false;
-		data.SetBackupLocation(cmdParser.GetParam(1));
+		data.SetUsesPassword(false);
+		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
 		wxArrayString arrLocations;
 		file.Open(cmdParser.GetParam(2));
@@ -190,8 +187,8 @@ bool ParseCommandLine(){
 	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 9){
 		BackupData data;
 		data.SetName(wxT("LastBackupJob"));
-		data.IsPassword = true;
-		data.SetBackupLocation(cmdParser.GetParam(1));
+		data.SetUsesPassword(true);
+		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
 		wxArrayString arrLocations;
 		file.Open(cmdParser.GetParam(2));

@@ -5,9 +5,10 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "settings.h"
-#include "toucan.h"
 #include <wx/fileconf.h>
-#include <wx/stdpaths.h>
+#include <wx/font.h>
+#include <wx/string.h>
+#include <wx/settings.h>
 #include <wx/intl.h>
 
 Settings::Settings(wxString path){

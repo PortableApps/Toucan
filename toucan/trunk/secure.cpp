@@ -12,25 +12,30 @@
 
 #include "secure.h"
 #include "toucan.h"
-#include "basicfunctions.h"
+#include "rules.h"
 #include "variables.h"
+#include "basicfunctions.h"
+#include "data/securedata.h"
+#include "forms/frmmain.h"
+#include "forms/frmprogress.h"
+#include "controls/virtualdirtreectrl.h"
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();
 	//Iterate through the entries in the array
 	for(unsigned int i = 0; i < arrLocation.Count(); i++)
 	{
-		if(wxGetApp().ShouldAbort()){
+		if(wxGetApp().GetAbort()){
 			return true;
 		}
-		data.SetLength(arrLocation.Item(i).Length() + 1);
+		data.SetStartLength(arrLocation.Item(i).Length() + 1);
 		//Need to add normalisation to SecureData
 		if(arrLocation.Item(i) != wxEmptyString){
 			if(wxDirExists(arrLocation.Item(i))){
-				CryptDir(arrLocation.Item(i), data, rules, window);
+				CryptDir(arrLocation.Item(i), data, rules);
 			}
 			else if(wxFileExists(arrLocation.Item(i))){
-				CryptFile(arrLocation.Item(i), data, rules, window);
+				CryptFile(arrLocation.Item(i), data, rules);
 			}
 		}
 	}
@@ -42,16 +47,16 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().ProgressWindow, event);	
+	wxPostEvent(window, event);	
 	return true;
 }
 
 
 /*The main loop for the Secure process. It is called by Secure initially and then either calls itself when it reaches a
 folder or CryptFile when it reaches a file.*/
-bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* window)
+bool CryptDir(wxString strPath, SecureData data, Rules rules)
 {   
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	wxDir dir(strPath);
@@ -60,14 +65,14 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 	if (blDir)
 	{
 		do {
-			if(wxGetApp().ShouldAbort()){
+			if(wxGetApp().GetAbort()){
 				return true;
 			}
 			if (wxDirExists(strPath + wxFILE_SEP_PATH + filename) ){
-				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
+				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules);
 			}
 			else{
-				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules, window);
+				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules);
 			}
 		}
 		while (dir.GetNext(&filename) );
@@ -76,9 +81,9 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules, frmProgress* windo
 }
 
 
-bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* window)
+bool CryptFile(wxString strFile, SecureData data, Rules rules)
 {
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	//Check to see it the file should be excluded	
@@ -123,10 +128,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 		#endif
 		
 		if(lgReturn == 0){        
-			OutputProgress(_("Encrypted ") + strFile.Right(strFile.Length() - data.GetLength()));
+			OutputProgress(_("Encrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetLength()));
+			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 	}
 
@@ -139,7 +144,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
 			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetLength()));
+			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 			return true;
 		}
 
@@ -154,10 +159,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules, frmProgress* wind
 		#endif
 
 		if(lgReturn == 0){       
- 			OutputProgress(_("Decrypted ") + strFile.Right(strFile.Length() - data.GetLength()));
+ 			OutputProgress(_("Decrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetLength()));
+ 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 	}
 	IncrementGauge();

@@ -4,8 +4,9 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "syncbase.h"
 #include "syncfiles.h"
+#include "syncdata.h"
+#include "../rules.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include <list>
@@ -47,9 +48,9 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 	//Clean doesnt copy any files
 	if(data->GetFunction() != _("Clean")){
 		if(!rules.ShouldExclude(source, false)){
-			if(CopyFile(source, dest)){
+			if(CopyFilePlain(source, dest)){
 				if(data->GetFunction() == _("Move")){
-					RemoveFile(source);
+					DeleteFile(source);
 				}
 			}	
 		}	
@@ -61,13 +62,13 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, false)){
-			RemoveFile(dest);			
+			DeleteFile(dest);			
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		if(!rules.ShouldExclude(dest, false)){
 			//Swap them around as we are essentially in reverse
-			CopyFile(dest, source);
+			CopyFilePlain(dest, source);
 		}
 	}
 	return true;
@@ -80,12 +81,12 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 			//Use the hash check version to minimise copying
 			if(CopyFileHash(source, dest)){
 				if(data->GetFunction() == _("Move")){
-					RemoveFile(source);
+					DeleteFile(source);
 				}				
 			}
 		}
 		else if(data->GetFunction() == _("Update")){
-			UpdateFile(source, dest);			
+			CopyFileTimestamp(source, dest);			
 		}		
 	}
 	if(data->GetFunction() == _("Equalise")){
@@ -171,7 +172,7 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 	return true;
 }
 
-bool SyncFiles::CopyFile(wxString source, wxString dest){
+bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
 	bool ShouldTimeStamp = false;
 	#ifdef __WXMSW__
 		long destAttributes = 0;
@@ -194,7 +195,7 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
-			OutputProgress(wxT("Copied ") + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+			OutputProgress(wxT("Copied ") + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
 			ShouldTimeStamp = true;
 		}
 		else{
@@ -233,7 +234,7 @@ bool SyncFiles::CopyFile(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::UpdateFile(wxString source, wxString dest){
+bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
 	wxDateTime tmTo, tmFrom;
 	wxFileName flTo(dest);
 	wxFileName flFrom(source);
@@ -251,23 +252,23 @@ bool SyncFiles::UpdateFile(wxString source, wxString dest){
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	if(data->GetDisableHash()){
-		return CopyFile(source, dest);
+		return CopyFilePlain(source, dest);
 	}
 	//ATTN : Still need to work out optimal chunk size
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
 	if(sourcestream.GetLength() != deststream.GetLength()){
-		return CopyFile(source, dest);			
+		return CopyFilePlain(source, dest);			
 	}
 	//Something is wrong with out streams, return error
 	if(!sourcestream.IsOk() || !deststream.IsOk()){
-		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
 		return false;
 	}
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
 	if(size > 2000000000){
-		return CopyFile(source, dest);			
+		return CopyFilePlain(source, dest);			
 	}
 	//We read in 1MB chunks
 	char sourcebuf[1000000];
@@ -278,13 +279,13 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 		sourcestream.Read((void*)sourcebuf,bytesToRead);
 		deststream.Read((void*)destbuf,bytesToRead);
 		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
-			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetLength()));
+			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
 			return false;
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead)){
 			//Our strings differ, so copy the files
 			//ATTN : In future update the files in place
-			return CopyFile(source, dest);
+			return CopyFilePlain(source, dest);
 		}
 		bytesLeft-=bytesToRead;
 	}
@@ -299,12 +300,12 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::RemoveDirectory(wxString path){
-	if(wxGetApp().ShouldAbort()){
+bool SyncFiles::DeleteDirectory(wxString path){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	// ATTN : Can be replaced when move to wxWidgets 2.9
-	if(wxGetApp().ShouldAbort()){
+	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	//Make sure that the correct ending is appended
@@ -321,7 +322,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 	bool blDir = dir->GetFirst(&filename);
 	if(blDir){
 		do {
-			if(wxGetApp().ShouldAbort()){
+			if(wxGetApp().GetAbort()){
 				return true;
 			}
 			if(wxDirExists(path + filename)){
@@ -349,30 +350,11 @@ bool SyncFiles::RemoveDirectory(wxString path){
 }
 
 bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
-	// ATTN : Can be replaced when move to wxWidgets 2.9, or patch backport
-	#ifdef __WXMSW__
-		//Need to tidy up this code and submit as a patch to wxWidgets
-		FILETIME ftCreated,ftAccessed,ftModified;
-		HANDLE hFrom = CreateFile(source, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-		if(hFrom == INVALID_HANDLE_VALUE){
-		  return false;
-		}  
-		
-		GetFileTime(hFrom,&ftCreated,&ftAccessed,&ftModified);
-		CloseHandle(hFrom);
-		HANDLE hTo = CreateFile(dest, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-		if(hTo == INVALID_HANDLE_VALUE){
-		  return false;
-		}  
-		SetFileTime(hTo,&ftCreated,&ftAccessed,&ftModified);
-		CloseHandle(hTo);
-	#else
-		wxFileName from(source);
-		wxFileName to(dest);
-		wxDateTime access, mod, created;
-		from.GetTimes(&access ,&mod ,&created );
-		to.SetTimes(&access ,&mod , &created); 
-	#endif
+	wxFileName from(source);
+	wxFileName to(dest);
+	wxDateTime access, mod, created;
+	from.GetTimes(&access ,&mod ,&created );
+	to.SetTimes(&access ,&mod , &created); 
 	return true;
 }
 

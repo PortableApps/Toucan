@@ -1,75 +1,60 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_BACKUPDATA
 #define H_BACKUPDATA
 
-#include <wx/textfile.h>
+class wxTextFile;
+
 #include <wx/string.h>
-#include "../forms/frmmain.h"
+#include <wx/arrstr.h>
 #include "rootdata.h"
 
-/*The backupdata class contains all of the information needed for backups, except the ruels. Includes
-functiosn for writing the data to and from the gui and an ini file*/
 class BackupData : public RootData{
-	//ATTN : Replace IsPassword
+
 public:
 	//Functions
 	bool TransferToFile();
 	bool TransferFromFile();
 	bool TransferToForm();
 	bool TransferFromForm();
-	
-	bool NeededFieldsFilled();
 
+	bool NeededFieldsFilled();
 	void Output();
-	
 	bool Execute(Rules rules);
+	bool NeedsPassword() { return GetUsesPassword(); }
 	
-	bool NeedsPassword() { return IsPassword; }
-	
-	//Used to create the command to exectue
+	//Used to create the command to exectue (via 7zip)
 	wxString CreateCommand(int i);
-	
 	//Used to create the exclusions list
 	bool CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength);
 
-	//Inline functions
-	void SetBackupLocation(wxString location) {strBackupLocation = location; }
-	wxString GetBackupLocation() { return strBackupLocation; }
-	
-	void SetLocations(wxArrayString locations) { arrLocations = locations; }
-	wxArrayString GetLocations() { return arrLocations; }
-	
-	void SetLocation(int i, wxString location) { arrLocations.Item(i) = location; }
-	wxString GetLocation(int i) { return arrLocations.Item(i); }
+	//Setters / Getters
+	void SetFileLocation(const wxString& FileLocation) {this->m_FileLocation = FileLocation;}
+	void SetFormat(const wxString& Format) {this->m_Format = Format;}
+	void SetFunction(const wxString& Function) {this->m_Function = Function;}
+	void SetRatio(const int& Ratio) {this->m_Ratio = Ratio;}
+	void SetLocations(const wxArrayString& Locations) {this->m_Locations = Locations;}
+	void SetLocation(const int& i, const wxString& Location) {this->m_Locations.Item(i) = Location;}
+	void SetUsesPassword(const bool& UsesPassword) {this->m_UsesPassword = UsesPassword;}
+	const wxString& GetFileLocation() const {return m_FileLocation;}
+	const wxString& GetFormat() const {return m_Format;}
+	const wxString& GetFunction() const {return m_Function;}
+	const int& GetRatio() const {return m_Ratio;}
+	const wxArrayString& GetLocations() const {return m_Locations;}
+	const wxString& GetLocation(const int& i) const {return m_Locations.Item(i);}
+	const bool& GetUsesPassword() const {return m_UsesPassword;}
 
-	void SetFunction(wxString function) { strFunction = function; }
-	wxString GetFunction() { return strFunction; }
-
-	void SetFormat(wxString format) { strFormat = format; }
-	wxString GetFormat() { return strFormat; }
-
-	void SetRatio(int ratio) { strRatio = ratio; }
-	int GetRatio() { return strRatio; }
-	
-	//Is a password needed?
-	bool IsPassword;
-	
 private:
-	//Contains the filepath to the backup file
-	wxString strBackupLocation;
-	//A list of paths to be used for backup
-	wxArrayString arrLocations;
-	//Complete, update, Differential, restore
-	wxString strFunction;
-	//7zip, zip
-	wxString strFormat;
-	//Need to change this to a sliding scale from 1 to 5
-	int strRatio;
+	wxString m_FileLocation;
+	wxArrayString m_Locations;
+	wxString m_Function;
+	wxString m_Format;
+	int m_Ratio;
+	bool m_UsesPassword;
 };
 
 #endif

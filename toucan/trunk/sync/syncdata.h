@@ -11,63 +11,49 @@
 #include "../data/rootdata.h"
 #include <wx/string.h>
 
-
 class SyncData : public RootData{
 
 public:
-
-	//Functions
 	bool TransferToFile();
 	bool TransferFromFile();
 	bool TransferToForm();
 	bool TransferFromForm();
 	
 	void Output();
-	
 	bool Execute(Rules rules);
-	
 	bool NeedsPassword() { return false; }
-	
 	bool NeededFieldsFilled();
 
-	//Inline functions
-	void SetSource(wxString source) { strSource = source; }
-	wxString GetSource() { return strSource; }
-
-	void SetDest(wxString dest) { strDest = dest; }
-	wxString GetDest() { return strDest; }
-
-	void SetFunction(wxString function) { strFunction = function; }
-	wxString GetFunction() { return strFunction; }
-
-	void SetPreText(wxString text) { strPreText = text; }
-	wxString GetPreText() { return strPreText; }
-
-	void SetTimeStamps(bool timestamps) { blTimeStamps = timestamps; }
-	bool GetTimeStamps() { return blTimeStamps; }
-
-	void SetAttributes(bool attributes) { blAttributes = attributes; }
-	bool GetAttributes() { return blAttributes; }
-
-	void SetIgnoreRO(bool ignorero) { blIgnoreRO = ignorero; }
-	bool GetIgnoreRO() { return blIgnoreRO; }
-
-	void SetIgnoreDLS(bool ignoredls) { blIgnoreDLS = ignoredls; }
-	bool GetIgnoreDLS() { return blIgnoreDLS; }
-
-	bool GetDisableHash() { return blDisableHash; }
+	//Setters / Getters
+	void SetAttributes(const bool& Attributes) {this->m_Attributes = Attributes;}
+	void SetDest(const wxString& Dest) {this->m_Dest = Dest;}
+	void SetFunction(const wxString& Function) {this->m_Function = Function;}
+	void SetIgnoreDLS(const bool& IgnoreDLS) {this->m_IgnoreDLS = IgnoreDLS;}
+	void SetIgnoreRO(const bool& IgnoreRO) {this->m_IgnoreRO = IgnoreRO;}
+	void SetPreText(const wxString& PreText) {this->m_PreText = PreText;}
+	void SetSource(const wxString& Source) {this->m_Source = Source;}
+	void SetTimeStamps(const bool& TimeStamps) {this->m_TimeStamps = TimeStamps;}
+	void SetDisableHash(const bool& DisableHash) {this->m_DisableHash = DisableHash;}
+	const bool& GetAttributes() const {return m_Attributes;}
+	const wxString& GetDest() const {return m_Dest;}
+	const bool& GetDisableHash() const {return m_DisableHash;}
+	const wxString& GetFunction() const {return m_Function;}
+	const bool& GetIgnoreDLS() const {return m_IgnoreDLS;}
+	const bool& GetIgnoreRO() const {return m_IgnoreRO;}
+	const wxString& GetPreText() const {return m_PreText;}
+	const wxString& GetSource() const {return m_Source;}
+	const bool& GetTimeStamps() const {return m_TimeStamps;}
 
 private:
-	wxString strSource;
-	wxString strDest;
-	wxString strFunction;
-	//To put before  the output text
-	wxString strPreText;
-	bool blTimeStamps;
-	bool blAttributes;
-	bool blIgnoreRO;
-	bool blIgnoreDLS;
-	bool blDisableHash;
+	wxString m_Source;
+	wxString m_Dest;
+	wxString m_Function;
+	wxString m_PreText;
+	bool m_TimeStamps;
+	bool m_Attributes;
+	bool m_IgnoreRO;
+	bool m_IgnoreDLS;
+	bool m_DisableHash;
 };
 
 #endif

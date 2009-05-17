@@ -7,22 +7,25 @@
 #ifndef _FRMMAIN_H_
 #define _FRMMAIN_H_
 
-#include <wx/aui/framemanager.h>
-#include <wx/frame.h>
-#include <wx/toolbar.h>
-#include <wx/aui/auibook.h>
-#include <wx/treectrl.h>
-#include <wx/dirctrl.h>
-#include <wx/listctrl.h>
-#include <wx/fontpicker.h>
-#include <wx/fileconf.h>
-#include <wx/html/helpwnd.h>
-
-#include "../controls/virtualdirtreectrl.h"
-#include "../controls/extendeddirctrl.h"
-
-//Forward declarations
+class wxFrame;
+class wxTreeCtrl;
+class wxDirCtrl;
+class wxListCtrl;
+class wxListEvent;
+class wxHtmlHelpWindow;
+class wxFontPickerCtrl;
 class Settings;
+class ExtendedDirCtrl;
+class wxVirtualDirTreeCtrl;
+class wxTreeEvent;
+class wxComboBox;
+class wxTextCtrl;
+class wxCheckBox;
+class wxStaticText;
+class wxListBox;
+
+#include <wx/aui/framemanager.h>
+#include <wx/aui/auibook.h>
 
 //Main controls 10000-10049
 #define ID_AUIFRAME 10000
@@ -259,14 +262,27 @@ public:
 	void OnMenuLocationIncludeNameClick(wxCommandEvent& event);
 	void OnMenuFolderExcludeNameClick(wxCommandEvent& event);
 	
-	//Generalised functions
+	//Job functions
 	void JobAdd(wxComboBox* box);
 	void JobRemove(wxComboBox* box);
 	void JobSave(const wxString name, const wxString rules, const wxString type);
 	void JobLoad(const wxString name, wxComboBox* rules, const wxString type);
+	
+	//Reset the form to its empty state
 	void ClearToDefault();
+	
+	//Run a job
 	void Run(const wxString rules, const wxString type);
+	
+	//Create the popup menu for rules
 	void CreateMenu(wxTreeEvent& event);
+	
+	//Update the backup compression slider
+	void SetSliderText();
+	
+	//Language functions
+	wxArrayString GetLanguages();
+	wxArrayString GetTranslatorNames();
 
 	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource(const wxString& name);
