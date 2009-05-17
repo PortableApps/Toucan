@@ -15,6 +15,18 @@
 #include "data/backupdata.h"
 #include "data/securedata.h"
 
+//The cxxtest defines
+#ifndef CXXTEST_RUNNING
+#define CXXTEST_RUNNING
+#endif
+
+#define _CXXTEST_HAVE_STD
+#include <cxxtest/TestListener.h>
+#include <cxxtest/TestTracker.h>
+#include <cxxtest/TestRunner.h>
+#include <cxxtest/RealDescriptions.h>
+#include <cxxtest/ErrorPrinter.h>
+#include "test.h"
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system.\n"));
 
@@ -94,7 +106,10 @@ bool ParseCommandLine(){
 	{
 		res = cmdParser.Parse(false);
 	}
-	if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
+	if(cmdParser.GetParam(0) == wxT("unittests")){
+		return CxxTest::ErrorPrinter().run();
+	}
+	else if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Sync \"") + cmdParser.GetParam(0) + wxT("\""));
 		wxGetApp().m_Script->SetScript(arrScript);
@@ -226,3 +241,22 @@ bool ParseCommandLine(){
 	}
 	return true;
 }
+
+static Tests suite_Tests;
+
+static CxxTest::List Tests_Tests = { 0, 0 };
+CxxTest::StaticSuiteDescription suiteDescription_Tests( "test.h", 20, "Tests", suite_Tests, Tests_Tests );
+
+static class TestDescription_Tests_testVariables : public CxxTest::RealTestDescription {
+public:
+ TestDescription_Tests_testVariables() : CxxTest::RealTestDescription( Tests_Tests, suiteDescription_Tests, 23, "testVariables" ) {}
+ void runTest() { suite_Tests.testVariables(); }
+} testDescription_Tests_testVariables;
+
+static class TestDescription_Tests_testRules : public CxxTest::RealTestDescription {
+public:
+ TestDescription_Tests_testRules() : CxxTest::RealTestDescription( Tests_Tests, suiteDescription_Tests, 41, "testRules" ) {}
+ void runTest() { suite_Tests.testRules(); }
+} testDescription_Tests_testRules;
+
+#include <cxxtest/Root.cpp>

@@ -7,6 +7,8 @@
 #ifndef H_NORMALISE
 #define H_NORMALISE
 
+#include <wx/string.h>
+
 /*This code creates the correct filenames from ones including Portable Variables
 if the name to be returned is not valid then the function returns an empty string
 and this is dealt with by the calling function*/

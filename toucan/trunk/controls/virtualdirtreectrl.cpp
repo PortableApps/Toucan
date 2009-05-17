@@ -70,8 +70,9 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 
 	SetImageList(_iconList);
 
-	value = ::wxDirExists(root);
-	if (value) {
+	//This happens backwards asif a file is added it *must* exists, whereas directories might not (i.e. due to variables)
+	value = ::wxFileExists(root);
+	if (!value) {
 		// call virtual handler to notify the derived class
 		OnAddNewPath(root);
 

@@ -1,7 +1,0 @@
-LangString welcome ${LANG_POLISH} "Kreator przeprowadzi Ciê przez proces instalacji ${NAME}.\r\n\r\nJeœli chcesz zaktualizowaæ istniej¹c¹ wersjê aplikacji, przed rozpoczêciem instalacji zamknij aktualizowany program.\r\n\r\nNaciœnij Dalej by kontynuowaæ."
-LangString finish ${LANG_POLISH} "${NAME} zosta³ zainstalowany.\r\n\r\nNaciœnij Zakoñcz, aby zamkn¹æ instalator."
-LangString runwarning ${LANG_POLISH} "Zamknij wszystkie okna programu ${CLOSENAME} i naciœnij OK. Nie mo¿na zaktualizowaæ uruchomionego programu."
-LangString invaliddirectory ${LANG_POLISH} "Wskazany folder jest niepoprawny. Wska¿ poprawn¹ œcie¿kê docelow¹."
-LangString notenoughspace ${LANG_POLISH} "Za ma³o miejsca na dysku docelowym."
-LangString checkforplatform ${LANG_POLISH} "Sprawdzanie Platformy PortableApps.com"
-LangString refreshmenu ${LANG_POLISH} "Odœwie¿anie menu PortableApps.com"

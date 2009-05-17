@@ -18,7 +18,7 @@ wxString Normalise(wxString strFilePath){
 	wxString token;
 	wxString strReturn = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  
-	wxStringTokenizer tkz(strFilePath, wxT("@"), wxTOKEN_STRTOK);
+	wxStringTokenizer tkz(strFilePath, wxT("@"), wxTOKEN_RET_EMPTY_ALL);
 	bool previousmatched = true;
 	while(tkz.HasMoreTokens()){
         token = tkz.GetNextToken();
@@ -106,7 +106,6 @@ wxString Normalise(wxString strFilePath){
 			previousmatched = false;
 		}
 	}
-
 	if(strReturn.Length() == 2 && strReturn.Right(1) == wxT(":")){
 		strReturn += wxFILE_SEP_PATH;
 	}	

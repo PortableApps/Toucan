@@ -13,9 +13,9 @@ class Rules{
 
 public:
 	//Functions
-	bool IsEmpty();
 	bool TransferToFile(wxString strName);
 	bool TransferFromFile(wxString strName);
+	bool IsEmpty();
 	bool ShouldExclude(wxString strName, bool blIsDir); 
 	
 	void SetFilesToExclude(const wxArrayString& FilesToExclude) {this->m_FilesToExclude = FilesToExclude;}
