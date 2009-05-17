@@ -13,6 +13,9 @@
 # C++ compiler 
 CXX = g++
 
+# CXXTEST path
+CXXPATH = C:\Programming\cxxtest
+
 # Standard flags for C++ 
 CXXFLAGS ?= 
 
@@ -52,7 +55,7 @@ OUTPATH=..\..\..\Output
 CPPDEPS = -MT$@ -MF$@.d -MD -MP
 TOUCAN_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED_0_p) $(__WXUNICODE_DEFINE_p) \
 	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
-	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include -W -Wall \
+	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include -I$(CXXPATH) -W -Wall \
 	-fno-rtti $(CPPFLAGS) $(CXXFLAGS)
 TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_backupprocess.o \
