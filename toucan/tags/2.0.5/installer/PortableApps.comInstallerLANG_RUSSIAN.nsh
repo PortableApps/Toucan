@@ -1,7 +1,0 @@
-LangString welcome ${LANG_RUSSIAN} "Этот диалог поможет вам с установкой ${NAME}.\r\n\r\n. Если вы обновляете сушествуюшую установку ${NAME}, пожалуйста закройте её перед началом обновления. Нажмите дальше что бы продолжить"
-LangString finish ${LANG_RUSSIAN}  "${NAME} установлена на вашем устройстве.\r\n\r\n Нажмите Закончить что бы закрыть етот диалог"
-LangString runwarning ${LANG_RUSSIAN} "Пожалуйста закройте все случаи ${CLOSENAME} и потом нажмите Хорошо . Портативная программа не может быть обновлена в то время как она работает."
-LangString invaliddirectory ${LANG_RUSSIAN} "Папка которю вы выбрали для назначения недействительна. Пожалуйста выберете другую папку"
-LangString notenoughspace ${LANG_RUSSIAN} "Устройство которое вы выбрали для установки не имеет достаточно свободного места для етой программы"
-LangString checkforplatform ${LANG_RUSSIAN} "Проверяем PortableApps.com Платформу"
-LangString refreshmenu ${LANG_RUSSIAN} "Обновляем PortableApps.com Меню"
