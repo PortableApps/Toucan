@@ -131,7 +131,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 			OutputProgress(_("Encrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()));
+			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()), wxDateTime::Now().FormatTime(), true);
 		}
 	}
 
@@ -144,7 +144,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
 			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()));
+			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()), wxDateTime::Now().FormatTime(), true);
 			return true;
 		}
 
@@ -162,7 +162,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
  			OutputProgress(_("Decrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()));
+ 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()), wxDateTime::Now().FormatTime(), true);
 		}
 	}
 	IncrementGauge();

@@ -46,23 +46,29 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 	return arrMain;
 }
 
-void OutputProgress(wxString strValue){
-	if(strValue == wxT("")){
+void OutputProgress(wxString message){
+	if(message == wxEmptyString){
 		return;
 	}
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
-	event.SetString(strValue);
-	event.SetInt(-1);
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTTEXT);
+	event.SetString(message);
 	wxPostEvent(wxGetApp().ProgressWindow, event);
-	//Also output to the command line if it exists
-	cout << strValue + wxT("\n");	
+	cout << message + wxT("\n");	
 }
 
-void OutputProgress(wxString time, wxString message){
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTPROGRESS);
-	event.SetString(time + message);
-	event.SetInt(time.Length());
-	wxPostEvent(wxGetApp().ProgressWindow, event);
+void OutputProgress(wxString message, wxString time, bool error){
+	if(error){
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTERROR);
+		event.SetString(time + message);
+		event.SetInt(time.Length());
+		wxPostEvent(wxGetApp().ProgressWindow, event);	
+	}
+	else{
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTTIME);
+		event.SetString(time + message);
+		event.SetInt(time.Length());
+		wxPostEvent(wxGetApp().ProgressWindow, event);			
+	}
 	cout << time << wxT("  ") << message + wxT("\n");
 }
 

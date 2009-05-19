@@ -262,7 +262,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	}
 	//Something is wrong with out streams, return error
 	if(!sourcestream.IsOk() || !deststream.IsOk()){
-		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
+		OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()), wxDateTime::Now().FormatTime(), true);
 		return false;
 	}
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
@@ -279,7 +279,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 		sourcestream.Read((void*)sourcebuf,bytesToRead);
 		deststream.Read((void*)destbuf,bytesToRead);
 		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
-			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
+			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()), wxDateTime::Now().FormatTime(), true);
 			return false;
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead)){

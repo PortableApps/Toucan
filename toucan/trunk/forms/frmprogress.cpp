@@ -25,7 +25,9 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	
 	//ScriptManager
 	EVT_BUTTON(ID_SCRIPTFINISH, frmProgress::OnScriptFinish)
-	EVT_BUTTON(ID_SCRIPTPROGRESS, frmProgress::OnScriptProgress)
+	EVT_BUTTON(ID_SCRIPTTEXT, frmProgress::OnScriptText)
+	EVT_BUTTON(ID_SCRIPTTIME, frmProgress::OnScriptTime)
+	EVT_BUTTON(ID_SCRIPTERROR, frmProgress::OnScriptError)
 	EVT_BUTTON(ID_SCRIPTBLANK, frmProgress::OnScriptBlank)
 
 END_EVENT_TABLE()
@@ -177,17 +179,31 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 	}
 }
 
-//ID_SCRIPTPROGRESS
-void frmProgress::OnScriptProgress(wxCommandEvent& event){
+//ID_SCRIPTTEXT
+void frmProgress::OnScriptText(wxCommandEvent& event){
 	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
-	if(event.GetInt() == -1){
-		m_List->SetItem(index, 1, event.GetString());
-	}
-	//There was also a date, so spilt the string up
-	else{
-		m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
-		m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
-	}
+	m_List->SetItem(index, 1, event.GetString());
+	m_List->EnsureVisible(index);
+	Update();
+}
+
+//ID_SCRIPTTEXT
+void frmProgress::OnScriptTime(wxCommandEvent& event){
+	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	m_List->SetItem(index, 1, event.GetString());
+	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
+	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
+	m_List->EnsureVisible(index);
+	Update();
+}
+
+//ID_SCRIPTERROR
+void frmProgress::OnScriptError(wxCommandEvent& event){
+	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	m_List->SetItem(index, 1, event.GetString());
+	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
+	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
+	m_List->SetItemTextColour(index, wxColour(wxT("Red")));
 	m_List->EnsureVisible(index);
 	Update();
 }

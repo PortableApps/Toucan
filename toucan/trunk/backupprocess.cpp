@@ -21,7 +21,7 @@ bool PipedProcess::HasInput()
 		wxTextInputStream tis(*GetInputStream());
 		wxString msg = tis.ReadLine();
 		if(msg.Left(7) == wxT("WARNING")){
-			OutputProgress(wxDateTime::Now().FormatTime(), msg);
+			OutputProgress(msg, wxDateTime::Now().FormatTime(), true);
 		}
 		else{
 			OutputProgress(msg);

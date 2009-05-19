@@ -58,7 +58,7 @@ bool ScriptManager::StartUp(){
 	//Send a blank item to get the item count up
 	OutputBlank();
 	m_Time = wxDateTime::Now();
-	OutputProgress(m_Time.FormatTime(), _("Starting"));
+	OutputProgress(_("Starting"), m_Time.FormatTime());
 	OutputBlank();
 	
 	SetGaugeValue(0);
@@ -249,7 +249,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Deleted ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to delete ") + strSource);				
+			OutputProgress(_("Failed to delete ") + strSource, wxDateTime::Now().FormatTime(), true);				
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -265,11 +265,11 @@ bool ScriptManager::ParseCommand(int i){
 				OutputProgress(_("Moved") + strSource);	
 			}
 			else{
-				OutputProgress(_("Failed to move ") + strSource);
+				OutputProgress(_("Failed to move ") + strSource, wxDateTime::Now().FormatTime(), true);
 			}
 		}
 		else{
-			OutputProgress(_("Failed to move ") + strSource);		
+			OutputProgress(_("Failed to move ") + strSource, wxDateTime::Now().FormatTime(), true);		
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -284,7 +284,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Copied ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to copy ") +strSource);
+			OutputProgress(_("Failed to copy ") +strSource, wxDateTime::Now().FormatTime(), true);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -299,7 +299,7 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Renamed ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to rename ") + strSource);
+			OutputProgress(_("Failed to rename ") + strSource, wxDateTime::Now().FormatTime(), true);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
@@ -351,8 +351,8 @@ bool ScriptManager::CleanUp(){
 		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
 	}
 	OutputBlank();
-	OutputProgress(now.Subtract(m_Time).Format(), _("Elapsed"));
-	OutputProgress(now.FormatTime(), _("Finished"));
+	OutputProgress(_("Elapsed"), now.Subtract(m_Time).Format());
+	OutputProgress(_("Finished"), now.FormatTime());
 
 	//Yield here to make sure all output is shown
 	wxGetApp().Yield();

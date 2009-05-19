@@ -20,8 +20,10 @@ class wxListCtrl;
 
 //Script 10050 - 10099
 #define ID_SCRIPTFINISH 10050
-#define ID_SCRIPTPROGRESS 10051
-#define ID_SCRIPTBLANK 10052
+#define ID_SCRIPTTEXT 10051
+#define ID_SCRIPTTIME 10052
+#define ID_SCRIPTERROR 10053
+#define ID_SCRIPTBLANK 10054
 
 class frmProgress: public wxFrame
 {
@@ -44,7 +46,9 @@ public:
 	
 	//Script functions
 	void OnScriptFinish(wxCommandEvent& event);
-	void OnScriptProgress(wxCommandEvent& event);
+	void OnScriptText(wxCommandEvent& event);
+	void OnScriptTime(wxCommandEvent& event);
+	void OnScriptError(wxCommandEvent& event);
 	void OnScriptBlank(wxCommandEvent& event);
 
 	//wxTextCtrl* m_Text;
