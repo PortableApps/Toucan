@@ -53,7 +53,7 @@ void OutputProgress(wxString message){
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTTEXT);
 	event.SetString(message);
 	wxPostEvent(wxGetApp().ProgressWindow, event);
-	cout << message + wxT("\n");	
+	cout << message << endl;	
 }
 
 void OutputProgress(wxString message, wxString time, bool error){
@@ -69,13 +69,13 @@ void OutputProgress(wxString message, wxString time, bool error){
 		event.SetInt(time.Length());
 		wxPostEvent(wxGetApp().ProgressWindow, event);			
 	}
-	cout << time << wxT("  ") << message + wxT("\n");
+	cout << time << wxT("  ") << message << endl;
 }
 
 void OutputBlank(){
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
 	wxPostEvent(wxGetApp().ProgressWindow, event);
-	cout << wxT("\n");	
+	cout << endl;
 }
 
 void SetGaugeRange(int range){
