@@ -122,7 +122,6 @@ void SyncData::Output(){
 }
 
 bool SyncData::Execute(Rules rules){
-	SetDisableHash(wxGetApp().m_Settings->GetDisableStream());
 	SetSource(Normalise(Normalise(GetSource())));
 	SetDest(Normalise(Normalise(GetDest())));
 	//Create a new Sync thread and run it

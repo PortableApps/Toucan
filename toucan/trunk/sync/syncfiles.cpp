@@ -251,7 +251,7 @@ bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
-	if(data->GetDisableHash()){
+	if(UseStreams){
 		return CopyFilePlain(source, dest);
 	}
 	//ATTN : Still need to work out optimal chunk size
@@ -282,7 +282,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 			OutputProgress(_("Failed to copy ")  + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()), wxDateTime::Now().FormatTime(), true);
 			return false;
 		}
-		if(strncmp(sourcebuf, destbuf, bytesToRead)){
+		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
 			//Our strings differ, so copy the files
 			//ATTN : In future update the files in place
 			return CopyFilePlain(source, dest);

@@ -123,6 +123,7 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 	if(!rules.ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(ShouldCopy(source, dest)){
+				
 				int pos = GetItemLocation(path, &destitems);
 				if(pos != -1){
 					destitems.Item(pos)->SetColour(wxT("Green"));		
@@ -256,7 +257,7 @@ int SyncPreview::GetItemLocation(wxString path, VdtcTreeItemBaseArray* array){
 }
 
 bool SyncPreview::ShouldCopy(wxString source, wxString dest){
-	if(data->GetDisableHash()){
+	if(UseStreams){
 		return true;
 	}
 	//See the real CopyFileHash for more info
@@ -286,7 +287,7 @@ bool SyncPreview::ShouldCopy(wxString source, wxString dest){
 		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
 			return false;
 		}
-		if(strncmp(sourcebuf, destbuf, bytesToRead)){
+		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
 			return true;
 		}
 		bytesLeft-=bytesToRead;

@@ -7,11 +7,13 @@
 #include "syncbase.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
+#include "../settings.h"
 #include <wx/dir.h>
 #include <wx/filefn.h>
 
 //Just a stub to allow this to correctly be compiled
 SyncBase::SyncBase(){
+	UseStreams = wxGetApp().m_Settings->GetDisableStream();
 	preview = false;
 }
 

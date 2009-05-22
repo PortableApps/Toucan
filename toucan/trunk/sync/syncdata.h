@@ -33,10 +33,8 @@ public:
 	void SetPreText(const wxString& PreText) {this->m_PreText = PreText;}
 	void SetSource(const wxString& Source) {this->m_Source = Source;}
 	void SetTimeStamps(const bool& TimeStamps) {this->m_TimeStamps = TimeStamps;}
-	void SetDisableHash(const bool& DisableHash) {this->m_DisableHash = DisableHash;}
 	const bool& GetAttributes() const {return m_Attributes;}
 	const wxString& GetDest() const {return m_Dest;}
-	const bool& GetDisableHash() const {return m_DisableHash;}
 	const wxString& GetFunction() const {return m_Function;}
 	const bool& GetIgnoreDLS() const {return m_IgnoreDLS;}
 	const bool& GetIgnoreRO() const {return m_IgnoreRO;}
@@ -53,7 +51,6 @@ private:
 	bool m_Attributes;
 	bool m_IgnoreRO;
 	bool m_IgnoreDLS;
-	bool m_DisableHash;
 };
 
 #endif
