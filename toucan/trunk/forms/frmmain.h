@@ -141,6 +141,7 @@ class wxListBox;
 #define ID_SETTINGS_REMEMBERSYNC 10354
 #define ID_SETTINGS_REMEMBERBACKUP 10355
 #define ID_SETTINGS_REMEMBERSECURE 10356
+#define ID_SETTINGS_ENABLETOOLTIPS 10357
 
 //Menu 10400-10449
 #define ID_MENU_FILEEXCLUDE_EXTENSION 10400
@@ -350,6 +351,7 @@ public:
 	wxCheckBox* m_Settings_RememberSync;
 	wxCheckBox* m_Settings_RememberBackup;
 	wxCheckBox* m_Settings_RememberSecure;
+	wxCheckBox* m_Settings_EnableTooltips;
 
 	//Other
 	wxArrayString* m_SecureLocations;

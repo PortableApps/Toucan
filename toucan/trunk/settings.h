@@ -32,6 +32,7 @@ public:
 	void SetWidth(const double& Width) {this->m_Width = Width;}
 	void SetX(const double& X) {this->m_X = X;}
 	void SetY(const double& Y) {this->m_Y = Y;}
+	void SetEnableTooltips(const bool& EnableTooltips) {this->m_EnableTooltips = EnableTooltips;}
 	const bool& GetDisableLog() const {return m_DisableLog;}
 	const bool& GetDisableStream() const {return m_DisableStream;}
 	const wxString& GetFont() const {return m_Font;}
@@ -45,6 +46,7 @@ public:
 	const double& GetWidth() const {return m_Width;}
 	const double& GetX() const {return m_X;}
 	const double& GetY() const {return m_Y;}
+	const bool& GetEnableTooltips() const {return m_EnableTooltips;}
 
 private:
 	wxString m_Position;
@@ -60,6 +62,7 @@ private:
 	bool m_RememberSecure;
 	bool m_DisableStream;
 	bool m_DisableLog;
+	bool m_EnableTooltips;
 	wxFileConfig* config;
 };
 

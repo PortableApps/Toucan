@@ -207,7 +207,6 @@ void frmMain::CreateControls()
 	itemBoxSizer8->Add(itemBoxSizer9, 0, wxGROW|wxALL, 0);
 
 	//Top sizer
-	
 	wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer8->Add(itemBoxSizer28, 0, wxGROW|wxALL, 5);
 	
@@ -459,13 +458,13 @@ void frmMain::CreateControls()
 	wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxVERTICAL);
 	BackupMain->Add(itemBoxSizer59, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 	wxBitmapButton* itemBitmapButton60 = new wxBitmapButton(BackupPanel, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+
 	itemBoxSizer59->Add(itemBitmapButton60, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
 	wxBitmapButton* itemBitmapButton001 = new wxBitmapButton(BackupPanel, ID_BACKUP_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	itemBoxSizer59->Add(itemBitmapButton001, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
 	
 	//Secure
-
 	wxPanel* itemPanel68 = new wxPanel( m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer69 = new wxBoxSizer(wxVERTICAL);
 	itemPanel68->SetSizer(itemBoxSizer69);
@@ -477,7 +476,6 @@ void frmMain::CreateControls()
 	itemBoxSizer87->Add(itemBoxSizer3000, 0, wxALIGN_LEFT|wxALL, 0);	
 	
 	//Jobs section
-
 	wxStaticBox* itemStaticBoxSizer73Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Job Name"));
 	wxStaticBoxSizer* itemStaticBoxSizer73 = new wxStaticBoxSizer(itemStaticBoxSizer73Static, wxHORIZONTAL);
 	itemBoxSizer3000->Add(itemStaticBoxSizer73, 0, wxALIGN_TOP|wxALL, 5);
@@ -495,7 +493,6 @@ void frmMain::CreateControls()
 	itemStaticBoxSizer73->Add(itemBitmapButton77, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	//Rules section
-
 	wxStaticBox* itemStaticBoxSizer71Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Rules"));
 	wxStaticBoxSizer* itemStaticBoxSizer71 = new wxStaticBoxSizer(itemStaticBoxSizer71Static, wxHORIZONTAL);
 	itemBoxSizer3000->Add(itemStaticBoxSizer71, 1, wxALIGN_TOP|wxALL|wxGROW, 5);
@@ -504,7 +501,6 @@ void frmMain::CreateControls()
 	itemStaticBoxSizer71->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	//Options
-	
 	wxBoxSizer* itemBoxSizer3001 = new wxBoxSizer(wxVERTICAL);
 	itemBoxSizer87->Add(itemBoxSizer3001, 0, wxALIGN_LEFT|wxALL, 0);	
 	
@@ -554,7 +550,6 @@ void frmMain::CreateControls()
 
 	
 	//Rules section
-
 	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_PANEL_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
 	itemPanel93->SetSizer(itemBoxSizer94);
@@ -652,7 +647,7 @@ void frmMain::CreateControls()
     VariablesTop->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
     wxBitmapButton* VariablesAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, itemFrame1->GetBitmapResource(wxT("add.png")));
-    VariablesTop->Add(VariablesAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	VariablesTop->Add(VariablesAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBitmapButton* VariablesRemove = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVE, itemFrame1->GetBitmapResource(wxT("remove.png")));
     VariablesTop->Add(VariablesRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -673,7 +668,6 @@ void frmMain::CreateControls()
     VariablesRight->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	//Scripting
-
 	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL_SCRIPT, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
 	wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
 	itemPanel131->SetSizer(itemBoxSizer132);
@@ -684,7 +678,6 @@ void frmMain::CreateControls()
 	wxStaticBox* ScriptStaticBox = new wxStaticBox(itemPanel131, wxID_ANY, _("Name"));
 	wxStaticBoxSizer* ScriptStaticBoxSizer = new wxStaticBoxSizer(ScriptStaticBox, wxHORIZONTAL);
 	itemBoxSizer140->Add(ScriptStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
-
 
 	wxArrayString itemComboBox134Strings;
 	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN|wxCB_READONLY);
@@ -756,6 +749,14 @@ void frmMain::CreateControls()
 	
 	m_Settings_RememberSecure = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSECURE, _("Secure"));
 	FieldsStaticBoxSizer->Add(m_Settings_RememberSecure, 0, wxALIGN_TOP|wxALL, 5);
+	
+	wxStaticBox* OtherBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Other"));
+	wxStaticBoxSizer* OtherStaticBoxSizer = new wxStaticBoxSizer(OtherBox, wxHORIZONTAL);
+	SettingsSizer->Add(OtherStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+	
+	m_Settings_EnableTooltips = new wxCheckBox(SettingsPanel, ID_SETTINGS_ENABLETOOLTIPS, _("Enable Tooltips"));
+	m_Settings_EnableTooltips->SetValue(true);
+	OtherStaticBoxSizer->Add(m_Settings_EnableTooltips, 0, wxALIGN_TOP|wxALL, 5);
 
 	//Help
 	wxPanel* HelpPanel = new wxPanel(m_Notebook, ID_PANEL_HELP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -826,6 +827,7 @@ void frmMain::CreateControls()
 	m_Settings_RememberSync->SetValue(wxGetApp().m_Settings->GetRememberSync());
 	m_Settings_RememberBackup->SetValue(wxGetApp().m_Settings->GetRememberBackup());
 	m_Settings_RememberSecure->SetValue(wxGetApp().m_Settings->GetRememberSecure());
+	m_Settings_EnableTooltips->SetValue(wxGetApp().m_Settings->GetEnableTooltips());
 
 	//Set the drag and drop targets
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
@@ -865,6 +867,51 @@ void frmMain::CreateControls()
 	
 	m_Sync_Dest_Tree->SetSync(true);
 	m_Sync_Source_Tree->SetSync(true);
+	
+	//Set the tooltips if required
+	if(wxGetApp().m_Settings->GetEnableTooltips()){
+		//Sync
+		itemBitmapButton12->SetToolTip(_("Save"));
+		itemBitmapButton13->SetToolTip(_("Add"));
+		itemBitmapButton14->SetToolTip(_("Remove"));
+		itemBitmapButton006->SetToolTip(_("Expand All"));
+		itemBitmapButton005->SetToolTip(_("Expand All"));
+		//Backup
+		BackupJobSave->SetToolTip(_("Save"));
+		BackupJobAdd->SetToolTip(_("Add"));
+		BackupJobRemove->SetToolTip(_("Remove"));
+		itemBitmapButton56->SetToolTip(_("Add"));
+		itemBitmapButton57->SetToolTip(_("Remove"));
+		itemBitmapButton60->SetToolTip(_("Insert Variable"));
+		itemBitmapButton001->SetToolTip(_("Expand All"));
+		//Secure
+		itemBitmapButton75->SetToolTip(_("Save"));
+		itemBitmapButton76->SetToolTip(_("Add"));
+		itemBitmapButton77->SetToolTip(_("Remove"));
+		itemBitmapButton81->SetToolTip(_("Add"));
+		itemBitmapButton82->SetToolTip(_("Remove"));
+		itemBitmapButton85->SetToolTip(_("Insert Variable"));
+		itemBitmapButton002->SetToolTip(_("Expand All"));
+		//Rules
+		itemBitmapButton99->SetToolTip(_("Save"));
+		itemBitmapButton100->SetToolTip(_("Add"));
+		itemBitmapButton101->SetToolTip(_("Remove"));
+		itemBitmapButton107->SetToolTip(_("Add"));
+		itemBitmapButton108->SetToolTip(_("Remove"));
+		itemBitmapButton114->SetToolTip(_("Add"));
+		itemBitmapButton115->SetToolTip(_("Remove"));
+		itemBitmapButton121->SetToolTip(_("Add"));
+		itemBitmapButton122->SetToolTip(_("Remove"));
+		//Variables
+		VariablesAdd->SetToolTip(_("Add"));
+		VariablesRemove->SetToolTip(_("Remove"));
+		VariablesAddItem->SetToolTip(_("Add"));
+		VariablesRemoveItem->SetToolTip(_("Remove"));
+		//Scripting
+		itemBitmapButton135->SetToolTip(_("Save"));
+		itemBitmapButton136->SetToolTip(_("Add"));
+		itemBitmapButton137->SetToolTip(_("Remove"));
+	}
 
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 }
@@ -1339,6 +1386,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetRememberSync(m_Settings_RememberSync->GetValue());
 	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
 	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
+	wxGetApp().m_Settings->SetEnableTooltips(m_Settings_EnableTooltips->GetValue());
 	
 	if(wxGetApp().m_Settings->GetRememberSync()){
 		SyncData data;
