@@ -138,18 +138,21 @@ bool Toucan::OnInit(){
 			data.SetName(wxT("SyncRemember"));
 			data.TransferFromFile();
 			data.TransferToForm();
+			MainWindow->m_Sync_Job_Select->SetStringSelection(m_Jobs_Config->Read(wxT("SyncRemember/Name")));
 		}
 		if(m_Jobs_Config->Exists(wxT("BackupRemember")) && m_Settings->GetRememberBackup()){
 			BackupData bdata;
 			bdata.SetName(wxT("BackupRemember"));
 			bdata.TransferFromFile();		
 			bdata.TransferToForm();
+			MainWindow->m_Backup_Job_Select->SetStringSelection(m_Jobs_Config->Read(wxT("BackupRemember/Name")));
 		}
 		if(m_Jobs_Config->Exists(wxT("SecureRemember")) && m_Settings->GetRememberSecure()){
 			SecureData sdata;
 			sdata.SetName(wxT("SecureRemember"));
 			sdata.TransferFromFile();
 			sdata.TransferToForm();
+			MainWindow->m_Secure_Job_Select->SetStringSelection(m_Jobs_Config->Read(wxT("SecureRemember/Name")));
 		}
 		MainWindow->Show();
 		if(scrn != NULL){

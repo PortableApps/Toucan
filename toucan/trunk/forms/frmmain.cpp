@@ -1340,21 +1340,31 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
 	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
 	
-	SyncData data;
-	data.SetName(wxT("SyncRemember"));
-	data.TransferFromForm();
-	data.TransferToFile();
-	
-	BackupData bdata;
-	bdata.SetName(wxT("BackupRemember"));
-	bdata.TransferFromForm();
-	bdata.TransferToFile();
-	
-	SecureData sdata;
-	sdata.SetName(wxT("SecureRemember"));
-	sdata.TransferFromForm();
-	sdata.TransferToFile();
-	
+	if(wxGetApp().m_Settings->GetRememberSync()){
+		SyncData data;
+		data.SetName(wxT("SyncRemember"));
+		data.TransferFromForm();
+		data.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+	if(wxGetApp().m_Settings->GetRememberBackup()){	
+		BackupData bdata;
+		bdata.SetName(wxT("BackupRemember"));
+		bdata.TransferFromForm();
+		bdata.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+	if(wxGetApp().m_Settings->GetRememberSecure()){
+		SecureData sdata;
+		sdata.SetName(wxT("SecureRemember"));
+		sdata.TransferFromForm();
+		sdata.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+
 	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
