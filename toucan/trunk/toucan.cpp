@@ -168,7 +168,9 @@ bool Toucan::OnInit(){
 			//Write out a log so we know what happened
 			wxTextFile file;
 			file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
-			for(int i = 0; i < ProgressWindow->m_List->GetItemCount() - 1; i++){
+			//Yield to make sure all of the output has reached the progress dialog
+			Yield();
+			for(int i = 0; i < ProgressWindow->m_List->GetItemCount(); i++){
 				wxListItem itemcol1, itemcol2;
 
 				itemcol1.m_itemId = i;
