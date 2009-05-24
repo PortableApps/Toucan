@@ -6,6 +6,7 @@
 
 #include "waitthread.h"
 #include "backupprocess.h"
+#include "toucan.h"
 #ifdef __WXMSW__
 	#include <windows.h>
 #endif
@@ -19,6 +20,8 @@ void *WaitThread::Entry(){
 			if(!m_Process->HasInput()){
 				//If there was no input then sleep for a while so we don't thrash the CPU
 				wxMilliSleep(500);
+				//Also yield for input incase it is backing up a large file
+				wxGetApp().Yield();
 			}
 			GetExitCodeProcess(hProcess, &lgReturn);
 		}
