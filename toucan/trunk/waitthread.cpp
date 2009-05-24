@@ -27,7 +27,12 @@ void *WaitThread::Entry(){
 		}
 	#else
 		while(wxProcess::Exists(m_PID)){
-			m_Process->HasInput();
+			if(!m_Process->HasInput()){
+				//If there was no input then sleep for a while so we don't thrash the CPU
+				wxMilliSleep(500);
+				//Also yield for input incase it is backing up a large file
+				wxGetApp().Yield();
+			}
 		}
 	#endif
 	return NULL;
