@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 2009 Steven Lamerton
+// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +16,10 @@ void *WaitThread::Entry(){
 		DWORD lgReturn;
 		GetExitCodeProcess(hProcess, &lgReturn);
 		while(lgReturn == STILL_ACTIVE){
-			m_Process->HasInput();
+			if(!m_Process->HasInput()){
+				//If there was no input then sleep for a while so we don't thrash the CPU
+				wxMilliSleep(500);
+			}
 			GetExitCodeProcess(hProcess, &lgReturn);
 		}
 	#else
