@@ -101,7 +101,10 @@ bool SyncBase::OperationCaller(std::map<wxString, short> paths){
 				IncrementGauge();
 				//If we have a file in both folders then increment again as we only do one pass
 				if((*iter).second == 3){
-					IncrementGauge();					
+					//But only if we are in a two way sync
+					if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Equalise")){
+						IncrementGauge();	
+					}
 				}
 			}
 		}
