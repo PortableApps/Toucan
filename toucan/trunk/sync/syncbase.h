@@ -37,7 +37,7 @@ protected:
 	//Iterates through the map and calles the appropriate copying operations
 	bool OperationCaller(std::map<wxString, short> paths);
 	bool preview;
-	bool UseStreams;
+	bool disablestreams;
 private:
 	//The functions that do the copying
 	virtual bool OnSourceNotDestFile(wxString path) = 0;

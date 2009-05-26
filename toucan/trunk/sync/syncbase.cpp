@@ -12,8 +12,7 @@
 #include <wx/filefn.h>
 
 SyncBase::SyncBase(){
-	UseStreams = wxGetApp().m_Settings->GetDisableStream();
-	preview = false;
+	this->disablestreams = wxGetApp().m_Settings->GetDisableStream();
 }
 
 SyncBase::~SyncBase(){

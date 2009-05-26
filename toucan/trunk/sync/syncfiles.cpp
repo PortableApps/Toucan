@@ -32,6 +32,7 @@ SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata,
 	}
 	this->data = syncdata;
 	this->rules = syncrules;
+	this->preview = false;
 }
 
 bool SyncFiles::Execute(){
@@ -251,7 +252,7 @@ bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
 }
 
 bool SyncFiles::CopyFileHash(wxString source, wxString dest){
-	if(UseStreams){
+	if(disablestreams){
 		return CopyFilePlain(source, dest);
 	}
 	//ATTN : Still need to work out optimal chunk size
