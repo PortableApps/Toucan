@@ -166,9 +166,11 @@ bool ScriptManager::ProgressBarSetup(){
 			strToken = tkz.GetNextToken();
 			data.SetName(strToken);
 			data.TransferFromFile();
-			counter.AddPath(data.GetSource());
+			if(data.GetFunction() != _("Clean")){
+				counter.AddPath(data.GetSource());				
+			}
 			//Add both paths for mirror and equalise as they look at both sides
-			if(data.GetFunction() == _("Equalise") || data.GetFunction() == _("Mirror")){
+			if(data.GetFunction() == _("Equalise") || data.GetFunction() == _("Mirror") || data.GetFunction() == _("Clean")){
 				counter.AddPath(data.GetDest());			
 			}
 		}	
