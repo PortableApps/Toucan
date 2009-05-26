@@ -1323,11 +1323,13 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 	m_Sync_Dest_Tree->SetPreview(true);
+	m_Sync_Dest_Tree->SetSync(true);
 	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 
 	m_Sync_Source_Tree->SetRules(rules);
 	m_Sync_Source_Tree->DeleteAllItems();
 	m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+	m_Sync_Source_Tree->SetSync(true);
 	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
 		m_Sync_Source_Tree->SetPreview(true);
 	}
