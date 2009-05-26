@@ -127,7 +127,7 @@ bool SyncFiles::OnNotSourceDestFolder(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, true)){
-			RemoveDirectory(dest);		
+			DeleteDirectory(dest);		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
@@ -327,7 +327,7 @@ bool SyncFiles::DeleteDirectory(wxString path){
 				return true;
 			}
 			if(wxDirExists(path + filename)){
-				RemoveDirectory(path + filename);
+				DeleteDirectory(path + filename);
 			}
 			else{
 				if(wxRemoveFile(path + filename)){
