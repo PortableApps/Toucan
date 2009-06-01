@@ -27,7 +27,7 @@ protected:
 	bool CopyFileHash(wxString source, wxString dest);
 	bool CopyFileTimestamp(wxString source, wxString dest);
 	bool CopyFolderTimestamp(wxString source, wxString dest);
-	bool DeleteDirectory(wxString path);
+	bool RemoveDirectory(wxString path);
 	bool RemoveFile(wxString path);
 	//Copy the newer file to the older location
 	bool SourceAndDestCopy(wxString source, wxString dest);

@@ -17,6 +17,13 @@
 #include <wx/wfstream.h>
 #include <wx/dir.h>
 
+//Remove the definition of RemoveDirectory that the windows headers include
+#ifdef __WXMSW__
+	#ifdef RemoveDirectory
+		#undef RemoveDirectory
+	#endif
+#endif
+
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules){
 	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
 		this->sourceroot = syncsource.Left(syncsource.Length() - 1);
@@ -127,7 +134,7 @@ bool SyncFiles::OnNotSourceDestFolder(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, true)){
-			DeleteDirectory(dest);		
+			RemoveDirectory(dest);		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
@@ -301,7 +308,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::DeleteDirectory(wxString path){
+bool SyncFiles::RemoveDirectory(wxString path){
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
@@ -327,7 +334,7 @@ bool SyncFiles::DeleteDirectory(wxString path){
 				return true;
 			}
 			if(wxDirExists(path + filename)){
-				DeleteDirectory(path + filename);
+				RemoveDirectory(path + filename);
 			}
 			else{
 				if(wxRemoveFile(path + filename)){
