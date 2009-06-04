@@ -80,9 +80,7 @@ void frmProgress::CreateControls(){
 	m_List->InsertColumn(0, _("Time"));
 	m_List->InsertColumn(1, _("Status"));
 	
-	//Set the form icon
-	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
-	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+	this->SetIcon(wxIcon(wxGetApp().GetResourcesPath() + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 void frmProgress::OnOkClick(wxCommandEvent& WXUNUSED(event)){

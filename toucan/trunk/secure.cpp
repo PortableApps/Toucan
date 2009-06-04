@@ -110,6 +110,8 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 	//A couple of arrays to catch the output and surpress the command window
 	wxArrayString arrErrors;
 	wxArrayString arrOutput;
+	
+	wxString exepath = wxGetApp().GetResourcesPath() + wxT("ccrypt.exe");
 
 	if(data.GetFunction() == _("Encrypt")){
 		//Set the file to have normal attributes so it can be encrypted
@@ -119,7 +121,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		#endif
 
 		//Create and execute the command
-		wxString command = wxT("ccrypt -e -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = exepath + wxT(" -e -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		
 		//Put the old attributed back
@@ -149,7 +151,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		}
 
 		//Create and execute the command
-		wxString command = wxT("ccrypt -f -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = 	exepath + wxT(" -f -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		
 

@@ -26,10 +26,10 @@ public:
 	void SetLanguage(wxString langcode);
 
 	void SetAbort(const bool& Abort) {this->m_Abort = Abort;}
-	void SetSettingsPath(const wxString& SettingsPath) {this->m_SettingsPath = SettingsPath;}
 	void SetUsesGUI(const bool& UsesGUI) {this->m_UsesGUI = UsesGUI;}
 	const bool& GetAbort() const {return m_Abort;}
 	const wxString& GetSettingsPath() const {return m_SettingsPath;}
+	const wxString& GetResourcesPath() const {return m_ResourcesPath;}
 	const bool& GetUsesGUI() const {return m_UsesGUI;}
 
 	//The two persistant forms
@@ -54,9 +54,12 @@ public:
 private:
 	//Clean up the temporary files that might be in the data folder
 	void CleanTemp();
+	//Setup the directories
+	bool SetPaths();
 
 	bool m_Abort;
 	wxString m_SettingsPath;
+	wxString m_ResourcesPath;
 	bool m_UsesGUI;
 };
 
