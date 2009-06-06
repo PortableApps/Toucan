@@ -29,16 +29,19 @@ IMPLEMENT_APP(Toucan)
 
 //Toucan startup
 bool Toucan::OnInit(){
-	if(!SetPaths()){
-		return false;
-	}
-
+	#ifdef __WXMSW__
+		if(argc == 1){
+			if(wxGetOsVersion() != wxOS_WINDOWS_9X){
+				ShowWindow(GetConsoleWindow(), SW_HIDE); 			
+			}			
+		}
+	#endif
 	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn = NULL;
-	if(wxFileExists(GetResourcesPath() + wxT("splash.jpg")) && argc == 1){
+	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Splash.jpg")) && argc == 1){
 		wxBitmap bitmap;
-		bitmap.LoadFile(GetResourcesPath() + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
+		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
 		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
 	}
 
@@ -48,12 +51,25 @@ bool Toucan::OnInit(){
 	else{
 		SetUsesGUI(false);
 	}
+	//Work out where the settings dir is. Firstly get the exe dir
+	wxFileName settingspath = wxFileName::DirName((wxPathOnly(wxStandardPaths::Get().GetExecutablePath())));
+	//Next remove the \App\toucan
+	settingspath.RemoveLastDir();
+	settingspath.RemoveLastDir();
+	//And the add \Data
+	settingspath.AppendDir(wxT("Data"));
+
+	SetSettingsPath(settingspath.GetFullPath());
+	//Make sure the data directory is there
+	if(!wxDirExists(GetSettingsPath())){
+		wxMkdir(GetSettingsPath());
+	}
 
 	//Create the config stuff and set it up
- 	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), GetSettingsPath() + wxT("Jobs.ini"));
-	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), GetSettingsPath() + wxT("Rules.ini"));
-	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), GetSettingsPath() + wxT("Scripts.ini"));
-	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), GetSettingsPath() + wxT("Variables.ini"));
+ 	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
+	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
+	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
+	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
 
 	m_Jobs_Config->SetExpandEnvVars(false);
 	m_Rules_Config->SetExpandEnvVars(false);
@@ -190,29 +206,8 @@ void Toucan::SetLanguage(wxString strLanguage){
 	int LangCode = wxLocale::FindLanguageInfo(strLanguage)->Language;
 	m_Locale = new wxLocale();
 	m_Locale->Init(LangCode);
-	m_Locale->AddCatalogLookupPathPrefix(GetResourcesPath() + wxT("lang"));
+	m_Locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + _T("lang"));
 	m_Locale->AddCatalog(wxT("toucan"));
-}
-
-bool Toucan::SetPaths(){
-	wxFileName settingspath = wxFileName::DirName(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
-	settingspath.AppendDir(wxT("Data"));
-	m_SettingsPath = settingspath.GetFullPath();
-	//Make sure the data directory is there
-	if(!wxDirExists(GetSettingsPath())){
-		wxMkdir(GetSettingsPath());
-	}
-
-	wxFileName resourcespath = wxFileName::DirName(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
-	resourcespath.AppendDir(wxT("App"));
-	resourcespath.AppendDir(wxT("Toucan"));
-	m_ResourcesPath = resourcespath.GetFullPath();
-	//Check to make sure our files are there
-	if(!wxDirExists(GetResourcesPath())){
-		wxMessageBox(GetResourcesPath());
-		return false;
-	}
-	return true;
 }
 
 //Cleanup

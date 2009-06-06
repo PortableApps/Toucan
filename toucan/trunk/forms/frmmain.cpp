@@ -218,7 +218,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* itemStaticBoxSizer10 = new wxStaticBoxSizer(itemStaticBoxSizer10Static, wxHORIZONTAL);
 	itemBoxSizer001->Add(itemStaticBoxSizer10, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Sync_Job_SelectStrings;
-	m_Sync_Job_Select = new wxComboBox( itemPanel6, ID_SYNC_JOB_SELECT, wxT(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Sync_Job_Select = new wxComboBox( itemPanel6, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	itemStaticBoxSizer10->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton12 = new wxBitmapButton( itemPanel6, ID_SYNC_JOB_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -235,7 +235,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* itemStaticBoxSizer15 = new wxStaticBoxSizer(itemStaticBoxSizer15Static, wxHORIZONTAL);
 	itemBoxSizer001->Add(itemStaticBoxSizer15, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
 	wxArrayString m_Sync_RulesStrings;
-	m_Sync_Rules = new wxComboBox( itemPanel6, ID_SYNC_RULES, wxT(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Sync_Rules = new wxComboBox( itemPanel6, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	itemStaticBoxSizer15->Add(m_Sync_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
 
 	//Options section
@@ -295,7 +295,7 @@ void frmMain::CreateControls()
 	itemBoxSizer18->Add(itemBoxSizer2002, 1, wxGROW|wxALL, 0);
 	
 	//Source section
-	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer19->Add(m_Sync_Source_Txt, 1, wxALIGN_TOP|wxALL, 5);
 
 	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0 );
@@ -321,7 +321,7 @@ void frmMain::CreateControls()
 
 
 	//Destination section
-	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer24->Add(m_Sync_Dest_Txt, 1, wxALIGN_TOP|wxALL, 5);
 
 	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0 );
@@ -351,7 +351,7 @@ void frmMain::CreateControls()
 	BackupJobsRules->Add(BackupJobsBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	
 	wxArrayString m_Backup_Job_SelectStrings;
-	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, wxT(""), wxDefaultPosition, wxDefaultSize, m_Backup_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	BackupJobsBoxSizer->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* BackupJobSave = new wxBitmapButton(BackupPanel, ID_BACKUP_JOB_SAVE, GetBitmapResource(wxT("save.png")));
@@ -369,7 +369,7 @@ void frmMain::CreateControls()
 	BackupJobsRules->Add(BackupRulesSizer, 0, wxALL|wxEXPAND, 5);
 
 	wxArrayString m_Backup_RulesStrings;
-	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, wxT(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	BackupRulesSizer->Add(m_Backup_Rules, 1, wxALL, 5);
 	
 	//Options
@@ -424,7 +424,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* BackupMainLeft = new wxBoxSizer(wxVERTICAL);	
 	BackupMain->Add(BackupMainLeft, 1, wxEXPAND|wxALL, 5);
 
-	m_Backup_DirCtrl = new ExtendedDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
+	m_Backup_DirCtrl = new ExtendedDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Backup_DirCtrl->ShowHidden(true);
 	BackupMainLeft->Add(m_Backup_DirCtrl, 1, wxGROW|wxALL, 5);
 
@@ -446,7 +446,7 @@ void frmMain::CreateControls()
 	wxBoxSizer* BackupLocation = new wxBoxSizer(wxHORIZONTAL);
 	BackupMainRight->Add(BackupLocation, 0, wxEXPAND|wxALL, 0);
 
-	m_Backup_Location = new wxTextCtrl(BackupPanel, ID_BACKUP_LOCATION_TEXT, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+	m_Backup_Location = new wxTextCtrl(BackupPanel, ID_BACKUP_LOCATION_TEXT, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
 	BackupLocation->Add(m_Backup_Location,1, wxALL, 5);
 
 	wxButton* itemButton49 = new wxButton(BackupPanel, ID_BACKUP_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0 );
@@ -480,7 +480,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* itemStaticBoxSizer73 = new wxStaticBoxSizer(itemStaticBoxSizer73Static, wxHORIZONTAL);
 	itemBoxSizer3000->Add(itemStaticBoxSizer73, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Secure_Job_SelectStrings;
-	m_Secure_Job_Select = new wxComboBox( itemPanel68, ID_SECURE_JOB_SELECT, wxT(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Secure_Job_Select = new wxComboBox( itemPanel68, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	itemStaticBoxSizer73->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton75 = new wxBitmapButton( itemPanel68, ID_SECURE_JOB_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")));
@@ -497,7 +497,7 @@ void frmMain::CreateControls()
 	wxStaticBoxSizer* itemStaticBoxSizer71 = new wxStaticBoxSizer(itemStaticBoxSizer71Static, wxHORIZONTAL);
 	itemBoxSizer3000->Add(itemStaticBoxSizer71, 1, wxALIGN_TOP|wxALL|wxGROW, 5);
 	wxArrayString m_Secure_RulesStrings;
-	m_Secure_Rules = new wxComboBox( itemPanel68, ID_SECURE_RULES, wxT(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Secure_Rules = new wxComboBox( itemPanel68, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	itemStaticBoxSizer71->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	//Options
@@ -525,7 +525,7 @@ void frmMain::CreateControls()
 	itemBoxSizer69->Add(itemBoxSizer78, 1, wxGROW|wxALL, 5);
 	
 	
-	m_Secure_DirCtrl = new ExtendedDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
+	m_Secure_DirCtrl = new ExtendedDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Secure_DirCtrl->ShowHidden(true);	
 	itemBoxSizer78->Add(m_Secure_DirCtrl, 1, wxGROW|wxALL, 5);
 
@@ -561,7 +561,7 @@ void frmMain::CreateControls()
 	itemBoxSizer97->Add(itemStaticText96, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 10);	
 	
 	wxArrayString m_Rules_ComboStrings;
-	m_Rules_Name = new wxComboBox( itemPanel93, ID_RULES_COMBO, wxT(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY );
+	m_Rules_Name = new wxComboBox( itemPanel93, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY );
 	itemBoxSizer97->Add(m_Rules_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton99 = new wxBitmapButton( itemPanel93, ID_RULES_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -643,7 +643,7 @@ void frmMain::CreateControls()
     VariablesTop->Add(VariablesStatic, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 10);
 
     wxArrayString arrVariables;
-    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, wxT(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
+    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
     VariablesTop->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
     wxBitmapButton* VariablesAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, itemFrame1->GetBitmapResource(wxT("add.png")));
@@ -680,7 +680,7 @@ void frmMain::CreateControls()
 	itemBoxSizer140->Add(ScriptStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString itemComboBox134Strings;
-	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, wxT(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN|wxCB_READONLY);
 	ScriptStaticBoxSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, itemFrame1->GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
@@ -697,7 +697,7 @@ void frmMain::CreateControls()
 
 	wxBoxSizer* itemBoxSizer138 = new wxBoxSizer(wxHORIZONTAL);
 	itemBoxSizer132->Add(itemBoxSizer138, 1, wxGROW|wxALL, 5);
-	m_Script_Rich = new wxTextCtrl( itemPanel131, ID_SCRIPT_RICH, wxT(""), wxDefaultPosition, wxSize(100, 100), wxTE_MULTILINE|wxBORDER_THEME);
+	m_Script_Rich = new wxTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxTE_MULTILINE|wxBORDER_THEME);
 	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, 5);
 
 	//Settings
@@ -726,7 +726,7 @@ void frmMain::CreateControls()
 	SettingsSizer->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 	
 	wxArrayString m_Settings_LanguageStrings = GetLanguages();
-	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, wxT(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
 	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
@@ -769,7 +769,7 @@ void frmMain::CreateControls()
 
 	m_HelpWindow = new wxHtmlHelpWindow;
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
-    wxGetApp().m_Help->AddBook(wxGetApp().GetResourcesPath() + wxFILE_SEP_PATH + wxT("help") + wxFILE_SEP_PATH + wxT("toucan.htb"));
+    wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
     m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH);
 	m_HelpWindow->DisplayContents();
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, 5);
@@ -781,7 +781,7 @@ void frmMain::CreateControls()
 	wxBitmap settingsbitmap = GetBitmapResource(wxT("settings.png"));
 	wxBitmap scriptbitmap = GetBitmapResource(wxT("script.png"));
 	wxBitmap rulesbitmap = GetBitmapResource(wxT("rules.png"));
-	wxBitmap variablesbitmap = GetBitmapResource(wxT("variables.png"));
+	wxBitmap pvarsbitmap = GetBitmapResource(wxT("pvars.png"));
 	wxBitmap helpbitmap = GetBitmapResource(wxT("help.png"));
 	
 	if(wxGetApp().m_Settings->GetTabStyle() == _("Text")){
@@ -791,7 +791,7 @@ void frmMain::CreateControls()
 		settingsbitmap = wxNullBitmap;
 		scriptbitmap = wxNullBitmap;
 		rulesbitmap = wxNullBitmap;
-		variablesbitmap = wxNullBitmap;
+		pvarsbitmap = wxNullBitmap;
 		helpbitmap = wxNullBitmap;
 	}
 
@@ -799,13 +799,13 @@ void frmMain::CreateControls()
 	m_Notebook->AddPage(BackupPanel, _("Backup"), false, backupbitmap);
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
-	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, variablesbitmap);
+	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, pvarsbitmap);
 	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(SettingsPanel, _("Settings"), false, settingsbitmap);
 	m_Notebook->AddPage(HelpPanel, _("Help"), false, helpbitmap);
 
 	itemFrame1->m_auiManager.AddPane(m_Notebook, wxAuiPaneInfo()
-	                                    .Name(wxT("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
+	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
 
 	m_auiManager.Update();
 
@@ -913,70 +913,70 @@ void frmMain::CreateControls()
 		itemBitmapButton137->SetToolTip(_("Remove"));
 	}
 
-	this->SetIcon(wxIcon(wxGetApp().GetResourcesPath() + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
+	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 }
 
 //Get bitmap resources
 wxBitmap frmMain::GetBitmapResource(const wxString& name){
-	wxString path = wxGetApp().GetResourcesPath() + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH;
-	if (name == wxT("save.png")) {
-		wxBitmap bitmap(path + wxT("save.png"), wxBITMAP_TYPE_PNG);
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	if (name == _T("save.png")) {
+		wxBitmap bitmap(strPath + _T("save.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
-	else if (name == wxT("add.png")) {
-		wxBitmap bitmap(path + wxT("add.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("add.png")) {
+		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
-	else if (name == wxT("expandall.png")) {
-		wxBitmap bitmap(path + wxT("expandall.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("expandall.png")) {
+		wxBitmap bitmap(strPath + _T("expandall.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
-	else if (name == wxT("ok.png")) {
-		wxBitmap bitmap(path + wxT("ok.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("ok.png")) {
+		wxBitmap bitmap(strPath + _T("ok.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("preview.png")) {
-		wxBitmap bitmap(path + wxT("preview.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("preview.png")) {
+		wxBitmap bitmap(strPath + _T("preview.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("remove.png")) {
-		wxBitmap bitmap(path + wxT("remove.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("remove.png")) {
+		wxBitmap bitmap(strPath + _T("remove.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("sync.png")) {
-		wxBitmap bitmap(path + wxT("sync.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("sync.png")) {
+		wxBitmap bitmap(strPath + _T("sync.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("backup.png")) {
-		wxBitmap bitmap(path + wxT("backup.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("backup.png")) {
+		wxBitmap bitmap(strPath + _T("backup.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("secure.png")) {
-		wxBitmap bitmap(path + wxT("secure.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("secure.png")) {
+		wxBitmap bitmap(strPath + _T("secure.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("settings.png")) {
-		wxBitmap bitmap(path + wxT("settings.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("settings.png")) {
+		wxBitmap bitmap(strPath + _T("settings.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("rules.png")) {
-		wxBitmap bitmap(path + wxT("rules.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("rules.png")) {
+		wxBitmap bitmap(strPath + _T("rules.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("script.png")) {
-		wxBitmap bitmap(path + wxT("script.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("script.png")) {
+		wxBitmap bitmap(strPath + _T("script.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("variables.png")) {
-		wxBitmap bitmap(path + wxT("variables.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("pvars.png")) {
+		wxBitmap bitmap(strPath + _T("pvars.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("addvar.png")) {
-		wxBitmap bitmap(path + wxT("addvar.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("addvar.png")) {
+		wxBitmap bitmap(strPath + _T("addvar.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
-	else if (name == wxT("help.png")) {
-		wxBitmap bitmap(path + wxT("help.png"), wxBITMAP_TYPE_PNG);
+	else if (name == _T("help.png")) {
+		wxBitmap bitmap(strPath + _T("help.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	return wxNullBitmap;
@@ -2043,19 +2043,18 @@ void frmMain::SetSliderText(){
 	}
 }
 
-//ATTN: Tidy this up
 wxArrayString frmMain::GetLanguages(){
 	wxArrayString arrLang;
-	wxString strPath = wxGetApp().GetResourcesPath() + wxT("lang");
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
 	wxDir dir(strPath);
 	wxString strFilename;
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {
-			if(wxDirExists(strPath + wxFILE_SEP_PATH + strFilename))
+			if(wxDirExists(strPath + strFilename))
 			{
-				if(wxFileExists(strPath + wxFILE_SEP_PATH + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + wxFILE_SEP_PATH + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
 					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
 					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
 				}
@@ -2066,19 +2065,18 @@ wxArrayString frmMain::GetLanguages(){
 	return arrLang;
 }
 
-//ATTN: Tidy this up
 wxArrayString frmMain::GetTranslatorNames(){
 	wxArrayString arrNames;
-	wxString strPath = wxGetApp().GetResourcesPath() + wxT("lang");
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("lang") + wxFILE_SEP_PATH;
 	wxDir dir(strPath);
 	wxString strFilename;
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {
-			if(wxDirExists(strPath + wxFILE_SEP_PATH + strFilename))
+			if(wxDirExists(strPath + strFilename))
 			{
-				if(wxFileExists(strPath + wxFILE_SEP_PATH + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + wxFILE_SEP_PATH + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
+					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
 					arrNames.Add(config->Read(wxT("General/Translator")));
 				}
 			}

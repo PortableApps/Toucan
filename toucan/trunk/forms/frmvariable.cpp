@@ -5,9 +5,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
+#include <wx/stdpaths.h>
 
 #include "frmvariable.h"
-#include "../toucan.h"
 #include "../basicfunctions.h"
 #include "../variables.h"
 
@@ -90,6 +90,9 @@ void frmVariable::CreateControls()
 
 	wxButton* CancelButton = new wxButton(Dialog, wxID_CANCEL, _("Cancel"));
 	ButtonSizer->Add(CancelButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+		
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 
 	SetVariablesBox(m_Variables_Combo);
 	m_Variables_Combo->Append(wxT("date"));
@@ -103,15 +106,13 @@ void frmVariable::CreateControls()
 	m_Variables_Combo->Append(wxT("DD"));
 	m_Variables_Combo->Append(wxT("hh"));
 	m_Variables_Combo->Append(wxT("mm"));
-	
-	this->SetIcon(wxIcon(wxGetApp().GetResourcesPath() + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 wxBitmap frmVariable::GetBitmapResource(const wxString& name)
 {
-	wxString path = wxGetApp().GetResourcesPath() + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH;
-	if (name == wxT("add.png")) {
-		wxBitmap bitmap(path + wxT("add.png"), wxBITMAP_TYPE_PNG);
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	if (name == _T("add.png")) {
+		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	} 
 	return wxNullBitmap;
