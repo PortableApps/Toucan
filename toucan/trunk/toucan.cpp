@@ -188,6 +188,7 @@ int Toucan::OnExit(){
 
 void Toucan::RebuildForm(){
 	MainWindow->Destroy();
+	SetLanguage(m_Settings->GetLanguageCode());
 	MainWindow = new frmMain();
 	MainWindow->Show();
 }
