@@ -1414,6 +1414,15 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
+	int height, width, x, y;
+	wxClientDisplayRect(&x, &y, &width, &height);
+	
+	wxGetApp().m_Settings->SetHeight((double)(this->GetSize().GetHeight())/(height));
+	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
+	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
+	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
+	wxGetApp().m_Settings->TransferToFile();	
+
 	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
 }
