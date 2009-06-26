@@ -1427,6 +1427,8 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
 	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
 	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
+	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
+
 	wxGetApp().m_Settings->TransferToFile();	
 
 	wxGetApp().MainWindow->Destroy();
