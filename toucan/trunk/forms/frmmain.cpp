@@ -1912,14 +1912,14 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 	}
 	wxMenu menu(strMenuTitle);
 	if(wxFileExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
-		menu.Append(ID_MENU_FILEEXCLUDE_EXTENSION, wxT("Exclude by extension"));
-		menu.Append(ID_MENU_FILEEXCLUDE_NAME, wxT("Exclude by name"));
-		menu.Append(ID_MENU_LOCATIONINCLUDE_EXTENSION, wxT("Include by extension"));
-		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, wxT("Include by name"));
+		menu.Append(ID_MENU_FILEEXCLUDE_EXTENSION, _("Exclude by extension"));
+		menu.Append(ID_MENU_FILEEXCLUDE_NAME, _("Exclude by name"));
+		menu.Append(ID_MENU_LOCATIONINCLUDE_EXTENSION, _("Include by extension"));
+		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, _("Include by name"));
 	}	
 	else if(wxDirExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
-		menu.Append(ID_MENU_FOLDEREXCLUDE_NAME, wxT("Exclude by name"));
-		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, wxT("Include by name"));
+		menu.Append(ID_MENU_FOLDEREXCLUDE_NAME, _("Exclude by name"));
+		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, _("Include by name"));
 	}	
 	this->PopupMenu(&menu, event.GetPoint() + menuTree->GetPosition());
 }
