@@ -60,8 +60,7 @@ bool SecureData::TransferToFile(){
 	return true;
 }
 
-bool SecureData::TransferToForm(){
-	frmMain *window = wxGetApp().MainWindow;
+bool SecureData::TransferToForm(frmMain *window){
 	if(window == NULL){
 		return false;
 	}

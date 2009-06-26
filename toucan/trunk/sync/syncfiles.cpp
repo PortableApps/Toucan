@@ -17,13 +17,6 @@
 #include <wx/wfstream.h>
 #include <wx/dir.h>
 
-//Remove the definition of RemoveDirectory that the windows headers include
-#ifdef __WXMSW__
-	#ifdef RemoveDirectory
-		#undef RemoveDirectory
-	#endif
-#endif
-
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules){
 	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
 		this->sourceroot = syncsource.Left(syncsource.Length() - 1);

@@ -7,6 +7,7 @@
 #ifndef H_ROOTDATA
 #define H_ROOTDATA
 
+#include "../toucan.h"
 #include <wx/string.h>
 
 class Rules;
@@ -21,7 +22,10 @@ public:
 	//Functions
 	virtual bool TransferToFile() = 0;
 	virtual bool TransferFromFile() = 0;
-	virtual bool TransferToForm() = 0;
+	virtual bool TransferToForm(frmMain* window) = 0;
+	virtual bool TransferToForm(){
+		return TransferToForm(wxGetApp().MainWindow);
+	}
 	virtual bool TransferFromForm() = 0;
 
 	virtual void Output() = 0;

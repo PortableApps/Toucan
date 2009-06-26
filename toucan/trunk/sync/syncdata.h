@@ -16,7 +16,7 @@ class SyncData : public RootData{
 public:
 	bool TransferToFile();
 	bool TransferFromFile();
-	bool TransferToForm();
+	bool TransferToForm(frmMain *window);
 	bool TransferFromForm();
 	
 	void Output();

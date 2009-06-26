@@ -100,8 +100,7 @@ bool BackupData::TransferToFile(){
 	return true;
 }
 
-bool BackupData::TransferToForm(){
-	frmMain *window = wxGetApp().MainWindow;
+bool BackupData::TransferToForm(frmMain *window){
 	if(window == NULL){
 		return false;
 	}

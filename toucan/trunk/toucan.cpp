@@ -116,44 +116,12 @@ bool Toucan::OnInit(){
 	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
 
-	//Set up the sizes and so forth
-	int height, width, x, y;
-	wxClientDisplayRect(&x, &y, &width, &height);
-
-	wxPoint position((int)(m_Settings->GetX() * width), (int)(m_Settings->GetY() * height));
-	wxSize size((int)(m_Settings->GetWidth() * width), (int)(m_Settings->GetHeight() * height));
-	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
-
 	wxFileSystem::AddHandler(new wxArchiveFSHandler);
-	MainWindow = new frmMain(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
+
+	MainWindow = new frmMain();
 	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
 
 	if(GetUsesGUI()){
-		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
-			MainWindow->Iconize(false);
-		}
-		//Load the saved data here rathert than oninit as it makes calls to wxGetApp() that crash
-		if(m_Jobs_Config->Exists(wxT("SyncRemember")) && m_Settings->GetRememberSync()){
-			SyncData data;
-			data.SetName(wxT("SyncRemember"));
-			data.TransferFromFile();
-			data.TransferToForm();
-			MainWindow->m_Sync_Job_Select->SetStringSelection(m_Jobs_Config->Read(wxT("SyncRemember/Name")));
-		}
-		if(m_Jobs_Config->Exists(wxT("BackupRemember")) && m_Settings->GetRememberBackup()){
-			BackupData bdata;
-			bdata.SetName(wxT("BackupRemember"));
-			bdata.TransferFromFile();		
-			bdata.TransferToForm();
-			MainWindow->m_Backup_Job_Select->SetStringSelection(m_Jobs_Config->Read(wxT("BackupRemember/Name")));
-		}
-		if(m_Jobs_Config->Exists(wxT("SecureRemember")) && m_Settings->GetRememberSecure()){
-			SecureData sdata;
-			sdata.SetName(wxT("SecureRemember"));
-			sdata.TransferFromFile();
-			sdata.TransferToForm();
-			MainWindow->m_Secure_Job_Select->SetStringSelection(m_Jobs_Config->Read(wxT("SecureRemember/Name")));
-		}
 		MainWindow->Show();
 		if(scrn != NULL){
 			scrn->Destroy(); 
@@ -217,4 +185,10 @@ int Toucan::OnExit(){
 	delete m_Settings;
 	delete m_Script;
 	return wxApp::OnExit();
+}
+
+void Toucan::RebuildForm(){
+	MainWindow->Destroy();
+	MainWindow = new frmMain();
+	MainWindow->Show();
 }

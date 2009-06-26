@@ -71,27 +71,30 @@ bool SyncData::TransferToFile(){
 	return true;
 }
 
-bool SyncData::TransferToForm(){
-	frmMain *window = wxGetApp().MainWindow;
+bool SyncData::TransferToForm(frmMain *window){
 	if(window == NULL){
 		return false;
 	}
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteAllItems();
 	window->m_Sync_Source_Tree->AddRoot(wxT("Hidden text"));
-	window->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(GetSource())));
-	
+	if(GetSource() != wxEmptyString){
+		window->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(GetSource())));		
+	}
+
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
 	window->m_Sync_Dest_Tree->AddRoot(wxT("Hidden text"));
-	window->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(GetDest())));
-	
+	if(GetDest() != wxEmptyString){
+		window->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(GetDest())));		
+	}
+
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_Sync_Timestamp->SetValue(GetTimeStamps());
 	window->m_Sync_Attributes->SetValue(GetAttributes());
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
 	window->m_Sync_Ignore_DaylightS->SetValue(GetIgnoreDLS());
-	return false;
+	return true;
 }
 
 bool SyncData::TransferFromForm(){

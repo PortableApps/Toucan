@@ -11,6 +11,7 @@
 #include <wx/listctrl.h>
 #include <wx/fontpicker.h>
 #include <wx/dir.h>
+#include <wx/gbsizer.h>
 #include <wx/wx.h>
 
 #include "frmmain.h"
@@ -108,6 +109,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
+	EVT_BUTTON(wxID_APPLY, frmMain::OnSettingsApplyClick)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
 	
 	//Menu
@@ -120,14 +122,24 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 END_EVENT_TABLE()
 
 //Constructor
-frmMain::frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
+frmMain::frmMain(){
+	//Set up the sizes and so forth
+	int height, width, x, y;
+	wxClientDisplayRect(&x, &y, &width, &height);
+
+	wxPoint position((int)(wxGetApp().m_Settings->GetX() * width), (int)(wxGetApp().m_Settings->GetY() * height));
+	wxSize size((int)(wxGetApp().m_Settings->GetWidth() * width), (int)(wxGetApp().m_Settings->GetHeight() * height));
+	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
+
 	Init();
-	wxFrame::Create(parent, id, caption, pos, size, style);
+	wxFrame::Create(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
 	CreateControls();
 }
 
 //Destructor
 frmMain::~frmMain(){
+	delete m_BackupLocations;
+	delete m_SecureLocations;
 	m_auiManager.UnInit();
 }
 
@@ -698,56 +710,59 @@ void frmMain::CreateControls(){
 	//Settings
 	wxPanel* SettingsPanel = new wxPanel(m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 
-	wxBoxSizer* SettingsSizer = new wxBoxSizer(wxVERTICAL);
+    wxGridBagSizer* SettingsSizer = new wxGridBagSizer(0, 0);
 	SettingsPanel->SetSizer(SettingsSizer);
-	
-	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
-	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
-	SettingsSizer->Add(FontStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
 
-	m_Settings_Font = new wxFontPickerCtrl(SettingsPanel, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
-	m_Settings_Font->SetSelectedFont(font);
-	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	//Need to solve this properly
+	wxScreenDC textdc;
+	textdc.SetFont(wxGetApp().m_Settings->GetFont());
+	wxSize textsize = textdc.GetTextExtent(_("Remember Entered Information"));
+
+	wxStaticBox* FieldsStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Remember Entered Information"));
+	wxStaticBoxSizer* FieldsStaticBoxSizer = new wxStaticBoxSizer(FieldsStaticBox, wxVERTICAL);
+	FieldsStaticBoxSizer->SetMinSize(wxSize(textsize.GetWidth() + 20, -1));
+	SettingsSizer->Add(FieldsStaticBoxSizer, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	m_Settings_RememberSync = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSYNC, _("Sync"));
+	FieldsStaticBoxSizer->Add(m_Settings_RememberSync, 0, wxALIGN_TOP|wxALL, 5);
+
+	m_Settings_RememberBackup = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERBACKUP, _("Backup"));
+	FieldsStaticBoxSizer->Add(m_Settings_RememberBackup, 0, wxALIGN_TOP|wxALL, 5);
+
+	m_Settings_RememberSecure = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSECURE, _("Secure"));
+	FieldsStaticBoxSizer->Add(m_Settings_RememberSecure, 0, wxALIGN_TOP|wxALL, 5);
+
+	wxStaticBox* LanguageStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Language"));
+	wxStaticBoxSizer* LanguageStaticBoxSizer = new wxStaticBoxSizer(LanguageStaticBox, wxHORIZONTAL);
+	SettingsSizer->Add(LanguageStaticBoxSizer, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
+
+	wxArrayString m_Settings_LanguageStrings = GetLanguages();
+	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Settings_Language->SetMinSize(wxSize(125, -1));
+	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
+	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALL|wxEXPAND, 5);
 
 	wxArrayString arrTabStyles;
 	arrTabStyles.Add(_("Icons and Text"));
 	arrTabStyles.Add(_("Text"));
 	m_Settings_TabStyle = new wxRadioBox(SettingsPanel, ID_SETTINGS_TABSTYLE, _("Tab style"), wxDefaultPosition, wxDefaultSize, arrTabStyles, 2, wxRA_SPECIFY_ROWS);
 	m_Settings_TabStyle->SetStringSelection(wxGetApp().m_Settings->GetTabStyle());
-	SettingsSizer->Add(m_Settings_TabStyle, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	SettingsSizer->Add(m_Settings_TabStyle, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
 	
-	wxStaticBox* LanguageStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Language"));
-	wxStaticBoxSizer* LanguageStaticBoxSizer = new wxStaticBoxSizer(LanguageStaticBox, wxHORIZONTAL);
-	SettingsSizer->Add(LanguageStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
-	
-	wxArrayString m_Settings_LanguageStrings = GetLanguages();
-	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Settings_Language->SetMinSize(wxSize(125, -1));
-	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
-	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
+	wxButton* ApplySettings = new wxButton(SettingsPanel, wxID_APPLY, _("Apply"));
+	SettingsSizer->Add(ApplySettings, wxGBPosition(3, 0), wxGBSpan(1, 1), wxALL, 5);
 
-	//Need to solve this properly
-	wxScreenDC textdc;
-	textdc.SetFont(wxGetApp().m_Settings->GetFont());
-	wxSize textsize = textdc.GetTextExtent(_("Remember Entered Information"));
-	
-	wxStaticBox* FieldsStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Remember Entered Information"));
-	wxStaticBoxSizer* FieldsStaticBoxSizer = new wxStaticBoxSizer(FieldsStaticBox, wxVERTICAL);
-	FieldsStaticBoxSizer->SetMinSize(wxSize(textsize.GetWidth() + 20, -1));
-	SettingsSizer->Add(FieldsStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
-	
-	m_Settings_RememberSync = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSYNC, _("Sync"));
-	FieldsStaticBoxSizer->Add(m_Settings_RememberSync, 0, wxALIGN_TOP|wxALL, 5);
-	
-	m_Settings_RememberBackup = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERBACKUP, _("Backup"));
-	FieldsStaticBoxSizer->Add(m_Settings_RememberBackup, 0, wxALIGN_TOP|wxALL, 5);
-	
-	m_Settings_RememberSecure = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSECURE, _("Secure"));
-	FieldsStaticBoxSizer->Add(m_Settings_RememberSecure, 0, wxALIGN_TOP|wxALL, 5);
-	
+	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
+	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
+	SettingsSizer->Add(FontStaticBoxSizer, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL, 5);
+
+	m_Settings_Font = new wxFontPickerCtrl(SettingsPanel, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
+	m_Settings_Font->SetSelectedFont(font);
+	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
 	wxStaticBox* OtherBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Other"));
 	wxStaticBoxSizer* OtherStaticBoxSizer = new wxStaticBoxSizer(OtherBox, wxHORIZONTAL);
-	SettingsSizer->Add(OtherStaticBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
+	SettingsSizer->Add(OtherStaticBoxSizer, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL, 5);
 	
 	m_Settings_EnableTooltips = new wxCheckBox(SettingsPanel, ID_SETTINGS_ENABLETOOLTIPS, _("Enable Tooltips"));
 	m_Settings_EnableTooltips->SetValue(true);
@@ -909,6 +924,32 @@ void frmMain::CreateControls(){
 	}
 
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
+
+	if(wxGetApp().m_Settings->GetWidth() < 1 && wxGetApp().m_Settings->GetHeight() < 1){
+		Iconize(false);
+	}
+
+	if(wxGetApp().m_Jobs_Config->Exists(wxT("SyncRemember")) && wxGetApp().m_Settings->GetRememberSync()){
+		SyncData data;
+		data.SetName(wxT("SyncRemember"));
+		data.TransferFromFile();
+		data.TransferToForm(this);
+		m_Sync_Job_Select->SetStringSelection(wxGetApp().m_Jobs_Config->Read(wxT("SyncRemember/Name")));
+	}
+	if(wxGetApp().m_Jobs_Config->Exists(wxT("BackupRemember")) && wxGetApp().m_Settings->GetRememberBackup()){
+		BackupData data;
+		data.SetName(wxT("BackupRemember"));
+		data.TransferFromFile();		
+		data.TransferToForm(this);
+		m_Backup_Job_Select->SetStringSelection(wxGetApp().m_Jobs_Config->Read(wxT("BackupRemember/Name")));
+	}
+	if(wxGetApp().m_Jobs_Config->Exists(wxT("SecureRemember")) && wxGetApp().m_Settings->GetRememberSecure()){
+		SecureData data;
+		data.SetName(wxT("SecureRemember"));
+		data.TransferFromFile();
+		data.TransferToForm(this);
+		m_Secure_Job_Select->SetStringSelection(wxGetApp().m_Jobs_Config->Read(wxT("SecureRemember/Name")));
+	}
 }
 
 //Get bitmap resources
@@ -1373,55 +1414,6 @@ void frmMain::OnSecurePreviewClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
-	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
-	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
-	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
-	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
-	wxGetApp().m_Settings->SetRememberSync(m_Settings_RememberSync->GetValue());
-	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
-	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
-	wxGetApp().m_Settings->SetEnableTooltips(m_Settings_EnableTooltips->GetValue());
-	
-	if(wxGetApp().m_Settings->GetRememberSync()){
-		SyncData data;
-		data.SetName(wxT("SyncRemember"));
-		data.TransferFromForm();
-		data.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberBackup()){	
-		BackupData bdata;
-		bdata.SetName(wxT("BackupRemember"));
-		bdata.TransferFromForm();
-		bdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberSecure()){
-		SecureData sdata;
-		sdata.SetName(wxT("SecureRemember"));
-		sdata.TransferFromForm();
-		sdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-
-	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
-	int height, width, x, y;
-	wxClientDisplayRect(&x, &y, &width, &height);
-	
-	wxGetApp().m_Settings->SetHeight((double)(this->GetSize().GetHeight())/(height));
-	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
-	
-	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
-	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
-	
-	wxGetApp().m_Settings->TransferToFile();
-	
-	menuTree = NULL;
-	menuRules = NULL;
-	
 	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
 }
@@ -2076,4 +2068,52 @@ wxArrayString frmMain::GetTranslatorNames(){
 		while (dir.GetNext(&strFilename));
 	} 
 	return arrNames;
+}
+
+void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
+	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
+	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
+	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
+	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
+	wxGetApp().m_Settings->SetRememberSync(m_Settings_RememberSync->GetValue());
+	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
+	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
+	wxGetApp().m_Settings->SetEnableTooltips(m_Settings_EnableTooltips->GetValue());
+	
+	if(wxGetApp().m_Settings->GetRememberSync()){
+		SyncData data;
+		data.SetName(wxT("SyncRemember"));
+		data.TransferFromForm();
+		data.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+	if(wxGetApp().m_Settings->GetRememberBackup()){	
+		BackupData bdata;
+		bdata.SetName(wxT("BackupRemember"));
+		bdata.TransferFromForm();
+		bdata.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+	if(wxGetApp().m_Settings->GetRememberSecure()){
+		SecureData sdata;
+		sdata.SetName(wxT("SecureRemember"));
+		sdata.TransferFromForm();
+		sdata.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+
+	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
+	int height, width, x, y;
+	wxClientDisplayRect(&x, &y, &width, &height);
+	
+	wxGetApp().m_Settings->SetHeight((double)(this->GetSize().GetHeight())/(height));
+	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
+	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
+	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
+	
+	wxGetApp().m_Settings->TransferToFile();
+	wxGetApp().RebuildForm();	
 }

@@ -163,7 +163,7 @@ class frmMain: public wxFrame
 
 public:
 	// Constructor
-	frmMain(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
+	frmMain();
 
 	//Destructor, for uninitialising AUI
 	~frmMain();
@@ -255,6 +255,7 @@ public:
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
+	void OnSettingsApplyClick(wxCommandEvent& event);
 	
 	//Menu
 	void OnMenuFileExcludeExtensionClick(wxCommandEvent& event);

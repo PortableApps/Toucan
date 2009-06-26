@@ -25,6 +25,8 @@ public:
 
 	void SetLanguage(wxString langcode);
 
+	void RebuildForm();
+
 	void SetAbort(const bool& Abort) {this->m_Abort = Abort;}
 	void SetSettingsPath(const wxString& SettingsPath) {this->m_SettingsPath = SettingsPath;}
 	void SetUsesGUI(const bool& UsesGUI) {this->m_UsesGUI = UsesGUI;}
