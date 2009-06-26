@@ -226,6 +226,7 @@ void frmMain::CreateControls(){
 	itemBoxSizer001->Add(itemStaticBoxSizer10, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Sync_Job_SelectStrings;
 	m_Sync_Job_Select = new wxComboBox( itemPanel6, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Sync_Job_Select->SetMinSize(wxSize(125, -1));
 	itemStaticBoxSizer10->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton12 = new wxBitmapButton( itemPanel6, ID_SYNC_JOB_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -359,6 +360,7 @@ void frmMain::CreateControls(){
 	
 	wxArrayString m_Backup_Job_SelectStrings;
 	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Backup_Job_Select->SetMinSize(wxSize(125, -1));
 	BackupJobsBoxSizer->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* BackupJobSave = new wxBitmapButton(BackupPanel, ID_BACKUP_JOB_SAVE, GetBitmapResource(wxT("save.png")));
@@ -488,6 +490,7 @@ void frmMain::CreateControls(){
 	itemBoxSizer3000->Add(itemStaticBoxSizer73, 0, wxALIGN_TOP|wxALL, 5);
 	wxArrayString m_Secure_Job_SelectStrings;
 	m_Secure_Job_Select = new wxComboBox( itemPanel68, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Secure_Job_Select->SetMinSize(wxSize(125, -1));	
 	itemStaticBoxSizer73->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton75 = new wxBitmapButton( itemPanel68, ID_SECURE_JOB_SAVE, GetBitmapResource(wxT("save.png")));
@@ -569,6 +572,7 @@ void frmMain::CreateControls(){
 	
 	wxArrayString m_Rules_ComboStrings;
 	m_Rules_Name = new wxComboBox( itemPanel93, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY);
+	m_Rules_Name->SetMinSize(wxSize(125, -1));	
 	itemBoxSizer97->Add(m_Rules_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* itemBitmapButton99 = new wxBitmapButton( itemPanel93, ID_RULES_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -651,7 +655,8 @@ void frmMain::CreateControls(){
 
     wxArrayString arrVariables;
     m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
-    VariablesTop->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_Variables_Name->SetMinSize(wxSize(125, -1));
+	VariablesTop->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
     wxBitmapButton* VariablesAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, GetBitmapResource(wxT("add.png")));
 	VariablesTop->Add(VariablesAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -688,6 +693,7 @@ void frmMain::CreateControls(){
 
 	wxArrayString itemComboBox134Strings;
 	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Script_Name->SetMinSize(wxSize(125, -1));
 	ScriptStaticBoxSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
