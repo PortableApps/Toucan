@@ -113,7 +113,6 @@ bool Toucan::OnInit(){
 		UpdateScripts(version);
 	}	
 
-	//Set the settings path
 	SetLanguage(m_Settings->GetLanguageCode());
 
 	wxFileSystem::AddHandler(new wxArchiveFSHandler);
