@@ -454,91 +454,100 @@ void frmMain::CreateControls(){
 	BackupAddExpandSizer->Add(BackupExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
 	
 	//Secure
-	wxPanel* itemPanel68 = new wxPanel( m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	wxBoxSizer* itemBoxSizer69 = new wxBoxSizer(wxVERTICAL);
-	itemPanel68->SetSizer(itemBoxSizer69);
+	wxPanel* SecurePanel = new wxPanel(m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
+	
+	wxBoxSizer* SecureSizer = new wxBoxSizer(wxVERTICAL);
+	SecurePanel->SetSizer(SecureSizer);
 
-	wxBoxSizer* itemBoxSizer87 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer69->Add(itemBoxSizer87, 0, wxALIGN_LEFT|wxALL, 5);
+	wxBoxSizer* SecureTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	SecureSizer->Add(SecureTopSizer, 0, wxALIGN_LEFT|wxALL, 5);
 	
-	wxBoxSizer* itemBoxSizer3000 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer87->Add(itemBoxSizer3000, 0, wxALIGN_LEFT|wxALL, 0);	
-	
-	//Jobs section
-	wxStaticBox* itemStaticBoxSizer73Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Job Name"));
-	wxStaticBoxSizer* itemStaticBoxSizer73 = new wxStaticBoxSizer(itemStaticBoxSizer73Static, wxHORIZONTAL);
-	itemBoxSizer3000->Add(itemStaticBoxSizer73, 0, wxALIGN_TOP|wxALL, 5);
+	//Jobs
+	wxBoxSizer* SecureJobsRulesSizer = new wxBoxSizer(wxVERTICAL);
+	SecureTopSizer->Add(SecureJobsRulesSizer, 0, wxGROW|wxALL, 0);	
+
+	wxStaticBox* SecureJob = new wxStaticBox(SecurePanel, wxID_ANY, _("Job Name"));
+	wxStaticBoxSizer* SecureJobSizer = new wxStaticBoxSizer(SecureJob, wxHORIZONTAL);
+	SecureJobsRulesSizer->Add(SecureJobSizer, 0, wxALIGN_TOP|wxALL, 5);
+
 	wxArrayString m_Secure_Job_SelectStrings;
-	m_Secure_Job_Select = new wxComboBox( itemPanel68, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Secure_Job_Select = new wxComboBox(SecurePanel, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Secure_Job_Select->SetMinSize(wxSize(125, -1));	
-	itemStaticBoxSizer73->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SecureJobSizer->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton75 = new wxBitmapButton( itemPanel68, ID_SECURE_JOB_SAVE, GetBitmapResource(wxT("save.png")));
-	itemStaticBoxSizer73->Add(itemBitmapButton75, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* SecureJobSave = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_SAVE, GetBitmapResource(wxT("save.png")));
+	SecureJobSizer->Add(SecureJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton76 = new wxBitmapButton( itemPanel68, ID_SECURE_JOB_ADD, GetBitmapResource(wxT("add.png")));
-	itemStaticBoxSizer73->Add(itemBitmapButton76, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* SecureJobAdd = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_ADD, GetBitmapResource(wxT("add.png")));
+	SecureJobSizer->Add(SecureJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton77 = new wxBitmapButton( itemPanel68, ID_SECURE_JOB_REMOVE, GetBitmapResource(wxT("remove.png")));
-	itemStaticBoxSizer73->Add(itemBitmapButton77, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* SecureJobRemove = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_REMOVE, GetBitmapResource(wxT("remove.png")));
+	SecureJobSizer->Add(SecureJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
-	//Rules section
-	wxStaticBox* itemStaticBoxSizer71Static = new wxStaticBox(itemPanel68, wxID_ANY, _("Rules"));
-	wxStaticBoxSizer* itemStaticBoxSizer71 = new wxStaticBoxSizer(itemStaticBoxSizer71Static, wxHORIZONTAL);
-	itemBoxSizer3000->Add(itemStaticBoxSizer71, 1, wxALIGN_TOP|wxALL|wxGROW, 5);
+	//Rules
+	wxStaticBox* SecureRules = new wxStaticBox(SecurePanel, wxID_ANY, _("Rules"));
+	wxStaticBoxSizer* SecureRulesSizer = new wxStaticBoxSizer(SecureRules, wxHORIZONTAL);
+	SecureJobsRulesSizer->Add(SecureRulesSizer, 1, wxALIGN_TOP|wxALL|wxEXPAND, 5);
+
 	wxArrayString m_Secure_RulesStrings;
-	m_Secure_Rules = new wxComboBox( itemPanel68, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	itemStaticBoxSizer71->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_Secure_Rules = new wxComboBox(SecurePanel, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	SecureRulesSizer->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	//Options
-	wxBoxSizer* itemBoxSizer3001 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer87->Add(itemBoxSizer3001, 0, wxALIGN_LEFT|wxALL, 0);	
-	
 	wxArrayString m_Secure_FunctionStrings;
 	m_Secure_FunctionStrings.Add(_("Encrypt"));
 	m_Secure_FunctionStrings.Add(_("Decrypt"));
-	m_Secure_Function = new wxRadioBox( itemPanel68, ID_SECURE_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Secure_FunctionStrings, 1, wxRA_SPECIFY_COLS);
+	m_Secure_Function = new wxRadioBox(SecurePanel, ID_SECURE_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Secure_FunctionStrings, 1, wxRA_SPECIFY_COLS);
 	m_Secure_Function->SetSelection(0);
-	itemBoxSizer3001->Add(m_Secure_Function, 1, wxGROW|wxALIGN_TOP|wxALL, 5);
+	SecureTopSizer->Add(m_Secure_Function, 0, wxALIGN_TOP|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer3002 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer87->Add(itemBoxSizer3002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
+	wxBoxSizer* SecureButtonsSizer = new wxBoxSizer(wxVERTICAL);
+	SecureTopSizer->Add(SecureButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 	
-	wxButton* itemButtonSecureOK = new wxButton( itemPanel68, ID_SECURE_OK, _("OK"));
-	itemBoxSizer3002->Add(itemButtonSecureOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* SecureOKButton = new wxButton(SecurePanel, ID_SECURE_OK, _("OK"));
+	SecureButtonsSizer->Add(SecureOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
-	wxButton* itemButtonSecurePreview = new wxButton( itemPanel68, ID_SECURE_PREVIEW , _("Preview"));
-	itemBoxSizer3002->Add(itemButtonSecurePreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	wxButton* SecurePreviewButton = new wxButton(SecurePanel, ID_SECURE_PREVIEW , _("Preview"));
+	SecureButtonsSizer->Add(SecurePreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
-	//Main secure stuff
-	wxBoxSizer* itemBoxSizer78 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer69->Add(itemBoxSizer78, 1, wxGROW|wxALL, 5);
+	//Main Secure area
+	wxGridBagSizer* SecureMainSizer = new wxGridBagSizer(0, 0);
+	SecureMainSizer->AddGrowableCol(0);
+	SecureMainSizer->AddGrowableCol(2);
+	SecureMainSizer->AddGrowableRow(1);
+	SecureSizer->Add(SecureMainSizer, 1, wxEXPAND|wxALL, 5);
 	
-	
-	m_Secure_DirCtrl = new ExtendedDirCtrl( itemPanel68, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
+	wxStaticText* SecureComputerStatic = new wxStaticText(SecurePanel, wxID_ANY, _("Computer"));
+	SecureMainSizer->Add(SecureComputerStatic, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, 5);
+
+	m_Secure_DirCtrl = new ExtendedDirCtrl(SecurePanel, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Secure_DirCtrl->ShowHidden(true);	
-	itemBoxSizer78->Add(m_Secure_DirCtrl, 1, wxGROW|wxALL, 5);
+	SecureMainSizer->Add(m_Secure_DirCtrl, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer78->Add(itemBoxSizer80, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	wxBitmapButton* itemBitmapButton81 = new wxBitmapButton( itemPanel68, ID_SECURE_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemBoxSizer80->Add(itemBitmapButton81, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	wxBoxSizer* SecureAddRemoveSizer = new wxBoxSizer(wxVERTICAL);
+	SecureMainSizer->Add(SecureAddRemoveSizer, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 0);
 
-	wxBitmapButton* itemBitmapButton82 = new wxBitmapButton( itemPanel68, ID_SECURE_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemBoxSizer80->Add(itemBitmapButton82, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	wxBitmapButton* SecureAdd = new wxBitmapButton(SecurePanel, ID_SECURE_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SecureAddRemoveSizer->Add(SecureAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl( itemPanel68, ID_SECURE_TREECTRL, wxDefaultPosition, wxSize(100, 100), wxTR_HAS_BUTTONS |wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
-	itemBoxSizer78->Add(m_Secure_TreeCtrl, 1, wxGROW|wxALL, 5);
-
-	wxBoxSizer* itemBoxSizer84 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer78->Add(itemBoxSizer84, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
-	wxBitmapButton* itemBitmapButton85 = new wxBitmapButton( itemPanel68, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemBoxSizer84->Add(itemBitmapButton85, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	wxBitmapButton* SecureRemove = new wxBitmapButton(SecurePanel, ID_SECURE_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SecureAddRemoveSizer->Add(SecureRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 	
-	wxBitmapButton* itemBitmapButton002 = new wxBitmapButton( itemPanel68, ID_SECURE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemBoxSizer84->Add(itemBitmapButton002, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
+	wxStaticText* SecureFilesStatic = new wxStaticText(SecurePanel, wxID_ANY, _("Files to Secure"));
+	SecureMainSizer->Add(SecureFilesStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
 
-	
+	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl(SecurePanel, ID_SECURE_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	SecureMainSizer->Add(m_Secure_TreeCtrl, wxGBPosition(1, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
+
+	wxBoxSizer* SecureAddExpandSizer = new wxBoxSizer(wxVERTICAL);
+	SecureMainSizer->Add(SecureAddExpandSizer, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 5);
+
+	wxBitmapButton* SecureAddVar = new wxBitmapButton(SecurePanel, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SecureAddExpandSizer->Add(SecureAddVar, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+
+	wxBitmapButton* SecureExpand = new wxBitmapButton(SecurePanel, ID_SECURE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SecureAddExpandSizer->Add(SecureExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
+
 	//Rules section
 	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_PANEL_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
@@ -793,7 +802,7 @@ void frmMain::CreateControls(){
 
 	m_Notebook->AddPage(SyncPanel, _("Sync"), false, syncbitmap);
 	m_Notebook->AddPage(BackupPanel, _("Backup"), false, backupbitmap);
-	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
+	m_Notebook->AddPage(SecurePanel, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
 	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, pvarsbitmap);
 	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
@@ -881,13 +890,13 @@ void frmMain::CreateControls(){
 		BackupAddVar->SetToolTip(_("Insert Variable"));
 		BackupExpand->SetToolTip(_("Expand All"));
 		//Secure
-		itemBitmapButton75->SetToolTip(_("Save"));
-		itemBitmapButton76->SetToolTip(_("Add"));
-		itemBitmapButton77->SetToolTip(_("Remove"));
-		itemBitmapButton81->SetToolTip(_("Add"));
-		itemBitmapButton82->SetToolTip(_("Remove"));
-		itemBitmapButton85->SetToolTip(_("Insert Variable"));
-		itemBitmapButton002->SetToolTip(_("Expand All"));
+		SecureJobSave->SetToolTip(_("Save"));
+		SecureJobAdd->SetToolTip(_("Add"));
+		SecureJobRemove->SetToolTip(_("Remove"));
+		SecureAdd->SetToolTip(_("Add"));
+		SecureRemove->SetToolTip(_("Remove"));
+		SecureAddVar->SetToolTip(_("Insert Variable"));
+		SecureExpand->SetToolTip(_("Expand All"));
 		//Rules
 		itemBitmapButton99->SetToolTip(_("Save"));
 		itemBitmapButton100->SetToolTip(_("Add"));
