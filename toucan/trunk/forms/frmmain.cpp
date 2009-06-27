@@ -191,7 +191,7 @@ void frmMain::Init(){
 void frmMain::CreateControls(){	
 	//Set our min size
 	this->SetMinSize(wxSize(780, 450));
-	
+
 	//Set the font from the settings
 	wxFont font;
 	font.SetNativeFontInfo(wxGetApp().m_Settings->GetFont());
@@ -203,38 +203,37 @@ void frmMain::CreateControls(){
 	//Create the root AUI notebook
 	m_Notebook = new wxAuiNotebook(this, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER);
 
-	//The sync panel
+	//Sync
 	wxPanel* SyncPanel = new wxPanel(m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	wxBoxSizer* SyncSizer = new wxBoxSizer(wxVERTICAL);
 	SyncPanel->SetSizer(SyncSizer);
 
-	//Top sizer
 	wxBoxSizer* SyncTopSizer = new wxBoxSizer(wxHORIZONTAL);
 	SyncSizer->Add(SyncTopSizer, 0, wxEXPAND|wxALL, 5);
 
-	//Job section
+	//Sync - Jobs
 	wxBoxSizer* SyncJobsRulesSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncJobsRulesSizer, 0, wxGROW|wxALL, 0);	
 
-	wxStaticBox* SyncJob = new wxStaticBox(SyncPanel, wxID_ANY, _("Job Name"));
-	wxStaticBoxSizer* SyncJobSizer = new wxStaticBoxSizer(SyncJob, wxHORIZONTAL);
-	SyncJobsRulesSizer->Add(SyncJobSizer, 0, wxALIGN_TOP|wxALL, 5);
+	wxStaticBox* SyncJobs = new wxStaticBox(SyncPanel, wxID_ANY, _("Job Name"));
+	wxStaticBoxSizer* SyncJobsSizer = new wxStaticBoxSizer(SyncJobs, wxHORIZONTAL);
+	SyncJobsRulesSizer->Add(SyncJobsSizer, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Sync_Job_SelectStrings;
 	m_Sync_Job_Select = new wxComboBox(SyncPanel, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Sync_Job_Select->SetMinSize(wxSize(125, -1));
-	SyncJobSizer->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SyncJobsSizer->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* SyncJobSave = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncJobSizer->Add(SyncJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SyncJobsSizer->Add(SyncJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* SyncJobAdd = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncJobSizer->Add(SyncJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SyncJobsSizer->Add(SyncJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* SyncJobRemove = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncJobSizer->Add(SyncJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SyncJobsSizer->Add(SyncJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	//Rules section
+	//Sync - Rules
 	wxStaticBox* SyncRules = new wxStaticBox(SyncPanel, wxID_ANY, _("Rules"));
 	wxStaticBoxSizer* SyncRulesSizer = new wxStaticBoxSizer(SyncRules, wxHORIZONTAL);
 	SyncJobsRulesSizer->Add(SyncRulesSizer, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
@@ -243,7 +242,7 @@ void frmMain::CreateControls(){
 	m_Sync_Rules = new wxComboBox(SyncPanel, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	SyncRulesSizer->Add(m_Sync_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
 
-	//Options section
+	//Sync - Options
 	wxArrayString m_Sync_FunctionStrings;
 	m_Sync_FunctionStrings.Add(_("Copy"));
 	m_Sync_FunctionStrings.Add(_("Update"));
@@ -274,17 +273,17 @@ void frmMain::CreateControls(){
 	m_Sync_Ignore_DaylightS = new wxCheckBox(SyncPanel, ID_SYNC_IGNOREDS, _("Ignore Daylight Savings"));
 	m_Sync_Ignore_DaylightS->SetValue(false);
 	SyncOtherSizer->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, 5);
-	
+
 	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
-	
+
 	wxButton* SyncOKButton = new wxButton(SyncPanel, ID_SYNC_OK, _("OK"));
 	SyncButtonsSizer->Add(SyncOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
+
 	wxButton* SyncPreviewButton = new wxButton(SyncPanel, ID_SYNC_PREVIEW , _("Preview"));
 	SyncButtonsSizer->Add(SyncPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	//Main Sync area
+	//Sync - Main
     wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
 	SyncMainSizer->AddGrowableCol(0);
 	SyncMainSizer->AddGrowableCol(2);
@@ -321,47 +320,46 @@ void frmMain::CreateControls(){
 	wxBitmapButton* SyncDestExpand = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	SyncMainSizer->Add(SyncDestExpand, wxGBPosition(2, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 
-	//Backup section
+	//Backup
 	wxPanel* BackupPanel = new wxPanel(m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	
 	wxBoxSizer* BackupSizer = new wxBoxSizer(wxVERTICAL);
 	BackupPanel->SetSizer(BackupSizer);
-	
-	wxBoxSizer* BackupTop = new wxBoxSizer(wxHORIZONTAL);
-	BackupSizer->Add(BackupTop, 0, wxALIGN_LEFT|wxALL, 5);
-	
-	wxBoxSizer* BackupJobsRules = new wxBoxSizer(wxVERTICAL);
-	BackupTop->Add(BackupJobsRules, 0, wxALIGN_LEFT|wxALL, 0);
-	
-	//Jobs
-	wxStaticBox* BackupJobsBox = new wxStaticBox(BackupPanel, wxID_ANY, _("Job Name"));
-	wxStaticBoxSizer* BackupJobsBoxSizer = new wxStaticBoxSizer(BackupJobsBox, wxHORIZONTAL);
-	BackupJobsRules->Add(BackupJobsBoxSizer, 0, wxALIGN_TOP|wxALL, 5);
-	
+
+	wxBoxSizer* BackupTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	BackupSizer->Add(BackupTopSizer, 0, wxALIGN_LEFT|wxALL, 5);
+
+	//Backup - Jobs
+	wxBoxSizer* BackupJobsRulesSizer = new wxBoxSizer(wxVERTICAL);
+	BackupTopSizer->Add(BackupJobsRulesSizer, 0, wxALIGN_LEFT|wxALL, 0);
+
+	wxStaticBox* BackupJobs= new wxStaticBox(BackupPanel, wxID_ANY, _("Job Name"));
+	wxStaticBoxSizer* BackupJobsSizer = new wxStaticBoxSizer(BackupJobs, wxHORIZONTAL);
+	BackupJobsRulesSizer->Add(BackupJobsSizer, 0, wxALIGN_TOP|wxALL, 5);
+
 	wxArrayString m_Backup_Job_SelectStrings;
 	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Backup_Job_Select->SetMinSize(wxSize(125, -1));
-	BackupJobsBoxSizer->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	BackupJobsSizer->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* BackupJobSave = new wxBitmapButton(BackupPanel, ID_BACKUP_JOB_SAVE, GetBitmapResource(wxT("save.png")));
-	BackupJobsBoxSizer->Add(BackupJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	BackupJobsSizer->Add(BackupJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* BackupJobAdd = new wxBitmapButton(BackupPanel, ID_BACKUP_JOB_ADD, GetBitmapResource(wxT("add.png")));
-	BackupJobsBoxSizer->Add(BackupJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	BackupJobsSizer->Add(BackupJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* BackupJobRemove = new wxBitmapButton(BackupPanel, ID_BACKUP_JOB_REMOVE, GetBitmapResource(wxT("remove.png")));
-	BackupJobsBoxSizer->Add(BackupJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
-	//Rules
-	wxStaticBox* BackupRulesBox = new wxStaticBox(BackupPanel, wxID_ANY, _("Rules"));
-	wxStaticBoxSizer* BackupRulesSizer = new wxStaticBoxSizer(BackupRulesBox, wxHORIZONTAL);
-	BackupJobsRules->Add(BackupRulesSizer, 0, wxALL|wxEXPAND, 5);
+	BackupJobsSizer->Add(BackupJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	//Backup - Rules
+	wxStaticBox* BackupRules = new wxStaticBox(BackupPanel, wxID_ANY, _("Rules"));
+	wxStaticBoxSizer* BackupRulesSizer = new wxStaticBoxSizer(BackupRules, wxHORIZONTAL);
+	BackupJobsRulesSizer->Add(BackupRulesSizer, 0, wxALL|wxEXPAND, 5);
 
 	wxArrayString m_Backup_RulesStrings;
 	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	BackupRulesSizer->Add(m_Backup_Rules, 1, wxALL, 5);
-	
-	//Options
+
+	//Backup - Options
 	wxArrayString m_Backup_FunctionStrings;
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
@@ -369,50 +367,48 @@ void frmMain::CreateControls(){
 	m_Backup_FunctionStrings.Add(_("Restore"));
 	m_Backup_Function = new wxRadioBox(BackupPanel, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS);
 	m_Backup_Function->SetSelection(0);
-	BackupTop->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
+	BackupTopSizer->Add(m_Backup_Function, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Backup_FormatStrings;
 	m_Backup_FormatStrings.Add(wxT("Zip"));
 	m_Backup_FormatStrings.Add(wxT("7-Zip"));
 	m_Backup_Format = new wxRadioBox(BackupPanel, ID_BACKUP_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Backup_FormatStrings, 1, wxRA_SPECIFY_COLS);
 	m_Backup_Format->SetSelection(0);
-	BackupTop->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
+	BackupTopSizer->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, 5);
 
-	wxStaticBox* BackupRatioStatic = new wxStaticBox(BackupPanel, wxID_ANY, _("Compression Level"));
-	wxStaticBoxSizer* BackupRatioSizer = new wxStaticBoxSizer(BackupRatioStatic, wxVERTICAL);
-	
+	wxStaticBox* BackupRatio = new wxStaticBox(BackupPanel, wxID_ANY, _("Compression Level"));
+	wxStaticBoxSizer* BackupRatioSizer = new wxStaticBoxSizer(BackupRatio, wxVERTICAL);
+	BackupTopSizer->Add(BackupRatioSizer, 0, wxALIGN_TOP|wxALL, 5);
+
 	m_Backup_Ratio_Text = new wxStaticText(BackupPanel, wxID_STATIC, _("Default"));
-	m_Backup_Ratio = new wxSlider(BackupPanel, ID_BACKUP_RATIO, 3, 0, 5);
-	
 	BackupRatioSizer->Add(m_Backup_Ratio_Text);
+
+	m_Backup_Ratio = new wxSlider(BackupPanel, ID_BACKUP_RATIO, 3, 0, 5);
 	BackupRatioSizer->Add(m_Backup_Ratio);
-	
-	BackupTop->Add(BackupRatioSizer, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxStaticBox* BackupOther = new wxStaticBox(BackupPanel, wxID_ANY, _("Other"));
 	wxStaticBoxSizer* BackupOtherSizer = new wxStaticBoxSizer(BackupOther, wxVERTICAL);
-	BackupTop->Add(BackupOtherSizer, 0, wxALIGN_TOP|wxALL, 5);
+	BackupTopSizer->Add(BackupOtherSizer, 0, wxALIGN_TOP|wxALL, 5);
 
 	m_Backup_IsPass = new wxCheckBox(BackupPanel, ID_BACKUP_ISPASS, _("Password"));
 	BackupOtherSizer->Add(m_Backup_IsPass, 0, wxALIGN_TOP|wxALL, 5);
 
-	//Buttons
-	wxBoxSizer* BackupButtons = new wxBoxSizer(wxVERTICAL);
-	BackupTop->Add(BackupButtons, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
+	wxBoxSizer* BackupButtonsSizer = new wxBoxSizer(wxVERTICAL);
+	BackupTopSizer->Add(BackupButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 
-	wxButton* BackupOK = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
-	BackupButtons->Add(BackupOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* BackupOKButton = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
+	BackupButtonsSizer->Add(BackupOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxButton* BackupPreview = new wxButton(BackupPanel, ID_BACKUP_PREVIEW , _("Preview"));
-	BackupButtons->Add(BackupPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
+	wxButton* BackupPreviewButton = new wxButton(BackupPanel, ID_BACKUP_PREVIEW , _("Preview"));
+	BackupButtonsSizer->Add(BackupPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
-	//Main Backup area
+	//Backup - Main
     wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
 	BackupMainSizer->AddGrowableCol(0);
 	BackupMainSizer->AddGrowableCol(2);
 	BackupMainSizer->AddGrowableRow(3);
 	BackupSizer->Add(BackupMainSizer, 1, wxEXPAND|wxALL, 5);
-	
+
 	wxStaticText* BackupComputerStatic = new wxStaticText(BackupPanel, wxID_ANY, _("Computer"));
 	BackupMainSizer->Add(BackupComputerStatic, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, 5);
 
@@ -422,13 +418,13 @@ void frmMain::CreateControls(){
 
 	wxBoxSizer* BackupAddRemoveSizer = new wxBoxSizer(wxVERTICAL);
 	BackupMainSizer->Add(BackupAddRemoveSizer, wxGBPosition(1, 1), wxGBSpan(3, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 0);
-	
+
 	wxBitmapButton*BackupAdd = new wxBitmapButton(BackupPanel, ID_BACKUP_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	BackupAddRemoveSizer->Add(BackupAdd, 0, wxALL, 5);
 
 	wxBitmapButton* BackupRemove = new wxBitmapButton(BackupPanel, ID_BACKUP_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	BackupAddRemoveSizer->Add(BackupRemove, 0, wxALL, 5);
-		
+
 	wxStaticText* BackupLocationStatic = new wxStaticText(BackupPanel, wxID_ANY, _("Backup Location"));
 	BackupMainSizer->Add(BackupLocationStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
 
@@ -446,45 +442,44 @@ void frmMain::CreateControls(){
 
 	wxBoxSizer* BackupAddExpandSizer = new wxBoxSizer(wxVERTICAL);
 	BackupMainSizer->Add(BackupAddExpandSizer, wxGBPosition(3, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 5);
-	
+
 	wxBitmapButton* BackupAddVar = new wxBitmapButton(BackupPanel, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	BackupAddExpandSizer->Add(BackupAddVar, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
-	
+
 	wxBitmapButton* BackupExpand = new wxBitmapButton(BackupPanel, ID_BACKUP_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	BackupAddExpandSizer->Add(BackupExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
-	
+
 	//Secure
 	wxPanel* SecurePanel = new wxPanel(m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	
 	wxBoxSizer* SecureSizer = new wxBoxSizer(wxVERTICAL);
 	SecurePanel->SetSizer(SecureSizer);
 
 	wxBoxSizer* SecureTopSizer = new wxBoxSizer(wxHORIZONTAL);
 	SecureSizer->Add(SecureTopSizer, 0, wxALIGN_LEFT|wxALL, 5);
-	
-	//Jobs
+
+	//Secure - Jobs
 	wxBoxSizer* SecureJobsRulesSizer = new wxBoxSizer(wxVERTICAL);
 	SecureTopSizer->Add(SecureJobsRulesSizer, 0, wxGROW|wxALL, 0);	
 
-	wxStaticBox* SecureJob = new wxStaticBox(SecurePanel, wxID_ANY, _("Job Name"));
-	wxStaticBoxSizer* SecureJobSizer = new wxStaticBoxSizer(SecureJob, wxHORIZONTAL);
-	SecureJobsRulesSizer->Add(SecureJobSizer, 0, wxALIGN_TOP|wxALL, 5);
+	wxStaticBox* SecureJobs = new wxStaticBox(SecurePanel, wxID_ANY, _("Job Name"));
+	wxStaticBoxSizer* SecureJobsSizer = new wxStaticBoxSizer(SecureJobs, wxHORIZONTAL);
+	SecureJobsRulesSizer->Add(SecureJobsSizer, 0, wxALIGN_TOP|wxALL, 5);
 
 	wxArrayString m_Secure_Job_SelectStrings;
 	m_Secure_Job_Select = new wxComboBox(SecurePanel, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Secure_Job_Select->SetMinSize(wxSize(125, -1));	
-	SecureJobSizer->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SecureJobsSizer->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* SecureJobSave = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_SAVE, GetBitmapResource(wxT("save.png")));
-	SecureJobSizer->Add(SecureJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SecureJobsSizer->Add(SecureJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* SecureJobAdd = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_ADD, GetBitmapResource(wxT("add.png")));
-	SecureJobSizer->Add(SecureJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SecureJobsSizer->Add(SecureJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* SecureJobRemove = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_REMOVE, GetBitmapResource(wxT("remove.png")));
-	SecureJobSizer->Add(SecureJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
-	//Rules
+	SecureJobsSizer->Add(SecureJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	//Secure - Rules
 	wxStaticBox* SecureRules = new wxStaticBox(SecurePanel, wxID_ANY, _("Rules"));
 	wxStaticBoxSizer* SecureRulesSizer = new wxStaticBoxSizer(SecureRules, wxHORIZONTAL);
 	SecureJobsRulesSizer->Add(SecureRulesSizer, 1, wxALIGN_TOP|wxALL|wxEXPAND, 5);
@@ -492,8 +487,8 @@ void frmMain::CreateControls(){
 	wxArrayString m_Secure_RulesStrings;
 	m_Secure_Rules = new wxComboBox(SecurePanel, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	SecureRulesSizer->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
-	//Options
+
+	//Secure - Options
 	wxArrayString m_Secure_FunctionStrings;
 	m_Secure_FunctionStrings.Add(_("Encrypt"));
 	m_Secure_FunctionStrings.Add(_("Decrypt"));
@@ -503,14 +498,14 @@ void frmMain::CreateControls(){
 
 	wxBoxSizer* SecureButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SecureTopSizer->Add(SecureButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
-	
+
 	wxButton* SecureOKButton = new wxButton(SecurePanel, ID_SECURE_OK, _("OK"));
 	SecureButtonsSizer->Add(SecureOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-	
+
 	wxButton* SecurePreviewButton = new wxButton(SecurePanel, ID_SECURE_PREVIEW , _("Preview"));
 	SecureButtonsSizer->Add(SecurePreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);	
 
-	//Main Secure area
+	//Secure - Main
 	wxGridBagSizer* SecureMainSizer = new wxGridBagSizer(0, 0);
 	SecureMainSizer->AddGrowableCol(0);
 	SecureMainSizer->AddGrowableCol(2);
@@ -548,7 +543,7 @@ void frmMain::CreateControls(){
 	wxBitmapButton* SecureExpand = new wxBitmapButton(SecurePanel, ID_SECURE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	SecureAddExpandSizer->Add(SecureExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 10);
 
-	//Rules section
+	//Rules
 	wxPanel* itemPanel93 = new wxPanel( m_Notebook, ID_PANEL_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	wxBoxSizer* itemBoxSizer94 = new wxBoxSizer(wxVERTICAL);
 	itemPanel93->SetSizer(itemBoxSizer94);
