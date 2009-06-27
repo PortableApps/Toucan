@@ -775,24 +775,17 @@ void frmMain::CreateControls(){
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, 5);
 
 	//Add the panels
-	wxBitmap syncbitmap = GetBitmapResource(wxT("sync.png"));
-	wxBitmap backupbitmap = GetBitmapResource(wxT("backup.png"));
-	wxBitmap securebitmap = GetBitmapResource(wxT("secure.png"));
-	wxBitmap settingsbitmap = GetBitmapResource(wxT("settings.png"));
-	wxBitmap scriptbitmap = GetBitmapResource(wxT("script.png"));
-	wxBitmap rulesbitmap = GetBitmapResource(wxT("rules.png"));
-	wxBitmap pvarsbitmap = GetBitmapResource(wxT("pvars.png"));
-	wxBitmap helpbitmap = GetBitmapResource(wxT("help.png"));
+	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, pvarsbitmap, helpbitmap;
 	
-	if(wxGetApp().m_Settings->GetTabStyle() == _("Text")){
-		syncbitmap = wxNullBitmap;
-		backupbitmap = wxNullBitmap;
-		securebitmap = wxNullBitmap;
-		settingsbitmap = wxNullBitmap;
-		scriptbitmap = wxNullBitmap;
-		rulesbitmap = wxNullBitmap;
-		pvarsbitmap = wxNullBitmap;
-		helpbitmap = wxNullBitmap;
+	if(wxGetApp().m_Settings->GetTabStyle() == _("Icons and Text")){
+		syncbitmap = GetBitmapResource(wxT("sync.png"));
+		backupbitmap = GetBitmapResource(wxT("backup.png"));
+		securebitmap = GetBitmapResource(wxT("secure.png"));
+		settingsbitmap = GetBitmapResource(wxT("settings.png"));
+		scriptbitmap = GetBitmapResource(wxT("script.png"));
+		rulesbitmap = GetBitmapResource(wxT("rules.png"));
+		pvarsbitmap = GetBitmapResource(wxT("pvars.png"));
+		helpbitmap = GetBitmapResource(wxT("help.png"));
 	}
 
 	m_Notebook->AddPage(SyncPanel, _("Sync"), false, syncbitmap);
@@ -850,7 +843,7 @@ void frmMain::CreateControls(){
 	SetJobsBox(m_Backup_Job_Select, wxT("Backup"));
 	SetJobsBox(m_Secure_Job_Select, wxT("Secure"));
 	
-	//Set the portable variables box
+	//Set the variables box
 	SetVariablesBox(m_Variables_Name);
 	
 	//Set the scripts box
