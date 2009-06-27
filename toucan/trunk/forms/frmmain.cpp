@@ -201,50 +201,47 @@ void frmMain::CreateControls(){
 	m_auiManager.SetManagedWindow(this);
 
 	//Create the root AUI notebook
-	m_Notebook = new wxAuiNotebook( this, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER);
+	m_Notebook = new wxAuiNotebook(this, ID_AUINOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_SCROLL_BUTTONS|wxNO_BORDER);
 
 	//The sync panel
-	wxPanel* itemPanel6 = new wxPanel( m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
-	itemPanel6->SetSizer(itemBoxSizer7);
-
-	wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer7->Add(itemBoxSizer8, 1, wxGROW|wxALL, 0);
-	wxBoxSizer* itemBoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer8->Add(itemBoxSizer9, 0, wxGROW|wxALL, 0);
+	wxPanel* SyncPanel = new wxPanel(m_Notebook, ID_PANEL_SYNC, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
+	wxBoxSizer* SyncSizer = new wxBoxSizer(wxVERTICAL);
+	SyncPanel->SetSizer(SyncSizer);
 
 	//Top sizer
-	wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer8->Add(itemBoxSizer28, 0, wxGROW|wxALL, 5);
-	
-	wxBoxSizer* itemBoxSizer001 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer28->Add(itemBoxSizer001, 0, wxGROW|wxALL, 0);	
+	wxBoxSizer* SyncTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	SyncSizer->Add(SyncTopSizer, 0, wxEXPAND|wxALL, 5);
 
 	//Job section
-	wxStaticBox* itemStaticBoxSizer10Static = new wxStaticBox(itemPanel6, wxID_ANY, _("Job Name"));
-	wxStaticBoxSizer* itemStaticBoxSizer10 = new wxStaticBoxSizer(itemStaticBoxSizer10Static, wxHORIZONTAL);
-	itemBoxSizer001->Add(itemStaticBoxSizer10, 0, wxALIGN_TOP|wxALL, 5);
+	wxBoxSizer* SyncJobsRulesSizer = new wxBoxSizer(wxVERTICAL);
+	SyncTopSizer->Add(SyncJobsRulesSizer, 0, wxGROW|wxALL, 0);	
+
+	wxStaticBox* SyncJob = new wxStaticBox(SyncPanel, wxID_ANY, _("Job Name"));
+	wxStaticBoxSizer* SyncJobSizer = new wxStaticBoxSizer(SyncJob, wxHORIZONTAL);
+	SyncJobsRulesSizer->Add(SyncJobSizer, 0, wxALIGN_TOP|wxALL, 5);
+
 	wxArrayString m_Sync_Job_SelectStrings;
-	m_Sync_Job_Select = new wxComboBox( itemPanel6, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Sync_Job_Select = new wxComboBox(SyncPanel, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Sync_Job_Select->SetMinSize(wxSize(125, -1));
-	itemStaticBoxSizer10->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	SyncJobSizer->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton12 = new wxBitmapButton( itemPanel6, ID_SYNC_JOB_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemStaticBoxSizer10->Add(itemBitmapButton12, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* SyncJobSave = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncJobSizer->Add(SyncJobSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton13 = new wxBitmapButton( itemPanel6, ID_SYNC_JOB_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemStaticBoxSizer10->Add(itemBitmapButton13, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* SyncJobAdd = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncJobSizer->Add(SyncJobAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBitmapButton* itemBitmapButton14 = new wxBitmapButton( itemPanel6, ID_SYNC_JOB_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemStaticBoxSizer10->Add(itemBitmapButton14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxBitmapButton* SyncJobRemove = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncJobSizer->Add(SyncJobRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	//Rules section
-	wxStaticBox* itemStaticBoxSizer15Static = new wxStaticBox(itemPanel6, wxID_ANY, _("Rules"));
-	wxStaticBoxSizer* itemStaticBoxSizer15 = new wxStaticBoxSizer(itemStaticBoxSizer15Static, wxHORIZONTAL);
-	itemBoxSizer001->Add(itemStaticBoxSizer15, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
+	wxStaticBox* SyncRules = new wxStaticBox(SyncPanel, wxID_ANY, _("Rules"));
+	wxStaticBoxSizer* SyncRulesSizer = new wxStaticBoxSizer(SyncRules, wxHORIZONTAL);
+	SyncJobsRulesSizer->Add(SyncRulesSizer, 0, wxALIGN_TOP|wxALL|wxGROW, 5);
+
 	wxArrayString m_Sync_RulesStrings;
-	m_Sync_Rules = new wxComboBox( itemPanel6, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	itemStaticBoxSizer15->Add(m_Sync_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
+	m_Sync_Rules = new wxComboBox(SyncPanel, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	SyncRulesSizer->Add(m_Sync_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
 
 	//Options section
 	wxArrayString m_Sync_FunctionStrings;
@@ -254,92 +251,75 @@ void frmMain::CreateControls(){
 	m_Sync_FunctionStrings.Add(_("Equalise"));
 	m_Sync_FunctionStrings.Add(_("Move"));
 	m_Sync_FunctionStrings.Add(_("Clean"));
-	m_Sync_Function = new wxRadioBox( itemPanel6, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 4, wxRA_SPECIFY_ROWS);
+	m_Sync_Function = new wxRadioBox(SyncPanel, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 4, wxRA_SPECIFY_ROWS);
 	m_Sync_Function->SetSelection(0);
-	itemBoxSizer28->Add(m_Sync_Function, 0, wxALIGN_TOP|wxALL, 5);
+	SyncTopSizer->Add(m_Sync_Function, 0, wxALIGN_TOP|wxALL, 5);
 
-	wxStaticBox* itemStaticBoxSizer30Static = new wxStaticBox(itemPanel6, wxID_ANY, _("Other"));
-	wxStaticBoxSizer* itemStaticBoxSizer30 = new wxStaticBoxSizer(itemStaticBoxSizer30Static, wxVERTICAL);
-	itemBoxSizer28->Add(itemStaticBoxSizer30, 0, wxALIGN_TOP|wxALL, 5);
-	m_Sync_Timestamp = new wxCheckBox( itemPanel6, ID_SYNC_TIMESTAMP, _("Retain Timestamps"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStaticBox* SyncOther = new wxStaticBox(SyncPanel, wxID_ANY, _("Other"));
+	wxStaticBoxSizer* SyncOtherSizer = new wxStaticBoxSizer(SyncOther, wxVERTICAL);
+	SyncTopSizer->Add(SyncOtherSizer, 0, wxALIGN_TOP|wxALL, 5);
+
+	m_Sync_Timestamp = new wxCheckBox(SyncPanel, ID_SYNC_TIMESTAMP, _("Retain Timestamps"));
 	m_Sync_Timestamp->SetValue(false);
-	itemStaticBoxSizer30->Add(m_Sync_Timestamp, 0, wxALIGN_LEFT|wxALL, 5);
+	SyncOtherSizer->Add(m_Sync_Timestamp, 0, wxALIGN_LEFT|wxALL, 5);
 
-	m_Sync_Attributes = new wxCheckBox( itemPanel6, ID_SYNC_ATTRIB, _("Retain Attributes"), wxDefaultPosition, wxDefaultSize, 0);
+	m_Sync_Attributes = new wxCheckBox(SyncPanel, ID_SYNC_ATTRIB, _("Retain Attributes"));
 	m_Sync_Attributes->SetValue(false);
-	itemStaticBoxSizer30->Add(m_Sync_Attributes, 0, wxALIGN_LEFT|wxALL, 5);
+	SyncOtherSizer->Add(m_Sync_Attributes, 0, wxALIGN_LEFT|wxALL, 5);
 
-	m_Sync_Ignore_Readonly = new wxCheckBox( itemPanel6, ID_SYNC_IGNORERO, _("Ignore Read-Only"), wxDefaultPosition, wxDefaultSize, 0);
+	m_Sync_Ignore_Readonly = new wxCheckBox(SyncPanel, ID_SYNC_IGNORERO, _("Ignore Read-Only"));
 	m_Sync_Ignore_Readonly->SetValue(false);
-	itemStaticBoxSizer30->Add(m_Sync_Ignore_Readonly, 0, wxALIGN_LEFT|wxALL, 5);
+	SyncOtherSizer->Add(m_Sync_Ignore_Readonly, 0, wxALIGN_LEFT|wxALL, 5);
 
-	m_Sync_Ignore_DaylightS = new wxCheckBox( itemPanel6, ID_SYNC_IGNOREDS, _("Ignore Daylight Savings"), wxDefaultPosition, wxDefaultSize, 0);
+	m_Sync_Ignore_DaylightS = new wxCheckBox(SyncPanel, ID_SYNC_IGNOREDS, _("Ignore Daylight Savings"));
 	m_Sync_Ignore_DaylightS->SetValue(false);
-	itemStaticBoxSizer30->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, 5);
+	SyncOtherSizer->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, 5);
 	
-	wxBoxSizer* itemBoxSizer002 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer28->Add(itemBoxSizer002, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
+	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
+	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, 5);	
 	
-	wxButton* itemButtonSyncOK = new wxButton( itemPanel6, ID_SYNC_OK, _("OK"));
-	itemBoxSizer002->Add(itemButtonSyncOK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* SyncOKButton = new wxButton(SyncPanel, ID_SYNC_OK, _("OK"));
+	SyncButtonsSizer->Add(SyncOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
-	wxButton* itemButtonSyncPreview = new wxButton( itemPanel6, ID_SYNC_PREVIEW , _("Preview"));
-	itemBoxSizer002->Add(itemButtonSyncPreview, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* SyncPreviewButton = new wxButton(SyncPanel, ID_SYNC_PREVIEW , _("Preview"));
+	SyncButtonsSizer->Add(SyncPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer8->Add(itemBoxSizer17, 1, wxGROW|wxALL, 5);
-	
-	
-	wxBoxSizer* itemBoxSizer18 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer17->Add(itemBoxSizer18, 1, wxGROW|wxALL, 5);
-	
-	wxStaticText* SyncSourceText = new wxStaticText( itemPanel6, wxID_STATIC, _("Source"), wxDefaultPosition, wxDefaultSize, 0);
-	itemBoxSizer18->Add(SyncSourceText, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5);
-	
-	wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer18->Add(itemBoxSizer19, 0, wxGROW|wxALL, 0);
-	
-	wxBoxSizer* itemBoxSizer2002 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer18->Add(itemBoxSizer2002, 1, wxGROW|wxALL, 0);
-	
-	//Source section
-	m_Sync_Source_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_SOURCE_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0);
-	itemBoxSizer19->Add(m_Sync_Source_Txt, 1, wxALIGN_TOP|wxALL, 5);
+	//Main Sync area
+    wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
+	SyncMainSizer->AddGrowableCol(0);
+	SyncMainSizer->AddGrowableCol(2);
+	SyncMainSizer->AddGrowableRow(2);
+	SyncSizer->Add(SyncMainSizer, 1, wxEXPAND|wxALL, 5);
 
-	wxButton* itemButton21 = new wxButton( itemPanel6, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0);
-	itemBoxSizer19->Add(itemButton21, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxStaticText* SyncSourceText = new wxStaticText(SyncPanel, wxID_STATIC, _("Source"));
+	SyncMainSizer->Add(SyncSourceText, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, 5);
 
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_HIDE_ROOT | wxTR_SINGLE | wxBORDER_THEME);
-	itemBoxSizer2002->Add(m_Sync_Source_Tree, 1, wxGROW|wxALL, 5);
-	
-	wxBitmapButton* itemBitmapButton006 = new wxBitmapButton( itemPanel6, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemBoxSizer2002->Add(itemBitmapButton006, 0, wxALIGN_CENTER_VERTICAL, 0);	
+	m_Sync_Source_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_SOURCE_TXT);
+	SyncMainSizer->Add(m_Sync_Source_Txt, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
-	itemBoxSizer17->Add(itemBoxSizer23, 1, wxGROW|wxALL, 5);
+	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25));
+	SyncMainSizer->Add(SyncSourceButton, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL, 5);
 
-	wxStaticText* SyncDestText = new wxStaticText( itemPanel6, wxID_STATIC, _("Destination"), wxDefaultPosition, wxDefaultSize, 0);
-	itemBoxSizer23->Add(SyncDestText, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5);
+	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
 
-	wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer23->Add(itemBoxSizer24, 0, wxGROW|wxALL, 0);
-	
-	wxBoxSizer* itemBoxSizer2001 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer23->Add(itemBoxSizer2001, 1, wxGROW|wxALL, 0);
+	wxBitmapButton* SyncSourceExpand = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncMainSizer->Add(SyncSourceExpand, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 
+	wxStaticText* SyncDestText = new wxStaticText(SyncPanel, wxID_STATIC, _("Destination"));
+	SyncMainSizer->Add(SyncDestText, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, 5);
 
-	//Destination section
-	m_Sync_Dest_Txt = new wxTextCtrl( itemPanel6, ID_SYNC_DEST_TXT, _T(""), wxDefaultPosition, wxDefaultSize, 0);
-	itemBoxSizer24->Add(m_Sync_Dest_Txt, 1, wxALIGN_TOP|wxALL, 5);
+	m_Sync_Dest_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_DEST_TXT);
+	SyncMainSizer->Add(m_Sync_Dest_Txt, wxGBPosition(1, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
 
-	wxButton* itemButton26 = new wxButton( itemPanel6, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25), 0);
-	itemBoxSizer24->Add(itemButton26, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, 25));
+	SyncMainSizer->Add(SyncDestButton, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALL, 5);
 
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl( itemPanel6, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_HIDE_ROOT | wxTR_SINGLE | wxBORDER_THEME);
-	itemBoxSizer2001->Add(m_Sync_Dest_Tree, 1, wxGROW|wxALL, 5);
-	
-	wxBitmapButton* itemBitmapButton005 = new wxBitmapButton( itemPanel6, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	itemBoxSizer2001->Add(itemBitmapButton005, 0, wxALIGN_CENTER_VERTICAL, 0);
+	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, 5);
+
+	wxBitmapButton* SyncDestExpand = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncMainSizer->Add(SyncDestExpand, wxGBPosition(2, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, 5);
 
 	//Backup section
 	wxPanel* BackupPanel = new wxPanel(m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -811,7 +791,7 @@ void frmMain::CreateControls(){
 		helpbitmap = wxNullBitmap;
 	}
 
-	m_Notebook->AddPage(itemPanel6, _("Sync"), false, syncbitmap);
+	m_Notebook->AddPage(SyncPanel, _("Sync"), false, syncbitmap);
 	m_Notebook->AddPage(BackupPanel, _("Backup"), false, backupbitmap);
 	m_Notebook->AddPage(itemPanel68, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(itemPanel93, _("Rules"), false, rulesbitmap);
@@ -887,11 +867,11 @@ void frmMain::CreateControls(){
 	//Set the tooltips if required
 	if(wxGetApp().m_Settings->GetEnableTooltips()){
 		//Sync
-		itemBitmapButton12->SetToolTip(_("Save"));
-		itemBitmapButton13->SetToolTip(_("Add"));
-		itemBitmapButton14->SetToolTip(_("Remove"));
-		itemBitmapButton006->SetToolTip(_("Expand All"));
-		itemBitmapButton005->SetToolTip(_("Expand All"));
+		SyncJobSave->SetToolTip(_("Save"));
+		SyncJobAdd->SetToolTip(_("Add"));
+		SyncJobRemove->SetToolTip(_("Remove"));
+		SyncSourceExpand->SetToolTip(_("Expand All"));
+		SyncDestExpand->SetToolTip(_("Expand All"));
 		//Backup
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
@@ -1658,7 +1638,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.1.1 Pre-Release 2"));
+	info.SetVersion(wxT("2.2.0 Pre-Release 1"));
 	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
