@@ -33,6 +33,7 @@ public:
 	void SetX(const double& X) {this->m_X = X;}
 	void SetY(const double& Y) {this->m_Y = Y;}
 	void SetEnableTooltips(const bool& EnableTooltips) {this->m_EnableTooltips = EnableTooltips;}
+	void SetSmallBorders(const bool& SmallBorders) {this->m_SmallBorders = SmallBorders;}
 	const bool& GetDisableLog() const {return m_DisableLog;}
 	const bool& GetDisableStream() const {return m_DisableStream;}
 	const wxString& GetFont() const {return m_Font;}
@@ -47,6 +48,7 @@ public:
 	const double& GetX() const {return m_X;}
 	const double& GetY() const {return m_Y;}
 	const bool& GetEnableTooltips() const {return m_EnableTooltips;}
+	const bool& GetSmallBorders() const {return m_SmallBorders;}
 
 private:
 	wxString m_Position;
@@ -63,6 +65,7 @@ private:
 	bool m_DisableStream;
 	bool m_DisableLog;
 	bool m_EnableTooltips;
+	bool m_SmallBorders;
 	wxFileConfig* config;
 };
 
