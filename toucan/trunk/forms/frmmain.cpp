@@ -862,9 +862,8 @@ void frmMain::CreateControls(){
 	//Set the scripts box
 	SetScriptsBox(m_Script_Name);
 	
-	wxListItem column;
-	m_Variables_List->InsertColumn(0, column);
-	m_Variables_List->InsertColumn(1, column);
+	m_Variables_List->InsertColumn(0, _("Computer"));
+	m_Variables_List->InsertColumn(1, _("Expansion"));
 	
 	//Add some blank items to the combo box to allow deselection
 	m_Sync_Rules->Append(wxEmptyString);
@@ -1449,8 +1448,8 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
         if(!wxGetApp().m_Variables_Config->HasGroup(dialog.GetValue())){
             m_Variables_List->ClearAll();
             wxListItem column;
-            m_Variables_List->InsertColumn(0, column);
-            m_Variables_List->InsertColumn(1, column);
+            m_Variables_List->InsertColumn(0, _("Computer"));
+            m_Variables_List->InsertColumn(1, _("Expansion"));
             wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
             wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
             wxGetApp().m_Variables_Config->Flush();
@@ -1475,8 +1474,8 @@ void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	m_Variables_Name->SetValue(wxEmptyString);
 	m_Variables_List->ClearAll();
 	wxListItem column;
-	m_Variables_List->InsertColumn(0, column);
-	m_Variables_List->InsertColumn(1, column);
+	m_Variables_List->InsertColumn(0, _("Computer"));
+	m_Variables_List->InsertColumn(1, _("Expansion"));
 }
 
 //ID_VARIABLES_NAME
