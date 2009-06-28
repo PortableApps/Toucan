@@ -674,43 +674,37 @@ void frmMain::CreateControls(){
     wxBitmapButton* VariablesRemoveItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
     VariablesRightSizer->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-	//Scripting
-	wxPanel* itemPanel131 = new wxPanel( m_Notebook, ID_PANEL_SCRIPT, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
-	itemPanel131->SetSizer(itemBoxSizer132);
-	
-	wxBoxSizer* itemBoxSizer140 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer132->Add(itemBoxSizer140, 0, wxALIGN_LEFT|wxALL, border);
+	//Script
+	wxPanel* ScriptPanel = new wxPanel(m_Notebook, ID_PANEL_SCRIPT, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
+	wxBoxSizer* ScriptSizer = new wxBoxSizer(wxVERTICAL);
+	ScriptPanel->SetSizer(ScriptSizer);
 
-	wxStaticBox* ScriptStaticBox = new wxStaticBox(itemPanel131, wxID_ANY, _("Name"));
-	wxStaticBoxSizer* ScriptStaticBoxSizer = new wxStaticBoxSizer(ScriptStaticBox, wxHORIZONTAL);
-	itemBoxSizer140->Add(ScriptStaticBoxSizer, 0, wxALIGN_TOP|wxALL, border);
+	wxStaticBox* ScriptName = new wxStaticBox(ScriptPanel, wxID_ANY, _("Name"));
+	wxStaticBoxSizer* ScriptNameSizer = new wxStaticBoxSizer(ScriptName, wxHORIZONTAL);
+	ScriptSizer->Add(ScriptNameSizer, 0, wxALIGN_TOP|wxALL, 2 * border);
 
-	wxArrayString itemComboBox134Strings;
-	m_Script_Name = new wxComboBox( itemPanel131, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, itemComboBox134Strings, wxCB_DROPDOWN|wxCB_READONLY);
+	wxArrayString arrScripts;
+	m_Script_Name = new wxComboBox(ScriptPanel, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrScripts, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Script_Name->SetMinSize(wxSize(125, -1));
-	ScriptStaticBoxSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	ScriptNameSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 	
-	wxBitmapButton* itemBitmapButton135 = new wxBitmapButton( itemPanel131, ID_SCRIPT_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	ScriptStaticBoxSizer->Add(itemBitmapButton135, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBitmapButton* ScriptNameSave = new wxBitmapButton(ScriptPanel, ID_SCRIPT_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	ScriptNameSizer->Add(ScriptNameSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxBitmapButton* itemBitmapButton136 = new wxBitmapButton( itemPanel131, ID_SCRIPT_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	ScriptStaticBoxSizer->Add(itemBitmapButton136, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBitmapButton* ScriptNameAdd = new wxBitmapButton(ScriptPanel, ID_SCRIPT_ADD, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	ScriptNameSizer->Add(ScriptNameAdd, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxBitmapButton* itemBitmapButton137 = new wxBitmapButton( itemPanel131, ID_SCRIPT_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	ScriptStaticBoxSizer->Add(itemBitmapButton137, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBitmapButton* ScriptNameRemove = new wxBitmapButton(ScriptPanel, ID_SCRIPT_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	ScriptNameSizer->Add(ScriptNameRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxButton* itemButton142 = new wxButton( itemPanel131, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0);
-	itemBoxSizer140->Add(itemButton142, 0, wxALIGN_TOP|wxALL, 2 * border);
+	wxButton* ScriptExecute = new wxButton(ScriptPanel, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0);
+	ScriptNameSizer->Add(ScriptExecute, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxBoxSizer* itemBoxSizer138 = new wxBoxSizer(wxHORIZONTAL);
-	itemBoxSizer132->Add(itemBoxSizer138, 1, wxGROW|wxALL, border);
-	m_Script_Rich = new wxTextCtrl( itemPanel131, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxSize(100, 100), wxTE_MULTILINE|wxBORDER_THEME);
-	itemBoxSizer138->Add(m_Script_Rich, 1, wxGROW|wxALL, border);
+	m_Script_Rich = new wxTextCtrl(ScriptPanel, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxBORDER_THEME);
+	ScriptSizer->Add(m_Script_Rich, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 2 * border);
 
 	//Settings
 	wxPanel* SettingsPanel = new wxPanel(m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-
     wxGridBagSizer* SettingsSizer = new wxGridBagSizer(0, 0);
 	SettingsPanel->SetSizer(SettingsSizer);
 
@@ -805,7 +799,7 @@ void frmMain::CreateControls(){
 	m_Notebook->AddPage(SecurePanel, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(RulesPanel, _("Rules"), false, rulesbitmap);
 	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, pvarsbitmap);
-	m_Notebook->AddPage(itemPanel131, _("Script"), false, scriptbitmap);
+	m_Notebook->AddPage(ScriptPanel, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(SettingsPanel, _("Settings"), false, settingsbitmap);
 	m_Notebook->AddPage(HelpPanel, _("Help"), false, helpbitmap);
 
@@ -913,9 +907,9 @@ void frmMain::CreateControls(){
 		VariablesAddItem->SetToolTip(_("Add"));
 		VariablesRemoveItem->SetToolTip(_("Remove"));
 		//Scripting
-		itemBitmapButton135->SetToolTip(_("Save"));
-		itemBitmapButton136->SetToolTip(_("Add"));
-		itemBitmapButton137->SetToolTip(_("Remove"));
+		ScriptNameSave->SetToolTip(_("Save"));
+		ScriptNameAdd->SetToolTip(_("Add"));
+		ScriptNameRemove->SetToolTip(_("Remove"));
 	}
 
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
