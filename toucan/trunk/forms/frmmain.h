@@ -122,6 +122,7 @@ class wxListBox;
 #define ID_VARIABLES_REMOVE 10254
 #define ID_VARIABLES_ADDITEM 10255
 #define ID_VARIABLES_REMOVEITEM 10256
+#define ID_VARIABLES_SAVE 10257
 
 //Script 10300-10349
 #define ID_PANEL_SCRIPT 10301
@@ -238,6 +239,7 @@ public:
 	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);	
 	
 	//Portable Variables
+	void OnVariablesSaveClick(wxCommandEvent& event);
 	void OnVariablesAddClick(wxCommandEvent& event);
 	void OnVariablesRemoveClick(wxCommandEvent& event);	
 	void OnVariablesAddItemClick(wxCommandEvent& event);
