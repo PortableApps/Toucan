@@ -124,8 +124,8 @@ END_EVENT_TABLE()
 //Constructor
 frmMain::frmMain(){
 	//Set up the sizes and so forth
-	int height, width, x, y;
-	wxClientDisplayRect(&x, &y, &width, &height);
+	int height, width;
+	wxClientDisplayRect(NULL, NULL, &width, &height);
 
 	wxPoint position((int)(wxGetApp().m_Settings->GetX() * width), (int)(wxGetApp().m_Settings->GetY() * height));
 	wxSize size((int)(wxGetApp().m_Settings->GetWidth() * width), (int)(wxGetApp().m_Settings->GetHeight() * height));
