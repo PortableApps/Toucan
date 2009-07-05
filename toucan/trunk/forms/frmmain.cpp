@@ -403,6 +403,9 @@ void frmMain::CreateControls(){
 	
 	m_Backup_Ratio_Text = new wxStaticText(BackupPanel, wxID_STATIC, _("Default"));
 	m_Backup_Ratio = new wxSlider(BackupPanel, ID_BACKUP_RATIO, 3, 0, 5);
+	int x, y;
+	m_Backup_Ratio->GetTextExtent(_("Compression Level"), &x, &y);
+	m_Backup_Ratio->SetMinSize(wxSize(x + 10, y));
 	
 	BackupRatioSizer->Add(m_Backup_Ratio_Text);
 	BackupRatioSizer->Add(m_Backup_Ratio);
