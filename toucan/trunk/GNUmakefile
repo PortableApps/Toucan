@@ -13,6 +13,9 @@
 # C++ compiler 
 CXX = g++
 
+# CXXTEST path
+CXXPATH = /usr/include/cxxtest
+
 # Standard flags for C++ 
 CXXFLAGS ?= 
 
@@ -40,6 +43,8 @@ WX_DEBUG ?= $(shell $(WX_CONFIG) --selected-config | cut -d '-' -f 3 | sed 's/de
 # Version of the wx library to build against. 
 WX_VERSION ?= $(shell $(WX_CONFIG) --selected-config | sed -e 's/.*-\([0-9]*\)\.\([0-9]*\)$$/\1\2/')
 
+APPPATH=../../../Application/App/toucan
+OUTPATH=../../../Output
 
 
 # -------------------------------------------------------------------------
@@ -54,37 +59,35 @@ WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_DEBUG_FLAG) $(WX_CONFIG_UNICODE_FLAG) \
 	$(WX_CONFIG_SHARED_FLAG) --toolkit=$(WX_PORT) \
 	--version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-TOUCAN_CXXFLAGS = -W -Wall -D_CRT_SECURE_NO_WARNINGS `$(WX_CONFIG) --cxxflags \
+TOUCAN_CXXFLAGS = -I$(CXXPATH) -W -Wall -D_CRT_SECURE_NO_WARNINGS `$(WX_CONFIG) --cxxflags \
 	$(WX_CONFIG_FLAGS)` -fno-rtti $(CPPFLAGS) $(CXXFLAGS)
 TOUCAN_OBJECTS =  \
-	Toucan_backupprocess.o \
-	Toucan_basicfunctions.o \
-	Toucan_cmdline.o \
-	Toucan_dragndrop.o \
-	Toucan_filecounter.o \
-	Toucan_rules.o \
-	Toucan_script.o \
-	Toucan_secure.o \
-	Toucan_settings.o \
-	Toucan_tests.o \
-	Toucan_toucan.o \
-	Toucan_variables.o \
-	Toucan_waitthread.o \
-	Toucan_extendeddirctrl.o \
-	Toucan_loglistctrl.o \
-	Toucan_virtualdirtreectrl.o \
-	Toucan_backupdata.o \
-	Toucan_rootdata.o \
-	Toucan_securedata.o \
-	Toucan_frmmain.o \
-	Toucan_frmprogress.o \
-	Toucan_frmvariable.o \
-	Toucan_syncbase.o \
-	Toucan_syncdata.o \
-	Toucan_syncfiles.o \
-	Toucan_syncpreview.o \
-	Toucan_syncthread.o
-
+	$(OUTPATH)/Toucan_backupprocess.o \
+	$(OUTPATH)/Toucan_basicfunctions.o \
+	$(OUTPATH)/Toucan_cmdline.o \
+	$(OUTPATH)/Toucan_dragndrop.o \
+	$(OUTPATH)/Toucan_filecounter.o \
+	$(OUTPATH)/Toucan_rules.o \
+	$(OUTPATH)/Toucan_script.o \
+	$(OUTPATH)/Toucan_secure.o \
+	$(OUTPATH)/Toucan_settings.o \
+	$(OUTPATH)/Toucan_toucan.o \
+	$(OUTPATH)/Toucan_variables.o \
+	$(OUTPATH)/Toucan_waitthread.o \
+	$(OUTPATH)/Toucan_extendeddirctrl.o \
+	$(OUTPATH)/Toucan_loglistctrl.o \
+	$(OUTPATH)/Toucan_virtualdirtreectrl.o \
+	$(OUTPATH)/Toucan_backupdata.o \
+	$(OUTPATH)/Toucan_rootdata.o \
+	$(OUTPATH)/Toucan_securedata.o \
+	$(OUTPATH)/Toucan_frmmain.o \
+	$(OUTPATH)/Toucan_frmprogress.o \
+	$(OUTPATH)/Toucan_frmvariable.o \
+	$(OUTPATH)/Toucan_syncbase.o \
+	$(OUTPATH)/Toucan_syncdata.o \
+	$(OUTPATH)/Toucan_syncfiles.o \
+	$(OUTPATH)/Toucan_syncpreview.o \
+	$(OUTPATH)/Toucan_syncthread.o \
 ### Conditionally set variables: ###
 
 ifeq ($(WX_DEBUG),0)
@@ -109,102 +112,99 @@ endif
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild Output/Toucan
+all: test_for_selected_wxbuild $(APPPATH)/Toucan
 
 install: 
 
 uninstall: 
 
 clean: 
-	rm -f ./*.o
-	rm -f ./*.d
-	rm -f Output/Toucan
+	rm -f $(OUTPATH)/*.o
+	rm -f $(OUTPATH)/*.d
+	rm -f $(APPPATH)/Toucan
 
 test_for_selected_wxbuild: 
 	@$(WX_CONFIG) $(WX_CONFIG_FLAGS)
 
-Output/Toucan: $(TOUCAN_OBJECTS)
+$(APPPATH)/Toucan: $(TOUCAN_OBJECTS)
 	$(CXX) -o $@ $(TOUCAN_OBJECTS)   $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs aui,html,adv,net,core,base`
 
-Toucan_backupprocess.o: ./backupprocess.cpp
+$(OUTPATH)/Toucan_backupprocess.o: ./backupprocess.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_basicfunctions.o: ./basicfunctions.cpp
+$(OUTPATH)/Toucan_basicfunctions.o: ./basicfunctions.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_cmdline.o: ./cmdline.cpp
+$(OUTPATH)/Toucan_cmdline.o: ./cmdline.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_dragndrop.o: ./dragndrop.cpp
+$(OUTPATH)/Toucan_dragndrop.o: ./dragndrop.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_filecounter.o: ./filecounter.cpp
+$(OUTPATH)/Toucan_filecounter.o: ./filecounter.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_rules.o: ./rules.cpp
+$(OUTPATH)/Toucan_rules.o: ./rules.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_script.o: ./script.cpp
+$(OUTPATH)/Toucan_script.o: ./script.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_secure.o: ./secure.cpp
+$(OUTPATH)/Toucan_secure.o: ./secure.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_settings.o: ./settings.cpp
+$(OUTPATH)/Toucan_settings.o: ./settings.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_tests.o: ./tests.cpp
+$(OUTPATH)/Toucan_toucan.o: ./toucan.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_toucan.o: ./toucan.cpp
+$(OUTPATH)/Toucan_variables.o: ./variables.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_variables.o: ./variables.cpp
+$(OUTPATH)/Toucan_waitthread.o: ./waitthread.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_waitthread.o: ./waitthread.cpp
+$(OUTPATH)/Toucan_extendeddirctrl.o: ./controls/extendeddirctrl.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_extendeddirctrl.o: ./controls/extendeddirctrl.cpp
+$(OUTPATH)/Toucan_loglistctrl.o: ./controls/loglistctrl.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_loglistctrl.o: ./controls/loglistctrl.cpp
+$(OUTPATH)/Toucan_virtualdirtreectrl.o: ./controls/virtualdirtreectrl.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_virtualdirtreectrl.o: ./controls/virtualdirtreectrl.cpp
+$(OUTPATH)/Toucan_backupdata.o: ./data/backupdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_backupdata.o: ./data/backupdata.cpp
+$(OUTPATH)/Toucan_rootdata.o: ./data/rootdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_rootdata.o: ./data/rootdata.cpp
+$(OUTPATH)/Toucan_securedata.o: ./data/securedata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_securedata.o: ./data/securedata.cpp
+$(OUTPATH)/Toucan_frmmain.o: ./forms/frmmain.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_frmmain.o: ./forms/frmmain.cpp
+$(OUTPATH)/Toucan_frmprogress.o: ./forms/frmprogress.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_frmprogress.o: ./forms/frmprogress.cpp
+$(OUTPATH)/Toucan_frmvariable.o: ./forms/frmvariable.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_frmvariable.o: ./forms/frmvariable.cpp
+$(OUTPATH)/Toucan_syncbase.o: ./sync/syncbase.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_syncbase.o: ./sync/syncbase.cpp
+$(OUTPATH)/Toucan_syncdata.o: ./sync/syncdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_syncdata.o: ./sync/syncdata.cpp
+$(OUTPATH)/Toucan_syncfiles.o: ./sync/syncfiles.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_syncfiles.o: ./sync/syncfiles.cpp
+$(OUTPATH)/Toucan_syncpreview.o: ./sync/syncpreview.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-Toucan_syncpreview.o: ./sync/syncpreview.cpp
-	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
-
-Toucan_syncthread.o: ./sync/syncthread.cpp
+$(OUTPATH)/Toucan_syncthread.o: ./sync/syncthread.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean
