@@ -51,7 +51,7 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 		if(!rules.ShouldExclude(source, false)){
 			if(CopyFilePlain(source, dest)){
 				if(data->GetFunction() == _("Move")){
-					DeleteFile(source);
+					RemoveFile(source);
 				}
 			}	
 		}	
@@ -63,7 +63,7 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!rules.ShouldExclude(dest, false)){
-			DeleteFile(dest);			
+			RemoveFile(dest);			
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
@@ -82,7 +82,7 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 			//Use the hash check version to minimise copying
 			if(CopyFileHash(source, dest)){
 				if(data->GetFunction() == _("Move")){
-					DeleteFile(source);
+					RemoveFile(source);
 				}				
 			}
 		}

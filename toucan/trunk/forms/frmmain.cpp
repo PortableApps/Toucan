@@ -1351,7 +1351,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	m_Sync_Dest_Tree->SetSync(true);
 	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 
-	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
+	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
 		m_Sync_Source_Tree->SetRules(rules);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
@@ -1656,7 +1656,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.2.0 Pre-Release 1"));
+	info.SetVersion(wxT("2.1.1"));
 	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
