@@ -14,8 +14,6 @@ class wxListCtrl;
 class wxListEvent;
 class wxHtmlHelpWindow;
 class wxFontPickerCtrl;
-class Settings;
-class ExtendedDirCtrl;
 class wxVirtualDirTreeCtrl;
 class wxTreeEvent;
 class wxComboBox;
@@ -23,6 +21,11 @@ class wxTextCtrl;
 class wxCheckBox;
 class wxStaticText;
 class wxListBox;
+class wxRadioBox;
+class wxSlider;
+
+class Settings;
+class ExtendedDirCtrl;
 
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
@@ -339,7 +342,7 @@ public:
 	
 	//Portable Variables
 	wxComboBox* m_Variables_Name;
-    wxListCtrl* m_Variables_List;
+    	wxListCtrl* m_Variables_List;
 	
 	//Script
 	wxTextCtrl* m_Script_Rich;
