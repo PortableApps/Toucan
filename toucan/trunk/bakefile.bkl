@@ -9,11 +9,10 @@
 		<cxx-rtti>off</cxx-rtti>
 		<warnings>max</warnings>
 		<dirname>Output</dirname>
-		<define>_CRT_SECURE_NO_WARNINGS</define>
 
         <sources>backupprocess.cpp basicfunctions.cpp cmdline.cpp dragndrop.cpp</sources>
 		<sources>filecounter.cpp rules.cpp script.cpp secure.cpp</sources>
-		<sources>settings.cpp tests.cpp toucan.cpp variables.cpp waitthread.cpp</sources>
+		<sources>settings.cpp toucan.cpp variables.cpp waitthread.cpp</sources>
 		<sources>controls/extendeddirctrl.cpp controls/loglistctrl.cpp controls/virtualdirtreectrl.cpp</sources>
 		<sources>data/backupdata.cpp data/rootdata.cpp data/securedata.cpp</sources>
 		<sources>forms/frmmain.cpp forms/frmprogress.cpp forms/frmvariable.cpp</sources>
@@ -21,7 +20,7 @@
 		
         <headers>backupprocess.h basicfunctions.h cmdline.h dragndrop.h</headers>
 		<headers>filecounter.h rules.h script.h secure.h</headers>
-		<headers>settings.h tests.h toucan.h variables.h waitthread.h</headers>
+		<headers>settings.h toucan.h variables.h waitthread.h</headers>
 		<headers>controls/extendeddirctrl.h controls/loglistctrl.h controls/virtualdirtreectrl.h</headers>
 		<headers>data/backupdata.h data/rootdata.h data/securedata.h</headers>
 		<headers>forms/frmmain.h forms/frmprogress.h forms/frmvariable.h</headers>
@@ -35,7 +34,6 @@
         <wx-lib>base</wx-lib>
 
         <win32-res>toucan.rc</win32-res> 
-
     </exe>
 
 </makefile>
