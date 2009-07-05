@@ -1368,7 +1368,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	m_Sync_Dest_Tree->SetSync(true);
 	m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 
-	if(m_Sync_Function->GetStringSelection() == _("Equalise")){
+	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
 		m_Sync_Source_Tree->SetRules(rules);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
