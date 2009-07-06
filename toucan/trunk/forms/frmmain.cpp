@@ -394,6 +394,9 @@ void frmMain::CreateControls(){
 	BackupRatioSizer->Add(m_Backup_Ratio_Text);
 
 	m_Backup_Ratio = new wxSlider(BackupPanel, ID_BACKUP_RATIO, 3, 0, 5);
+	int ratiox;
+	m_Backup_Ratio->GetTextExtent(_("Compression Level"), &ratiox, NULL);
+	m_Backup_Ratio->SetMinSize(wxSize(ratiox + 10, -1));
 	BackupRatioSizer->Add(m_Backup_Ratio);
 
 	wxStaticBox* BackupOther = new wxStaticBox(BackupPanel, wxID_ANY, _("Other"));
@@ -710,9 +713,9 @@ void frmMain::CreateControls(){
 
 	wxStaticBox* FieldsStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Remember Entered Information"));
 	wxStaticBoxSizer* FieldsStaticBoxSizer = new wxStaticBoxSizer(FieldsStaticBox, wxVERTICAL);
-	int x, y;
-	FieldsStaticBox->GetTextExtent(_("Remember Entered Information"), &x, &y);
-	FieldsStaticBoxSizer->SetMinSize(wxSize(x + 20, -1));
+	int fieldsx;
+	FieldsStaticBox->GetTextExtent(_("Remember Entered Information"), &fieldsx, NULL);
+	FieldsStaticBoxSizer->SetMinSize(wxSize(fieldsx + 10, -1));
 	SettingsSizer->Add(FieldsStaticBoxSizer, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	m_Settings_RememberSync = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSYNC, _("Sync"));
@@ -732,7 +735,7 @@ void frmMain::CreateControls(){
 	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
-	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALL|wxEXPAND, border);
+	LanguageStaticBoxSizer->Add(m_Settings_Language, 1, wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL, border);
 
 	wxArrayString arrTabStyles;
 	arrTabStyles.Add(_("Icons and Text"));

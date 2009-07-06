@@ -15,6 +15,7 @@
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
+#include <algorithm>
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
@@ -181,7 +182,8 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 
 //ID_SCRIPTTEXT
 void frmProgress::OnScriptText(wxCommandEvent& event){
-	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	long location = std::max(0, m_List->GetItemCount() - 1);
+	long index = m_List->InsertItem(location, wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->EnsureVisible(index);
 	Update();
@@ -189,7 +191,8 @@ void frmProgress::OnScriptText(wxCommandEvent& event){
 
 //ID_SCRIPTTEXT
 void frmProgress::OnScriptTime(wxCommandEvent& event){
-	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	long location = std::max(0, m_List->GetItemCount() - 1);
+	long index = m_List->InsertItem(location, wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
 	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
@@ -199,7 +202,8 @@ void frmProgress::OnScriptTime(wxCommandEvent& event){
 
 //ID_SCRIPTERROR
 void frmProgress::OnScriptError(wxCommandEvent& event){
-	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	long location = std::max(0, m_List->GetItemCount() - 1);
+	long index = m_List->InsertItem(location, wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
 	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
@@ -210,6 +214,7 @@ void frmProgress::OnScriptError(wxCommandEvent& event){
 
 //ID_SCRIPTBLANK
 void frmProgress::OnScriptBlank(wxCommandEvent& WXUNUSED(event)){
-	long index = m_List->InsertItem(m_List->GetItemCount() - 1, wxEmptyString);
+	long location = std::max(0, m_List->GetItemCount() - 1);
+	long index = m_List->InsertItem(location, wxEmptyString);
 	m_List->SetItem(index, 1, wxEmptyString);
 }

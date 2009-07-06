@@ -29,7 +29,7 @@ public:
 	const int& GetCommand() const {return m_Command;}
 	const wxArrayString& GetScript() const {return m_Script;}
 	const wxDateTime& GetTime() const {return m_Time;}
-	const int GetCount() const {return m_Script.GetCount();}
+	int GetCount() const {return m_Script.GetCount();}
 
 private:
 	wxArrayString m_Script;
