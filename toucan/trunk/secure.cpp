@@ -112,21 +112,27 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 	wxArrayString arrOutput;
 
 	if(data.GetFunction() == _("Encrypt")){
+		wxString exe;
 		//Set the file to have normal attributes so it can be encrypted
 		#ifdef __WXMSW__   
+			exe = wxT("ccrypt.exe");
 			int filearrtibs = GetFileAttributes(strFile);
 			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
+		#else
+			exe = wxT("./ccrypt");
 		#endif
 
+		wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
+
 		//Create and execute the command
-		wxString command = wxT("ccrypt -e -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = exe + wxT(" -e -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
-		
+
 		//Put the old attributed back
 		#ifdef __WXMSW__
 			SetFileAttributes(strFile,filearrtibs);
 		#endif
-		
+
 		if(lgReturn == 0){        
 			OutputProgress(_("Encrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
@@ -136,10 +142,14 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 	}
 
 	else if(data.GetFunction() == _("Decrypt")){
+		wxString exe;
 		//Set the file to have normal attributes so it can be decrypted
 		#ifdef __WXMSW__
+			exe = wxT("ccrypt.exe");
 			int filearrtibs = GetFileAttributes(strFile);
-			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL); 
+			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);
+		#else
+			exe = wxT("./ccrypt");
 		#endif
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
@@ -148,10 +158,11 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 			return true;
 		}
 
+		wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
+
 		//Create and execute the command
-		wxString command = wxT("ccrypt -f -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = exe + wxT(" -f -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
-		
 
 		//Put the old attributed back
 		#ifdef __WXMSW__
