@@ -4,9 +4,10 @@
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
+#include "toucan.h"
 #include "waitthread.h"
 #include "backupprocess.h"
-#include "toucan.h"
+#include "forms/frmprogress.h"
 #ifdef __WXMSW__
 	#include <windows.h>
 #endif
@@ -35,5 +36,9 @@ void *WaitThread::Entry(){
 			}
 		}
 	#endif
+	while(m_Process->HasInput())
+			;
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	wxPostEvent(wxGetApp().ProgressWindow, event);	
 	return NULL;
 }

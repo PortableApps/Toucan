@@ -30,7 +30,7 @@ bool PipedProcess::HasInput()
 		//Need a window update or refresh in here
 		wxMilliSleep(50);
 		hasInput = true;
-    	}
+	}
 	return hasInput;
 }
 
