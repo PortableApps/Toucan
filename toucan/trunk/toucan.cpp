@@ -155,8 +155,6 @@ bool Toucan::OnInit(){
 			}
 			file.Write();
 		}
-		delete MainWindow->m_BackupLocations;
-		delete MainWindow->m_SecureLocations;
 		wxGetApp().MainWindow->Destroy();
 		wxGetApp().ProgressWindow->Destroy();
 	}
