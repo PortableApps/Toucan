@@ -30,9 +30,11 @@ public:
 	void SetAbort(const bool& Abort) {this->m_Abort = Abort;}
 	void SetSettingsPath(const wxString& SettingsPath) {this->m_SettingsPath = SettingsPath;}
 	void SetUsesGUI(const bool& UsesGUI) {this->m_UsesGUI = UsesGUI;}
+	void SetFinished(const bool& Finished) {this->m_Finished = Finished;}
 	const bool& GetAbort() const {return m_Abort;}
 	const wxString& GetSettingsPath() const {return m_SettingsPath;}
 	const bool& GetUsesGUI() const {return m_UsesGUI;}
+	const bool& GetFinished() const {return m_Finished;}
 
 	//The two persistant forms
 	frmMain* MainWindow;
@@ -60,6 +62,7 @@ private:
 	bool m_Abort;
 	wxString m_SettingsPath;
 	bool m_UsesGUI;
+	bool m_Finished;
 };
 
 DECLARE_APP(Toucan)

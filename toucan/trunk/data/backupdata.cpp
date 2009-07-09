@@ -199,7 +199,7 @@ wxString BackupData::CreateCommand(int i){
 	strTempDir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");
 
 	if(GetFunction() == _("Complete")){
-		strCommand = exe + wxT(" a -no-utf16 -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
+		strCommand = exe + wxT(" a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
 	}
 	else if(GetFunction() == _("Update")){
 		strCommand = exe + wxT(" u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
@@ -335,6 +335,8 @@ bool BackupData::Execute(Rules rules){
 			EnableGauge(false);
 		}
 		wxString strCommand = CreateCommand(i);
+		wxSetWorkingDirectory(path);
+		
 		PipedProcess *process = new PipedProcess();
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	
@@ -342,7 +344,15 @@ bool BackupData::Execute(Rules rules){
 		WaitThread *thread = new WaitThread(lgPID, process);
 
 		thread->Create();
-		thread->Run();	
+		thread->Run();
+		
+		if(!wxGetApp().GetUsesGUI()){
+			while(!wxGetApp().GetFinished()){
+				//So we dont thrash the processor
+				wxMilliSleep(10);
+				wxGetApp().Yield();
+			}
+		}
 	}
 	return true;
 }

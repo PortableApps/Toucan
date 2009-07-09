@@ -162,7 +162,12 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_Sync_Dest_Txt->GetValue())));		
 			}
 		}
+		//If we are in console then set the global variable to let Toucan know it has finished
+		if(!wxGetApp().GetUsesGUI()){
+			wxGetApp().SetFinished(true);
+		}
 		//We have finished, if on windows flash the taskbar to let the user know
+		//ATTN : There is a wx function for this, need to use it on other platforms
 		#ifdef __WXMSW__
 			FLASHWINFO info;
 			info.uCount = 3;
