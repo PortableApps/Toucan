@@ -199,7 +199,7 @@ wxString BackupData::CreateCommand(int i){
 	strTempDir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");
 
 	if(GetFunction() == _("Complete")){
-		strCommand = exe + wxT(" a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
+		strCommand = exe + wxT(" a -no-utf16 -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
 	}
 	else if(GetFunction() == _("Update")){
 		strCommand = exe + wxT(" u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
@@ -335,25 +335,14 @@ bool BackupData::Execute(Rules rules){
 			EnableGauge(false);
 		}
 		wxString strCommand = CreateCommand(i);
-		wxSetWorkingDirectory(path);
 		PipedProcess *process = new PipedProcess();
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	
 		process->SetRealPid(lgPID);
-		
-		wxThreadKind kind = wxTHREAD_DETACHED;
-		if(!wxGetApp().GetUsesGUI()){
-			kind = wxTHREAD_JOINABLE;
-		}
-		WaitThread *thread = new WaitThread(lgPID, process, kind);
+		WaitThread *thread = new WaitThread(lgPID, process);
 
 		thread->Create();
-		thread->Run();
-		
-		//If we are in the console then we dont want to return until it has finished
-		if(!wxGetApp().GetUsesGUI()){
-			thread->Wait();
-		}
+		thread->Run();	
 	}
 	return true;
 }
