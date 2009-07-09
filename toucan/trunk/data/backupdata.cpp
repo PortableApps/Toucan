@@ -335,7 +335,6 @@ bool BackupData::Execute(Rules rules){
 			EnableGauge(false);
 		}
 		wxString strCommand = CreateCommand(i);
-		wxMessageBox(strCommand);
 		PipedProcess *process = new PipedProcess();
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	
