@@ -14,7 +14,7 @@ class WaitThread : public wxThread
 {
 public:
 	//Constructor
-	WaitThread(long pid, PipedProcess *process, wxThreadKind kind):wxThread(kind){
+	WaitThread(long pid, PipedProcess *process):wxThread(wxTHREAD_DETACHED){
 		m_PID = pid;
 		m_Process = process;
 	}
