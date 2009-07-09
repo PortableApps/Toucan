@@ -39,6 +39,6 @@ void *WaitThread::Entry(){
 	while(m_Process->HasInput())
 			;
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().ProgressWindow, event);	
+	wxPostEvent(wxGetApp().ProgressWindow, event);
 	return NULL;
 }
