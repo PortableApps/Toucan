@@ -122,6 +122,9 @@ bool Toucan::OnInit(){
 
 	if(GetUsesGUI()){
 		MainWindow->Show();
+		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
+			MainWindow->Iconize(false);
+		}
 		if(scrn != NULL){
 			scrn->Destroy(); 
 		}
@@ -191,4 +194,7 @@ void Toucan::RebuildForm(){
 	SetLanguage(m_Settings->GetLanguageCode());
 	MainWindow = new frmMain();
 	MainWindow->Show();
+	if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
+		MainWindow->Iconize(false);
+	}
 }
