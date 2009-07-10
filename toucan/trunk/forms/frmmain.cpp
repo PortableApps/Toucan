@@ -229,9 +229,8 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SyncJobsSizer = new wxStaticBoxSizer(SyncJobs, wxHORIZONTAL);
 	SyncJobsRulesSizer->Add(SyncJobsSizer, 0, wxALIGN_TOP|wxALL, border);
 
-	wxArrayString m_Sync_Job_SelectStrings;
-	m_Sync_Job_Select = new wxComboBox(SyncPanel, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Sync_Job_Select->SetMinSize(wxSize(125, -1));
+	wxArrayString syncjobs = GetJobs(wxT("Sync"));
+	m_Sync_Job_Select = new wxComboBox(SyncPanel, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, syncjobs, wxCB_DROPDOWN|wxCB_READONLY);
 	SyncJobsSizer->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* SyncJobSave = new wxBitmapButton(SyncPanel, ID_SYNC_JOB_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -346,9 +345,8 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* BackupJobsSizer = new wxStaticBoxSizer(BackupJobs, wxHORIZONTAL);
 	BackupJobsRulesSizer->Add(BackupJobsSizer, 0, wxALIGN_TOP|wxALL, border);
 
-	wxArrayString m_Backup_Job_SelectStrings;
-	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Backup_Job_Select->SetMinSize(wxSize(125, -1));
+	wxArrayString backupjobs = GetJobs(wxT("Backup"));
+	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, backupjobs, wxCB_DROPDOWN|wxCB_READONLY);
 	BackupJobsSizer->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* BackupJobSave = new wxBitmapButton(BackupPanel, ID_BACKUP_JOB_SAVE, GetBitmapResource(wxT("save.png")));
@@ -478,9 +476,8 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SecureJobsSizer = new wxStaticBoxSizer(SecureJobs, wxHORIZONTAL);
 	SecureJobsRulesSizer->Add(SecureJobsSizer, 0, wxALIGN_TOP|wxALL, border);
 
-	wxArrayString m_Secure_Job_SelectStrings;
-	m_Secure_Job_Select = new wxComboBox(SecurePanel, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_Job_SelectStrings, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Secure_Job_Select->SetMinSize(wxSize(125, -1));	
+	wxArrayString securejobs = GetJobs(wxT("Secure"));
+	m_Secure_Job_Select = new wxComboBox(SecurePanel, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, securejobs, wxCB_DROPDOWN|wxCB_READONLY);
 	SecureJobsSizer->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* SecureJobSave = new wxBitmapButton(SecurePanel, ID_SECURE_JOB_SAVE, GetBitmapResource(wxT("save.png")));
@@ -848,11 +845,6 @@ void frmMain::CreateControls(){
 	SetRulesBox(m_Secure_Rules);
 	SetRulesBox(m_Rules_Name);
 
-	//Set up the jobs boxes
-	SetJobsBox(m_Sync_Job_Select, wxT("Sync"));
-	SetJobsBox(m_Backup_Job_Select, wxT("Backup"));
-	SetJobsBox(m_Secure_Job_Select, wxT("Secure"));
-	
 	//Set the variables box
 	SetVariablesBox(m_Variables_Name);
 	

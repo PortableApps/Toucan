@@ -140,6 +140,25 @@ double GetInPB(wxString strValue){
 	return dSize;
 }
 
+wxArrayString GetJobs(wxString type){
+	bool blCont;
+	wxString value;
+	long dummy;
+	wxArrayString jobs;
+	//Iterate through all of the groups
+	blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(value, dummy);
+	while (blCont){
+		//If the group is of the correct type then add it to the combobox
+		if(wxGetApp().m_Jobs_Config->Read(value + wxT("/Type")) == type){
+			if(value != wxT("SyncRemember") && value != wxT("BackupRemember") && value != wxT("SecureRemember")){
+				jobs.Add(value);				
+			}
+		}
+		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
+	}
+	return jobs;	
+}
+
 bool SetRulesBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();

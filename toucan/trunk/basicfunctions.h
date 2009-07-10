@@ -31,6 +31,9 @@ void EnableGauge(bool enable);
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/
 double GetInPB(wxString strValue);
 
+//Get a list of jobs of a specific type
+wxArrayString GetJobs(wxString type);
+
 //The various sets of ComboBoxes on the form
 bool SetRulesBox(wxComboBox *box);
 bool SetJobsBox(wxComboBox *box, wxString strType);
