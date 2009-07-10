@@ -438,7 +438,7 @@ void frmMain::CreateControls(){
 	wxBitmapButton* BackupRemove = new wxBitmapButton(BackupPanel, ID_BACKUP_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	BackupAddRemoveSizer->Add(BackupRemove, 0, wxALL, border);
 
-	wxStaticText* BackupLocationStatic = new wxStaticText(BackupPanel, wxID_ANY, _("Backup Location"));
+	wxStaticText* BackupLocationStatic = new wxStaticText(BackupPanel, ID_BACKUP_LOCATIONSTATIC, _("Backup Location"));
 	BackupMainSizer->Add(BackupLocationStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
 	m_Backup_Location = new wxTextCtrl(BackupPanel, ID_BACKUP_LOCATION_TEXT);
@@ -447,7 +447,7 @@ void frmMain::CreateControls(){
 	wxButton* BackupLocationButton = new wxButton(BackupPanel, ID_BACKUP_LOCATION, wxT("..."), wxDefaultPosition, wxSize(25, -1), 0);
 	BackupMainSizer->Add(BackupLocationButton, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALL, border);
 
-	wxStaticText* BackupFilesStatic = new wxStaticText(BackupPanel, wxID_ANY, _("Files to Backup"));
+	wxStaticText* BackupFilesStatic = new wxStaticText(BackupPanel, ID_BACKUP_FILESSTATIC, _("Files to Backup"));
 	BackupMainSizer->Add(BackupFilesStatic, wxGBPosition(2, 2), wxGBSpan(1, 1), wxALL, border);
 
 	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
@@ -2011,9 +2011,13 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 	if(event.GetString() == _("Restore")){
 		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Disable();
+		wxWindow::FindWindowById(ID_BACKUP_LOCATIONSTATIC)->SetLabel(_("Location to Extract into"));
+		wxWindow::FindWindowById(ID_BACKUP_FILESSTATIC)->SetLabel(_("Archives to Extract"));
 	}
 	else{
-		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();	
+		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();
+		wxWindow::FindWindowById(ID_BACKUP_LOCATIONSTATIC)->SetLabel(_("Backup Location"));
+		wxWindow::FindWindowById(ID_BACKUP_FILESSTATIC)->SetLabel(_("Files to Backup"));
 	}
 }
 
