@@ -58,6 +58,8 @@ public:
 private:
 	//Clean up the temporary files that might be in the data folder
 	void CleanTemp();
+	//Remove the conime process if it is still running on windows
+	void KillConime();
 
 	bool m_Abort;
 	wxString m_SettingsPath;

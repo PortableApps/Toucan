@@ -13,6 +13,14 @@
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 
+#ifdef __WXMSW__
+	#define _WIN32_WINNT 0x0500 
+	#include <windows.h>
+	#include <tlhelp32.h>
+	#include <process.h>
+	#include <wx/msw/winundef.h>
+#endif
+
 #include "toucan.h"
 #include "forms/frmmain.h"
 #include "forms/frmprogress.h"
@@ -32,11 +40,11 @@ bool Toucan::OnInit(){
 	#ifdef __WXMSW__
 		if(argc == 1){
 			if(wxGetOsVersion() != wxOS_WINDOWS_9X){
-				ShowWindow(GetConsoleWindow(), SW_HIDE); 			
-			}			
+				ShowWindow(GetConsoleWindow(), SW_HIDE);
+			}
 		}
 	#endif
-	//Set the splash screen going
+ 	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn = NULL;
 	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("splash.jpg")) && argc == 1){
@@ -179,7 +187,8 @@ void Toucan::SetLanguage(wxString strLanguage){
 }
 
 //Cleanup
-int Toucan::OnExit(){   
+int Toucan::OnExit(){
+	KillConime();
 	CleanTemp();
 	delete m_Locale;
 	delete m_Settings;
@@ -195,4 +204,34 @@ void Toucan::RebuildForm(){
 	if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 		MainWindow->Iconize(false);
 	}
+}
+
+void Toucan::KillConime(){
+	#ifdef __WXMSW__
+		HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+		if(snapshot != INVALID_HANDLE_VALUE){
+			unsigned int toucanpid = _getpid();
+			PROCESSENTRY32 pe;
+			pe.dwSize = sizeof(PROCESSENTRY32);
+
+			if(!Process32First(snapshot, &pe)){
+				CloseHandle(snapshot);
+				return;
+			}
+
+			do{
+				//check if it is a conime process
+				if(pe.szExeFile == wxT("conime.exe") || pe.szExeFile == wxT("conime")){
+					//then if toucan is its parent process
+					if(pe.th32ParentProcessID == toucanpid){
+						//then kill it
+						wxProcess::Kill(pe.th32ProcessID, wxSIGKILL);
+					}
+				}
+			}while(Process32Next(snapshot, &pe));
+			  
+			CloseHandle(snapshot);
+		}
+		
+	#endif
 }
