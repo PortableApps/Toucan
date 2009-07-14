@@ -297,11 +297,15 @@ public:
 	// Retrieves bitmap resources
 	wxBitmap GetBitmapResource(const wxString& name);
 	
+	//Force a sizer to update its layout and then refresh the window
+	void UpdateSizer(wxSizer *sizer);
+	
 	//General
 	wxAuiManager m_auiManager;
 	wxAuiNotebook* m_Notebook;
 	
 	//Sync
+	wxBoxSizer* SyncTopSizer;
 	wxComboBox* m_Sync_Job_Select;
 	wxComboBox* m_Sync_Rules;
 	wxTextCtrl* m_Sync_Source_Txt;
@@ -315,6 +319,7 @@ public:
 	wxCheckBox* m_Sync_Ignore_DaylightS;
 	
 	//Backup
+	wxBoxSizer* BackupTopSizer;
 	wxComboBox* m_Backup_Job_Select;
 	wxComboBox* m_Backup_Rules;
 	wxStaticText* m_Backup_Location_Txt;
@@ -330,6 +335,7 @@ public:
 	wxCheckBox* m_Backup_IsPass;
 	
 	//Secure
+	wxBoxSizer* SecureTopSizer;
 	wxComboBox* m_Secure_Rules;
 	wxComboBox* m_Secure_Job_Select;
 	ExtendedDirCtrl* m_Secure_DirCtrl;
@@ -345,9 +351,9 @@ public:
 	wxListBox* m_Rules_LocationInclude;
 	wxListBox* m_Rules_FileDelete;
 	
-	//Portable Variables
+	//Variables
 	wxComboBox* m_Variables_Name;
-    	wxListCtrl* m_Variables_List;
+	wxListCtrl* m_Variables_List;
 	
 	//Script
 	wxTextCtrl* m_Script_Rich;

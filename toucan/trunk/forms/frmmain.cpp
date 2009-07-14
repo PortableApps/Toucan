@@ -147,6 +147,7 @@ frmMain::~frmMain(){
 //frmMain initialisation
 void frmMain::Init(){
 	m_Notebook = NULL;
+	SyncTopSizer = NULL;
 	m_Sync_Job_Select = NULL;
 	m_Sync_Rules = NULL;
 	m_Sync_Source_Txt = NULL;
@@ -158,6 +159,7 @@ void frmMain::Init(){
 	m_Sync_Attributes = NULL;
 	m_Sync_Ignore_Readonly = NULL;
 	m_Sync_Ignore_DaylightS = NULL;
+	BackupTopSizer = NULL;
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
 	m_Backup_Location = NULL;
@@ -168,6 +170,7 @@ void frmMain::Init(){
 	m_Backup_Ratio = NULL;
 	m_Backup_Pass = NULL;
 	m_Backup_Repass = NULL;
+	SecureTopSizer = NULL;
 	m_Secure_Rules = NULL;
 	m_Secure_Job_Select = NULL;
 	m_Secure_DirCtrl = NULL;
@@ -218,7 +221,7 @@ void frmMain::CreateControls(){
 	wxBoxSizer* SyncSizer = new wxBoxSizer(wxVERTICAL);
 	SyncPanel->SetSizer(SyncSizer);
 
-	wxBoxSizer* SyncTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	SyncTopSizer = new wxBoxSizer(wxHORIZONTAL);
 	SyncSizer->Add(SyncTopSizer, 0, wxEXPAND|wxALL, border);
 
 	//Sync - Jobs
@@ -334,7 +337,7 @@ void frmMain::CreateControls(){
 	wxBoxSizer* BackupSizer = new wxBoxSizer(wxVERTICAL);
 	BackupPanel->SetSizer(BackupSizer);
 
-	wxBoxSizer* BackupTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	BackupTopSizer = new wxBoxSizer(wxHORIZONTAL);
 	BackupSizer->Add(BackupTopSizer, 0, wxALIGN_LEFT|wxALL, border);
 
 	//Backup - Jobs
@@ -465,7 +468,7 @@ void frmMain::CreateControls(){
 	wxBoxSizer* SecureSizer = new wxBoxSizer(wxVERTICAL);
 	SecurePanel->SetSizer(SecureSizer);
 
-	wxBoxSizer* SecureTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	SecureTopSizer = new wxBoxSizer(wxHORIZONTAL);
 	SecureSizer->Add(SecureTopSizer, 0, wxALIGN_LEFT|wxALL, border);
 
 	//Secure - Jobs
@@ -1214,31 +1217,37 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
 	JobAdd(m_Sync_Job_Select);
+	UpdateSizer(SyncTopSizer);
 }
 
 //ID_BACKUP_JOB_ADD
 void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
 	JobAdd(m_Backup_Job_Select);
+	UpdateSizer(BackupTopSizer);
 }
 
 //ID_SECURE_JOB_ADD
 void frmMain::OnSecureJobAddClick(wxCommandEvent& WXUNUSED(event)){
 	JobAdd(m_Secure_Job_Select);
+	UpdateSizer(SecureTopSizer);
 }
 
 //ID_SYNC_JOB_REMOVE
 void frmMain::OnSyncJobRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	JobRemove(m_Sync_Job_Select);	
+	JobRemove(m_Sync_Job_Select);
+	UpdateSizer(SyncTopSizer);
 }
 
 //ID_BACKUP_JOB_REMOVE
 void frmMain::OnBackupJobRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	JobRemove(m_Backup_Job_Select);
+	UpdateSizer(BackupTopSizer);
 }
 
 //ID_SECURE_JOB_REMOVE
 void frmMain::OnSecureJobRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	JobRemove(m_Secure_Job_Select);
+	UpdateSizer(SecureTopSizer);
 }
 
 //ID_BACKUP_JOB_SELECT
@@ -2128,4 +2137,10 @@ void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
 	
 	wxGetApp().m_Settings->TransferToFile();
 	wxGetApp().RebuildForm();	
+}
+
+void frmMain::UpdateSizer(wxSizer *sizer){
+	sizer->Layout();
+	Refresh();
+	Update();
 }
