@@ -1648,6 +1648,7 @@ void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
 	info.SetVersion(wxT("2.1.2"));
+	info.SetDescription(wxString::Format(wxT("Built on %s at %s"), __TDATE__, __TTIME__));
 	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
