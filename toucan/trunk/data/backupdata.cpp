@@ -12,7 +12,7 @@
 #include "../waitthread.h"
 #include "../forms/frmmain.h"
 #include "../forms/frmprogress.h"
-#include "../controls/virtualdirtreectrl.h"
+#include "../controls/vdtc.h"
 #include <wx/textfile.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>

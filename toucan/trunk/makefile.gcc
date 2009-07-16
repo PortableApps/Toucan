@@ -72,7 +72,7 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_waitthread.o \
 	$(OUTPATH)/Toucan_extendeddirctrl.o \
 	$(OUTPATH)/Toucan_loglistctrl.o \
-	$(OUTPATH)/Toucan_virtualdirtreectrl.o \
+	$(OUTPATH)/Toucan_vdtc.o \
 	$(OUTPATH)/Toucan_backupdata.o \
 	$(OUTPATH)/Toucan_rootdata.o \
 	$(OUTPATH)/Toucan_securedata.o \
@@ -225,7 +225,7 @@ $(OUTPATH)/Toucan_extendeddirctrl.o: ./controls/extendeddirctrl.cpp
 $(OUTPATH)/Toucan_loglistctrl.o: ./controls/loglistctrl.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-$(OUTPATH)/Toucan_virtualdirtreectrl.o: ./controls/virtualdirtreectrl.cpp
+$(OUTPATH)/Toucan_vdtc.o: ./controls/vdtc.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_backupdata.o: ./data/backupdata.cpp

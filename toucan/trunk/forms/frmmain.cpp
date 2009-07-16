@@ -27,7 +27,7 @@
 #include "../data/backupdata.h"
 #include "../sync/syncdata.h"
 #include "../controls/extendeddirctrl.h"
-#include "../controls/virtualdirtreectrl.h"
+#include "../controls/vdtc.h"
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)

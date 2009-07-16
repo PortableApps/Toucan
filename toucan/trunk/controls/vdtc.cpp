@@ -8,7 +8,7 @@
 #include <wx/dir.h>
 #include <wx/busyinfo.h>
 #include <wx/artprov.h>
-#include "virtualdirtreectrl.h"
+#include "vdtc.h"
 #include "../variables.h"
 #include "../sync/syncdata.h"
 #include "../sync/syncpreview.h"

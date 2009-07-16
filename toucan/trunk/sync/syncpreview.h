@@ -10,7 +10,7 @@
 #include "syncfiles.h"
 #include "syncdata.h"
 #include "../rules.h"
-#include "../controls/virtualdirtreectrl.h"
+#include "../controls/vdtc.h"
 
 class SyncPreview : public SyncFiles{
 public:

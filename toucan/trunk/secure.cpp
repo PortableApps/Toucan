@@ -18,7 +18,7 @@
 #include "data/securedata.h"
 #include "forms/frmmain.h"
 #include "forms/frmprogress.h"
-#include "controls/virtualdirtreectrl.h"
+#include "controls/vdtc.h"
 
 bool Secure(SecureData data, Rules rules, frmProgress *window){
 	wxArrayString arrLocation = data.GetLocations();
