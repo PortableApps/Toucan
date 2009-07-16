@@ -306,23 +306,6 @@ public:
 		structure is iterated from the top node down to the root. */
 	wxFileName GetFullPath(const wxTreeItemId &id);
 
-	/** Returns TRUE when the item pointed out by wxTreeItemId is a root node internally, this means the
-		assigned VdtcTreeItemBase class is of type VDTC_TI_ROOT.
-		\sa VdtcTreeItemBase::IsRoot */
-	bool IsRootNode(const wxTreeItemId &id);
-
-	/** Returns TRUE when the item pointed out by wxTreeItemId is a directory node internally, this means the
-		assigned VdtcTreeItemBase class is of type VDTC_TI_DIR. For these types of nodes you can use i.e.
-		GetRelativePath() or GetFullPath() to retrieve the directory.
-		\sa VdtcTreeItemBase::IsDir, GetRelativePath, GetFullPath */
-	bool IsDirNode(const wxTreeItemId &id);
-
-	/** Returns TRUE when the item pointed out by wxTreeItemId is a file node internally, this means the
-		assigned VdtcTreeItemBase class is of type VDTC_TI_DIR. For these types of nodes you can use i.e.
-		GetRelativePath() or GetFullPath() to retrieve the directory plus filename.
-		\sa VdtcTreeItemBase::IsFile, GetRelativePath, GetFullPath */
-	bool IsFileNode(const wxTreeItemId &id);
-
 	/** Expands from root, to the given path. Every path in the wxFileName is looked up and expanded. When
 	    a path section is not found, this method aborts and returns a wxTreeItemId with value 0. When it succeeds
 		the wxTreeItemId is returned of the last tree item that was expanded.
@@ -354,14 +337,6 @@ public:
 	};
 
 	// --- handlers ---
-
-	/** This handler is called when the SetRootPath function is called. This call causes a re-initialisation of
-	    the wxVirtualDirTreeCtrl. It can be useful to initialise the class that derived this class as well. The
-		root is passed as parameter to inform which root is going to be set. NOTE: When this method is called,
-		the following criteria is true:
-		- The tree is completely empty
-		- The path parameter is valid. When it's not valid this call is not made */
-	void OnAddNewPath(const wxString &root);
 
 	/** This virtual handler is used to allow the developer to assign custom icons to the
 	    image list. Override this method to assign your own icons to the wxTreeCtrl. The default method
@@ -412,49 +387,11 @@ public:
 	*/
 	virtual VdtcTreeItemBase *OnCreateTreeItem(int type, const wxString &name);
 
-	/** This handler is called before the VdtcTreeItemBase item is added to the root. This will be the first item to be added
-	    before all else is added.
-
-		If for some reason this root is denied to be added, return FALSE. If it may be added, return TRUE. If false is returned
-		then no other items are created, and the SetRootPath() function returns with FALSE notifying the caller that something
-		went wrong.
-		\sa VdtcTreeItemBase
-	*/
-	virtual bool OnAddRoot(VdtcTreeItemBase &item, const wxFileName &name);
-
-	/** This handler is called before a file VdtcTreeItemBase item is added to the tree. For every file added in the tree this
-		handler is called. It allows you to change the name or caption of the item, and also gain more information
-		or change the contents of the associated VdtcTreeItemBase class. The wxFileName contains the full path
-		of the item to be added, so it can be easily inspected, and tested for specific extensions, parts of the
-		name and what else.
-
-		If for some reason this item is denied to be added, return FALSE. If it may be added, return TRUE.
-	*/
-	virtual bool OnAddFile(VdtcTreeItemBase &item, const wxFileName &name);
-
-	/** This handler is called before a directory item is added to the tree. For every dir added in the tree this
-		handler is called. It allows you to change the name of the item or the caption, and also gain more information of the
-		directory, and check if specific files are present. The wxFileName contains the full path of the directory
-		to be added, so it can be easily inspected, and tested for specific criteria, parts of the name and what else.
-
-		If for some reason this item is denied to be added, return FALSE. If it may be added, return TRUE.
-	*/
-	virtual bool OnAddDirectory(VdtcTreeItemBase &item, const wxFileName &name);
-
 	/** This handler is called before the directory specified by 'path' is scanned. You can veto this scan by
 	    returning 'false'. This way the scanning of all files and directories in this path is skipped. After this
 		handler, subsequent calls to OnAddFile, OnAddDirectory will be made for every file and directory
 		encountered in this level to be scanned. NOTE: When this scan is veto'd there will be no call
 		to OnDirectoryScanEnd because there was no scan. Also OnAddedItems is not called */
-
-	virtual bool OnDirectoryScanBegin(const wxFileName &path);
-
-	/** This handler is called when all files and all directories are scanned in the current dir and iterated in
-	    the array passed to this method. Before the sorting algorithm is initiated, the developer is allowed to
-	    take one last look at all the files, maybe delete some or act upon other criteria. The items parameter
-	    contains the pointer array of all the items that are in the list, and the path parameter contains the
-	    current path investigated. NOTE: If you want to delete an item from the array, delete it with delete
-	    operator and remove the pointer from the list.  */
 
 	virtual void OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, const wxFileName &path);
 
