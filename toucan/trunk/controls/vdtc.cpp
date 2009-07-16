@@ -27,16 +27,13 @@ END_EVENT_TABLE()
 
 wxVirtualDirTreeCtrl::wxVirtualDirTreeCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name)
 		: wxTreeCtrl(parent, id, pos, size, style, validator, name)
-		, _flags(wxVDTC_DEFAULT)
 {
 	// create an icon list for the tree ctrl
 	_iconList = new wxImageList(16,16);
-
+	_ScanDepth = 2;
 	_Preview = false;
+	_IsSync = false;
 	this->AddRoot(wxT("Hidden - you wont see this"));
-
-	// reset to default extension list
-	ResetExtensions();
 }
 
 wxVirtualDirTreeCtrl::~wxVirtualDirTreeCtrl()
@@ -51,7 +48,6 @@ wxVirtualDirTreeCtrl::~wxVirtualDirTreeCtrl()
 bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 {
 	bool value;
-	wxBusyInfo *bsy = 0;
 	wxLogNull log;
 
 	// set flags to adopt new behaviour
@@ -81,18 +77,12 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 			path.AssignDir(root);
 
 			// add this item to the tree, with info of the developer
-			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
-
-			// show a busy dialog
-			if (_flags & (wxVDTC_RELOAD_ALL | wxVDTC_SHOW_BUSYDLG))
-				bsy = new wxBusyInfo(wxT("Please wait, scanning directory..."), 0);
+			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetName(), start->GetIconId(), start->GetSelectedIconId(), start);
 				
 			// scan directory, either the smart way or not at all
-			ScanFromDir(start, path, (wxVDTC_RELOAD_ALL & _flags ? -1 : VDTC_MIN_SCANDEPTH));
+			ScanFromDir(start, path, GetScanDepth());
 
-			// expand root when allowed
-			if (!(_flags & wxVDTC_NO_EXPAND))
-				Expand(id);
+			Expand(id);
 		}
 	} 
 	else{
@@ -100,14 +90,10 @@ bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
 			wxFileName path(root);
 			start = OnCreateTreeItem(VDTC_TI_FILE, root);
 			// add this item to the tree, with info of the developer
-			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetCaption(), start->GetIconId(), start->GetSelectedIconId(), start);
+			wxTreeItemId id = this->AppendItem(this->GetRootItem(), start->GetName(), start->GetIconId(), start->GetSelectedIconId(), start);
 		}
 	}
-	// delete busy info if present
-	if (bsy)
-		delete bsy;
 
-	//wxMessageBox(this->GetItemText(this->GetRootItem()));
 	return value;
 }
 
@@ -121,9 +107,6 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 
 	// when we can still scan, do so
 	if (level == -1 || level > 0) {
-		// TODO: Maybe when a reload is issued, delete all items that are no longer present
-		// in the tree (on disk) and check if all new items are present, else add them
-
 		// if no items, then go iterate and get everything in this branch
 		if (GetChildrenCount(item->GetId()) == 0) {
 			//wxMessageBox(_("Creatin array"));
@@ -133,15 +116,14 @@ int wxVirtualDirTreeCtrl::ScanFromDir(VdtcTreeItemBase *item, const wxFileName &
 			GetDirectories(item, addedItems, path);
 
 			// get files
-			if (!(_flags & wxVDTC_NO_FILES))
-				GetFiles(item, addedItems, path);
+			GetFiles(item, addedItems, path);
 
 			// call handler that can do a last thing
 			// before sort and anything else
 			OnDirectoryScanEnd(addedItems, path);
 
 			// sort items
-			if (addedItems.GetCount() > 0 && (_flags & wxVDTC_NO_SORT) == 0)
+			if (addedItems.GetCount() > 0 )
 				SortItems(addedItems, 0, addedItems.GetCount()-1);
 
 			AddItemsToTreeCtrl(item, addedItems);
@@ -181,26 +163,19 @@ void wxVirtualDirTreeCtrl::GetFiles(VdtcTreeItemBase *WXUNUSED(parent), VdtcTree
 
 	fpath = path;
 
-	// no nodes present yet, we should start scanning this dir
-	// scan files first in this directory, with all extensions in this array
+	wxDir fdir(path.GetFullPath());
 
-	for (size_t i = 0; i < _extensions.Count(); i++) {
-		wxDir fdir(path.GetFullPath());
-
-		if (fdir.IsOpened()) {
-			bool bOk = fdir.GetFirst(&fname, _extensions[i], wxDIR_FILES | wxDIR_HIDDEN);
-			while (bOk) {
-				// TODO: Flag for double items
-
-				item = AddFileItem(fname);
-				if (item) {
-					// fill it in, and marshall it by the user for info
-					fpath.SetFullName(fname);
-					items.Add(item);
-				}
-
-				bOk = fdir.GetNext(&fname);
+	if (fdir.IsOpened()) {
+		bool bOk = fdir.GetFirst(&fname, wxEmptyString, wxDIR_FILES | wxDIR_HIDDEN);
+		while (bOk) {
+			item = AddFileItem(fname);
+			if (item) {
+				// fill it in, and marshall it by the user for info
+				fpath.SetFullName(fname);
+				items.Add(item);
 			}
+
+			bOk = fdir.GetNext(&fname);
 		}
 	}
 }
@@ -253,7 +228,7 @@ int wxVirtualDirTreeCtrl::OnCompareItems(const VdtcTreeItemBase *a, const VdtcTr
 		return 1;
 
 	// else let ascii fight it out
-	return a->GetCaption().CmpNoCase(b->GetCaption());
+	return a->GetName().CmpNoCase(b->GetName());
 }
 
 void wxVirtualDirTreeCtrl::SwapItem(VdtcTreeItemBaseArray &items, int a, int b)
@@ -301,24 +276,11 @@ void wxVirtualDirTreeCtrl::AddItemsToTreeCtrl(VdtcTreeItemBase *item, VdtcTreeIt
 	for (size_t i = 0; i < items.GetCount(); i++) {
 		t = items[i];
 		if (t) {
-			wxTreeItemId idTemp = AppendItem(id, t->GetCaption(), t->GetIconId(), t->GetSelectedIconId(), t);
+			wxTreeItemId idTemp = AppendItem(id, t->GetName(), t->GetIconId(), t->GetSelectedIconId(), t);
 			OnAddedItems(idTemp);
 		}
 
 	}
-}
-
-wxFileName wxVirtualDirTreeCtrl::GetRelativePath(const wxTreeItemId &id)
-{
-	wxFileName value;
-	wxCHECK(id.IsOk(), value);
-
-	VdtcTreeItemBase *b = (VdtcTreeItemBase *)GetItemData(id);
-	wxCHECK(b, value);
-
-	AppendPathRecursively(b, value, false);
-
-	return value;
 }
 
 wxFileName wxVirtualDirTreeCtrl::GetFullPath(const wxTreeItemId &id)
@@ -330,64 +292,6 @@ wxFileName wxVirtualDirTreeCtrl::GetFullPath(const wxTreeItemId &id)
 	wxCHECK(b, value);
 
 	AppendPathRecursively(b, value, true);
-
-	return value;
-}
-
-wxTreeItemId wxVirtualDirTreeCtrl::ExpandToPath(const wxFileName &path)
-{
-	wxTreeItemId value((void *)0);
-	wxFileName seekpath;
-	wxArrayString paths;
-	VdtcTreeItemBase *ptr;
-
-	paths = path.GetDirs();
-
-	// start in root section, and find the path sections that
-	// match the sequence
-
-	wxTreeItemId root = GetRootItem();
-	if (root.IsOk()) {
-		wxTreeItemId curr = root, id;
-		for (size_t i = 0; i < paths.GetCount(); i++) {
-			// scan for name on this level of children
-			wxString currpath = paths[i];
-			bool not_found = true;
-			wxTreeItemIdValue cookie;
-
-			id = GetFirstChild(curr, cookie);
-			while (not_found && id.IsOk()) {
-				ptr = (VdtcTreeItemBase *)GetItemData(id);
-				not_found = !ptr->GetName().IsSameAs(currpath, false);
-
-				// prevent overwriting id
-				if (!not_found) {
-					// we found the name, now to ensure there are more
-					// names loaded from disk, we call ScanFromDir (it will abort anywayz
-					// when there are items in the dir)
-
-					if (ptr->IsDir()) {
-						// TODO: This getfullpath might be a too high load, we can also
-						// walk along with the path, but that is a bit more tricky.
-						seekpath = GetFullPath(id);
-						ScanFromDir(ptr, seekpath, VDTC_MIN_SCANDEPTH);
-					}
-
-					curr = id;
-				} else
-					id = GetNextChild(curr, cookie);
-			}
-
-			// now, if not found we break out
-			if (not_found)
-				return value;
-		}
-
-		// when we are here we are at the final node
-
-		Expand(curr);
-		value = curr;
-	}
 
 	return value;
 }
@@ -425,10 +329,7 @@ void wxVirtualDirTreeCtrl::OnExpanding(wxTreeEvent &event)
 		VdtcTreeItemBase *t = (VdtcTreeItemBase *)GetItemData(id);
 		if (t && t->IsDir()) {
 			// extract data element belonging to it, and scan.
-			ScanFromDir(t, GetFullPath(id), VDTC_MIN_SCANDEPTH);
-
-			// TODO: When this scan gives no nodes, delete all children
-			// and conclude that the scan could not be performed upon expansion
+			ScanFromDir(t, GetFullPath(id), GetScanDepth());
 		}
 	}
 

@@ -39,24 +39,6 @@ enum {
 /// Icon number for file
 #define VDTC_ICON_FILE     2
 
-/// Minimal amount of levels to scan per run
-#define VDTC_MIN_SCANDEPTH 2
-
-/// No settings, take default
-#define wxVDTC_DEFAULT      0
-/** Instead of performing a smart reload per collapsed node, all items are loaded
-    into memory. NOTE: This can take a while! */
-#define wxVDTC_RELOAD_ALL   1
-/** Show a busy dialog to inform user, only valid when wxVDTC_RELOAD_ALL is set. Showing
-    a busy dialog on every smart expansion is not useful anyway */
-#define wxVDTC_SHOW_BUSYDLG 2
-/// Do not expand the root node after reloading
-#define wxVDTC_NO_EXPAND    4
-/// Do not call sort. Simply display files as they are located
-#define wxVDTC_NO_SORT      8
-/// Do not add files, only directories
-#define wxVDTC_NO_FILES    16
-
 /** \class VdtcTreeItemBase
 	This class is used to link the information of a file/root or folder node to a wxTreeItem
 	in the wxTreeCtrl.
@@ -79,46 +61,16 @@ protected:
 
 
 public:
-	/** Default constructor. Pass the parent of this node as a VdtcTreeItemBase object, the type
-	    of this object (VDTC_TI_ROOT,VDTC_TI_DIR, VDTC_TI_FILE or added types but leave these
-		three in place), and the name of the object (i.e. filename or dir name). When deriving this
-		class make sure you call the constructor propertly. The types are of essence for some
-		internal functions. For example:
 
-		\code
-
-		class MyOwnData : public VdtcTreeItemBase
-		{
-			MyOwnData(int type, const wxString &name)
-				: VdtcTreeItemBase(type, name)
-			{
-				// do initialisation
-			}
-		}
-		\endcode
-
-	*/
 	VdtcTreeItemBase(int type, const wxString &name)
 			: _type(type)
 			, _name(name) {
 		_colour = wxColour(wxT("Black"));
 	};
 
-	/** Default destructor */
-	~VdtcTreeItemBase() {
-		// NOTE: do not delete the tree item
-		// because the tree item deletes this item data
-	};
+	~VdtcTreeItemBase() {};
 
-	/** Virtual function to report the caption back to the wxTreeCtrl to be added. If the caption should be
-	    something else then the default name it gets from the file (or the root path when this node points
-		to a root item, inherit this class and redefine GetCaption
-	*/
-	virtual const wxString &GetCaption() const {
-		return _name;
-	};
-
-	/** Virtual function to return the icon ID this node should get. Per default it gets the ID of the
+/** Virtual function to return the icon ID this node should get. Per default it gets the ID of the
 	    default image list. If you assigned more bitmaps (or different bitmaps) to the image list, return
 		the proper indices based upon the class it refers to. The ID's returned are:
 
@@ -157,7 +109,7 @@ public:
 	/** Gets this name. The name of the root is the base path of the whole directory, the
 	   name of a file node is the filename, and from a dir node the directory name.
 	   \sa IsDir, IsFile, IsRoot */
-	const wxString &GetName() {
+	const wxString &GetName() const {
 		return _name;
 	};
 
@@ -195,8 +147,6 @@ WX_DEFINE_ARRAY(VdtcTreeItemBase *, VdtcTreeItemBaseArray);
 class wxVirtualDirTreeCtrl : public wxTreeCtrl
 {
 private:
-	/** File extensions list */
-	wxArrayString _extensions;
 	/** Icons image list */
 	wxImageList *_iconList;
 	/** Extra flags */
@@ -213,6 +163,8 @@ private:
 	wxString _RootOpp;
 
 	wxString _Mode;
+	
+	int _ScanDepth;
 
 	/** Scans from given dir, for 'level' depth and with present extensions. This will
 	    reload the directory on that level. If there are tree items associated with the 'reloaded'
@@ -241,19 +193,9 @@ private:
 	void OnExpanding(wxTreeEvent &event);
 
 protected:
-	/** This method can be used in the method OnAssignIcons. It returns a pointer to a newly created bitmap
-	    holding the default icon image for a root node. NOTE: When this bitmap is assigned to the icon list,
-		don't forget to delete it! */
+
 	wxBitmap *CreateRootBitmap();
-
-	/** This method can be used in the method OnAssignIcons. It returns a pointer to a newly created bitmap
-	    holding the default icon image for a folder node. NOTE: When this bitmap is assigned to the icon list,
-		don't forget to delete it! */
 	wxBitmap *CreateFolderBitmap();
-
-	/** This method can be used in the method OnAssignIcons. It returns a pointer to a newly created bitmap
-	    holding the default icon image for a file node. NOTE: When this bitmap is assigned to the icon list,
-		don't forget to delete it! */
 	wxBitmap *CreateFileBitmap();
 
 	/** Inherited virtual function for SortChildren */
@@ -283,38 +225,12 @@ public:
 		- wxVDTC_SHOW_BUSYDLG
 		- wxVDTC_NO_SORT
 		- wxVDTC_NO_FILES */
-	bool AddNewPath(const wxString &root, int flags = wxVDTC_DEFAULT);
-
-	/** Resets the extensions to "*.*" as default (or "*" under linux). The extension will be used
-		upon next reload of the directory tree. In between extensions can be changed but will have
-		no effect upon the directory scanning mechanism until the next SetRootPath */
-	void ResetExtensions() {
-		_extensions.Clear();
-		_extensions.Add(VDTC_DIR_FILESPEC);
-	};
-
-	/** Returns the relative path of the item with the given wxTreeItemId. This doesn't include the
-	    root node. This can be used in ExpandToPath(). A check is made if the object belonging to this
-		wxTreeItemId is of the type directory or file. In both cases the relative path (plus filename if
-		it is a file) is returned. When the object pointed out by wxTreeItemId is of the type root, an
-		empty wxFileName is returned. Be warned, these functions can take some time because the whole tree
-		structure is iterated from the top node down to the root */
-	wxFileName GetRelativePath(const wxTreeItemId &id);
+	bool AddNewPath(const wxString &root, int flags = 0);
 
 	/** Return full path of given node. This can also include the name of the file. This will be returned as
 	    a wxFileName (with path and possible name) to be used further. Be warned, these functions can take some time because the whole tree
 		structure is iterated from the top node down to the root. */
 	wxFileName GetFullPath(const wxTreeItemId &id);
-
-	/** Expands from root, to the given path. Every path in the wxFileName is looked up and expanded. When
-	    a path section is not found, this method aborts and returns a wxTreeItemId with value 0. When it succeeds
-		the wxTreeItemId is returned of the last tree item that was expanded.
-
-		<b>A special note:</b> Don't include the root path of the current tree in the filename. This part of the path
-		is not used to scan. Use GetRelativePath to get the path up until a specific node. This method is useful
-		to expand earlier paths after restoring the window state.
-		\sa GetRelativePath */
-	wxTreeItemId ExpandToPath(const wxFileName &path);
 
 	/** Adds a file item. Be aware that this call does not add it to the wxTreeCtrl. This only creates an instance
 	    of a VtdcTreeItemBase file node. The handler OnCreateTreeItem is called to allow the proper initialisation
@@ -415,15 +331,12 @@ public:
 	void SetSync(bool sync) {
 		_IsSync = sync;
 	}
+
+	void SetScanDepth(const int scandepth) {this->_ScanDepth = scandepth;}
+	const int& GetScanDepth() const {return _ScanDepth;}
 	
 	//Neat expand all
 	void NeatExpandAll(wxWindow* topwindow);
-
-private:
-	// WDR: member variable declarations for wxVirtualDirTreeCtrl
-
-private:
-	// WDR: handler declarations for wxVirtualDirTreeCtrl
 
 private:
 	DECLARE_EVENT_TABLE()
