@@ -28,6 +28,7 @@
 #include "../sync/syncdata.h"
 #include "../controls/extendeddirctrl.h"
 #include "../controls/vdtc.h"
+#include "../controls/dirctrl.h"
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
