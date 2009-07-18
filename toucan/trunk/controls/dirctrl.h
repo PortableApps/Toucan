@@ -16,6 +16,7 @@
 #include <wx/arrstr.h>
 #include <wx/imaglist.h>
 #include <wx/dir.h>
+#include <wx/wx.h>
 
 enum DirCtrlItemType{
 	DIRCTRL_DEFAULT,
@@ -28,14 +29,16 @@ class DirCtrlItem : public wxTreeItemData{
 
 public:
 	DirCtrlItem(const wxFileName &path){
+		//wxMessageBox(path.GetFullPath());
 		m_Path = path;
 		m_Caption = path.GetName();
-		if(path.IsDir()){
+		if(!wxFileExists(path.GetFullPath())){
 			if(path.GetVolume().Length() == path.GetFullPath().Length()){
 				m_Type = DIRCTRL_ROOT;
 				m_Icon = 2;
 			}
 			else{
+				//wxMessageBox(_("Folder"));
 				m_Type = DIRCTRL_FOLDER;
 				m_Icon = 1;
 			}
@@ -68,27 +71,27 @@ protected:
 };
 
 //Typedef a vector for holding
-typedef std::vector<DirCtrlItem> DirCtrlItemArray;
+typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
 
 class DirCtrlTraverser : public wxDirTraverser{
 
 public:
-	DirCtrlTraverser(wxArrayString *files, wxString filespec = wxEmptyString) : m_Files(files), m_FileSpec(filespec) { }
+	DirCtrlTraverser(DirCtrlItemArray *items, wxString filespec = wxEmptyString) : m_Items(items), m_FileSpec(filespec) { }
 
 	virtual wxDirTraverseResult OnFile(const wxString& filename){
 		if(!filename.Matches(m_FileSpec)){
-			m_Files->Add(filename);
+			m_Items->push_back(new DirCtrlItem(filename));
 		}
 		return wxDIR_IGNORE;
 	}
 
 	virtual wxDirTraverseResult OnDir(const wxString& dirname){
-		m_Files->Add(dirname);
+		m_Items->push_back(new DirCtrlItem(dirname));
 		return wxDIR_IGNORE;
 	}
 
 private:
-	wxArrayString *m_Files;
+	DirCtrlItemArray *m_Items;
 	wxString m_FileSpec;
 };
 
@@ -101,8 +104,8 @@ public:
 
 	void AddItem(DirCtrlItem *item);
 
-	virtual bool OnAddItem(DirCtrlItem *item);
 	virtual void OnAddDirectory(DirCtrlItemArray *items);
+	virtual void OnItemAdded(wxTreeItemId id);
 	
 	//EventHandlers
 	void OnNodeExpand(wxTreeEvent &event);
