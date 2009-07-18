@@ -29,21 +29,20 @@ class DirCtrlItem : public wxTreeItemData{
 
 public:
 	DirCtrlItem(const wxFileName &path){
-		//wxMessageBox(path.GetFullPath());
 		m_Path = path;
-		m_Caption = path.GetName();
 		if(!wxFileExists(path.GetFullPath())){
+			m_Caption = path.GetName();
 			if(path.GetVolume().Length() == path.GetFullPath().Length()){
 				m_Type = DIRCTRL_ROOT;
 				m_Icon = 2;
 			}
 			else{
-				//wxMessageBox(_("Folder"));
 				m_Type = DIRCTRL_FOLDER;
 				m_Icon = 1;
 			}
 		}
 		else{
+			m_Caption = path.GetFullPath().AfterLast(wxFILE_SEP_PATH);
 			m_Type = DIRCTRL_FILE;
 			m_Icon = 0;
 		}
@@ -99,7 +98,7 @@ class DirCtrl : public wxTreeCtrl{
 
 public:
 	DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition,
-	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS|wxTR_FULL_ROW_HIGHLIGHT|wxTR_HIDE_ROOT|wxTR_MULTIPLE);
+	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
 	virtual ~DirCtrl();
 
 	void AddItem(DirCtrlItem *item);
