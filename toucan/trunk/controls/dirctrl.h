@@ -111,7 +111,8 @@ public:
 	void OnNodeExpand(wxTreeEvent &event);
 
 	//Inline functions
-	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth;}
+	//Add one because we are counting > 0
+	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth + 1;}
 	void SetExtensions(const wxString &Extensions) {this->m_Extensions = Extensions;}
 	void SetImageList(wxImageList *Image) {this->m_Image = Image;}
 	int GetScanDepth() const {return m_ScanDepth;}

@@ -52,7 +52,6 @@ void DirCtrl::AddItem(DirCtrlItem *item){
 }
 
 void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
-	//wxMessageBox(_("Called add directory"));
 	if(depth == -1 || depth > 0){
 		//If we have not yet added this directory then do so
 		if(GetChildrenCount(item->GetId()) == 0){
@@ -66,7 +65,6 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 			else{
 				return;
 			}
-			wxMessageBox(_("Finished traverse"));
 			//Allow items to be removed if needed
 			OnAddDirectory(&items);
 			//Sort the remaining items
@@ -84,7 +82,7 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 		while(child.IsOk()){
 			newitem = (DirCtrlItem*)GetItemData(child);
 			if(newitem->GetType() == DIRCTRL_FOLDER) {
-				AddDirectory(newitem, -1 ? -1 : depth - 1);
+				AddDirectory(newitem, (depth == -1 ? -1 : depth - 1));
 			}
 			child = GetNextChild(item->GetId(), cookie);
 		}
