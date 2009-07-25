@@ -230,10 +230,10 @@ bool SetScriptsBox(wxComboBox *box){
 wxString InputPassword(){
 	wxString strNewPass;
 	if(wxGetApp().GetUsesGUI()){
-		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"));
+		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, wxEmptyString, _("Please enter your password"));
 		if (dialog.ShowModal() == wxID_OK) {
 			strNewPass = dialog.GetValue();
-			wxPasswordEntryDialog dialog2(wxGetApp().ProgressWindow, _("Please enter your password"));
+			wxPasswordEntryDialog dialog2(wxGetApp().ProgressWindow, wxEmptyString, _("Please repeat your password"));
 			if(dialog2.ShowModal() == wxID_OK){
 				if(strNewPass == dialog2.GetValue()){
 					return strNewPass;
