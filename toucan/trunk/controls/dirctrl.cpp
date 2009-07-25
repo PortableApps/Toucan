@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "dirctrl.h"
+#include <algorithm>
 #include <wx/artprov.h>
 
 bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
