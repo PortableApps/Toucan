@@ -34,8 +34,9 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
 	SetScanDepth(2);
 	AddRoot(wxT("Hidden Root"));
 	m_Image = new wxImageList(16, 16);
-	m_Image->Add(wxArtProvider::GetBitmap(wxART_NORMAL_FILE, wxART_OTHER, wxSize(16, 16)));
-	m_Image->Add(wxArtProvider::GetBitmap(wxART_FOLDER, wxART_OTHER, wxSize(16, 16)));
+	m_Image->Add(wxArtProvider::GetBitmap(wxART_NORMAL_FILE, wxART_OTHER));
+	m_Image->Add(wxArtProvider::GetBitmap(wxART_FOLDER, wxART_OTHER));
+	m_Image->Add(wxArtProvider::GetBitmap(wxART_FOLDER, wxART_OTHER));
 	AssignImageList(m_Image);
 }
 
