@@ -43,7 +43,24 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
 		for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){
-			wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_SecureLocations->Item(i))));
+			wxString path = Normalise(Normalise(wxGetApp().MainWindow->m_SecureLocations->Item(i)));
+			if(wxDirExists(path) || wxFileExists(path)){
+				wxGetApp().MainWindow->m_SecureLocations->Add(path);
+				wxGetApp().MainWindow->m_SecureLocations->RemoveAt(i);
+				wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(path);
+			}
+			else{
+				if(path.Right(3) == wxT("cpt")){
+					wxGetApp().MainWindow->m_SecureLocations->Add(path.Left(path.Length() - 4));
+					wxGetApp().MainWindow->m_SecureLocations->RemoveAt(i);
+					wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(path.Left(path.Length() - 4));
+				}
+				else{
+					wxGetApp().MainWindow->m_SecureLocations->Add(path + wxT(".cpt"));
+					wxGetApp().MainWindow->m_SecureLocations->RemoveAt(i);
+					wxGetApp().MainWindow->m_Secure_TreeCtrl->AddNewPath(path + wxT(".cpt"));
+				}
+			}
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
