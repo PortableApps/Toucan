@@ -137,7 +137,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 			OutputProgress(_("Encrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()), wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()) + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
 		}
 	}
 
@@ -173,7 +173,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
  			OutputProgress(_("Decrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()), wxDateTime::Now().FormatTime(), true);
+ 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()) + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
 		}
 	}
 	IncrementGauge();
