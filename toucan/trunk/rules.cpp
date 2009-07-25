@@ -118,9 +118,6 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 						return true; 
 					}
 				}
-				else{
-					wxMessageBox(_("Error with Regex"));
-				}
 			}
 			//Else plain text match it
 			else{

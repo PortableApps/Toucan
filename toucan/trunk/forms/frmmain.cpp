@@ -873,8 +873,8 @@ void frmMain::CreateControls(){
 		SyncJobSave->SetToolTip(_("Save"));
 		SyncJobAdd->SetToolTip(_("Add"));
 		SyncJobRemove->SetToolTip(_("Remove"));
-		SyncSourceExpand->SetToolTip(_("Expand All"));
-		SyncDestExpand->SetToolTip(_("Expand All"));
+		SyncSourceExpand->SetToolTip(_("Expand all"));
+		SyncDestExpand->SetToolTip(_("Expand all"));
 		//Backup
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
@@ -882,7 +882,7 @@ void frmMain::CreateControls(){
 		BackupAdd->SetToolTip(_("Add"));
 		BackupRemove->SetToolTip(_("Remove"));
 		BackupAddVar->SetToolTip(_("Insert Variable"));
-		BackupExpand->SetToolTip(_("Expand All"));
+		BackupExpand->SetToolTip(_("Expand all"));
 		//Secure
 		SecureJobSave->SetToolTip(_("Save"));
 		SecureJobAdd->SetToolTip(_("Add"));
@@ -890,7 +890,7 @@ void frmMain::CreateControls(){
 		SecureAdd->SetToolTip(_("Add"));
 		SecureRemove->SetToolTip(_("Remove"));
 		SecureAddVar->SetToolTip(_("Insert Variable"));
-		SecureExpand->SetToolTip(_("Expand All"));
+		SecureExpand->SetToolTip(_("Expand all"));
 		//Rules
 		RulesNameSave->SetToolTip(_("Save"));
 		RulesNameAdd->SetToolTip(_("Add"));
@@ -1062,7 +1062,7 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_SYNC_SOURCE_BTN
 void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 	//Need to replace this with a better browser
-	wxDirDialog dialog(this,_("Please select the source folder."), Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
+	wxDirDialog dialog(this, _("Please select the source folder"), Normalise(Normalise(m_Sync_Source_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
@@ -1075,7 +1075,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 //ID_SYNC_DEST_BTN
 void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 	//Need to replace this with a better browser	
-	wxDirDialog dialog(this,_("Please select the desination folder."), Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
+	wxDirDialog dialog(this, _("Please select the destination folder"), Normalise(Normalise(m_Sync_Dest_Txt->GetValue())));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();

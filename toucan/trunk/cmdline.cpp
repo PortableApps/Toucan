@@ -28,7 +28,8 @@
 #include <cxxtest/ErrorPrinter.h>
 #include "test.h"
 bool ParseCommandLine(){
-	OutputProgress(_("Welcome to the Toucan command line system.\n"));
+	OutputProgress(_("Welcome to the Toucan command line system"));
+	OutputBlank();
 
 	int res;
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
@@ -99,7 +100,7 @@ bool ParseCommandLine(){
 		cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 	}
 	else{
-		OutputProgress(_("You have specified the wrong number of options"));
+		OutputProgress(_("The command is not recognised"));
 		return false;
 	}
 	wxLogNull log;
@@ -237,7 +238,8 @@ bool ParseCommandLine(){
 		}
 	}
 	else{
-		OutputProgress(_("Sorry the command is not recognised"));
+		OutputProgress(_("The command is not recognised"));
+		return false;
 	}
 	return true;
 }

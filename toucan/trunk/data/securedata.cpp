@@ -32,7 +32,7 @@ bool SecureData::TransferFromFile(){
 	else{ error = true; }
 
 	if(error){
-		wxMessageBox(_("There was an error reading from the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
+		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;
@@ -54,7 +54,7 @@ bool SecureData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->Flush();
 
 	if(error){
-		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use."), _("Error"), wxICON_ERROR);
+		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
 		return false;
 	}
 	return true;

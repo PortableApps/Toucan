@@ -196,7 +196,7 @@ bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
 
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
-			OutputProgress(wxT("Copied ") + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
+			OutputProgress(_("Copied ") + data->GetPreText() +  source.Right(source.Length() - data->GetStartLength()));
 			ShouldTimeStamp = true;
 		}
 		else{
@@ -305,17 +305,12 @@ bool SyncFiles::RemoveDirectory(wxString path){
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
-	// ATTN : Can be replaced when move to wxWidgets 2.9
-	if(wxGetApp().GetAbort()){
-		return true;
-	}
 	//Make sure that the correct ending is appended
 	if (path[path.length()-1] != wxFILE_SEP_PATH) {
 		path += wxFILE_SEP_PATH;       
 	}
-	// if it's a possible root directory
+	//If we have a root directory then return
 	if (path.length() <= 3) {
-		wxLogError(_("Toucan tried to delete a root directory. This has been forbidden for your own safety"));
 		return false;
 	}
 	wxDir* dir = new wxDir(path);

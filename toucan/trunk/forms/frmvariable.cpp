@@ -120,7 +120,7 @@ wxBitmap frmVariable::GetBitmapResource(const wxString& name)
 
 void frmVariable::OnLocationClick(wxCommandEvent& WXUNUSED(event))
 {
-	wxDirDialog dialog(this,_("Please select a folder."));
+	wxDirDialog dialog(this,_("Please select a folder"));
 	if (dialog.ShowModal() == wxID_OK) {
 		m_Location_Text->SetValue(dialog.GetPath());
 	}
