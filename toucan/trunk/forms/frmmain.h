@@ -262,6 +262,7 @@ public:
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
+	void OnSettingsFontClick(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	void OnSettingsApplyClick(wxCommandEvent& event);
 	
@@ -362,7 +363,7 @@ public:
 	//Settings
 	wxRadioBox* m_Settings_TabStyle;
 	wxComboBox* m_Settings_Language;
- 	wxFontPickerCtrl* m_Settings_Font;
+ 	wxButton* m_Settings_Font;
 	wxCheckBox* m_Settings_RememberSync;
 	wxCheckBox* m_Settings_RememberBackup;
 	wxCheckBox* m_Settings_RememberSecure;
@@ -374,6 +375,7 @@ public:
 	wxArrayString* m_BackupLocations;
 	wxVirtualDirTreeCtrl* menuTree;
 	wxComboBox* menuRules;
+	wxFont* m_Font;
 	
 	//Help
 	wxHtmlHelpWindow* m_HelpWindow;

@@ -9,7 +9,7 @@
 #include <wx/fileconf.h>
 #include <wx/html/helpctrl.h>
 #include <wx/listctrl.h>
-#include <wx/fontpicker.h>
+#include <wx/fontdlg.h>
 #include <wx/dir.h>
 #include <wx/gbsizer.h>
 #include <wx/wx.h>
@@ -92,7 +92,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_RULES_ADD_LOCATIONINCLUDE, frmMain::OnRulesAddLocationincludeClick)
 	EVT_BUTTON(ID_RULES_REMOVE_LOCATIONINCLUDE, frmMain::OnRulesRemoveLocationincludeClick)
 	
-	//Portable Variables
+	//Variables
 	EVT_BUTTON(ID_VARIABLES_SAVE, frmMain::OnVariablesSaveClick)
 	EVT_BUTTON(ID_VARIABLES_ADD, frmMain::OnVariablesAddClick)
 	EVT_BUTTON(ID_VARIABLES_REMOVE, frmMain::OnVariablesRemoveClick)
@@ -112,6 +112,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
 	EVT_BUTTON(wxID_APPLY, frmMain::OnSettingsApplyClick)
+	EVT_BUTTON(ID_SETTINGS_FONT, frmMain::OnSettingsFontClick)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
 	
 	//Menu
@@ -140,6 +141,7 @@ frmMain::frmMain(){
 
 //Destructor
 frmMain::~frmMain(){
+	delete m_Font;
 	delete m_BackupLocations;
 	delete m_SecureLocations;
 	m_auiManager.UnInit();
@@ -189,6 +191,7 @@ void frmMain::Init(){
 	menuTree = NULL;
 	menuRules = NULL;
 
+	m_Font = new wxFont();
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
 }
@@ -207,9 +210,8 @@ void frmMain::CreateControls(){
 	}
 
 	//Set the font from the settings
-	wxFont font;
-	font.SetNativeFontInfo(wxGetApp().m_Settings->GetFont());
-	this->SetFont(font);
+	m_Font->SetNativeFontInfo(wxGetApp().m_Settings->GetFont());
+	this->SetFont(*m_Font);
 
 	//Set the form up as managed by AUI
 	m_auiManager.SetManagedWindow(this);
@@ -752,8 +754,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
 	SettingsSizer->Add(FontStaticBoxSizer, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL, border);
 
-	m_Settings_Font = new wxFontPickerCtrl(SettingsPanel, ID_SETTINGS_FONT, wxNullFont, wxDefaultPosition, wxDefaultSize, 0);
-	m_Settings_Font->SetSelectedFont(font);
+	m_Settings_Font = new wxButton(SettingsPanel, ID_SETTINGS_FONT, _("Choose font"), wxDefaultPosition, wxDefaultSize, 0);
 	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxStaticBox* OtherBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Other"));
@@ -2095,7 +2096,7 @@ void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);
-	wxGetApp().m_Settings->SetFont(m_Settings_Font->GetSelectedFont().GetNativeFontInfoDesc());
+	wxGetApp().m_Settings->SetFont(m_Font->GetNativeFontInfoDesc());
 	wxGetApp().m_Settings->SetRememberSync(m_Settings_RememberSync->GetValue());
 	wxGetApp().m_Settings->SetRememberBackup(m_Settings_RememberBackup->GetValue());
 	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
@@ -2144,4 +2145,12 @@ void frmMain::UpdateSizer(wxSizer *sizer){
 	sizer->Layout();
 	Refresh();
 	Update();
+}
+
+void frmMain::OnSettingsFontClick(wxCommandEvent& WXUNUSED(event)){
+	wxFont temp = wxGetFontFromUser(this, *m_Font, _("Choose font"));
+	if(temp.IsOk()){
+		delete m_Font;
+		m_Font = new wxFont(temp);
+	}
 }
