@@ -73,7 +73,7 @@ bool SecureData::TransferToForm(frmMain *window){
 	}
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
 		window->m_SecureLocations->Add(GetLocations().Item(k));
-		window->m_Secure_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocations().Item(k))));
+		window->m_Secure_TreeCtrl->AddNewPath(Normalise(GetLocations().Item(k)));
 	}
 
 	window->m_Secure_Function->SetStringSelection(GetFunction());
@@ -99,7 +99,7 @@ void SecureData::Output(){
 
 bool SecureData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		SetLocation(i, Normalise(Normalise(GetLocation(i))));
+		SetLocation(i, Normalise(GetLocation(i)));
 	}
 	Secure(*this, rules, wxGetApp().ProgressWindow);
 	return true;

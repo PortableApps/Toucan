@@ -14,12 +14,12 @@ FileCounter::FileCounter(){
 }
 
 void FileCounter::AddPath(wxString path){
-	m_Paths.Add(Normalise(Normalise(path)));
+	m_Paths.Add(Normalise(path));
 }
 
 void FileCounter::AddPaths(wxArrayString paths){
 	for(unsigned int i = 0; i < paths.Count(); i++){
-		m_Paths.Add(Normalise(Normalise(paths.Item(i))));
+		m_Paths.Add(Normalise(paths.Item(i)));
 	}
 }
 

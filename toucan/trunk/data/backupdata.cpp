@@ -113,7 +113,7 @@ bool BackupData::TransferToForm(frmMain *window){
 	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		window->m_BackupLocations->Add(GetLocation(j));
-		window->m_Backup_TreeCtrl->AddNewPath(Normalise(Normalise(GetLocation(j))));
+		window->m_Backup_TreeCtrl->AddNewPath(Normalise(GetLocation(j)));
 	}
 	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());
@@ -282,9 +282,9 @@ bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int
 bool BackupData::Execute(Rules rules){
 	//Expand all of the variables
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
-		SetLocation(i, Normalise(Normalise(GetLocation(i))));
+		SetLocation(i, Normalise(GetLocation(i)));
 	}
-	SetFileLocation(Normalise(Normalise(GetFileLocation())));
+	SetFileLocation(Normalise(GetFileLocation()));
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		wxString path = GetLocation(i);
 		bool isDir = false;

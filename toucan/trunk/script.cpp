@@ -246,7 +246,7 @@ bool ScriptManager::ParseCommand(int i){
 		data->SetName(strToken);
 	}
 	else if(strToken == _("Delete")){
-		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strSource = Normalise(tkz.GetNextToken());
 		if(wxRemoveFile(strSource)){
 			OutputProgress(_("Deleted ") + strSource);	
 		}
@@ -259,9 +259,9 @@ bool ScriptManager::ParseCommand(int i){
 		return true;
 	}
 	else if(strToken == _("Move")){
-		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strSource = Normalise(tkz.GetNextToken());
 		tkz.GetNextToken();
-		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strDest = Normalise(tkz.GetNextToken());
 		if(wxCopyFile(strSource, strDest, true)){
 			if(wxRemoveFile(strSource)){
 				OutputProgress(_("Moved") + strSource);	
@@ -279,9 +279,9 @@ bool ScriptManager::ParseCommand(int i){
 		return true;
 	}
 	else if(strToken == _("Copy")){
-		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strSource = Normalise(tkz.GetNextToken());
 		tkz.GetNextToken();
-		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strDest = Normalise(tkz.GetNextToken());
 		if(wxCopyFile(strSource, strDest, true)){
 			OutputProgress(_("Copied ") + strSource);	
 		}
@@ -294,9 +294,9 @@ bool ScriptManager::ParseCommand(int i){
 		return true;
 	}
 	else if(strToken == _("Rename")){
-		wxString strSource = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strSource = Normalise(tkz.GetNextToken());
 		tkz.GetNextToken();
-		wxString strDest = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strDest = Normalise(tkz.GetNextToken());
 		if(wxRenameFile(strSource, strDest, true)){
 			OutputProgress(_("Renamed ") + strSource);	
 		}
@@ -309,7 +309,7 @@ bool ScriptManager::ParseCommand(int i){
 		return true;
 	}
 	else if(strToken == _("Execute")){
-		wxString strExecute = Normalise(Normalise(tkz.GetNextToken()));
+		wxString strExecute = Normalise(tkz.GetNextToken());
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute);
 		IncrementGauge();

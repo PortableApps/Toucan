@@ -79,14 +79,14 @@ bool SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Source_Tree->DeleteAllItems();
 	window->m_Sync_Source_Tree->AddRoot(wxT("Hidden text"));
 	if(GetSource() != wxEmptyString){
-		window->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(GetSource())));		
+		window->m_Sync_Source_Tree->AddNewPath(Normalise(GetSource()));		
 	}
 
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteAllItems();
 	window->m_Sync_Dest_Tree->AddRoot(wxT("Hidden text"));
 	if(GetDest() != wxEmptyString){
-		window->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(GetDest())));		
+		window->m_Sync_Dest_Tree->AddNewPath(Normalise(GetDest()));		
 	}
 
 	window->m_Sync_Function->SetStringSelection(GetFunction());
@@ -125,8 +125,8 @@ void SyncData::Output(){
 }
 
 bool SyncData::Execute(Rules rules){
-	SetSource(Normalise(Normalise(GetSource())));
-	SetDest(Normalise(Normalise(GetDest())));
+	SetSource(Normalise(GetSource()));
+	SetDest(Normalise(GetDest()));
 	//Create a new Sync thread and run it
 	//If we are running in the command line then we need joinable so the app doesnt return early
 	wxThreadKind type = wxTHREAD_DETACHED;

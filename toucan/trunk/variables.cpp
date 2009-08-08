@@ -14,56 +14,56 @@
 #include "variables.h"
 #include "toucan.h"
 
-wxString Normalise(wxString strFilePath){
+wxString Normalise(wxString path){
 	wxString token;
-	wxString strReturn = wxEmptyString;
+	wxString normalised = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  
-	wxStringTokenizer tkz(strFilePath, wxT("@"), wxTOKEN_RET_EMPTY_ALL);
+	wxStringTokenizer tkz(path, wxT("@"), wxTOKEN_RET_EMPTY_ALL);
 	bool previousmatched = true;
 	while(tkz.HasMoreTokens()){
         token = tkz.GetNextToken();
 		wxString strValue, read;
 		if(token == wxT("date")){
 			token = now.FormatISODate();
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("time")){
 			token = now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M"));
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("YYYY")){
 			token = now.Format(wxT("%Y"));
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("MM")){
 			token = now.Format(wxT("%m"));
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("DD")){
 			token = now.Format(wxT("%d"));
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("hh")){
 			token = now.Format(wxT("%H"));
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("mm")){
 			token = now.Format(wxT("%M"));
-			strReturn += token;
+			normalised += token;
 			previousmatched = true;
 		}
 		else if(token == wxT("drive")){
-			strReturn += wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(2);
+			normalised += wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(2);
 			previousmatched = true;
 		}
 		else if(token == wxT("docs")){
-			strReturn += wxStandardPaths::Get().GetDocumentsDir();
+			normalised += wxStandardPaths::Get().GetDocumentsDir();
 			previousmatched = true;
 		}
 		else if(token == wxT("volume")){
@@ -72,48 +72,48 @@ wxString Normalise(wxString strFilePath){
 				WCHAR volumeLabel[256]; 
 				GetVolumeInformation(wxGetApp().GetSettingsPath().Left(3), volumeLabel, sizeof(volumeLabel), NULL, 0, NULL, NULL, 0);
 				strName.Printf(wxT("%s"),volumeLabel); 
-				strReturn += strName;
+				normalised += strName;
 			#endif
 			previousmatched = true;
 		}
 		else if(token == wxT("label")){
 		 	wxFileConfig* autorun = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath().Left(3) + wxFILE_SEP_PATH + wxT("autorun.inf"));
 			wxString label = autorun->Read(wxT("Autorun/Label"));
-			strReturn += label;
+			normalised += label;
 			delete autorun;
 			previousmatched = true;
 		}
 		else if(wxGetEnv(token , &strValue)){
-			strReturn += strValue;
+			normalised += strValue;
 			previousmatched = true;
 		}
 		else if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), &read) != false && wxGetApp().m_Variables_Config->GetNumberOfGroups() != 0){
-			strReturn += read;
+			normalised += read;
 			previousmatched = true;
 		}
 		else if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + _("Other"), &read) != false && wxGetApp().m_Variables_Config->GetNumberOfGroups() != 0){
-			strReturn += read;
+			normalised += read;
 			previousmatched = true;
 		}
 		else{
 			if(previousmatched){
-				strReturn += token;
+				normalised += token;
 			}
 			else{
-				strReturn = strReturn + wxT("@") + token;
+				normalised = normalised + wxT("@") + token;
 			}
 			//This time we did not match
 			previousmatched = false;
 		}
 	}
-	if(strReturn.Length() == 2 && strReturn.Right(1) == wxT(":")){
-		strReturn += wxFILE_SEP_PATH;
-	}	
-	wxFileName flReturn(strReturn);
+	if(normalised.Length() == 2 && normalised.Right(1) == wxT(":")){
+		normalised += wxFILE_SEP_PATH;
+	}
+	wxFileName flReturn(normalised);
 	if(flReturn.IsOk()){
-		return strReturn;
+		//If we havent made any changes in this run then return, else scan again
+		//as new variables may have been added
+		return normalised == path ? path : Normalise(normalised);
 	}
-	else{
-		return wxEmptyString;
-	}
+	return wxEmptyString;
 }

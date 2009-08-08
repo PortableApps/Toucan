@@ -158,8 +158,8 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 				wxGetApp().MainWindow->m_Sync_Source_Tree->AddRoot(wxT("Hidden text"));
 				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddRoot(wxT("Hidden text"));
 				
-				wxGetApp().MainWindow->m_Sync_Source_Tree->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_Sync_Source_Txt->GetValue())));
-				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddNewPath(Normalise(Normalise(wxGetApp().MainWindow->m_Sync_Dest_Txt->GetValue())));		
+				wxGetApp().MainWindow->m_Sync_Source_Tree->AddNewPath(Normalise(wxGetApp().MainWindow->m_Sync_Source_Txt->GetValue()));
+				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddNewPath(Normalise(wxGetApp().MainWindow->m_Sync_Dest_Txt->GetValue()));		
 			}
 		}
 		//If we are in console then set the global variable to let Toucan know it has finished

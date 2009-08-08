@@ -25,17 +25,17 @@ public:
 		TS_TRACE("Need test for @drive@");
 		TS_TRACE("Need test for @docs@");
 
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@date@"))), wxDateTime::Now().FormatISODate());
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@time@"))), wxDateTime::Now().Format(wxT("%H")) + wxT("-") +  wxDateTime::Now().Format(wxT("%M")));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@YYYY@"))), wxDateTime::Now().Format(wxT("%Y")));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@MM@"))), wxDateTime::Now().Format(wxT("%m")));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@DD@"))), wxDateTime::Now().Format(wxT("%d")));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@hh@"))), wxDateTime::Now().Format(wxT("%H")));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("@mm@"))), wxDateTime::Now().Format(wxT("%M")));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("C:\\thisisa@test\\path.doc"))), wxT("C:\\thisisa@test\\path.doc"));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("C:\\testdir\\@date@.zip"))), wxT("C:\\testdir\\") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("C:\\@YYYY@@MM@\\@date@.zip"))), wxT("C:\\") + wxDateTime::Now().Format(wxT("%Y")) + wxDateTime::Now().Format(wxT("%m")) + wxT("\\") + wxDateTime::Now().FormatISODate()+ wxT(".zip"));
-		TS_ASSERT_EQUALS(Normalise(Normalise(wxT("C:\\testdir\\@@date@.zip"))), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
+		TS_ASSERT_EQUALS(Normalise(wxT("@date@")), wxDateTime::Now().FormatISODate());
+		TS_ASSERT_EQUALS(Normalise(wxT("@time@")), wxDateTime::Now().Format(wxT("%H")) + wxT("-") +  wxDateTime::Now().Format(wxT("%M")));
+		TS_ASSERT_EQUALS(Normalise(wxT("@YYYY@")), wxDateTime::Now().Format(wxT("%Y")));
+		TS_ASSERT_EQUALS(Normalise(wxT("@MM@")), wxDateTime::Now().Format(wxT("%m")));
+		TS_ASSERT_EQUALS(Normalise(wxT("@DD@")), wxDateTime::Now().Format(wxT("%d")));
+		TS_ASSERT_EQUALS(Normalise(wxT("@hh@")), wxDateTime::Now().Format(wxT("%H")));
+		TS_ASSERT_EQUALS(Normalise(wxT("@mm@")), wxDateTime::Now().Format(wxT("%M")));
+		TS_ASSERT_EQUALS(Normalise(wxT("C:\\thisisa@test\\path.doc")), wxT("C:\\thisisa@test\\path.doc"));
+		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@date@.zip")), wxT("C:\\testdir\\") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
+		TS_ASSERT_EQUALS(Normalise(wxT("C:\\@YYYY@@MM@\\@date@.zip")), wxT("C:\\") + wxDateTime::Now().Format(wxT("%Y")) + wxDateTime::Now().Format(wxT("%m")) + wxT("\\") + wxDateTime::Now().FormatISODate()+ wxT(".zip"));
+		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@@date@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
 	}
 	void testRules(){
 		TS_TRACE("Need more complex rules tests");

@@ -131,9 +131,9 @@ void frmVariable::OnVariablesClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmVariable::OnTextChange(wxCommandEvent& WXUNUSED(event)){
-	wxString strPath = m_Location_Text->GetValue();
-	strPath = Normalise(Normalise(strPath));
-	m_Preview_Text->SetValue(strPath);
+	wxString path = m_Location_Text->GetValue();
+	path = Normalise(path);
+	m_Preview_Text->SetValue(path);
 }
 
 void frmVariable::OnCancelClick(wxCommandEvent& WXUNUSED(event)){

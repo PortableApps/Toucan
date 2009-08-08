@@ -422,8 +422,8 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 	else if(_IsSync && _Preview){
 		SyncData data;
 		data.TransferFromForm();
-		data.SetSource(Normalise(Normalise(data.GetSource())));
-		data.SetDest(Normalise(Normalise(data.GetDest())));
+		data.SetSource(Normalise(data.GetSource()));
+		data.SetDest(Normalise(data.GetDest()));
 		wxString end;
 		bool issource;
 		if(this->GetId() == ID_SYNC_SOURCE_TREE){
