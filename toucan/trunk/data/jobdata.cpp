@@ -4,13 +4,12 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "rootdata.h"
+#include "jobdata.h"
 
-//Just a stub to allow this to correctly be compiled
-RootData::RootData(){
-	;
+JobData::JobData(const wxString& name){
+	m_Name = name;
 }
 
-RootData::~RootData(){
+JobData::~JobData(){
 	;
 }
