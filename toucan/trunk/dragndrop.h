@@ -20,7 +20,7 @@ class DnDFileTree : public wxFileDropTarget
 {
 public:
 	/*!
-	 * Creates the drop target, still needs to be set with 
+	 * Constructs the drop target, still needs to be set with 
 	 * wxWindow->SetDropTarget
 	 */
 	DnDFileTree(wxVirtualDirTreeCtrl *tree) {
@@ -44,7 +44,7 @@ class DnDFileTreeText : public wxFileDropTarget
 {
 public:
 	/*!
-	 * Creates the drop target, still needs to be set with 
+	 * Constructs the drop target, still needs to be set with 
 	 * wxWindow->SetDropTarget
 	 */
 	DnDFileTreeText(wxTextCtrl *text, wxVirtualDirTreeCtrl *tree) {
