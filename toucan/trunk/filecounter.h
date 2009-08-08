@@ -9,18 +9,36 @@
 
 #include <wx/arrstr.h>
 
+/*!
+ * A general class for counting files. Paths are Normalised when they are added. 
+ * Both files and folders can be added and will be counted correctly.
+ */
 class FileCounter{
+
 public:
+	/*!
+	 * Constructs a FileCounter instance.
+	 */
 	FileCounter();
-	void AddPath(wxString path);
-	void AddPaths(wxArrayString paths);
+	/*!
+	 * Adds a single path to the list of paths to be counted.
+	 */
+	void AddPath(const wxString &path);
+	/*!
+	 * Adds a set of paths to the list of paths to be counted.
+	 */
+	void AddPaths(const wxArrayString &paths);
+	/*!
+	 * Returns the count as last calculated by Count().
+	 */
 	long GetCount();
+	/*!
+	 * Counts the numer of files in the folders specified in the list
+	 */
 	bool Count();
 	
 private:
-	//This is the actualy counting function
 	bool CountFolder(wxString path);
-
 	wxArrayString m_Paths;
 	long m_Count;
 };	

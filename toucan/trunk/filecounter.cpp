@@ -13,11 +13,11 @@ FileCounter::FileCounter(){
 	m_Count = 0;
 }
 
-void FileCounter::AddPath(wxString path){
+void FileCounter::AddPath(const wxString &path){
 	m_Paths.Add(Normalise(path));
 }
 
-void FileCounter::AddPaths(wxArrayString paths){
+void FileCounter::AddPaths(const wxArrayString &paths){
 	for(unsigned int i = 0; i < paths.Count(); i++){
 		m_Paths.Add(Normalise(paths.Item(i)));
 	}
@@ -27,12 +27,12 @@ long FileCounter::GetCount(){
 	return m_Count;
 }
 
+//ATTN : Potentially replace some of this with a wxDirTraverser
 bool FileCounter::Count(){
 	for(unsigned int i = 0; i < m_Paths.Count(); i++){
 		if(wxDirExists(m_Paths.Item(i))){
 			CountFolder(m_Paths.Item(i));		
 		}
-		//We have a file and not a folder
 		else{
 			m_Count++;
 		}
