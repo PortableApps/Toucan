@@ -14,10 +14,8 @@
  */
  
 /*!
- * The Normalise funtion takes a path and attempts to expand out any Variables
- * that are within it. It is recursive until no more changes are detected allowing
- * deeply nested variables. If the given path is not valid a wxEmptyString is
- * returned.
+ * Expands any Variables in /a path. It is a recursive function allowing
+ * variables to be nested.
  * \return The result if successful, otherwise wxEmptyString
  */
 wxString Normalise(const wxString &path);
