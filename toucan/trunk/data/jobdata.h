@@ -12,6 +12,10 @@
 class frmMain;
 class Rules;
 
+/*!
+ * JobData is the root for all of the Toucan data classes and if used to supply 
+ * information to the Job classes. It must be inherited to be used correctly.
+ */
 class JobData{
 
 public:
@@ -26,8 +30,8 @@ public:
 	virtual ~JobData();
 
 	/*!
-	 * Transfers the data to the specificed path, using GetName() as a group
-	 * seperator
+	 * Transfers the data to the specificed path, using GetName() as the group
+	 * name
 	 */
 	virtual bool TransferToFile(const wxString &path) = 0;
 	
