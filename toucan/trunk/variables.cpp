@@ -14,7 +14,7 @@
 #include "variables.h"
 #include "toucan.h"
 
-wxString Normalise(wxString path){
+wxString Normalise(const wxString &path){
 	wxString token;
 	wxString normalised = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  

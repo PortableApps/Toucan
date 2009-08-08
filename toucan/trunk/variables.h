@@ -9,9 +9,17 @@
 
 #include <wx/string.h>
 
-/*This code creates the correct filenames from ones including Portable Variables
-if the name to be returned is not valid then the function returns an empty string
-and this is dealt with by the calling function*/
-wxString Normalise(wxString strFilePath);
+/*!
+ * \file variables.h
+ */
+ 
+/*!
+ * The Normalise funtion takes a path and attempts to expand out any Variables
+ * that are within it. It is recursive until no more changes are detected allowing
+ * deeply nested variables. If the given path is not valid a wxEmptyString is
+ * returned.
+ * \return The result if successful, otherwise wxEmptyString
+ */
+wxString Normalise(const wxString &path);
 
 #endif
