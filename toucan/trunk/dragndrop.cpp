@@ -9,8 +9,7 @@
 #include "forms/frmmain.h"
 #include "controls/vdtc.h"
 
-bool DnDFileTree::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){
-	//Loop through all of the paths adding each one to the wxVirtualDirTreeCtrl		
+bool DnDFileTree::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){	
 	for(unsigned int i = 0; i < arrFilenames.GetCount(); i++){
 		m_Tree->AddNewPath(arrFilenames.Item(i));
 		if(m_Tree->GetId() == ID_BACKUP_TREECTRL){
@@ -24,8 +23,7 @@ bool DnDFileTree::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wx
 	return true;
 }
 
-bool DnDFileTreeText::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){
-	//Only add the first item as Sync only supports one to one syncing		
+bool DnDFileTreeText::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){	
 	m_Text->SetValue(arrFilenames.Item(0));
 	m_Tree->DeleteAllItems();
 	m_Tree->AddRoot(wxT("Hidden root"));
