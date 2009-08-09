@@ -28,7 +28,6 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		if(wxGetApp().GetAbort()){
 			return true;
 		}
-		data.SetStartLength(arrLocation.Item(i).Length() + 1);
 		//Need to add normalisation to SecureData
 		if(arrLocation.Item(i) != wxEmptyString){
 			if(wxDirExists(arrLocation.Item(i))){
@@ -151,10 +150,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		#endif
 
 		if(lgReturn == 0){        
-			OutputProgress(_("Encrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
+			OutputProgress(_("Encrypted ") + strFile);
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()) + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to encrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
 		}
 	}
 
@@ -171,7 +170,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
 			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()), wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to decrypt ") + strFile, wxDateTime::Now().FormatTime(), true);
 			return true;
 		}
 
@@ -187,10 +186,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		#endif
 
 		if(lgReturn == 0){       
- 			OutputProgress(_("Decrypted ") + strFile.Right(strFile.Length() - data.GetStartLength()));
+ 			OutputProgress(_("Decrypted ") + strFile);
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile.Right(strFile.Length() - data.GetStartLength()) + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
+ 			OutputProgress(_("Failed to decrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
 		}
 	}
 	IncrementGauge();
