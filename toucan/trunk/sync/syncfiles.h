@@ -14,7 +14,7 @@ class Rules;
 
 class SyncFiles : public SyncBase{
 public:
-	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules rules);
+	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata);
 	bool Execute();
 protected:
 	virtual bool OnSourceNotDestFile(wxString path);

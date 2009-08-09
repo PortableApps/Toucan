@@ -319,12 +319,7 @@ bool ScriptManager::ParseCommand(int i){
 	/*if(data->NeedsPassword()){
 		data->SetPassword(m_Password);
 	}*/
-	
-	Rules rules;
-	if (wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
-		rules.TransferFromFile(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
-	}
-	
+
 	/*if(!data->Execute(rules)){
 		CleanUp();
 	}*/

@@ -40,15 +40,15 @@ public:
 	void testRules(){
 		TS_TRACE("Need more complex rules tests");
 		wxArrayString fileexclude, folderexclude, locationinclude;
-		Rules rules;
+		Rules rules(wxT("TestRules"));
 		//Add the exclusions and inclusions
 		fileexclude.Add(wxT(".doc"));
 		fileexclude.Add(wxT("test"));
-		rules.SetFilesToExclude(fileexclude);
+		rules.SetExcludedFiles(fileexclude);
 		folderexclude.Add(wxT("\\testexclude"));
-		rules.SetFoldersToExclude(folderexclude);
+		rules.SetExcludedFolders(folderexclude);
 		locationinclude.Add(wxT("++"));
-		rules.SetLocationsToInclude(locationinclude);
+		rules.SetIncludedLocations(locationinclude);
 		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\"), true), false); //Included
 		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\test.doc"), false), true); //Excluded
 		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\"), true), false); //Included

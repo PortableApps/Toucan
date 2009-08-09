@@ -10,7 +10,7 @@
 #include "../forms/frmprogress.h"
 
 void *SyncThread::Entry(){
-	SyncFiles sync(m_Data.GetSource(), m_Data.GetDest(), &m_Data, m_Rules);
+	SyncFiles sync(m_Data->GetSource(), m_Data->GetDest(), m_Data);
 	sync.Execute();
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 	event.SetInt(1);

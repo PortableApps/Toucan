@@ -25,7 +25,7 @@
 #include "../variables.h"
 #include "../data/securedata.h"
 #include "../data/backupdata.h"
-#include "../sync/syncdata.h"
+#include "../data/syncdata.h"
 #include "../controls/extendeddirctrl.h"
 #include "../controls/vdtc.h"
 #include "../controls/dirctrl.h"
@@ -914,22 +914,19 @@ void frmMain::CreateControls(){
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 
 	if(wxGetApp().m_Jobs_Config->Exists(wxT("SyncRemember")) && wxGetApp().m_Settings->GetRememberSync()){
-		SyncData data;
-		data.SetName(wxT("SyncRemember"));
+		SyncData data(wxT("SyncRemember"));
 		data.TransferFromFile();
 		data.TransferToForm(this);
 		m_Sync_Job_Select->SetStringSelection(wxGetApp().m_Jobs_Config->Read(wxT("SyncRemember/Name")));
 	}
 	if(wxGetApp().m_Jobs_Config->Exists(wxT("BackupRemember")) && wxGetApp().m_Settings->GetRememberBackup()){
-		BackupData data;
-		data.SetName(wxT("BackupRemember"));
+		BackupData data(wxT("BackupRemember"));
 		data.TransferFromFile();		
 		data.TransferToForm(this);
 		m_Backup_Job_Select->SetStringSelection(wxGetApp().m_Jobs_Config->Read(wxT("BackupRemember/Name")));
 	}
 	if(wxGetApp().m_Jobs_Config->Exists(wxT("SecureRemember")) && wxGetApp().m_Settings->GetRememberSecure()){
-		SecureData data;
-		data.SetName(wxT("SecureRemember"));
+		SecureData data(wxT("SecureRemember"));
 		data.TransferFromFile();
 		data.TransferToForm(this);
 		m_Secure_Job_Select->SetStringSelection(wxGetApp().m_Jobs_Config->Read(wxT("SecureRemember/Name")));
@@ -1177,17 +1174,17 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_JOB_SAVE
 void frmMain::OnSyncJobSaveClick(wxCommandEvent& WXUNUSED(event)){
-	JobSave(m_Sync_Job_Select->GetStringSelection(), m_Sync_Rules->GetStringSelection(), wxT("Sync"));
+	JobSave(m_Sync_Job_Select->GetStringSelection(), wxT("Sync"));
 }
 
 //ID_BACKUP_JOB_SAVE
 void frmMain::OnBackupJobSaveClick(wxCommandEvent& WXUNUSED(event)){
-	JobSave(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules->GetStringSelection(), wxT("Backup"));
+	JobSave(m_Backup_Job_Select->GetStringSelection(), wxT("Backup"));
 }
 
 //ID_SECURE_JOB_SAVE
 void frmMain::OnSecureJobSaveClick(wxCommandEvent& WXUNUSED(event)){
-	JobSave(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules->GetStringSelection(), wxT("Secure"));
+	JobSave(m_Secure_Job_Select->GetStringSelection(), wxT("Secure"));
 }
 
 //ID_SYNC_JOB_ADD
@@ -1228,17 +1225,17 @@ void frmMain::OnSecureJobRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_JOB_SELECT
 void frmMain::OnBackupJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
-	JobLoad(m_Backup_Job_Select->GetStringSelection(), m_Backup_Rules, wxT("Backup"));
+	JobLoad(m_Backup_Job_Select->GetStringSelection(), wxT("Backup"));
 }
 
 //ID_SECURE_JOB_SELECT
 void frmMain::OnSecureJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
-	JobLoad(m_Secure_Job_Select->GetStringSelection(), m_Secure_Rules, wxT("Secure"));
+	JobLoad(m_Secure_Job_Select->GetStringSelection(), wxT("Secure"));
 }
 
 //ID_SYNC_JOB_SELECT
 void frmMain::OnSyncJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
-	JobLoad(m_Sync_Job_Select->GetStringSelection(), m_Sync_Rules, wxT("Sync"));
+	JobLoad(m_Sync_Job_Select->GetStringSelection(), wxT("Sync"));
 }
 
 //ID_RULES_ADD_FILEINCLUDE
@@ -1286,7 +1283,7 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_OK
 void frmMain::OnSyncOKClick(wxCommandEvent& WXUNUSED(event)){
-	Run(m_Sync_Rules->GetStringSelection(), wxT("Sync"));
+	Run(wxT("Sync"));
 }
 
 //ID_BACKUP_OK
@@ -1302,12 +1299,12 @@ void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
-	Run(m_Backup_Rules->GetStringSelection(), wxT("Backup"));
+	Run(wxT("Backup"));
 }
 
 //ID_SECURE_OK
 void frmMain::OnSecureOKClick(wxCommandEvent& WXUNUSED(event)){
-	Run(m_Secure_Rules->GetStringSelection(), wxT("Secure"));
+	Run(wxT("Secure"));
 	m_Secure_DirCtrl->ReCreateTree();
 }
 
@@ -1315,12 +1312,13 @@ void frmMain::OnSecureOKClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
 	m_Notebook->Disable();
-	//Get the rules
-	Rules rules;
-	if (m_Sync_Rules->GetStringSelection() != wxEmptyString) {
-		rules.TransferFromFile(m_Sync_Rules->GetStringSelection());
+
+	if (m_Sync_Rules->GetStringSelection() != wxEmptyString){
+		Rules *rules = new Rules(m_Sync_Rules->GetStringSelection());
+		rules->TransferFromFile();
+		m_Sync_Dest_Tree->SetRules(rules);
 	}	
-	m_Sync_Dest_Tree->SetRules(rules);
+
 	m_Sync_Dest_Tree->DeleteAllItems();
 	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 	m_Sync_Dest_Tree->SetPreview(true);
@@ -1328,7 +1326,11 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
-		m_Sync_Source_Tree->SetRules(rules);
+		if (m_Sync_Rules->GetStringSelection() != wxEmptyString){
+			Rules *rules = new Rules(m_Sync_Rules->GetStringSelection());
+			rules->TransferFromFile();
+			m_Sync_Source_Tree->SetRules(rules);
+		}	
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetSync(true);
@@ -1340,15 +1342,15 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_PREVIEW
 void frmMain::OnBackupPreviewClick(wxCommandEvent& WXUNUSED(event)){
-	//Create a new rule set and populate it from the form
-	Rules rules;
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
-		rules.TransferFromFile(m_Backup_Rules->GetStringSelection());
+		Rules *rules = new Rules(m_Backup_Rules->GetStringSelection());
+		rules->TransferFromFile();
+		m_Backup_TreeCtrl->SetRules(rules);
 	}
 	//Set up the tree ctrl for previewing
 	m_Backup_TreeCtrl->SetSync(false);
 	m_Backup_TreeCtrl->SetPreview(true);
-	m_Backup_TreeCtrl->SetRules(rules);
+
 	//Delete all items and re-add the root
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -1360,15 +1362,14 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SECURE_PREVIEW
 void frmMain::OnSecurePreviewClick(wxCommandEvent& WXUNUSED(event)){
-	//Create a new rule set and populate it from the form
-	Rules rules;
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
-		rules.TransferFromFile(m_Secure_Rules->GetStringSelection());
+		Rules *rules = new Rules(m_Secure_Rules->GetStringSelection());
+		rules->TransferFromFile();
+		m_Secure_TreeCtrl->SetRules(rules);
 	}
 	//Set up the tree ctrl for previewing
 	m_Secure_TreeCtrl->SetSync(false);
 	m_Secure_TreeCtrl->SetPreview(true);
-	m_Secure_TreeCtrl->SetRules(rules);
 	//Delete all items and re-add the root
 	m_Secure_TreeCtrl->DeleteAllItems();
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -1764,28 +1765,24 @@ void frmMain::JobRemove(wxComboBox* box){
 	ClearToDefault();
 }
 
-void frmMain::JobSave(const wxString name, const wxString rules, const wxString type){
+void frmMain::JobSave(const wxString &name, const wxString &type){
 	wxBusyCursor cursor;
-	RootData* data;
+	JobData* data;
 	if(type == wxT("Sync")){
-		data = new SyncData();
+		data = new SyncData(name);
 	}
 	else if(type == wxT("Backup")){
-		data = new BackupData();
+		data = new BackupData(name);
 	}
 	else if(type == wxT("Secure")){
-		data = new SecureData();
+		data = new SecureData(name);
 	}
 	else{
 		return;
 	}
-	data->SetName(name);
-	if (data->TransferFromForm()){
+	if (data->TransferFromForm(this)){
 		if (data->GetName() != wxEmptyString) {
 			data->TransferToFile();
-			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Rules"),  rules);
-			wxGetApp().m_Jobs_Config->Write(data->GetName() + wxT("/Type"),  type);
-			wxGetApp().m_Jobs_Config->Flush();
 		}
 		else {
 			wxMessageBox(_("Please chose a job to save to"), _("Error"), wxICON_ERROR);
@@ -1794,26 +1791,24 @@ void frmMain::JobSave(const wxString name, const wxString rules, const wxString 
 	delete data;
 }
 
-void frmMain::JobLoad(const wxString name, wxComboBox* rules, const wxString type){
+void frmMain::JobLoad(const wxString &name, const wxString &type){
 	wxBusyCursor cursor;
 	ClearToDefault();
-	RootData* data;
+	JobData* data;
 	if(type == wxT("Sync")){
-		data = new SyncData();
+		data = new SyncData(name);
 	}
 	else if(type == wxT("Backup")){
-		data = new BackupData();
+		data = new BackupData(name);
 	}
 	else if(type == wxT("Secure")){
-		data = new SecureData();
+		data = new SecureData(name);
 	}
 	else{
 		return;
 	}
-	data->SetName(name);
 	if (data->TransferFromFile()){
-		data->TransferToForm();
-		rules->SetStringSelection(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
+		data->TransferToForm(this);
 	}
 	SetTitleBarText();
 }
@@ -1852,27 +1847,23 @@ void frmMain::ClearToDefault(){
 	}
 }
 
-void frmMain::Run(const wxString rules, const wxString type){
-	RootData* data;
+void frmMain::Run(const wxString &type){
+	JobData* data;
 	if(type == wxT("Sync")){
-		data = new SyncData();
+		data = new SyncData(wxT("Last") + type + wxT("Job"));
 	}
 	else if(type == wxT("Backup")){
-		data = new BackupData();
+		data = new BackupData(wxT("Last") + type + wxT("Job"));
 	}
 	else if(type == wxT("Secure")){
-		data = new SecureData();
+		data = new SecureData(wxT("Last") + type + wxT("Job"));
 	}
 	else{
 		return;
 	}
-	data->SetName(wxT("Last") + type + wxT("Job"));
-	if(data->TransferFromForm()){
-		if(data->NeededFieldsFilled()){
+	if(data->TransferFromForm(this)){
+		if(data->IsReady()){
 			if(data->TransferToFile()){
-				wxGetApp().m_Jobs_Config->Write(wxT("Last") + type + wxT("Job/Rules"),  rules);
-				wxGetApp().m_Jobs_Config->Write(wxT("Last") + type + wxT("Job/Type"),  type);
-				wxGetApp().m_Jobs_Config->Flush();	
 				wxArrayString arrScript;
 				arrScript.Add(type + wxT(" \"Last") + type + wxT("Job\""));
 				wxGetApp().SetAbort(false);
@@ -1911,60 +1902,60 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 //ID_MENU_FILEEXCLUDE_EXTENSION
 void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules;
-		rules.TransferFromFile(menuRules->GetStringSelection());
-		wxArrayString arrFileExclude = rules.GetFilesToExclude();
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrFileExclude = rules.GetExcludedFiles();
 		arrFileExclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
-		rules.SetFilesToExclude(arrFileExclude);
-		rules.TransferToFile(menuRules->GetStringSelection());
+		rules.SetExcludedFiles(arrFileExclude);
+		rules.TransferToFile();
 	}	
 }
 
 //ID_MENU_FILEEXCLUDE_NAME
 void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules;
-		rules.TransferFromFile(menuRules->GetStringSelection());
-		wxArrayString arrFileExclude = rules.GetFoldersToExclude();
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrFileExclude = rules.GetExcludedFolders();
 		arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetFoldersToExclude(arrFileExclude);
-		rules.TransferToFile(menuRules->GetStringSelection());
+		rules.SetExcludedFolders(arrFileExclude);
+		rules.TransferToFile();
 	}	
 }
 
 //ID_MENU_LOCATIONINCLUDE_EXTENSION
 void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules;
-		rules.TransferFromFile(menuRules->GetStringSelection());
-		wxArrayString arrLocationInclude = rules.GetLocationsToInclude();
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrLocationInclude = rules.GetIncludedLocations();
 		arrLocationInclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
-		rules.SetLocationsToInclude(arrLocationInclude);
-		rules.TransferToFile(menuRules->GetStringSelection());
+		rules.SetIncludedLocations(arrLocationInclude);
+		rules.TransferToFile();
 	}		
 }
 
 //ID_MENU_LOCATIONINCLUDE_NAME
 void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules;
-		rules.TransferFromFile(menuRules->GetStringSelection());
-		wxArrayString arrLocationInclude = rules.GetLocationsToInclude();
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrLocationInclude = rules.GetIncludedLocations();
 		arrLocationInclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetLocationsToInclude(arrLocationInclude);
-		rules.TransferToFile(menuRules->GetStringSelection());
+		rules.SetIncludedLocations(arrLocationInclude);
+		rules.TransferToFile();
 	}		
 }
 
 //ID_MENU_FOLDEREXCLUDE_NAME
 void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules;
-		rules.TransferFromFile(menuRules->GetStringSelection());
-		wxArrayString arrFolderExclude = rules.GetFoldersToExclude();
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrFolderExclude = rules.GetExcludedFolders();
 		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetFoldersToExclude(arrFolderExclude);
-		rules.TransferToFile(menuRules->GetStringSelection());
+		rules.SetExcludedFolders(arrFolderExclude);
+		rules.TransferToFile();
 	}		
 }
 
@@ -2078,25 +2069,22 @@ void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetSmallBorders(m_Settings_SmallBorders->GetValue());
 	
 	if(wxGetApp().m_Settings->GetRememberSync()){
-		SyncData data;
-		data.SetName(wxT("SyncRemember"));
-		data.TransferFromForm();
+		SyncData data(wxT("SyncRemember"));
+		data.TransferFromForm(this);
 		data.TransferToFile();
 		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
 		wxGetApp().m_Jobs_Config->Flush();
 	}
 	if(wxGetApp().m_Settings->GetRememberBackup()){	
-		BackupData bdata;
-		bdata.SetName(wxT("BackupRemember"));
-		bdata.TransferFromForm();
+		BackupData bdata(wxT("BackupRemember"));
+		bdata.TransferFromForm(this);
 		bdata.TransferToFile();
 		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
 		wxGetApp().m_Jobs_Config->Flush();
 	}
 	if(wxGetApp().m_Settings->GetRememberSecure()){
-		SecureData sdata;
-		sdata.SetName(wxT("SecureRemember"));
-		sdata.TransferFromForm();
+		SecureData sdata(wxT("SecureRemember"));
+		sdata.TransferFromForm(this);
 		sdata.TransferToFile();
 		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
 		wxGetApp().m_Jobs_Config->Flush();

@@ -14,7 +14,7 @@
 
 class SyncPreview : public SyncFiles{
 public:
-	SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules, bool issource);
+	SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, bool issource);
 	VdtcTreeItemBaseArray Execute();
 private:
 	//We have our own operation caller that doesnt call the ruls check as it is done by the individual functions

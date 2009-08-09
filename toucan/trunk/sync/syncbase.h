@@ -24,8 +24,8 @@ protected:
 	wxString sourceroot;
 	wxString destroot;
 	//We need to know what sort of operation we are doing
-	SyncData* data;
-	Rules rules;
+	SyncData *data;
+	Rules *rules;
 	//Adds all the contents of a folder to a std::list
 	std::list<wxString> FolderContentsToList(wxString path);
 	//Merges two lists into a map(wxString, location)

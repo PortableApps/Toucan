@@ -4,12 +4,17 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
+#include "syncdata.h"
+#include "../rules.h"
 #include "../toucan.h"
+#include "../variables.h"
 #include "../forms/frmmain.h"
+#include "../controls/vdtc.h"
 #include <wx/variant.h>
+#include <wx/fileconf.h>
 
 bool SyncData::TransferFromFile(){
-	bool error = false
+	bool error = false;
 	bool btemp;
 	wxString stemp;
 
@@ -53,6 +58,7 @@ bool SyncData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreReadOnly"), GetIgnoreRO())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules()->GetName())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();
 
@@ -69,14 +75,14 @@ bool SyncData::TransferToForm(frmMain *window){
 	}
 
 	window->m_Sync_Source_Txt->SetValue(GetSource());
-	window->m_Sync_Source_Tree->DeleteChildren(window->m_Sync_Source_Tree->GetRoot());
+	window->m_Sync_Source_Tree->DeleteChildren(window->m_Sync_Source_Tree->GetRootItem());
 	//ATTN : Move the wxEmptyString checks into the DirCtrl code 
 	if(GetSource() != wxEmptyString){
 		window->m_Sync_Source_Tree->AddNewPath(Normalise(GetSource()));		
 	}
 
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
-	window->m_Sync_Dest_Tree->DeleteChildren(window->m_Sync_Dest_Tree->GetRoot());
+	window->m_Sync_Dest_Tree->DeleteChildren(window->m_Sync_Dest_Tree->GetRootItem());
 	if(GetDest() != wxEmptyString){
 		window->m_Sync_Dest_Tree->AddNewPath(Normalise(GetDest()));		
 	}
@@ -101,7 +107,7 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetAttributes(window->m_Sync_Attributes->GetValue());
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
-	SetRules(new Rules(window->m_Sync_Rules, true));
+	SetRules(new Rules(window->m_Sync_Rules->GetStringSelection(), true));
 	return true;	
 }
 

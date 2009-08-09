@@ -13,7 +13,7 @@
 #include <wx/string.h>
 #include <wx/wfstream.h>
 
-SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, Rules syncrules, bool issource) : SyncFiles(syncsource, syncdest, syncdata, syncrules){
+SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, bool issource) : SyncFiles(syncsource, syncdest, syncdata){
 	this->sourcetree = issource;
 	this->preview = true;
 }
@@ -74,7 +74,7 @@ bool SyncPreview::OnSourceNotDestFile(wxString path){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
 		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
-		if(!rules.ShouldExclude(source, false)){
+		if(!data->GetRules()->ShouldExclude(source, false)){
 			item->SetColour(wxT("Blue"));
 			destitems.Add(item);
 			if(data->GetFunction() == _("Move")){
@@ -94,18 +94,18 @@ bool SyncPreview::OnSourceNotDestFile(wxString path){
 bool SyncPreview::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(!rules.ShouldExclude(dest, false)){
+	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 			int pos = GetItemLocation(path, &destitems);
 			if(pos != -1){
-				if(!rules.ShouldExclude(dest, false)){
+				if(!data->GetRules()->ShouldExclude(dest, false)){
 					destitems.Item(pos)->SetColour(wxT("Grey"));						
 				}
 			}
 		}
 		else if(data->GetFunction() == _("Equalise")){
 			VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
-			if(!rules.ShouldExclude(dest, false)){
+			if(!data->GetRules()->ShouldExclude(dest, false)){
 				item->SetColour(wxT("Blue"));
 				sourceitems.Add(item);
 			}
@@ -120,7 +120,7 @@ bool SyncPreview::OnNotSourceDestFile(wxString path){
 bool SyncPreview::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(!rules.ShouldExclude(dest, false)){
+	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(ShouldCopy(source, dest)){
 				
@@ -192,7 +192,7 @@ bool SyncPreview::OnSourceNotDestFolder(wxString path){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
 		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
-		if(!rules.ShouldExclude(source, true)){
+		if(!data->GetRules()->ShouldExclude(source, true)){
 			item->SetColour(wxT("Blue"));
 		}
 		else{
@@ -215,14 +215,14 @@ bool SyncPreview::OnNotSourceDestFolder(wxString path){
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
-			if(!rules.ShouldExclude(dest, true)){
+			if(!data->GetRules()->ShouldExclude(dest, true)){
 				destitems.Item(pos)->SetColour(wxT("Grey"));				
 			}		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
-		if(!rules.ShouldExclude(dest, true)){
+		if(!data->GetRules()->ShouldExclude(dest, true)){
 			item->SetColour(wxT("Blue"));
 
 		}
@@ -239,7 +239,7 @@ bool SyncPreview::OnSourceAndDestFolder(wxString path){
 	if(data->GetFunction() == _("Move")){
 		int pos = GetItemLocation(path, &sourceitems);
 		if(pos != -1){
-			if(!rules.ShouldExclude(source, true)){
+			if(!data->GetRules()->ShouldExclude(source, true)){
 				sourceitems.Item(pos)->SetColour(wxT("Red"));				
 			}		
 		}

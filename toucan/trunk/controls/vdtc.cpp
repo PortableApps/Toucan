@@ -46,6 +46,10 @@ wxVirtualDirTreeCtrl::~wxVirtualDirTreeCtrl()
 
 	// delete the icons
 	delete _iconList;
+	
+	if(_Rules){
+		delete _Rules;
+	}
 }
 
 bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
@@ -417,7 +421,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 			if(wxDirExists(strComplete)){
 				isdir = true;
 			}
-			if (_Rules.ShouldExclude(strComplete, isdir)) {
+			if (_Rules->ShouldExclude(strComplete, isdir)) {
 				items.Item(i)->SetColour(wxColour(wxT("Red")));
 			} 
 		}
@@ -437,7 +441,7 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 			end = path.GetPath().Right(path.GetPath().Length() - data.GetDest().Length());
 			issource = false;
 		}
-		SyncPreview preview(data.GetSource() + end, data.GetDest() + end, &data, _Rules, issource);
+		SyncPreview preview(data.GetSource() + end, data.GetDest() + end, &data, issource);
 		items = preview.Execute();
 	}
 	return;

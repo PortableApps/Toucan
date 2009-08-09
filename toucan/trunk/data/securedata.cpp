@@ -26,6 +26,8 @@ bool SecureData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(stemp);
 		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
+		else error = true;
 
 	if(error){
 		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
@@ -40,6 +42,8 @@ bool SecureData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->DeleteGroup(GetName())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules()->GetName())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();
 

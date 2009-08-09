@@ -154,7 +154,7 @@ private:
 
 	bool _Preview;
 
-	Rules _Rules;
+	Rules* _Rules;
 
 	bool _IsSync;
 
@@ -325,7 +325,7 @@ public:
 	void SetPreview(bool preview) {
 		_Preview = preview;
 	}
-	void SetRules(Rules rules) {
+	void SetRules(Rules *rules) {
 		_Rules = rules;
 	}
 	void SetSync(bool sync) {
