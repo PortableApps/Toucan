@@ -77,7 +77,7 @@ public:
 	 */
 	void SetUsesPassword(const bool& UsesPassword) {this->m_UsesPassword = UsesPassword;}
 	/*!
-	 * Sets the password for this job
+	 * Sets the password for this job (not saved to disk)
 	 */
 	void SetPassword(const wxString& Password) {this->m_Password = Password;}
 
