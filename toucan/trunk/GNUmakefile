@@ -199,7 +199,7 @@ $(OUTPATH)/Toucan_frmvariable.o: ./forms/frmvariable.cpp
 $(OUTPATH)/Toucan_syncbase.o: ./sync/syncbase.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-$(OUTPATH)/Toucan_syncdata.o: ./sync/syncdata.cpp
+$(OUTPATH)/Toucan_syncdata.o: ./data/syncdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_syncfiles.o: ./sync/syncfiles.cpp
