@@ -15,12 +15,28 @@
 class Job{
 
 public:
+	/*!
+	 * Constructs a new Job with the given JobData
+	 */
 	Job(JobData *Data);
+	/*!
+	 * Cleans up job, including deleting the associated JobData
+	 */
 	virtual ~Job();
 
+	/*!
+	 * Runs the job using the given JobData
+	 */
 	virtual bool Execute() = 0;
 
+	/*!
+	 * Gets the JobData associated with this job
+	 */
 	JobData *GetData() {return m_Data;}
+	/*!
+	 * sets the JobData associated with this job. Note the job takes control of 
+	 * the data and destroys it when it is finished
+	 */
 	void SetData(JobData *Data){m_Data = Data;}
 	
 private:
