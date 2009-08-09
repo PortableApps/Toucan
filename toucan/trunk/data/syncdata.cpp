@@ -17,14 +17,22 @@ bool SyncData::TransferFromFile(){
 		return false;
 	}
 
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Source"), &stemp) ? SetSource(stemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Dest"), &stemp) ? SetDest(stemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp) ? SetFunction(stemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/TimeStamps"), &btemp) ? SetTimeStamps(btemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Attributes"), &btemp) ? SetAttributes(btemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IgnoreReadOnly"), &btemp) ? SetIgnoreRO(btemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IgnoreDaylightSavings"), &btemp) ? SetIgnoreDLS(btemp) : error = true;
-	wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp) ? SetRules(new Rules(stemp, true)) : error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Source"), &stemp)) SetSource(stemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Dest"), &stemp))  SetDest(stemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp))  SetFunction(stemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/TimeStamps"), &btemp))  SetTimeStamps(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Attributes"), &btemp))  SetAttributes(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IgnoreReadOnly"), &btemp))  SetIgnoreRO(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IgnoreDaylightSavings"), &btemp))  SetIgnoreDLS(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
+		else error = true;
 
 	if(error){
 		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
