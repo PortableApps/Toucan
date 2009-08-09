@@ -63,6 +63,7 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_cmdline.o \
 	$(OUTPATH)/Toucan_dragndrop.o \
 	$(OUTPATH)/Toucan_filecounter.o \
+	$(OUTPATH)/Toucan_job.o \
 	$(OUTPATH)/Toucan_rules.o \
 	$(OUTPATH)/Toucan_script.o \
 	$(OUTPATH)/Toucan_secure.o \
@@ -197,6 +198,9 @@ $(OUTPATH)/Toucan_dragndrop.o: ./dragndrop.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_filecounter.o: ./filecounter.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
+$(OUTPATH)/Toucan_job.o: ./job.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_rules.o: ./rules.cpp
