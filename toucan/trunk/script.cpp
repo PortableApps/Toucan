@@ -17,8 +17,8 @@
 #include "variables.h"
 #include "basicfunctions.h"
 #include "filecounter.h"
-#include "data/rootdata.h"
-#include "sync/syncdata.h"
+#include "data/jobdata.h"
+#include "data/syncdata.h"
 #include "sync/syncthread.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
@@ -88,8 +88,7 @@ bool ScriptManager::Validate(){
 			//We have the correct number of parameters, check the job names
 			if(token == wxT("Sync")){
 				wxString job = tkz.GetNextToken();
-				SyncData data;
-				data.SetName(job);
+				SyncData data(job);
 				if(data.TransferFromFile()){
 					//We dont yet need to do anything special for Sync
 					;
@@ -101,8 +100,7 @@ bool ScriptManager::Validate(){
 			}
 			else if(token == wxT("Backup")){
 				wxString job = tkz.GetNextToken();
-				BackupData data;
-				data.SetName(job);
+				BackupData data(job);
 				if(data.TransferFromFile()){
 					if(data.GetUsesPassword()){
 						wxString pass = InputPassword();
@@ -121,8 +119,7 @@ bool ScriptManager::Validate(){
 			}
 			else if(token == wxT("Secure")){
 				wxString job = tkz.GetNextToken();
-				SecureData data;
-				data.SetName(job);
+				SecureData data(job);
 				if(data.TransferFromFile()){
 					wxString pass = InputPassword();
 					if(pass == wxEmptyString){
@@ -162,9 +159,8 @@ bool ScriptManager::ProgressBarSetup(){
 		wxString strToken = tkz.GetNextToken();
 		strToken.Trim();
 		if(strToken == wxT("Sync")){
-			SyncData data;
 			strToken = tkz.GetNextToken();
-			data.SetName(strToken);
+			SyncData data(strToken);
 			data.TransferFromFile();
 			if(data.GetFunction() != _("Clean")){
 				counter.AddPath(data.GetSource());				
@@ -175,9 +171,8 @@ bool ScriptManager::ProgressBarSetup(){
 			}
 		}	
 		else if(strToken == wxT("Backup")){
-			BackupData data;
 			strToken = tkz.GetNextToken();
-			data.SetName(strToken);
+			BackupData data(strToken);
 			data.TransferFromFile();
 			if(data.GetFunction() != _("Restore")){
 				counter.AddPaths(data.GetLocations());
@@ -186,9 +181,8 @@ bool ScriptManager::ProgressBarSetup(){
 			count += 3;
 		}
 		else if(strToken == wxT("Secure")){
-			SecureData data;
 			strToken = tkz.GetNextToken();
-			data.SetName(strToken);
+			SecureData data(strToken);
 			data.TransferFromFile();
 			counter.AddPaths(data.GetLocations());
 		}
@@ -228,22 +222,16 @@ bool ScriptManager::ParseCommand(int i){
 	
 	strToken.Trim();
 	
-	RootData* data;
+	JobData* data;
 	
 	if(strToken == wxT("Sync")){
-		data = new SyncData();
-		strToken = tkz.GetNextToken();
-		data->SetName(strToken);
+		data = new SyncData(tkz.GetNextToken());
 	}	
 	else if(strToken == wxT("Backup")){
-		data = new BackupData();
-		strToken = tkz.GetNextToken();
-		data->SetName(strToken);
+		data = new BackupData(tkz.GetNextToken());
 	}
 	else if(strToken == wxT("Secure")){
-		data = new SecureData();
-		strToken = tkz.GetNextToken();
-		data->SetName(strToken);
+		data = new SecureData(tkz.GetNextToken());
 	}
 	else if(strToken == _("Delete")){
 		wxString strSource = Normalise(tkz.GetNextToken());
@@ -324,22 +312,22 @@ bool ScriptManager::ParseCommand(int i){
 	if(!data->TransferFromFile()){
 		CleanUp();
 	}
-	if(!data->NeededFieldsFilled()){
+	if(!data->IsReady()){
 		wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		CleanUp();
 	}
-	if(data->NeedsPassword()){
+	/*if(data->NeedsPassword()){
 		data->SetPassword(m_Password);
-	}
+	}*/
 	
 	Rules rules;
 	if (wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")) != wxEmptyString) {
 		rules.TransferFromFile(wxGetApp().m_Jobs_Config->Read(data->GetName() + wxT("/Rules")));
 	}
 	
-	if(!data->Execute(rules)){
+	/*if(!data->Execute(rules)){
 		CleanUp();
-	}
+	}*/
 	
 	return true;	
 }
