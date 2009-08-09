@@ -20,43 +20,26 @@
 
 bool BackupData::TransferFromFile(){
 	bool error = false;
-	int iTemp;
-	wxString strTemp;
-	bool blTemp;
+	bool btemp;
+	wxString stemp;
+	int itemp;
 
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
 		return false;
 	}
 
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/BackupLocation"), &strTemp)){
-		SetFileLocation(strTemp);
-	}
-	else{ error = true; }
-
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp)){
-		SetLocations(StringToArrayString(strTemp, wxT("|")));
-	}
-	else{ error = true; }
-
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp)){
-		SetFunction(strTemp);
-	}
-	else{ error = true; }
-
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Format"), &strTemp)){
-		SetFormat(strTemp);
-	}
-	else{ error = true; }
-
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Ratio"), &iTemp)){
-		SetRatio(iTemp);
-	}
-	else{ error = true; }
-
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &blTemp)){
-		SetUsesPassword(blTemp);
-	}
-	else{ error = true; }
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/BackupLocation"), &stemp)) SetFileLocation(stemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &stemp)) SetLocations(StringToArrayString(stemp, wxT("|")));
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(stemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Format"), &stemp)) SetFormat(stemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Ratio"), &itemp)) SetRatio(itemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &btemp)) SetUsesPassword(btemp);
+		else error = true;
 
 	if(error){
 		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
@@ -66,34 +49,19 @@ bool BackupData::TransferFromFile(){
 }
 
 bool BackupData::TransferToFile(){
-	wxString strName = GetName();
-	bool blError = false;
+	bool error = false;
 
-	wxGetApp().m_Jobs_Config->DeleteGroup(strName);
-	wxGetApp().m_Jobs_Config->Flush();
-
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/BackupLocation"),  GetFileLocation())){
-		blError = true;
-	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
-		blError = true;
-	}		
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Function"), GetFunction())){
-		blError = true;
-	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Format"), GetFormat())){
-		blError = true;
-	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/Ratio"), GetRatio())){
-		blError = true;
-	}
-	if(!wxGetApp().m_Jobs_Config->Write(strName + wxT("/IsPass"), GetUsesPassword())){
-		blError = true;
-	}
+	if(!wxGetApp().m_Jobs_Config->DeleteGroup(GetName())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/BackupLocation"),  GetFileLocation())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Format"), GetFormat())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Ratio"), GetRatio())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IsPass"), GetUsesPassword())) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();
 
-	if(blError){
+	if(error){
 		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
 		return false;
 	}
@@ -101,21 +69,17 @@ bool BackupData::TransferToFile(){
 }
 
 bool BackupData::TransferToForm(frmMain *window){
-	if(window == NULL){
+	if(!window){
 		return false;
 	}
 	window->m_Backup_Location->SetValue(GetFileLocation());
-	window->m_Backup_TreeCtrl->DeleteAllItems();
-	window->m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+	window->m_Backup_TreeCtrl->DeleteChildren(window->m_Backup_TreeCtrl->GetRootItem());
 	
-	//Remove all of the items in the filepath list
 	window->m_BackupLocations->Clear();
-	//Add the new locations to the treectrl and the list
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		window->m_BackupLocations->Add(GetLocation(j));
 		window->m_Backup_TreeCtrl->AddNewPath(Normalise(GetLocation(j)));
 	}
-	//Set the rest of the window up
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
@@ -123,15 +87,17 @@ bool BackupData::TransferToForm(frmMain *window){
 	return false;
 }
 
-bool BackupData::TransferFromForm(){
-	frmMain *window = wxGetApp().MainWindow;
-
+bool BackupData::TransferFromForm(frmMain *window){
+	if(!window){
+		return false;
+	}
 	SetLocations(*window->m_BackupLocations);
 	SetFileLocation(window->m_Backup_Location->GetValue()); 
 	SetFunction(window->m_Backup_Function->GetStringSelection()); 
 	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
 	SetRatio(window->m_Backup_Ratio->GetValue());
 	SetUsesPassword(window->m_Backup_IsPass->GetValue());
+	SetRules(new Rules(window->m_Backup_Rules->GetStringSelection(), true));
 	return true;	
 }
 
@@ -224,62 +190,65 @@ wxString BackupData::CreateCommand(int i){
 }
 
 
-bool BackupData::CreateList(wxTextFile *file, Rules rules, wxString strPath, int iRootLength){
+bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
+
+	//Yield so the display remains responsive
 	wxGetApp().Yield();
-	if(wxDirExists(strPath)){
+
+	if(wxDirExists(path)){
 		//Clean up the path passed
-		if (strPath[strPath.length()-1] != wxFILE_SEP_PATH) {
-			strPath += wxFILE_SEP_PATH;       
+		if (path[path.length()-1] != wxFILE_SEP_PATH) {
+			path += wxFILE_SEP_PATH;       
 		}
-		wxDir dir(strPath);
-		wxString strFilename;
-		bool blDir = dir.GetFirst(&strFilename);
+		wxDir dir(path);
+		wxString filename;
+		bool blDir = dir.GetFirst(&filename);
 		//If the path is ok
 		if(blDir){
 			//Loop through all of the files and folders in the directory
 			do {
 				//If it is a directory
-				if(wxDirExists(strPath + strFilename))
+				if(wxDirExists(path + filename))
 				{
 					//If the direcotry doesnt have any subfiles then we can safely add it to the file list
-					wxDir* dircheck = new wxDir(strPath + strFilename);
+					wxDir* dircheck = new wxDir(path + filename);
 					if(!dircheck->HasFiles() && !dircheck->HasSubDirs()){
-						if(!rules.ShouldExclude(strPath + strFilename, true)){
-							wxString strCombined = strPath + strFilename;
-							strCombined = strCombined.Right(strCombined.Length() - iRootLength);
+						if(!GetRules()->ShouldExclude(path + filename, true)){
+							wxString strCombined = path + filename;
+							strCombined = strCombined.Right(strCombined.Length() - length);
 							file->AddLine(strCombined);
 						}
 					}
 					delete dircheck;
 					//Always call the function again to ensure that ALL files and folders are processed
-					CreateList(file, rules, strPath + strFilename, iRootLength);
+					CreateList(file, path + filename, length);
 				}
 				//If it is a file
 				else{
-					if(!rules.ShouldExclude(strPath + strFilename, false)){
-						wxString strCombined = strPath + strFilename;
-						strCombined = strCombined.Right(strCombined.Length() - iRootLength);
+					if(!GetRules()->ShouldExclude(path + filename, false)){
+						wxString strCombined = path + filename;
+						strCombined = strCombined.Right(strCombined.Length() - length);
 						file->AddLine(strCombined);
 					}
 				}
 			}
-			while (dir.GetNext(&strFilename) );
+			while (dir.GetNext(&filename));
 		}  
 	}
 	//We have been passed a file
 	else{
-		if(!rules.ShouldExclude(strPath, false)){
-			strPath = strPath.Right(strPath.Length() - iRootLength);
-			file->AddLine(strPath);
+		if(!GetRules()->ShouldExclude(path, false)){
+			path = path.Right(path.Length() - length);
+			file->AddLine(path);
 		}		
 	}
 	return true;
 }
 
-bool BackupData::Execute(Rules rules){
+/*bool BackupData::Execute(Rules rules){
 	//Expand all of the variables
 	for(unsigned int i = 0; i < GetLocations().Count(); i++){
 		SetLocation(i, Normalise(GetLocation(i)));
@@ -355,21 +324,14 @@ bool BackupData::Execute(Rules rules){
 		}
 	}
 	return true;
-}
+}*/
 
-bool BackupData::NeededFieldsFilled(){
-	bool blFilled = true;
-	if(GetLocations().Count() == 0){
-		blFilled = false;
+bool BackupData::IsReady(){
+	if(GetLocations().Count() == 0 || GetFileLocation() == wxEmptyString
+	|| GetFunction() == wxEmptyString || GetFormat() == wxEmptyString){
+		return false;
 	}
-	if(GetFileLocation() == wxEmptyString){
-		blFilled = false;
+	else{
+		return true;
 	}
-	if(GetFunction() == wxEmptyString){
-		blFilled = false;
-	}
-	if(GetFormat() == wxEmptyString){
-		blFilled = false;
-	}
-	return blFilled;
 }
