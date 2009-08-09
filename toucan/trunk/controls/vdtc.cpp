@@ -9,9 +9,12 @@
 #include <wx/busyinfo.h>
 #include <wx/artprov.h>
 #include "vdtc.h"
+#include "../toucan.h"
 #include "../variables.h"
-#include "../sync/syncdata.h"
+#include "../data/syncdata.h"
 #include "../sync/syncpreview.h"
+
+#define ID_SYNC_SOURCE_TREE 10060
 
 // WDR: class implementations
 
@@ -420,8 +423,8 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 		}
 	}
 	else if(_IsSync && _Preview){
-		SyncData data;
-		data.TransferFromForm();
+		SyncData data(wxT("PreviewJob"));
+		data.TransferFromForm(wxGetApp().MainWindow);
 		data.SetSource(Normalise(data.GetSource()));
 		data.SetDest(Normalise(data.GetDest()));
 		wxString end;
