@@ -79,7 +79,7 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_vdtc.o \
 	$(OUTPATH)/Toucan_dirctrl.o \
 	$(OUTPATH)/Toucan_backupdata.o \
-	$(OUTPATH)/Toucan_rootdata.o \
+	$(OUTPATH)/Toucan_jobdata.o \
 	$(OUTPATH)/Toucan_securedata.o \
 	$(OUTPATH)/Toucan_frmmain.o \
 	$(OUTPATH)/Toucan_frmprogress.o \
@@ -181,7 +181,7 @@ $(OUTPATH)/Toucan_dirctrl.o: ./controls/dirctrl.cpp
 $(OUTPATH)/Toucan_backupdata.o: ./data/backupdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-$(OUTPATH)/Toucan_rootdata.o: ./data/rootdata.cpp
+$(OUTPATH)/Toucan_jobdata.o: ./data/jobdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_securedata.o: ./data/securedata.cpp
