@@ -1114,26 +1114,10 @@ void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_SAVE
 void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
-	//Get all of the form data into arraystrings
-	wxArrayString arrLocationsInclude, arrFolderExclude, arrFileExclude, arrFileDelete;
-	for (unsigned int i = 0; i < m_Rules_LocationInclude->GetCount(); i++) {
-		arrLocationsInclude.Add(m_Rules_LocationInclude->GetString(i));
-	}
-	for (unsigned int j = 0; j < m_Rules_FolderExclude->GetCount(); j++) {
-		arrFolderExclude.Add(m_Rules_FolderExclude->GetString(j));
-	}
-	for (unsigned int k = 0; k < m_Rules_FileExclude->GetCount(); k++) {
-		arrFileExclude.Add(m_Rules_FileExclude->GetString(k));
-	}
-
-	//Create the rule set and add the arraystrings to it
-	Rules rules;
-	rules.SetLocationsToInclude(arrLocationsInclude);
-	rules.SetFilesToExclude(arrFileExclude);
-	rules.SetFoldersToExclude(arrFolderExclude);
-	//rules.SetFilesToDelete(arrFileDelete);
 	if(m_Rules_Name->GetStringSelection() != wxEmptyString){
-		rules.TransferToFile(m_Rules_Name->GetStringSelection());
+		Rules rules(m_Rules_Name->GetStringSelection());
+		rules.TransferFromForm(this);
+		rules.TransferToFile();
 	}
 	else{
 		wxMessageBox(_("You must select a name for this set of Rules"), _("Error"), wxICON_ERROR);
@@ -1182,21 +1166,12 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	m_Rules_LocationInclude->Clear();
 	m_Rules_FileExclude->Clear();
 	m_Rules_FolderExclude->Clear();
-	
-	//Create a new rule set
-	Rules rules;
-	if (rules.TransferFromFile(m_Rules_Name->GetStringSelection())) {
-		//Loop through the array of rules and add them to the form
-		for (unsigned int i = 0; i < rules.GetLocationsToInclude().GetCount(); i++) {
-			m_Rules_LocationInclude->Append(rules.GetLocationsToInclude().Item(i));
-		}
-		for (unsigned int j = 0; j < rules.GetFilesToExclude().GetCount(); j++) {
-			m_Rules_FileExclude->Append(rules.GetFilesToExclude().Item(j));
-		}
-		for (unsigned int k = 0; k < rules.GetFoldersToExclude().GetCount(); k++) {
-			m_Rules_FolderExclude->Append(rules.GetFoldersToExclude().Item(k));
-		}
+
+	Rules rules(m_Rules_Name->GetStringSelection());
+	if (rules.TransferFromFile()) {
+		rules.TransferToForm(this);
 	}
+
 	SetTitleBarText();
 }
 
