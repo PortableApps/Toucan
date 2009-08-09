@@ -29,7 +29,7 @@
 #include "basicfunctions.h"
 #include "script.h"
 #include "settings.h"
-#include "sync/syncdata.h"
+#include "data/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
 
