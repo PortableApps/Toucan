@@ -18,7 +18,7 @@ class Rules{
 
 public:
 
-	/*
+	/*!
 	 * Construct a set of Rules with the given name and optionally load it from 
 	 * the rules file
 	 */
@@ -63,7 +63,7 @@ public:
 	}
 
 	/*!
-	 * \param name The path to compare against the rules
+	 * \param path The path to compare against the rules
 	 * \param directory Is the path a directory?
 	 * \return Returns true if the specifed file / folder should be excluded, 
 	 * false otherwise
