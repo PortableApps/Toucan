@@ -41,8 +41,6 @@ public:
 		TS_TRACE("Need more complex rules tests");
 		wxArrayString fileexclude, folderexclude, locationinclude;
 		Rules rules;
-		//Filepath and is it a directory
-		std::map<wxString, bool> list;
 		//Add the exclusions and inclusions
 		fileexclude.Add(wxT(".doc"));
 		fileexclude.Add(wxT("test"));
