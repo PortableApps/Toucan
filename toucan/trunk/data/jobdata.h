@@ -20,7 +20,7 @@ class JobData{
 
 public:
 	/*!
-	 * Constructs a new job with the given name
+	 * Constructs a new set of job data with the given name
 	 */
 	JobData(const wxString &name);
 	
@@ -32,21 +32,29 @@ public:
 	/*!
 	 * Transfers the data to the specificed path, using GetName() as the group
 	 * name
+	 * \return Returns true is the data could be written, false otherwise
 	 */
 	virtual bool TransferToFile(const wxString &path) = 0;
 	
 	/*!
-	 * Transfers the data from the specificed path
+	 * Transfers the data from the specificed path, using GetName() as the group
+	 * name
+	 * \return Returns true if the data could be read, false otherwise
 	 */
 	virtual bool TransferFromFile(const wxString &path) = 0;
 
 	/*!
 	 * Transfers the data to the main window
+	 * \return Returns true is the data could be copied to the form, false 
+	 * otherwise
 	 */
 	virtual bool TransferToForm(frmMain* window) = 0;
 	
 	/*!
-	 * Transfers the data from the main window
+	 * Transfers the data from the main window. Use IsReady() to check that the 
+	 * data is ready to be used in a job.
+	 * \return Returns true is the data could be read from the form, false 
+	 * otherwise
 	 */
 	virtual bool TransferFromForm(frmMain* window) = 0;
 
@@ -60,7 +68,7 @@ public:
 	 * Checks to see if the job is ready to be used, i.e. all of the information
 	 * needed is present
 	 */
-	virtual bool NeededFieldsFilled() = 0;
+	virtual bool IsReady() = 0;
 
 	/*!
 	 * Set the job name
