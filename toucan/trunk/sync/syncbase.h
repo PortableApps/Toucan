@@ -10,7 +10,7 @@
 #include <map>
 #include <list>
 #include <wx/string.h>
-#include "syncdata.h"
+#include "../data/syncdata.h"
 #include "../rules.h"
 
 class SyncBase{

@@ -8,8 +8,8 @@
 #define H_SYNCPREVIEW
 
 #include "syncfiles.h"
-#include "syncdata.h"
 #include "../rules.h"
+#include "../data/syncdata.h"
 #include "../controls/vdtc.h"
 
 class SyncPreview : public SyncFiles{
