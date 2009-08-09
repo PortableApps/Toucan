@@ -16,20 +16,16 @@
 
 bool SecureData::TransferFromFile(){
 	bool error = false;
-	wxString strTemp;
+	wxString stemp;
 
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
 		return false;
 	}
 
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &strTemp)){
-		SetLocations(StringToArrayString(strTemp, wxT("|")));
-	}
-	else{ error = true; }
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &strTemp)){
-		SetFunction(strTemp);
-	}
-	else{ error = true; }
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &stemp)) SetLocations(StringToArrayString(stemp, wxT("|")));
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(stemp);
+		else error = true;
 
 	if(error){
 		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
@@ -41,15 +37,9 @@ bool SecureData::TransferFromFile(){
 bool SecureData::TransferToFile(){
 	bool error = false;
 
-	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
-	wxGetApp().m_Jobs_Config->Flush();
-
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))){
-		error = true;
-	}
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())){
-		error = true;
-	}
+	if(!wxGetApp().m_Jobs_Config->DeleteGroup(GetName())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();
 
@@ -61,12 +51,11 @@ bool SecureData::TransferToFile(){
 }
 
 bool SecureData::TransferToForm(frmMain *window){
-	if(window == NULL){
+	if(!window){
 		return false;
 	}
 
-	window->m_Secure_TreeCtrl->DeleteAllItems();
-	window->m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+	window->m_Secure_TreeCtrl->DeleteChildren(window->m_Secure_TreeCtrl->GetRootItem());
 
 	for(unsigned int i = 0; i < window->m_SecureLocations->GetCount(); i++){
 		window->m_SecureLocations->RemoveAt(i);
@@ -77,11 +66,14 @@ bool SecureData::TransferToForm(frmMain *window){
 	}
 
 	window->m_Secure_Function->SetStringSelection(GetFunction());
+
 	return true;
 }
 
-bool SecureData::TransferFromForm(){
-	frmMain *window = wxGetApp().MainWindow;
+bool SecureData::TransferFromForm(frmMain *window){
+	if(!window){
+		return false;
+	}
 
 	SetLocations(*window->m_SecureLocations);
 	SetFunction(window->m_Secure_Function->GetStringSelection());
@@ -97,22 +89,20 @@ void SecureData::Output(){
 	wxMessageBox(GetPassword(), wxT("Pass"));
 }
 
-bool SecureData::Execute(Rules rules){
+/*bool SecureData::Execute(Rules rules){
 	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
 		SetLocation(i, Normalise(GetLocation(i)));
 	}
 	Secure(*this, rules, wxGetApp().ProgressWindow);
 	return true;
-}
+}*/
 
 
-bool SecureData::NeededFieldsFilled(){
-	bool blFilled = true;
-	if(GetLocations().Count() == 0){
-		blFilled = false;
+bool SecureData::IsReady(){
+	if(GetLocations().Count() == 0 || GetFunction() == wxEmptyString){
+		return false;
 	}
-	if(GetFunction() == wxEmptyString){
-		blFilled = false;
+	else{
+		return true;
 	}
-	return blFilled;
 }
