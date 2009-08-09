@@ -11,7 +11,7 @@
 #include "script.h"
 #include "basicfunctions.h"
 #include "toucan.h"
-#include "sync/syncdata.h"
+#include "data/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
 
@@ -135,8 +135,7 @@ bool ParseCommandLine(){
 		wxGetApp().m_Script->Execute();
 	}
 	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
-		SyncData data;
-		data.SetName(wxT("LastSyncJob"));
+		SyncData data(wxT("LastSyncJob"));
 		data.SetSource(cmdParser.GetParam(1));
 		data.SetDest(cmdParser.GetParam(2));
 		data.SetFunction(cmdParser.GetParam(3));
@@ -157,8 +156,7 @@ bool ParseCommandLine(){
 		}
 	}
 	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 7){
-		BackupData data;
-		data.SetName(wxT("LastBackupJob"));
+		BackupData data(wxT("LastBackupJob"));
 		data.SetUsesPassword(false);
 		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
@@ -186,8 +184,7 @@ bool ParseCommandLine(){
 		}
 	}
 	else if(cmdParser.GetParam(0) == wxT("Backup") && cmdParser.GetParamCount() == 9){
-		BackupData data;
-		data.SetName(wxT("LastBackupJob"));
+		BackupData data(wxT("LastBackupJob"));
 		data.SetUsesPassword(true);
 		data.SetFileLocation(cmdParser.GetParam(1));
 		wxTextFile file;
@@ -216,8 +213,7 @@ bool ParseCommandLine(){
 		}
 	}
 	else if(cmdParser.GetParam(0) == wxT("Secure") && cmdParser.GetParamCount() == 6){
-		SecureData data;
-		data.SetName(wxT("LastSecureJob"));
+		SecureData data(wxT("LastSecureJob"));
 		wxTextFile file;
 		wxArrayString arrLocations;
 		file.Open(cmdParser.GetParam(1));
