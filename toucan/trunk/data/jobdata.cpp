@@ -5,11 +5,15 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "jobdata.h"
+#include "../rules.h"
 
 JobData::JobData(const wxString& name){
 	m_Name = name;
+	m_Rules = 0;
 }
 
 JobData::~JobData(){
-	;
+	if(m_Rules){
+		delete m_Rules;
+	}
 }

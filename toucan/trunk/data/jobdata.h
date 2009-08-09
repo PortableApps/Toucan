@@ -30,26 +30,23 @@ public:
 	virtual ~JobData();
 
 	/*!
-	 * Transfers the data to the specificed path, using GetName() as the group
+	 * Transfers the data to the jobs file, using GetName() as the group
 	 * name
 	 * \return Returns true is the data could be written, false otherwise
 	 */
-	virtual bool TransferToFile(const wxString &path) = 0;
-	
+	virtual bool TransferToFile() = 0;
 	/*!
-	 * Transfers the data from the specificed path, using GetName() as the group
+	 * Transfers the data from the jobs file, using GetName() as the group
 	 * name
 	 * \return Returns true if the data could be read, false otherwise
 	 */
-	virtual bool TransferFromFile(const wxString &path) = 0;
-
+	virtual bool TransferFromFile() = 0;
 	/*!
 	 * Transfers the data to the main window
 	 * \return Returns true is the data could be copied to the form, false 
 	 * otherwise
 	 */
 	virtual bool TransferToForm(frmMain* window) = 0;
-	
 	/*!
 	 * Transfers the data from the main window. Use IsReady() to check that the 
 	 * data is ready to be used in a job.
@@ -71,23 +68,20 @@ public:
 	virtual bool IsReady() = 0;
 
 	/*!
-	 * Set the job name
+	 * Sets the job name
 	 */
 	void SetName(const wxString& Name) {this->m_Name = Name;}
-	
 	/*!
-	 * Set the Rules to be used in this job, the job takes over control of the 
+	 * Sets the Rules to be used in this job, the job takes over control of the 
 	 * rules and destoys them when it has finished.
 	 */
 	void SetRules(Rules *Rules) {this->m_Rules = Rules;}
-	
 	/*!
-	 * Get the job name
+	 * Gets the job name
 	 */
 	const wxString& GetName() const {return m_Name;}
-	
 	/*!
-	 * Get the set of Rules to be used in this job, do not destoy them as they 
+	 * Gets the set of Rules to be used in this job, do not destoy them as they 
 	 * will be destroyed when the job is finished.
 	 */
 	Rules* GetRules() const {return m_Rules;}
