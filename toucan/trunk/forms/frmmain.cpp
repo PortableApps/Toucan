@@ -185,7 +185,6 @@ void frmMain::Init(){
 	m_Rules_FileExclude = NULL;
 	m_Rules_FolderExclude = NULL;
 	m_Rules_LocationInclude = NULL;
-	m_Rules_FileDelete = NULL;
 	m_Script_Rich = NULL;
 	
 	menuTree = NULL;

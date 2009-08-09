@@ -243,7 +243,7 @@ public:
 	void OnRulesAddLocationincludeClick(wxCommandEvent& event);
 	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);	
 	
-	//Portable Variables
+	//Variables
 	void OnVariablesSaveClick(wxCommandEvent& event);
 	void OnVariablesAddClick(wxCommandEvent& event);
 	void OnVariablesRemoveClick(wxCommandEvent& event);	
@@ -350,7 +350,6 @@ public:
 	wxListBox* m_Rules_FileExclude;
 	wxListBox* m_Rules_FolderExclude;
 	wxListBox* m_Rules_LocationInclude;
-	wxListBox* m_Rules_FileDelete;
 	
 	//Variables
 	wxComboBox* m_Variables_Name;
