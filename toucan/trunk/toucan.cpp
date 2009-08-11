@@ -12,6 +12,7 @@
 #include <wx/listctrl.h>
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
+#include <wx/process.h>
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -24,7 +25,6 @@
 #include "toucan.h"
 #include "forms/frmmain.h"
 #include "forms/frmprogress.h"
-#include "backupprocess.h"
 #include "cmdline.h"
 #include "basicfunctions.h"
 #include "script.h"

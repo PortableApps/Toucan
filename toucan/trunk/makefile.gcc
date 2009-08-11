@@ -58,7 +58,6 @@ TOUCAN_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED_0_p) $(__WXUNICODE_DEFINE_p) \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include -I$(CXXPATH) -W -Wall \
 	-fno-rtti $(CPPFLAGS) $(CXXFLAGS)
 TOUCAN_OBJECTS =  \
-	$(OUTPATH)/Toucan_backupprocess.o \
 	$(OUTPATH)/Toucan_basicfunctions.o \
 	$(OUTPATH)/Toucan_cmdline.o \
 	$(OUTPATH)/Toucan_dragndrop.o \
@@ -70,7 +69,9 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_settings.o \
 	$(OUTPATH)/Toucan_toucan.o \
 	$(OUTPATH)/Toucan_variables.o \
-	$(OUTPATH)/Toucan_waitthread.o \
+	$(OUTPATH)/Toucan_backupjob.o \
+	$(OUTPATH)/Toucan_backupprocess.o \
+	$(OUTPATH)/Toucan_backupthread.o \
 	$(OUTPATH)/Toucan_extendeddirctrl.o \
 	$(OUTPATH)/Toucan_loglistctrl.o \
 	$(OUTPATH)/Toucan_vdtc.o \
@@ -78,11 +79,11 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_backupdata.o \
 	$(OUTPATH)/Toucan_jobdata.o \
 	$(OUTPATH)/Toucan_securedata.o \
+	$(OUTPATH)/Toucan_syncdata.o \
 	$(OUTPATH)/Toucan_frmmain.o \
 	$(OUTPATH)/Toucan_frmprogress.o \
 	$(OUTPATH)/Toucan_frmvariable.o \
 	$(OUTPATH)/Toucan_syncbase.o \
-	$(OUTPATH)/Toucan_syncdata.o \
 	$(OUTPATH)/Toucan_syncfiles.o \
 	$(OUTPATH)/Toucan_syncjob.o \
 	$(OUTPATH)/Toucan_syncpreview.o \
@@ -186,9 +187,6 @@ test_for_selected_wxbuild:
 $(APPPATH)/Toucan.exe: $(TOUCAN_OBJECTS) $(OUTPATH)/Toucan_toucan_rc.o
 	$(CXX) -o $@ $(TOUCAN_OBJECTS) -L$(WX_DIR)$(WXLIBPATH) -Wl, --subsystem,windows $(LDFLAGS)  $(__WXLIB_AUI_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_ADV_NAME_p) $(__WXLIB_NET_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
-$(OUTPATH)/Toucan_backupprocess.o: ./backupprocess.cpp
-	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
-
 $(OUTPATH)/Toucan_basicfunctions.o: ./basicfunctions.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
@@ -225,6 +223,15 @@ $(OUTPATH)/Toucan_variables.o: ./variables.cpp
 $(OUTPATH)/Toucan_waitthread.o: ./waitthread.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
+$(OUTPATH)/Toucan_backupjob.o: ./backup/backupjob.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
+$(OUTPATH)/Toucan_backupprocess.o: ./backup/backupprocess.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
+$(OUTPATH)/Toucan_backupthread.o: ./backup/backupthread.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
 $(OUTPATH)/Toucan_extendeddirctrl.o: ./controls/extendeddirctrl.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
@@ -246,6 +253,9 @@ $(OUTPATH)/Toucan_jobdata.o: ./data/jobdata.cpp
 $(OUTPATH)/Toucan_securedata.o: ./data/securedata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
+$(OUTPATH)/Toucan_syncdata.o: ./data/syncdata.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
 $(OUTPATH)/Toucan_frmmain.o: ./forms/frmmain.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
@@ -256,9 +266,6 @@ $(OUTPATH)/Toucan_frmvariable.o: ./forms/frmvariable.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_syncbase.o: ./sync/syncbase.cpp
-	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
-
-$(OUTPATH)/Toucan_syncdata.o: ./data/syncdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_syncfiles.o: ./sync/syncfiles.cpp

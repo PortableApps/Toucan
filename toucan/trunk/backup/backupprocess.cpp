@@ -5,12 +5,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupprocess.h"
-#include "basicfunctions.h"
-#include "toucan.h"
+#include "../toucan.h"
+#include "../basicfunctions.h"
 
-IMPLEMENT_CLASS(PipedProcess, wxProcess)
+IMPLEMENT_CLASS(BackupProcess, wxProcess)
 
-bool PipedProcess::HasInput()
+bool BackupProcess::HasInput()
 {
 	bool hasInput = false;
 	if (IsInputAvailable()){
@@ -34,6 +34,6 @@ bool PipedProcess::HasInput()
 	return hasInput;
 }
 
-void PipedProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
+void BackupProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
 	;
 }

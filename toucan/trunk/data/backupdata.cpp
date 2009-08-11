@@ -8,11 +8,11 @@
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../variables.h"
-#include "../backupprocess.h"
-#include "../waitthread.h"
+#include "../controls/vdtc.h"
 #include "../forms/frmmain.h"
 #include "../forms/frmprogress.h"
-#include "../controls/vdtc.h"
+#include "../backup/backupprocess.h"
+#include "../backup/backupthread.h"
 #include <wx/textfile.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -251,84 +251,6 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 	}
 	return true;
 }
-
-/*bool BackupData::Execute(Rules rules){
-	//Expand all of the variables
-	for(unsigned int i = 0; i < GetLocations().Count(); i++){
-		SetLocation(i, Normalise(GetLocation(i)));
-	}
-	SetFileLocation(Normalise(GetFileLocation()));
-	for(unsigned int i = 0; i < GetLocations().Count(); i++){
-		wxString path = GetLocation(i);
-		bool isDir = false;
-		//If we have a directory clean it up
-		if(wxDirExists(path)){
-			if (path[path.length()-1] != wxFILE_SEP_PATH) {
-				path += wxFILE_SEP_PATH;       
-			}
-			isDir = true;
-		}
-		//If we are not running a restore job we need to create a list file
-		if(GetFunction() != _("Restore")){
-			//Set up the include file
-			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Includes.txt"));
-			if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Includes.txt"))){
-				file->Open();
-				file->Clear();
-				file->Write();
-			}
-			else{
-				file->Create();
-			}
-			wxFileName filename(path);
-			int length; 
-			//If we have a directory then take of the last dir and take off one for the remaining slash
-			if(isDir){
-				filename.RemoveLastDir();
-				length = filename.GetFullPath().Length();
-				path = filename.GetFullPath();
-			}
-			//For files remove the filename and the remaining slash
-			else{
-				length = filename.GetPath().Length() - 1;
-				path = filename.GetPath();
-				if(path.Length() != 3){
-					length += 2;
-				}
-			}
-			OutputProgress(_("Creating file list, this may take some time."));
-			if(!CreateList(file, rules, GetLocation(i), length)){
-				return false;
-			}
-			file->Write();
-			//Set up the progress bar
-			EnableGauge(true);
-		}
-		else{
-			EnableGauge(false);
-		}
-		wxString strCommand = CreateCommand(i);
-		wxSetWorkingDirectory(path);
-		
-		PipedProcess *process = new PipedProcess();
-		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-	
-		process->SetRealPid(lgPID);
-		WaitThread *thread = new WaitThread(lgPID, process);
-
-		thread->Create();
-		thread->Run();
-		
-		if(!wxGetApp().GetUsesGUI()){
-			while(!wxGetApp().GetFinished()){
-				//So we dont thrash the processor
-				wxMilliSleep(10);
-				wxGetApp().Yield();
-			}
-		}
-	}
-	return true;
-}*/
 
 bool BackupData::IsReady(){
 	if(GetLocations().Count() == 0 || GetFileLocation() == wxEmptyString

@@ -4,15 +4,17 @@
 // Licence:     GNU GPL 2 (See readme for more info
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "toucan.h"
-#include "waitthread.h"
+#include "../toucan.h"
+#include "backupthread.h"
 #include "backupprocess.h"
-#include "forms/frmprogress.h"
+#include "../forms/frmprogress.h"
+
 #ifdef __WXMSW__
 	#include <windows.h>
+	#include <wx/msw/winundef.h>
 #endif
 
-void *WaitThread::Entry(){
+void *BackupThread::Entry(){
 	#ifdef __WXMSW__
 		HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION,FALSE,m_PID);
 		DWORD lgReturn;

@@ -12,17 +12,16 @@
 #include "job.h"
 #include "toucan.h"
 #include "script.h"
-#include "waitthread.h"
-#include "backupprocess.h"
 #include "secure.h"
 #include "variables.h"
 #include "basicfunctions.h"
 #include "filecounter.h"
 #include "data/jobdata.h"
 #include "data/syncdata.h"
-#include "sync/syncjob.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
+#include "sync/syncjob.h"
+#include "backup/backupjob.h"
 #include "controls/loglistctrl.h"
 #include "forms/frmmain.h"
 #include "forms/frmprogress.h"
@@ -232,6 +231,7 @@ bool ScriptManager::ParseCommand(int i){
 	}	
 	else if(strToken == wxT("Backup")){
 		data = new BackupData(tkz.GetNextToken());
+		job = new BackupJob((BackupData*)data);
 	}
 	else if(strToken == wxT("Secure")){
 		data = new SecureData(tkz.GetNextToken());

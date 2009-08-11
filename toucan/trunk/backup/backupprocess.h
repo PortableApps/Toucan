@@ -10,12 +10,12 @@
 #include <wx/process.h>
 #include <wx/txtstrm.h>
 
-class PipedProcess : public wxProcess{
+class BackupProcess : public wxProcess{
 	
 public:
-    DECLARE_CLASS(PipedProcess)
+    DECLARE_CLASS(BackupProcess)
 
-    PipedProcess(){
+    BackupProcess(){
         Redirect();
     }
 
