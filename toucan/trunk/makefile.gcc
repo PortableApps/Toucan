@@ -65,7 +65,6 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_job.o \
 	$(OUTPATH)/Toucan_rules.o \
 	$(OUTPATH)/Toucan_script.o \
-	$(OUTPATH)/Toucan_secure.o \
 	$(OUTPATH)/Toucan_settings.o \
 	$(OUTPATH)/Toucan_toucan.o \
 	$(OUTPATH)/Toucan_variables.o \
@@ -83,6 +82,8 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_frmmain.o \
 	$(OUTPATH)/Toucan_frmprogress.o \
 	$(OUTPATH)/Toucan_frmvariable.o \
+	$(OUTPATH)/Toucan_secure.o \
+	$(OUTPATH)/Toucan_securejob.o \
 	$(OUTPATH)/Toucan_syncbase.o \
 	$(OUTPATH)/Toucan_syncfiles.o \
 	$(OUTPATH)/Toucan_syncjob.o \
@@ -208,9 +209,6 @@ $(OUTPATH)/Toucan_rules.o: ./rules.cpp
 $(OUTPATH)/Toucan_script.o: ./script.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
-$(OUTPATH)/Toucan_secure.o: ./secure.cpp
-	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
-
 $(OUTPATH)/Toucan_settings.o: ./settings.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
@@ -263,6 +261,12 @@ $(OUTPATH)/Toucan_frmprogress.o: ./forms/frmprogress.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_frmvariable.o: ./forms/frmvariable.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
+$(OUTPATH)/Toucan_secure.o: ./secure/secure.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
+$(OUTPATH)/Toucan_securejob.o: ./secure/securejob.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_syncbase.o: ./sync/syncbase.cpp

@@ -11,17 +11,17 @@
 #include <wx/stdpaths.h>
 
 #include "secure.h"
-#include "toucan.h"
-#include "rules.h"
-#include "variables.h"
-#include "basicfunctions.h"
-#include "data/securedata.h"
-#include "forms/frmmain.h"
-#include "forms/frmprogress.h"
-#include "controls/vdtc.h"
+#include "../toucan.h"
+#include "../rules.h"
+#include "../variables.h"
+#include "../basicfunctions.h"
+#include "../data/securedata.h"
+#include "../forms/frmmain.h"
+#include "../forms/frmprogress.h"
+#include "../controls/vdtc.h"
 
-bool Secure(SecureData data, Rules rules, frmProgress *window){
-	wxArrayString arrLocation = data.GetLocations();
+bool Secure(SecureData *data){
+	wxArrayString arrLocation = data->GetLocations();
 	//Iterate through the entries in the array
 	for(unsigned int i = 0; i < arrLocation.Count(); i++)
 	{
@@ -31,10 +31,10 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		//Need to add normalisation to SecureData
 		if(arrLocation.Item(i) != wxEmptyString){
 			if(wxDirExists(arrLocation.Item(i))){
-				CryptDir(arrLocation.Item(i), data, rules);
+				CryptDir(arrLocation.Item(i), data);
 			}
 			else if(wxFileExists(arrLocation.Item(i))){
-				CryptFile(arrLocation.Item(i), data, rules);
+				CryptFile(arrLocation.Item(i), data);
 			}
 		}
 	}
@@ -63,14 +63,14 @@ bool Secure(SecureData data, Rules rules, frmProgress *window){
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(window, event);	
+	wxPostEvent(wxGetApp().ProgressWindow, event);	
 	return true;
 }
 
 
 /*The main loop for the Secure process. It is called by Secure initially and then either calls itself when it reaches a
 folder or CryptFile when it reaches a file.*/
-bool CryptDir(wxString strPath, SecureData data, Rules rules)
+bool CryptDir(wxString strPath, SecureData *data)
 {   
 	if(wxGetApp().GetAbort()){
 		return true;
@@ -85,10 +85,10 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules)
 				return true;
 			}
 			if (wxDirExists(strPath + wxFILE_SEP_PATH + filename) ){
-				CryptDir(strPath + wxFILE_SEP_PATH + filename, data, rules);
+				CryptDir(strPath + wxFILE_SEP_PATH + filename, data);
 			}
 			else{
-				CryptFile(strPath + wxFILE_SEP_PATH + filename, data, rules);
+				CryptFile(strPath + wxFILE_SEP_PATH + filename, data);
 			}
 		}
 		while (dir.GetNext(&filename) );
@@ -97,13 +97,13 @@ bool CryptDir(wxString strPath, SecureData data, Rules rules)
 }
 
 
-bool CryptFile(wxString strFile, SecureData data, Rules rules)
+bool CryptFile(wxString strFile, SecureData *data)
 {
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	//Check to see it the file should be excluded	
-	if(rules.ShouldExclude(strFile, false)){
+	if(data->GetRules()->ShouldExclude(strFile, false)){
 		return true;
 	}
 	//Make sure that it is a 'real' file
@@ -116,10 +116,10 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 	}
 
 	//Ensure that we are not encrypting an already encrypted file or decrypting a non encrypted file
-	if(filename.GetExt() == wxT("cpt") && data.GetFunction() == _("Encrypt")){
+	if(filename.GetExt() == wxT("cpt") && data->GetFunction() == _("Encrypt")){
 		return false;
 	}
-	if(filename.GetExt() != wxT("cpt") && data.GetFunction() == _("Decrypt")){
+	if(filename.GetExt() != wxT("cpt") && data->GetFunction() == _("Decrypt")){
 		return false;
 	}	
 	
@@ -127,21 +127,16 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 	wxArrayString arrErrors;
 	wxArrayString arrOutput;
 
-	if(data.GetFunction() == _("Encrypt")){
-		wxString exe;
+	if(data->GetFunction() == _("Encrypt")){
 		//Set the file to have normal attributes so it can be encrypted
 		#ifdef __WXMSW__   
-			exe = wxT("ccrypt.exe");
 			int filearrtibs = GetFileAttributes(strFile);
 			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
-		#else
-			exe = wxT("./ccrypt");
 		#endif
 
 		wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
-
 		//Create and execute the command
-		wxString command = exe + wxT(" -e -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = wxT("./ccrypt -e -K\"") + data->GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 
 		//Put the old attributed back
@@ -157,15 +152,11 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		}
 	}
 
-	else if(data.GetFunction() == _("Decrypt")){
-		wxString exe;
+	else if(data->GetFunction() == _("Decrypt")){
 		//Set the file to have normal attributes so it can be decrypted
 		#ifdef __WXMSW__
-			exe = wxT("ccrypt.exe");
 			int filearrtibs = GetFileAttributes(strFile);
 			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);
-		#else
-			exe = wxT("./ccrypt");
 		#endif
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
@@ -177,7 +168,7 @@ bool CryptFile(wxString strFile, SecureData data, Rules rules)
 		wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
 
 		//Create and execute the command
-		wxString command = exe + wxT(" -f -d -K\"") + data.GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = wxT("./ccrypt -f -d -K\"") + data->GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 
 		//Put the old attributed back

@@ -12,7 +12,6 @@
 #include "job.h"
 #include "toucan.h"
 #include "script.h"
-#include "secure.h"
 #include "variables.h"
 #include "basicfunctions.h"
 #include "filecounter.h"
@@ -22,6 +21,7 @@
 #include "data/securedata.h"
 #include "sync/syncjob.h"
 #include "backup/backupjob.h"
+#include "secure/securejob.h"
 #include "controls/loglistctrl.h"
 #include "forms/frmmain.h"
 #include "forms/frmprogress.h"
@@ -232,9 +232,16 @@ bool ScriptManager::ParseCommand(int i){
 	else if(strToken == wxT("Backup")){
 		data = new BackupData(tkz.GetNextToken());
 		job = new BackupJob((BackupData*)data);
+		BackupData* backupdata = static_cast <BackupData*> (data);
+		if(backupdata->GetUsesPassword()){
+			backupdata->SetPassword(GetPassword());
+		}
 	}
 	else if(strToken == wxT("Secure")){
 		data = new SecureData(tkz.GetNextToken());
+		job = new SecureJob((SecureData*)data);
+		SecureData* securedata = static_cast <SecureData*> (data);
+		securedata->SetPassword(GetPassword());
 	}
 	else if(strToken == _("Delete")){
 		wxString strSource = Normalise(tkz.GetNextToken());

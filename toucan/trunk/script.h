@@ -26,10 +26,12 @@ public:
 
 	void SetCommand(const int& Command) {this->m_Command = Command;}
 	void SetScript(const wxArrayString& Script) {this->m_Script = Script;}
+	void SetPassword(const wxString& Password) {this->m_Password = Password;}
 	const int& GetCommand() const {return m_Command;}
 	const wxArrayString& GetScript() const {return m_Script;}
 	const wxDateTime& GetTime() const {return m_Time;}
 	int GetCount() const {return m_Script.GetCount();}
+	const wxString& GetPassword() const {return m_Password;}
 
 private:
 	wxArrayString m_Script;
