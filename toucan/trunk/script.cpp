@@ -227,20 +227,21 @@ bool ScriptManager::ParseCommand(int i){
 
 	if(strToken == wxT("Sync")){
 		data = new SyncData(tkz.GetNextToken());
-		job = new SyncJob((SyncData*)data);
+		SyncData* syncdata = static_cast <SyncData*> (data);
+		job = new SyncJob(syncdata);
 	}	
 	else if(strToken == wxT("Backup")){
 		data = new BackupData(tkz.GetNextToken());
-		job = new BackupJob((BackupData*)data);
 		BackupData* backupdata = static_cast <BackupData*> (data);
+		job = new BackupJob(backupdata);
 		if(backupdata->GetUsesPassword()){
 			backupdata->SetPassword(GetPassword());
 		}
 	}
 	else if(strToken == wxT("Secure")){
 		data = new SecureData(tkz.GetNextToken());
-		job = new SecureJob((SecureData*)data);
 		SecureData* securedata = static_cast <SecureData*> (data);
+		job = new SecureJob(securedata);
 		securedata->SetPassword(GetPassword());
 	}
 	else if(strToken == _("Delete")){
