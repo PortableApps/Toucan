@@ -326,6 +326,7 @@ public:
 		_Preview = preview;
 	}
 	void SetRules(Rules *rules) {
+		delete _Rules;
 		_Rules = rules;
 	}
 	void SetSync(bool sync) {

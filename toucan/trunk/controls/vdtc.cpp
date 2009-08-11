@@ -36,6 +36,7 @@ wxVirtualDirTreeCtrl::wxVirtualDirTreeCtrl(wxWindow* parent, wxWindowID id, cons
 	_ScanDepth = 2;
 	_Preview = false;
 	_IsSync = false;
+	_Rules = new Rules(wxT("Internal"));
 	this->AddRoot(wxT("Hidden - you wont see this"));
 }
 
@@ -46,10 +47,7 @@ wxVirtualDirTreeCtrl::~wxVirtualDirTreeCtrl()
 
 	// delete the icons
 	delete _iconList;
-	
-	if(_Rules){
-		delete _Rules;
-	}
+	delete _Rules;
 }
 
 bool wxVirtualDirTreeCtrl::AddNewPath(const wxString &root, int flags)
