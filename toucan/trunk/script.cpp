@@ -214,17 +214,17 @@ bool ScriptManager::ParseCommand(int i){
 		return false;
 	}
 	wxDateTime now = wxDateTime::Now();
-	
+
 	wxString strLine = m_Script.Item(i);
-	
+
 	wxStringTokenizer tkz(strLine, wxT("\""), wxTOKEN_STRTOK);
 	wxString strToken = tkz.GetNextToken();
-	
+
 	strToken.Trim();
-	
+
 	JobData* data;
 	Job* job;
-	
+
 	if(strToken == wxT("Sync")){
 		data = new SyncData(tkz.GetNextToken());
 		job = new SyncJob((SyncData*)data);
@@ -311,7 +311,7 @@ bool ScriptManager::ParseCommand(int i){
 	else{
 		return false;
 	}
-	
+
 	if(!data->TransferFromFile()){
 		CleanUp();
 	}
@@ -319,14 +319,11 @@ bool ScriptManager::ParseCommand(int i){
 		wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		CleanUp();
 	}
-	/*if(data->NeedsPassword()){
-		data->SetPassword(m_Password);
-	}*/
 
 	if(!job->Execute()){
 		CleanUp();
 	}
-	
+
 	return true;	
 }
 
