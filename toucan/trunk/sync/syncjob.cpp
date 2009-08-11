@@ -17,7 +17,7 @@ SyncJob::SyncJob(SyncData *Data) : Job(Data){
 }
 
 bool SyncJob::Execute(){
-	SyncData *data = (SyncData*)GetData();
+	SyncData *data = static_cast<SyncData*>(GetData());
 	data->SetSource(Normalise(data->GetSource()));
 	data->SetDest(Normalise(data->GetDest()));
 	//Create a new Sync thread and run it

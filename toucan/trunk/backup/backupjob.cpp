@@ -20,7 +20,7 @@ BackupJob::BackupJob(BackupData *Data) : Job(Data){
 }
 
 bool BackupJob::Execute(){
-	BackupData *data = (BackupData*)GetData();
+	BackupData *data = static_cast<BackupData*>(GetData());
 	//Expand all of the variables
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
 		data->SetLocation(i, Normalise(data->GetLocation(i)));

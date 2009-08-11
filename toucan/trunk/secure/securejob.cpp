@@ -18,7 +18,7 @@ SecureJob::SecureJob(SecureData *Data) : Job(Data){
 }
 
 bool SecureJob::Execute(){
-	SecureData *data = (SecureData*) GetData();
+	SecureData *data = static_cast<SecureData*>(GetData());
 	for(unsigned int i = 0; i < data->GetLocations().GetCount(); i++){
 		data->SetLocation(i, Normalise(data->GetLocation(i)));
 	}
