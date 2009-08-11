@@ -53,15 +53,16 @@ bool BackupData::TransferFromFile(){
 bool BackupData::TransferToFile(){
 	bool error = false;
 
-	if(!wxGetApp().m_Jobs_Config->DeleteGroup(GetName())) error = true;
+	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
+
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/BackupLocation"),  GetFileLocation())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Format"), GetFormat())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Ratio"), GetRatio())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IsPass"), GetUsesPassword())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules()->GetName())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Backup"))) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();
 

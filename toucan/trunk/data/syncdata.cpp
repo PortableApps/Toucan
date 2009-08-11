@@ -49,7 +49,8 @@ bool SyncData::TransferFromFile(){
 bool SyncData::TransferToFile(){
 	bool error = false;
 
-	if(!wxGetApp().m_Jobs_Config->DeleteGroup(GetName())) error = true;
+	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
+
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Source"),  GetSource())) error = true;	
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Dest"), GetDest())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
@@ -57,7 +58,7 @@ bool SyncData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Attributes"), GetAttributes())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreReadOnly"), GetIgnoreRO())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules()->GetName())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();

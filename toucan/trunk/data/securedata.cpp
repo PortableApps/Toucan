@@ -8,7 +8,6 @@
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../variables.h"
-#include "../secure.h"
 #include "../forms/frmmain.h"
 #include "../controls/vdtc.h"
 #include <wx/fileconf.h>
@@ -39,11 +38,12 @@ bool SecureData::TransferFromFile(){
 bool SecureData::TransferToFile(){
 	bool error = false;
 
-	if(!wxGetApp().m_Jobs_Config->DeleteGroup(GetName())) error = true;
+	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
+
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules()->GetName())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Secure"))) error = true;
 
 	wxGetApp().m_Jobs_Config->Flush();
 
@@ -92,15 +92,6 @@ void SecureData::Output(){
 	wxMessageBox(GetFunction(), wxT("Function"));
 	wxMessageBox(GetPassword(), wxT("Pass"));
 }
-
-/*bool SecureData::Execute(Rules rules){
-	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		SetLocation(i, Normalise(GetLocation(i)));
-	}
-	Secure(*this, rules, wxGetApp().ProgressWindow);
-	return true;
-}*/
-
 
 bool SecureData::IsReady(){
 	if(GetLocations().Count() == 0 || GetFunction() == wxEmptyString){
