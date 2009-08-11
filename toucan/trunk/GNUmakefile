@@ -209,6 +209,9 @@ $(OUTPATH)/Toucan_syncdata.o: ./data/syncdata.cpp
 $(OUTPATH)/Toucan_syncfiles.o: ./sync/syncfiles.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
+$(OUTPATH)/Toucan_syncjob.o: ./sync/syncjob.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+
 $(OUTPATH)/Toucan_syncpreview.o: ./sync/syncpreview.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 

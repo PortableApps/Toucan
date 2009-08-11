@@ -126,24 +126,6 @@ void SyncData::Output(){
 	wxMessageBox(temp.GetString(), wxT("Ignore Daylight Savings?"));
 }
 
-/*bool SyncData::Execute(Rules rules){
-	SetSource(Normalise(GetSource()));
-	SetDest(Normalise(GetDest()));
-	//Create a new Sync thread and run it
-	//If we are running in the command line then we need joinable so the app doesnt return early
-	wxThreadKind type = wxTHREAD_DETACHED;
-	if(!wxGetApp().GetUsesGUI()){
-		type = wxTHREAD_JOINABLE;
-	}
-	SyncThread *thread = new SyncThread(*this, rules, type);
-	thread->Create();
-	thread->Run();
-	if(!wxGetApp().GetUsesGUI()){
-		thread->Wait();
-	}
-	return true;
-}*/
-
 bool SyncData::IsReady(){
 	if(GetSource() == wxEmptyString || GetDest() == wxEmptyString || GetFunction() == wxEmptyString){
 		return false;
@@ -152,4 +134,3 @@ bool SyncData::IsReady(){
 		return true;
 	}
 }
-

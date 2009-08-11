@@ -84,6 +84,7 @@ TOUCAN_OBJECTS =  \
 	$(OUTPATH)/Toucan_syncbase.o \
 	$(OUTPATH)/Toucan_syncdata.o \
 	$(OUTPATH)/Toucan_syncfiles.o \
+	$(OUTPATH)/Toucan_syncjob.o \
 	$(OUTPATH)/Toucan_syncpreview.o \
 	$(OUTPATH)/Toucan_syncthread.o \
 	$(OUTPATH)/Toucan_toucan_rc.o
@@ -261,6 +262,9 @@ $(OUTPATH)/Toucan_syncdata.o: ./data/syncdata.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_syncfiles.o: ./sync/syncfiles.cpp
+	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
+	
+$(OUTPATH)/Toucan_syncjob.o: ./sync/syncjob.cpp
 	$(CXX) -c -o $@ $(TOUCAN_CXXFLAGS) $(CPPDEPS) $<
 
 $(OUTPATH)/Toucan_syncpreview.o: ./sync/syncpreview.cpp

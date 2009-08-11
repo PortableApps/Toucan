@@ -9,6 +9,7 @@
 #include <wx/fileconf.h>
 #include <wx/listctrl.h>
 
+#include "job.h"
 #include "toucan.h"
 #include "script.h"
 #include "waitthread.h"
@@ -19,7 +20,7 @@
 #include "filecounter.h"
 #include "data/jobdata.h"
 #include "data/syncdata.h"
-#include "sync/syncthread.h"
+#include "sync/syncjob.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
 #include "controls/loglistctrl.h"
@@ -223,9 +224,11 @@ bool ScriptManager::ParseCommand(int i){
 	strToken.Trim();
 	
 	JobData* data;
+	Job* job;
 	
 	if(strToken == wxT("Sync")){
 		data = new SyncData(tkz.GetNextToken());
+		job = new SyncJob((SyncData*)data);
 	}	
 	else if(strToken == wxT("Backup")){
 		data = new BackupData(tkz.GetNextToken());
@@ -320,9 +323,9 @@ bool ScriptManager::ParseCommand(int i){
 		data->SetPassword(m_Password);
 	}*/
 
-	/*if(!data->Execute(rules)){
+	if(!job->Execute()){
 		CleanUp();
-	}*/
+	}
 	
 	return true;	
 }

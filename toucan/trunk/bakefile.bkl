@@ -16,7 +16,7 @@
 		<sources>controls/dirctrl.cpp controls/extendeddirctrl.cpp controls/loglistctrl.cpp controls/vdtc.cpp</sources>
 		<sources>data/backupdata.cpp data/rootdata.cpp data/securedata.cpp data/syncdata.cpp</sources>
 		<sources>forms/frmmain.cpp forms/frmprogress.cpp forms/frmvariable.cpp</sources>
-		<sources>sync/syncbase.cpp sync/syncfiles.cpp sync/syncpreview.cpp sync/syncthread.cpp</sources>
+		<sources>sync/syncbase.cpp sync/syncfiles.cpp sync/syncjob.cpp sync/syncpreview.cpp sync/syncthread.cpp</sources>
 		
         <headers>backupprocess.h basicfunctions.h cmdline.h dragndrop.h</headers>
 		<headers>filecounter.h job.h rules.h script.h secure.h</headers>
@@ -24,7 +24,7 @@
 		<headers>controls/dirctrl.h controls/extendeddirctrl.h controls/loglistctrl.h controls/vdtc.h</headers>
 		<headers>data/backupdata.h data/rootdata.h data/securedata.h data/syncdata.h</headers>
 		<headers>forms/frmmain.h forms/frmprogress.h forms/frmvariable.h</headers>
-		<headers>sync/syncbase.h sync/syncfiles.h sync/syncpreview.h sync/syncthread.h</headers>
+		<headers>sync/syncbase.h sync/syncfiles.h sync/syncjob.h sync/syncpreview.h sync/syncthread.h</headers>
 
         <wx-lib>aui</wx-lib>
         <wx-lib>html</wx-lib>
