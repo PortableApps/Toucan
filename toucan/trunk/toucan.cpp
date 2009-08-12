@@ -72,6 +72,26 @@ bool Toucan::OnInit(){
 	if(!wxDirExists(GetSettingsPath())){
 		wxMkdir(GetSettingsPath());
 	}
+	
+	//Collect the dirve letters
+	#ifdef __WXMSW__
+		TCHAR drives[256];  
+		if(GetLogicalDriveStrings(256, drives)){  
+			LPTSTR drive = drives;  
+			while(*drive){  
+				wxString volumename = wxEmptyString;
+				TCHAR label[256]; 
+				if(GetVolumeInformation(drive, label, sizeof(label), NULL, 0, NULL, NULL, 0)){
+					volumename.Printf(wxT("%s"),label); 
+					if(volumename != wxEmptyString){
+						m_DriveLabels[volumename] = wxString(drive).Left(2);
+					}
+				}
+				int offset = _tcslen(drive) + 1;  
+				drive += offset;  
+			}
+		}
+	#endif
 
 	//Create the config stuff and set it up
  	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));

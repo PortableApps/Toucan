@@ -8,6 +8,7 @@
 #define _TOUCAN_H_
 
 #include <wx/wx.h>
+#include <map>
 
 class frmMain;
 class frmProgress;
@@ -54,6 +55,9 @@ public:
 
 	//Help Controller
 	wxHtmlHelpController* m_Help;
+	
+	//Store the drive labels and letters for use in Normalise
+	std::map<wxString, wxString> m_DriveLabels;
 
 private:
 	//Clean up the temporary files that might be in the data folder

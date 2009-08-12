@@ -83,6 +83,10 @@ wxString Normalise(const wxString &path){
 			delete autorun;
 			previousmatched = true;
 		}
+		else if(wxGetApp().m_DriveLabels[token] != wxEmptyString){
+			normalised += wxGetApp().m_DriveLabels[token];
+			previousmatched = true;
+		}
 		else if(wxGetEnv(token , &strValue)){
 			normalised += strValue;
 			previousmatched = true;
