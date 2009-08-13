@@ -80,17 +80,26 @@ public:
 	 * greater than sign and suffixed with B, kB, MB or GB, a regex prefixed 
 	 * with an asterisk or plain text
 	 */	
-	void SetExcludedFiles(const wxArrayString& FilesToExclude) {this->m_ExcludedFiles = FilesToExclude;}
+	void SetExcludedFiles(const wxArrayString& FilesToExclude){
+		this->m_ExcludedFiles = FilesToExclude;
+		m_Normalised = false;
+	}
 	/*!
 	 * Sets Rules governing folder exclusions, this supports a regex prefixed 
 	 * with an asterisk or plain text
 	 */	
-	void SetExcludedFolders(const wxArrayString& FoldersToExclude) {this->m_ExcludedFolders = FoldersToExclude;}
+	void SetExcludedFolders(const wxArrayString& FoldersToExclude){
+		this->m_ExcludedFolders = FoldersToExclude;
+		m_Normalised = false;
+	}
 	/*!
 	 * Sets Rules governing location inclusions, this supports a regex prefixed 
 	 * with an asterisk or plain text
 	 */	
-	void SetIncludedLocations(const wxArrayString& LocationsToInclude) {this->m_IncludedLocations = LocationsToInclude;}
+	void SetIncludedLocations(const wxArrayString& LocationsToInclude){
+		this->m_IncludedLocations = LocationsToInclude;
+		m_Normalised = false;
+	}
 
 	/*!
 	 * Gets the name of the Rules
@@ -114,6 +123,7 @@ private:
 	wxArrayString m_ExcludedFolders;
 	wxArrayString m_IncludedLocations;
 	wxString m_Name;
+	bool m_Normalised;
 };	
 
 #endif

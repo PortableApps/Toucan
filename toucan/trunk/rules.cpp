@@ -10,6 +10,7 @@
 #include <wx/fileconf.h>
 #include "rules.h"
 #include "toucan.h"
+#include "variables.h"
 #include "basicfunctions.h"
 #include "forms/frmmain.h"
 
@@ -17,6 +18,7 @@ Rules::Rules(const wxString &name, bool loadfromfile) : m_Name(name){
 	if(loadfromfile){
 		TransferFromFile();
 	}
+	m_Normalised = false;
 }
 
 bool Rules::IsEmpty(){
@@ -30,6 +32,19 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 	//If there are no rules then return false
 	if(IsEmpty()){
 		return false;
+	}
+	//If this is the first time we have run then we need to expand the rules if they have variables in them
+	if(!m_Normalised){
+		for(unsigned int i = 0; i < m_ExcludedFiles.GetCount(); i++){
+			m_ExcludedFiles.Item(i) = Normalise(m_ExcludedFiles.Item(i));
+		}
+		for(unsigned int i = 0; i < m_ExcludedFolders.GetCount(); i++){
+			m_ExcludedFolders.Item(i) = Normalise(m_ExcludedFolders.Item(i));
+		}
+		for(unsigned int i = 0; i < m_IncludedLocations.GetCount(); i++){
+			m_IncludedLocations.Item(i) = Normalise(m_IncludedLocations.Item(i));
+		}
+		m_Normalised = true;
 	}
 	//If there are any matches for inclusions then immediately retun as no other options need to be checked
 	for(unsigned int r = 0; r < GetIncludedLocations().Count(); r++){
