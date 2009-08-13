@@ -1824,6 +1824,8 @@ void frmMain::ClearToDefault(){
 		m_Sync_Source_Txt->SetValue(wxEmptyString);
 		m_Sync_Dest_Txt->SetValue(wxEmptyString);
 		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->SetPreview(false);
 		m_Sync_Dest_Tree->SetPreview(false);
@@ -1835,6 +1837,7 @@ void frmMain::ClearToDefault(){
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
+		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 		m_BackupLocations->Clear();
 		m_Backup_TreeCtrl->SetPreview(false);
 	}
@@ -1842,6 +1845,7 @@ void frmMain::ClearToDefault(){
 		m_Secure_Function->SetStringSelection(_("Encrypt"));
 		m_Secure_Rules->SetStringSelection(wxEmptyString);
 		m_Secure_TreeCtrl->DeleteAllItems();
+		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 		m_SecureLocations->Clear();
 		m_Backup_TreeCtrl->SetPreview(false);
 	}
