@@ -1,0 +1,51 @@
+<HTML>
+<H2>Compiling Toucan</H2>
+Before compiling Toucan you will need to install MinGW and compile wxWidgets.
+<P>
+<UL>
+<LI><A HREF="#mingw">Installing MinGW</A></LI>
+<LI><A HREF="#wxwidgets">Compiling wxWidgets</A></LI>
+<LI><A HREF="#toucan">Compiling Toucan</A></LI>
+</UL>
+<P>
+<A NAME="mingw"><H3>Installing MinGW</H3></A>
+<OL>
+<LI>Download the Automated MinGW Installer from <A HREF="http://sourceforge.net/project/showfiles.php?group_id=2435">here</A>.</LI>
+<LI>Run the installer, the following extra packages are required:
+<UL>
+<LI>g++</LI>
+<LI>make</LI>
+</UL>
+</LI>
+<LI>Right-click on My Computer then left-click Properties -> Advanced -> Environment Variables -> System Variables. Scroll down to Path and click Edit. Then add a semi-colon to the end and the full path to your MinGW\\bin directory.</LI>
+</OL>
+<P>
+N.B. Do <I>NOT</I> install MSYS or Toucan will not compile.
+<P>
+<A NAME="wxwidgets"><H3>Compiling wxWidgets</H3></A>
+<OL>
+<LI>Download the latest version of wxWidgets from <A HREF="http://www.wxwidgets.org/downloads/">here</A>. I would recommend the Windows Installer for ease of use.</LI> 
+<LI>Run the installer</LI>
+<LI>Once that is installed open up the command prompt again and navigate to the wxwidgets\\build direcotry. You can then use the following command (with the paths modified to point you your MinGW folder and without the line breaks) to compile it:
+<PRE>mingw32-make.exe -f makefile.gcc INCLUDE="I:\\Mingw\\include" <BR>LIB="I:\\Mingw\\lib" USE_XRC=1 BUILD=release UNICODE=1 MSLU=1 WXUNIV=0 MONOLITHIC=0 <BR>USE_EXCEPTIONS=1 USE_ODBC=0 USE_OPENGL=0 USE_GUI=1 <BR>RUNTIME_LIBS=dynamic SHARED=0 all</PRE></OL>
+<P>
+This will take quite a while so I would suggest coming back in ~15 minutes.
+<P>
+<A NAME="toucan"><H3>Compiling Toucan</H3></A>
+When getting the source for Toucan there are two main options, getting the very latest Toucan code or code from a specific release. As Toucan uses Mercurial to manage its source code you will need a copy. Then you can simply clone a copy of the repository which is avalible here:
+<P>
+http://portableapps.hg.sourceforge.net:8000/hgroot/portableapps
+<P>
+In the resulting directory structure you can find specific releases in the tags directory or the latest development code in the trunk folder.<P>
+<OL><LI>Copy the source you wish to compile to a new folder.</LI> 
+<LI>Open the makefile.mingw and change the paths to the locations that you have used. The paths you will need to change are:
+<UL><LI>WX_DIR - the wxWidgets folder</LI>
+<LI>OUTPATH - stores temporary files created during compilation</LI>
+<LI>APPPATH- the folder to put the new Toucan exe in</LI></UL>
+</LI>
+<LI>Once you have changed the paths open up a command prompt (again) and navigate to the source directory. The following command will compile Toucan:
+<PRE>mingw32-make -f makefile.gcc WX_DEBUG=0</PRE>
+</LI></OL>
+<P>Once it has compiled you are all set, simply drop the new exe into and existing copy of Toucan and it is all ready for you to use.<P>
+
+</HTML>

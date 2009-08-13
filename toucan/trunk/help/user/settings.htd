@@ -1,0 +1,20 @@
+<HTML>
+<H2>Settings</H2>
+Toucan offers a variety of customisations. Settings will not be saved unless the Apply button is pressed.<P>
+<H3>Remember Entered Information</H3> 
+<IMG SRC="screenshots/settings-info.png" BORDER="0"><P>
+These check boxes let you choose whether Toucan should store any informatrion that you have entered between sessions without you having to explicitly save it as a job. You can only enable it on certain tabs if you wish.
+<H3>Language</H3>
+<IMG SRC="screenshots/settings-lang.png" BORDER="0"><P>
+You can use this drop down to select a different language for Toucan.
+<H3>Tab Style</H3>
+<IMG SRC="screenshots/settings-tab.png" BORDER="0"><P>
+The tab style allows you to remove the images from the tabs in Toucan.<P>
+<H3>Font</H3>
+<IMG SRC="screenshots/settings-font.png" BORDER="0"><P>
+This changes the default font in Toucan, both the font and its size can be changed.
+<H3>Other</H3> 
+<IMG SRC="screenshots/settings-other.png" BORDER="0"><P>
+<OL><LI>Tooltips - Adds descriptive tooltips for all of the picture buttons in Toucan</li>
+<LI>Small borders - Shrinks the borders between ideas so Toucan requires less screen space, this is automatically used on very low resolution screens</li></ol>
+</HTML>

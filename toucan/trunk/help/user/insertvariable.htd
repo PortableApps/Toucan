@@ -1,0 +1,11 @@
+<HTML>
+<H2>Insert Variable Dialog</H2>
+<IMG SRC="screenshots/insert-variable.png" BORDER="0"><P>
+<UL>
+<LI>Location - This is the path that will be inserted</LI>
+<LI>Variables - This drop-down box contains all of the Variables Toucan knows about. The add button adds it to the current cursor position in the Location box</LI>
+<LI>Preview - This box will be updated with the expansion of the variable in the Location box</LI>
+<LI>OK - Inserts the text in the Location box</LI>
+<LI>Cancel - Returns you to the main Toucan window</LI>
+</UL>
+</HTML>

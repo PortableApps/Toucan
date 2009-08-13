@@ -1,0 +1,14 @@
+
+<HTML>
+<H2>Backup Rotation</H2>
+Using a Script we can create a rotational backup mode. There are two parts, a Script which will be executed and a Backup Job that will be run. The script for a 5 day rotation is as follows, adapating for any other number of days is simple.
+<PRE>Delete "@drive@\Backups\Backup-5.zip"<BR>
+Rename "@drive@\Backups\Backup-4.zip" "@drive@\Backups\Backup-5.zip"<BR>
+Rename "@drive@\Backups\Backup-3.zip" "@drive@\Backups\Backup-4.zip"<BR>
+Rename "@drive@\Backups\Backup-2.zip" "@drive@\Backups\Backup-3.zip"<BR>
+Rename "@drive@\Backups\Backup-1.zip" "@drive@\Backups\Backup-2.zip"<BR>
+Backup "RotationBackupJob"</PRE>
+<P>
+All that is then needed is a Backup Job called RotationBackupJob that outputs a file called Backup-1.zip. Then simply run the script and your backups will be rotated.
+</PRE>
+</HTML>

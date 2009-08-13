@@ -1,0 +1,10 @@
+<HTML>
+<H2>Progress Dialog</H2>
+Please note that the progress bar shows the number of files finished out of the total number of files, not the total amount of data.<p>
+<IMG SRC="screenshots/progress.png" BORDER="0"><P>
+<UL>
+<LI>OK - Closes the dialog</LI>
+<LI>Cancel - Aborts the currently running job</LI>
+<LI>Save - Saves the log out to a text file</LI>
+</UL>
+</HTML>

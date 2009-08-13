@@ -1,0 +1,11 @@
+<HTML>
+<H2>PortableApps.com Data</H2>
+To select only the Data folders of your PortableApps folder you need the following rules:<p>
+<strong>Folders to exclude:</strong>
+<pre>\\PortableApps</pre><P>
+<strong>Locations to include:</strong>
+<pre>\\Data</pre><p>
+<P>
+Simply save these two strings into a new set of Rules and you can them use them in Sync, Backup or Secure by selecting them in the drop down box.
+</PRE>
+</HTML>

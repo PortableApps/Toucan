@@ -1,0 +1,11 @@
+<HTML>
+<H2>Command Line</H2>
+All command line jobs put a log with the date and time in the Data folder of your Toucan installation so you can easily verify if the job completed successfully. If you wish to disable this log then you need to open the Settings.ini file located in the Data subfolder of your Toucan installation and change the line that says <code>DisableLog=0</code> to <code>DisableLog=1</code>
+Please select a topic below for more infomation.<P>
+<UL>
+<LI><A HREF="command-sync.htm">Sync</A></LI>
+<LI><A HREF="command-backup.htm">Backup</A></LI>
+<LI><A HREF="command-secure.htm">Secure</A></LI>
+<LI><A HREF="command-script.htm">Script</A></LI>
+</UL>
+</HTML>

@@ -1,0 +1,42 @@
+<HTML>
+<H2>Backup</H2>
+Backup can be used to create a copy of your important files, saving them in case of disaster. 
+<H3>Jobs</H3>
+<IMG SRC="screenshots/general-jobs.png" BORDER="0"><P>
+You can use the drop-down box and buttons to create new Backup jobs, save your current data as a job and remove existing ones. Existing jobs will appear in th drop-down box. Jobs can also be used on the <A HREF="command-backup.htm">command line</A> as well as in the user interface. Jobs allow you to save you data and reload it when you next run Toucan.
+<H3>Type</H3>
+<IMG SRC="screenshots/backup-type.png" BORDER="0"><P>
+<UL>
+<LI>Complete - This backs up all of the files you have added in the File List to the location specified in the Backup Location</LI>
+<LI>Update - This adds newer files from your File List to the Backup Location</LI>
+<LI>Differential - On its first run a base file is created in the folder specified in the Backup Location. In subsequent runs changes files are backup up in an archive named after the date and time. To restore a differential backup you need to restroe the base file and then the most recent date file. Currently this only supports one source folder.</LI>
+<LI>Restore - Restores files from an archive into a folder. This works the other way on to other the main functions, you add the files to the file list and they are extracted into the folder specified.</LI>
+</UL>
+<H3>Format</H3>
+<IMG SRC="screenshots/backup-format.png" BORDER="0"><P>
+<UL>
+<LI>7Zip - This format gives better comoression than Zip, at the expense of speed, it is also less common than Zip</LI>
+<LI>Zip - These files are generally larger than 7zip, but are quicker to compress and more common</LI>
+</UL>
+<H3>Compression</H3>
+<IMG SRC="screenshots/backup-compression.png" BORDER="0"><P>
+The slider allows you to set the compression level for Toucan. The higher the level the slower the speed of compression and the smaller the file will be. Ultra often takes a very long time. None means the archive will have no compression.
+<H3>Other</H3>
+<IMG SRC="screenshots/backup-other.png" BORDER="0"><P>
+Password allows you to set a password for your archive. You will be prompted for the password when you run the job.
+<H3>Action Buttons</H3>
+<IMG SRC="screenshots/general-buttons.png" BORDER="0"><P>
+OK runs Backup with the currently entered information. Preview will change the colours of the items that you had added to the file list. If an item remains black then it will be encrypted/decrypted. If the item is changed to red then it will not be encrypted/decypted. Previewing does not effect the files in any way.
+<H3>Rules</H3>
+<IMG SRC="screenshots/general-rules.png" BORDER="0"><P>
+You can use this drop-down box to select any rules that apply when Backup runs. To check they are working as you require it is recommended that you preview them first.
+<H3>File Browser</H3>
+<IMG SRC="screenshots/general-computer.png" BORDER="0"><P>
+The file browser allows you to add files to the file list or to remove them. Double clicking on drives or folders expands them or collapses them. Both files and folders can be added to the file list.
+<H3>Backup Location</H3>
+<IMG SRC="screenshots/backup-location.png" BORDER="0"><P>
+This is the path to the backup file to be created / updated or to the folder that will contain the differential backups.
+<H3>File List</H3>
+<IMG SRC="screenshots/backup-files.png" BORDER="0"><P>
+Any files or folders that you add from the browser will appear on this list. When previewing the file names will change, see Action buttons for more information. The upper most button shows the <A HREF="insertvariable.htm">Insert Variable Dialog</A>. The lower button expands all of the folders in the file list so you can quickly see all of the files that you have added.
+</HTML>

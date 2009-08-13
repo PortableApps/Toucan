@@ -1,0 +1,12 @@
+<HTML>
+<H2>Variables</H2>
+Variables allow you to point to different places on different PC's. There are also a number of built in variable, see the <A HREF="variables-standard.htm">Standard Variables</A> page for more information. A good example of a variable is the built in <em>docs</em> variable which always points to the My Documents folder, whichever pc you are on. To access a variable simply wrap it it @ signs and use it wherever you would normally supply a file to a file or directory. They can also be embedded into longer paths, for example: 
+<pre>C:\\Backup\\@date@.zip</pre> 
+
+<H3>Name</H3>
+<IMG SRC="screenshots/general-name.png" BORDER="0"><P>
+You can use the drop-down box and buttons to create new Variables and remove existing ones.
+<H3>Main Area</H3>
+<IMG SRC="screenshots/variables-main.png" BORDER="0"><P>
+The main window is where you can set up your Variable. When you add a new Variable the name of the current PC is added and so is the option Other. When a Varible comes to be expanded by Toucan it will first check to see if and entry exists for the current computer name, and if it does it will use that path. When the name of the PC does not exists then the entry called Other is used.
+</HTML>

@@ -1,0 +1,23 @@
+<HTML>
+<H2>Rules</H2>
+Rules are you to include or exclude .
+<H3>Name</H3>
+<IMG SRC="screenshots/general-name.png" BORDER="0"><P>
+You can use the drop-down box and buttons to create new Rules and remove existing ones. Once you have finished modifying the Rules you need to explicitly save them with the save button.
+<H3>File to Exclude</H3>
+<IMG SRC="screenshots/rules-fileexclude.png" BORDER="0"><P>
+Entries in this list will be checked against all the files in a job and if any of them match that file will be excluded. By defualt these exclusions are simply plain text checked agains the file. Other supported exclusions are:
+<UL>
+<LI>&lt; <EM>number</EM> kB / MB / GB - This excludes files of a size less than <EM>number</EM>. This command must not include any spaces</LI> 
+<LI>&gt; <EM>number</EM> kB / MB / GB - This excludes files of a size greater than <EM>number</EM>. This command must not include any spaces</LI> 
+<LI>&lt; <EM>date</EM> - This excludes files whose modifications times are newer than <EM>date</EM>. This command must not include any spaces</LI> 
+<LI>&gt; <EM>date</EM> - This excludes files whose modifications times are older than <EM>date</EM>. This command must not include any spaces</LI> 
+<LI>* <EM>regex</EM> - The string after the * will be compiled as a regular expression. If there are then any matches the file will be excluded
+</UL> 
+<H3>Name</H3>
+<IMG SRC="screenshots/rules-folderexclude.png" BORDER="0"><P>
+Folders in this list will be excluded, as will all of the files in them. Regular expressions can be used in this list as long as they are prefixed with a *.
+<H3>Name</H3>
+<IMG SRC="screenshots/rules-locationinclude.png" BORDER="0"><P>
+Files and folders in this list will <EM>always</EM> be included, even if they are also present in one of the exclusion lists. This list supports regular expressions as long as they are prefixed with a *.
+</HTML>
