@@ -58,12 +58,19 @@ public:
 	
 	//Store the drive labels and letters for use in Normalise
 	std::map<wxString, wxString> m_DriveLabels;
+	
+	//Translation maps so we can store english in the files, but convert it to the 
+	//Correct language for the UI
+	std::map<wxString, wxString> m_EnToLang;
+	std::map<wxString, wxString> m_LangToEn;
 
 private:
 	//Clean up the temporary files that might be in the data folder
 	void CleanTemp();
 	//Remove the conime process if it is still running on windows
 	void KillConime();
+	//Set up the maps used for language conversion
+	void InitLangMaps();
 
 	bool m_Abort;
 	wxString m_SettingsPath;

@@ -20,9 +20,8 @@ Settings::~Settings(){
 }
 
 bool Settings::TransferToFile(){
-	
-	config->Write(wxT("General/Tabs"), m_TabStyle);
-	config->Write(wxT("General/Position"), m_Position);
+	config->Write(wxT("General/Tabs"), ToEn(m_TabStyle));
+	config->Write(wxT("General/Position"), ToEn(m_Position));
 	config->Write(wxT("General/LanguageCode"), m_LanguageCode);
 	config->Write(wxT("General/Font"), m_Font);
 	config->Write(wxT("General/Height"), m_Height);
@@ -41,8 +40,6 @@ bool Settings::TransferToFile(){
 
 bool Settings::TransferFromFile(){
 	//Set the default values
-	m_TabStyle = _("Icons and Text");
-	m_Position = _("Sync");
 	m_LanguageCode = wxT("en");
 	wxFont temp = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
 	m_Font = temp.GetNativeFontInfoDesc();
@@ -57,10 +54,21 @@ bool Settings::TransferFromFile(){
 	m_SmallBorders = false;
 	m_DisableStream = false;
 	m_DisableLog = false;
+	wxString stemp;
 	
 	//Read from the settings file
-	config->Read(wxT("General/Tabs"), &m_TabStyle);
-	config->Read(wxT("General/Position"), &m_Position);
+	if(!config->Read(wxT("General/Tabs"), &stemp)){
+		m_TabStyle = _("Icons and Text");
+	}	
+	else{
+		m_TabStyle = ToLang(stemp);
+	}
+	if(!config->Read(wxT("General/Position"), &stemp)){
+		m_Position = _("Sync");
+	}
+	else{
+		m_Position = ToLang(stemp);
+	}
 	config->Read(wxT("General/LanguageCode"), &m_LanguageCode);
 	config->Read(wxT("General/Font"), &m_Font);
 	config->Read(wxT("General/Height"), &m_Height);

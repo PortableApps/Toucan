@@ -73,6 +73,8 @@ bool Toucan::OnInit(){
 		wxMkdir(GetSettingsPath());
 	}
 	
+	
+	
 	//Collect the dirve letters
 	#ifdef __WXMSW__
 		TCHAR drives[256];  
@@ -104,9 +106,16 @@ bool Toucan::OnInit(){
 	m_Scripts_Config->SetExpandEnvVars(false);
 	m_Variables_Config->SetExpandEnvVars(false);
 
+	//Set the language and init the maps
+ 	wxFileConfig *settings = new wxFileConfig(wxT(""), wxT(""), GetSettingsPath() + wxT("Settings.ini"));
+	SetLanguage(settings->Read(wxT("General/LanguageCode"), wxT("en")));
+	delete settings;
+	InitLangMaps();
+	
 	//Create the settings class amd load the settings
 	m_Settings = new Settings(GetSettingsPath() + wxT("Settings.ini"));
 	m_Settings->TransferFromFile();
+
 
 	//Create the script manager
 	m_Script = new ScriptManager();
@@ -140,8 +149,6 @@ bool Toucan::OnInit(){
 	if(version < 202){
 		UpdateScripts(version);
 	}	
-
-	SetLanguage(m_Settings->GetLanguageCode());
 
 	wxFileSystem::AddHandler(new wxArchiveFSHandler);
 
@@ -219,6 +226,8 @@ int Toucan::OnExit(){
 void Toucan::RebuildForm(){
 	MainWindow->Destroy();
 	SetLanguage(m_Settings->GetLanguageCode());
+	InitLangMaps();
+	m_Settings->TransferFromFile();
 	MainWindow = new frmMain();
 	MainWindow->Show();
 	if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
@@ -254,4 +263,65 @@ void Toucan::KillConime(){
 		}
 		
 	#endif
+}
+
+void Toucan::InitLangMaps(){
+	m_EnToLang.clear();
+	m_LangToEn.clear();
+	
+	//Sync
+	m_EnToLang[wxT("Copy")] = _("Copy");
+	m_EnToLang[wxT("Update")] = _("Update");
+	m_EnToLang[wxT("Mirror")] = _("Mirror");
+	m_EnToLang[wxT("Equalise")] = _("Eualise");
+	m_EnToLang[wxT("Move")] = _("Move");
+	m_EnToLang[wxT("Clean")] = _("Clean");
+	//Backup
+	m_EnToLang[wxT("Complete")] = _("Complete");
+	m_EnToLang[wxT("Update")] = _("Update");
+	m_EnToLang[wxT("Differential")] = _("Differential");
+	m_EnToLang[wxT("Restore")] = _("Restore");
+	//Secure
+	m_EnToLang[wxT("Encrypt")] = _("Encrypt");
+	m_EnToLang[wxT("Decrypt")] = _("Decrypt");
+	//Settings
+	m_EnToLang[wxT("Icons and Text")] = _("Icons and Text");
+	m_EnToLang[wxT("Text")] = _("Text");
+	//Tab Labels
+	m_EnToLang[wxT("Sync")] = _("Sync");
+	m_EnToLang[wxT("Backup")] = _("Backup");
+	m_EnToLang[wxT("Secure")] = _("Secure");
+	m_EnToLang[wxT("Rules")] = _("Rules");
+	m_EnToLang[wxT("Variables")] = _("Variables");
+	m_EnToLang[wxT("Script")] = _("Script");
+	m_EnToLang[wxT("Settings")] = _("Settings");
+	m_EnToLang[wxT("Help")] = _("Help");
+	
+	//Sync
+	m_LangToEn[_("Copy")] = wxT("Copy");
+	m_LangToEn[_("Update")] = wxT("Update");
+	m_LangToEn[_("Mirror")] = wxT("Mirror");
+	m_LangToEn[_("Equalise")] = wxT("Eualise");
+	m_LangToEn[_("Move")] = wxT("Move");
+	m_LangToEn[_("Clean")] = wxT("Clean");
+	//Backup
+	m_LangToEn[_("Complete")] = wxT("Complete");
+	m_LangToEn[_("Update")] = wxT("Update");
+	m_LangToEn[_("Differential")] = wxT("Differential");
+	m_LangToEn[_("Restore")] = wxT("Restore");
+	//Secure
+	m_LangToEn[_("Encrypt")] = wxT("Encrypt");
+	m_LangToEn[_("Decrypt")] = wxT("Decrypt");
+	//Settings
+	m_LangToEn[_("Icons and Text")] = wxT("Icons and Text");
+	m_LangToEn[_("Text")] = wxT("Text");
+	//Tab Labels
+	m_LangToEn[_("Sync")] = wxT("Sync");
+	m_LangToEn[_("Backup")] = wxT("Backup");
+	m_LangToEn[_("Secure")] = wxT("Secure");
+	m_LangToEn[_("Rules")] = wxT("Rules");
+	m_LangToEn[_("Variables")] = wxT("Variables");
+	m_LangToEn[_("Script")] = wxT("Script");
+	m_LangToEn[_("Settings")] = wxT("Settings");
+	m_LangToEn[_("Help")] = wxT("Help");
 }
