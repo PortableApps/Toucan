@@ -270,7 +270,7 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
-	if(size > 2147483648){
+	if(size > 2147483648UL){
 		return CopyFilePlain(source, dest);			
 	}
 	//We read in 1MB chunks
