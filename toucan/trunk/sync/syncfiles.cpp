@@ -257,14 +257,17 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	//ATTN : Still need to work out optimal chunk size
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
-	if(sourcestream.GetLength() != deststream.GetLength()){
-		return CopyFilePlain(source, dest);			
-	}
+
 	//Something is wrong with out streams, return error
 	if(!sourcestream.IsOk() || !deststream.IsOk()){
 		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
 		return false;
 	}
+	
+	if(sourcestream.GetLength() != deststream.GetLength()){
+		return CopyFilePlain(source, dest);			
+	}
+
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
 	if(size > 2147483648){
