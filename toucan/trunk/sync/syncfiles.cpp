@@ -17,10 +17,6 @@
 #include <wx/wfstream.h>
 #include <wx/dir.h>
 
-#ifdef RemoveDirectory
-	#undef RemoveDirectory
-#endif
-
 SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata){
 	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
 		this->sourceroot = syncsource.Left(syncsource.Length() - 1);
