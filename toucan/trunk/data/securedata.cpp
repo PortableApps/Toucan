@@ -23,7 +23,7 @@ bool SecureData::TransferFromFile(){
 
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &stemp)) SetLocations(StringToArrayString(stemp, wxT("|")));
 		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(stemp);
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(ToLang(stemp));
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
 		else error = true;
@@ -41,7 +41,7 @@ bool SecureData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Secure"))) error = true;
 

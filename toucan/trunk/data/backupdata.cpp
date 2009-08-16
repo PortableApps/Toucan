@@ -32,7 +32,7 @@ bool BackupData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &stemp)) SetLocations(StringToArrayString(stemp, wxT("|")));
 		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(stemp);
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(ToLang(stemp));
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Format"), &stemp)) SetFormat(stemp);
 		else error = true;
@@ -57,7 +57,7 @@ bool BackupData::TransferToFile(){
 
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/BackupLocation"),  GetFileLocation())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Format"), GetFormat())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Ratio"), GetRatio())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IsPass"), GetUsesPassword())) error = true;

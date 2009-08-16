@@ -26,7 +26,7 @@ bool SyncData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Dest"), &stemp))  SetDest(stemp);
 		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp))  SetFunction(stemp);
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp))  SetFunction(ToLang(stemp));
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/TimeStamps"), &btemp))  SetTimeStamps(btemp);
 		else error = true;
@@ -53,7 +53,7 @@ bool SyncData::TransferToFile(){
 
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Source"),  GetSource())) error = true;	
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Dest"), GetDest())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), GetFunction())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/TimeStamps"), GetTimeStamps())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Attributes"), GetAttributes())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreReadOnly"), GetIgnoreRO())) error = true;
