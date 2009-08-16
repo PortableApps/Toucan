@@ -7,7 +7,7 @@
 #ifndef H_SETTINGS
 #define H_SETTINGS
 
-#include "toucan.h"
+#include "basicfunctions.h"
 #include <wx/string.h>
 class wxFileConfig;
 
@@ -68,9 +68,6 @@ private:
 	bool m_EnableTooltips;
 	bool m_SmallBorders;
 	wxFileConfig* config;
-
-	const wxString& ToLang(const wxString &en) {return wxGetApp().m_EnToLang[en];}
-	const wxString& ToEn(const wxString &lang) {return wxGetApp().m_LangToEn[lang];}
 };
 
 #endif

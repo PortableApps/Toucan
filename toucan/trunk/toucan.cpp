@@ -111,24 +111,13 @@ bool Toucan::OnInit(){
 	SetLanguage(settings->Read(wxT("General/LanguageCode"), wxT("en")));
 	delete settings;
 	InitLangMaps();
-	
-	//Create the settings class amd load the settings
-	m_Settings = new Settings(GetSettingsPath() + wxT("Settings.ini"));
-	m_Settings->TransferFromFile();
-
-
-	//Create the script manager
-	m_Script = new ScriptManager();
-
-	//Set up the help system
-	m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
 
 	//Make sure the jobs file is up to date!
 	int version = 1;
 	m_Jobs_Config->Read(wxT("General/Version"), &version);
-	m_Jobs_Config->Write(wxT("General/Version"), 204);
+	m_Jobs_Config->Write(wxT("General/Version"), 213);
 	m_Jobs_Config->Flush();
-	if(version < 204){
+	if(version < 213){
 		UpdateJobs(version);
 	}
 
@@ -149,6 +138,25 @@ bool Toucan::OnInit(){
 	if(version < 202){
 		UpdateScripts(version);
 	}	
+	
+	//Update the settings file
+	version = 1;
+	m_Rules_Config->Read(wxT("General/Version"), &version);
+	m_Rules_Config->Write(wxT("General/Version"), 213);
+	m_Rules_Config->Flush();
+	if(version < 213){
+		UpdateSettings(version);
+	}
+
+	//Create the settings class amd load the settings
+	m_Settings = new Settings(GetSettingsPath() + wxT("Settings.ini"));
+	m_Settings->TransferFromFile();
+
+	//Create the script manager
+	m_Script = new ScriptManager();
+
+	//Set up the help system
+	m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
 
 	wxFileSystem::AddHandler(new wxArchiveFSHandler);
 

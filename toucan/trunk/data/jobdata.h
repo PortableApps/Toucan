@@ -9,6 +9,8 @@
 
 #include <wx/string.h>
 #include "../toucan.h"
+//We include this to get access to ToEn and ToLang
+#include "../basicfunctions.h"
 
 class frmMain;
 class Rules;
@@ -90,10 +92,6 @@ public:
 private:
 	wxString m_Name;
 	Rules *m_Rules;
-	
-protected:
-	const wxString& ToLang(const wxString &en) {return wxGetApp().m_EnToLang[en];}
-	const wxString& ToEn(const wxString &lang) {return wxGetApp().m_LangToEn[lang];}
 };
 
 #endif

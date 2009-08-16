@@ -11,6 +11,8 @@ class wxComboBox;
 class wxString;
 class wxArrayString;
 
+#include "toucan.h"
+
 //Turns an array string into a string with the strings seperated by strSeperator, used when writing to ini files
 wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator);
 //Used for turning a string into an arraystring when the string are seperated by strSeperator, used when read from ini files
@@ -47,5 +49,9 @@ wxString InputPassword();
 bool UpdateJobs(int version);
 bool UpdateRules(int version);
 bool UpdateScripts(int version);
+bool UpdateSettings(int version);
+
+const wxString& ToLang(const wxString &en);
+const wxString& ToEn(const wxString &lang);
 	
 #endif

@@ -24,6 +24,15 @@
 wxFFileOutputStream output(stderr);
 wxTextOutputStream cout(output);
 
+ 
+const wxString& ToLang(const wxString &en){
+	return wxGetApp().m_EnToLang[en];
+}
+
+const wxString& ToEn(const wxString &lang){
+	return wxGetApp().m_LangToEn[lang];
+}
+
 wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator){
 	wxString strTemp;
 	for(unsigned int i = 0; i < arrStrings.GetCount(); i++){
@@ -470,6 +479,20 @@ bool UpdateJobs(int version){
 			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Jobs_Config->Flush();
+		version = 204;
+	}
+	if(version = 204){
+		wxString value;
+		long dummy;
+		bool exists = wxGetApp().m_Jobs_Config->GetFirstGroup(value, dummy);
+
+		while(exists){
+			//All of the functions need to use english only
+			wxGetApp().m_Jobs_Config->Write(value + wxT("/Function"), ToEn(wxGetApp().m_Jobs_Config->Read(value + wxT("/Function"))));
+			exists = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
+		}
+
+		wxGetApp().m_Jobs_Config->Flush();
 	}
 	return true;
 }
@@ -539,6 +562,21 @@ bool UpdateScripts(int version){
 			blCont = wxGetApp().m_Scripts_Config->GetNextGroup(strValue, dummy);
 		}
 		wxGetApp().m_Scripts_Config->Flush();
+	}
+	return true;
+}
+
+bool UpdateSettings(int version){
+	//Back up the existing file	
+	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Settings.ini"))){
+		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Settings.ini"), wxGetApp().GetSettingsPath() + wxT("Settings.old"), true);		
+	}
+	if(version == 1){
+		//All of the functions need to use english only
+		wxGetApp().m_Jobs_Config->Write(wxT("General/Tabs"), ToEn(wxGetApp().m_Jobs_Config->Read(wxT("General/Tabs"))));
+		wxGetApp().m_Jobs_Config->Write(wxT("General/Position"), ToEn(wxGetApp().m_Jobs_Config->Read(wxT("General/Position"))));
+
+		wxGetApp().m_Jobs_Config->Flush();
 	}
 	return true;
 }
