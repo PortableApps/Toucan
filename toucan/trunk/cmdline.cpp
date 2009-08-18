@@ -27,6 +27,7 @@
 #include <cxxtest/RealDescriptions.h>
 #include <cxxtest/ErrorPrinter.h>
 #include "test.h"
+
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system"));
 	OutputBlank();
