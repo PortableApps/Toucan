@@ -166,7 +166,10 @@ bool Toucan::OnInit(){
 	if(GetUsesGUI()){
 		MainWindow->Show();
 		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
-			MainWindow->Iconize(false);
+			MainWindow->Maximize(false);
+		}
+		else{
+			MainWindow->Maximize(true);
 		}
 		if(scrn != NULL){
 			scrn->Destroy(); 
@@ -239,7 +242,10 @@ void Toucan::RebuildForm(){
 	MainWindow = new frmMain();
 	MainWindow->Show();
 	if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
-		MainWindow->Iconize(false);
+		MainWindow->Maximize(false);
+	}	
+	else{
+		MainWindow->Maximize(true);
 	}
 }
 
