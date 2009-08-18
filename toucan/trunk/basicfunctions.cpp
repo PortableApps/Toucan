@@ -481,7 +481,7 @@ bool UpdateJobs(int version){
 		wxGetApp().m_Jobs_Config->Flush();
 		version = 204;
 	}
-	if(version = 204){
+	if(version == 204){
 		wxString value;
 		long dummy;
 		bool exists = wxGetApp().m_Jobs_Config->GetFirstGroup(value, dummy);
