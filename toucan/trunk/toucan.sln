@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toucan", "toucan.vcproj", "{4D227875-7941-58B7-9CA9-6E89443CBDE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Static Unicode Debug Multilib|Win32 = Static Unicode Debug Multilib|Win32
+		Static Unicode Release Multilib|Win32 = Static Unicode Release Multilib|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D227875-7941-58B7-9CA9-6E89443CBDE1}.Static Unicode Debug Multilib|Win32.ActiveCfg = Static Unicode Debug Multilib|Win32
+		{4D227875-7941-58B7-9CA9-6E89443CBDE1}.Static Unicode Debug Multilib|Win32.Build.0 = Static Unicode Debug Multilib|Win32
+		{4D227875-7941-58B7-9CA9-6E89443CBDE1}.Static Unicode Release Multilib|Win32.ActiveCfg = Static Unicode Release Multilib|Win32
+		{4D227875-7941-58B7-9CA9-6E89443CBDE1}.Static Unicode Release Multilib|Win32.Build.0 = Static Unicode Release Multilib|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
