@@ -4,26 +4,30 @@
   <include file="presets/wx.bkl"/>
 
     <exe id="Toucan" template="wx">
-		<app-type>console</app-type>
+		<app-type>gui</app-type>
         <runtime-libs>static</runtime-libs>
 		<cxx-rtti>off</cxx-rtti>
 		<warnings>max</warnings>
 		<dirname>Output</dirname>
 
-        <sources>backupprocess.cpp basicfunctions.cpp cmdline.cpp dragndrop.cpp</sources>
-		<sources>filecounter.cpp job.cpp rules.cpp script.cpp secure.cpp</sources>
-		<sources>settings.cpp toucan.cpp variables.cpp waitthread.cpp</sources>
+        <sources>basicfunctions.cpp cmdline.cpp dragndrop.cpp</sources>
+		<sources>filecounter.cpp job.cpp rules.cpp script.cpp</sources>
+		<sources>settings.cpp toucan.cpp variables.cpp</sources>
+        <sources>backup/backupjob.cpp backup/backupprocess.cpp backup/backupthread.cpp</sources>
 		<sources>controls/dirctrl.cpp controls/extendeddirctrl.cpp controls/loglistctrl.cpp controls/vdtc.cpp</sources>
-		<sources>data/backupdata.cpp data/rootdata.cpp data/securedata.cpp data/syncdata.cpp</sources>
+		<sources>data/backupdata.cpp data/jobdata.cpp data/securedata.cpp data/syncdata.cpp</sources>
 		<sources>forms/frmmain.cpp forms/frmprogress.cpp forms/frmvariable.cpp</sources>
+        <sources>secure/secure.cpp secure/securejob.cpp</sources>
 		<sources>sync/syncbase.cpp sync/syncfiles.cpp sync/syncjob.cpp sync/syncpreview.cpp sync/syncthread.cpp</sources>
 		
-        <headers>backupprocess.h basicfunctions.h cmdline.h dragndrop.h</headers>
-		<headers>filecounter.h job.h rules.h script.h secure.h</headers>
-		<headers>settings.h toucan.h variables.h waitthread.h</headers>
+        <headers>basicfunctions.h cmdline.h dragndrop.h</headers>
+		<headers>filecounter.h job.h rules.h script.h</headers>
+		<headers>settings.h toucan.h variables.h</headers>
+        <sources>backup/backupjob.h backup/backupprocess.h backup/backupthread.h</sources>
 		<headers>controls/dirctrl.h controls/extendeddirctrl.h controls/loglistctrl.h controls/vdtc.h</headers>
-		<headers>data/backupdata.h data/rootdata.h data/securedata.h data/syncdata.h</headers>
+		<headers>data/backupdata.h data/jobdata.h data/securedata.h data/syncdata.h</headers>
 		<headers>forms/frmmain.h forms/frmprogress.h forms/frmvariable.h</headers>
+        <sources>secure/secure.h secure/securejob.h</sources>
 		<headers>sync/syncbase.h sync/syncfiles.h sync/syncjob.h sync/syncpreview.h sync/syncthread.h</headers>
 
         <wx-lib>aui</wx-lib>
