@@ -57,12 +57,9 @@ bool Toucan::OnInit(){
 		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
 	}
 
-	if(argc == 1){
-		SetUsesGUI(true);
-	}
-	else{
-		SetUsesGUI(false);
-	}
+	//Are we in gui mode?
+	m_UsesGUI = argc == 1 ? true : false;
+
 	//Work out where the settings dir is. Firstly get the exe dir
 	wxFileName settingspath = wxFileName::DirName((wxPathOnly(wxStandardPaths::Get().GetExecutablePath())));
 	//Next remove the \App\toucan
@@ -71,7 +68,7 @@ bool Toucan::OnInit(){
 	//And the add \Data
 	settingspath.AppendDir(wxT("Data"));
 
-	SetSettingsPath(settingspath.GetFullPath());
+	m_SettingsPath = settingspath.GetFullPath();
 	//Make sure the data directory is there
 	if(!wxDirExists(GetSettingsPath())){
 		wxMkdir(GetSettingsPath());

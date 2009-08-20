@@ -29,8 +29,9 @@ public:
 	void RebuildForm();
 
 	void SetAbort(const bool& Abort) {this->m_Abort = Abort;}
-	void SetSettingsPath(const wxString& SettingsPath) {this->m_SettingsPath = SettingsPath;}
-	void SetUsesGUI(const bool& UsesGUI) {this->m_UsesGUI = UsesGUI;}
+	/*
+	 * Set if the backup job is finished, used only in console mode backups
+	 */
 	void SetFinished(const bool& Finished) {this->m_Finished = Finished;}
 	const bool& GetAbort() const {return m_Abort;}
 	const wxString& GetSettingsPath() const {return m_SettingsPath;}
