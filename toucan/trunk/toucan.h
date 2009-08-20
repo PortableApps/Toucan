@@ -43,8 +43,7 @@ public:
 	frmProgress* ProgressWindow;
 	//Settings
 	Settings* m_Settings;
-	//Locale
-	wxLocale* m_Locale;	
+
 	//Script manager
 	ScriptManager* m_Script;
 
@@ -77,6 +76,7 @@ private:
 	wxString m_SettingsPath;
 	bool m_UsesGUI;
 	bool m_Finished;
+	wxLocale* m_Locale;	
 };
 
 DECLARE_APP(Toucan)
