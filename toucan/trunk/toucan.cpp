@@ -33,7 +33,11 @@
 #include "data/backupdata.h"
 #include "data/securedata.h"
 
-IMPLEMENT_APP(Toucan)
+IMPLEMENT_APP_NO_MAIN(Toucan)
+
+int main(int argc, char *argv[]){
+	wxEntry(argc, argv);
+}
 
 //Toucan startup
 bool Toucan::OnInit(){
