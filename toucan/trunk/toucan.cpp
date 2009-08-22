@@ -245,6 +245,9 @@ void Toucan::RebuildForm(){
 	else{
 		MainWindow->Maximize(true);
 	}
+
+	ProgressWindow->Destroy();
+	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
 }
 
 void Toucan::KillConime(){
