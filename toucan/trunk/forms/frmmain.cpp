@@ -718,7 +718,7 @@ void frmMain::CreateControls(){
 	int fieldsx;
 	FieldsStaticBox->GetTextExtent(_("Remember Entered Information"), &fieldsx, NULL);
 	FieldsStaticBoxSizer->SetMinSize(wxSize(fieldsx + 10, -1));
-	SettingsSizer->Add(FieldsStaticBoxSizer, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, border);
+	SettingsSizer->Add(FieldsStaticBoxSizer, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALIGN_LEFT|wxALIGN_TOP|wxALL, border);
 
 	m_Settings_RememberSync = new wxCheckBox(SettingsPanel, ID_SETTINGS_REMEMBERSYNC, _("Sync"));
 	FieldsStaticBoxSizer->Add(m_Settings_RememberSync, 0, wxALIGN_TOP|wxALL, border);
