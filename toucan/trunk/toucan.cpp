@@ -13,6 +13,7 @@
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 #include <wx/process.h>
+#include <wx/debugrpt.h>
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -48,6 +49,7 @@ bool Toucan::OnInit(){
 			}
 		}
 	#endif
+	wxHandleFatalExceptions();
  	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn = NULL;
@@ -73,9 +75,7 @@ bool Toucan::OnInit(){
 	if(!wxDirExists(GetSettingsPath())){
 		wxMkdir(GetSettingsPath());
 	}
-	
-	
-	
+
 	//Collect the dirve letters
 	#ifdef __WXMSW__
 		TCHAR drives[256];  
@@ -280,6 +280,19 @@ void Toucan::KillConime(){
 	#endif
 }
 
+void Toucan::OnFatalException(){
+	wxMessageBox(_("Dying...."));
+    wxDebugReportCompress *report = new wxDebugReportCompress;
+    report->AddAll(wxDebugReport::Context_Exception);
+
+    if(wxDebugReportPreviewStd().Show(*report)){
+		
+    }
+
+    delete report;
+}
+
+
 void Toucan::InitLangMaps(){
 	m_EnToLang.clear();
 	m_LangToEn.clear();
@@ -288,7 +301,7 @@ void Toucan::InitLangMaps(){
 	m_EnToLang[wxT("Copy")] = _("Copy");
 	m_EnToLang[wxT("Update")] = _("Update");
 	m_EnToLang[wxT("Mirror")] = _("Mirror");
-	m_EnToLang[wxT("Equalise")] = _("Eualise");
+	m_EnToLang[wxT("Equalise")] = _("Equalise");
 	m_EnToLang[wxT("Move")] = _("Move");
 	m_EnToLang[wxT("Clean")] = _("Clean");
 	//Backup
