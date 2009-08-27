@@ -254,11 +254,11 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	if(disablestreams){
 		return CopyFilePlain(source, dest);
 	}
-	//ATTN : Still need to work out optimal chunk size
+
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
 
-	//Something is wrong with out streams, return error
+	//Something is wrong with our streams, return error
 	if(!sourcestream.IsOk() || !deststream.IsOk()){
 		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
 		return false;
@@ -273,9 +273,10 @@ bool SyncFiles::CopyFileHash(wxString source, wxString dest){
 	if(size > 2147483648UL){
 		return CopyFilePlain(source, dest);			
 	}
+
 	//We read in 1MB chunks
-	char sourcebuf[1048576];
-	char destbuf[1048576];
+	char *sourcebuf = new char[1048576];
+	char *destbuf = new char [1048576];
 	wxFileOffset bytesLeft=size;
 	while(bytesLeft > 0){
 		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);

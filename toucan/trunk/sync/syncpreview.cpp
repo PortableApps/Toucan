@@ -123,7 +123,6 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(ShouldCopy(source, dest)){
-				
 				int pos = GetItemLocation(path, &destitems);
 				if(pos != -1){
 					destitems.Item(pos)->SetColour(wxT("Green"));		
@@ -260,30 +259,35 @@ bool SyncPreview::ShouldCopy(wxString source, wxString dest){
 	if(disablestreams){
 		return true;
 	}
+
 	//See the real CopyFileHash for more info
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
-	if(sourcestream.GetLength() != deststream.GetLength()){
-		return true;	
-	}
-	//Something is wrong with out streams, return error
+
+	//Something is wrong with our streams, return error
 	if(!sourcestream.IsOk() || !deststream.IsOk()){
 		return false;
 	}
+
+	if(sourcestream.GetLength() != deststream.GetLength()){
+		return true;	
+	}
+
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
-	if(size > 2000000000){
-		return true;
+	if(size > 2147483648UL){
+		return CopyFilePlain(source, dest);			
 	}
+
 	//We read in 1MB chunks
-	char sourcebuf[1000000];
-	char destbuf[1000000];
+	char *sourcebuf = new char[1048576];
+	char *destbuf = new char [1048576];
 	wxFileOffset bytesLeft=size;
 	while(bytesLeft > 0){
 		wxGetApp().Yield();
 		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
-		sourcestream.Read((void*)sourcebuf,bytesToRead);
-		deststream.Read((void*)destbuf,bytesToRead);
+		sourcestream.Read(sourcebuf, bytesToRead);
+		deststream.Read(destbuf, bytesToRead);
 		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
 			return false;
 		}
