@@ -44,9 +44,7 @@ int main(int argc, char *argv[]){
 bool Toucan::OnInit(){
 	#ifdef __WXMSW__
 		if(argc == 1){
-			if(wxGetOsVersion() != wxOS_WINDOWS_9X){
-				ShowWindow(GetConsoleWindow(), SW_HIDE);
-			}
+			ShowWindow(GetConsoleWindow(), SW_HIDE);
 		}
 	#endif
 
