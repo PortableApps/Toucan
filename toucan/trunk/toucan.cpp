@@ -49,7 +49,7 @@ bool Toucan::OnInit(){
 			}
 		}
 	#endif
-	wxHandleFatalExceptions();
+
  	//Set the splash screen going
 	wxInitAllImageHandlers();
 	wxSplashScreen *scrn = NULL;
@@ -279,19 +279,6 @@ void Toucan::KillConime(){
 		
 	#endif
 }
-
-void Toucan::OnFatalException(){
-	wxMessageBox(_("Dying...."));
-    wxDebugReportCompress *report = new wxDebugReportCompress;
-    report->AddAll(wxDebugReport::Context_Exception);
-
-    if(wxDebugReportPreviewStd().Show(*report)){
-		
-    }
-
-    delete report;
-}
-
 
 void Toucan::InitLangMaps(){
 	m_EnToLang.clear();

@@ -31,10 +31,6 @@ public:
 	 * Cleanup code
 	 */
 	virtual int OnExit();
-    /*!
-	 * Called when Toucan fatally crashes, generates a debug report
-	 */
-    virtual void OnFatalException();
 
 	/*!
 	 * Set the language for Toucans wxLocale instance, either useing short or 
