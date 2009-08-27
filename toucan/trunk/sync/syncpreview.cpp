@@ -69,7 +69,7 @@ bool SyncPreview::OperationCaller(std::map<wxString, short> paths){
 	return true;
 }
 
-bool SyncPreview::OnSourceNotDestFile(wxString path){
+void SyncPreview::OnSourceNotDestFile(wxString path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
@@ -88,10 +88,9 @@ bool SyncPreview::OnSourceNotDestFile(wxString path){
 			delete item;
 		}	
 	}
-	return true;
 }
 
-bool SyncPreview::OnNotSourceDestFile(wxString path){
+void SyncPreview::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
@@ -114,10 +113,9 @@ bool SyncPreview::OnNotSourceDestFile(wxString path){
 			}
 		}
 	}
-	return true;
 }
 
-bool SyncPreview::OnSourceAndDestFile(wxString path){
+void SyncPreview::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
@@ -184,9 +182,9 @@ bool SyncPreview::OnSourceAndDestFile(wxString path){
 			}
 		}
 	}
-	return true;
 }
-bool SyncPreview::OnSourceNotDestFolder(wxString path){
+
+void SyncPreview::OnSourceNotDestFolder(wxString path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
@@ -205,10 +203,9 @@ bool SyncPreview::OnSourceNotDestFolder(wxString path){
 			}
 		}
 	}
-	return true;
 }
 
-bool SyncPreview::OnNotSourceDestFolder(wxString path){
+void SyncPreview::OnNotSourceDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
@@ -230,9 +227,9 @@ bool SyncPreview::OnNotSourceDestFolder(wxString path){
 		}
 		sourceitems.Add(item);
 	}
-	return true;
 }
-bool SyncPreview::OnSourceAndDestFolder(wxString path){
+
+void SyncPreview::OnSourceAndDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Move")){
@@ -243,7 +240,6 @@ bool SyncPreview::OnSourceAndDestFolder(wxString path){
 			}		
 		}
 	}
-	return true;
 }
 
 int SyncPreview::GetItemLocation(wxString path, VdtcTreeItemBaseArray* array){
@@ -260,7 +256,7 @@ bool SyncPreview::ShouldCopy(wxString source, wxString dest){
 		return true;
 	}
 
-	//See the real CopyFileHash for more info
+	//See the real CopyFileStream for more info
 	wxFileInputStream sourcestream(source);
 	wxFileInputStream deststream(dest);
 

@@ -40,12 +40,12 @@ protected:
 	bool disablestreams;
 private:
 	//The functions that do the copying
-	virtual bool OnSourceNotDestFile(wxString path) = 0;
-	virtual bool OnNotSourceDestFile(wxString path) = 0;
-	virtual bool OnSourceAndDestFile(wxString path) = 0;
-	virtual bool OnSourceNotDestFolder(wxString path) = 0;
-	virtual bool OnNotSourceDestFolder(wxString path) = 0;
-	virtual bool OnSourceAndDestFolder(wxString path) = 0;
+	virtual void OnSourceNotDestFile(wxString path) = 0;
+	virtual void OnNotSourceDestFile(wxString path) = 0;
+	virtual void OnSourceAndDestFile(wxString path) = 0;
+	virtual void OnSourceNotDestFolder(wxString path) = 0;
+	virtual void OnNotSourceDestFolder(wxString path) = 0;
+	virtual void OnSourceAndDestFolder(wxString path) = 0;
 };
 
 #endif

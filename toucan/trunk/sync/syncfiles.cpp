@@ -42,7 +42,7 @@ bool SyncFiles::Execute(){
 	return true;
 }
 
-bool SyncFiles::OnSourceNotDestFile(wxString path){
+void SyncFiles::OnSourceNotDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Clean doesnt copy any files
@@ -55,9 +55,9 @@ bool SyncFiles::OnSourceNotDestFile(wxString path){
 			}	
 		}	
 	}
-	return true;
 }
-bool SyncFiles::OnNotSourceDestFile(wxString path){
+
+void SyncFiles::OnNotSourceDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
@@ -67,19 +67,17 @@ bool SyncFiles::OnNotSourceDestFile(wxString path){
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		if(!data->GetRules()->ShouldExclude(dest, false)){
-			//Swap them around as we are essentially in reverse
 			CopyFilePlain(dest, source);
 		}
 	}
-	return true;
 }
-bool SyncFiles::OnSourceAndDestFile(wxString path){
+
+void SyncFiles::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(source, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
-			//Use the hash check version to minimise copying
-			if(CopyFileHash(source, dest)){
+			if(CopyFileStream(source, dest)){
 				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
 				}				
@@ -92,9 +90,9 @@ bool SyncFiles::OnSourceAndDestFile(wxString path){
 	if(data->GetFunction() == _("Equalise")){
 		SourceAndDestCopy(source, dest);
 	}
-	return true;
 }
-bool SyncFiles::OnSourceNotDestFolder(wxString path){
+
+void SyncFiles::OnSourceNotDestFolder(wxString path){
 	//Call the function on the next subfolder
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
@@ -106,7 +104,6 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 		wxDir sourcedir(source);
 		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->ShouldExclude(source, true)){
 			wxRmdir(dest);
-			return false;
 		}
 		else{
 			//Set the timestamps if needed
@@ -119,9 +116,9 @@ bool SyncFiles::OnSourceNotDestFolder(wxString path){
 			wxRmdir(source);
 		}
 	}
-	return true;
 }
-bool SyncFiles::OnNotSourceDestFolder(wxString path){
+
+void SyncFiles::OnNotSourceDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
@@ -143,9 +140,9 @@ bool SyncFiles::OnNotSourceDestFolder(wxString path){
 			}	
 		}
 	}
-	return true;
 }
-bool SyncFiles::OnSourceAndDestFolder(wxString path){
+
+void SyncFiles::OnSourceAndDestFolder(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Always recurse into the next directory
@@ -156,7 +153,6 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 		wxDir sourcedir(source);
 		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->ShouldExclude(source, true)){
 			wxRmdir(dest);
-			return false;
 		}
 		else{
 			//Set the timestamps if needed
@@ -169,7 +165,6 @@ bool SyncFiles::OnSourceAndDestFolder(wxString path){
 			wxRmdir(source);
 		}
 	}
-	return true;
 }
 
 bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
@@ -245,12 +240,12 @@ bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
 	if(tmFrom.IsLaterThan(tmTo)){
-		return CopyFileHash(source, dest);
+		return CopyFileStream(source, dest);
 	}
 	return false;
 }
 
-bool SyncFiles::CopyFileHash(wxString source, wxString dest){
+bool SyncFiles::CopyFileStream(wxString source, wxString dest){
 	if(disablestreams){
 		return CopyFilePlain(source, dest);
 	}
@@ -377,12 +372,12 @@ bool SyncFiles::SourceAndDestCopy(wxString source, wxString dest){
 
 	if(tmFrom.IsLaterThan(tmTo)){
 		if(!data->GetRules()->ShouldExclude(source, false)){
-			CopyFileHash(source, dest);			
+			CopyFileStream(source, dest);			
 		}
 	}
 	else if(tmTo.IsLaterThan(tmFrom)){
 		if(!data->GetRules()->ShouldExclude(dest, false)){
-			CopyFileHash(dest, source);
+			CopyFileStream(dest, source);
 		}
 	}
 	return true;	

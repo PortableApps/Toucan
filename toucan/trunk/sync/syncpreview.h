@@ -17,8 +17,6 @@ public:
 	SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, bool issource);
 	VdtcTreeItemBaseArray Execute();
 private:
-	//We have our own operation caller that doesnt call the ruls check as it is done by the individual functions
-	//It also fills the arrays
 	bool OperationCaller(std::map<wxString, short> paths);
 	//This tells us on which side of the operation we are on
 	bool sourcetree;
@@ -28,12 +26,12 @@ private:
 	VdtcTreeItemBaseArray sourceitems;
 	VdtcTreeItemBaseArray destitems;
 	//Overwrite the functions so we can add the previewing
-	bool OnSourceNotDestFile(wxString path);
-	bool OnNotSourceDestFile(wxString path);
-	bool OnSourceAndDestFile(wxString path);
-	bool OnSourceNotDestFolder(wxString path);
-	bool OnNotSourceDestFolder(wxString path);
-	bool OnSourceAndDestFolder(wxString path);
+	void  OnSourceNotDestFile(wxString path);
+	void  OnNotSourceDestFile(wxString path);
+	void  OnSourceAndDestFile(wxString path);
+	void  OnSourceNotDestFolder(wxString path);
+	void  OnNotSourceDestFolder(wxString path);
+	void  OnSourceAndDestFolder(wxString path);
 	//This function does the file stream stuff
 	bool ShouldCopy(wxString source, wxString dest);
 };
