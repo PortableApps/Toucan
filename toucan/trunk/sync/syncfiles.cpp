@@ -269,25 +269,31 @@ bool SyncFiles::CopyFileStream(wxString source, wxString dest){
 		return CopyFilePlain(source, dest);			
 	}
 
-	//We read in 1MB chunks
-	char *sourcebuf = new char[1048576];
-	char *destbuf = new char [1048576];
+	//We read in 4KB chunks as testing seems to show they are the fastest
+	char *sourcebuf = new char[4096];
+	char *destbuf = new char [4096];
 	wxFileOffset bytesLeft=size;
 	while(bytesLeft > 0){
-		wxFileOffset bytesToRead=wxMin((wxFileOffset) sizeof(sourcebuf),bytesLeft);
-		sourcestream.Read((void*)sourcebuf,bytesToRead);
-		deststream.Read((void*)destbuf,bytesToRead);
+		wxFileOffset bytesToRead=wxMin(4096, bytesLeft);
+		sourcestream.Read(sourcebuf, bytesToRead);
+		deststream.Read(destbuf, bytesToRead);
 		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
 			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+			delete sourcebuf;
+			delete destbuf;
 			return false;
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
 			//Our strings differ, so copy the files
 			//ATTN : In future update the files in place
+			delete sourcebuf;
+			delete destbuf;
 			return CopyFilePlain(source, dest);
 		}
 		bytesLeft-=bytesToRead;
 	}
+	delete sourcebuf;
+	delete destbuf;
 	//The two files are actually the same, but update the timestamps
 	if(data->GetTimeStamps()){
 		wxFileName from(source);
