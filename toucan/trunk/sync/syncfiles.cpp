@@ -75,19 +75,21 @@ void SyncFiles::OnNotSourceDestFile(wxString path){
 void SyncFiles::OnSourceAndDestFile(wxString path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(!data->GetRules()->ShouldExclude(source, false)){
-		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
+	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
+		if(!data->GetRules()->ShouldExclude(source, false)){
 			if(CopyFileStream(source, dest)){
 				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
 				}				
 			}
 		}
-		else if(data->GetFunction() == _("Update")){
-			CopyFileTimestamp(source, dest);			
-		}		
 	}
-	if(data->GetFunction() == _("Equalise")){
+	else if(data->GetFunction() == _("Update")){
+		if(!data->GetRules()->ShouldExclude(source, false)){
+			CopyFileTimestamp(source, dest);
+		}
+	}		
+	else if(data->GetFunction() == _("Equalise")){
 		SourceAndDestCopy(source, dest);
 	}
 }
@@ -174,6 +176,7 @@ bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
 		long sourceAttributes = 0;
 	#endif
 	if(data->GetIgnoreRO()){
+		//ATTN : Needs linux support
 		#ifdef __WXMSW__
 			destAttributes = GetFileAttributes(dest);
 			if(destAttributes == -1){
@@ -194,16 +197,15 @@ bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
 			ShouldTimeStamp = true;
 		}
 		else{
+			//If we have failed to rename then it is probably still there, remove it
+			if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
+				wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+			}
 			return false;
 		}
 	}
 	else{
 		return false;
-	}
-	if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
-		if(!wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
-			return false;
-		}
 	}
 	if(data->GetTimeStamps() && ShouldTimeStamp){
 		wxFileName from(source);
