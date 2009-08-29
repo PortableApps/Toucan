@@ -1748,12 +1748,12 @@ void frmMain::SetTitleBarText(){
 
 void frmMain::JobAdd(wxComboBox* box){
 	wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
-	if (dialog.ShowModal() == wxID_OK){
+	if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
 		box->Append(dialog.GetValue());
 		box->SetStringSelection(dialog.GetValue());
+		SetTitleBarText();
+		ClearToDefault();
 	}
-	SetTitleBarText();
-	ClearToDefault();
 }
 
 void frmMain::JobRemove(wxComboBox* box){
