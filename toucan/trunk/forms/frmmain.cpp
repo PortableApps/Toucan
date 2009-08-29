@@ -1226,6 +1226,7 @@ void frmMain::OnSecureJobRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_BACKUP_JOB_SELECT
 void frmMain::OnBackupJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
 	JobLoad(m_Backup_Job_Select->GetStringSelection(), wxT("Backup"));
+	SetSliderText();
 }
 
 //ID_SECURE_JOB_SELECT
