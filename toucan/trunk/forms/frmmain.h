@@ -198,7 +198,6 @@ public:
 	void OnSyncSourceTreeRightClick(wxTreeEvent& event);
 	void OnSyncDestTreeRightClick(wxTreeEvent& event);
 	void OnSyncTreeCtrlTooltip(wxTreeEvent& event);
-	void OnSyncFunctionSelected(wxCommandEvent& event);
 	
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
