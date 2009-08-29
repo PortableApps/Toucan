@@ -11,18 +11,28 @@
 #include "../rules.h"
 #include "../data/syncdata.h"
 
+/*!
+ * The thread that does the actual sync work. We use a thread because 
+ * the wxCopyFile calls block the thread they are running in.
+ */
 class SyncThread : public wxThread
 {
 public:
-	//Constructor
+	/*!
+	 * Constructs a new thread using the given SyncData. In some instances 
+	 * a joinable thread is needed, i.e. in console mode, and this is specified
+	 * by the wxThreadKind
+	 */
 	SyncThread(SyncData *data, wxThreadKind type) : wxThread(type){
 		m_Data = data;
 	}
-	//Thread entry
+	/*
+	 * The entry point for the thread, this the the function that actually does
+	 * the work.
+	 */
 	virtual void *Entry();
 
 private:
-	//Variables
 	SyncData *m_Data;
 };
 
