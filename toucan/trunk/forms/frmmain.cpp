@@ -1136,7 +1136,7 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("You must select a name for this set of Rules"), wxEmptyString);
+	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Please enter the name for the new rules"), _("New Rules"));
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Rules_Name->AppendString(dialog->GetValue());
 		m_Rules_Name->SetStringSelection(dialog->GetValue());
@@ -1746,7 +1746,7 @@ void frmMain::SetTitleBarText(){
 }
 
 void frmMain::JobAdd(wxComboBox* box){
-	wxTextEntryDialog dialog(this, wxEmptyString, _("Job name"));
+	wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
 	if (dialog.ShowModal() == wxID_OK){
 		box->Append(dialog.GetValue());
 		box->SetStringSelection(dialog.GetValue());
