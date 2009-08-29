@@ -26,7 +26,7 @@ public:
 	SyncThread(SyncData *data, wxThreadKind type) : wxThread(type){
 		m_Data = data;
 	}
-	/*
+	/*!
 	 * The entry point for the thread, this the the function that actually does
 	 * the work.
 	 */
