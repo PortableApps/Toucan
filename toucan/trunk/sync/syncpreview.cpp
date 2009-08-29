@@ -19,9 +19,9 @@ SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncd
 }
 
 VdtcTreeItemBaseArray SyncPreview::Execute(){
-	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
-	std::list<wxString> destpaths = FolderContentsToList(destroot);
-	std::map<wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
+	std::list<const wxString> sourcepaths = FolderContentsToList(sourceroot);
+	std::list<const wxString> destpaths = FolderContentsToList(destroot);
+	std::map<const wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
 	if(sourcetree){
 		return sourceitems;
@@ -32,8 +32,8 @@ VdtcTreeItemBaseArray SyncPreview::Execute(){
 
 }
 
-bool SyncPreview::OperationCaller(std::map<wxString, short> paths){
-	for(std::map<wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+bool SyncPreview::OperationCaller(std::map<const wxString, short> paths){
+	for(std::map<const wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if((*iter).second == 1){
 				sourceitems.Add(new VdtcTreeItemBase(VDTC_TI_DIR, (*iter).first));

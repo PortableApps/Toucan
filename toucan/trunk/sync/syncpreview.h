@@ -17,7 +17,7 @@ public:
 	SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, bool issource);
 	VdtcTreeItemBaseArray Execute();
 protected:
-	bool OperationCaller(std::map<wxString, short> paths);
+	bool OperationCaller(std::map<const wxString, short> paths);
 	//This tells us on which side of the operation we are on
 	bool sourcetree;
 	//Get the position of a given string

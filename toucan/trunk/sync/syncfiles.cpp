@@ -40,9 +40,9 @@ SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata)
 }
 
 bool SyncFiles::Execute(){
-	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
-	std::list<wxString> destpaths = FolderContentsToList(destroot);
-	std::map<wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
+	std::list<const wxString> sourcepaths = FolderContentsToList(sourceroot);
+	std::list<const wxString> destpaths = FolderContentsToList(destroot);
+	std::map<const wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
 	return true;
 }

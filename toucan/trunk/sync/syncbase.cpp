@@ -21,8 +21,8 @@ SyncBase::~SyncBase(){
 	;
 }
 
-std::list<wxString> SyncBase::FolderContentsToList(wxString path){
-	std::list<wxString> paths;
+std::list<const wxString> SyncBase::FolderContentsToList(wxString path){
+	std::list<const wxString> paths;
 	//Tidy up the path the make sure it is a directory
 	if (path[path.length()-1] != wxFILE_SEP_PATH) {
 		path += wxFILE_SEP_PATH;       
@@ -45,10 +45,10 @@ std::list<wxString> SyncBase::FolderContentsToList(wxString path){
 	return paths;
 }
 
-std::map<wxString, short> SyncBase::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
-	std::list<wxString>::iterator iter;
-	std::list<wxString>::iterator destiter;
-	std::map<wxString, short> mergeresult;
+std::map<const wxString, short> SyncBase::MergeListsToMap(std::list<const wxString> sourcelist, std::list<const wxString> destlist){
+	std::list<const wxString>::iterator iter;
+	std::list<const wxString>::iterator destiter;
+	std::map<const wxString, short> mergeresult;
 	for(iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
 		bool destexists = false;
 		for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
@@ -70,8 +70,8 @@ std::map<wxString, short> SyncBase::MergeListsToMap(std::list<wxString> sourceli
 	return mergeresult;
 }
 
-bool SyncBase::OperationCaller(std::map<wxString, short> paths){
-	for(std::map<wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+bool SyncBase::OperationCaller(std::map<const wxString, short> paths){
+	for(std::map<const wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxGetApp().GetAbort()){
 			return true;
 		}
