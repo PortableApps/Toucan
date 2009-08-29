@@ -16,7 +16,7 @@ class SyncPreview : public SyncFiles{
 public:
 	SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, bool issource);
 	VdtcTreeItemBaseArray Execute();
-private:
+protected:
 	bool OperationCaller(std::map<wxString, short> paths);
 	//This tells us on which side of the operation we are on
 	bool sourcetree;

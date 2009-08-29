@@ -7,18 +7,18 @@
 #ifndef H_SYNCBASE
 #define H_SYNCBASE
 
+class SyncData;
+class Rules;
+
 #include <map>
 #include <list>
 #include <wx/string.h>
-#include "../data/syncdata.h"
-#include "../rules.h"
 
 class SyncBase{
 
 public:
 	SyncBase();
 	virtual ~SyncBase();
-
 protected:
 	//Store the root paths we have so we can pass them onto the next level of folders if needed
 	wxString sourceroot;
@@ -38,7 +38,6 @@ protected:
 	bool OperationCaller(std::map<wxString, short> paths);
 	bool preview;
 	bool disablestreams;
-private:
 	//The functions that do the copying
 	virtual void OnSourceNotDestFile(wxString path) = 0;
 	virtual void OnNotSourceDestFile(wxString path) = 0;

@@ -9,6 +9,7 @@
 
 class SyncData;
 class Rules;
+
 #include "syncbase.h"
 #include <wx/string.h>
 

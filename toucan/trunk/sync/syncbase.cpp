@@ -5,9 +5,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncbase.h"
+#include "../rules.h"
 #include "../toucan.h"
-#include "../basicfunctions.h"
 #include "../settings.h"
+#include "../basicfunctions.h"
+#include "../data/syncdata.h"
 #include <wx/dir.h>
 #include <wx/filefn.h>
 
@@ -18,6 +20,7 @@ SyncBase::SyncBase(){
 SyncBase::~SyncBase(){
 	;
 }
+
 std::list<wxString> SyncBase::FolderContentsToList(wxString path){
 	std::list<wxString> paths;
 	//Tidy up the path the make sure it is a directory
