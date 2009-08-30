@@ -51,27 +51,27 @@ protected:
 	/*!
 	 * Called when we only have a source file
 	 */
-	virtual void OnSourceNotDestFile(wxString path) = 0;
+	virtual void OnSourceNotDestFile(const wxString &path) = 0;
 	/*!
 	 * Called when we only have a destination file
 	 */
-	virtual void OnNotSourceDestFile(wxString path) = 0;
+	virtual void OnNotSourceDestFile(const wxString &path) = 0;
 	/*!
 	 * Called when we have a source file and a destination file
 	 */
-	virtual void OnSourceAndDestFile(wxString path) = 0;
+	virtual void OnSourceAndDestFile(const wxString &path) = 0;
 	/*!
 	 * Called when we only have a source folder
 	 */
-	virtual void OnSourceNotDestFolder(wxString path) = 0;
+	virtual void OnSourceNotDestFolder(const wxString &path) = 0;
 	/*!
 	 * Called when we only have a destination folder
 	 */
-	virtual void OnNotSourceDestFolder(wxString path) = 0;
+	virtual void OnNotSourceDestFolder(const wxString &path) = 0;
 	/*!
 	 * Called when we have a source file and a destination folder
 	 */
-	virtual void OnSourceAndDestFolder(wxString path) = 0;
+	virtual void OnSourceAndDestFolder(const wxString &path) = 0;
 
 	/*!
 	 * Indicates if we are in preview mode

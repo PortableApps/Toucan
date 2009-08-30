@@ -47,7 +47,7 @@ bool SyncFiles::Execute(){
 	return true;
 }
 
-void SyncFiles::OnSourceNotDestFile(wxString path){
+void SyncFiles::OnSourceNotDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Clean doesnt copy any files
@@ -62,7 +62,7 @@ void SyncFiles::OnSourceNotDestFile(wxString path){
 	}
 }
 
-void SyncFiles::OnNotSourceDestFile(wxString path){
+void SyncFiles::OnNotSourceDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
@@ -77,7 +77,7 @@ void SyncFiles::OnNotSourceDestFile(wxString path){
 	}
 }
 
-void SyncFiles::OnSourceAndDestFile(wxString path){
+void SyncFiles::OnSourceAndDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
@@ -99,7 +99,7 @@ void SyncFiles::OnSourceAndDestFile(wxString path){
 	}
 }
 
-void SyncFiles::OnSourceNotDestFolder(wxString path){
+void SyncFiles::OnSourceNotDestFolder(const wxString &path){
 	//Call the function on the next subfolder
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
@@ -125,7 +125,7 @@ void SyncFiles::OnSourceNotDestFolder(wxString path){
 	}
 }
 
-void SyncFiles::OnNotSourceDestFolder(wxString path){
+void SyncFiles::OnNotSourceDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
@@ -149,7 +149,7 @@ void SyncFiles::OnNotSourceDestFolder(wxString path){
 	}
 }
 
-void SyncFiles::OnSourceAndDestFolder(wxString path){
+void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Always recurse into the next directory
@@ -174,7 +174,7 @@ void SyncFiles::OnSourceAndDestFolder(wxString path){
 	}
 }
 
-bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
+bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	bool ShouldTimeStamp = false;
 	#ifdef __WXMSW__
 		long destAttributes = 0;
@@ -236,7 +236,7 @@ bool SyncFiles::CopyFilePlain(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
+bool SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
 	wxDateTime tmTo, tmFrom;
 	wxFileName flTo(dest);
 	wxFileName flFrom(source);
@@ -252,7 +252,7 @@ bool SyncFiles::CopyFileTimestamp(wxString source, wxString dest){
 	return false;
 }
 
-bool SyncFiles::CopyFileStream(wxString source, wxString dest){
+bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	if(disablestreams){
 		return CopyFilePlain(source, dest);
 	}
@@ -356,7 +356,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 	return true;
 }
 
-bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
+bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest){
 	wxFileName from(source);
 	wxFileName to(dest);
 	wxDateTime access, mod, created;
@@ -365,14 +365,14 @@ bool SyncFiles::CopyFolderTimestamp(wxString source, wxString dest){
 	return true;
 }
 
-bool SyncFiles::RemoveFile(wxString path){
+bool SyncFiles::RemoveFile(const wxString &path){
 	if(wxRemoveFile(path)){
 		OutputProgress(_("Removed ") + path);			
 	}
 	return true;
 }
 
-bool SyncFiles::SourceAndDestCopy(wxString source, wxString dest){
+bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){
 	wxDateTime tmTo, tmFrom;
 	wxFileName flTo(dest);
 	wxFileName flFrom(source);

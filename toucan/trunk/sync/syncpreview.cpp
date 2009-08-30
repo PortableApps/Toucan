@@ -69,7 +69,7 @@ bool SyncPreview::OperationCaller(std::map<const wxString, short> paths){
 	return true;
 }
 
-void SyncPreview::OnSourceNotDestFile(wxString path){
+void SyncPreview::OnSourceNotDestFile(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
@@ -90,7 +90,7 @@ void SyncPreview::OnSourceNotDestFile(wxString path){
 	}
 }
 
-void SyncPreview::OnNotSourceDestFile(wxString path){
+void SyncPreview::OnNotSourceDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
@@ -115,7 +115,7 @@ void SyncPreview::OnNotSourceDestFile(wxString path){
 	}
 }
 
-void SyncPreview::OnSourceAndDestFile(wxString path){
+void SyncPreview::OnSourceAndDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
@@ -184,7 +184,7 @@ void SyncPreview::OnSourceAndDestFile(wxString path){
 	}
 }
 
-void SyncPreview::OnSourceNotDestFolder(wxString path){
+void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
@@ -205,7 +205,7 @@ void SyncPreview::OnSourceNotDestFolder(wxString path){
 	}
 }
 
-void SyncPreview::OnNotSourceDestFolder(wxString path){
+void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
@@ -229,7 +229,7 @@ void SyncPreview::OnNotSourceDestFolder(wxString path){
 	}
 }
 
-void SyncPreview::OnSourceAndDestFolder(wxString path){
+void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Move")){
@@ -242,7 +242,7 @@ void SyncPreview::OnSourceAndDestFolder(wxString path){
 	}
 }
 
-int SyncPreview::GetItemLocation(wxString path, VdtcTreeItemBaseArray* array){
+int SyncPreview::GetItemLocation(const wxString &path, VdtcTreeItemBaseArray* array){
 	for(unsigned int i = 0; i < array->GetCount(); i++){
 		if(array->Item(i)->GetName() == path){
 			return i;
@@ -251,7 +251,7 @@ int SyncPreview::GetItemLocation(wxString path, VdtcTreeItemBaseArray* array){
 	return -1;
 }
 
-bool SyncPreview::ShouldCopy(wxString source, wxString dest){
+bool SyncPreview::ShouldCopy(const wxString &source, const wxString &dest){
 	if(disablestreams){
 		return true;
 	}

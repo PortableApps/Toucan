@@ -30,21 +30,21 @@ public:
 	VdtcTreeItemBaseArray Execute();
 protected:
 	bool OperationCaller(std::map<const wxString, short> paths);
-	void  OnSourceNotDestFile(wxString path);
-	void  OnNotSourceDestFile(wxString path);
-	void  OnSourceAndDestFile(wxString path);
-	void  OnSourceNotDestFolder(wxString path);
-	void  OnNotSourceDestFolder(wxString path);
-	void  OnSourceAndDestFolder(wxString path);
+	void  OnSourceNotDestFile(const wxString &path);
+	void  OnNotSourceDestFile(const wxString &path);
+	void  OnSourceAndDestFile(const wxString &path);
+	void  OnSourceNotDestFolder(const wxString &path);
+	void  OnNotSourceDestFolder(const wxString &path);
+	void  OnSourceAndDestFolder(const wxString &path);
 	/*!
 	 * A copy of the SyncFiles::CopyFileStream function but without any file 
 	 * writing to check if a file should be copied
 	 */
-	bool ShouldCopy(wxString source, wxString dest);
+	bool ShouldCopy(const wxString &source, const wxString &dest);
 private:
 	VdtcTreeItemBaseArray sourceitems;
 	VdtcTreeItemBaseArray destitems;
-	int GetItemLocation(wxString path, VdtcTreeItemBaseArray* array);
+	int GetItemLocation(const wxString &path, VdtcTreeItemBaseArray* array);
 	bool sourcetree;
 };
 

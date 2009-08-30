@@ -27,29 +27,29 @@ public:
 	 */
 	bool Execute();
 protected:
-	virtual void OnSourceNotDestFile(wxString path);
-	virtual void OnNotSourceDestFile(wxString path);
-	virtual void OnSourceAndDestFile(wxString path);
-	virtual void OnSourceNotDestFolder(wxString path);
-	virtual void OnNotSourceDestFolder(wxString path);
-	virtual void OnSourceAndDestFolder(wxString path);
+	virtual void OnSourceNotDestFile(const wxString &path);
+	virtual void OnNotSourceDestFile(const wxString &path);
+	virtual void OnSourceAndDestFile(const wxString &path);
+	virtual void OnSourceNotDestFolder(const wxString &path);
+	virtual void OnNotSourceDestFolder(const wxString &path);
+	virtual void OnSourceAndDestFolder(const wxString &path);
 	/*!
 	 * Copies a file from source to dest
 	 */
-	bool CopyFilePlain(wxString source, wxString dest);
+	bool CopyFilePlain(const wxString &source, const wxString &dest);
 	/*!
 	 * Copies a file from source to dest using streams to see if the files are 
 	 * identical or not
 	 */
-	bool CopyFileStream(wxString source, wxString dest);
+	bool CopyFileStream(const wxString &source, const wxString &dest);
 	/*!
 	 * Copies a file from source to dest but only if the source file is newer
 	 */
-	bool CopyFileTimestamp(wxString source, wxString dest);
+	bool CopyFileTimestamp(const wxString &source, const wxString &dest);
 	/*!
 	 * Copies the folder timestamps from source to dest
 	 */
-	bool CopyFolderTimestamp(wxString source, wxString dest);
+	bool CopyFolderTimestamp(const wxString &source, const wxString &dest);
 	/*!
 	 * Removes the given directory and any sub directories and files
 	 */
@@ -57,11 +57,11 @@ protected:
 	/*!
 	 * Removes the given file
 	 */
-	bool RemoveFile(wxString path);
+	bool RemoveFile(const wxString &path);
 	/*!
 	 * Chooses which file to copy based on which is newer
 	 */
-	bool SourceAndDestCopy(wxString source, wxString dest);
+	bool SourceAndDestCopy(const wxString &source, const wxString &dest);
 };
 
 #endif
