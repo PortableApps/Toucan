@@ -272,7 +272,7 @@ bool SyncPreview::ShouldCopy(wxString source, wxString dest){
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
 	if(size > 2147483648UL){
-		return CopyFilePlain(source, dest);			
+		return true;			
 	}
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
