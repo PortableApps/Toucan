@@ -18,6 +18,12 @@ class wxFileConfig;
 class wxHtmlHelpController;
 
 /*!
+ * \mainpage Toucan
+ * Welcome to the Toucan developer helpfile, if you are a user rather 
+ * than a developer please see the Help tab of Toucan for a relevent helpfile
+ */
+
+/*!
  * Toucan's wxApp, can be accessed by wxGetApp().
  */
 class Toucan: public wxApp{    
