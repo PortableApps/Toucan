@@ -13,9 +13,18 @@ class Rules;
 #include "syncbase.h"
 #include <wx/string.h>
 
+/*!
+ * A specialisation of the SyncBase class for syncing files
+ */
 class SyncFiles : public SyncBase{
 public:
+	/*!
+	 * Constructs a new SyncFiles instance with the given source, destination and data
+	 */
 	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata);
+	/*!
+	 * Runs the sync
+	 */
 	bool Execute();
 protected:
 	virtual void OnSourceNotDestFile(wxString path);
@@ -24,13 +33,34 @@ protected:
 	virtual void OnSourceNotDestFolder(wxString path);
 	virtual void OnNotSourceDestFolder(wxString path);
 	virtual void OnSourceAndDestFolder(wxString path);
+	/*!
+	 * Copies a file from source to dest
+	 */
 	bool CopyFilePlain(wxString source, wxString dest);
+	/*!
+	 * Copies a file from source to dest using streams to see if the files are 
+	 * identical or not
+	 */
 	bool CopyFileStream(wxString source, wxString dest);
+	/*!
+	 * Copies a file from source to dest but only if the source file is newer
+	 */
 	bool CopyFileTimestamp(wxString source, wxString dest);
+	/*!
+	 * Copies the folder timestamps from source to dest
+	 */
 	bool CopyFolderTimestamp(wxString source, wxString dest);
+	/*!
+	 * Removes the given directory and any sub directories and files
+	 */
 	bool RemoveDirectory(wxString path);
+	/*!
+	 * Removes the given file
+	 */
 	bool RemoveFile(wxString path);
-	//Copy the newer file to the older location
+	/*!
+	 * Chooses which file to copy based on which is newer
+	 */
 	bool SourceAndDestCopy(wxString source, wxString dest);
 };
 
