@@ -14,6 +14,8 @@
 #include <wx/gbsizer.h>
 #include <wx/wx.h>
 
+#include <lua.hpp>
+
 #include "frmmain.h"
 #include "frmprogress.h"
 #include "frmvariable.h"
@@ -29,6 +31,12 @@
 #include "../controls/extendeddirctrl.h"
 #include "../controls/vdtc.h"
 #include "../controls/dirctrl.h"
+
+extern "C"
+{
+	extern int luaopen_toucan(lua_State*L);
+	extern int luaopen_example(lua_State*L);
+}
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
@@ -1542,12 +1550,17 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_EXECUTE
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){	
-	wxArrayString arrLines;
-	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
-		arrLines.Add(m_Script_Rich->GetLineText(i));
+	wxGetApp().ProgressWindow->Show();
+	wxString path = wxGetApp().GetSettingsPath() + wxT("luatest.lua");
+	m_Script_Rich->SaveFile(path);
+	lua_State *L = luaL_newstate();
+	luaL_openlibs(L);
+	luaopen_example(L);
+	luaopen_toucan(L);
+	if (luaL_loadfile(L, path.mb_str()) || lua_pcall(L, 0, 0, 0)) {
+		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(L, -1), wxConvUTF8));
+		return;
 	}
-	wxGetApp().m_Script->SetScript(arrLines);
-	wxGetApp().m_Script->Execute();
 }
 
 //ID_SCRIPT_NAME
