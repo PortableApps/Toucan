@@ -30,6 +30,7 @@ public:
     void TextEntered(wxCommandEvent& event);
 	wxString GetPassword();
 
+private:
     wxTextCtrl* m_Password;
     wxTextCtrl* m_PasswordRepeat;
     wxButton* m_OK;
