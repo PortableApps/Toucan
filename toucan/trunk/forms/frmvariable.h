@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 Steven Lamerton
+// Copyright:   Copyright (C) 2008-2009 Steven Lamerton
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _FRMVARIABLE_H_
-#define _FRMVARIABLE_H_
+#ifndef FRMVARIABLE_H
+#define FRMVARIABLE_H
 
 #define ID_FRMVARIABLE 10009
 #define ID_LOCATION 10010
@@ -14,28 +14,28 @@
 #define ID_VARIABLES_COMBO 10013
 #define ID_PREVIEW_TEXT 10014
 
-/*frmVariable, the window used for inserting variables into Toucan*/
 class frmVariable: public wxDialog
-{    
+{
+    DECLARE_DYNAMIC_CLASS(frmVariable)
     DECLARE_EVENT_TABLE()
 
 public:
-    //Constructor
-    frmVariable( wxWindow* parent, wxWindowID id = ID_FRMVARIABLE, const wxString& caption = _("Insert Variable"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(400, 300), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
+	frmVariable();
+    frmVariable(wxWindow* parent, wxWindowID id = ID_FRMVARIABLE, const wxString& caption = _("Insert Variable"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1, -1), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL);
 
-	//Sets up all of the member vaiables
+    bool Create(wxWindow* parent, wxWindowID id = ID_FRMVARIABLE, const wxString& caption = _("Insert Variable"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1, -1), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL);
+
     void Init();
-
-	//Creates the controls and sizers
     void CreateControls();
 
     void OnLocationClick(wxCommandEvent& event);
     void OnVariablesClick(wxCommandEvent& event);
-    void OnOkClick(wxCommandEvent& event);
-    void OnCancelClick(wxCommandEvent& event);
 	void OnTextChange(wxCommandEvent& event);
 
-    wxBitmap GetBitmapResource( const wxString& name );
+	wxString GetValue();
+
+private:
+    wxBitmap GetBitmapResource(const wxString& name);
 
     wxTextCtrl* m_Location_Text;
     wxTextCtrl* m_Preview_Text;
