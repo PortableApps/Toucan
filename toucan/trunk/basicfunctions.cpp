@@ -18,6 +18,7 @@
 #include "toucan.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
+#include "forms/frmpassword.h"
 
 //ATTN : This needs clearing up into smaller files
 
@@ -239,19 +240,9 @@ bool SetScriptsBox(wxComboBox *box){
 wxString InputPassword(){
 	wxString strNewPass;
 	if(wxGetApp().GetUsesGUI()){
-		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"), _("Password"));
-		if (dialog.ShowModal() == wxID_OK) {
-			strNewPass = dialog.GetValue();
-			wxPasswordEntryDialog dialog2(wxGetApp().ProgressWindow, _("Please repeat your password"), _("Password"));
-			if(dialog2.ShowModal() == wxID_OK){
-				if(strNewPass == dialog2.GetValue()){
-					return strNewPass;
-				}
-				else{
-					wxMessageBox(_("The passwords do not match"), _("Error"), wxICON_ERROR);
-					return wxEmptyString;
-				}
-			}
+		frmPassword password(NULL);
+		if(password.ShowModal() == wxID_OK){
+			return password.GetPassword();
 		}
 	}
 	else{

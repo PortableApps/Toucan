@@ -246,6 +246,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\forms\frmpassword.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\forms\frmprogress.cpp"
 				>
 			</File>
@@ -373,6 +377,10 @@
 			</File>
 			<File
 				RelativePath=".\forms\frmmain.h"
+				>
+			</File>
+			<File
+				RelativePath=".\forms\frmpassword.h"
 				>
 			</File>
 			<File
