@@ -35,7 +35,6 @@
 extern "C"
 {
 	extern int luaopen_toucan(lua_State*L);
-	extern int luaopen_example(lua_State*L);
 }
 
 //frmMain event table
@@ -1555,8 +1554,10 @@ void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 	m_Script_Rich->SaveFile(path);
 	lua_State *L = luaL_newstate();
 	luaL_openlibs(L);
-	luaopen_example(L);
 	luaopen_toucan(L);
+	wxString setprint = wxT("print=toucan.OutputProgress");
+	//Set the print function to use the progress window
+	luaL_dostring(L, setprint.mb_str());
 	if (luaL_loadfile(L, path.mb_str()) || lua_pcall(L, 0, 0, 0)) {
 		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(L, -1), wxConvUTF8));
 		return;
