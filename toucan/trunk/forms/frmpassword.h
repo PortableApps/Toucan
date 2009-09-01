@@ -21,9 +21,9 @@ class frmPassword: public wxDialog
 
 public:
     frmPassword();
-    frmPassword(wxWindow* parent, wxWindowID id = ID_FRMPASSWORD, const wxString& caption = _("Input Password"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1, 140), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL);
+    frmPassword(wxWindow* parent, wxWindowID id = ID_FRMPASSWORD, const wxString& caption = _("Input Password"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1, -1), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL);
 
-    bool Create(wxWindow* parent, wxWindowID id = ID_FRMPASSWORD, const wxString& caption = _("Input Password"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1, 140), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL);
+    bool Create(wxWindow* parent, wxWindowID id = ID_FRMPASSWORD, const wxString& caption = _("Input Password"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1, -1), long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL);
 
     void Init();
     void CreateControls();

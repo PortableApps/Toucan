@@ -27,6 +27,10 @@ frmPassword::frmPassword(wxWindow* parent, wxWindowID id, const wxString& captio
 bool frmPassword::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
     wxDialog::Create(parent, id, caption, pos, size, style);
     CreateControls();
+    if (GetSizer())
+    {
+        GetSizer()->SetSizeHints(this);
+    }
     Centre();
     return true;
 }
@@ -50,9 +54,11 @@ void frmPassword::CreateControls(){
     MainSizer->Add(StaticPasswordRepeat, wxGBPosition(1, 0), wxGBSpan(1, 1), wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_Password = new wxTextCtrl(this, ID_PASSWORD, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
+	m_Password->SetMinSize(wxSize(150, -1));
     MainSizer->Add(m_Password, wxGBPosition(0, 1), wxGBSpan(1, 1), wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_PasswordRepeat = new wxTextCtrl(this, ID_PASSWORDREPEAT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
+	m_PasswordRepeat->SetMinSize(wxSize(150, -1));
     MainSizer->Add(m_PasswordRepeat, wxGBPosition(1, 1), wxGBSpan(1, 1), wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
