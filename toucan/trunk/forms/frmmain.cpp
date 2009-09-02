@@ -1083,20 +1083,18 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD_FILEEXCLUDE
 void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), wxEmptyString);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_FileExclude->Append(dialog->GetValue());
+	wxTextEntryDialog dialog(this, _("File to exclude"), wxEmptyString);
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Rules_FileExclude->Append(dialog.GetValue());
 	}
-	delete dialog;
 }
 
 //ID_RULES_ADD_FOLDEREXCLUDE
 void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),wxEmptyString);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_FolderExclude->Append(dialog->GetValue());
+	wxTextEntryDialog dialog(this, _("Folder to exclude"),wxEmptyString);
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Rules_FolderExclude->Append(dialog.GetValue());
 	}
-	delete dialog;
 }
 
 //ID_RULES_REMOVE_FILEEXCLUDE
@@ -1136,15 +1134,14 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Please enter the name for the new rules"), _("New Rules"));
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_Name->AppendString(dialog->GetValue());
-		m_Rules_Name->SetStringSelection(dialog->GetValue());
+	wxTextEntryDialog dialog(this, _("Please enter the name for the new rules"), _("New Rules"));
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Rules_Name->AppendString(dialog.GetValue());
+		m_Rules_Name->SetStringSelection(dialog.GetValue());
 		m_Rules_LocationInclude->Clear();
 		m_Rules_FileExclude->Clear();
 		m_Rules_FolderExclude->Clear();
 	}
-	delete dialog;
 }
 
 //ID_RULES_REMOVE
@@ -1241,11 +1238,10 @@ void frmMain::OnSyncJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD_FILEINCLUDE
 void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"),wxEmptyString);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_LocationInclude->Append(dialog->GetValue());
+	wxTextEntryDialog dialog(this, _("Location to include"),wxEmptyString);
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Rules_LocationInclude->Append(dialog.GetValue());
 	}
-	delete dialog;
 }
 
 //ID_RULES_REMOVE_FILEINCLUDE
