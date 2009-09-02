@@ -1334,6 +1334,11 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 		m_Sync_Source_Tree->SetPreview(true);
 		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
+	else{
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+	}
 	m_Notebook->Enable();
 }
 
