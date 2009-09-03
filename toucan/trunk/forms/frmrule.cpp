@@ -80,7 +80,7 @@ void frmRule::CreateControls(){
     BottomSizer->Add(CancelButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 }
 
-void frmRule::OnTextUpdated(wxCommandEvent& event){
+void frmRule::OnTextUpdated(wxCommandEvent& WXUNUSED(event)){
     wxString rule = m_Rule->GetValue();
     //Regex
     if(rule.Left(1) == wxT("*")){
