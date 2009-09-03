@@ -51,6 +51,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_BUTTON(ID_SYNC_SOURCE_INSERT, frmMain::OnSyncSourceInsertClick)
 	EVT_BUTTON(ID_SYNC_DEST_INSERT, frmMain::OnSyncDestInsertClick)
+	EVT_TEXT_ENTER(ID_SYNC_SOURCE_TXT, frmMain::OnSyncSourceTxtEnter)
+	EVT_TEXT_ENTER(ID_SYNC_DEST_TXT, frmMain::OnSyncDestTxtEnter)
 
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -308,7 +310,7 @@ void frmMain::CreateControls(){
 	wxStaticText* SyncSourceText = new wxStaticText(SyncPanel, wxID_STATIC, _("Source"));
 	SyncMainSizer->Add(SyncSourceText, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Source_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_SOURCE_TXT);
+	m_Sync_Source_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_SOURCE_TXT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	SyncMainSizer->Add(m_Sync_Source_Txt, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
@@ -329,7 +331,7 @@ void frmMain::CreateControls(){
 	wxStaticText* SyncDestText = new wxStaticText(SyncPanel, wxID_STATIC, _("Destination"));
 	SyncMainSizer->Add(SyncDestText, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Dest_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_DEST_TXT);
+	m_Sync_Dest_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_DEST_TXT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	SyncMainSizer->Add(m_Sync_Dest_Txt, wxGBPosition(1, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
@@ -2095,7 +2097,7 @@ void frmMain::OnSettingsFontClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-void frmMain::OnSyncSourceInsertClick(wxCommandEvent& event){
+void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
@@ -2106,7 +2108,7 @@ void frmMain::OnSyncSourceInsertClick(wxCommandEvent& event){
 	}
 }
 
-void frmMain::OnSyncDestInsertClick(wxCommandEvent& event){
+void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
@@ -2114,5 +2116,21 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& event){
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetValue()));
 		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
+	}
+}
+
+void frmMain::OnSyncSourceTxtEnter(wxCommandEvent& WXUNUSED(event)){
+	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+	}
+}
+
+void frmMain::OnSyncDestTxtEnter(wxCommandEvent& WXUNUSED(event)){
+	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
+		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }

@@ -196,6 +196,8 @@ public:
 	void OnSyncTreeCtrlTooltip(wxTreeEvent& event);
 	void OnSyncSourceInsertClick(wxCommandEvent& event);
 	void OnSyncDestInsertClick(wxCommandEvent& event);
+	void OnSyncSourceTxtEnter(wxCommandEvent& event);
+	void OnSyncDestTxtEnter(wxCommandEvent& event);
 	
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
