@@ -57,6 +57,8 @@ class ExtendedDirCtrl;
 #define ID_SYNC_IGNORERO 10069
 #define ID_SYNC_IGNOREDS 10070
 #define ID_SYNC_MOVE 10071
+#define ID_SYNC_SOURCE_INSERT 10072
+#define ID_SYNC_DEST_INSERT 10073
 
 //Backup 10100-10149
 #define ID_PANEL_BACKUP 10100
@@ -192,6 +194,8 @@ public:
 	void OnSyncSourceTreeRightClick(wxTreeEvent& event);
 	void OnSyncDestTreeRightClick(wxTreeEvent& event);
 	void OnSyncTreeCtrlTooltip(wxTreeEvent& event);
+	void OnSyncSourceInsertClick(wxCommandEvent& event);
+	void OnSyncDestInsertClick(wxCommandEvent& event);
 	
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);

@@ -49,6 +49,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_DEST_TREE, frmMain::OnSyncDestTreeRightClick)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_SOURCE_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
+	EVT_BUTTON(ID_SYNC_SOURCE_INSERT, frmMain::OnSyncSourceInsertClick)
+	EVT_BUTTON(ID_SYNC_DEST_INSERT, frmMain::OnSyncDestInsertClick)
 
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -315,8 +317,14 @@ void frmMain::CreateControls(){
 	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
 	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
+	wxBoxSizer* SyncSourceButtonSizer = new wxBoxSizer(wxVERTICAL);
+	SyncMainSizer->Add(SyncSourceButtonSizer, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+
 	wxBitmapButton* SyncSourceExpand = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncMainSizer->Add(SyncSourceExpand, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+	SyncSourceButtonSizer->Add(SyncSourceExpand, 0, wxALIGN_CENTRE_VERTICAL|wxALL, 0);
+
+	wxBitmapButton* SyncSourceInsert = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_INSERT, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncSourceButtonSizer->Add(SyncSourceInsert, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
 
 	wxStaticText* SyncDestText = new wxStaticText(SyncPanel, wxID_STATIC, _("Destination"));
 	SyncMainSizer->Add(SyncDestText, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
@@ -330,8 +338,14 @@ void frmMain::CreateControls(){
 	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
 	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
+	wxBoxSizer* SyncDestButtonSizer = new wxBoxSizer(wxVERTICAL);
+	SyncMainSizer->Add(SyncDestButtonSizer, wxGBPosition(2, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+
 	wxBitmapButton* SyncDestExpand = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncMainSizer->Add(SyncDestExpand, wxGBPosition(2, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+	SyncDestButtonSizer->Add(SyncDestExpand, 0, wxALIGN_CENTRE_VERTICAL|wxALL, 0);
+
+	wxBitmapButton* SyncDestInsert = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_INSERT, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncDestButtonSizer->Add(SyncDestInsert, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
 
 	//Backup
 	wxPanel* BackupPanel = new wxPanel(m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -2078,5 +2092,27 @@ void frmMain::OnSettingsFontClick(wxCommandEvent& WXUNUSED(event)){
 	if(temp.IsOk()){
 		delete m_Font;
 		m_Font = new wxFont(temp);
+	}
+}
+
+void frmMain::OnSyncSourceInsertClick(wxCommandEvent& event){
+	frmVariable dialog(this);
+	if(dialog.ShowModal() == wxID_OK){
+		wxBusyCursor cursor;
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Source_Txt->SetValue(dialog.GetValue());
+	}
+}
+
+void frmMain::OnSyncDestInsertClick(wxCommandEvent& event){
+	frmVariable dialog(this);
+	if(dialog.ShowModal() == wxID_OK){
+		wxBusyCursor cursor;
+		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
 	}
 }
