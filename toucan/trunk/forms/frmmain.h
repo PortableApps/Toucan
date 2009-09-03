@@ -231,6 +231,7 @@ public:
 	void OnRulesRemoveClick(wxCommandEvent& event);
 	void OnRulesAddItemClick(wxCommandEvent& event);
 	void OnRulesRemoveItemClick(wxCommandEvent& event);
+	void OnRulesItemActivated(wxListEvent& event);
 	
 	//Variables
 	void OnVariablesSaveClick(wxCommandEvent& event);

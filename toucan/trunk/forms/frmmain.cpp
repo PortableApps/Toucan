@@ -88,6 +88,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_RULES_REMOVE, frmMain::OnRulesRemoveClick)
 	EVT_BUTTON(ID_RULES_ADDITEM, frmMain::OnRulesAddItemClick)
 	EVT_BUTTON(ID_RULES_REMOVEITEM, frmMain::OnRulesRemoveItemClick)
+	EVT_LIST_ITEM_ACTIVATED(ID_RULES_LIST, frmMain::OnRulesItemActivated)
 	
 	//Variables
 	EVT_BUTTON(ID_VARIABLES_SAVE, frmMain::OnVariablesSaveClick)
@@ -1043,6 +1044,30 @@ void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
 		m_RulesList->SetItem(pos, 1, window.GetType());
 	}
 }
+
+//ID_RULES_LIST
+void frmMain::OnRulesItemActivated(wxListEvent& event){
+	wxListItem itemcol1, itemcol2;
+	itemcol1.m_itemId = event.GetIndex();
+	itemcol1.m_col = 0;
+	itemcol1.m_mask = wxLIST_MASK_TEXT;
+	m_RulesList->GetItem(itemcol1);
+	itemcol2.m_itemId = event.GetIndex();
+	itemcol2.m_col = 1;
+	itemcol2.m_mask = wxLIST_MASK_TEXT;
+	m_RulesList->GetItem(itemcol2);
+
+	frmRule window(this);
+	window.SetRule(itemcol1.m_text);
+	window.SetType(itemcol2.m_text);
+	if(window.ShowModal() == wxID_OK){
+		m_RulesList->SetItem(event.GetIndex(), 0, window.GetRule());
+		m_RulesList->SetItem(event.GetIndex(), 1, window.GetType());
+		m_RulesList->SetColumnWidth(0, -1);
+		m_RulesList->SetColumnWidth(1, -1);
+	}
+}
+
 //ID_RULES_ADD_FOLDEREXCLUDE
 void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
 	wxString selected;
