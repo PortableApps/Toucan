@@ -1042,6 +1042,8 @@ void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
 		int pos = m_RulesList->InsertItem(m_RulesList->GetItemCount(), wxT("Test"));
 		m_RulesList->SetItem(pos, 0, window.GetRule());
 		m_RulesList->SetItem(pos, 1, window.GetType());
+		m_RulesList->SetColumnWidth(0, -1);
+		m_RulesList->SetColumnWidth(1, -1);
 	}
 }
 
