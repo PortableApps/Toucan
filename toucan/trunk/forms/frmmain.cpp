@@ -1761,7 +1761,12 @@ void frmMain::JobSave(const wxString &name, const wxString &type){
 			data->TransferToFile();
 		}
 		else {
-			wxMessageBox(_("Please chose a job to save to"), _("Error"), wxICON_ERROR);
+			wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
+			if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+				data->SetName(dialog.GetValue());
+				data->TransferToForm(this);
+				data->TransferToFile();
+			}
 		}
 	} 
 	delete data;

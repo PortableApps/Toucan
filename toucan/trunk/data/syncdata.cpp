@@ -75,6 +75,13 @@ bool SyncData::TransferToForm(frmMain *window){
 		return false;
 	}
 
+	if(window->m_Sync_Job_Select->GetStringSelection() != GetName()){
+		if(window->m_Sync_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
+			window->m_Sync_Job_Select->AppendString(GetName());
+		}
+		window->m_Sync_Job_Select->SetStringSelection(GetName());
+	}
+
 	window->m_Sync_Source_Txt->SetValue(GetSource());
 	window->m_Sync_Source_Tree->DeleteChildren(window->m_Sync_Source_Tree->GetRootItem());
 	//ATTN : Move the wxEmptyString checks into the DirCtrl code 
