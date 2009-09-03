@@ -129,6 +129,9 @@ frmMain::frmMain(){
 	wxClientDisplayRect(NULL, NULL, &width, &height);
 
 	wxPoint position((int)(wxGetApp().m_Settings->GetX() * width), (int)(wxGetApp().m_Settings->GetY() * height));
+	if(position.x < 0 || position.y < 0 || position.x > width || position.y > height){
+		position = wxDefaultPosition;
+	}
 	wxSize size((int)(wxGetApp().m_Settings->GetWidth() * width), (int)(wxGetApp().m_Settings->GetHeight() * height));
 	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
 
