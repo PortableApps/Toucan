@@ -254,6 +254,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\forms\frmrule.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\forms\frmvariable.cpp"
 				>
 			</File>
@@ -385,6 +389,10 @@
 			</File>
 			<File
 				RelativePath=".\forms\frmprogress.h"
+				>
+			</File>
+			<File
+				RelativePath=".\forms\frmrule.h"
 				>
 			</File>
 			<File

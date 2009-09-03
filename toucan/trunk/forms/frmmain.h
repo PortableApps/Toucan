@@ -109,15 +109,9 @@ class ExtendedDirCtrl;
 #define ID_RULES_SAVE 10202
 #define ID_RULES_ADD 10203
 #define ID_RULES_REMOVE 10204
-#define ID_RULE_FILE_EXCLUDE 10205
-#define ID_RULES_ADD_FILEEXCLUDE 10206
-#define ID_RULES_REMOVE_FILEEXCLUDE 10207
-#define ID_RULES_FOLDER_EXCLUDE 10208
-#define ID_RULES_ADD_FOLDEREXCLUDE 10209
-#define ID_RULES_REMOVE_FOLDEREXCLUDE 10210
-#define ID_RULES_LOCATION_INCLUDE 10211
-#define ID_RULES_ADD_LOCATIONINCLUDE 10212
-#define ID_RULES_REMOVE_LOCATIONINCLUDE 10213
+#define ID_RULES_LIST 10205
+#define ID_RULES_ADDITEM 10206
+#define ID_RULES_REMOVEITEM 10207
 
 //Variables 10250-10299
 #define ID_PANEL_VARIABLES 10250
@@ -235,12 +229,8 @@ public:
 	void OnRulesSaveClick(wxCommandEvent& event);
 	void OnRulesAddClick(wxCommandEvent& event);
 	void OnRulesRemoveClick(wxCommandEvent& event);
-	void OnRulesAddFileexcludeClick(wxCommandEvent& event);
-	void OnRulesRemoveFileexcludeClick(wxCommandEvent& event);
-	void OnRulesAddFolderexcludeClick(wxCommandEvent& event);
-	void OnRulesRemoveFolderexcludeClick(wxCommandEvent& event);
-	void OnRulesAddLocationincludeClick(wxCommandEvent& event);
-	void OnRulesRemoveLocationincludeClick(wxCommandEvent& event);	
+	void OnRulesAddItemClick(wxCommandEvent& event);
+	void OnRulesRemoveItemClick(wxCommandEvent& event);
 	
 	//Variables
 	void OnVariablesSaveClick(wxCommandEvent& event);
@@ -346,9 +336,7 @@ public:
 	
 	//Rules
 	wxComboBox* m_Rules_Name;
-	wxListBox* m_Rules_FileExclude;
-	wxListBox* m_Rules_FolderExclude;
-	wxListBox* m_Rules_LocationInclude;
+	wxListCtrl* m_RulesList;
 	
 	//Variables
 	wxComboBox* m_Variables_Name;
