@@ -1724,8 +1724,15 @@ void frmMain::SetTitleBarText(){
 }
 
 void frmMain::JobAdd(wxComboBox* box){
+	wxArrayString existing = GetJobs(wxEmptyString);
 	wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
 	if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == dialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a job with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
 		box->Append(dialog.GetValue());
 		box->SetStringSelection(dialog.GetValue());
 		SetTitleBarText();

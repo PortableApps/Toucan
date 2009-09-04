@@ -150,7 +150,7 @@ double GetInPB(wxString strValue){
 	return dSize;
 }
 
-wxArrayString GetJobs(wxString type){
+wxArrayString GetJobs(const wxString &type){
 	bool blCont;
 	wxString value;
 	long dummy;
@@ -164,7 +164,15 @@ wxArrayString GetJobs(wxString type){
 				jobs.Add(value);				
 			}
 		}
+		else if(type == wxEmptyString){
+			jobs.Add(value);
+		}
 		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
+	}
+	if(type == wxEmptyString){
+		jobs.Add(_("SyncRemember"));
+		jobs.Add(_("BackupRemember"));
+		jobs.Add(_("SecureRemember"));
 	}
 	return jobs;	
 }
