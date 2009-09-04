@@ -711,6 +711,7 @@ void frmMain::CreateControls(){
 	SettingsSizer->Add(LanguageStaticBoxSizer, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxArrayString m_Settings_LanguageStrings = GetLanguages();
+	m_Settings_LanguageStrings.Sort();
 	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
