@@ -236,7 +236,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	return true;
 }
 
-bool SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
+void SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
 	wxDateTime tmTo, tmFrom;
 	wxFileName flTo(dest);
 	wxFileName flFrom(source);
@@ -247,11 +247,11 @@ bool SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
 	if(tmFrom.IsLaterThan(tmTo)){
-		return CopyFileStream(source, dest);
+		CopyFileStream(source, dest);
 	}
-	return false;
 }
 
+//Returns true is there were no errors
 bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	if(disablestreams){
 		return CopyFilePlain(source, dest);
@@ -267,13 +267,13 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	}
 	
 	if(sourcestream.GetLength() != deststream.GetLength()){
-		return CopyFilePlain(source, dest);			
+		return CopyFilePlain(source, dest);
 	}
 
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
 	if(size > 2147483648UL){
-		return CopyFilePlain(source, dest);			
+		return CopyFilePlain(source, dest);
 	}
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
