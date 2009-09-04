@@ -851,6 +851,8 @@ void frmMain::CreateControls(){
 		SyncJobRemove->SetToolTip(_("Remove"));
 		SyncSourceExpand->SetToolTip(_("Expand all"));
 		SyncDestExpand->SetToolTip(_("Expand all"));
+		SyncSourceInsert->SetToolTip(_("Insert Variable"));
+		SyncDestInsert->SetToolTip(_("Insert Variable"));
 		//Backup
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
