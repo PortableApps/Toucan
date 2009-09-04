@@ -1815,6 +1815,7 @@ void frmMain::ClearToDefault(){
 		m_Backup_Function->SetStringSelection(_("Complete"));
 		m_Backup_Format->SetStringSelection(wxT("Zip"));
 		m_Backup_Ratio->SetValue(3);
+		m_Backup_Ratio_Text->SetLabel(_("Default"));
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
