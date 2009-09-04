@@ -75,7 +75,7 @@ bool SyncData::TransferToForm(frmMain *window){
 		return false;
 	}
 
-	if(window->m_Sync_Job_Select->GetStringSelection() != GetName()){
+	if(GetName() != wxT("SyncRemember") && window->m_Sync_Job_Select->GetStringSelection() != GetName()){
 		if(window->m_Sync_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
 			window->m_Sync_Job_Select->AppendString(GetName());
 		}

@@ -59,7 +59,7 @@ bool SecureData::TransferToForm(frmMain *window){
 		return false;
 	}
 
-	if(window->m_Secure_Job_Select->GetStringSelection() != GetName()){
+	if(GetName() != wxT("SecureRemember") && window->m_Secure_Job_Select->GetStringSelection() != GetName()){
 		if(window->m_Secure_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
 			window->m_Secure_Job_Select->AppendString(GetName());
 		}
