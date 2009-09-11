@@ -104,8 +104,8 @@ bool ParseCommandLine(){
 		OutputProgress(_("The command is not recognised"));
 		return false;
 	}
-	wxLogNull log;
 	{
+		wxLogNull log;
 		res = cmdParser.Parse(false);
 	}
 	if(cmdParser.GetParam(0) == wxT("unittests")){
