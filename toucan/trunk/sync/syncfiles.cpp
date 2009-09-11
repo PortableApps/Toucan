@@ -175,31 +175,19 @@ void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 }
 
 bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
-	bool ShouldTimeStamp = false;
+	//ATTN : Needs linux support
 	#ifdef __WXMSW__
 		long destAttributes = 0;
 		long sourceAttributes = 0;
+		if(data->GetIgnoreRO() || data->GetAttributes()){
+				destAttributes = wxFileExists(dest) ? GetFileAttributes(dest) : FILE_ATTRIBUTE_NORMAL;
+				sourceAttributes = wxFileExists(source) ? GetFileAttributes(source) : FILE_ATTRIBUTE_NORMAL;
+		}
 	#endif
-	if(data->GetIgnoreRO()){
-		//ATTN : Needs linux support
-		#ifdef __WXMSW__
-			destAttributes = GetFileAttributes(dest);
-			if(destAttributes == -1){
-				destAttributes = FILE_ATTRIBUTE_NORMAL;					
-			}
-			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL); 
-			sourceAttributes = GetFileAttributes(source);
-			if(sourceAttributes == -1){
-				sourceAttributes = FILE_ATTRIBUTE_NORMAL;					
-			}
-			SetFileAttributes(source,FILE_ATTRIBUTE_NORMAL); 
-		#endif
-	} 
 
 	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
 		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
 			OutputProgress(_("Copied ") + source);
-			ShouldTimeStamp = true;
 		}
 		else{
 			//If we have failed to rename then it is probably still there, remove it
@@ -212,27 +200,22 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	else{
 		return false;
 	}
-	if(data->GetTimeStamps() && ShouldTimeStamp){
+	if(data->GetTimeStamps()){
 		wxFileName from(source);
 		wxFileName to(dest);
 		wxDateTime access, mod, created;
-		from.GetTimes(&access ,&mod ,&created );
-		to.SetTimes(&access ,&mod , &created); 
+		from.GetTimes(&access, &mod, &created);
+		to.SetTimes(&access, &mod, &created); 
 	}	
-	//Set the old attributes back
-	if(data->GetIgnoreRO()){
-		#ifdef __WXMSW__
+	#ifdef __WXMSW__
+		if(data->GetIgnoreRO()){
 			SetFileAttributes(dest, destAttributes); 
 			SetFileAttributes(source, sourceAttributes); 
-		#endif
-	} 
-	if(data->GetAttributes()){
-		#ifdef __WXMSW__
-			int filearrtibs = GetFileAttributes(source);
-			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL);                       
-			SetFileAttributes(dest,filearrtibs);
-		#endif
-	}
+		} 
+		if(data->GetAttributes()){                   
+			SetFileAttributes(dest, sourceAttributes);
+		}
+	#endif
 	return true;
 }
 
@@ -279,7 +262,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];
 	char *destbuf = new char [4096];
-	wxFileOffset bytesLeft=size;
+	wxFileOffset bytesLeft = size;
 	while(bytesLeft > 0){
 		wxFileOffset bytesToRead=wxMin(4096, bytesLeft);
 		sourcestream.Read(sourcebuf, bytesToRead);
