@@ -185,15 +185,15 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 		}
 	#endif
 
-	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
-		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
+	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
+	if(wxCopyFile(source, desttemp, true)){
+		if(wxRenameFile(desttemp, dest, true)){
 			OutputProgress(_("Copied ") + source);
 		}
 		else{
 			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
-			//If we have failed to rename then it is probably still there, remove it
-			if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
-				wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+			if(wxFileExists(desttemp)){
+				wxRemoveFile(desttemp);
 			}
 			return false;
 		}
