@@ -82,7 +82,7 @@ bool BackupJob::Execute(){
 		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	
 		process->SetRealPid(lgPID);
-		BackupThread *thread = new BackupThread(lgPID, process);
+		BackupThread *thread = new BackupThread(lgPID, process, data);
 
 		thread->Create();
 		thread->Run();
