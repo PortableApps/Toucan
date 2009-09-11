@@ -190,6 +190,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 			OutputProgress(_("Copied ") + source);
 		}
 		else{
+			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
 			//If we have failed to rename then it is probably still there, remove it
 			if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
 				wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
@@ -198,6 +199,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 		}
 	}
 	else{
+		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
 		return false;
 	}
 	if(data->GetTimeStamps()){
