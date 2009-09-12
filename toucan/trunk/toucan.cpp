@@ -263,7 +263,7 @@ void Toucan::KillConime(){
 
 			do{
 				//check if it is a conime process
-				if(pe.szExeFile == wxT("conime.exe") || pe.szExeFile == wxT("conime")){
+				if(wcsncmp(pe.szExeFile, wxT("conime.exe"), sizeof(pe.szExeFile)) || wcsncmp(pe.szExeFile, wxT("conime"), sizeof(pe.szExeFile))){
 					//then if toucan is its parent process
 					if(pe.th32ParentProcessID == toucanpid){
 						//then kill it
