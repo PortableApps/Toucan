@@ -1178,7 +1178,7 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job"), _("Job Save"), wxYES_NO|wxCANCEL);
+	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
 	int ret = dialog.ShowModal();
 	if(ret == wxID_YES){
 		wxCommandEvent newevent;
@@ -1193,7 +1193,7 @@ void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_JOB_ADD
 void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job"), _("Job Save"), wxYES_NO|wxCANCEL);
+	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
 	int ret = dialog.ShowModal();
 	if(ret == wxID_YES){
 		wxCommandEvent newevent;
@@ -1208,7 +1208,7 @@ void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SECURE_JOB_ADD
 void frmMain::OnSecureJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job"), _("Job Save"), wxYES_NO|wxCANCEL);
+	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
 	int ret = dialog.ShowModal();
 	if(ret == wxID_YES){
 		wxCommandEvent newevent;
