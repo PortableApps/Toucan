@@ -13,6 +13,7 @@ BEGIN_EVENT_TABLE(frmRule, wxDialog)
 
     EVT_TEXT(ID_TEXTCTRL, frmRule::OnTextUpdated)
     EVT_TEXT_ENTER(ID_TEXTCTRL, frmRule::OnTextUpdated)
+	EVT_COMBOBOX(ID_COMBOBOX, frmRule::OnTextUpdated)
 
 END_EVENT_TABLE()
 
@@ -96,6 +97,10 @@ void frmRule::OnTextUpdated(wxCommandEvent& WXUNUSED(event)){
     }
     //Date or time
     else if(rule.Left(1) == wxT("<") || rule.Left(1) == wxT(">")){
+		if(m_Type->GetStringSelection() != _("File to Exclude")){
+			m_OK->Enable(false);
+			return;
+		}
         wxDateTime date;
         wxRegEx regex(wxT("(([0-9]+)(kB|MB|GB))"));
         if(date.ParseDate(rule.Right(rule.Length() - 1))){
