@@ -146,6 +146,7 @@ frmMain::frmMain(){
 
 //Destructor
 frmMain::~frmMain(){
+	m_HelpWindow->WriteCustomization(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
 	delete m_Font;
 	delete m_BackupLocations;
 	delete m_SecureLocations;
@@ -756,10 +757,12 @@ void frmMain::CreateControls(){
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, border);
 
 	m_HelpWindow = new wxHtmlHelpWindow;
+	m_HelpWindow->UseConfig(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
     wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
-    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH);
+    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
 	m_HelpWindow->DisplayContents();
+	m_HelpWindow->RefreshLists();
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, border);
 
 	//Add the panels
