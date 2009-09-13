@@ -183,6 +183,9 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 				destAttributes = wxFileExists(dest) ? GetFileAttributes(dest) : FILE_ATTRIBUTE_NORMAL;
 				sourceAttributes = wxFileExists(source) ? GetFileAttributes(source) : FILE_ATTRIBUTE_NORMAL;
 		}
+		if(data->GetIgnoreRO()){
+			SetFileAttributes(source, FILE_ATTRIBUTE_NORMAL;
+		}
 	#endif
 
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
