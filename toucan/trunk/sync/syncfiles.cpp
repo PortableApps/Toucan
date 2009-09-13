@@ -240,7 +240,12 @@ void SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
 	if(data->GetIgnoreDLS()){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
-	if(tmFrom.IsLaterThan(tmTo)){
+	//If they are within two seconds of each other then they are 
+	//likely the same due to filesystem differences (esp ext3)
+	if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
+		return;
+	}
+	else if(tmFrom.IsLaterThan(tmTo)){
 		CopyFileStream(source, dest);
 	}
 }

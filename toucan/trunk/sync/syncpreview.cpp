@@ -143,8 +143,10 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			if(data->GetIgnoreDLS()){
 				tmFrom.MakeTimezone(wxDateTime::Local, true);
 			}
-
-			if(tmFrom.IsLaterThan(tmTo)){
+			if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
+				return
+			}
+			else if(tmFrom.IsLaterThan(tmTo)){
 				if(ShouldCopy(source, dest)){
 					int pos = GetItemLocation(path, &destitems);
 					if(pos != -1){
