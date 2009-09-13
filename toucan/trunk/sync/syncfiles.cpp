@@ -348,10 +348,12 @@ bool SyncFiles::RemoveDirectory(wxString path){
 		while (dir->GetNext(&filename) );
 	} 
 	delete dir;
-  	wxLogNull log;
-	if(wxFileName::Rmdir(path)){
-        OutputProgress(_("Removed ") + path);
-    }
+	{
+  		wxLogNull log;
+		if(wxFileName::Rmdir(path)){
+			OutputProgress(_("Removed ") + path);
+		}
+	}
 	return true;
 }
 
