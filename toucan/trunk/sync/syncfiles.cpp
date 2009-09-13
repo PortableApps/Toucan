@@ -198,11 +198,17 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 			if(wxFileExists(desttemp)){
 				wxRemoveFile(desttemp);
 			}
+			if(data->GetIgnoreRO()){
+				SetFileAttributes(source, sourceAttributes); 
+			} 
 			return false;
 		}
 	}
 	else{
 		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+		if(data->GetIgnoreRO()){
+			SetFileAttributes(source, sourceAttributes); 
+		} 
 		return false;
 	}
 	if(data->GetTimeStamps()){
