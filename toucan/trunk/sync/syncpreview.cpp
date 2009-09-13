@@ -144,7 +144,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				tmFrom.MakeTimezone(wxDateTime::Local, true);
 			}
 			if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
-				return
+				return;
 			}
 			else if(tmFrom.IsLaterThan(tmTo)){
 				if(ShouldCopy(source, dest)){
