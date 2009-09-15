@@ -227,6 +227,10 @@ int Toucan::OnExit(){
 	delete m_Locale;
 	delete m_Settings;
 	delete m_Script;
+	delete m_Jobs_Config;
+	delete m_Rules_Config;
+	delete m_Scripts_Config;
+	delete m_Variables_Config;
 	return wxApp::OnExit();
 }
 
