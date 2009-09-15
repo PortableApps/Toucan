@@ -290,10 +290,9 @@ wxString InputPassword(){
 			cmdParser.AddParam(wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		}
-		int res;
 		{
 			wxLogNull log;
-			res = cmdParser.Parse(false);
+			cmdParser.Parse(false);
 		}
 		if(cmdParser.GetParam(0) == wxT("Script")){
 			if(cmdParser.GetParamCount() == 4 && cmdParser.GetParam(2) == cmdParser.GetParam(3)){
