@@ -256,22 +256,28 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 		return CopyFilePlain(source, dest);
 	}
 
-	wxFileInputStream sourcestream(source);
-	wxFileInputStream deststream(dest);
+	wxFileInputStream *sourcestream = new wxFileInputStream(source);
+	wxFileInputStream *deststream = new wxFileInputStream(dest);
 
 	//Something is wrong with our streams, return error
-	if(!sourcestream.IsOk() || !deststream.IsOk()){
+	if(!sourcestream->IsOk() || !deststream->IsOk()){
 		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+		delete sourcestream;
+		delete deststream;
 		return false;
 	}
 	
-	if(sourcestream.GetLength() != deststream.GetLength()){
+	if(sourcestream->GetLength() != deststream->GetLength()){
+		delete sourcestream;
+		delete deststream;
 		return CopyFilePlain(source, dest);
 	}
 
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
-	wxFileOffset size = sourcestream.GetLength();
+	wxFileOffset size = sourcestream->GetLength();
 	if(size > 2147483648UL){
+		delete sourcestream;
+		delete deststream;
 		return CopyFilePlain(source, dest);
 	}
 
@@ -280,26 +286,30 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	char *destbuf = new char [4096];
 	wxFileOffset bytesLeft = size;
 	while(bytesLeft > 0){
-		wxFileOffset bytesToRead=wxMin(4096, bytesLeft);
-		sourcestream.Read(sourcebuf, bytesToRead);
-		deststream.Read(destbuf, bytesToRead);
-		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
+		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
+		sourcestream->Read(sourcebuf, bytesToRead);
+		deststream->Read(destbuf, bytesToRead);
+		if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
 			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
-			delete sourcebuf;
-			delete destbuf;
+			delete sourcestream;
+			delete deststream;
+			delete[] sourcebuf;
+			delete[] destbuf;
 			return false;
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
-			//Our strings differ, so copy the files
-			//ATTN : In future update the files in place
-			delete sourcebuf;
-			delete destbuf;
+			delete sourcestream;
+			delete deststream;
+			delete[] sourcebuf;
+			delete[] destbuf;
 			return CopyFilePlain(source, dest);
 		}
 		bytesLeft-=bytesToRead;
 	}
-	delete sourcebuf;
-	delete destbuf;
+	delete sourcestream;
+	delete deststream;
+	delete[] sourcebuf;
+	delete[] destbuf;
 	//The two files are actually the same, but update the timestamps
 	if(data->GetTimeStamps()){
 		wxFileName from(source);
