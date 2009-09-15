@@ -32,7 +32,6 @@ bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system"));
 	OutputBlank();
 
-	int res;
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 	int iArgs = wxGetApp().argc;
 	//Job
@@ -106,7 +105,7 @@ bool ParseCommandLine(){
 	}
 	{
 		wxLogNull log;
-		res = cmdParser.Parse(false);
+		cmdParser.Parse(false);
 	}
 	if(cmdParser.GetParam(0) == wxT("unittests")){
 		wxVariant var = CxxTest::ErrorPrinter().run();
