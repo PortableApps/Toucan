@@ -172,6 +172,7 @@ void frmMain::Init(){
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
 	m_Backup_Location = NULL;
+	m_Backup_Location_Txt = NULL;
 	m_Backup_DirCtrl = NULL;
 	m_Backup_TreeCtrl = NULL;
 	m_Backup_Function = NULL;
@@ -1854,6 +1855,7 @@ void frmMain::JobLoad(const wxString &name, const wxString &type){
 		data->TransferToForm(this);
 	}
 	SetTitleBarText();
+	delete data;
 }
 
 void frmMain::ClearToDefault(){
@@ -2073,8 +2075,8 @@ wxArrayString frmMain::GetLanguages(){
 			if(wxDirExists(strPath + strFilename))
 			{
 				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
-					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
+					wxFileConfig config(wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+					wxString strLanguage = config.Read(wxT("General/LanguageCode"));
 					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
 				}
 			}
