@@ -7,6 +7,8 @@
 #ifndef H_SCRIPT
 #define H_SCRIPT
 
+#include <wx/arrstr.h>
+#include <wx/datetime.h>
 class frmProgress;
 
 class ScriptManager{

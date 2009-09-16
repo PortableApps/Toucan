@@ -1531,7 +1531,40 @@ typedef struct{} LANGUAGE_OBJ;
 	#include <wx/string.h>
 
 
+#include "../script.h"
+#include "../data/syncdata.h"
+#include "../sync/syncjob.h"
 #include "../basicfunctions.h"
+#include "../toucan.h"
+
+wxString GetSettingsPath(){
+	return wxGetApp().GetSettingsPath();
+}
+
+void Sync(const wxString &source, const wxString &dest){
+	SyncData* data = new SyncData(wxT("LastSyncJob"));
+	data->SetSource(source);
+	data->SetDest(dest);
+	data->SetFunction(_("Copy"));
+	data->SetIgnoreRO(false);
+	data->SetAttributes(false);
+	data->SetIgnoreDLS(false);
+	data->SetTimeStamps(false);
+	if(data->IsReady()){
+		if(data->TransferToFile()){
+			wxArrayString arrScript;
+			arrScript.Add(wxT("Sync \"LastSyncJob\""));
+			wxGetApp().SetAbort(false);
+			wxGetApp().m_Script->SetScript(arrScript);
+			wxGetApp().m_Script->Execute();
+		}
+	}
+	else{
+		wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+	}
+	delete data;
+}
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -1555,12 +1588,55 @@ fail:
 }
 
 
+static int _wrap_GetSettingsPath(lua_State* L) {
+  int SWIG_arg = 0;
+  wxString result;
+  
+  SWIG_check_num_args("GetSettingsPath",0,0)
+  result = GetSettingsPath();
+  lua_pushlstring(L,(&result)->data(),(&result)->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Sync(lua_State* L) {
+  int SWIG_arg = 0;
+  wxString *arg1 = 0 ;
+  wxString *arg2 = 0 ;
+  wxString temp1 ;
+  wxString temp2 ;
+  
+  SWIG_check_num_args("Sync",2,2)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("Sync",1,"wxString const &");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Sync",2,"wxString const &");
+  temp1 = wxString(lua_tostring(L,1), wxConvUTF8); arg1=&temp1;
+  temp2 = wxString(lua_tostring(L,2), wxConvUTF8); arg2=&temp2;
+  Sync((wxString const &)*arg1,(wxString const &)*arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 #ifdef __cplusplus
 }
 #endif
 
 static const struct luaL_reg swig_commands[] = {
     { "OutputProgress", _wrap_OutputProgress},
+    { "GetSettingsPath", _wrap_GetSettingsPath},
+    { "Sync", _wrap_Sync},
     {0,0}
 };
 
