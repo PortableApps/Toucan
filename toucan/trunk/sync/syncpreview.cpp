@@ -143,8 +143,10 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			if(data->GetIgnoreDLS()){
 				tmFrom.MakeTimezone(wxDateTime::Local, true);
 			}
-
-			if(tmFrom.IsLaterThan(tmTo)){
+			if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
+				return;
+			}
+			else if(tmFrom.IsLaterThan(tmTo)){
 				if(ShouldCopy(source, dest)){
 					int pos = GetItemLocation(path, &destitems);
 					if(pos != -1){
@@ -278,26 +280,26 @@ bool SyncPreview::ShouldCopy(const wxString &source, const wxString &dest){
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];
 	char *destbuf = new char [4096];
-	wxFileOffset bytesLeft=size;
+	wxFileOffset bytesLeft = size;
 	while(bytesLeft > 0){
 		wxGetApp().Yield();
-		wxFileOffset bytesToRead=wxMin(4096, bytesLeft);
+		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
 		sourcestream.Read(sourcebuf, bytesToRead);
 		deststream.Read(destbuf, bytesToRead);
 		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
-			delete sourcebuf;
-			delete destbuf;
+			delete[] sourcebuf;
+			delete[] destbuf;
 			return false;
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
-			delete sourcebuf;
-			delete destbuf;
+			delete[] sourcebuf;
+			delete[] destbuf;
 			return true;
 		}
-		bytesLeft-=bytesToRead;
+		bytesLeft -= bytesToRead;
 	}
 	//The two files are actually the same
-	delete sourcebuf;
-	delete destbuf;
+	delete[] sourcebuf;
+	delete[] destbuf;
 	return false;
 }

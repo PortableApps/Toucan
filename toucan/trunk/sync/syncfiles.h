@@ -45,7 +45,7 @@ protected:
 	/*!
 	 * Copies a file from source to dest but only if the source file is newer
 	 */
-	bool CopyFileTimestamp(const wxString &source, const wxString &dest);
+	void CopyFileTimestamp(const wxString &source, const wxString &dest);
 	/*!
 	 * Copies the folder timestamps from source to dest
 	 */

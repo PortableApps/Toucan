@@ -7,6 +7,7 @@
 #include "../toucan.h"
 #include "backupthread.h"
 #include "backupprocess.h"
+#include "../data/backupdata.h"
 #include "../forms/frmprogress.h"
 
 #ifdef __WXMSW__
@@ -40,6 +41,10 @@ void *BackupThread::Entry(){
 	#endif
 	while(m_Process->HasInput())
 			;
+	//Tidy up any temp files
+	if(wxFileExists(m_Data->GetFileLocation() + wxT(".tmp"))){
+		wxRemoveFile(m_Data->GetFileLocation() + wxT(".tmp"));
+	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 	wxPostEvent(wxGetApp().ProgressWindow, event);	
 	return NULL;

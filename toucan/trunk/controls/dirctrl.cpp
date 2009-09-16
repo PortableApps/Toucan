@@ -82,7 +82,7 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 		DirCtrlItem *newitem;
 		wxTreeItemId child = GetFirstChild(item->GetId(), cookie);
 		while(child.IsOk()){
-			newitem = (DirCtrlItem*)GetItemData(child);
+			newitem = static_cast<DirCtrlItem*>(GetItemData(child));
 			if(newitem->GetType() == DIRCTRL_FOLDER) {
 				AddDirectory(newitem, (depth == -1 ? -1 : depth - 1));
 			}
@@ -102,7 +102,7 @@ void DirCtrl::OnItemAdded(wxTreeItemId WXUNUSED(id)){
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 	wxTreeItemId id = event.GetItem();
 	if (id.IsOk()) {
-		DirCtrlItem *item = (DirCtrlItem*)GetItemData(id);
+		DirCtrlItem *item = static_cast<DirCtrlItem*>(GetItemData(id));
 		if (item->GetType() == DIRCTRL_FOLDER){
 			AddDirectory(item, GetScanDepth());
 		}

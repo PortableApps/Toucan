@@ -18,6 +18,7 @@
 #include "toucan.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
+#include "forms/frmpassword.h"
 
 //ATTN : This needs clearing up into smaller files
 
@@ -149,7 +150,7 @@ double GetInPB(wxString strValue){
 	return dSize;
 }
 
-wxArrayString GetJobs(wxString type){
+wxArrayString GetJobs(const wxString &type){
 	bool blCont;
 	wxString value;
 	long dummy;
@@ -163,7 +164,15 @@ wxArrayString GetJobs(wxString type){
 				jobs.Add(value);				
 			}
 		}
+		else if(type == wxEmptyString){
+			jobs.Add(value);
+		}
 		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
+	}
+	if(type == wxEmptyString){
+		jobs.Add(_("SyncRemember"));
+		jobs.Add(_("BackupRemember"));
+		jobs.Add(_("SecureRemember"));
 	}
 	return jobs;	
 }
@@ -239,19 +248,9 @@ bool SetScriptsBox(wxComboBox *box){
 wxString InputPassword(){
 	wxString strNewPass;
 	if(wxGetApp().GetUsesGUI()){
-		wxPasswordEntryDialog dialog(wxGetApp().ProgressWindow, _("Please enter your password"), _("Password"));
-		if (dialog.ShowModal() == wxID_OK) {
-			strNewPass = dialog.GetValue();
-			wxPasswordEntryDialog dialog2(wxGetApp().ProgressWindow, _("Please repeat your password"), _("Password"));
-			if(dialog2.ShowModal() == wxID_OK){
-				if(strNewPass == dialog2.GetValue()){
-					return strNewPass;
-				}
-				else{
-					wxMessageBox(_("The passwords do not match"), _("Error"), wxICON_ERROR);
-					return wxEmptyString;
-				}
-			}
+		frmPassword password(NULL);
+		if(password.ShowModal() == wxID_OK){
+			return password.GetPassword();
 		}
 	}
 	else{
@@ -291,10 +290,9 @@ wxString InputPassword(){
 			cmdParser.AddParam(wxT("Password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 			cmdParser.AddParam(wxT("Repeated password"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY);
 		}
-		int res;
 		{
 			wxLogNull log;
-			res = cmdParser.Parse(false);
+			cmdParser.Parse(false);
 		}
 		if(cmdParser.GetParam(0) == wxT("Script")){
 			if(cmdParser.GetParamCount() == 4 && cmdParser.GetParam(2) == cmdParser.GetParam(3)){

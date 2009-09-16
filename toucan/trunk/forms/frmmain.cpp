@@ -17,6 +17,7 @@
 #include <lua.hpp>
 
 #include "frmmain.h"
+#include "frmrule.h"
 #include "frmprogress.h"
 #include "frmvariable.h"
 #include "../toucan.h"
@@ -55,6 +56,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SYNC_DEST_TREE, frmMain::OnSyncDestTreeRightClick)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_SOURCE_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
+	EVT_BUTTON(ID_SYNC_SOURCE_INSERT, frmMain::OnSyncSourceInsertClick)
+	EVT_BUTTON(ID_SYNC_DEST_INSERT, frmMain::OnSyncDestInsertClick)
+	EVT_TEXT_ENTER(ID_SYNC_SOURCE_TXT, frmMain::OnSyncSourceTxtEnter)
+	EVT_TEXT_ENTER(ID_SYNC_DEST_TXT, frmMain::OnSyncDestTxtEnter)
 
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -92,12 +97,9 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_RULES_SAVE, frmMain::OnRulesSaveClick)
 	EVT_BUTTON(ID_RULES_ADD, frmMain::OnRulesAddClick)
 	EVT_BUTTON(ID_RULES_REMOVE, frmMain::OnRulesRemoveClick)
-	EVT_BUTTON(ID_RULES_ADD_FILEEXCLUDE, frmMain::OnRulesAddFileexcludeClick)
-	EVT_BUTTON(ID_RULES_REMOVE_FILEEXCLUDE, frmMain::OnRulesRemoveFileexcludeClick)
-	EVT_BUTTON(ID_RULES_ADD_FOLDEREXCLUDE, frmMain::OnRulesAddFolderexcludeClick)
-	EVT_BUTTON(ID_RULES_REMOVE_FOLDEREXCLUDE, frmMain::OnRulesRemoveFolderexcludeClick)
-	EVT_BUTTON(ID_RULES_ADD_LOCATIONINCLUDE, frmMain::OnRulesAddLocationincludeClick)
-	EVT_BUTTON(ID_RULES_REMOVE_LOCATIONINCLUDE, frmMain::OnRulesRemoveLocationincludeClick)
+	EVT_BUTTON(ID_RULES_ADDITEM, frmMain::OnRulesAddItemClick)
+	EVT_BUTTON(ID_RULES_REMOVEITEM, frmMain::OnRulesRemoveItemClick)
+	EVT_LIST_ITEM_ACTIVATED(ID_RULES_LIST, frmMain::OnRulesItemActivated)
 	
 	//Variables
 	EVT_BUTTON(ID_VARIABLES_SAVE, frmMain::OnVariablesSaveClick)
@@ -138,6 +140,9 @@ frmMain::frmMain(){
 	wxClientDisplayRect(NULL, NULL, &width, &height);
 
 	wxPoint position((int)(wxGetApp().m_Settings->GetX() * width), (int)(wxGetApp().m_Settings->GetY() * height));
+	if(position.x < 0 || position.y < 0 || position.x > width || position.y > height){
+		position = wxDefaultPosition;
+	}
 	wxSize size((int)(wxGetApp().m_Settings->GetWidth() * width), (int)(wxGetApp().m_Settings->GetHeight() * height));
 	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
 
@@ -148,6 +153,7 @@ frmMain::frmMain(){
 
 //Destructor
 frmMain::~frmMain(){
+	m_HelpWindow->WriteCustomization(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
 	delete m_Font;
 	delete m_BackupLocations;
 	delete m_SecureLocations;
@@ -173,6 +179,7 @@ void frmMain::Init(){
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
 	m_Backup_Location = NULL;
+	m_Backup_Location_Txt = NULL;
 	m_Backup_DirCtrl = NULL;
 	m_Backup_TreeCtrl = NULL;
 	m_Backup_Function = NULL;
@@ -189,9 +196,7 @@ void frmMain::Init(){
 	m_Secure_Pass = NULL;
 	m_Secure_Repass = NULL;
 	m_Rules_Name = NULL;
-	m_Rules_FileExclude = NULL;
-	m_Rules_FolderExclude = NULL;
-	m_Rules_LocationInclude = NULL;
+	m_RulesList = NULL;
 	m_Script_Rich = NULL;
 	
 	menuTree = NULL;
@@ -314,7 +319,7 @@ void frmMain::CreateControls(){
 	wxStaticText* SyncSourceText = new wxStaticText(SyncPanel, wxID_STATIC, _("Source"));
 	SyncMainSizer->Add(SyncSourceText, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Source_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_SOURCE_TXT);
+	m_Sync_Source_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_SOURCE_TXT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	SyncMainSizer->Add(m_Sync_Source_Txt, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
@@ -323,13 +328,19 @@ void frmMain::CreateControls(){
 	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
 	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
+	wxBoxSizer* SyncSourceButtonSizer = new wxBoxSizer(wxVERTICAL);
+	SyncMainSizer->Add(SyncSourceButtonSizer, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+
 	wxBitmapButton* SyncSourceExpand = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncMainSizer->Add(SyncSourceExpand, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+	SyncSourceButtonSizer->Add(SyncSourceExpand, 0, wxALIGN_CENTRE_VERTICAL|wxALL, 0);
+
+	wxBitmapButton* SyncSourceInsert = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_INSERT, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncSourceButtonSizer->Add(SyncSourceInsert, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
 
 	wxStaticText* SyncDestText = new wxStaticText(SyncPanel, wxID_STATIC, _("Destination"));
 	SyncMainSizer->Add(SyncDestText, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Dest_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_DEST_TXT);
+	m_Sync_Dest_Txt = new wxTextCtrl(SyncPanel, ID_SYNC_DEST_TXT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	SyncMainSizer->Add(m_Sync_Dest_Txt, wxGBPosition(1, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
@@ -338,8 +349,14 @@ void frmMain::CreateControls(){
 	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
 	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
+	wxBoxSizer* SyncDestButtonSizer = new wxBoxSizer(wxVERTICAL);
+	SyncMainSizer->Add(SyncDestButtonSizer, wxGBPosition(2, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+
 	wxBitmapButton* SyncDestExpand = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SyncMainSizer->Add(SyncDestExpand, wxGBPosition(2, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+	SyncDestButtonSizer->Add(SyncDestExpand, 0, wxALIGN_CENTRE_VERTICAL|wxALL, 0);
+
+	wxBitmapButton* SyncDestInsert = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_INSERT, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncDestButtonSizer->Add(SyncDestInsert, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
 
 	//Backup
 	wxPanel* BackupPanel = new wxPanel(m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -590,60 +607,22 @@ void frmMain::CreateControls(){
 	RulesNameSizer->Add(RulesNameRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Rules - Main
-	wxGridBagSizer* RulesMainSizer = new wxGridBagSizer(0, 0);
-	RulesMainSizer->AddGrowableRow(1);
-	RulesMainSizer->AddGrowableRow(3);
-	RulesMainSizer->AddGrowableRow(5);
-	RulesMainSizer->AddGrowableCol(0);
-	RulesSizer->Add(RulesMainSizer, 1, wxEXPAND|wxALL, border);
+    wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
+    RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
 
-	wxStaticText* RulesFilesExStatic = new wxStaticText(RulesPanel, wxID_STATIC, _("Files to exclude (file name, path or extension)"), wxDefaultPosition, wxDefaultSize, 0);
-	RulesMainSizer->Add(RulesFilesExStatic, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, border);
+    m_RulesList = new wxListCtrl(RulesPanel, ID_RULES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
+	m_RulesList->InsertColumn(0, _("Rule"));
+	m_RulesList->InsertColumn(1, _("Type"));
+    RulesMainSizer->Add(m_RulesList, 1, wxGROW|wxALL, border);
 
-	wxArrayString m_Rules_FileExcludeStrings;
-	m_Rules_FileExclude = new wxListBox(RulesPanel, ID_RULE_FILE_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FileExcludeStrings, wxLB_SINGLE|wxBORDER_THEME);
-	RulesMainSizer->Add(m_Rules_FileExclude, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
+    wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
+    RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxBoxSizer* RulesFileExButtonSizer = new wxBoxSizer(wxVERTICAL);
-	RulesMainSizer->Add(RulesFileExButtonSizer, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
+    wxBitmapButton* RulesAddItem = new wxBitmapButton(RulesPanel, ID_RULES_ADDITEM, GetBitmapResource(wxT("add.png")));
+    RulesRightSizer->Add(RulesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-	wxBitmapButton* RulesFileExAdd = new wxBitmapButton(RulesPanel, ID_RULES_ADD_FILEEXCLUDE, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	RulesFileExButtonSizer->Add(RulesFileExAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
-
-	wxBitmapButton* RulesFileExRem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVE_FILEEXCLUDE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	RulesFileExButtonSizer->Add(RulesFileExRem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
-
-	wxStaticText* RulesFolderExStatic = new wxStaticText(RulesPanel, wxID_STATIC, _("Folders to exclude (folder name or path)"), wxDefaultPosition, wxDefaultSize, 0);
-	RulesMainSizer->Add(RulesFolderExStatic, wxGBPosition(2, 0), wxGBSpan(1, 1), wxALL, border);
-
-	wxArrayString m_Rules_FolderExcludeStrings;
-	m_Rules_FolderExclude = new wxListBox(RulesPanel, ID_RULES_FOLDER_EXCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_FolderExcludeStrings, wxLB_SINGLE|wxBORDER_THEME);
-	RulesMainSizer->Add(m_Rules_FolderExclude, wxGBPosition(3, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
-
-	wxBoxSizer* RulesFolderExButtonSizer = new wxBoxSizer(wxVERTICAL);
-	RulesMainSizer->Add(RulesFolderExButtonSizer, wxGBPosition(3, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
-
-	wxBitmapButton* RulesFolderExAdd = new wxBitmapButton(RulesPanel, ID_RULES_ADD_FOLDEREXCLUDE, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	RulesFolderExButtonSizer->Add(RulesFolderExAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
-
-	wxBitmapButton* RulesFolderExRem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVE_FOLDEREXCLUDE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	RulesFolderExButtonSizer->Add(RulesFolderExRem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
-
-	wxStaticText* RulesIncludeStatic = new wxStaticText(RulesPanel, wxID_STATIC, _("Locations to always include (file/folder name, path or  file extension)"), wxDefaultPosition, wxDefaultSize, 0);
-	RulesMainSizer->Add(RulesIncludeStatic, wxGBPosition(4, 0), wxGBSpan(1, 1), wxALL, border);
-
-	wxArrayString m_Rules_LocationIncludeStrings;
-	m_Rules_LocationInclude = new wxListBox(RulesPanel, ID_RULES_LOCATION_INCLUDE, wxDefaultPosition, wxDefaultSize, m_Rules_LocationIncludeStrings, wxLB_SINGLE|wxBORDER_THEME);
-	RulesMainSizer->Add(m_Rules_LocationInclude, wxGBPosition(5, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
-
-	wxBoxSizer* RulesIncludeButtonSizer = new wxBoxSizer(wxVERTICAL);
-	RulesMainSizer->Add(RulesIncludeButtonSizer, wxGBPosition(5, 1), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
-
-	wxBitmapButton* RulesIncludeAdd = new wxBitmapButton(RulesPanel, ID_RULES_ADD_LOCATIONINCLUDE, GetBitmapResource(wxT("add.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	RulesIncludeButtonSizer->Add(RulesIncludeAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
-
-	wxBitmapButton* RulesIncludeRem= new wxBitmapButton(RulesPanel, ID_RULES_REMOVE_LOCATIONINCLUDE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	RulesIncludeButtonSizer->Add(RulesIncludeRem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+    wxBitmapButton* RulesRemoveItem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
+    RulesRightSizer->Add(RulesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
 	//Variables
 	wxPanel* VariablesPanel = new wxPanel(m_Notebook, ID_PANEL_VARIABLES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -741,6 +720,7 @@ void frmMain::CreateControls(){
 	SettingsSizer->Add(LanguageStaticBoxSizer, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxArrayString m_Settings_LanguageStrings = GetLanguages();
+	m_Settings_LanguageStrings.Sort();
 	m_Settings_Language = new wxComboBox(SettingsPanel, ID_SETTINGS_LANGUAGE, _T(""), wxDefaultPosition, wxDefaultSize, m_Settings_LanguageStrings, wxCB_DROPDOWN|wxCB_READONLY);
 	m_Settings_Language->SetMinSize(wxSize(125, -1));
 	m_Settings_Language->SetStringSelection(wxLocale::FindLanguageInfo(wxGetApp().m_Settings->GetLanguageCode())->Description);
@@ -785,10 +765,12 @@ void frmMain::CreateControls(){
 	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, border);
 
 	m_HelpWindow = new wxHtmlHelpWindow;
+	m_HelpWindow->UseConfig(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
     wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
-    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH);
+    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
 	m_HelpWindow->DisplayContents();
+	m_HelpWindow->RefreshLists();
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, border);
 
 	//Add the panels
@@ -881,6 +863,8 @@ void frmMain::CreateControls(){
 		SyncJobRemove->SetToolTip(_("Remove"));
 		SyncSourceExpand->SetToolTip(_("Expand all"));
 		SyncDestExpand->SetToolTip(_("Expand all"));
+		SyncSourceInsert->SetToolTip(_("Insert Variable"));
+		SyncDestInsert->SetToolTip(_("Insert Variable"));
 		//Backup
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
@@ -901,12 +885,8 @@ void frmMain::CreateControls(){
 		RulesNameSave->SetToolTip(_("Save"));
 		RulesNameAdd->SetToolTip(_("Add"));
 		RulesNameRemove->SetToolTip(_("Remove"));
-		RulesFileExAdd->SetToolTip(_("Add"));
-		RulesFileExRem->SetToolTip(_("Remove"));
-		RulesFolderExAdd->SetToolTip(_("Add"));
-		RulesFolderExRem->SetToolTip(_("Remove"));
-		RulesIncludeAdd->SetToolTip(_("Add"));
-		RulesIncludeRem->SetToolTip(_("Remove"));
+		RulesAddItem->SetToolTip(_("Add"));
+		RulesRemoveItem->SetToolTip(_("Remove"));
 		//Variables
 		VariablesNameAdd->SetToolTip(_("Add"));
 		VariablesNameRemove->SetToolTip(_("Remove"));
@@ -1088,32 +1068,53 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-//ID_RULES_ADD_FILEEXCLUDE
-void frmMain::OnRulesAddFileexcludeClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("File to exclude"), wxEmptyString);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_FileExclude->Append(dialog->GetValue());
+//ID_RULES_ADDITEM
+void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
+	frmRule window(this);
+	if(window.ShowModal() == wxID_OK){
+		int pos = m_RulesList->InsertItem(m_RulesList->GetItemCount(), wxT("Test"));
+		m_RulesList->SetItem(pos, 0, window.GetRule());
+		m_RulesList->SetItem(pos, 1, window.GetType());
+		m_RulesList->SetColumnWidth(0, -1);
+		m_RulesList->SetColumnWidth(1, -1);
 	}
-	delete dialog;
+}
+
+//ID_RULES_LIST
+void frmMain::OnRulesItemActivated(wxListEvent& event){
+	wxListItem itemcol1, itemcol2;
+	itemcol1.m_itemId = event.GetIndex();
+	itemcol1.m_col = 0;
+	itemcol1.m_mask = wxLIST_MASK_TEXT;
+	m_RulesList->GetItem(itemcol1);
+	itemcol2.m_itemId = event.GetIndex();
+	itemcol2.m_col = 1;
+	itemcol2.m_mask = wxLIST_MASK_TEXT;
+	m_RulesList->GetItem(itemcol2);
+
+	frmRule window(this);
+	window.SetRule(itemcol1.m_text);
+	window.SetType(itemcol2.m_text);
+	if(window.ShowModal() == wxID_OK){
+		m_RulesList->SetItem(event.GetIndex(), 0, window.GetRule());
+		m_RulesList->SetItem(event.GetIndex(), 1, window.GetType());
+		m_RulesList->SetColumnWidth(0, -1);
+		m_RulesList->SetColumnWidth(1, -1);
+	}
 }
 
 //ID_RULES_ADD_FOLDEREXCLUDE
-void frmMain::OnRulesAddFolderexcludeClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Folder to exclude"),wxEmptyString);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_FolderExclude->Append(dialog->GetValue());
+void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
+	wxString selected;
+	long item = -1;
+	for (;;)
+	{
+		item = m_RulesList->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if(item == -1)
+			break;
+		selected = m_RulesList->GetItemText(item);
+		m_RulesList->DeleteItem(item);
 	}
-	delete dialog;
-}
-
-//ID_RULES_REMOVE_FILEEXCLUDE
-void frmMain::OnRulesRemoveFileexcludeClick(wxCommandEvent& WXUNUSED(event)){
-	m_Rules_FileExclude->Delete(m_Rules_FileExclude->GetSelection());
-}
-
-//ID_RULES_REMOVE_FOLDEREXCLUDE
-void frmMain::OnRulesRemoveFolderexcludeClick(wxCommandEvent& WXUNUSED(event)){
-	m_Rules_FolderExclude->Delete(m_Rules_FolderExclude->GetSelection());
 }
 
 //ID_RULES_SAVE
@@ -1143,22 +1144,17 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Please enter the name for the new rules"), _("New Rules"));
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_Name->AppendString(dialog->GetValue());
-		m_Rules_Name->SetStringSelection(dialog->GetValue());
-		m_Rules_LocationInclude->Clear();
-		m_Rules_FileExclude->Clear();
-		m_Rules_FolderExclude->Clear();
+	wxTextEntryDialog dialog(this, _("Please enter the name for the new rules"), _("New Rules"));
+	if (dialog.ShowModal() == wxID_OK) {
+		m_Rules_Name->AppendString(dialog.GetValue());
+		m_Rules_Name->SetStringSelection(dialog.GetValue());
+		//m_Rules_LocationInclude->Clear();
 	}
-	delete dialog;
 }
 
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	m_Rules_LocationInclude->Clear();
-	m_Rules_FileExclude->Clear();
-	m_Rules_FolderExclude->Clear();
+	//m_Rules_LocationInclude->Clear();
 	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
@@ -1167,10 +1163,7 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	//Clear the existing rules
-	m_Rules_LocationInclude->Clear();
-	m_Rules_FileExclude->Clear();
-	m_Rules_FolderExclude->Clear();
-
+	//m_Rules_LocationInclude->Clear();
 	Rules rules(m_Rules_Name->GetStringSelection());
 	if (rules.TransferFromFile()) {
 		rules.TransferToForm(this);
@@ -1196,18 +1189,45 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
+	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnSyncJobSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
 	JobAdd(m_Sync_Job_Select);
 	UpdateSizer(SyncTopSizer);
 }
 
 //ID_BACKUP_JOB_ADD
 void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
+	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnBackupJobSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
 	JobAdd(m_Backup_Job_Select);
 	UpdateSizer(BackupTopSizer);
 }
 
 //ID_SECURE_JOB_ADD
 void frmMain::OnSecureJobAddClick(wxCommandEvent& WXUNUSED(event)){
+	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnSecureJobSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
 	JobAdd(m_Secure_Job_Select);
 	UpdateSizer(SecureTopSizer);
 }
@@ -1244,20 +1264,6 @@ void frmMain::OnSecureJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
 //ID_SYNC_JOB_SELECT
 void frmMain::OnSyncJobSelectSelected(wxCommandEvent& WXUNUSED(event)){
 	JobLoad(m_Sync_Job_Select->GetStringSelection(), wxT("Sync"));
-}
-
-//ID_RULES_ADD_FILEINCLUDE
-void frmMain::OnRulesAddLocationincludeClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog *dialog = new wxTextEntryDialog(this, _("Location to include"),wxEmptyString);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Rules_LocationInclude->Append(dialog->GetValue());
-	}
-	delete dialog;
-}
-
-//ID_RULES_REMOVE_FILEINCLUDE
-void frmMain::OnRulesRemoveLocationincludeClick(wxCommandEvent& WXUNUSED(event)){
-	m_Rules_LocationInclude->Delete(m_Rules_LocationInclude->GetSelection());
 }
 
 //ID_BACKUP_LOCATION
@@ -1345,6 +1351,11 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 		m_Sync_Source_Tree->SetPreview(true);
 		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
+	else{
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+	}
 	m_Notebook->Enable();
 }
 
@@ -1397,7 +1408,29 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 
-	wxGetApp().m_Settings->TransferToFile();	
+	wxGetApp().m_Settings->TransferToFile();
+
+	if(wxGetApp().m_Settings->GetRememberSync()){
+		SyncData data(wxT("SyncRemember"));
+		data.TransferFromForm(this);
+		data.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+	if(wxGetApp().m_Settings->GetRememberBackup()){	
+		BackupData bdata(wxT("BackupRemember"));
+		bdata.TransferFromForm(this);
+		bdata.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
+	if(wxGetApp().m_Settings->GetRememberSecure()){
+		SecureData sdata(wxT("SecureRemember"));
+		sdata.TransferFromForm(this);
+		sdata.TransferToFile();
+		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
+		wxGetApp().m_Jobs_Config->Flush();
+	}
 
 	wxGetApp().MainWindow->Destroy();
 	wxGetApp().ProgressWindow->Destroy();
@@ -1626,29 +1659,27 @@ void frmMain::OnBackupRatioChanged(wxScrollEvent& WXUNUSED(event)){
 
 //ID_BACKUP_ADDVAR
 void frmMain::OnBackupAddVarClick(wxCommandEvent& WXUNUSED(event)){
-	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
-	if(window->ShowModal() == wxID_OK){
-		m_BackupLocations->Add(window->m_Location_Text->GetValue());
-		m_Backup_TreeCtrl->AddNewPath(Normalise(window->m_Preview_Text->GetValue()));
+	frmVariable window(this);
+	if(window.ShowModal() == wxID_OK){
+		m_BackupLocations->Add(window.GetValue());
+		m_Backup_TreeCtrl->AddNewPath(Normalise(window.GetValue()));
 	}
-	delete window;
 }
 
 //ID_SECURE_ADDVAR
 void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
-	frmVariable* window = new frmVariable(NULL, ID_FRMVARIABLE, _("Insert Variable"));
-	if(window->ShowModal() == wxID_OK){
-		m_SecureLocations->Add(window->m_Location_Text->GetValue());
-		m_Secure_TreeCtrl->AddNewPath(Normalise(window->m_Preview_Text->GetValue()));
+	frmVariable window(this);
+	if(window.ShowModal() == wxID_OK){
+		m_SecureLocations->Add(window.GetValue());
+		m_Secure_TreeCtrl->AddNewPath(Normalise(window.GetValue()));
 	}
-	delete window;	
 }
 
 //wxID_ABOUT
 void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.1.3"));
+	info.SetVersion(wxT("2.2.0"));
 	info.SetDescription(wxString::Format(wxT("Built on %s at %s"), __TDATE__, __TTIME__));
 	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
@@ -1761,8 +1792,15 @@ void frmMain::SetTitleBarText(){
 }
 
 void frmMain::JobAdd(wxComboBox* box){
+	wxArrayString existing = GetJobs(wxEmptyString);
 	wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
 	if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == dialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a job with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
 		box->Append(dialog.GetValue());
 		box->SetStringSelection(dialog.GetValue());
 		SetTitleBarText();
@@ -1800,7 +1838,12 @@ void frmMain::JobSave(const wxString &name, const wxString &type){
 			data->TransferToFile();
 		}
 		else {
-			wxMessageBox(_("Please chose a job to save to"), _("Error"), wxICON_ERROR);
+			wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
+			if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+				data->SetName(dialog.GetValue());
+				data->TransferToForm(this);
+				data->TransferToFile();
+			}
 		}
 	} 
 	delete data;
@@ -1826,6 +1869,7 @@ void frmMain::JobLoad(const wxString &name, const wxString &type){
 		data->TransferToForm(this);
 	}
 	SetTitleBarText();
+	delete data;
 }
 
 void frmMain::ClearToDefault(){
@@ -1849,6 +1893,7 @@ void frmMain::ClearToDefault(){
 		m_Backup_Function->SetStringSelection(_("Complete"));
 		m_Backup_Format->SetStringSelection(wxT("Zip"));
 		m_Backup_Ratio->SetValue(3);
+		m_Backup_Ratio_Text->SetLabel(_("Default"));
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
@@ -2044,8 +2089,8 @@ wxArrayString frmMain::GetLanguages(){
 			if(wxDirExists(strPath + strFilename))
 			{
 				if(wxFileExists(strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"))){
-					wxFileConfig *config = new wxFileConfig( wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
-					wxString strLanguage = config->Read(wxT("General/LanguageCode"));
+					wxFileConfig config(wxT(""), wxT(""), strPath + strFilename + wxFILE_SEP_PATH + wxT("lang.ini"));
+					wxString strLanguage = config.Read(wxT("General/LanguageCode"));
 					arrLang.Add(wxLocale::FindLanguageInfo(strLanguage)->Description);
 				}
 			}
@@ -2133,5 +2178,43 @@ void frmMain::OnSettingsFontClick(wxCommandEvent& WXUNUSED(event)){
 	if(temp.IsOk()){
 		delete m_Font;
 		m_Font = new wxFont(temp);
+	}
+}
+
+void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
+	frmVariable dialog(this);
+	if(dialog.ShowModal() == wxID_OK){
+		wxBusyCursor cursor;
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Source_Txt->SetValue(dialog.GetValue());
+	}
+}
+
+void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
+	frmVariable dialog(this);
+	if(dialog.ShowModal() == wxID_OK){
+		wxBusyCursor cursor;
+		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
+	}
+}
+
+void frmMain::OnSyncSourceTxtEnter(wxCommandEvent& WXUNUSED(event)){
+	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
+		m_Sync_Source_Tree->DeleteAllItems();
+		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+	}
+}
+
+void frmMain::OnSyncDestTxtEnter(wxCommandEvent& WXUNUSED(event)){
+	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
+		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }

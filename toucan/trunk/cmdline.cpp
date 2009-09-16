@@ -32,7 +32,6 @@ bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system"));
 	OutputBlank();
 
-	int res;
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 	int iArgs = wxGetApp().argc;
 	//Job
@@ -104,12 +103,13 @@ bool ParseCommandLine(){
 		OutputProgress(_("The command is not recognised"));
 		return false;
 	}
-	wxLogNull log;
 	{
-		res = cmdParser.Parse(false);
+		wxLogNull log;
+		cmdParser.Parse(false);
 	}
 	if(cmdParser.GetParam(0) == wxT("unittests")){
-		return CxxTest::ErrorPrinter().run();
+		wxVariant var = CxxTest::ErrorPrinter().run();
+		return var.GetBool();
 	}
 	else if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
@@ -136,14 +136,19 @@ bool ParseCommandLine(){
 		wxGetApp().m_Script->Execute();
 	}
 	else if(cmdParser.GetParam(0) == wxT("Sync") && cmdParser.GetParamCount() == 9){
+		wxVariant var;
 		SyncData data(wxT("LastSyncJob"));
 		data.SetSource(cmdParser.GetParam(1));
 		data.SetDest(cmdParser.GetParam(2));
 		data.SetFunction(cmdParser.GetParam(3));
-		data.SetTimeStamps(wxAtoi(cmdParser.GetParam(5)));
-		data.SetAttributes(wxAtoi(cmdParser.GetParam(6)));
-		data.SetIgnoreRO(wxAtoi(cmdParser.GetParam(7)));
-		data.SetIgnoreDLS(wxAtoi(cmdParser.GetParam(8)));
+		var = cmdParser.GetParam(5);
+		data.SetTimeStamps(var.GetBool());
+		var = cmdParser.GetParam(6);
+		data.SetAttributes(var.GetBool());
+		var = cmdParser.GetParam(7);
+		data.SetIgnoreRO(var.GetBool());
+		var = cmdParser.GetParam(8);
+		data.SetIgnoreDLS(var.GetBool());
 		if(data.TransferToFile()){
 			wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Rules"),  cmdParser.GetParam(6));
 			wxGetApp().m_Jobs_Config->Write(wxT("LastSyncJob/Type"),  wxT("Sync"));

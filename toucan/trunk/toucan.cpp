@@ -227,6 +227,10 @@ int Toucan::OnExit(){
 	delete m_Locale;
 	delete m_Settings;
 	delete m_Script;
+	delete m_Jobs_Config;
+	delete m_Rules_Config;
+	delete m_Scripts_Config;
+	delete m_Variables_Config;
 	return wxApp::OnExit();
 }
 
@@ -263,7 +267,7 @@ void Toucan::KillConime(){
 
 			do{
 				//check if it is a conime process
-				if(pe.szExeFile == wxT("conime.exe") || pe.szExeFile == wxT("conime")){
+				if(wcsncmp(pe.szExeFile, wxT("conime.exe"), sizeof(pe.szExeFile)) || wcsncmp(pe.szExeFile, wxT("conime"), sizeof(pe.szExeFile))){
 					//then if toucan is its parent process
 					if(pe.th32ParentProcessID == toucanpid){
 						//then kill it

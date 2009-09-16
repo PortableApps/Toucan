@@ -77,6 +77,14 @@ bool BackupData::TransferToForm(frmMain *window){
 	if(!window){
 		return false;
 	}
+
+	if(GetName() != wxT("BackupRemember") && window->m_Backup_Job_Select->GetStringSelection() != GetName()){
+		if(window->m_Backup_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
+			window->m_Backup_Job_Select->AppendString(GetName());
+		}
+		window->m_Backup_Job_Select->SetStringSelection(GetName());
+	}
+
 	window->m_Backup_Location->SetValue(GetFileLocation());
 	window->m_Backup_TreeCtrl->DeleteChildren(window->m_Backup_TreeCtrl->GetRootItem());
 	

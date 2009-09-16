@@ -135,7 +135,7 @@ bool ScriptManager::Validate(){
 				}
 			}
 		}
-		else if(token == _("Move") || token == _("Copy") || token == _("Rename")){
+		else if(token == wxT("Move") || token == wxT("Copy") || token == wxT("Rename")){
 			if(tkz.CountTokens() != 3){
 				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
 				valid = false;
@@ -162,7 +162,7 @@ bool ScriptManager::ProgressBarSetup(){
 			strToken = tkz.GetNextToken();
 			SyncData data(strToken);
 			data.TransferFromFile();
-			if(data.GetFunction() != _("Clean")){
+			if(data.GetFunction() != wxT("Clean")){
 				counter.AddPath(data.GetSource());				
 			}
 			//Add both paths for mirror and equalise as they look at both sides
@@ -186,19 +186,19 @@ bool ScriptManager::ProgressBarSetup(){
 			data.TransferFromFile();
 			counter.AddPaths(data.GetLocations());
 		}
-		else if(strToken == _("Delete")){
+		else if(strToken == wxT("Delete")){
 			count++;
 		}
-		else if(strToken == _("Move")){
+		else if(strToken == wxT("Move")){
 			count++;
 		}
-		else if(strToken == _("Copy")){
+		else if(strToken == wxT("Copy")){
 			count++;
 		}
-		else if(strToken == _("Rename")){
+		else if(strToken == wxT("Rename")){
 			count++;
 		}
-		else if(strToken == _("Execute")){
+		else if(strToken == wxT("Execute")){
 			count++;
 		}
 	}
@@ -244,7 +244,7 @@ bool ScriptManager::ParseCommand(int i){
 		job = new SecureJob(securedata);
 		securedata->SetPassword(GetPassword());
 	}
-	else if(strToken == _("Delete")){
+	else if(strToken == wxT("Delete")){
 		wxString strSource = Normalise(tkz.GetNextToken());
 		if(wxRemoveFile(strSource)){
 			OutputProgress(_("Deleted ") + strSource);	
@@ -257,7 +257,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
-	else if(strToken == _("Move")){
+	else if(strToken == wxT("Move")){
 		wxString strSource = Normalise(tkz.GetNextToken());
 		tkz.GetNextToken();
 		wxString strDest = Normalise(tkz.GetNextToken());
@@ -277,7 +277,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
-	else if(strToken == _("Copy")){
+	else if(strToken == wxT("Copy")){
 		wxString strSource = Normalise(tkz.GetNextToken());
 		tkz.GetNextToken();
 		wxString strDest = Normalise(tkz.GetNextToken());
@@ -292,7 +292,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
-	else if(strToken == _("Rename")){
+	else if(strToken == wxT("Rename")){
 		wxString strSource = Normalise(tkz.GetNextToken());
 		tkz.GetNextToken();
 		wxString strDest = Normalise(tkz.GetNextToken());
@@ -307,7 +307,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxPostEvent(wxGetApp().ProgressWindow, event);	
 		return true;
 	}
-	else if(strToken == _("Execute")){
+	else if(strToken == wxT("Execute")){
 		wxString strExecute = Normalise(tkz.GetNextToken());
 		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
 		OutputProgress(_("Executed ") + strExecute);

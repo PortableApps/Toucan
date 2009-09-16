@@ -8,6 +8,7 @@
 #include <wx/regex.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
+#include <wx/listctrl.h>
 #include "rules.h"
 #include "toucan.h"
 #include "variables.h"
@@ -178,7 +179,8 @@ bool Rules::TransferFromFile(){
 bool Rules::TransferToFile(){
 	bool error = false;
 
-	if(!wxGetApp().m_Rules_Config->DeleteGroup(GetName())) error = true;
+	wxGetApp().m_Rules_Config->DeleteGroup(GetName());
+
 	if(!wxGetApp().m_Rules_Config->Write(GetName() + wxT("/FilesToInclude"),  ArrayStringToString(GetIncludedLocations(), wxT("|")))) error = true;	
 	if(!wxGetApp().m_Rules_Config->Write(GetName() + wxT("/FilesToExclude"), ArrayStringToString(GetExcludedFiles(), wxT("|")))) error = true;	
 	if(!wxGetApp().m_Rules_Config->Write(GetName() + wxT("/FoldersToExclude"), ArrayStringToString(GetExcludedFolders(), wxT("|")))) error = true;
@@ -198,16 +200,26 @@ bool Rules::TransferFromForm(frmMain *window){
 	}
 
 	Clear();
-	for(unsigned int i = 0; i < window->m_Rules_FileExclude->GetCount(); i++){
-		m_ExcludedFiles.Add(window->m_Rules_FileExclude->GetString(i));
+	for(int i = 0; i < window->m_RulesList->GetItemCount(); i++){
+		wxListItem itemcol1, itemcol2;
+		itemcol1.m_itemId = i;
+		itemcol1.m_col = 0;
+		itemcol1.m_mask = wxLIST_MASK_TEXT;
+		window->m_RulesList->GetItem(itemcol1);
+		itemcol2.m_itemId = i;
+		itemcol2.m_col = 1;
+		itemcol2.m_mask = wxLIST_MASK_TEXT;
+		window->m_RulesList->GetItem(itemcol2);
+		if(itemcol2.m_text == _("File to Exclude")){
+			m_ExcludedFiles.Add(itemcol1.m_text);
+		}
+		else if(itemcol2.m_text == _("Folder to Exclude")){
+			m_ExcludedFolders.Add(itemcol1.m_text);
+		}
+		else if(itemcol2.m_text == _("Location to Include")){
+			m_IncludedLocations.Add(itemcol1.m_text);
+		}
 	}
-	for(unsigned int i = 0; i < window->m_Rules_FolderExclude->GetCount(); i++){
-		m_ExcludedFolders.Add(window->m_Rules_FolderExclude->GetString(i));
-	}
-	for(unsigned int i = 0; i < window->m_Rules_LocationInclude->GetCount(); i++){
-		m_IncludedLocations.Add(window->m_Rules_LocationInclude->GetString(i));
-	}
-
 	return true;
 }
 
@@ -218,13 +230,19 @@ bool Rules::TransferToForm(frmMain *window){
 
 	window->m_Rules_Name->SetStringSelection(GetName());
 	for(unsigned int i = 0; i < m_ExcludedFiles.Count(); i++){
-		window->m_Rules_FileExclude->Append(m_ExcludedFiles.Item(i));
+		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
+		window->m_RulesList->SetItem(pos, 0, m_ExcludedFiles.Item(i));
+		window->m_RulesList->SetItem(pos, 1, _("File to Exclude"));
 	}
 	for(unsigned int i = 0; i < m_ExcludedFolders.Count(); i++){
-		window->m_Rules_FolderExclude->Append(m_ExcludedFolders.Item(i));
+		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
+		window->m_RulesList->SetItem(pos, 0, m_ExcludedFolders.Item(i));
+		window->m_RulesList->SetItem(pos, 1, _("Folder to Exclude"));
 	}
 	for(unsigned int i = 0; i < m_IncludedLocations.GetCount(); i++){
-		window->m_Rules_LocationInclude->Append(m_IncludedLocations.Item(i));
+		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
+		window->m_RulesList->SetItem(pos, 0, m_IncludedLocations.Item(i));
+		window->m_RulesList->SetItem(pos, 1, _("Locations to Include"));
 	}
 
 	return true;

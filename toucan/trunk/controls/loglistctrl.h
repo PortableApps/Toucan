@@ -17,7 +17,7 @@ public:
 	//Constructor
     LogListCtrl(wxListCtrl* list);
     //Catch the logs
-    virtual void DoLog(wxLogLevel level, const wxString& msg, time_t timestamp);
+    virtual void DoLog(wxLogLevel WXUNUSED(level), const wxChar *msg, time_t timestamp);
 
 private:
     wxListCtrl* m_List;

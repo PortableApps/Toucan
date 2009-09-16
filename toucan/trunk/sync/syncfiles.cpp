@@ -175,68 +175,62 @@ void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 }
 
 bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
-	bool ShouldTimeStamp = false;
+	//ATTN : Needs linux support
 	#ifdef __WXMSW__
 		long destAttributes = 0;
 		long sourceAttributes = 0;
+		if(data->GetIgnoreRO() || data->GetAttributes()){
+				destAttributes = wxFileExists(dest) ? GetFileAttributes(dest) : FILE_ATTRIBUTE_NORMAL;
+				sourceAttributes = wxFileExists(source) ? GetFileAttributes(source) : FILE_ATTRIBUTE_NORMAL;
+		}
+		if(data->GetIgnoreRO()){
+			SetFileAttributes(source, FILE_ATTRIBUTE_NORMAL);
+		}
 	#endif
-	if(data->GetIgnoreRO()){
-		//ATTN : Needs linux support
-		#ifdef __WXMSW__
-			destAttributes = GetFileAttributes(dest);
-			if(destAttributes == -1){
-				destAttributes = FILE_ATTRIBUTE_NORMAL;					
-			}
-			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL); 
-			sourceAttributes = GetFileAttributes(source);
-			if(sourceAttributes == -1){
-				sourceAttributes = FILE_ATTRIBUTE_NORMAL;					
-			}
-			SetFileAttributes(source,FILE_ATTRIBUTE_NORMAL); 
-		#endif
-	} 
 
-	if(wxCopyFile(source, wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), true)){
-		if(wxRenameFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"), dest, true)){
+	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
+	if(wxCopyFile(source, desttemp, true)){
+		if(wxRenameFile(desttemp, dest, true)){
 			OutputProgress(_("Copied ") + source);
-			ShouldTimeStamp = true;
 		}
 		else{
-			//If we have failed to rename then it is probably still there, remove it
-			if(wxFileExists(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"))){
-				wxRemoveFile(wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp"));
+			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+			if(wxFileExists(desttemp)){
+				wxRemoveFile(desttemp);
 			}
+			if(data->GetIgnoreRO()){
+				SetFileAttributes(source, sourceAttributes); 
+			} 
 			return false;
 		}
 	}
 	else{
+		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+		if(data->GetIgnoreRO()){
+			SetFileAttributes(source, sourceAttributes); 
+		} 
 		return false;
 	}
-	if(data->GetTimeStamps() && ShouldTimeStamp){
+	if(data->GetTimeStamps()){
 		wxFileName from(source);
 		wxFileName to(dest);
 		wxDateTime access, mod, created;
-		from.GetTimes(&access ,&mod ,&created );
-		to.SetTimes(&access ,&mod , &created); 
+		from.GetTimes(&access, &mod, &created);
+		to.SetTimes(&access, &mod, &created); 
 	}	
-	//Set the old attributes back
-	if(data->GetIgnoreRO()){
-		#ifdef __WXMSW__
+	#ifdef __WXMSW__
+		if(data->GetIgnoreRO()){
 			SetFileAttributes(dest, destAttributes); 
 			SetFileAttributes(source, sourceAttributes); 
-		#endif
-	} 
-	if(data->GetAttributes()){
-		#ifdef __WXMSW__
-			int filearrtibs = GetFileAttributes(source);
-			SetFileAttributes(dest,FILE_ATTRIBUTE_NORMAL);                       
-			SetFileAttributes(dest,filearrtibs);
-		#endif
-	}
+		} 
+		if(data->GetAttributes()){                   
+			SetFileAttributes(dest, sourceAttributes);
+		}
+	#endif
 	return true;
 }
 
-bool SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
+void SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
 	wxDateTime tmTo, tmFrom;
 	wxFileName flTo(dest);
 	wxFileName flFrom(source);
@@ -246,61 +240,76 @@ bool SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
 	if(data->GetIgnoreDLS()){
 		tmFrom.MakeTimezone(wxDateTime::Local, true);
 	}
-	if(tmFrom.IsLaterThan(tmTo)){
-		return CopyFileStream(source, dest);
+	//If they are within two seconds of each other then they are 
+	//likely the same due to filesystem differences (esp ext3)
+	if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
+		return;
 	}
-	return false;
+	else if(tmFrom.IsLaterThan(tmTo)){
+		CopyFileStream(source, dest);
+	}
 }
 
+//Returns true is there were no errors
 bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	if(disablestreams){
 		return CopyFilePlain(source, dest);
 	}
 
-	wxFileInputStream sourcestream(source);
-	wxFileInputStream deststream(dest);
+	wxFileInputStream *sourcestream = new wxFileInputStream(source);
+	wxFileInputStream *deststream = new wxFileInputStream(dest);
 
 	//Something is wrong with our streams, return error
-	if(!sourcestream.IsOk() || !deststream.IsOk()){
+	if(!sourcestream->IsOk() || !deststream->IsOk()){
 		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+		delete sourcestream;
+		delete deststream;
 		return false;
 	}
 	
-	if(sourcestream.GetLength() != deststream.GetLength()){
-		return CopyFilePlain(source, dest);			
+	if(sourcestream->GetLength() != deststream->GetLength()){
+		delete sourcestream;
+		delete deststream;
+		return CopyFilePlain(source, dest);
 	}
 
 	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
-	wxFileOffset size = sourcestream.GetLength();
+	wxFileOffset size = sourcestream->GetLength();
 	if(size > 2147483648UL){
-		return CopyFilePlain(source, dest);			
+		delete sourcestream;
+		delete deststream;
+		return CopyFilePlain(source, dest);
 	}
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];
 	char *destbuf = new char [4096];
-	wxFileOffset bytesLeft=size;
+	wxFileOffset bytesLeft = size;
 	while(bytesLeft > 0){
-		wxFileOffset bytesToRead=wxMin(4096, bytesLeft);
-		sourcestream.Read(sourcebuf, bytesToRead);
-		deststream.Read(destbuf, bytesToRead);
-		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
+		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
+		sourcestream->Read(sourcebuf, bytesToRead);
+		deststream->Read(destbuf, bytesToRead);
+		if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
 			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
-			delete sourcebuf;
-			delete destbuf;
+			delete sourcestream;
+			delete deststream;
+			delete[] sourcebuf;
+			delete[] destbuf;
 			return false;
 		}
 		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
-			//Our strings differ, so copy the files
-			//ATTN : In future update the files in place
-			delete sourcebuf;
-			delete destbuf;
+			delete sourcestream;
+			delete deststream;
+			delete[] sourcebuf;
+			delete[] destbuf;
 			return CopyFilePlain(source, dest);
 		}
 		bytesLeft-=bytesToRead;
 	}
-	delete sourcebuf;
-	delete destbuf;
+	delete sourcestream;
+	delete deststream;
+	delete[] sourcebuf;
+	delete[] destbuf;
 	//The two files are actually the same, but update the timestamps
 	if(data->GetTimeStamps()){
 		wxFileName from(source);
@@ -349,19 +358,39 @@ bool SyncFiles::RemoveDirectory(wxString path){
 		while (dir->GetNext(&filename) );
 	} 
 	delete dir;
-  	wxLogNull log;
-	if(wxFileName::Rmdir(path)){
-        OutputProgress(_("Removed ") + path);
-    }
+	{
+  		wxLogNull log;
+		if(wxFileName::Rmdir(path)){
+			OutputProgress(_("Removed ") + path);
+		}
+	}
 	return true;
 }
 
 bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest){
-	wxFileName from(source);
-	wxFileName to(dest);
-	wxDateTime access, mod, created;
-	from.GetTimes(&access ,&mod ,&created );
-	to.SetTimes(&access ,&mod , &created); 
+	#ifdef __WXMSW__
+		//Need to tidy up this code and submit as a patch to wxWidgets
+		FILETIME ftCreated, ftAccessed, ftModified;
+		HANDLE hFrom = CreateFile(source, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		if(hFrom == INVALID_HANDLE_VALUE){
+		  return false;
+		}
+		GetFileTime(hFrom, &ftCreated, &ftAccessed, &ftModified);
+		CloseHandle(hFrom);
+
+		HANDLE hTo = CreateFile(dest, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		if(hTo == INVALID_HANDLE_VALUE){
+		  return false;
+		}  
+		SetFileTime(hTo, &ftCreated, &ftAccessed, &ftModified);
+		CloseHandle(hTo);
+	#else
+		wxFileName from(source);
+		wxFileName to(dest);
+		wxDateTime access, mod, created;
+		from.GetTimes(&access, &mod, &created);
+		to.SetTimes(&access, &mod, &created); 
+	#endif
 	return true;
 }
 
