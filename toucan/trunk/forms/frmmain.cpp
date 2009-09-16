@@ -700,7 +700,8 @@ void frmMain::CreateControls(){
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_WORD, wxColour(wxT("rgb(0, 0, 255)")));
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_WORD2, wxColour(wxT("rgb(0, 0, 255)")));
 	m_Script_Styled->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(wxT("rgb(43, 145, 175)")));
-	m_Script_Styled->StyleSetFont(wxSTC_STYLE_DEFAULT, wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("consolas")));
+	wxFont monofont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("consolas"));
+	m_Script_Styled->StyleSetFont(wxSTC_STYLE_DEFAULT, monofont);
 	m_Script_Styled->SetMarginType(1,wxSTC_MARGIN_NUMBER);
 	m_Script_Styled->SetTabWidth(4);
 
