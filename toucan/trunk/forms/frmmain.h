@@ -23,6 +23,7 @@ class wxStaticText;
 class wxListBox;
 class wxRadioBox;
 class wxSlider;
+class wxStyledTextCtrl;
 
 class Settings;
 class ExtendedDirCtrl;
@@ -131,7 +132,7 @@ class ExtendedDirCtrl;
 #define ID_SCRIPT_SAVE 10303
 #define ID_SCRIPT_ADD 10304
 #define ID_SCRIPT_REMOVE 10305
-#define ID_SCRIPT_RICH 10306
+#define ID_SCRIPT_STYLED 10306
 #define ID_SCRIPT_CHECK 10307
 #define ID_SCRIPT_EXECUTE 10308
 
@@ -350,7 +351,7 @@ public:
 	wxListCtrl* m_Variables_List;
 	
 	//Script
-	wxTextCtrl* m_Script_Rich;
+	wxStyledTextCtrl* m_Script_Styled;
 	wxComboBox* m_Script_Name;
 	
 	//Settings

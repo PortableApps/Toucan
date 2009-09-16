@@ -12,6 +12,7 @@
 #include <wx/fontdlg.h>
 #include <wx/dir.h>
 #include <wx/gbsizer.h>
+#include <wx/stc/stc.h>
 #include <wx/wx.h>
 
 #include <lua.hpp>
@@ -197,7 +198,7 @@ void frmMain::Init(){
 	m_Secure_Repass = NULL;
 	m_Rules_Name = NULL;
 	m_RulesList = NULL;
-	m_Script_Rich = NULL;
+	m_Script_Styled = NULL;
 	
 	menuTree = NULL;
 	menuRules = NULL;
@@ -691,8 +692,19 @@ void frmMain::CreateControls(){
 	wxButton* ScriptExecute = new wxButton(ScriptPanel, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0);
 	ScriptNameSizer->Add(ScriptExecute, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	m_Script_Rich = new wxTextCtrl(ScriptPanel, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxBORDER_THEME);
-	ScriptSizer->Add(m_Script_Rich, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 2 * border);
+	m_Script_Styled = new wxStyledTextCtrl(ScriptPanel, ID_SCRIPT_STYLED, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
+	m_Script_Styled->StyleSetForeground(wxSTC_LUA_COMMENT, wxColour(wxT("rgb(0, 128, 0)")));
+	m_Script_Styled->StyleSetForeground(wxSTC_LUA_COMMENTLINE, wxColour(wxT("rgb(0, 128, 0)")));
+	m_Script_Styled->StyleSetForeground(wxSTC_LUA_COMMENTDOC, wxColour(wxT("rgb(0, 128, 0)")));
+	m_Script_Styled->StyleSetForeground(wxSTC_LUA_STRING, wxColour(wxT("rgb(163, 21, 21)")));
+	m_Script_Styled->StyleSetForeground(wxSTC_LUA_WORD, wxColour(wxT("rgb(0, 0, 255)")));
+	m_Script_Styled->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(wxT("rgb(43, 145, 175)")));
+	m_Script_Styled->StyleSetFont(wxSTC_STYLE_DEFAULT, wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("consolas")));
+	m_Script_Styled->SetMarginType(1,wxSTC_MARGIN_NUMBER);
+	m_Script_Styled->SetKeyWords(0, wxT("print sync"));
+	m_Script_Styled->SetWrapMode(1);
+	m_Script_Styled->SetLexer(wxSTC_LEX_LUA);
+	ScriptSizer->Add(m_Script_Styled, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 2 * border);
 
 	//Settings
 	wxPanel* SettingsPanel = new wxPanel(m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -1584,7 +1596,7 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){	
 	wxGetApp().ProgressWindow->Show();
 	wxString path = wxGetApp().GetSettingsPath() + wxT("luatest.lua");
-	m_Script_Rich->SaveFile(path);
+	m_Script_Styled->SaveFile(path);
 	lua_State *L = luaL_newstate();
 	luaL_openlibs(L);
 	luaopen_toucan(L);
@@ -1599,7 +1611,7 @@ void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_NAME
 void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){	
-	m_Script_Rich->Clear();
+	m_Script_Styled->Clear();
 	wxString strFile = 	wxGetApp().m_Scripts_Config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
 	//Remove trailing | if it exists
 	if(strFile.Right(1) == wxT("|")){
@@ -1614,22 +1626,22 @@ void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){
 	if(arrContents.GetCount() > 1){
 		unsigned int i;
 		for(i = 0; i < arrContents.Count() - 1; i++){
-			m_Script_Rich->AppendText(arrContents.Item(i) + wxT("\n"));
+			m_Script_Styled->AppendText(arrContents.Item(i) + wxT("\n"));
 		}
-		m_Script_Rich->AppendText(arrContents.Item(i));
+		m_Script_Styled->AppendText(arrContents.Item(i));
 		SetTitleBarText();
 	}
 	//If only one item then just add it
 	else if(arrContents.GetCount() == 1){
-		m_Script_Rich->AppendText(arrContents.Item(0));		
+		m_Script_Styled->AppendText(arrContents.Item(0));		
 	}
 }
 
 //ID_SCRIPT_SAVE
 void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){	
 	wxArrayString arrContents;
-	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
-		arrContents.Add(m_Script_Rich->GetLineText(i));
+	for(signed int i = 0; i < m_Script_Styled->GetNumberOfLines(); i++){
+		arrContents.Add(m_Script_Styled->GetLineText(i));
 	}
 	wxGetApp().m_Scripts_Config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("|")));
 	wxGetApp().m_Scripts_Config->Flush();
