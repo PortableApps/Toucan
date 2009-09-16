@@ -702,6 +702,8 @@ void frmMain::CreateControls(){
 	m_Script_Styled->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(wxT("rgb(43, 145, 175)")));
 	m_Script_Styled->StyleSetFont(wxSTC_STYLE_DEFAULT, wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("consolas")));
 	m_Script_Styled->SetMarginType(1,wxSTC_MARGIN_NUMBER);
+	m_Script_Styled->SetTabWidth(4);
+
 	//Lua keywords in 0
 	m_Script_Styled->SetKeyWords(0, wxT("and break do else elseif end false for function if in local nil not or repeat return then true until while"));
 	//Toucan keywords in 1
