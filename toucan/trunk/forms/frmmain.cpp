@@ -1601,6 +1601,7 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 //ID_SCRIPT_EXECUTE
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){	
 	wxGetApp().ProgressWindow->Show();
+	wxGetApp().ProgressWindow->m_List->DeleteAllItems();
 	wxString path = wxGetApp().GetSettingsPath() + wxT("luatest.lua");
 	m_Script_Styled->SaveFile(path);
 	lua_State *L = luaL_newstate();
