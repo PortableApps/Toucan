@@ -187,8 +187,7 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 
 //ID_SCRIPTTEXT
 void frmProgress::OnScriptText(wxCommandEvent& event){
-	long location = std::max(0, m_List->GetItemCount() - 1);
-	long index = m_List->InsertItem(location, wxEmptyString);
+	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->EnsureVisible(index);
 	Update();
@@ -196,8 +195,7 @@ void frmProgress::OnScriptText(wxCommandEvent& event){
 
 //ID_SCRIPTTEXT
 void frmProgress::OnScriptTime(wxCommandEvent& event){
-	long location = std::max(0, m_List->GetItemCount() - 1);
-	long index = m_List->InsertItem(location, wxEmptyString);
+	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
 	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
@@ -207,8 +205,7 @@ void frmProgress::OnScriptTime(wxCommandEvent& event){
 
 //ID_SCRIPTERROR
 void frmProgress::OnScriptError(wxCommandEvent& event){
-	long location = std::max(0, m_List->GetItemCount() - 1);
-	long index = m_List->InsertItem(location, wxEmptyString);
+	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
 	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
@@ -219,7 +216,6 @@ void frmProgress::OnScriptError(wxCommandEvent& event){
 
 //ID_SCRIPTBLANK
 void frmProgress::OnScriptBlank(wxCommandEvent& WXUNUSED(event)){
-	long location = std::max(0, m_List->GetItemCount() - 1);
-	long index = m_List->InsertItem(location, wxEmptyString);
+	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 	m_List->SetItem(index, 1, wxEmptyString);
 }
