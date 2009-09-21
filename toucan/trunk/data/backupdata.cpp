@@ -97,6 +97,7 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
 	window->m_Backup_IsPass->SetValue(GetUsesPassword());
+	window->m_Backup_Rules->SetStringSelection(GetRules()->GetName());
 	return false;
 }
 
