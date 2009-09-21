@@ -1161,7 +1161,8 @@ void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	if (rules.TransferFromFile()) {
 		rules.TransferToForm(this);
 	}
-
+	m_RulesList->SetColumnWidth(0, -1);
+	m_RulesList->SetColumnWidth(1, -1);
 	SetTitleBarText();
 }
 
