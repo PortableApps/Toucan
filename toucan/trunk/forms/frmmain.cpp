@@ -1958,7 +1958,12 @@ void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 		arrFileExclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
 		rules.SetExcludedFiles(arrFileExclude);
 		rules.TransferToFile();
-	}	
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_FILEEXCLUDE_NAME
@@ -1970,7 +1975,12 @@ void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
 		rules.SetExcludediles(arrFileExclude);
 		rules.TransferToFile();
-	}	
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_LOCATIONINCLUDE_EXTENSION
@@ -1982,7 +1992,12 @@ void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event
 		arrLocationInclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
 		rules.SetIncludedLocations(arrLocationInclude);
 		rules.TransferToFile();
-	}		
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_LOCATIONINCLUDE_NAME
@@ -1994,7 +2009,12 @@ void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		arrLocationInclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
 		rules.SetIncludedLocations(arrLocationInclude);
 		rules.TransferToFile();
-	}		
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_FOLDEREXCLUDE_NAME
@@ -2006,7 +2026,12 @@ void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
 		rules.SetExcludedFolders(arrFolderExclude);
 		rules.TransferToFile();
-	}		
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
