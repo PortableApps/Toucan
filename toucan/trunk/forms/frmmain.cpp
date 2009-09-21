@@ -1973,7 +1973,7 @@ void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		rules.TransferFromFile();
 		wxArrayString arrFileExclude = rules.GetExcludedFolders();
 		arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetExcludediles(arrFileExclude);
+		rules.SetExcludedFiles(arrFileExclude);
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
