@@ -1141,13 +1141,13 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 	if (dialog.ShowModal() == wxID_OK) {
 		m_Rules_Name->AppendString(dialog.GetValue());
 		m_Rules_Name->SetStringSelection(dialog.GetValue());
-		//m_Rules_LocationInclude->Clear();
+		m_RulesList->DeleteAllItems();
 	}
 }
 
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	//m_Rules_LocationInclude->Clear();
+	m_RulesList->DeleteAllItems();
 	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
@@ -1156,7 +1156,7 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	//Clear the existing rules
-	//m_Rules_LocationInclude->Clear();
+	m_RulesList->DeleteAllItems();
 	Rules rules(m_Rules_Name->GetStringSelection());
 	if (rules.TransferFromFile()) {
 		rules.TransferToForm(this);
