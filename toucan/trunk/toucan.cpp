@@ -209,6 +209,9 @@ void Toucan::CleanTemp(){
 	for(unsigned int i = 0; i < files.GetCount(); i++){
 		wxRemoveFile(files.Item(i));
 	}
+	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Includes.txt"))){
+		wxRemoveFile(wxGetApp().GetSettingsPath() + wxT("Includes.txt"));
+	}
 }
 
 //Language setup
