@@ -1623,7 +1623,8 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_REMOVE
-void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){	
+void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
+	m_Script_Rich->Clear();
 	wxGetApp().m_Scripts_Config->DeleteGroup(m_Script_Name->GetStringSelection());
 	wxGetApp().m_Scripts_Config->Flush();
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
