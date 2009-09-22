@@ -35,7 +35,7 @@
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
 
 	//Sync
-	EVT_BUTTON(ID_SYNC_OK, frmMain::OnSyncOKClick)
+	EVT_BUTTON(ID_SYNC_RUN, frmMain::OnSyncRunClick)
 	EVT_BUTTON(ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick)	
 	EVT_BUTTON(ID_SYNC_SOURCE_EXPAND, frmMain::OnSyncSourceExpandClick)
 	EVT_BUTTON(ID_SYNC_DEST_EXPAND, frmMain::OnSyncDestExpandClick)
@@ -57,7 +57,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SYNC_DEST_REFRESH, frmMain::OnSyncDestRefresh)
 
 	//Backup
-	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
+	EVT_BUTTON(ID_BACKUP_RUN, frmMain::OnBackupRunClick)
 	EVT_COMBOBOX(ID_BACKUP_RULES, frmMain::OnBackupRulesSelected)
 	EVT_BUTTON(ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick)
 	EVT_BUTTON(ID_BACKUP_ADD, frmMain::OnBackupAddClick)
@@ -76,7 +76,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_BACKUP_TREE_REFRESH, frmMain::OnBackupTreeRefresh)
 
 	//Secure
-	EVT_BUTTON(ID_SECURE_OK, frmMain::OnSecureOKClick)
+	EVT_BUTTON(ID_SECURE_RUN, frmMain::OnSecureRunClick)
 	EVT_COMBOBOX(ID_SECURE_RULES, frmMain::OnSecureRulesSelected)
 	EVT_COMBOBOX(ID_SECURE_JOB_SELECT, frmMain::OnSecureJobSelectSelected)
 	EVT_BUTTON(ID_SECURE_JOB_SAVE, frmMain::OnSecureJobSaveClick)
@@ -110,7 +110,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_LIST_ITEM_ACTIVATED(ID_VARIABLES_LIST, frmMain::OnVariablesListActivated)
 	
 	//Script
-	EVT_BUTTON(ID_SCRIPT_EXECUTE, frmMain::OnScriptExecute)
+	EVT_BUTTON(ID_SCRIPT_RUN, frmMain::OnScriptRunClick)
 	EVT_BUTTON(ID_SCRIPT_SAVE, frmMain::OnScriptSaveClick)
 	EVT_BUTTON(ID_SCRIPT_ADD, frmMain::OnScriptAddClick)
 	EVT_BUTTON (ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick)
@@ -302,8 +302,8 @@ void frmMain::CreateControls(){
 	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
-	wxButton* SyncOKButton = new wxButton(SyncPanel, ID_SYNC_OK, _("OK"));
-	SyncButtonsSizer->Add(SyncOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* SyncRunButton = new wxButton(SyncPanel, ID_SYNC_RUN, _("Run"));
+	SyncButtonsSizer->Add(SyncRunButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxButton* SyncPreviewButton = new wxButton(SyncPanel, ID_SYNC_PREVIEW , _("Preview"));
 	SyncButtonsSizer->Add(SyncPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
@@ -441,8 +441,8 @@ void frmMain::CreateControls(){
 	wxBoxSizer* BackupButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	BackupTopSizer->Add(BackupButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
-	wxButton* BackupOKButton = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
-	BackupButtonsSizer->Add(BackupOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* BackupRunButton = new wxButton(BackupPanel, ID_BACKUP_RUN, _("Run"));
+	BackupButtonsSizer->Add(BackupRunButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Backup - Main
     wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
@@ -548,8 +548,8 @@ void frmMain::CreateControls(){
 	wxBoxSizer* SecureButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SecureTopSizer->Add(SecureButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
-	wxButton* SecureOKButton = new wxButton(SecurePanel, ID_SECURE_OK, _("OK"));
-	SecureButtonsSizer->Add(SecureOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* SecureRunButton = new wxButton(SecurePanel, ID_SECURE_RUN, _("Run"));
+	SecureButtonsSizer->Add(SecureRunButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Secure - Main
 	wxGridBagSizer* SecureMainSizer = new wxGridBagSizer(0, 0);
@@ -703,8 +703,8 @@ void frmMain::CreateControls(){
 	wxBitmapButton* ScriptNameRemove = new wxBitmapButton(ScriptPanel, ID_SCRIPT_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	ScriptNameSizer->Add(ScriptNameRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxButton* ScriptExecute = new wxButton(ScriptPanel, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0);
-	ScriptNameSizer->Add(ScriptExecute, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* ScriptRun = new wxButton(ScriptPanel, ID_SCRIPT_RUN, _("Run"), wxDefaultPosition, wxDefaultSize, 0);
+	ScriptNameSizer->Add(ScriptRun, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	m_Script_Rich = new wxTextCtrl(ScriptPanel, ID_SCRIPT_RICH, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxBORDER_THEME);
 	ScriptSizer->Add(m_Script_Rich, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 2 * border);
@@ -1328,13 +1328,13 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-//ID_SYNC_OK
-void frmMain::OnSyncOKClick(wxCommandEvent& WXUNUSED(event)){
+//ID_SYNC_RUN
+void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	Run(wxT("Sync"));
 }
 
-//ID_BACKUP_OK
-void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
+//ID_BACKUP_RUN
+void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
 		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR);
 		return;
@@ -1349,8 +1349,8 @@ void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
 	Run(wxT("Backup"));
 }
 
-//ID_SECURE_OK
-void frmMain::OnSecureOKClick(wxCommandEvent& WXUNUSED(event)){
+//ID_SECURE_RUN
+void frmMain::OnSecureRunClick(wxCommandEvent& WXUNUSED(event)){
 	Run(wxT("Secure"));
 	m_Secure_DirCtrl->ReCreateTree();
 }
@@ -1606,8 +1606,8 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 	}
 }
 
-//ID_SCRIPT_EXECUTE
-void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){	
+//ID_SCRIPT_RUN
+void frmMain::OnScriptRunClick(wxCommandEvent& WXUNUSED(event)){	
 	wxArrayString arrLines;
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrLines.Add(m_Script_Rich->GetLineText(i));

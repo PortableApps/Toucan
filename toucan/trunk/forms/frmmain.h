@@ -36,7 +36,7 @@ class ExtendedDirCtrl;
 
 //Sync 10050-10099
 #define ID_PANEL_SYNC 10050
-#define ID_SYNC_OK 10051
+#define ID_SYNC_RUN 10051
 #define ID_SYNC_PREVIEW 10052
 #define ID_SYNC_JOB_SELECT 11053
 #define ID_SYNC_JOB_SAVE 10054
@@ -64,7 +64,7 @@ class ExtendedDirCtrl;
 
 //Backup 10100-10149
 #define ID_PANEL_BACKUP 10100
-#define ID_BACKUP_OK 10101
+#define ID_BACKUP_RUN 10101
 #define ID_BACKUP_PREVIEW 10102
 #define ID_BACKUP_JOB_SELECT 10104
 #define ID_BACKUP_JOB_SAVE 10105
@@ -91,7 +91,7 @@ class ExtendedDirCtrl;
 
 //Secure 10150-10199
 #define ID_PANEL_SECURE 10150
-#define ID_SECURE_OK 10151
+#define ID_SECURE_RUN 10151
 #define ID_SECURE_PREVIEW 10152
 #define ID_SECURE_RULES 10153
 #define ID_SECURE_JOB_SELECT 10154
@@ -139,7 +139,7 @@ class ExtendedDirCtrl;
 #define ID_SCRIPT_REMOVE 10305
 #define ID_SCRIPT_RICH 10306
 #define ID_SCRIPT_CHECK 10307
-#define ID_SCRIPT_EXECUTE 10308
+#define ID_SCRIPT_RUN 10308
 
 //Settings 10350-10399
 #define ID_PANEL_SETTINGS 10350
@@ -187,7 +187,7 @@ public:
 	void SetTitleBarText();
 
 	//Sync
-	void OnSyncOKClick(wxCommandEvent& event);
+	void OnSyncRunClick(wxCommandEvent& event);
 	void OnSyncPreviewClick(wxCommandEvent& event);
 	void OnSyncJobSelectSelected(wxCommandEvent& event);	
 	void OnSyncJobSaveClick(wxCommandEvent& event);
@@ -208,7 +208,7 @@ public:
 	void OnSyncDestRefresh(wxCommandEvent& event);
 	
 	//Backup
-	void OnBackupOKClick(wxCommandEvent& event);
+	void OnBackupRunClick(wxCommandEvent& event);
 	void OnBackupRulesSelected(wxCommandEvent& event);
 	void OnBackupLocationClick(wxCommandEvent& event);
 	void OnBackupAddClick(wxCommandEvent& event);
@@ -227,7 +227,7 @@ public:
 	void OnBackupTreeRefresh(wxCommandEvent& event);
 
 	//Secure
-	void OnSecureOKClick(wxCommandEvent& event);
+	void OnSecureRunClick(wxCommandEvent& event);
 	void OnSecureRulesSelected(wxCommandEvent& event);
 	void OnSecureJobSelectSelected(wxCommandEvent& event);
 	void OnSecureJobSaveClick(wxCommandEvent& event);
@@ -261,7 +261,7 @@ public:
 	void OnVariablesListActivated(wxListEvent& event);
 	
 	//Script
-	void OnScriptExecute(wxCommandEvent& event);	
+	void OnScriptRunClick(wxCommandEvent& event);	
 	void OnScriptSelected(wxCommandEvent& event);
 	void OnScriptSaveClick(wxCommandEvent& event);	
 	void OnScriptAddClick(wxCommandEvent& event);
