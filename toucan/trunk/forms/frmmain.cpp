@@ -58,7 +58,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
-	EVT_BUTTON(ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick)
+	EVT_COMBOBOX(ID_BACKUP_RULES, frmMain::OnBackupRulesSelected)
 	EVT_BUTTON(ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick)
 	EVT_BUTTON(ID_BACKUP_ADD, frmMain::OnBackupAddClick)
 	EVT_BUTTON(ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick)
@@ -444,9 +444,6 @@ void frmMain::CreateControls(){
 	wxButton* BackupOKButton = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
 	BackupButtonsSizer->Add(BackupOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxButton* BackupPreviewButton = new wxButton(BackupPanel, ID_BACKUP_PREVIEW , _("Preview"));
-	BackupButtonsSizer->Add(BackupPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);	
-
 	//Backup - Main
     wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
 	BackupMainSizer->AddGrowableCol(0);
@@ -486,6 +483,8 @@ void frmMain::CreateControls(){
 	BackupMainSizer->Add(BackupFilesStatic, wxGBPosition(2, 2), wxGBSpan(1, 1), wxALL, border);
 
 	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	m_Backup_TreeCtrl->SetSync(false);
+	m_Backup_TreeCtrl->SetPreview(true);
 	BackupMainSizer->Add(m_Backup_TreeCtrl, wxGBPosition(3, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* BackupAddExpandSizer = new wxBoxSizer(wxVERTICAL);
@@ -1016,7 +1015,6 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name){
 //ID_BACKUP_ADD
 void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
-	m_Backup_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Backup_DirCtrl->GetSelectedPaths();
 	int added = arrPaths.GetCount();
 	int existing = m_BackupLocations->GetCount();
@@ -1167,6 +1165,11 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 	m_Sync_Rules->SetStringSelection(sync);
 	m_Backup_Rules->SetStringSelection(backup);
 	m_Secure_Rules->SetStringSelection(secure);
+	//Then refresh if needed
+	if(m_Backup_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
+		wxCommandEvent event;
+		OnBackupTreeRefresh(event);
+	}
 }
 
 //ID_RULES_ADD
@@ -1388,16 +1391,12 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_BACKUP_PREVIEW
-void frmMain::OnBackupPreviewClick(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules *rules = new Rules(m_Backup_Rules->GetStringSelection());
 		rules->TransferFromFile();
 		m_Backup_TreeCtrl->SetRules(rules);
 	}
-	//Set up the tree ctrl for previewing
-	m_Backup_TreeCtrl->SetSync(false);
-	m_Backup_TreeCtrl->SetPreview(true);
-
 	//Delete all items and re-add the root
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -1919,9 +1918,10 @@ void frmMain::ClearToDefault(){
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
+		m_Backup_TreeCtrl->SetRules(new Rules(wxT("temp")));
 		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+		m_Backup_Rules->SetStringSelection(wxEmptyString);
 		m_BackupLocations->Clear();
-		m_Backup_TreeCtrl->SetPreview(false);
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
 		m_Secure_Function->SetStringSelection(_("Encrypt"));

@@ -209,7 +209,7 @@ public:
 	
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
-	void OnBackupPreviewClick(wxCommandEvent& event);
+	void OnBackupRulesSelected(wxCommandEvent& event);
 	void OnBackupLocationClick(wxCommandEvent& event);
 	void OnBackupAddClick(wxCommandEvent& event);
 	void OnBackupRemoveClick(wxCommandEvent& event);
