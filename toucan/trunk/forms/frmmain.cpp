@@ -51,8 +51,10 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_BUTTON(ID_SYNC_SOURCE_INSERT, frmMain::OnSyncSourceInsertClick)
 	EVT_BUTTON(ID_SYNC_DEST_INSERT, frmMain::OnSyncDestInsertClick)
-	EVT_TEXT_ENTER(ID_SYNC_SOURCE_TXT, frmMain::OnSyncSourceTxtEnter)
-	EVT_TEXT_ENTER(ID_SYNC_DEST_TXT, frmMain::OnSyncDestTxtEnter)
+	EVT_TEXT_ENTER(ID_SYNC_SOURCE_TXT, frmMain::OnSyncSourceRefresh)
+	EVT_TEXT_ENTER(ID_SYNC_DEST_TXT, frmMain::OnSyncDestRefresh)
+	EVT_BUTTON(ID_SYNC_SOURCE_REFRESH, frmMain::OnSyncSourceRefresh)
+	EVT_BUTTON(ID_SYNC_DEST_REFRESH, frmMain::OnSyncDestRefresh)
 
 	//Backup
 	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
@@ -70,6 +72,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeCtrlTooltip)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeRightClick)
 	EVT_RADIOBOX(ID_BACKUP_FUNCTION, frmMain::OnBackupFunctionSelected)
+	EVT_BUTTON(ID_BACKUP_DIR_REFRESH, frmMain::OnBackupDirRefresh)
+	EVT_BUTTON(ID_BACKUP_TREE_REFRESH, frmMain::OnBackupTreeRefresh)
 
 	//Secure
 	EVT_BUTTON(ID_SECURE_OK, frmMain::OnSecureOKClick)
@@ -84,6 +88,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SECURE_ADDVAR, frmMain::OnSecureAddVarClick)	
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SECURE_TREECTRL, frmMain::OnSecureTreeCtrlTooltip)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SECURE_TREECTRL, frmMain::OnSecureTreeRightClick)
+	EVT_BUTTON(ID_SECURE_DIR_REFRESH, frmMain::OnSecureDirRefresh)
+	EVT_BUTTON(ID_SECURE_TREE_REFRESH, frmMain::OnSecureTreeRefresh)
 	
 	//Rules
 	EVT_COMBOBOX(ID_RULES_COMBO, frmMain::OnRulesComboSelected)
@@ -330,6 +336,9 @@ void frmMain::CreateControls(){
 	wxBitmapButton* SyncSourceInsert = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_INSERT, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	SyncSourceButtonSizer->Add(SyncSourceInsert, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
 
+	wxBitmapButton* SyncSourceRefresh = new wxBitmapButton(SyncPanel, ID_SYNC_SOURCE_REFRESH, GetBitmapResource(wxT("refresh.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncSourceButtonSizer->Add(SyncSourceRefresh, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
+
 	wxStaticText* SyncDestText = new wxStaticText(SyncPanel, wxID_STATIC, _("Destination"));
 	SyncMainSizer->Add(SyncDestText, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
@@ -350,6 +359,9 @@ void frmMain::CreateControls(){
 
 	wxBitmapButton* SyncDestInsert = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_INSERT, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	SyncDestButtonSizer->Add(SyncDestInsert, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
+
+	wxBitmapButton* SyncDestRefresh = new wxBitmapButton(SyncPanel, ID_SYNC_DEST_REFRESH, GetBitmapResource(wxT("refresh.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SyncDestButtonSizer->Add(SyncDestRefresh, 0, wxALIGN_CENTRE_VERTICAL|wxTOP, border);
 
 	//Backup
 	wxPanel* BackupPanel = new wxPanel(m_Notebook, ID_PANEL_BACKUP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -458,6 +470,9 @@ void frmMain::CreateControls(){
 	wxBitmapButton* BackupRemove = new wxBitmapButton(BackupPanel, ID_BACKUP_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	BackupAddRemoveSizer->Add(BackupRemove, 0, wxALL, border);
 
+	wxBitmapButton* BackupDirRefresh = new wxBitmapButton(BackupPanel, ID_BACKUP_DIR_REFRESH, GetBitmapResource(wxT("refresh.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	BackupAddRemoveSizer->Add(BackupDirRefresh, 0, wxALL, border);
+
 	wxStaticText* BackupLocationStatic = new wxStaticText(BackupPanel, ID_BACKUP_LOCATIONSTATIC, _("Backup Location"));
 	BackupMainSizer->Add(BackupLocationStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
@@ -477,10 +492,13 @@ void frmMain::CreateControls(){
 	BackupMainSizer->Add(BackupAddExpandSizer, wxGBPosition(3, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
 
 	wxBitmapButton* BackupAddVar = new wxBitmapButton(BackupPanel, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	BackupAddExpandSizer->Add(BackupAddVar, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	BackupAddExpandSizer->Add(BackupAddVar, 0, wxBOTTOM, border);
 
 	wxBitmapButton* BackupExpand = new wxBitmapButton(BackupPanel, ID_BACKUP_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	BackupAddExpandSizer->Add(BackupExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 2 * border);
+	BackupAddExpandSizer->Add(BackupExpand, 0, wxTOP|wxBOTTOM, border);
+
+	wxBitmapButton* BackupTreeRefresh = new wxBitmapButton(BackupPanel, ID_BACKUP_TREE_REFRESH, GetBitmapResource(wxT("refresh.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	BackupAddExpandSizer->Add(BackupTreeRefresh, 0, wxTOP, border);
 
 	//Secure
 	wxPanel* SecurePanel = new wxPanel(m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -559,6 +577,9 @@ void frmMain::CreateControls(){
 
 	wxBitmapButton* SecureRemove = new wxBitmapButton(SecurePanel, ID_SECURE_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	SecureAddRemoveSizer->Add(SecureRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+
+	wxBitmapButton* SecureDirRefresh = new wxBitmapButton(SecurePanel, ID_SECURE_DIR_REFRESH, GetBitmapResource(wxT("refresh.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SecureAddRemoveSizer->Add(SecureDirRefresh, 0, wxALIGN_CENTRE_VERTICAL|wxALL, border);
 	
 	wxStaticText* SecureFilesStatic = new wxStaticText(SecurePanel, wxID_ANY, _("Files to Secure"));
 	SecureMainSizer->Add(SecureFilesStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
@@ -570,10 +591,13 @@ void frmMain::CreateControls(){
 	SecureMainSizer->Add(SecureAddExpandSizer, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
 
 	wxBitmapButton* SecureAddVar = new wxBitmapButton(SecurePanel, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SecureAddExpandSizer->Add(SecureAddVar, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	SecureAddExpandSizer->Add(SecureAddVar, 0, wxBOTTOM, border);
 
 	wxBitmapButton* SecureExpand = new wxBitmapButton(SecurePanel, ID_SECURE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SecureAddExpandSizer->Add(SecureExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 2 * border);
+	SecureAddExpandSizer->Add(SecureExpand, 0, wxTOP|wxBOTTOM, border);
+
+	wxBitmapButton* SecureTreeRefresh = new wxBitmapButton(SecurePanel, ID_SECURE_TREE_REFRESH, GetBitmapResource(wxT("refresh.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	SecureAddExpandSizer->Add(SecureTreeRefresh, 0, wxTOP, border);
 
 	//Rules
 	wxPanel* RulesPanel = new wxPanel(m_Notebook, ID_PANEL_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -858,6 +882,8 @@ void frmMain::CreateControls(){
 		SyncDestExpand->SetToolTip(_("Expand all"));
 		SyncSourceInsert->SetToolTip(_("Insert Variable"));
 		SyncDestInsert->SetToolTip(_("Insert Variable"));
+		SyncSourceRefresh->SetToolTip(_("Refresh"));
+		SyncDestRefresh->SetToolTip(_("Refresh"));
 		//Backup
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
@@ -866,6 +892,8 @@ void frmMain::CreateControls(){
 		BackupRemove->SetToolTip(_("Remove"));
 		BackupAddVar->SetToolTip(_("Insert Variable"));
 		BackupExpand->SetToolTip(_("Expand all"));
+		BackupDirRefresh->SetToolTip(_("Refresh"));
+		BackupTreeRefresh->SetToolTip(_("Refresh"));
 		//Secure
 		SecureJobSave->SetToolTip(_("Save"));
 		SecureJobAdd->SetToolTip(_("Add"));
@@ -874,6 +902,8 @@ void frmMain::CreateControls(){
 		SecureRemove->SetToolTip(_("Remove"));
 		SecureAddVar->SetToolTip(_("Insert Variable"));
 		SecureExpand->SetToolTip(_("Expand all"));
+		SecureDirRefresh->SetToolTip(_("Refresh"));
+		SecureTreeRefresh->SetToolTip(_("Refresh"));
 		//Rules
 		RulesNameSave->SetToolTip(_("Save"));
 		RulesNameAdd->SetToolTip(_("Add"));
@@ -974,6 +1004,10 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name){
 	}
 	else if (name == _T("help.png")) {
 		wxBitmap bitmap(strPath + _T("help.png"), wxBITMAP_TYPE_PNG);
+		return bitmap;
+	}
+	else if (name == _T("refresh.png")) {
+		wxBitmap bitmap(strPath + _T("refresh.png"), wxBITMAP_TYPE_PNG);
 		return bitmap;
 	}
 	return wxNullBitmap;
@@ -2216,7 +2250,7 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-void frmMain::OnSyncSourceTxtEnter(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
@@ -2224,10 +2258,35 @@ void frmMain::OnSyncSourceTxtEnter(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-void frmMain::OnSyncDestTxtEnter(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
+	}
+}
+
+
+void frmMain::OnBackupDirRefresh(wxCommandEvent& WXUNUSED(event)){
+	m_Backup_DirCtrl->ReCreateTree();
+}
+
+void frmMain::OnBackupTreeRefresh(wxCommandEvent& WXUNUSED(event)){
+	m_Backup_TreeCtrl->DeleteAllItems();
+	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
+		m_Backup_TreeCtrl->AddNewPath(m_BackupLocations->Item(i));
+	}
+}
+
+void frmMain::OnSecureDirRefresh(wxCommandEvent& WXUNUSED(event)){
+	m_Secure_DirCtrl->ReCreateTree();
+}
+
+void frmMain::OnSecureTreeRefresh(wxCommandEvent& WXUNUSED(event)){
+	m_Secure_TreeCtrl->DeleteAllItems();
+	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
+		m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
 	}
 }

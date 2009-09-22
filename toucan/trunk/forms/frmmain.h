@@ -59,6 +59,8 @@ class ExtendedDirCtrl;
 #define ID_SYNC_MOVE 10071
 #define ID_SYNC_SOURCE_INSERT 10072
 #define ID_SYNC_DEST_INSERT 10073
+#define ID_SYNC_SOURCE_REFRESH 10074
+#define ID_SYNC_DEST_REFRESH 10075
 
 //Backup 10100-10149
 #define ID_PANEL_BACKUP 10100
@@ -84,6 +86,8 @@ class ExtendedDirCtrl;
 #define ID_BACKUP_EXPAND 10121
 #define ID_BACKUP_LOCATIONSTATIC 10122
 #define ID_BACKUP_FILESSTATIC 10123
+#define ID_BACKUP_DIR_REFRESH 10124
+#define ID_BACKUP_TREE_REFRESH 10125
 
 //Secure 10150-10199
 #define ID_PANEL_SECURE 10150
@@ -104,6 +108,8 @@ class ExtendedDirCtrl;
 #define ID_SECURE_PASS 10165
 #define ID_SECURE_REPASS 10166
 #define ID_SECURE_EXPAND 10167
+#define ID_SECURE_DIR_REFRESH 10168
+#define ID_SECURE_TREE_REFRESH 10169
 
 //Rules 10200-10249
 #define ID_PANEL_RULES 10200
@@ -198,6 +204,8 @@ public:
 	void OnSyncDestInsertClick(wxCommandEvent& event);
 	void OnSyncSourceTxtEnter(wxCommandEvent& event);
 	void OnSyncDestTxtEnter(wxCommandEvent& event);
+	void OnSyncSourceRefresh(wxCommandEvent& event);
+	void OnSyncDestRefresh(wxCommandEvent& event);
 	
 	//Backup
 	void OnBackupOKClick(wxCommandEvent& event);
@@ -215,6 +223,8 @@ public:
 	void OnBackupAddVarClick(wxCommandEvent& event);
 	void OnBackupTreeCtrlTooltip(wxTreeEvent& event);
 	void OnBackupTreeRightClick(wxTreeEvent& event);
+	void OnBackupDirRefresh(wxCommandEvent& event);
+	void OnBackupTreeRefresh(wxCommandEvent& event);
 
 	//Secure
 	void OnSecureOKClick(wxCommandEvent& event);
@@ -229,6 +239,8 @@ public:
 	void OnSecureExpandClick(wxCommandEvent& event);
 	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
 	void OnSecureTreeRightClick(wxTreeEvent& event);
+	void OnSecureDirRefresh(wxCommandEvent& event);
+	void OnSecureTreeRefresh(wxCommandEvent& event);
 	
 	//Rules
 	void OnRulesComboSelected(wxCommandEvent& event);
