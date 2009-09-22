@@ -79,6 +79,10 @@ bool SecureData::TransferToForm(frmMain *window){
 	window->m_Secure_Function->SetStringSelection(GetFunction());
 	window->m_Secure_Rules->SetStringSelection(GetRules()->GetName());
 
+	//Notify the window that we have updated the rules
+	wxCommandEvent event;
+	window->OnSecureRulesSelected(event);
+
 	return true;
 }
 

@@ -228,7 +228,7 @@ public:
 
 	//Secure
 	void OnSecureOKClick(wxCommandEvent& event);
-	void OnSecurePreviewClick(wxCommandEvent& event);
+	void OnSecureRulesSelected(wxCommandEvent& event);
 	void OnSecureJobSelectSelected(wxCommandEvent& event);
 	void OnSecureJobSaveClick(wxCommandEvent& event);
 	void OnSecureJobAddClick(wxCommandEvent& event);
