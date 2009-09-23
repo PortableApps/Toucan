@@ -2197,38 +2197,16 @@ void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
 	wxGetApp().m_Settings->SetEnableTooltips(m_Settings_EnableTooltips->GetValue());
 	wxGetApp().m_Settings->SetSmallBorders(m_Settings_SmallBorders->GetValue());
-	
-	if(wxGetApp().m_Settings->GetRememberSync()){
-		SyncData data(wxT("SyncRemember"));
-		data.TransferFromForm(this);
-		data.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberBackup()){	
-		BackupData bdata(wxT("BackupRemember"));
-		bdata.TransferFromForm(this);
-		bdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberSecure()){
-		SecureData sdata(wxT("SecureRemember"));
-		sdata.TransferFromForm(this);
-		sdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
 
 	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
-	
+
 	wxGetApp().m_Settings->SetHeight((double)(this->GetSize().GetHeight())/(height));
 	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
 	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
 	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
-	
+
 	wxGetApp().m_Settings->TransferToFile();
 	wxGetApp().RebuildForm();	
 }
