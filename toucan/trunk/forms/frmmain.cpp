@@ -1445,6 +1445,16 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 
 //ID_VARIABLES_SAVE
 void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Variables_Name->GetValue() == wxEmptyString){
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new varaible"), _("New Variable"));
+		if(dialog.ShowModal() == wxID_OK){
+			m_Variables_Name->Append(dialog.GetValue());
+			m_Variables_Name->SetStringSelection(dialog.GetValue());
+		}
+		else{
+			return;
+		}
+	}
 	for(int i = 0; i < m_Variables_List->GetItemCount(); i++){
 		wxListItem itemcol1, itemcol2;
 		itemcol1.m_itemId = i;
@@ -1462,27 +1472,35 @@ void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_VARIABLES_ADD
 void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){	
-    wxTextEntryDialog dialog(this, _("Please enter the name for the new variable"), _("New Variable") ,wxEmptyString, wxOK|wxCANCEL);
-	if(dialog.ShowModal() == wxID_OK){
-        if(!wxGetApp().m_Variables_Config->HasGroup(dialog.GetValue())){
-            m_Variables_List->ClearAll();
-            wxListItem column;
-            m_Variables_List->InsertColumn(0, _("Computer"));
-            m_Variables_List->InsertColumn(1, _("Expansion"));
-            wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
-            wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
-            wxGetApp().m_Variables_Config->Flush();
-            m_Variables_Name->Append(dialog.GetValue());
-            m_Variables_Name->SetStringSelection(dialog.GetValue());
-            m_Variables_List->InsertItem(0, wxT("Test"));
-            m_Variables_List->SetItem(0, 0, wxGetFullHostName());
-            m_Variables_List->InsertItem(1, wxT("Test"));
-            m_Variables_List->SetItem(1, 0, _("Other"));
-        }
-        else{
-            wxMessageBox(_("There is already a variable with this name."), _("Error"), wxICON_ERROR);
-        }
-    }
+	wxMessageDialog dialog(this, _("Do you wish to save the current variable?"), _("Variable Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnVariablesSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
+	wxArrayString existing = GetVariables(true);
+    wxTextEntryDialog entrydialog(this, _("Please enter the name for the new variable"), _("New Variable"));
+	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a variable with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
+        m_Variables_Name->Append(entrydialog.GetValue());
+        m_Variables_Name->SetStringSelection(entrydialog.GetValue());
+        m_Variables_List->ClearAll();
+        wxListItem column;
+        m_Variables_List->InsertColumn(0, _("Computer"));
+        m_Variables_List->InsertColumn(1, _("Expansion"));
+        m_Variables_List->InsertItem(0, wxT("Test"));
+        m_Variables_List->SetItem(0, 0, wxGetFullHostName());
+        m_Variables_List->InsertItem(1, wxT("Test"));
+        m_Variables_List->SetItem(1, 0, _("Other"));
+	}
 }
 
 //ID_VARIABLES_REMOVE

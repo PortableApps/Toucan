@@ -177,6 +177,33 @@ wxArrayString GetJobs(const wxString &type){
 	return jobs;	
 }
 
+wxArrayString GetVariables(bool builtin = false){
+	bool cont;
+	wxString value;
+	long dummy;
+	wxArrayString variables;
+	//Iterate through all of the groups
+	cont = wxGetApp().m_Variables_Config->GetFirstGroup(value, dummy);
+	while(cont){
+		variables.Add(value);
+		cont = wxGetApp().m_Variables_Config->GetNextGroup(value, dummy);
+	}
+	if(builtin){
+		variables.Add(wxT("date"));
+		variables.Add(wxT("time"));
+		variables.Add(wxT("docs"));
+		variables.Add(wxT("drive"));
+		variables.Add(wxT("volume"));
+		variables.Add(wxT("label"));
+		variables.Add(wxT("YYYY"));
+		variables.Add(wxT("MM"));
+		variables.Add(wxT("DD"));
+		variables.Add(wxT("hh"));
+		variables.Add(wxT("mm"));
+	}
+	return variables;	
+}
+
 bool SetRulesBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();
