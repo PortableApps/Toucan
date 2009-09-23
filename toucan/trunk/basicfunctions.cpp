@@ -204,6 +204,23 @@ wxArrayString GetVariables(bool builtin = false){
 	return variables;	
 }
 
+wxArrayString GetRules(){
+	bool cont;
+	wxString value;
+	long dummy;
+	wxArrayString rules;
+
+	cont = wxGetApp().m_Rules_Config->GetFirstGroup(value, dummy);
+	while(cont){
+		if(value != wxT("General")){
+			rules.Add(value);
+		}
+		cont = wxGetApp().m_Rules_Config->GetNextGroup(value, dummy);
+	}
+	return rules;
+
+}
+
 bool SetRulesBox(wxComboBox *box){
 	//Clear the existin items incase any are out of date
 	box->Clear();

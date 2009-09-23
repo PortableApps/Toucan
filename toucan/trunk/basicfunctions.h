@@ -37,6 +37,7 @@ double GetInPB(wxString strValue);
 //all job names that are in use
 wxArrayString GetJobs(const wxString &type);
 wxArrayString GetVariables(bool builtin);
+wxArrayString GetRules();
 
 //The various sets of ComboBoxes on the form
 bool SetRulesBox(wxComboBox *box);

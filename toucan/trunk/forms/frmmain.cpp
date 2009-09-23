@@ -1123,14 +1123,19 @@ void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_SAVE
 void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
-	if(m_Rules_Name->GetStringSelection() != wxEmptyString){
-		Rules rules(m_Rules_Name->GetStringSelection());
-		rules.TransferFromForm(this);
-		rules.TransferToFile();
+	if(m_Rules_Name->GetStringSelection() == wxEmptyString){
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new rules"), _("New Rules"));
+		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+			m_Rules_Name->Append(dialog.GetValue());
+			m_Rules_Name->SetStringSelection(dialog.GetValue());
+		}
+		else{
+			return;
+		}
 	}
-	else{
-		wxMessageBox(_("You must select a name for this set of Rules"), _("Error"), wxICON_ERROR);
-	}
+	Rules rules(m_Rules_Name->GetStringSelection());
+	rules.TransferFromForm(this);
+	rules.TransferToFile();
 	//Store what the old selected rules were
 	wxString sync, backup, secure;
 	sync = m_Sync_Rules->GetStringSelection();
@@ -1157,10 +1162,26 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog dialog(this, _("Please enter the name for the new rules"), _("New Rules"));
-	if (dialog.ShowModal() == wxID_OK) {
-		m_Rules_Name->AppendString(dialog.GetValue());
-		m_Rules_Name->SetStringSelection(dialog.GetValue());
+	wxMessageDialog dialog(this, _("Do you wish to save the current rules?"), _("Rules Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnRulesSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
+	wxArrayString existing = GetRules();
+	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new rules"), _("New Rules"));
+	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a set of rules with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
+		m_Rules_Name->AppendString(entrydialog.GetValue());
+		m_Rules_Name->SetStringSelection(entrydialog.GetValue());
 		m_RulesList->DeleteAllItems();
 	}
 }
