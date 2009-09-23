@@ -215,8 +215,9 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 		wxFileName from(source);
 		wxFileName to(dest);
 		wxDateTime access, mod, created;
-		from.GetTimes(&access, &mod, &created);
-		to.SetTimes(&access, &mod, &created); 
+		if(from.GetTimes(&access, &mod, &created)){
+			to.SetTimes(&access, &mod, &created); 
+		}
 	}	
 	#ifdef __WXMSW__
 		if(data->GetIgnoreRO()){
