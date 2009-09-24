@@ -91,11 +91,11 @@ wxString Normalise(const wxString &path){
 			normalised += strValue;
 			previousmatched = true;
 		}
-		else if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), &read) != false && wxGetApp().m_Variables_Config->GetNumberOfGroups() != 0){
+		else if(wxGetApp().m_Variables_Config->HasGroup(token) && wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), &read)){
 			normalised += read;
 			previousmatched = true;
 		}
-		else if(wxGetApp().m_Variables_Config->Read(token + wxT("/") + _("Other"), &read) != false && wxGetApp().m_Variables_Config->GetNumberOfGroups() != 0){
+		else if(wxGetApp().m_Variables_Config->HasGroup(token) && wxGetApp().m_Variables_Config->Read(token + wxT("/") + _("Other"), &read)){
 			normalised += read;
 			previousmatched = true;
 		}
