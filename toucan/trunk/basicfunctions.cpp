@@ -218,75 +218,22 @@ wxArrayString GetRules(){
 		cont = wxGetApp().m_Rules_Config->GetNextGroup(value, dummy);
 	}
 	return rules;
-
 }
 
-bool SetRulesBox(wxComboBox *box){
-	//Clear the existin items incase any are out of date
-	box->Clear();
-
-	bool blCont;
-	wxString strValue;
+wxArrayString GetScripts(){
+	bool cont;
+	wxString value;
 	long dummy;
-	//Iterate through the groups adding them to the box
-	blCont = wxGetApp().m_Rules_Config->GetFirstGroup(strValue, dummy);
-	while (blCont){
-		if(strValue != wxT("General")){
-			box->Append(strValue);
-		}
-		blCont = wxGetApp().m_Rules_Config->GetNextGroup(strValue, dummy);
-	}
-	return true;
-}
+	wxArrayString rules;
 
-bool SetJobsBox(wxComboBox *box, wxString strType){
-	bool blCont;
-	wxString strValue;
-	long dummy;
-	//Iterate through all of the groups
-	blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
-	while (blCont){
-		//If the group is of the correct type then add it to the combobox
-		if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == strType){
-			if(strValue != wxT("SyncRemember") && strValue != wxT("BackupRemember") && strValue != wxT("SecureRemember")){
-				box->Append(strValue);				
-			}
+	cont = wxGetApp().m_Scripts_Config->GetFirstGroup(value, dummy);
+	while(cont){
+		if(value != wxT("General")){
+			rules.Add(value);
 		}
-		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
+		cont = wxGetApp().m_Scripts_Config->GetNextGroup(value, dummy);
 	}
-	return true;
-}
-
-bool SetVariablesBox(wxComboBox *box){
-	bool blCont;
-	wxString strValue;
-	long dummy;
-	//Iterate through all of the group
-	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Variables.ini"))){
-		blCont = wxGetApp().m_Variables_Config->GetFirstGroup(strValue, dummy);
-		while(blCont){
-			box->Append(strValue);
-			blCont = wxGetApp().m_Variables_Config->GetNextGroup(strValue, dummy);
-		}
-	}
-	return true;	
-}
-
-bool SetScriptsBox(wxComboBox *box){
-	//Clear the existin items incase any are out of date
-	box->Clear();
-	bool blCont;
-	wxString strValue;
-	long dummy;
-	//Iterate through the groups adding them to the box
-	blCont = wxGetApp().m_Scripts_Config->GetFirstGroup(strValue, dummy);
-	while (blCont){
-		if(strValue != wxT("General")){
-			box->Append(strValue);
-		}
-		blCont = wxGetApp().m_Scripts_Config->GetNextGroup(strValue, dummy);
-	}
-	return true;
+	return rules;
 }
 
 wxString InputPassword(){

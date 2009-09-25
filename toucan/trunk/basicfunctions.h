@@ -11,8 +11,6 @@ class wxComboBox;
 class wxString;
 class wxArrayString;
 
-#include "toucan.h"
-
 //Turns an array string into a string with the strings seperated by strSeperator, used when writing to ini files
 wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator);
 //Used for turning a string into an arraystring when the string are seperated by strSeperator, used when read from ini files
@@ -38,12 +36,7 @@ double GetInPB(wxString strValue);
 wxArrayString GetJobs(const wxString &type);
 wxArrayString GetVariables(bool builtin);
 wxArrayString GetRules();
-
-//The various sets of ComboBoxes on the form
-bool SetRulesBox(wxComboBox *box);
-bool SetJobsBox(wxComboBox *box, wxString strType);
-bool SetVariablesBox(wxComboBox *box);
-bool SetScriptsBox(wxComboBox *box);
+wxArrayString GetScripts();
 
 //For use either from the command line or the GUI
 wxString InputPassword();

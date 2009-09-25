@@ -70,8 +70,7 @@ void frmVariable::CreateControls(){
 	wxStaticText* VariablesStaticText = new wxStaticText(this, wxID_STATIC, _("Variables"));
 	VariablesSizer->Add(VariablesStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxArrayString m_VariablesStrings = GetVariables(true);
-	m_Variables_Combo = new wxComboBox(this, ID_VARIABLES_COMBO, wxEmptyString, wxDefaultPosition, wxDefaultSize, m_VariablesStrings);
+	m_Variables_Combo = new wxComboBox(this, ID_VARIABLES_COMBO, wxEmptyString, wxDefaultPosition, wxDefaultSize, GetVariables(true), wxCB_DROPDOWN|wxCB_READONLY);
 	VariablesSizer->Add(m_Variables_Combo, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxBitmapButton* VariablesButton = new wxBitmapButton(this, ID_VARIABLES, wxBitmap(iconpath + _T("add.png"), wxBITMAP_TYPE_PNG), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);

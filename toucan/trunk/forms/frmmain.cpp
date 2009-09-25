@@ -260,8 +260,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SyncRulesSizer = new wxStaticBoxSizer(SyncRules, wxHORIZONTAL);
 	SyncJobsRulesSizer->Add(SyncRulesSizer, 0, wxALIGN_TOP|wxALL|wxGROW, border);
 
-	wxArrayString m_Sync_RulesStrings;
-	m_Sync_Rules = new wxComboBox(SyncPanel, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Sync_Rules = new wxComboBox(SyncPanel, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_DROPDOWN|wxCB_READONLY);
 	SyncRulesSizer->Add(m_Sync_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, border);
 
 	//Sync - Options
@@ -391,8 +390,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* BackupRulesSizer = new wxStaticBoxSizer(BackupRules, wxHORIZONTAL);
 	BackupJobsRulesSizer->Add(BackupRulesSizer, 0, wxALL|wxEXPAND, border);
 
-	wxArrayString m_Backup_RulesStrings;
-	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_DROPDOWN|wxCB_READONLY);
 	BackupRulesSizer->Add(m_Backup_Rules, 1, wxALL, border);
 
 	//Backup - Options
@@ -524,8 +522,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SecureRulesSizer = new wxStaticBoxSizer(SecureRules, wxHORIZONTAL);
 	SecureJobsRulesSizer->Add(SecureRulesSizer, 1, wxALIGN_TOP|wxALL|wxEXPAND, border);
 
-	wxArrayString m_Secure_RulesStrings;
-	m_Secure_Rules = new wxComboBox(SecurePanel, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Secure_Rules = new wxComboBox(SecurePanel, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_DROPDOWN|wxCB_READONLY);
 	SecureRulesSizer->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Secure - Options
@@ -595,9 +592,7 @@ void frmMain::CreateControls(){
 	RulesNameSizer = new wxStaticBoxSizer(RulesName, wxHORIZONTAL);
 	RulesSizer->Add(RulesNameSizer, 0, wxALIGN_TOP|wxTOP|wxLEFT, 2 * border);
 
-	wxArrayString m_Rules_ComboStrings;
-	m_Rules_Name = new wxComboBox(RulesPanel, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY);
-	m_Rules_Name->SetMinSize(wxSize(125, -1));	
+	m_Rules_Name = new wxComboBox(RulesPanel, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_READONLY);
 	RulesNameSizer->Add(m_Rules_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* RulesNameSave = new wxBitmapButton(RulesPanel, ID_RULES_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -639,9 +634,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* VariablesNameSizer = new wxStaticBoxSizer(VariablesName, wxHORIZONTAL);
 	VariablesSizer->Add(VariablesNameSizer, 0, wxALIGN_TOP|wxLEFT, 2 * border);
 
-	wxArrayString arrVariables;
-    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Variables_Name->SetMinSize(wxSize(125, -1));
+    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetVariables(false), wxCB_DROPDOWN|wxCB_READONLY);
 	VariablesNameSizer->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* VariablesNameSave = new wxBitmapButton(VariablesPanel, ID_VARIABLES_SAVE, GetBitmapResource(wxT("save.png")));
@@ -677,9 +670,7 @@ void frmMain::CreateControls(){
 	ScriptNameSizer = new wxStaticBoxSizer(ScriptName, wxHORIZONTAL);
 	ScriptSizer->Add(ScriptNameSizer, 0, wxALIGN_TOP|wxALL, 2 * border);
 
-	wxArrayString arrScripts;
-	m_Script_Name = new wxComboBox(ScriptPanel, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrScripts, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Script_Name->SetMinSize(wxSize(125, -1));
+	m_Script_Name = new wxComboBox(ScriptPanel, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetScripts(), wxCB_DROPDOWN|wxCB_READONLY);
 	ScriptNameSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 	
 	wxBitmapButton* ScriptNameSave = new wxBitmapButton(ScriptPanel, ID_SCRIPT_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -835,18 +826,6 @@ void frmMain::CreateControls(){
 	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
 	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
 
-	//Set up the rules boxes
-	SetRulesBox(m_Sync_Rules);
-	SetRulesBox(m_Backup_Rules);
-	SetRulesBox(m_Secure_Rules);
-	SetRulesBox(m_Rules_Name);
-
-	//Set the variables box
-	SetVariablesBox(m_Variables_Name);
-	
-	//Set the scripts box
-	SetScriptsBox(m_Script_Name);
-	
 	m_Variables_List->InsertColumn(0, _("Computer"));
 	m_Variables_List->InsertColumn(1, _("Expansion"));
 	
@@ -1142,14 +1121,21 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 	backup = m_Backup_Rules->GetStringSelection();
 	secure = m_Secure_Rules->GetStringSelection();
 	//Set up the rules boxes
-	SetRulesBox(m_Sync_Rules);
-	SetRulesBox(m_Backup_Rules);
-	SetRulesBox(m_Secure_Rules);
+	m_Sync_Rules->Clear();
+	m_Backup_Rules->Clear();
+	m_Secure_Rules->Clear();
+	m_Sync_Rules->Append(GetRules());
+	m_Backup_Rules->Append(GetRules());
+	m_Secure_Rules->Append(GetRules());
 	//Set them to old values
 	m_Sync_Rules->SetStringSelection(sync);
 	m_Backup_Rules->SetStringSelection(backup);
 	m_Secure_Rules->SetStringSelection(secure);
 	//Then refresh if needed
+	if(m_Sync_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
+		wxCommandEvent event;
+		OnSyncRefresh(event);
+	}
 	if(m_Backup_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
 		wxCommandEvent event;
 		OnBackupRefresh(event);
@@ -1716,8 +1702,8 @@ void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
 			}
 		}
 		m_Script_Rich->Clear();
-		m_Script_Name->Append(dialog.GetValue());
-		m_Script_Name->SetStringSelection(dialog.GetValue());
+		m_Script_Name->Append(entrydialog.GetValue());
+		m_Script_Name->SetStringSelection(entrydialog.GetValue());
 		UpdateSizer(ScriptNameSizer);
 	}
 }
