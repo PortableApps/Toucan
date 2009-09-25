@@ -592,7 +592,7 @@ void frmMain::CreateControls(){
 
 	//Rules - Name
 	wxStaticBox* RulesName = new wxStaticBox(RulesPanel, wxID_ANY, _("Name"));
-	wxStaticBoxSizer* RulesNameSizer = new wxStaticBoxSizer(RulesName, wxHORIZONTAL);
+	RulesNameSizer = new wxStaticBoxSizer(RulesName, wxHORIZONTAL);
 	RulesSizer->Add(RulesNameSizer, 0, wxALIGN_TOP|wxTOP|wxLEFT, 2 * border);
 
 	wxArrayString m_Rules_ComboStrings;
@@ -1183,6 +1183,7 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 		m_Rules_Name->AppendString(entrydialog.GetValue());
 		m_Rules_Name->SetStringSelection(entrydialog.GetValue());
 		m_RulesList->DeleteAllItems();
+		UpdateSizer(RulesNameSizer);
 	}
 }
 
@@ -1192,6 +1193,7 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
+	UpdateSizer(RulesNameSizer);
 }
 
 //ID_RULES_COMBO

@@ -350,6 +350,7 @@ public:
 	wxTextCtrl* m_Secure_Repass;
 	
 	//Rules
+	wxStaticBoxSizer* RulesNameSizer;
 	wxComboBox* m_Rules_Name;
 	wxListCtrl* m_RulesList;
 	
