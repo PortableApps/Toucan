@@ -1667,7 +1667,17 @@ void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_SAVE
-void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){	
+void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Script_Name->GetValue() == wxEmptyString){
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new script"), _("New Script"));
+		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+			m_Script_Name->Append(dialog.GetValue());
+			m_Script_Name->SetStringSelection(dialog.GetValue());
+		}
+		else{
+			return;
+		}
+	}
 	wxArrayString arrContents;
 	for(signed int i = 0; i < m_Script_Rich->GetNumberOfLines(); i++){
 		arrContents.Add(m_Script_Rich->GetLineText(i));
@@ -1687,8 +1697,24 @@ void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_ADD
 void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){	
-	wxTextEntryDialog dialog(this, _("Please enter the name for the new script"), _("New Script") ,wxEmptyString, wxOK|wxCANCEL);
-	if(dialog.ShowModal() == wxID_OK){
+	wxMessageDialog dialog(this, _("Do you wish to save the current script?"), _("Script Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnScriptSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
+	wxArrayString existing = GetScripts();
+	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new script"), _("New Script"));
+	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a script with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
 		m_Script_Rich->Clear();
 		m_Script_Name->Append(dialog.GetValue());
 		m_Script_Name->SetStringSelection(dialog.GetValue());
