@@ -2271,6 +2271,7 @@ void frmMain::OnSyncRefresh(wxCommandEvent& WXUNUSED(event)){
 
 void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
+		TreeStateSaver saver(m_Sync_Source_Tree);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
@@ -2279,6 +2280,7 @@ void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 
 void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
+		TreeStateSaver saver(m_Sync_Dest_Tree);
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
@@ -2286,6 +2288,8 @@ void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
+	TreeStateSaver treesaver(m_Backup_TreeCtrl);
+	TreeStateSaver dirsaver(m_Backup_DirCtrl->GetTreeCtrl());
 	m_Backup_DirCtrl->ReCreateTree();
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -2295,6 +2299,8 @@ void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
+	TreeStateSaver treesaver(m_Secure_TreeCtrl);
+	TreeStateSaver dirsaver(m_Secure_DirCtrl->GetTreeCtrl());
 	m_Secure_DirCtrl->ReCreateTree();
 	m_Secure_TreeCtrl->DeleteAllItems();
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
