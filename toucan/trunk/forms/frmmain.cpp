@@ -1689,14 +1689,13 @@ void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_ADD
 void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){	
-	wxTextEntryDialog* dialog = new wxTextEntryDialog(this, _("Please enter the name for the new script"), _("New Script") ,wxEmptyString, wxOK|wxCANCEL);
-	if (dialog->ShowModal() == wxID_OK) {
+	wxTextEntryDialog dialog(this, _("Please enter the name for the new script"), _("New Script") ,wxEmptyString, wxOK|wxCANCEL);
+	if(dialog.ShowModal() == wxID_OK){
 		m_Script_Rich->Clear();
-		m_Script_Name->Append(dialog->GetValue());
-		m_Script_Name->SetStringSelection(dialog->GetValue());
+		m_Script_Name->Append(dialog.GetValue());
+		m_Script_Name->SetStringSelection(dialog.GetValue());
 		UpdateSizer(ScriptNameSizer);
 	}
-	delete dialog;
 }
 
 //ID_BACKUP_RATIO
