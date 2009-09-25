@@ -360,6 +360,7 @@ public:
 	wxListCtrl* m_Variables_List;
 	
 	//Script
+	wxStaticBoxSizer* ScriptNameSizer;
 	wxTextCtrl* m_Script_Rich;
 	wxComboBox* m_Script_Name;
 	

@@ -674,7 +674,7 @@ void frmMain::CreateControls(){
 	ScriptPanel->SetSizer(ScriptSizer);
 
 	wxStaticBox* ScriptName = new wxStaticBox(ScriptPanel, wxID_ANY, _("Name"));
-	wxStaticBoxSizer* ScriptNameSizer = new wxStaticBoxSizer(ScriptName, wxHORIZONTAL);
+	ScriptNameSizer = new wxStaticBoxSizer(ScriptName, wxHORIZONTAL);
 	ScriptSizer->Add(ScriptNameSizer, 0, wxALIGN_TOP|wxALL, 2 * border);
 
 	wxArrayString arrScripts;
@@ -1684,6 +1684,7 @@ void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().m_Scripts_Config->DeleteGroup(m_Script_Name->GetStringSelection());
 	wxGetApp().m_Scripts_Config->Flush();
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
+	UpdateSizer(ScriptNameSizer);
 }
 
 //ID_SCRIPT_ADD
@@ -1692,6 +1693,7 @@ void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
 	if (dialog->ShowModal() == wxID_OK) {
 		m_Script_Name->Append(dialog->GetValue());
 		m_Script_Name->SetStringSelection(dialog->GetValue());
+		UpdateSizer(ScriptNameSizer);
 	}
 	delete dialog;
 }
