@@ -1519,10 +1519,8 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
         wxListItem column;
         m_Variables_List->InsertColumn(0, _("Computer"));
         m_Variables_List->InsertColumn(1, _("Expansion"));
-        m_Variables_List->InsertItem(0, wxT("Test"));
-        m_Variables_List->SetItem(0, 0, wxGetFullHostName());
-        m_Variables_List->InsertItem(1, wxT("Test"));
-        m_Variables_List->SetItem(1, 0, _("Other"));
+        m_Variables_List->InsertItem(0, wxGetFullHostName());
+        m_Variables_List->InsertItem(1, _("Other"));
 		UpdateSizer(VariablesTopSizer);
 	}
 }
