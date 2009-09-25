@@ -355,6 +355,7 @@ public:
 	wxListCtrl* m_RulesList;
 	
 	//Variables
+	wxBoxSizer* VariablesTopSizer;
 	wxComboBox* m_Variables_Name;
 	wxListCtrl* m_Variables_List;
 	

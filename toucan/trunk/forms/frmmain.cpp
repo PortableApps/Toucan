@@ -632,7 +632,7 @@ void frmMain::CreateControls(){
 	wxBoxSizer* VariablesSizer = new wxBoxSizer(wxVERTICAL);
     VariablesPanel->SetSizer(VariablesSizer);
 
-    wxBoxSizer* VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
+    VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
     VariablesSizer->Add(VariablesTopSizer, 0, wxALIGN_LEFT|wxALL, border);
 	
 	wxStaticBox* VariablesName = new wxStaticBox(VariablesPanel, wxID_ANY, _("Name"));
@@ -1523,6 +1523,7 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
         m_Variables_List->SetItem(0, 0, wxGetFullHostName());
         m_Variables_List->InsertItem(1, wxT("Test"));
         m_Variables_List->SetItem(1, 0, _("Other"));
+		UpdateSizer(VariablesTopSizer);
 	}
 }
 
@@ -1536,6 +1537,7 @@ void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	wxListItem column;
 	m_Variables_List->InsertColumn(0, _("Computer"));
 	m_Variables_List->InsertColumn(1, _("Expansion"));
+	UpdateSizer(VariablesTopSizer);
 }
 
 //ID_VARIABLES_NAME
