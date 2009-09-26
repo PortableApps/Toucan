@@ -178,7 +178,7 @@ bool ScriptManager::ProgressBarSetup(){
 				counter.AddPaths(data.GetLocations());
 			}
 			//Add an extra three for the message 7zip sends
-			count += 3;
+			count += (3 * data.GetLocations().Count());
 		}
 		else if(strToken == wxT("Secure")){
 			strToken = tkz.GetNextToken();
