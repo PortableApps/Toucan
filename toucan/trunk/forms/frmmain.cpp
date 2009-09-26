@@ -1148,14 +1148,16 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current rules?"), _("Rules Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnRulesSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_RulesList->GetItemCount() > 0){
+		wxMessageDialog dialog(this, _("Do you wish to save the current rules?"), _("Rules Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnRulesSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	wxArrayString existing = GetRules();
 	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new rules"), _("New Rules"));
@@ -1212,14 +1214,16 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnSyncJobSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_Sync_Job_Select->GetStringSelection() != wxEmptyString || m_Sync_Source_Txt->GetValue() != wxEmptyString || m_Sync_Dest_Txt->GetValue() != wxEmptyString){
+		wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnSyncJobSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	JobAdd(m_Sync_Job_Select);
 	UpdateSizer(SyncTopSizer);
@@ -1227,14 +1231,16 @@ void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_JOB_ADD
 void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnBackupJobSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_Backup_Job_Select->GetStringSelection() != wxEmptyString || m_BackupLocations->GetCount() > 0){
+		wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnBackupJobSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	JobAdd(m_Backup_Job_Select);
 	UpdateSizer(BackupTopSizer);
@@ -1242,14 +1248,16 @@ void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SECURE_JOB_ADD
 void frmMain::OnSecureJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnSecureJobSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString || m_SecureLocations->GetCount() > 0){
+		wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnSecureJobSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	JobAdd(m_Secure_Job_Select);
 	UpdateSizer(SecureTopSizer);
@@ -1682,15 +1690,17 @@ void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_ADD
-void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){	
-	wxMessageDialog dialog(this, _("Do you wish to save the current script?"), _("Script Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnScriptSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Script_Rich->GetValue() != wxEmptyString){
+		wxMessageDialog dialog(this, _("Do you wish to save the current script?"), _("Script Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnScriptSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	wxArrayString existing = GetScripts();
 	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new script"), _("New Script"));
