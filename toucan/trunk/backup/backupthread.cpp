@@ -8,7 +8,6 @@
 #include "backupthread.h"
 #include "backupprocess.h"
 #include "../data/backupdata.h"
-#include "../forms/frmprogress.h"
 
 #ifdef __WXMSW__
 	#include <windows.h>
@@ -45,7 +44,6 @@ void *BackupThread::Entry(){
 	if(wxFileExists(m_Data->GetFileLocation() + wxT(".tmp"))){
 		wxRemoveFile(m_Data->GetFileLocation() + wxT(".tmp"));
 	}
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().ProgressWindow, event);	
+	wxGetApp().SetFinished(true);
 	return NULL;
 }

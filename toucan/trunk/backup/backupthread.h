@@ -15,7 +15,7 @@ class BackupThread : public wxThread
 {
 public:
 	//Constructor
-	BackupThread(long pid, BackupProcess *process, BackupData *data):wxThread(wxTHREAD_DETACHED){
+	BackupThread(long pid, BackupProcess *process, BackupData *data) : wxThread(wxTHREAD_JOINABLE){
 		m_PID = pid;
 		m_Process = process;
 		m_Data = data;

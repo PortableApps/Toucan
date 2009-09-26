@@ -11,6 +11,7 @@
 #include "../variables.h"
 #include "../basicfunctions.h"
 #include "../data/backupdata.h"
+#include "../forms/frmprogress.h"
 
 #include <wx/filename.h>
 #include <wx/textfile.h>
@@ -27,6 +28,7 @@ bool BackupJob::Execute(){
 	}
 	data->SetFileLocation(Normalise(data->GetFileLocation()));
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
+		wxGetApp().SetFinished(false);
 		wxString path = data->GetLocation(i);
 		bool isDir = false;
 		//If we have a directory clean it up
@@ -86,7 +88,7 @@ bool BackupJob::Execute(){
 
 		thread->Create();
 		thread->Run();
-		
+
 		if(!wxGetApp().GetUsesGUI()){
 			while(!wxGetApp().GetFinished()){
 				//So we dont thrash the processor
@@ -94,6 +96,13 @@ bool BackupJob::Execute(){
 				wxGetApp().Yield();
 			}
 		}
+		else{
+			thread->Wait();
+		}
+		
 	}
+	wxGetApp().SetFinished(false);
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
+	wxPostEvent(wxGetApp().ProgressWindow, event);	
 	return true;
 }
