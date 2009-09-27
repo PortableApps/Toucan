@@ -166,8 +166,6 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 		if(!wxGetApp().GetUsesGUI()){
 			wxGetApp().SetFinished(true);
 		}
-		//We have finished, if on windows flash the taskbar to let the user know
-		//ATTN : There is a wx function for this, need to use it on other platforms
 		#ifdef __WXMSW__
 			FLASHWINFO info;
 			info.uCount = 3;
@@ -180,7 +178,9 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 			else{
 				info.dwFlags = FLASHW_ALL;					
 			}
-			FlashWindowEx(&info); 
+			FlashWindowEx(&info);
+		#else
+			RequestUserAttention();
 		#endif
 	}
 }
