@@ -170,9 +170,9 @@ wxArrayString GetJobs(const wxString &type){
 		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
 	}
 	if(type == wxEmptyString){
-		jobs.Add(_("SyncRemember"));
-		jobs.Add(_("BackupRemember"));
-		jobs.Add(_("SecureRemember"));
+		jobs.Add(wxT("SyncRemember"));
+		jobs.Add(wxT("BackupRemember"));
+		jobs.Add(wxT("SecureRemember"));
 	}
 	return jobs;	
 }
