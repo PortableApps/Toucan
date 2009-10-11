@@ -2135,12 +2135,10 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 
 void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 	if(event.GetString() == _("Restore")){
-		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Disable();
 		wxWindow::FindWindowById(ID_BACKUP_LOCATIONSTATIC)->SetLabel(_("Location to Extract into"));
 		wxWindow::FindWindowById(ID_BACKUP_FILESSTATIC)->SetLabel(_("Archives to Extract"));
 	}
 	else{
-		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();
 		wxWindow::FindWindowById(ID_BACKUP_LOCATIONSTATIC)->SetLabel(_("Backup Location"));
 		wxWindow::FindWindowById(ID_BACKUP_FILESSTATIC)->SetLabel(_("Files to Backup"));
 	}
