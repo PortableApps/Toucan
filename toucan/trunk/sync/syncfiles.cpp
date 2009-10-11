@@ -274,13 +274,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 		return CopyFilePlain(source, dest);
 	}
 
-	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream->GetLength();
-	if(size > 2147483648UL){
-		delete sourcestream;
-		delete deststream;
-		return CopyFilePlain(source, dest);
-	}
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];
