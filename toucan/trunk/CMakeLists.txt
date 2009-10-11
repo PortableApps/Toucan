@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 2.6) 
-project(Toucan)
+cmake_minimum_required(VERSION 2.6)
 
-set(CMAKE_CONFIGURATION_TYPES Debug;Release FORCE)
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
+
+project(Toucan)
 
 #Find wxWidgets
 find_package(wxWidgets COMPONENTS base core net adv html aui REQUIRED)
