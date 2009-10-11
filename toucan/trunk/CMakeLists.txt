@@ -1,17 +1,24 @@
 cmake_minimum_required(VERSION 2.6) 
 project(Toucan)
 
-set(CMAKE_CONFIGURATION_TYPES Debug Release)
+set(CMAKE_CONFIGURATION_TYPES Debug;Release FORCE)
 
 #Find wxWidgets
 find_package(wxWidgets COMPONENTS base core net adv html aui REQUIRED)
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})
 
-#We always build in unicode, so define it
-add_definitions(-DUNICODE)
+#Define unicode if we need to
+if(wxWidgets_CONFIGURATION MATCHES "u")
+    add_definitions(-DUNICODE)
+endif(wxWidgets_CONFIGURATION MATCHES "u")
 
 if(MSVC)
+    #Set the warning level to maximum
+    if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+        string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    endif(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+
     #We statically link to reduce dependancies
     foreach(flag_var CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
         if(${flag_var} MATCHES "/MD")
