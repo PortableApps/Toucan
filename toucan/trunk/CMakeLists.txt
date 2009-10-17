@@ -40,12 +40,12 @@ add_subdirectory(secure)
 add_subdirectory(sync)
 
 #Link against them
-link_directories (backup)
-link_directories (controls)
-link_directories (data)
-link_directories (forms)
-link_directories (secure)
-link_directories (sync)
+link_directories(backup)
+link_directories(controls)
+link_directories(data)
+link_directories(forms)
+link_directories(secure)
+link_directories(sync)
 
 #Add the source and header files
 set(source ${source} basicfunctions.cpp cmdline.cpp dragndrop.cpp)
@@ -59,11 +59,6 @@ set(headers ${headers} settings.h toucan.h variables.h)
 if(WIN32)
     #Add the resource file for the icon
     set(source ${source} toucan.rc)
-    if(MSVC)
-        #Set up folders for visual studio
-        source_group(source FILES ${source})
-        source_group(headers FILES ${headers})
-    endif(MSVC)
 endif(WIN32)
 
 #Find cxxtest
