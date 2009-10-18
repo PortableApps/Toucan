@@ -33,6 +33,7 @@
 #include "../controls/extendeddirctrl.h"
 #include "../controls/vdtc.h"
 #include "../controls/dirctrl.h"
+#include "../controls/loglistctrl.h"
 
 extern "C"
 {
@@ -1600,7 +1601,24 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_EXECUTE
-void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){	
+void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
+	//Set up all of the form related stuff
+	frmProgress *m_ProgressWindow = wxGetApp().ProgressWindow;
+	m_ProgressWindow->m_List->DeleteAllItems();
+	wxGetApp().MainWindow->m_Notebook->Disable();
+	//Send all errors to the list control
+	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
+	delete wxLog::SetActiveTarget(logList);
+	//Set up the buttons on the progress box
+	m_ProgressWindow->m_OK->Enable(false);
+	m_ProgressWindow->m_Save->Enable(false);
+	m_ProgressWindow->m_Cancel->Enable(true);
+	
+	//Send a blank item to get the item count up
+	OutputBlank();
+	wxDateTime m_Time = wxDateTime::Now();
+	OutputProgress(_("Starting"), m_Time.FormatTime());
+	OutputBlank();
 	wxGetApp().ProgressWindow->Show();
 	wxGetApp().ProgressWindow->m_List->DeleteAllItems();
 	wxString path = wxGetApp().GetSettingsPath() + wxT("luatest.lua");
@@ -1611,10 +1629,23 @@ void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 	wxString setprint = wxT("print=toucan.OutputProgress");
 	//Set the print function to use the progress window
 	luaL_dostring(L, setprint.mb_str());
+	wxString setsync = wxT("sync=toucan.Sync");
+	luaL_dostring(L, setsync.mb_str());
 	if (luaL_loadfile(L, path.mb_str()) || lua_pcall(L, 0, 0, 0)) {
 		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(L, -1), wxConvUTF8));
 		return;
 	}
+	m_ProgressWindow->m_OK->Enable(true);
+	m_ProgressWindow->m_Save->Enable(true);
+	m_ProgressWindow->m_Cancel->Enable(false);
+	wxDateTime now = wxDateTime::Now();
+	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
+	}
+	OutputBlank();
+	OutputProgress(_("Elapsed"), now.Subtract(m_Time).Format());
+	OutputProgress(_("Finished"), now.FormatTime());
+	wxGetApp().MainWindow->m_Notebook->Enable();
 }
 
 //ID_SCRIPT_NAME

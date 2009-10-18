@@ -490,6 +490,10 @@
 			Name="Interface Files"
 			>
 			<File
+				RelativePath=".\interface\sync.i"
+				>
+			</File>
+			<File
 				RelativePath=".\interface\toucan.i"
 				>
 			</File>

@@ -1531,40 +1531,54 @@ typedef struct{} LANGUAGE_OBJ;
 	#include <wx/string.h>
 
 
-#include "../script.h"
-#include "../data/syncdata.h"
-#include "../sync/syncjob.h"
-#include "../basicfunctions.h"
-#include "../toucan.h"
+	#include "../script.h"
+	#include "../data/syncdata.h"
+	#include "../sync/syncjob.h"
+	
+	void Sync(SyncData *data){
+		SyncJob *job = new SyncJob(data);
+		job->Execute();
+	}
 
-wxString GetSettingsPath(){
-	return wxGetApp().GetSettingsPath();
-}
-
-void Sync(const wxString &source, const wxString &dest){
-	SyncData* data = new SyncData(wxT("LastSyncJob"));
-	data->SetSource(source);
-	data->SetDest(dest);
-	data->SetFunction(_("Copy"));
-	data->SetIgnoreRO(false);
-	data->SetAttributes(false);
-	data->SetIgnoreDLS(false);
-	data->SetTimeStamps(false);
-	if(data->IsReady()){
-		if(data->TransferToFile()){
-			wxArrayString arrScript;
-			arrScript.Add(wxT("Sync \"LastSyncJob\""));
-			wxGetApp().SetAbort(false);
-			wxGetApp().m_Script->SetScript(arrScript);
-			wxGetApp().m_Script->Execute();
+	void Sync(const wxString &source, const wxString &dest, const wxString &function, 
+				bool timestamps = false, bool attributes = false, 
+				bool ignorero = false, bool ignoredls = false)
+	{
+		SyncData *data = new SyncData(wxT("LastSyncJob"));
+		data->SetSource(source);
+		data->SetDest(dest);
+		data->SetFunction(function);
+		data->SetIgnoreRO(ignorero);
+		data->SetAttributes(attributes);
+		data->SetIgnoreDLS(ignoredls);
+		data->SetTimeStamps(timestamps);
+		if(data->IsReady()){
+			Sync(data);
+		}
+		else{
+			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		}
 	}
-	else{
-		wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+	
+	void Sync(const wxString &jobname){
+		SyncData *data = new SyncData(jobname);
+		if(data->TransferFromFile()){
+			if(data->IsReady()){
+				Sync(data);
+			}
+			else{
+				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+			}
+		}
 	}
-	delete data;
-}
 
+
+	#include "../basicfunctions.h"
+	#include "../toucan.h"
+
+	wxString GetSettingsPath(){
+		return wxGetApp().GetSettingsPath();
+	}
 
 #ifdef __cplusplus
 extern "C" {
@@ -1605,19 +1619,15 @@ fail:
 }
 
 
-static int _wrap_Sync(lua_State* L) {
+static int _wrap_Sync__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
   wxString *arg1 = 0 ;
-  wxString *arg2 = 0 ;
   wxString temp1 ;
-  wxString temp2 ;
   
-  SWIG_check_num_args("Sync",2,2)
+  SWIG_check_num_args("Sync",1,1)
   if(!lua_isstring(L,1)) SWIG_fail_arg("Sync",1,"wxString const &");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("Sync",2,"wxString const &");
   temp1 = wxString(lua_tostring(L,1), wxConvUTF8); arg1=&temp1;
-  temp2 = wxString(lua_tostring(L,2), wxConvUTF8); arg2=&temp2;
-  Sync((wxString const &)*arg1,(wxString const &)*arg2);
+  Sync((wxString const &)*arg1);
   
   return SWIG_arg;
   
@@ -1629,6 +1639,134 @@ fail:
 }
 
 
+static int _wrap_Sync__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  wxString *arg1 = 0 ;
+  wxString *arg2 = 0 ;
+  wxString *arg3 = 0 ;
+  bool arg4 ;
+  wxString temp1 ;
+  wxString temp2 ;
+  wxString temp3 ;
+  
+  SWIG_check_num_args("Sync",4,4)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("Sync",1,"wxString const &");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Sync",2,"wxString const &");
+  if(!lua_isstring(L,3)) SWIG_fail_arg("Sync",3,"wxString const &");
+  if(!lua_isboolean(L,4)) SWIG_fail_arg("Sync",4,"bool");
+  temp1 = wxString(lua_tostring(L,1), wxConvUTF8); arg1=&temp1;
+  temp2 = wxString(lua_tostring(L,2), wxConvUTF8); arg2=&temp2;
+  temp3 = wxString(lua_tostring(L,3), wxConvUTF8); arg3=&temp3;
+  arg4 = (lua_toboolean(L, 4)!=0);
+  Sync((wxString const &)*arg1,(wxString const &)*arg2,(wxString const &)*arg3,arg4);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Sync__SWIG_2(lua_State* L) {
+  int SWIG_arg = 0;
+  wxString *arg1 = 0 ;
+  wxString *arg2 = 0 ;
+  wxString *arg3 = 0 ;
+  wxString temp1 ;
+  wxString temp2 ;
+  wxString temp3 ;
+  
+  SWIG_check_num_args("Sync",3,3)
+  if(!lua_isstring(L,1)) SWIG_fail_arg("Sync",1,"wxString const &");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Sync",2,"wxString const &");
+  if(!lua_isstring(L,3)) SWIG_fail_arg("Sync",3,"wxString const &");
+  temp1 = wxString(lua_tostring(L,1), wxConvUTF8); arg1=&temp1;
+  temp2 = wxString(lua_tostring(L,2), wxConvUTF8); arg2=&temp2;
+  temp3 = wxString(lua_tostring(L,3), wxConvUTF8); arg3=&temp3;
+  Sync((wxString const &)*arg1,(wxString const &)*arg2,(wxString const &)*arg3);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Sync(lua_State* L) {
+  int argc;
+  int argv[5]={
+    1,2,3,4,5
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 1) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      return _wrap_Sync__SWIG_0(L);
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isstring(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isstring(L,argv[2]);
+        }
+        if (_v) {
+          return _wrap_Sync__SWIG_2(L);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      _v = lua_isstring(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isstring(L,argv[1]);
+      }
+      if (_v) {
+        {
+          _v = lua_isstring(L,argv[2]);
+        }
+        if (_v) {
+          {
+            _v = lua_isboolean(L,argv[3]);
+          }
+          if (_v) {
+            return _wrap_Sync__SWIG_1(L);
+          }
+        }
+      }
+    }
+  }
+  
+  lua_pushstring(L,"Wrong arguments for overloaded function 'Sync'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    Sync(wxString const &)\n"
+    "    Sync(wxString const &,wxString const &,wxString const &,bool)\n"
+    "    Sync(wxString const &,wxString const &,wxString const &)\n");
+  lua_error(L);return 0;
+}
+
+
 #ifdef __cplusplus
 }
 #endif
@@ -1636,7 +1774,7 @@ fail:
 static const struct luaL_reg swig_commands[] = {
     { "OutputProgress", _wrap_OutputProgress},
     { "GetSettingsPath", _wrap_GetSettingsPath},
-    { "Sync", _wrap_Sync},
+    { "Sync",_wrap_Sync},
     {0,0}
 };
 
