@@ -114,36 +114,36 @@ bool Toucan::OnInit(){
 	//Make sure the jobs file is up to date!
 	int version = 1;
 	m_Jobs_Config->Read(wxT("General/Version"), &version);
-	m_Jobs_Config->Write(wxT("General/Version"), 213);
-	m_Jobs_Config->Flush();
 	if(version < 213){
+		m_Jobs_Config->Write(wxT("General/Version"), 213);
+		m_Jobs_Config->Flush();
 		UpdateJobs(version);
 	}
 
 	//Update the script file
 	version = 1;
 	m_Scripts_Config->Read(wxT("General/Version"), &version);
-	m_Scripts_Config->Write(wxT("General/Version"), 202);
-	m_Scripts_Config->Flush();
 	if(version < 202){
+		m_Scripts_Config->Write(wxT("General/Version"), 202);
+		m_Scripts_Config->Flush();
 		UpdateRules(version);
 	}
 
 	//Update the rules file
 	version = 1;
 	m_Rules_Config->Read(wxT("General/Version"), &version);
-	m_Rules_Config->Write(wxT("General/Version"), 202);
-	m_Rules_Config->Flush();
 	if(version < 202){
+		m_Rules_Config->Write(wxT("General/Version"), 202);
+		m_Rules_Config->Flush();
 		UpdateScripts(version);
 	}	
 	
 	//Update the settings file
 	version = 1;
 	m_Rules_Config->Read(wxT("General/Version"), &version);
-	m_Rules_Config->Write(wxT("General/Version"), 213);
-	m_Rules_Config->Flush();
 	if(version < 213){
+		m_Rules_Config->Write(wxT("General/Version"), 213);
+		m_Rules_Config->Flush();
 		UpdateSettings(version);
 	}
 
