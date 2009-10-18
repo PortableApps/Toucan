@@ -35,8 +35,6 @@ public:
 	wxString GetValue();
 
 private:
-    wxBitmap GetBitmapResource(const wxString& name);
-
     wxTextCtrl* m_Location_Text;
     wxTextCtrl* m_Preview_Text;
     wxComboBox* m_Variables_Combo;

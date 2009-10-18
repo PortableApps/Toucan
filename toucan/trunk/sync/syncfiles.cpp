@@ -215,8 +215,9 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 		wxFileName from(source);
 		wxFileName to(dest);
 		wxDateTime access, mod, created;
-		from.GetTimes(&access, &mod, &created);
-		to.SetTimes(&access, &mod, &created); 
+		if(from.GetTimes(&access, &mod, &created)){
+			to.SetTimes(&access, &mod, &created); 
+		}
 	}	
 	#ifdef __WXMSW__
 		if(data->GetIgnoreRO()){
@@ -273,13 +274,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 		return CopyFilePlain(source, dest);
 	}
 
-	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream->GetLength();
-	if(size > 2147483648UL){
-		delete sourcestream;
-		delete deststream;
-		return CopyFilePlain(source, dest);
-	}
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];
@@ -371,14 +366,14 @@ bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest
 	#ifdef __WXMSW__
 		//Need to tidy up this code and submit as a patch to wxWidgets
 		FILETIME ftCreated, ftAccessed, ftModified;
-		HANDLE hFrom = CreateFile(source, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		HANDLE hFrom = CreateFile(source, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
 		if(hFrom == INVALID_HANDLE_VALUE){
 		  return false;
 		}
 		GetFileTime(hFrom, &ftCreated, &ftAccessed, &ftModified);
 		CloseHandle(hFrom);
 
-		HANDLE hTo = CreateFile(dest, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+		HANDLE hTo = CreateFile(dest, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
 		if(hTo == INVALID_HANDLE_VALUE){
 		  return false;
 		}  

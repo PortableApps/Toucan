@@ -171,7 +171,7 @@ public:
 	void SetTitleBarText();
 
 	//Sync
-	void OnSyncOKClick(wxCommandEvent& event);
+	void OnSyncRunClick(wxCommandEvent& event);
 	void OnSyncPreviewClick(wxCommandEvent& event);
 	void OnSyncJobSelectSelected(wxCommandEvent& event);	
 	void OnSyncJobSaveClick(wxCommandEvent& event);
@@ -188,10 +188,13 @@ public:
 	void OnSyncDestInsertClick(wxCommandEvent& event);
 	void OnSyncSourceTxtEnter(wxCommandEvent& event);
 	void OnSyncDestTxtEnter(wxCommandEvent& event);
-	
+	void OnSyncSourceRefresh(wxCommandEvent& event);
+	void OnSyncDestRefresh(wxCommandEvent& event);
+	void OnSyncRefresh(wxCommandEvent& event);
+
 	//Backup
-	void OnBackupOKClick(wxCommandEvent& event);
-	void OnBackupPreviewClick(wxCommandEvent& event);
+	void OnBackupRunClick(wxCommandEvent& event);
+	void OnBackupRulesSelected(wxCommandEvent& event);
 	void OnBackupLocationClick(wxCommandEvent& event);
 	void OnBackupAddClick(wxCommandEvent& event);
 	void OnBackupRemoveClick(wxCommandEvent& event);
@@ -205,10 +208,11 @@ public:
 	void OnBackupAddVarClick(wxCommandEvent& event);
 	void OnBackupTreeCtrlTooltip(wxTreeEvent& event);
 	void OnBackupTreeRightClick(wxTreeEvent& event);
+	void OnBackupRefresh(wxCommandEvent& event);
 
 	//Secure
-	void OnSecureOKClick(wxCommandEvent& event);
-	void OnSecurePreviewClick(wxCommandEvent& event);
+	void OnSecureRunClick(wxCommandEvent& event);
+	void OnSecureRulesSelected(wxCommandEvent& event);
 	void OnSecureJobSelectSelected(wxCommandEvent& event);
 	void OnSecureJobSaveClick(wxCommandEvent& event);
 	void OnSecureJobAddClick(wxCommandEvent& event);
@@ -219,7 +223,8 @@ public:
 	void OnSecureExpandClick(wxCommandEvent& event);
 	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
 	void OnSecureTreeRightClick(wxTreeEvent& event);
-	
+	void OnSecureRefresh(wxCommandEvent& event);
+
 	//Rules
 	void OnRulesComboSelected(wxCommandEvent& event);
 	void OnRulesSaveClick(wxCommandEvent& event);
@@ -239,7 +244,7 @@ public:
 	void OnVariablesListActivated(wxListEvent& event);
 	
 	//Script
-	void OnScriptExecute(wxCommandEvent& event);	
+	void OnScriptRunClick(wxCommandEvent& event);	
 	void OnScriptSelected(wxCommandEvent& event);
 	void OnScriptSaveClick(wxCommandEvent& event);	
 	void OnScriptAddClick(wxCommandEvent& event);
@@ -332,15 +337,18 @@ public:
 	wxTextCtrl* m_Secure_Repass;
 	
 	//Rules
+	wxStaticBoxSizer* RulesNameSizer;
 	wxComboBox* m_Rules_Name;
 	wxListCtrl* m_RulesList;
 	
 	//Variables
+	wxBoxSizer* VariablesTopSizer;
 	wxComboBox* m_Variables_Name;
 	wxListCtrl* m_Variables_List;
 	
 	//Script
 	wxStyledTextCtrl* m_Script_Styled;
+	wxStaticBoxSizer* ScriptNameSizer;
 	wxComboBox* m_Script_Name;
 	
 	//Settings

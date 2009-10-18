@@ -97,6 +97,11 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
 	window->m_Backup_IsPass->SetValue(GetUsesPassword());
+	window->m_Backup_Rules->SetStringSelection(GetRules()->GetName());
+
+	//Notify the window that we have updated the rules
+	wxCommandEvent event;
+	window->OnBackupRulesSelected(event);
 	return false;
 }
 

@@ -271,11 +271,7 @@ bool SyncPreview::ShouldCopy(const wxString &source, const wxString &dest){
 		return true;	
 	}
 
-	//Large files take forever to read (I think the boundary is 2GB), better off just to copy
 	wxFileOffset size = sourcestream.GetLength();
-	if(size > 2147483648UL){
-		return true;			
-	}
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];

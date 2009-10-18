@@ -44,7 +44,7 @@ extern "C"
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
 
 	//Sync
-	EVT_BUTTON(ID_SYNC_OK, frmMain::OnSyncOKClick)
+	EVT_BUTTON(ID_SYNC_RUN, frmMain::OnSyncRunClick)
 	EVT_BUTTON(ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick)	
 	EVT_BUTTON(ID_SYNC_SOURCE_EXPAND, frmMain::OnSyncSourceExpandClick)
 	EVT_BUTTON(ID_SYNC_DEST_EXPAND, frmMain::OnSyncDestExpandClick)
@@ -60,12 +60,13 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SYNC_DEST_TREE, frmMain::OnSyncTreeCtrlTooltip)
 	EVT_BUTTON(ID_SYNC_SOURCE_INSERT, frmMain::OnSyncSourceInsertClick)
 	EVT_BUTTON(ID_SYNC_DEST_INSERT, frmMain::OnSyncDestInsertClick)
-	EVT_TEXT_ENTER(ID_SYNC_SOURCE_TXT, frmMain::OnSyncSourceTxtEnter)
-	EVT_TEXT_ENTER(ID_SYNC_DEST_TXT, frmMain::OnSyncDestTxtEnter)
+	EVT_TEXT_ENTER(ID_SYNC_SOURCE_TXT, frmMain::OnSyncSourceRefresh)
+	EVT_TEXT_ENTER(ID_SYNC_DEST_TXT, frmMain::OnSyncDestRefresh)
+	EVT_BUTTON(ID_SYNC_REFRESH, frmMain::OnSyncRefresh)
 
 	//Backup
-	EVT_BUTTON(ID_BACKUP_OK, frmMain::OnBackupOKClick)
-	EVT_BUTTON(ID_BACKUP_PREVIEW, frmMain::OnBackupPreviewClick)
+	EVT_BUTTON(ID_BACKUP_RUN, frmMain::OnBackupRunClick)
+	EVT_COMBOBOX(ID_BACKUP_RULES, frmMain::OnBackupRulesSelected)
 	EVT_BUTTON(ID_BACKUP_LOCATION, frmMain::OnBackupLocationClick)
 	EVT_BUTTON(ID_BACKUP_ADD, frmMain::OnBackupAddClick)
 	EVT_BUTTON(ID_BACKUP_REMOVE, frmMain::OnBackupRemoveClick)
@@ -79,10 +80,11 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_TREE_ITEM_GETTOOLTIP(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeCtrlTooltip)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_BACKUP_TREECTRL, frmMain::OnBackupTreeRightClick)
 	EVT_RADIOBOX(ID_BACKUP_FUNCTION, frmMain::OnBackupFunctionSelected)
+	EVT_BUTTON(ID_BACKUP_REFRESH, frmMain::OnBackupRefresh)
 
 	//Secure
-	EVT_BUTTON(ID_SECURE_OK, frmMain::OnSecureOKClick)
-	EVT_BUTTON(ID_SECURE_PREVIEW, frmMain::OnSecurePreviewClick)
+	EVT_BUTTON(ID_SECURE_RUN, frmMain::OnSecureRunClick)
+	EVT_COMBOBOX(ID_SECURE_RULES, frmMain::OnSecureRulesSelected)
 	EVT_COMBOBOX(ID_SECURE_JOB_SELECT, frmMain::OnSecureJobSelectSelected)
 	EVT_BUTTON(ID_SECURE_JOB_SAVE, frmMain::OnSecureJobSaveClick)
 	EVT_BUTTON(ID_SECURE_JOB_ADD, frmMain::OnSecureJobAddClick)
@@ -93,7 +95,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SECURE_ADDVAR, frmMain::OnSecureAddVarClick)	
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SECURE_TREECTRL, frmMain::OnSecureTreeCtrlTooltip)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SECURE_TREECTRL, frmMain::OnSecureTreeRightClick)
-	
+	EVT_BUTTON(ID_SECURE_REFRESH, frmMain::OnSecureRefresh)
+
 	//Rules
 	EVT_COMBOBOX(ID_RULES_COMBO, frmMain::OnRulesComboSelected)
 	EVT_BUTTON(ID_RULES_SAVE, frmMain::OnRulesSaveClick)
@@ -113,7 +116,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_LIST_ITEM_ACTIVATED(ID_VARIABLES_LIST, frmMain::OnVariablesListActivated)
 	
 	//Script
-	EVT_BUTTON(ID_SCRIPT_EXECUTE, frmMain::OnScriptExecute)
+	EVT_BUTTON(ID_SCRIPT_RUN, frmMain::OnScriptRunClick)
 	EVT_BUTTON(ID_SCRIPT_SAVE, frmMain::OnScriptSaveClick)
 	EVT_BUTTON(ID_SCRIPT_ADD, frmMain::OnScriptAddClick)
 	EVT_BUTTON (ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick)
@@ -266,8 +269,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SyncRulesSizer = new wxStaticBoxSizer(SyncRules, wxHORIZONTAL);
 	SyncJobsRulesSizer->Add(SyncRulesSizer, 0, wxALIGN_TOP|wxALL|wxGROW, border);
 
-	wxArrayString m_Sync_RulesStrings;
-	m_Sync_Rules = new wxComboBox(SyncPanel, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Sync_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Sync_Rules = new wxComboBox(SyncPanel, ID_SYNC_RULES, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_DROPDOWN|wxCB_READONLY);
 	SyncRulesSizer->Add(m_Sync_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, border);
 
 	//Sync - Options
@@ -305,11 +307,14 @@ void frmMain::CreateControls(){
 	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
-	wxButton* SyncOKButton = new wxButton(SyncPanel, ID_SYNC_OK, _("OK"));
-	SyncButtonsSizer->Add(SyncOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* SyncRunButton = new wxButton(SyncPanel, ID_SYNC_RUN, _("Run"));
+	SyncButtonsSizer->Add(SyncRunButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxButton* SyncPreviewButton = new wxButton(SyncPanel, ID_SYNC_PREVIEW , _("Preview"));
 	SyncButtonsSizer->Add(SyncPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+
+	wxButton* SyncRefreshButton = new wxButton(SyncPanel, ID_SYNC_REFRESH , _("Refresh"));
+	SyncButtonsSizer->Add(SyncRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Sync - Main
     wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
@@ -394,8 +399,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* BackupRulesSizer = new wxStaticBoxSizer(BackupRules, wxHORIZONTAL);
 	BackupJobsRulesSizer->Add(BackupRulesSizer, 0, wxALL|wxEXPAND, border);
 
-	wxArrayString m_Backup_RulesStrings;
-	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Backup_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Backup_Rules = new wxComboBox(BackupPanel, ID_BACKUP_RULES, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_DROPDOWN|wxCB_READONLY);
 	BackupRulesSizer->Add(m_Backup_Rules, 1, wxALL, border);
 
 	//Backup - Options
@@ -438,11 +442,11 @@ void frmMain::CreateControls(){
 	wxBoxSizer* BackupButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	BackupTopSizer->Add(BackupButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
-	wxButton* BackupOKButton = new wxButton(BackupPanel, ID_BACKUP_OK, _("OK"));
-	BackupButtonsSizer->Add(BackupOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* BackupRunButton = new wxButton(BackupPanel, ID_BACKUP_RUN, _("Run"));
+	BackupButtonsSizer->Add(BackupRunButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxButton* BackupPreviewButton = new wxButton(BackupPanel, ID_BACKUP_PREVIEW , _("Preview"));
-	BackupButtonsSizer->Add(BackupPreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);	
+	wxButton* BackupRefreshButton = new wxButton(BackupPanel, ID_BACKUP_REFRESH, _("Refresh"));
+	BackupButtonsSizer->Add(BackupRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Backup - Main
     wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
@@ -480,16 +484,18 @@ void frmMain::CreateControls(){
 	BackupMainSizer->Add(BackupFilesStatic, wxGBPosition(2, 2), wxGBSpan(1, 1), wxALL, border);
 
 	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	m_Backup_TreeCtrl->SetSync(false);
+	m_Backup_TreeCtrl->SetPreview(true);
 	BackupMainSizer->Add(m_Backup_TreeCtrl, wxGBPosition(3, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* BackupAddExpandSizer = new wxBoxSizer(wxVERTICAL);
 	BackupMainSizer->Add(BackupAddExpandSizer, wxGBPosition(3, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
 
 	wxBitmapButton* BackupAddVar = new wxBitmapButton(BackupPanel, ID_BACKUP_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	BackupAddExpandSizer->Add(BackupAddVar, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	BackupAddExpandSizer->Add(BackupAddVar, 0, wxBOTTOM, border);
 
 	wxBitmapButton* BackupExpand = new wxBitmapButton(BackupPanel, ID_BACKUP_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	BackupAddExpandSizer->Add(BackupExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 2 * border);
+	BackupAddExpandSizer->Add(BackupExpand, 0, wxTOP|wxBOTTOM, border);
 
 	//Secure
 	wxPanel* SecurePanel = new wxPanel(m_Notebook, ID_PANEL_SECURE, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -525,8 +531,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SecureRulesSizer = new wxStaticBoxSizer(SecureRules, wxHORIZONTAL);
 	SecureJobsRulesSizer->Add(SecureRulesSizer, 1, wxALIGN_TOP|wxALL|wxEXPAND, border);
 
-	wxArrayString m_Secure_RulesStrings;
-	m_Secure_Rules = new wxComboBox(SecurePanel, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, m_Secure_RulesStrings, wxCB_DROPDOWN|wxCB_READONLY);
+	m_Secure_Rules = new wxComboBox(SecurePanel, ID_SECURE_RULES, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_DROPDOWN|wxCB_READONLY);
 	SecureRulesSizer->Add(m_Secure_Rules, 1, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Secure - Options
@@ -540,11 +545,11 @@ void frmMain::CreateControls(){
 	wxBoxSizer* SecureButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SecureTopSizer->Add(SecureButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
-	wxButton* SecureOKButton = new wxButton(SecurePanel, ID_SECURE_OK, _("OK"));
-	SecureButtonsSizer->Add(SecureOKButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* SecureRunButton = new wxButton(SecurePanel, ID_SECURE_RUN, _("Run"));
+	SecureButtonsSizer->Add(SecureRunButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxButton* SecurePreviewButton = new wxButton(SecurePanel, ID_SECURE_PREVIEW , _("Preview"));
-	SecureButtonsSizer->Add(SecurePreviewButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);	
+	wxButton* SecureRefreshButton = new wxButton(SecurePanel, ID_SECURE_REFRESH, _("Refresh"));
+	SecureButtonsSizer->Add(SecureRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Secure - Main
 	wxGridBagSizer* SecureMainSizer = new wxGridBagSizer(0, 0);
@@ -573,16 +578,18 @@ void frmMain::CreateControls(){
 	SecureMainSizer->Add(SecureFilesStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
 	m_Secure_TreeCtrl = new wxVirtualDirTreeCtrl(SecurePanel, ID_SECURE_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	m_Secure_TreeCtrl->SetSync(false);
+	m_Secure_TreeCtrl->SetPreview(true);
 	SecureMainSizer->Add(m_Secure_TreeCtrl, wxGBPosition(1, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SecureAddExpandSizer = new wxBoxSizer(wxVERTICAL);
 	SecureMainSizer->Add(SecureAddExpandSizer, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALIGN_CENTRE_VERTICAL|wxALL, border);
 
 	wxBitmapButton* SecureAddVar = new wxBitmapButton(SecurePanel, ID_SECURE_ADDVAR, GetBitmapResource(wxT("addvar.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SecureAddExpandSizer->Add(SecureAddVar, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	SecureAddExpandSizer->Add(SecureAddVar, 0, wxBOTTOM, border);
 
 	wxBitmapButton* SecureExpand = new wxBitmapButton(SecurePanel, ID_SECURE_EXPAND, GetBitmapResource(wxT("expandall.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
-	SecureAddExpandSizer->Add(SecureExpand, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 2 * border);
+	SecureAddExpandSizer->Add(SecureExpand, 0, wxTOP|wxBOTTOM, border);
 
 	//Rules
 	wxPanel* RulesPanel = new wxPanel(m_Notebook, ID_PANEL_RULES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -591,12 +598,10 @@ void frmMain::CreateControls(){
 
 	//Rules - Name
 	wxStaticBox* RulesName = new wxStaticBox(RulesPanel, wxID_ANY, _("Name"));
-	wxStaticBoxSizer* RulesNameSizer = new wxStaticBoxSizer(RulesName, wxHORIZONTAL);
+	RulesNameSizer = new wxStaticBoxSizer(RulesName, wxHORIZONTAL);
 	RulesSizer->Add(RulesNameSizer, 0, wxALIGN_TOP|wxTOP|wxLEFT, 2 * border);
 
-	wxArrayString m_Rules_ComboStrings;
-	m_Rules_Name = new wxComboBox(RulesPanel, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, m_Rules_ComboStrings, wxCB_READONLY);
-	m_Rules_Name->SetMinSize(wxSize(125, -1));	
+	m_Rules_Name = new wxComboBox(RulesPanel, ID_RULES_COMBO, _T(""), wxDefaultPosition, wxDefaultSize, GetRules(), wxCB_READONLY);
 	RulesNameSizer->Add(m_Rules_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* RulesNameSave = new wxBitmapButton(RulesPanel, ID_RULES_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -631,16 +636,14 @@ void frmMain::CreateControls(){
 	wxBoxSizer* VariablesSizer = new wxBoxSizer(wxVERTICAL);
     VariablesPanel->SetSizer(VariablesSizer);
 
-    wxBoxSizer* VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
+    VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
     VariablesSizer->Add(VariablesTopSizer, 0, wxALIGN_LEFT|wxALL, border);
 	
 	wxStaticBox* VariablesName = new wxStaticBox(VariablesPanel, wxID_ANY, _("Name"));
 	wxStaticBoxSizer* VariablesNameSizer = new wxStaticBoxSizer(VariablesName, wxHORIZONTAL);
 	VariablesSizer->Add(VariablesNameSizer, 0, wxALIGN_TOP|wxLEFT, 2 * border);
 
-	wxArrayString arrVariables;
-    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrVariables, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Variables_Name->SetMinSize(wxSize(125, -1));
+    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetVariables(false), wxCB_DROPDOWN|wxCB_READONLY);
 	VariablesNameSizer->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* VariablesNameSave = new wxBitmapButton(VariablesPanel, ID_VARIABLES_SAVE, GetBitmapResource(wxT("save.png")));
@@ -673,12 +676,10 @@ void frmMain::CreateControls(){
 	ScriptPanel->SetSizer(ScriptSizer);
 
 	wxStaticBox* ScriptName = new wxStaticBox(ScriptPanel, wxID_ANY, _("Name"));
-	wxStaticBoxSizer* ScriptNameSizer = new wxStaticBoxSizer(ScriptName, wxHORIZONTAL);
+	ScriptNameSizer = new wxStaticBoxSizer(ScriptName, wxHORIZONTAL);
 	ScriptSizer->Add(ScriptNameSizer, 0, wxALIGN_TOP|wxALL, 2 * border);
 
-	wxArrayString arrScripts;
-	m_Script_Name = new wxComboBox(ScriptPanel, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, arrScripts, wxCB_DROPDOWN|wxCB_READONLY);
-	m_Script_Name->SetMinSize(wxSize(125, -1));
+	m_Script_Name = new wxComboBox(ScriptPanel, ID_SCRIPT_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetScripts(), wxCB_DROPDOWN|wxCB_READONLY);
 	ScriptNameSizer->Add(m_Script_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 	
 	wxBitmapButton* ScriptNameSave = new wxBitmapButton(ScriptPanel, ID_SCRIPT_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
@@ -690,8 +691,8 @@ void frmMain::CreateControls(){
 	wxBitmapButton* ScriptNameRemove = new wxBitmapButton(ScriptPanel, ID_SCRIPT_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	ScriptNameSizer->Add(ScriptNameRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-	wxButton* ScriptExecute = new wxButton(ScriptPanel, ID_SCRIPT_EXECUTE, _("Execute"), wxDefaultPosition, wxDefaultSize, 0);
-	ScriptNameSizer->Add(ScriptExecute, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* ScriptRun = new wxButton(ScriptPanel, ID_SCRIPT_RUN, _("Run"), wxDefaultPosition, wxDefaultSize, 0);
+	ScriptNameSizer->Add(ScriptRun, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	m_Script_Styled = new wxStyledTextCtrl(ScriptPanel, ID_SCRIPT_STYLED, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_COMMENT, wxColour(wxT("rgb(0, 128, 0)")));
@@ -852,18 +853,6 @@ void frmMain::CreateControls(){
 	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
 	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
 
-	//Set up the rules boxes
-	SetRulesBox(m_Sync_Rules);
-	SetRulesBox(m_Backup_Rules);
-	SetRulesBox(m_Secure_Rules);
-	SetRulesBox(m_Rules_Name);
-
-	//Set the variables box
-	SetVariablesBox(m_Variables_Name);
-	
-	//Set the scripts box
-	SetScriptsBox(m_Script_Name);
-	
 	m_Variables_List->InsertColumn(0, _("Computer"));
 	m_Variables_List->InsertColumn(1, _("Expansion"));
 	
@@ -885,6 +874,7 @@ void frmMain::CreateControls(){
 		SyncDestExpand->SetToolTip(_("Expand all"));
 		SyncSourceInsert->SetToolTip(_("Insert Variable"));
 		SyncDestInsert->SetToolTip(_("Insert Variable"));
+		SyncRefreshButton->SetToolTip(_("Refresh"));
 		//Backup
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
@@ -893,6 +883,7 @@ void frmMain::CreateControls(){
 		BackupRemove->SetToolTip(_("Remove"));
 		BackupAddVar->SetToolTip(_("Insert Variable"));
 		BackupExpand->SetToolTip(_("Expand all"));
+		BackupRefreshButton->SetToolTip(_("Refresh"));
 		//Secure
 		SecureJobSave->SetToolTip(_("Save"));
 		SecureJobAdd->SetToolTip(_("Add"));
@@ -901,6 +892,7 @@ void frmMain::CreateControls(){
 		SecureRemove->SetToolTip(_("Remove"));
 		SecureAddVar->SetToolTip(_("Insert Variable"));
 		SecureExpand->SetToolTip(_("Expand all"));
+		SecureRefreshButton->SetToolTip(_("Refresh"));
 		//Rules
 		RulesNameSave->SetToolTip(_("Save"));
 		RulesNameAdd->SetToolTip(_("Add"));
@@ -1009,7 +1001,6 @@ wxBitmap frmMain::GetBitmapResource(const wxString& name){
 //ID_BACKUP_ADD
 void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
-	m_Backup_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Backup_DirCtrl->GetSelectedPaths();
 	int added = arrPaths.GetCount();
 	int existing = m_BackupLocations->GetCount();
@@ -1026,7 +1017,6 @@ void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 //ID_SECURE_ADD
 void frmMain::OnSecureAddClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
-	m_Secure_TreeCtrl->SetPreview(false);
 	wxArrayString arrPaths = m_Secure_DirCtrl->GetSelectedPaths();
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_SecureLocations->Add(arrPaths.Item(i));
@@ -1139,56 +1129,98 @@ void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_SAVE
 void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
-	if(m_Rules_Name->GetStringSelection() != wxEmptyString){
-		Rules rules(m_Rules_Name->GetStringSelection());
-		rules.TransferFromForm(this);
-		rules.TransferToFile();
+	if(m_Rules_Name->GetStringSelection() == wxEmptyString){
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new rules"), _("New Rules"));
+		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+			m_Rules_Name->Append(dialog.GetValue());
+			m_Rules_Name->SetStringSelection(dialog.GetValue());
+		}
+		else{
+			return;
+		}
 	}
-	else{
-		wxMessageBox(_("You must select a name for this set of Rules"), _("Error"), wxICON_ERROR);
-	}
+	Rules rules(m_Rules_Name->GetStringSelection());
+	rules.TransferFromForm(this);
+	rules.TransferToFile();
 	//Store what the old selected rules were
 	wxString sync, backup, secure;
 	sync = m_Sync_Rules->GetStringSelection();
 	backup = m_Backup_Rules->GetStringSelection();
 	secure = m_Secure_Rules->GetStringSelection();
 	//Set up the rules boxes
-	SetRulesBox(m_Sync_Rules);
-	SetRulesBox(m_Backup_Rules);
-	SetRulesBox(m_Secure_Rules);
+	m_Sync_Rules->Clear();
+	m_Backup_Rules->Clear();
+	m_Secure_Rules->Clear();
+	m_Sync_Rules->Append(GetRules());
+	m_Backup_Rules->Append(GetRules());
+	m_Secure_Rules->Append(GetRules());
 	//Set them to old values
 	m_Sync_Rules->SetStringSelection(sync);
 	m_Backup_Rules->SetStringSelection(backup);
 	m_Secure_Rules->SetStringSelection(secure);
+	//Then refresh if needed
+	if(m_Sync_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
+		wxCommandEvent event;
+		OnSyncRefresh(event);
+	}
+	if(m_Backup_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
+		wxCommandEvent event;
+		OnBackupRefresh(event);
+	}
+	if(m_Secure_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
+		wxCommandEvent event;
+		OnSecureRefresh(event);
+	}
 }
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxTextEntryDialog dialog(this, _("Please enter the name for the new rules"), _("New Rules"));
-	if (dialog.ShowModal() == wxID_OK) {
-		m_Rules_Name->AppendString(dialog.GetValue());
-		m_Rules_Name->SetStringSelection(dialog.GetValue());
-		//m_Rules_LocationInclude->Clear();
+	if(m_RulesList->GetItemCount() > 0){
+		wxMessageDialog dialog(this, _("Do you wish to save the current rules?"), _("Rules Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnRulesSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
+	}
+	wxArrayString existing = GetRules();
+	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new rules"), _("New Rules"));
+	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a set of rules with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
+		m_Rules_Name->AppendString(entrydialog.GetValue());
+		m_Rules_Name->SetStringSelection(entrydialog.GetValue());
+		m_RulesList->DeleteAllItems();
+		UpdateSizer(RulesNameSizer);
 	}
 }
 
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	//m_Rules_LocationInclude->Clear();
+	m_RulesList->DeleteAllItems();
 	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
+	UpdateSizer(RulesNameSizer);
 }
 
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	//Clear the existing rules
-	//m_Rules_LocationInclude->Clear();
+	m_RulesList->DeleteAllItems();
 	Rules rules(m_Rules_Name->GetStringSelection());
 	if (rules.TransferFromFile()) {
 		rules.TransferToForm(this);
 	}
-
+	m_RulesList->SetColumnWidth(0, -1);
+	m_RulesList->SetColumnWidth(1, -1);
 	SetTitleBarText();
 }
 
@@ -1209,14 +1241,16 @@ void frmMain::OnSecureJobSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_JOB_ADD
 void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnSyncJobSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_Sync_Job_Select->GetStringSelection() != wxEmptyString || m_Sync_Source_Txt->GetValue() != wxEmptyString || m_Sync_Dest_Txt->GetValue() != wxEmptyString){
+		wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnSyncJobSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	JobAdd(m_Sync_Job_Select);
 	UpdateSizer(SyncTopSizer);
@@ -1224,14 +1258,16 @@ void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_JOB_ADD
 void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnBackupJobSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_Backup_Job_Select->GetStringSelection() != wxEmptyString || m_BackupLocations->GetCount() > 0){
+		wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnBackupJobSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	JobAdd(m_Backup_Job_Select);
 	UpdateSizer(BackupTopSizer);
@@ -1239,14 +1275,16 @@ void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SECURE_JOB_ADD
 void frmMain::OnSecureJobAddClick(wxCommandEvent& WXUNUSED(event)){
-	wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
-	int ret = dialog.ShowModal();
-	if(ret == wxID_YES){
-		wxCommandEvent newevent;
-		OnSecureJobSaveClick(newevent);
-	}
-	else if(ret == wxID_CANCEL){
-		return;
+	if(m_Secure_Job_Select->GetStringSelection() != wxEmptyString || m_SecureLocations->GetCount() > 0){
+		wxMessageDialog dialog(this, _("Do you wish to save the current job?"), _("Job Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnSecureJobSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
 	JobAdd(m_Secure_Job_Select);
 	UpdateSizer(SecureTopSizer);
@@ -1315,13 +1353,13 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-//ID_SYNC_OK
-void frmMain::OnSyncOKClick(wxCommandEvent& WXUNUSED(event)){
+//ID_SYNC_RUN
+void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	Run(wxT("Sync"));
 }
 
-//ID_BACKUP_OK
-void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
+//ID_BACKUP_RUN
+void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
 		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR);
 		return;
@@ -1336,8 +1374,8 @@ void frmMain::OnBackupOKClick(wxCommandEvent& WXUNUSED(event)){
 	Run(wxT("Backup"));
 }
 
-//ID_SECURE_OK
-void frmMain::OnSecureOKClick(wxCommandEvent& WXUNUSED(event)){
+//ID_SECURE_RUN
+void frmMain::OnSecureRunClick(wxCommandEvent& WXUNUSED(event)){
 	Run(wxT("Secure"));
 	m_Secure_DirCtrl->ReCreateTree();
 }
@@ -1380,16 +1418,12 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_BACKUP_PREVIEW
-void frmMain::OnBackupPreviewClick(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		Rules *rules = new Rules(m_Backup_Rules->GetStringSelection());
 		rules->TransferFromFile();
 		m_Backup_TreeCtrl->SetRules(rules);
 	}
-	//Set up the tree ctrl for previewing
-	m_Backup_TreeCtrl->SetSync(false);
-	m_Backup_TreeCtrl->SetPreview(true);
-
 	//Delete all items and re-add the root
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -1400,15 +1434,12 @@ void frmMain::OnBackupPreviewClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SECURE_PREVIEW
-void frmMain::OnSecurePreviewClick(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		Rules *rules = new Rules(m_Secure_Rules->GetStringSelection());
 		rules->TransferFromFile();
 		m_Secure_TreeCtrl->SetRules(rules);
 	}
-	//Set up the tree ctrl for previewing
-	m_Secure_TreeCtrl->SetSync(false);
-	m_Secure_TreeCtrl->SetPreview(true);
 	//Delete all items and re-add the root
 	m_Secure_TreeCtrl->DeleteAllItems();
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
@@ -1458,6 +1489,16 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 
 //ID_VARIABLES_SAVE
 void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Variables_Name->GetValue() == wxEmptyString){
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new varaible"), _("New Variable"));
+		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+			m_Variables_Name->Append(dialog.GetValue());
+			m_Variables_Name->SetStringSelection(dialog.GetValue());
+		}
+		else{
+			return;
+		}
+	}
 	for(int i = 0; i < m_Variables_List->GetItemCount(); i++){
 		wxListItem itemcol1, itemcol2;
 		itemcol1.m_itemId = i;
@@ -1475,27 +1516,34 @@ void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_VARIABLES_ADD
 void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){	
-    wxTextEntryDialog dialog(this, _("Please enter the name for the new variable"), _("New Variable") ,wxEmptyString, wxOK|wxCANCEL);
-	if(dialog.ShowModal() == wxID_OK){
-        if(!wxGetApp().m_Variables_Config->HasGroup(dialog.GetValue())){
-            m_Variables_List->ClearAll();
-            wxListItem column;
-            m_Variables_List->InsertColumn(0, _("Computer"));
-            m_Variables_List->InsertColumn(1, _("Expansion"));
-            wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + wxGetFullHostName() , wxEmptyString);
-            wxGetApp().m_Variables_Config->Write(dialog.GetValue() + wxT("/") + _("Other") , wxEmptyString);
-            wxGetApp().m_Variables_Config->Flush();
-            m_Variables_Name->Append(dialog.GetValue());
-            m_Variables_Name->SetStringSelection(dialog.GetValue());
-            m_Variables_List->InsertItem(0, wxT("Test"));
-            m_Variables_List->SetItem(0, 0, wxGetFullHostName());
-            m_Variables_List->InsertItem(1, wxT("Test"));
-            m_Variables_List->SetItem(1, 0, _("Other"));
-        }
-        else{
-            wxMessageBox(_("There is already a variable with this name."), _("Error"), wxICON_ERROR);
-        }
-    }
+	wxMessageDialog dialog(this, _("Do you wish to save the current variable?"), _("Variable Save"), wxYES_NO|wxCANCEL);
+	int ret = dialog.ShowModal();
+	if(ret == wxID_YES){
+		wxCommandEvent newevent;
+		OnVariablesSaveClick(newevent);
+	}
+	else if(ret == wxID_CANCEL){
+		return;
+	}
+	wxArrayString existing = GetVariables(true);
+    wxTextEntryDialog entrydialog(this, _("Please enter the name for the new variable"), _("New Variable"));
+	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a variable with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
+        m_Variables_Name->Append(entrydialog.GetValue());
+        m_Variables_Name->SetStringSelection(entrydialog.GetValue());
+        m_Variables_List->ClearAll();
+        wxListItem column;
+        m_Variables_List->InsertColumn(0, _("Computer"));
+        m_Variables_List->InsertColumn(1, _("Expansion"));
+        m_Variables_List->InsertItem(0, wxGetFullHostName());
+        m_Variables_List->InsertItem(1, _("Other"));
+		UpdateSizer(VariablesTopSizer);
+	}
 }
 
 //ID_VARIABLES_REMOVE
@@ -1508,6 +1556,7 @@ void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	wxListItem column;
 	m_Variables_List->InsertColumn(0, _("Computer"));
 	m_Variables_List->InsertColumn(1, _("Expansion"));
+	UpdateSizer(VariablesTopSizer);
 }
 
 //ID_VARIABLES_NAME
@@ -1600,7 +1649,7 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 	}
 }
 
-//ID_SCRIPT_EXECUTE
+//ID_SCRIPT_RUN
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 	//Set up all of the form related stuff
 	frmProgress *m_ProgressWindow = wxGetApp().ProgressWindow;
@@ -1677,7 +1726,17 @@ void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_SAVE
-void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){	
+void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Script_Name->GetValue() == wxEmptyString){
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new script"), _("New Script"));
+		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
+			m_Script_Name->Append(dialog.GetValue());
+			m_Script_Name->SetStringSelection(dialog.GetValue());
+		}
+		else{
+			return;
+		}
+	}
 	wxArrayString arrContents;
 	for(signed int i = 0; i < m_Script_Styled->GetNumberOfLines(); i++){
 		arrContents.Add(m_Script_Styled->GetLineText(i));
@@ -1687,20 +1746,41 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_REMOVE
-void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){	
+void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
+	m_Script_Rich->Clear();
 	wxGetApp().m_Scripts_Config->DeleteGroup(m_Script_Name->GetStringSelection());
 	wxGetApp().m_Scripts_Config->Flush();
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
+	UpdateSizer(ScriptNameSizer);
 }
 
 //ID_SCRIPT_ADD
-void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){	
-	wxTextEntryDialog* dialog = new wxTextEntryDialog(this, _("Please enter the name for the new script"), _("New Script") ,wxEmptyString, wxOK|wxCANCEL);
-	if (dialog->ShowModal() == wxID_OK) {
-		m_Script_Name->Append(dialog->GetValue());
-		m_Script_Name->SetStringSelection(dialog->GetValue());
+void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
+	if(m_Script_Rich->GetValue() != wxEmptyString){
+		wxMessageDialog dialog(this, _("Do you wish to save the current script?"), _("Script Save"), wxYES_NO|wxCANCEL);
+		int ret = dialog.ShowModal();
+		if(ret == wxID_YES){
+			wxCommandEvent newevent;
+			OnScriptSaveClick(newevent);
+		}
+		else if(ret == wxID_CANCEL){
+			return;
+		}
 	}
-	delete dialog;
+	wxArrayString existing = GetScripts();
+	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new script"), _("New Script"));
+	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
+		for(unsigned int i = 0; i < existing.Count(); i++){
+			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
+				wxMessageBox(_("There is already a script with this name"), _("Error"), wxICON_ERROR);
+				return;
+			}
+		}
+		m_Script_Rich->Clear();
+		m_Script_Name->Append(entrydialog.GetValue());
+		m_Script_Name->SetStringSelection(entrydialog.GetValue());
+		UpdateSizer(ScriptNameSizer);
+	}
 }
 
 //ID_BACKUP_RATIO
@@ -1948,17 +2028,18 @@ void frmMain::ClearToDefault(){
 		m_Backup_IsPass->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
+		m_Backup_TreeCtrl->SetRules(new Rules(wxT("temp")));
 		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+		m_Backup_Rules->SetStringSelection(wxEmptyString);
 		m_BackupLocations->Clear();
-		m_Backup_TreeCtrl->SetPreview(false);
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Secure")){
 		m_Secure_Function->SetStringSelection(_("Encrypt"));
 		m_Secure_Rules->SetStringSelection(wxEmptyString);
 		m_Secure_TreeCtrl->DeleteAllItems();
+		m_Secure_TreeCtrl->SetRules(new Rules(wxT("temp")));
 		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 		m_SecureLocations->Clear();
-		m_Backup_TreeCtrl->SetPreview(false);
 	}
 }
 
@@ -2023,7 +2104,12 @@ void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 		arrFileExclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
 		rules.SetExcludedFiles(arrFileExclude);
 		rules.TransferToFile();
-	}	
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_FILEEXCLUDE_NAME
@@ -2033,9 +2119,14 @@ void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		rules.TransferFromFile();
 		wxArrayString arrFileExclude = rules.GetExcludedFolders();
 		arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetExcludedFolders(arrFileExclude);
+		rules.SetExcludedFiles(arrFileExclude);
 		rules.TransferToFile();
-	}	
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_LOCATIONINCLUDE_EXTENSION
@@ -2047,7 +2138,12 @@ void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event
 		arrLocationInclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
 		rules.SetIncludedLocations(arrLocationInclude);
 		rules.TransferToFile();
-	}		
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_LOCATIONINCLUDE_NAME
@@ -2059,7 +2155,12 @@ void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		arrLocationInclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
 		rules.SetIncludedLocations(arrLocationInclude);
 		rules.TransferToFile();
-	}		
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_FOLDEREXCLUDE_NAME
@@ -2071,7 +2172,12 @@ void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
 		rules.SetExcludedFolders(arrFolderExclude);
 		rules.TransferToFile();
-	}		
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
@@ -2094,12 +2200,10 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 
 void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
 	if(event.GetString() == _("Restore")){
-		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Disable();
 		wxWindow::FindWindowById(ID_BACKUP_LOCATIONSTATIC)->SetLabel(_("Location to Extract into"));
 		wxWindow::FindWindowById(ID_BACKUP_FILESSTATIC)->SetLabel(_("Archives to Extract"));
 	}
 	else{
-		wxWindow::FindWindowById(ID_BACKUP_PREVIEW)->Enable();
 		wxWindow::FindWindowById(ID_BACKUP_LOCATIONSTATIC)->SetLabel(_("Backup Location"));
 		wxWindow::FindWindowById(ID_BACKUP_FILESSTATIC)->SetLabel(_("Files to Backup"));
 	}
@@ -2182,38 +2286,16 @@ void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().m_Settings->SetRememberSecure(m_Settings_RememberSecure->GetValue());
 	wxGetApp().m_Settings->SetEnableTooltips(m_Settings_EnableTooltips->GetValue());
 	wxGetApp().m_Settings->SetSmallBorders(m_Settings_SmallBorders->GetValue());
-	
-	if(wxGetApp().m_Settings->GetRememberSync()){
-		SyncData data(wxT("SyncRemember"));
-		data.TransferFromForm(this);
-		data.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberBackup()){	
-		BackupData bdata(wxT("BackupRemember"));
-		bdata.TransferFromForm(this);
-		bdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberSecure()){
-		SecureData sdata(wxT("SecureRemember"));
-		sdata.TransferFromForm(this);
-		sdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
 
 	//Set the height and width to be relative to allow Toucan to fit properly when resolution is changed
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
-	
+
 	wxGetApp().m_Settings->SetHeight((double)(this->GetSize().GetHeight())/(height));
 	wxGetApp().m_Settings->SetWidth((double)(this->GetSize().GetWidth())/(width));
 	wxGetApp().m_Settings->SetX((double)(this->GetScreenPosition().x)/(width));
 	wxGetApp().m_Settings->SetY((double)(this->GetScreenPosition().y)/(height));
-	
+
 	wxGetApp().m_Settings->TransferToFile();
 	wxGetApp().RebuildForm();	
 }
@@ -2254,18 +2336,48 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-void frmMain::OnSyncSourceTxtEnter(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnSyncRefresh(wxCommandEvent& WXUNUSED(event)){
+	wxCommandEvent event;
+	OnSyncSourceRefresh(event);
+	OnSyncDestRefresh(event);
+}
+
+void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
+		TreeStateSaver saver(m_Sync_Source_Tree);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 }
 
-void frmMain::OnSyncDestTxtEnter(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
+		TreeStateSaver saver(m_Sync_Dest_Tree);
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
+	}
+}
+
+void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
+	TreeStateSaver treesaver(m_Backup_TreeCtrl);
+	TreeStateSaver dirsaver(m_Backup_DirCtrl->GetTreeCtrl());
+	m_Backup_DirCtrl->ReCreateTree();
+	m_Backup_TreeCtrl->DeleteAllItems();
+	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
+		m_Backup_TreeCtrl->AddNewPath(m_BackupLocations->Item(i));
+	}
+}
+
+void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
+	TreeStateSaver treesaver(m_Secure_TreeCtrl);
+	TreeStateSaver dirsaver(m_Secure_DirCtrl->GetTreeCtrl());
+	m_Secure_DirCtrl->ReCreateTree();
+	m_Secure_TreeCtrl->DeleteAllItems();
+	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
+	for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
+		m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
 	}
 }
