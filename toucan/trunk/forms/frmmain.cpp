@@ -116,7 +116,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_LIST_ITEM_ACTIVATED(ID_VARIABLES_LIST, frmMain::OnVariablesListActivated)
 	
 	//Script
-	EVT_BUTTON(ID_SCRIPT_RUN, frmMain::OnScriptRunClick)
+	EVT_BUTTON(ID_SCRIPT_RUN, frmMain::OnScriptExecute)
 	EVT_BUTTON(ID_SCRIPT_SAVE, frmMain::OnScriptSaveClick)
 	EVT_BUTTON(ID_SCRIPT_ADD, frmMain::OnScriptAddClick)
 	EVT_BUTTON (ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick)
@@ -1747,7 +1747,7 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_REMOVE
 void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	m_Script_Rich->Clear();
+	m_Script_Styled->Clear();
 	wxGetApp().m_Scripts_Config->DeleteGroup(m_Script_Name->GetStringSelection());
 	wxGetApp().m_Scripts_Config->Flush();
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
@@ -1756,7 +1756,7 @@ void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_ADD
 void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
-	if(m_Script_Rich->GetValue() != wxEmptyString){
+	if(m_Script_Styled->GetValue() != wxEmptyString){
 		wxMessageDialog dialog(this, _("Do you wish to save the current script?"), _("Script Save"), wxYES_NO|wxCANCEL);
 		int ret = dialog.ShowModal();
 		if(ret == wxID_YES){
@@ -1776,7 +1776,7 @@ void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
 				return;
 			}
 		}
-		m_Script_Rich->Clear();
+		m_Script_Styled->Clear();
 		m_Script_Name->Append(entrydialog.GetValue());
 		m_Script_Name->SetStringSelection(entrydialog.GetValue());
 		UpdateSizer(ScriptNameSizer);

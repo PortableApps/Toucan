@@ -36,8 +36,9 @@ enum{
 	ID_AUINOTEBOOK,
 	//Sync
 	ID_PANEL_SYNC,
-	ID_SYNC_OK,
+	ID_SYNC_RUN,
 	ID_SYNC_PREVIEW,
+	ID_SYNC_REFRESH,
 	ID_SYNC_JOB_SELECT,
 	ID_SYNC_JOB_SAVE,
 	ID_SYNC_JOB_ADD,
@@ -60,8 +61,8 @@ enum{
 	ID_SYNC_IGNOREDS,
 	//Backup
 	ID_PANEL_BACKUP,
-	ID_BACKUP_OK,
-	ID_BACKUP_PREVIEW,
+	ID_BACKUP_RUN,
+	ID_BACKUP_REFRESH,
 	ID_BACKUP_JOB_SELECT,
 	ID_BACKUP_JOB_SAVE,
 	ID_BACKUP_JOB_ADD,
@@ -84,8 +85,8 @@ enum{
 	ID_BACKUP_FILESSTATIC,
 	//Secure
 	ID_PANEL_SECURE,
-	ID_SECURE_OK,
-	ID_SECURE_PREVIEW,
+	ID_SECURE_RUN,
+	ID_SECURE_REFRESH,
 	ID_SECURE_RULES,
 	ID_SECURE_JOB_SELECT,
 	ID_SECURE_JOB_SAVE,
@@ -127,7 +128,7 @@ enum{
 	ID_SCRIPT_REMOVE,
 	ID_SCRIPT_STYLED,
 	ID_SCRIPT_CHECK,
-	ID_SCRIPT_EXECUTE,
+	ID_SCRIPT_RUN,
 	//Settings
 	ID_PANEL_SETTINGS,
 	ID_SETTINGS_TABSTYLE,
@@ -244,7 +245,7 @@ public:
 	void OnVariablesListActivated(wxListEvent& event);
 	
 	//Script
-	void OnScriptRunClick(wxCommandEvent& event);	
+	void OnScriptExecute(wxCommandEvent& event);	
 	void OnScriptSelected(wxCommandEvent& event);
 	void OnScriptSaveClick(wxCommandEvent& event);	
 	void OnScriptAddClick(wxCommandEvent& event);
@@ -347,8 +348,8 @@ public:
 	wxListCtrl* m_Variables_List;
 	
 	//Script
-	wxStyledTextCtrl* m_Script_Styled;
 	wxStaticBoxSizer* ScriptNameSizer;
+	wxStyledTextCtrl* m_Script_Styled;
 	wxComboBox* m_Script_Name;
 	
 	//Settings
