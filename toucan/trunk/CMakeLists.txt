@@ -61,10 +61,27 @@ if(WIN32)
     set(source ${source} toucan.rc)
 endif(WIN32)
 
-#Find cxxtest
-find_package(CxxTest)
-include_directories(${CXXTEST_INCLUDE_DIR})
+#Options for our unit tests
+option(Enable_Tests "Enable building Toucans unit tests?" true)
+
+if(Enable_Tests)
+    find_package(CxxTest)
+    include_directories(${CXXTEST_INCLUDE_DIR})
+
+    enable_testing()
+
+    add_custom_command(
+        OUTPUT  test.cpp
+        DEPENDS test.h
+        COMMAND ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --error-printer -o ${CMAKE_CURRENT_BINARY_DIR}/test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/test.h
+    )
+
+    set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/test.cpp PROPERTIES GENERATED true)
+    add_executable(test test.cpp test.h rules.cpp variables.cpp)
+    add_test(test test)
+    target_link_libraries(test ${wxWidgets_LIBRARIES})
+endif(Enable_Tests)
 
 #Set up the exe
-add_executable (toucan ${source} ${headers})
+add_executable(toucan ${source} ${headers})
 target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES})
