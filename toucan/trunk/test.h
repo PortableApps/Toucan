@@ -12,7 +12,6 @@
 #include <wx/string.h>
 #include <wx/datetime.h>
 #include <wx/arrstr.h>
-#include <wx/app.h>
 #include <cxxtest/TestSuite.h>
 
 //Please note when modifying this file the descriptors at the end of cmdline.cpp need to be updated too
