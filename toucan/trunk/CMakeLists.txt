@@ -29,6 +29,9 @@ if(MSVC)
             string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
         endif(${flag_var} MATCHES "/MDd")
     endforeach(flag_var)
+    
+    #Disable manifest creation as we have our own .rc file
+    string(REPLACE "/MANIFEST" "/MANIFEST:NO" CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS})
 endif(MSVC)
 
 #Traverse through the sub-directories
