@@ -1463,7 +1463,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 //ID_VARIABLES_SAVE
 void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
 	if(m_Variables_Name->GetValue() == wxEmptyString){
-		wxTextEntryDialog dialog(this,  _("Please enter the name for the new varaible"), _("New Variable"));
+		wxTextEntryDialog dialog(this,  _("Please enter the name for the new variable"), _("New Variable"));
 		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
 			m_Variables_Name->Append(dialog.GetValue());
 			m_Variables_Name->SetStringSelection(dialog.GetValue());
