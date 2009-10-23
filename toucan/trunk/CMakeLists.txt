@@ -14,6 +14,10 @@ if(wxWidgets_CONFIGURATION MATCHES "u")
     add_definitions(-DUNICODE)
 endif(wxWidgets_CONFIGURATION MATCHES "u")
 
+#Find Lua
+find_package(Lua51 REQUIRED)
+include_directories(${LUA_INCLUDE_DIR})
+
 if(MSVC)
     #Set the warning level to maximum
     if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
@@ -84,4 +88,4 @@ endif(Enable_Tests)
 
 #Set up the exe
 add_executable(toucan ${source} ${headers})
-target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES})
+target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
