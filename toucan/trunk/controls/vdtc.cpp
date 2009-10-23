@@ -15,6 +15,8 @@
 #include "../sync/syncpreview.h"
 
 #define ID_SYNC_SOURCE_TREE 10060
+#define ID_BACKUP_TREECTRL 10115
+#define ID_BACKUP_FUNCTION 10117
 
 // WDR: class implementations
 
@@ -412,6 +414,12 @@ void wxVirtualDirTreeCtrl::OnDirectoryScanEnd(VdtcTreeItemBaseArray &items, cons
 {
 	//If we are previewing and are in backup or secure
 	if(!_IsSync && _Preview){
+		if(this->GetId() == ID_BACKUP_TREECTRL){
+			wxRadioBox *box = static_cast<wxRadioBox*> (wxWindow::FindWindowById(ID_BACKUP_FUNCTION));
+			if(box->GetStringSelection() == _("Restore")){
+				return;
+			}
+		}
 		//If the files should be excluded then set the correct colour, the actuall colour wil be set on the item later
 		for (unsigned int i = 0; i < items.GetCount(); i++) {
 			wxString strComplete = path.GetPath() + wxFILE_SEP_PATH + items.Item(i)->GetName();
