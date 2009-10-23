@@ -1,8 +1,17 @@
+%module toucan
+%include "wxstring.i"
+
 %{
-	#include "../script.h"
-	#include "../data/syncdata.h"
-	#include "../sync/syncjob.h"
-	
+	#include "toucan.h"
+	#include "script.h"
+	#include "basicfunctions.h"
+	#include "data/syncdata.h"
+	#include "sync/syncjob.h"
+
+	wxString GetSettingsPath(){
+		return wxGetApp().GetSettingsPath();
+	}
+
 	void Sync(SyncData *data){
 		SyncJob *job = new SyncJob(data);
 		job->Execute();
@@ -40,3 +49,9 @@
 		}
 	}
 %}
+
+void OutputProgress(wxString message);
+wxString GetSettingsPath();
+
+void Sync(const wxString &jobname);
+void Sync(const wxString &source, const wxString &dest, const wxString &function, bool timestamps = false);
