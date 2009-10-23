@@ -322,6 +322,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\toucan.cpp"
 				>
 			</File>
