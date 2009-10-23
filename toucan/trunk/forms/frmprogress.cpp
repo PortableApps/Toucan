@@ -187,6 +187,9 @@ void frmProgress::OnScriptFinish(wxCommandEvent& event){
 
 //ID_SCRIPTTEXT
 void frmProgress::OnScriptText(wxCommandEvent& event){
+	if(event.GetString() == wxEmptyString){
+		return;
+	}
 	long location = std::max(0, m_List->GetItemCount() - 1);
 	long index = m_List->InsertItem(location, wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());

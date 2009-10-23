@@ -91,15 +91,18 @@ bool BackupJob::Execute(){
 
 		if(!wxGetApp().GetUsesGUI()){
 			while(!wxGetApp().GetFinished()){
+				//Nasty hack so we send some events to the dialog and
+				//thus output is displayed
+				OutputProgress(wxT(""));
 				//So we dont thrash the processor
 				wxMilliSleep(10);
-				wxGetApp().Yield();
+				wxGetApp().Yield(true);
 			}
+			thread->Wait();
 		}
 		else{
 			thread->Wait();
-		}
-		
+		}	
 	}
 	wxGetApp().SetFinished(false);
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);

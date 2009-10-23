@@ -57,12 +57,14 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 }
 
 void OutputProgress(wxString message){
-	if(message == wxEmptyString){
-		return;
-	}
+	//We always send to message to the progress dialog because it helps 
+	//display output in command line backup mode
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTTEXT);
 	event.SetString(message);
 	wxPostEvent(wxGetApp().ProgressWindow, event);
+	if(message == wxEmptyString){
+		return;
+	}
 	cout << message << endl;	
 }
 
