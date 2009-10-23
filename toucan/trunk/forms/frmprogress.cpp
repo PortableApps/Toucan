@@ -190,7 +190,7 @@ void frmProgress::OnScriptText(wxCommandEvent& event){
 	if(event.GetString() == wxEmptyString){
 		return;
 	}
-	long index = m_List->InsertItem(location, wxEmptyString);
+	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 	m_List->SetItem(index, 1, event.GetString());
 	m_List->EnsureVisible(index);
 	Update();
