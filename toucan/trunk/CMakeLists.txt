@@ -104,3 +104,12 @@ add_test(test toucan unittests)
 #Set up the exe
 add_executable(toucan ${source} ${headers})
 target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
+
+#Once we have built Toucan move it somewhere suitable
+set(Toucan_Output "C:\\" CACHE PATH "The path to an existing Toucan installation")
+set(Toucan_Exepath ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/toucan${CMAKE_EXECUTABLE_SUFFIX})
+add_custom_command(
+    TARGET toucan
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${Toucan_Exepath} ${Toucan_Output}/App/toucan/toucan${CMAKE_EXECUTABLE_SUFFIX}
+)

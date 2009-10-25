@@ -318,6 +318,8 @@ void frmMain::CreateControls(){
 
 	//Sync - Main
     wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
+	SyncMainSizer->SetCols(4);
+	SyncMainSizer->SetRows(3);
 	SyncMainSizer->AddGrowableCol(0);
 	SyncMainSizer->AddGrowableCol(2);
 	SyncMainSizer->AddGrowableRow(2);
@@ -450,6 +452,8 @@ void frmMain::CreateControls(){
 
 	//Backup - Main
     wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
+	BackupMainSizer->SetCols(4);
+	BackupMainSizer->SetRows(4);
 	BackupMainSizer->AddGrowableCol(0);
 	BackupMainSizer->AddGrowableCol(2);
 	BackupMainSizer->AddGrowableRow(3);
@@ -553,6 +557,8 @@ void frmMain::CreateControls(){
 
 	//Secure - Main
 	wxGridBagSizer* SecureMainSizer = new wxGridBagSizer(0, 0);
+	SecureMainSizer->SetCols(4);
+	SecureMainSizer->SetRows(2);
 	SecureMainSizer->AddGrowableCol(0);
 	SecureMainSizer->AddGrowableCol(2);
 	SecureMainSizer->AddGrowableRow(1);
