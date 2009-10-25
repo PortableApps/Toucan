@@ -2021,8 +2021,8 @@ void frmMain::ClearToDefault(){
 		m_Sync_Dest_Txt->SetValue(wxEmptyString);
 		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->DeleteAllItems();
+		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Source_Tree->SetPreview(false);
 		m_Sync_Dest_Tree->SetPreview(false);
 	}
