@@ -42,9 +42,6 @@ if(MSVC)
             string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
         endif(${flag_var} MATCHES "/MDd")
     endforeach(flag_var)
-    
-    #Disable manifest creation as we have our own .rc file
-    string(REPLACE "/MANIFEST" "/MANIFEST:NO" CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS})
 endif(MSVC)
 
 #Traverse through the sub-directories
@@ -104,6 +101,11 @@ add_test(test toucan unittests)
 #Set up the exe
 add_executable(toucan ${source} ${headers})
 target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
+
+if(MSVC)
+    #Disable manifest creation as we have our own .rc file
+	set_target_properties(toucan PROPERTIES LINK_FLAGS "/MANIFEST:NO")
+endif(MSVC)
 
 #Once we have built Toucan move it somewhere suitable
 set(Toucan_Output "C:\\" CACHE PATH "The path to an existing Toucan installation")
