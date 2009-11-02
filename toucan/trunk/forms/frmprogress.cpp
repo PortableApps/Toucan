@@ -19,7 +19,6 @@
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
-	EVT_CLOSE(frmProgress::OnCloseWindow)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
@@ -87,8 +86,7 @@ void frmProgress::CreateControls(){
 }
 
 void frmProgress::OnOkClick(wxCommandEvent& WXUNUSED(event)){
-	this->MakeModal(false);
-	this->Show(false);
+	this->Close();
 }
 
 void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
