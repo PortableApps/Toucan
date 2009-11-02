@@ -4,12 +4,17 @@
 %{
 	#include "toucan.h"
 	#include "script.h"
+	#include "variables.h"
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
 	#include "sync/syncjob.h"
 
 	wxString GetSettingsPath(){
 		return wxGetApp().GetSettingsPath();
+	}
+	
+	wxString ExpandVariable(const wxString &variable){
+		return Normalise(variable);
 	}
 
 	void Sync(SyncData *data){
@@ -50,7 +55,8 @@
 	}
 %}
 
-void OutputProgress(wxString message);
+void OutputProgress(const wxString &message, bool time = false, bool error = false);
+wxString ExpandVariable(const wxString &variable);
 wxString GetSettingsPath();
 
 void Sync(const wxString &jobname);
