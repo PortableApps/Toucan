@@ -17,9 +17,7 @@ wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator);
 wxArrayString StringToArrayString(wxString strMain, wxString strSeperator);
 
 //Basic function to write output to progress form, used to keep code clean, with optional date and error
-void OutputProgress(wxString strValue);
-void OutputProgress(wxString message, wxString time, bool error = false);
-void OutputBlank();
+void OutputProgress(const wxString &message, bool time = false, bool error = false);
 
 //Functions to set up the progress bar
 void SetGaugeRange(int range);

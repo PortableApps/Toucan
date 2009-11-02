@@ -42,8 +42,7 @@ public:
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);
-	void OnCloseWindow(wxCloseEvent& event);
-	
+
 	//Script functions
 	void OnScriptFinish(wxCommandEvent& event);
 	void OnScriptText(wxCommandEvent& event);

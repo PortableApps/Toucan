@@ -7,6 +7,7 @@
 #ifndef _TOUCAN_H_
 #define _TOUCAN_H_
 
+#include "progressevent.h"
 #include <wx/wx.h>
 #include <map>
 
@@ -14,8 +15,13 @@ class frmMain;
 class frmProgress;
 class Settings;
 class ScriptManager;
+class LuaManager;
 class wxFileConfig;
 class wxHtmlHelpController;
+
+enum{
+	ID_PROGRESS = wxID_HIGHEST + 1 
+};
 
 /*!
  * \mainpage Toucan
@@ -81,10 +87,7 @@ public:
 	 * A pointer to the current instance of the main Toucan window
 	 */
 	frmMain* MainWindow;
-	/*!
-	 * A pointer to the current instance of the Toucan progress window
-	 */
-	frmProgress* ProgressWindow;
+
 	/*!
 	 * A pointer to the settings of the current run of Toucan
 	 */
@@ -138,6 +141,8 @@ public:
 	 */
 	std::map<wxString, wxString> m_LangToEn;
 
+	LuaManager *m_LuaManager;
+
 private:
 	//Clean up the temporary files that might be in the data folder
 	void CleanTemp();
@@ -145,12 +150,17 @@ private:
 	void KillConime();
 	//Set up the maps used for language conversion
 	void InitLangMaps();
+	//Used for outputiing progress
+	void OnProgress(wxCommandEvent &event);
 
 	bool m_Abort;
 	wxString m_SettingsPath;
 	bool m_UsesGUI;
 	bool m_Finished;
-	wxLocale* m_Locale;	
+	wxLocale* m_Locale;
+
+    DECLARE_CLASS(Toucan)
+    DECLARE_EVENT_TABLE()
 };
 
 DECLARE_APP(Toucan)

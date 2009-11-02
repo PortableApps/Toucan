@@ -21,7 +21,7 @@
 
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system"));
-	OutputBlank();
+	OutputProgress(wxEmptyString);
 
 	wxCmdLineParser cmdParser(wxGetApp().argc, wxGetApp().argv);
 	int iArgs = wxGetApp().argc;

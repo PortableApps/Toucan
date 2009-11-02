@@ -129,11 +129,6 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-void frmProgress::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
-	this->MakeModal(false);
-	this->Show(false);
-}
-
 //ID_SCRIPTFINISH
 void frmProgress::OnScriptFinish(wxCommandEvent& event){
 	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){

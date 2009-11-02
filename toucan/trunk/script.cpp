@@ -44,22 +44,22 @@ bool ScriptManager::Execute(){
 
 bool ScriptManager::StartUp(){
 	//Set up all of the form related stuff
-	m_ProgressWindow = wxGetApp().ProgressWindow;
-	m_ProgressWindow->m_List->DeleteAllItems();
+//	m_ProgressWindow = wxGetApp().ProgressWindow;
+//	m_ProgressWindow->m_List->DeleteAllItems();
 	wxGetApp().MainWindow->m_Notebook->Disable();
 	//Send all errors to the list control
-	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
-	delete wxLog::SetActiveTarget(logList);
+//	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
+//	delete wxLog::SetActiveTarget(logList);
 	//Set up the buttons on the progress box
-	m_ProgressWindow->m_OK->Enable(false);
-	m_ProgressWindow->m_Save->Enable(false);
-	m_ProgressWindow->m_Cancel->Enable(true);
+//	m_ProgressWindow->m_OK->Enable(false);
+//	m_ProgressWindow->m_Save->Enable(false);
+//	m_ProgressWindow->m_Cancel->Enable(true);
 	
 	//Send a blank item to get the item count up
-	OutputBlank();
+//	OutputBlank();
 	m_Time = wxDateTime::Now();
-	OutputProgress(_("Starting"), m_Time.FormatTime());
-	OutputBlank();
+	OutputProgress(_("Starting"), true);
+	OutputProgress(wxEmptyString);
 	
 	SetGaugeValue(0);
 	//Show the window
@@ -250,11 +250,11 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Deleted ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to delete ") + strSource, wxDateTime::Now().FormatTime(), true);				
+			OutputProgress(_("Failed to delete ") + strSource, true, true);				
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().ProgressWindow, event);	
+		wxPostEvent(&wxGetApp(), event);	
 		return true;
 	}
 	else if(strToken == wxT("Move")){
@@ -266,15 +266,15 @@ bool ScriptManager::ParseCommand(int i){
 				OutputProgress(_("Moved") + strSource);	
 			}
 			else{
-				OutputProgress(_("Failed to move ") + strSource, wxDateTime::Now().FormatTime(), true);
+				OutputProgress(_("Failed to move ") + strSource, true, true);
 			}
 		}
 		else{
-			OutputProgress(_("Failed to move ") + strSource, wxDateTime::Now().FormatTime(), true);		
+			OutputProgress(_("Failed to move ") + strSource, true, true);		
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().ProgressWindow, event);	
+		wxPostEvent(&wxGetApp(), event);	
 		return true;
 	}
 	else if(strToken == wxT("Copy")){
@@ -285,11 +285,11 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Copied ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to copy ") +strSource, wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to copy ") + strSource, true, true);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().ProgressWindow, event);	
+		wxPostEvent(&wxGetApp(), event);	
 		return true;
 	}
 	else if(strToken == wxT("Rename")){
@@ -300,11 +300,11 @@ bool ScriptManager::ParseCommand(int i){
 			OutputProgress(_("Renamed ") + strSource);	
 		}
 		else{
-			OutputProgress(_("Failed to rename ") + strSource, wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to rename ") + strSource, true, true);
 		}
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().ProgressWindow, event);	
+		wxPostEvent(&wxGetApp(), event);	
 		return true;
 	}
 	else if(strToken == wxT("Execute")){
@@ -313,7 +313,7 @@ bool ScriptManager::ParseCommand(int i){
 		OutputProgress(_("Executed ") + strExecute);
 		IncrementGauge();
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(wxGetApp().ProgressWindow, event);	
+		wxPostEvent(&wxGetApp(), event);	
 		return true;
 	}
 	else{
@@ -336,7 +336,7 @@ bool ScriptManager::ParseCommand(int i){
 }
 
 bool ScriptManager::CleanUp(){
-	m_ProgressWindow->m_OK->Enable(true);
+	/*m_ProgressWindow->m_OK->Enable(true);
 	m_ProgressWindow->m_Save->Enable(true);
 	m_ProgressWindow->m_Cancel->Enable(false);
 	wxDateTime now = wxDateTime::Now();
@@ -345,12 +345,12 @@ bool ScriptManager::CleanUp(){
 	}
 	OutputBlank();
 	OutputProgress(_("Elapsed"), now.Subtract(m_Time).Format());
-	OutputProgress(_("Finished"), now.FormatTime());
+	OutputProgress(_("Finished"), now.FormatTime());*/
 
 	//Yield here to make sure all output is shown
 	wxGetApp().Yield();
 	//Resize the second column to show all of the text
-	m_ProgressWindow->m_List->SetColumnWidth(1, -1);
+	//m_ProgressWindow->m_List->SetColumnWidth(1, -1);
 
 	//Remove finished jobs
 	if (wxGetApp().m_Jobs_Config->HasGroup(wxT("LastSyncJob"))){

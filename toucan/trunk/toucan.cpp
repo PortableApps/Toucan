@@ -30,11 +30,19 @@
 #include "basicfunctions.h"
 #include "script.h"
 #include "settings.h"
+#include "luamanager.h"
 #include "data/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
 
 IMPLEMENT_APP_NO_MAIN(Toucan)
+
+IMPLEMENT_CLASS(Toucan, wxApp)
+
+BEGIN_EVENT_TABLE(Toucan, wxApp)
+	//EVT_PROGRESS(ID_PROGRESS, Toucan::OnProgress)
+	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
+END_EVENT_TABLE()
 
 int main(int argc, char *argv[]){
 	wxEntry(argc, argv);
@@ -154,13 +162,15 @@ bool Toucan::OnInit(){
 	//Create the script manager
 	m_Script = new ScriptManager();
 
+	//Create the lua manager
+	m_LuaManager = new LuaManager();
+
 	//Set up the help system
 	m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
 
 	wxFileSystem::AddHandler(new wxArchiveFSHandler);
 
 	MainWindow = new frmMain();
-	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
 
 	if(GetUsesGUI()){
 		MainWindow->Show();
@@ -182,7 +192,7 @@ bool Toucan::OnInit(){
 			file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
 			//Yield to make sure all of the output has reached the progress dialog
 			Yield();
-			for(int i = 0; i < ProgressWindow->m_List->GetItemCount(); i++){
+/*			for(int i = 0; i < ProgressWindow->m_List->GetItemCount(); i++){
 				wxListItem itemcol1, itemcol2;
 
 				itemcol1.m_itemId = i;
@@ -195,10 +205,9 @@ bool Toucan::OnInit(){
 				ProgressWindow->m_List->GetItem(itemcol2);
 				file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
 			}
-			file.Write();
+			file.Write();*/
 		}
 		wxGetApp().MainWindow->Destroy();
-		wxGetApp().ProgressWindow->Destroy();
 	}
 	return true;
 }
@@ -250,9 +259,6 @@ void Toucan::RebuildForm(){
 	else{
 		MainWindow->Maximize(true);
 	}
-
-	ProgressWindow->Destroy();
-	ProgressWindow = new frmProgress(NULL, ID_FRMPROGRESS, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxMINIMIZE_BOX);
 }
 
 void Toucan::KillConime(){
@@ -283,6 +289,26 @@ void Toucan::KillConime(){
 		}
 		
 	#endif
+}
+
+void Toucan::OnProgress(wxCommandEvent &event){
+	if(m_UsesGUI){
+		frmProgress *window = m_LuaManager->GetProgressWindow();
+		if(window){
+			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), event.GetString());
+			/*if(event.ShowTime()){
+				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+			}
+			if(event.ShowError()){
+				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}*/
+			window->m_List->EnsureVisible(index);
+			window->Update();
+		}
+	}
+	else{
+
+	}
 }
 
 void Toucan::InitLangMaps(){

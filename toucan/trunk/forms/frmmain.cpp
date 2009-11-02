@@ -15,8 +15,6 @@
 #include <wx/stc/stc.h>
 #include <wx/wx.h>
 
-#include <lua.hpp>
-
 #include "frmmain.h"
 #include "frmrule.h"
 #include "frmprogress.h"
@@ -24,6 +22,7 @@
 #include "../toucan.h"
 #include "../dragndrop.h"
 #include "../script.h"
+#include "../luamanager.h"
 #include "../basicfunctions.h"
 #include "../settings.h"
 #include "../variables.h"
@@ -34,11 +33,6 @@
 #include "../controls/vdtc.h"
 #include "../controls/dirctrl.h"
 #include "../controls/loglistctrl.h"
-
-extern "C"
-{
-	extern int luaopen_toucan(lua_State*L);
-}
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
@@ -1490,7 +1484,6 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 	}
 
 	wxGetApp().MainWindow->Destroy();
-	wxGetApp().ProgressWindow->Destroy();
 }
 
 //ID_VARIABLES_SAVE
@@ -1657,50 +1650,11 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_RUN
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
-	//Set up all of the form related stuff
-	frmProgress *m_ProgressWindow = wxGetApp().ProgressWindow;
-	m_ProgressWindow->m_List->DeleteAllItems();
-	wxGetApp().MainWindow->m_Notebook->Disable();
-	//Send all errors to the list control
-	LogListCtrl* logList = new LogListCtrl(m_ProgressWindow->m_List);
-	delete wxLog::SetActiveTarget(logList);
-	//Set up the buttons on the progress box
-	m_ProgressWindow->m_OK->Enable(false);
-	m_ProgressWindow->m_Save->Enable(false);
-	m_ProgressWindow->m_Cancel->Enable(true);
-	
-	//Send a blank item to get the item count up
-	OutputBlank();
-	wxDateTime m_Time = wxDateTime::Now();
-	OutputProgress(_("Starting"), m_Time.FormatTime());
-	OutputBlank();
-	wxGetApp().ProgressWindow->Show();
-	wxGetApp().ProgressWindow->m_List->DeleteAllItems();
-	wxString path = wxGetApp().GetSettingsPath() + wxT("luatest.lua");
-	m_Script_Styled->SaveFile(path);
-	lua_State *L = luaL_newstate();
-	luaL_openlibs(L);
-	luaopen_toucan(L);
-	wxString setprint = wxT("print=toucan.OutputProgress");
-	//Set the print function to use the progress window
-	luaL_dostring(L, setprint.mb_str());
-	wxString setsync = wxT("sync=toucan.Sync");
-	luaL_dostring(L, setsync.mb_str());
-	if (luaL_loadfile(L, path.mb_str()) || lua_pcall(L, 0, 0, 0)) {
-		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(L, -1), wxConvUTF8));
-		return;
+	wxArrayString lines;
+	for(int i = 0; i < m_Script_Styled->GetNumberOfLines(); i++){
+		lines.Add(m_Script_Styled->GetLine(i));
 	}
-	m_ProgressWindow->m_OK->Enable(true);
-	m_ProgressWindow->m_Save->Enable(true);
-	m_ProgressWindow->m_Cancel->Enable(false);
-	wxDateTime now = wxDateTime::Now();
-	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
-		SetGaugeValue(wxGetApp().ProgressWindow->m_Gauge->GetRange());	
-	}
-	OutputBlank();
-	OutputProgress(_("Elapsed"), now.Subtract(m_Time).Format());
-	OutputProgress(_("Finished"), now.FormatTime());
-	wxGetApp().MainWindow->m_Notebook->Enable();
+	wxGetApp().m_LuaManager->Run(lines);
 }
 
 //ID_SCRIPT_NAME

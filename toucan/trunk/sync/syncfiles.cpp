@@ -194,7 +194,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 			OutputProgress(_("Copied ") + source);
 		}
 		else{
-			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to copy ") + source, true, true);
 			if(wxFileExists(desttemp)){
 				wxRemoveFile(desttemp);
 			}
@@ -205,7 +205,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 		}
 	}
 	else{
-		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+		OutputProgress(_("Failed to copy ") + source, true, true);
 		if(data->GetIgnoreRO()){
 			SetFileAttributes(source, sourceAttributes); 
 		} 
@@ -262,7 +262,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 
 	//Something is wrong with our streams, return error
 	if(!sourcestream->IsOk() || !deststream->IsOk()){
-		OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+		OutputProgress(_("Failed to copy ") + source, true, true);
 		delete sourcestream;
 		delete deststream;
 		return false;
@@ -285,7 +285,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 		sourcestream->Read(sourcebuf, bytesToRead);
 		deststream->Read(destbuf, bytesToRead);
 		if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
-			OutputProgress(_("Failed to copy ") + source, wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to copy ") + source, true, true);
 			delete sourcestream;
 			delete deststream;
 			delete[] sourcebuf;

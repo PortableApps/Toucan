@@ -16,15 +16,12 @@
 #include <wx/fileconf.h>
 
 #include "toucan.h"
+#include "progressevent.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
 #include "forms/frmpassword.h"
 
 //ATTN : This needs clearing up into smaller files
-
-wxFFileOutputStream output(stderr);
-wxTextOutputStream cout(output);
-
  
 const wxString& ToLang(const wxString &en){
 	return wxGetApp().m_EnToLang[en];
@@ -56,60 +53,33 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 	return arrMain;
 }
 
-void OutputProgress(wxString message){
-	//We always send to message to the progress dialog because it helps 
-	//display output in command line backup mode
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTTEXT);
+void OutputProgress(const wxString &message, bool time, bool error){
+	//ProgressEvent event(PROGRESS_SEND, ID_PROGRESS, message, time, error);
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESS);
 	event.SetString(message);
-	wxPostEvent(wxGetApp().ProgressWindow, event);
-	if(message == wxEmptyString){
-		return;
-	}
-	cout << message << endl;	
-}
-
-void OutputProgress(wxString message, wxString time, bool error){
-	if(error){
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTERROR);
-		event.SetString(time + message);
-		event.SetInt(time.Length());
-		wxPostEvent(wxGetApp().ProgressWindow, event);	
-	}
-	else{
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTTIME);
-		event.SetString(time + message);
-		event.SetInt(time.Length());
-		wxPostEvent(wxGetApp().ProgressWindow, event);			
-	}
-	cout << time << wxT("  ") << message << endl;
-}
-
-void OutputBlank(){
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTBLANK);
-	wxPostEvent(wxGetApp().ProgressWindow, event);
-	cout << endl;
+	wxGetApp().ProcessEvent(event);
 }
 
 void SetGaugeRange(int range){
-	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+	/*if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
 		wxGetApp().ProgressWindow->m_Gauge->SetRange(range);		
-	}
+	}*/
 }
 
 void SetGaugeValue(int value){
-	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+	/*if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
 		wxGetApp().ProgressWindow->m_Gauge->SetValue(value);
-	}
+	}*/
 }
 
 void IncrementGauge(){
-	if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
+	/*if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
 		wxGetApp().ProgressWindow->m_Gauge->SetValue(wxGetApp().ProgressWindow->m_Gauge->GetValue() + 1);
-	}
+	}*/
 }
 
 void EnableGauge(bool enable){
-	wxGetApp().ProgressWindow->m_Gauge->Enable(enable);
+	//wxGetApp().ProgressWindow->m_Gauge->Enable(enable);
 }
 
 double GetInPB(wxString strValue){
@@ -239,7 +209,7 @@ wxArrayString GetScripts(){
 }
 
 wxString InputPassword(){
-	wxString strNewPass;
+	/*wxString strNewPass;
 	if(wxGetApp().GetUsesGUI()){
 		frmPassword password(NULL);
 		if(password.ShowModal() == wxID_OK){
@@ -337,7 +307,7 @@ wxString InputPassword(){
 				return wxEmptyString;
 			}
 		}
-	}
+	}*/
 	return wxEmptyString;
 }
 

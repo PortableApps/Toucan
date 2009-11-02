@@ -21,7 +21,7 @@ bool BackupProcess::HasInput()
 		wxTextInputStream tis(*GetInputStream());
 		wxString msg = tis.ReadLine();
 		if(msg.Left(7).Lower() == wxT("warning") || msg.Left(5).Lower() == wxT("error")){
-			OutputProgress(msg, wxDateTime::Now().FormatTime(), true);
+			OutputProgress(msg, true, true);
 		}
 		else{
 			OutputProgress(msg);

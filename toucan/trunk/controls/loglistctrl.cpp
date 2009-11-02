@@ -13,7 +13,6 @@ LogListCtrl::LogListCtrl(wxListCtrl* list){
 	m_List = list;
 }
 
-void LogListCtrl::DoLog(wxLogLevel WXUNUSED(level), const wxString& msg, time_t timestamp){
-	wxDateTime date(timestamp);
-	OutputProgress(msg, date.FormatTime(), true);
+void LogListCtrl::DoLog(wxLogLevel WXUNUSED(level), const wxString& msg, time_t WXUNUSED(timestamp)){
+	OutputProgress(msg, true, true);
 }

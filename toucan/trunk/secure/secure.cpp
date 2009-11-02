@@ -63,7 +63,7 @@ bool Secure(SecureData *data){
 		}
 	}
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(wxGetApp().ProgressWindow, event);	
+	wxPostEvent(&wxGetApp(), event);	
 	return true;
 }
 
@@ -148,7 +148,7 @@ bool CryptFile(wxString strFile, SecureData *data)
 			OutputProgress(_("Encrypted ") + strFile);
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to encrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), true, true);
 		}
 	}
 
@@ -161,7 +161,7 @@ bool CryptFile(wxString strFile, SecureData *data)
 		
 		if(wxFileExists(strFile.Left(strFile.Length() - 4))){
 			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + strFile, wxDateTime::Now().FormatTime(), true);
+			OutputProgress(_("Failed to decrypt ") + strFile, true, true);
 			return true;
 		}
 
@@ -180,7 +180,7 @@ bool CryptFile(wxString strFile, SecureData *data)
  			OutputProgress(_("Decrypted ") + strFile);
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), wxDateTime::Now().FormatTime(), true);
+ 			OutputProgress(_("Failed to decrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), true, true);
 		}
 	}
 	IncrementGauge();
