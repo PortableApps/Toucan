@@ -75,8 +75,9 @@ void LuaManager::Run(const wxArrayString &lines){
 
 void LuaManager::RunNext(){
 	//We have finished all of the jobs
-	if(m_CommandList.Count() == m_CurrentCommand++){
+	if(m_CommandList.Count() == ++m_CurrentCommand){
 		CleanUp();
+		return;
 	}
 	DoRun(m_CommandList.Item(m_CurrentCommand));
 }

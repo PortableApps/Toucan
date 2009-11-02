@@ -20,7 +20,8 @@ class wxFileConfig;
 class wxHtmlHelpController;
 
 enum{
-	ID_PROGRESS = wxID_HIGHEST + 1 
+	ID_PROGRESS = wxID_HIGHEST + 1,
+	ID_FINISH
 };
 
 /*!
@@ -152,6 +153,7 @@ private:
 	void InitLangMaps();
 	//Used for outputiing progress
 	void OnProgress(wxCommandEvent &event);
+	void OnFinish(wxCommandEvent &event);
 
 	bool m_Abort;
 	wxString m_SettingsPath;

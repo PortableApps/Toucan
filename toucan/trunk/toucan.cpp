@@ -42,6 +42,7 @@ IMPLEMENT_CLASS(Toucan, wxApp)
 BEGIN_EVENT_TABLE(Toucan, wxApp)
 	//EVT_PROGRESS(ID_PROGRESS, Toucan::OnProgress)
 	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
+	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 END_EVENT_TABLE()
 
 int main(int argc, char *argv[]){
@@ -65,6 +66,7 @@ bool Toucan::OnInit(){
 		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
 	}
 
+	m_Abort = false;
 	//Are we in gui mode?
 	m_UsesGUI = argc == 1 ? true : false;
 
@@ -309,6 +311,10 @@ void Toucan::OnProgress(wxCommandEvent &event){
 	else{
 
 	}
+}
+
+void Toucan::OnFinish(wxCommandEvent &event){
+	m_LuaManager->RunNext();
 }
 
 void Toucan::InitLangMaps(){
