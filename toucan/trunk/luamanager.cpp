@@ -36,7 +36,6 @@ void LuaManager::StartUp(){
 	LogListCtrl* logList = new LogListCtrl(m_Window->m_List);
 	delete wxLog::SetActiveTarget(logList);
 	m_StartTime = wxDateTime::Now();
-	wxMessageBox(_("Outputting"));
 	OutputProgress(_("Starting"), true);
 	OutputProgress(wxEmptyString);
 	m_Window->m_OK->Enable(false);
