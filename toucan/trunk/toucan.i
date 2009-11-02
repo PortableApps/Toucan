@@ -4,6 +4,7 @@
 %{
 	#include "toucan.h"
 	#include "script.h"
+	#include "rules.h"
 	#include "variables.h"
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
@@ -24,7 +25,7 @@
 
 	void Sync(const wxString &source, const wxString &dest, const wxString &function, 
 				bool timestamps = false, bool attributes = false, 
-				bool ignorero = false, bool ignoredls = false)
+				bool ignorero = false, bool ignoredls = false, const wxString &rules = wxEmptyString)
 	{
 		SyncData *data = new SyncData(wxT("LastSyncJob"));
 		data->SetSource(source);
@@ -34,6 +35,7 @@
 		data->SetAttributes(attributes);
 		data->SetIgnoreDLS(ignoredls);
 		data->SetTimeStamps(timestamps);
+		data->SetRules(new Rules(rules, true));
 		if(data->IsReady()){
 			Sync(data);
 		}
