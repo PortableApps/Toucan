@@ -20,8 +20,13 @@ LuaManager::LuaManager(){
 	m_State = luaL_newstate();
 	luaL_openlibs(m_State);
 	luaopen_toucan(m_State);
+	//TODO : Move this to a bindings file
 	wxString setprint = wxT("print=toucan.OutputProgress");
 	luaL_dostring(m_State, setprint.mb_str());
+	wxString setsync  = wxT("sync=toucan.Sync"); 
+	luaL_dostring(m_State, setsync.mb_str());
+	wxString setexpand = wxT("expand=toucan.ExpandVariable");
+	luaL_dostring(m_State, setexpand.mb_str());
 }
 
 void LuaManager::StartUp(){
