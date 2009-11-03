@@ -9,10 +9,6 @@
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
 	#include "sync/syncjob.h"
-
-	wxString GetSettingsPath(){
-		return wxGetApp().GetSettingsPath();
-	}
 	
 	wxString ExpandVariable(const wxString &variable){
 		return Normalise(variable);
@@ -59,7 +55,6 @@
 
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
 wxString ExpandVariable(const wxString &variable);
-wxString GetSettingsPath();
 
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, bool timestamps = false);
