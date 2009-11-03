@@ -788,14 +788,14 @@ void frmMain::CreateControls(){
 	m_HelpWindow = new wxHtmlHelpWindow;
 	m_HelpWindow->UseConfig(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
     wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
-    wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("toucan.htb"));
+    wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("help") + wxFILE_SEP_PATH + wxT("toucan.htb"));
     m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
 	m_HelpWindow->DisplayContents();
 	m_HelpWindow->RefreshLists();
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, border);
 
 	//Add the panels
-	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, pvarsbitmap, helpbitmap;
+	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, variablesbitmap, helpbitmap;
 	
 	if(wxGetApp().m_Settings->GetTabStyle() == _("Icons and Text")){
 		syncbitmap = GetBitmapResource(wxT("sync.png"));
@@ -804,7 +804,7 @@ void frmMain::CreateControls(){
 		settingsbitmap = GetBitmapResource(wxT("settings.png"));
 		scriptbitmap = GetBitmapResource(wxT("script.png"));
 		rulesbitmap = GetBitmapResource(wxT("rules.png"));
-		pvarsbitmap = GetBitmapResource(wxT("pvars.png"));
+		variablesbitmap = GetBitmapResource(wxT("variables.png"));
 		helpbitmap = GetBitmapResource(wxT("help.png"));
 	}
 
@@ -812,7 +812,7 @@ void frmMain::CreateControls(){
 	m_Notebook->AddPage(BackupPanel, _("Backup"), false, backupbitmap);
 	m_Notebook->AddPage(SecurePanel, _("Secure"), false, securebitmap);
 	m_Notebook->AddPage(RulesPanel, _("Rules"), false, rulesbitmap);
-	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, pvarsbitmap);
+	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, variablesbitmap);
 	m_Notebook->AddPage(ScriptPanel, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(SettingsPanel, _("Settings"), false, settingsbitmap);
 	m_Notebook->AddPage(HelpPanel, _("Help"), false, helpbitmap);
@@ -934,65 +934,9 @@ void frmMain::CreateControls(){
 
 //Get bitmap resources
 wxBitmap frmMain::GetBitmapResource(const wxString& name){
-	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
-	if (name == _T("save.png")) {
-		wxBitmap bitmap(strPath + _T("save.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	} 
-	else if (name == _T("add.png")) {
-		wxBitmap bitmap(strPath + _T("add.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	} 
-	else if (name == _T("expandall.png")) {
-		wxBitmap bitmap(strPath + _T("expandall.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	} 
-	else if (name == _T("ok.png")) {
-		wxBitmap bitmap(strPath + _T("ok.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("preview.png")) {
-		wxBitmap bitmap(strPath + _T("preview.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("remove.png")) {
-		wxBitmap bitmap(strPath + _T("remove.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("sync.png")) {
-		wxBitmap bitmap(strPath + _T("sync.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("backup.png")) {
-		wxBitmap bitmap(strPath + _T("backup.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("secure.png")) {
-		wxBitmap bitmap(strPath + _T("secure.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("settings.png")) {
-		wxBitmap bitmap(strPath + _T("settings.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("rules.png")) {
-		wxBitmap bitmap(strPath + _T("rules.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("script.png")) {
-		wxBitmap bitmap(strPath + _T("script.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("pvars.png")) {
-		wxBitmap bitmap(strPath + _T("pvars.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("addvar.png")) {
-		wxBitmap bitmap(strPath + _T("addvar.png"), wxBITMAP_TYPE_PNG);
-		return bitmap;
-	}
-	else if (name == _T("help.png")) {
-		wxBitmap bitmap(strPath + _T("help.png"), wxBITMAP_TYPE_PNG);
+	wxString path = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH;
+	wxBitmap bitmap(path + name, wxBITMAP_TYPE_PNG);
+	if(bitmap.IsOk()){
 		return bitmap;
 	}
 	return wxNullBitmap;

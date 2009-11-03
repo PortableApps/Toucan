@@ -46,7 +46,7 @@ void frmVariable::Init(){
 }
 
 void frmVariable::CreateControls(){  
-	wxString iconpath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	wxString iconpath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH;
 
     wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
     SetSizer(TopSizer);
@@ -94,7 +94,7 @@ void frmVariable::CreateControls(){
 	wxButton* CancelButton = new wxButton(this, wxID_CANCEL, _("Cancel"));
 	ButtonSizer->Add(CancelButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 		
-	SetIcon(wxIcon(iconpath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+	SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 void frmVariable::OnLocationClick(wxCommandEvent& WXUNUSED(event)){
