@@ -8,7 +8,9 @@
 	#include "variables.h"
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
+	#include "data/securedata.h"
 	#include "sync/syncjob.h"
+	#include "secure/securejob.h"
 	
 	wxString ExpandVariable(const wxString &variable){
 		return Normalise(variable);
@@ -51,6 +53,23 @@
 			}
 		}
 	}
+
+	void Secure(SecureData *data){
+		SecureJob *job = new SecureJob(data);
+		job->Execute();
+	}
+	
+	void Secure(const wxString &jobname){
+		SecureData *data = new SecureData(jobname);
+		if(data->TransferFromFile()){
+			if(data->IsReady()){
+				Secure(data);
+			}
+			else{
+				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+			}
+		}
+	}
 %}
 
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
@@ -58,3 +77,5 @@ wxString ExpandVariable(const wxString &variable);
 
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, bool timestamps = false);
+
+void Secure(const wxString &jobname);
