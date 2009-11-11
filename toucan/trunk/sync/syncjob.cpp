@@ -23,5 +23,6 @@ bool SyncJob::Execute(){
 	SyncThread *thread = new SyncThread(data);
 	thread->Create();
 	thread->Run();
+	thread->Wait();
 	return true;
 }

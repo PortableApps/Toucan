@@ -23,7 +23,7 @@ public:
 	 * a joinable thread is needed, i.e. in console mode, and this is specified
 	 * by the wxThreadKind
 	 */
-	SyncThread(SyncData *data) : wxThread() {
+	SyncThread(SyncData *data) : wxThread(wxTHREAD_JOINABLE) {
 		m_Data = data;
 	}
 	/*!
