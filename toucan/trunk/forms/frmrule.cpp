@@ -6,15 +6,15 @@
 
 #include "frmrule.h"
 #include <wx/regex.h>
-
-IMPLEMENT_DYNAMIC_CLASS(frmRule, wxDialog)
+#include <wx/sizer.h>
+#include <wx/stattext.h>
+#include <wx/button.h>
+#include <wx/log.h>
 
 BEGIN_EVENT_TABLE(frmRule, wxDialog)
-
     EVT_TEXT(ID_TEXTCTRL, frmRule::OnTextUpdated)
     EVT_TEXT_ENTER(ID_TEXTCTRL, frmRule::OnTextUpdated)
 	EVT_COMBOBOX(ID_COMBOBOX, frmRule::OnTextUpdated)
-
 END_EVENT_TABLE()
 
 frmRule::frmRule(){

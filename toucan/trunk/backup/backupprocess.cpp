@@ -4,9 +4,11 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "backupprocess.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
+#include "backupprocess.h"
+#include <wx/log.h>
+#include <wx/txtstrm.h>
 
 IMPLEMENT_CLASS(BackupProcess, wxProcess)
 

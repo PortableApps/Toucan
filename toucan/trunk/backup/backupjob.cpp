@@ -105,7 +105,5 @@ bool BackupJob::Execute(){
 		}	
 	}
 	wxGetApp().SetFinished(false);
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-	wxPostEvent(&wxGetApp(), event);	
 	return true;
 }

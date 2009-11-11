@@ -4,14 +4,18 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/wx.h>
 #include <wx/stdpaths.h>
+#include <wx/textctrl.h>
+#include <wx/sizer.h>
+#include <wx/stattext.h>
+#include <wx/button.h>
+#include <wx/combobox.h>
+#include <wx/bmpbuttn.h>
+#include <wx/dirdlg.h>
 
 #include "frmvariable.h"
-#include "../basicfunctions.h"
 #include "../variables.h"
-
-IMPLEMENT_DYNAMIC_CLASS(frmVariable, wxDialog)
+#include "../basicfunctions.h"
 
 BEGIN_EVENT_TABLE(frmVariable, wxDialog)
     EVT_BUTTON(ID_LOCATION, frmVariable::OnLocationClick)

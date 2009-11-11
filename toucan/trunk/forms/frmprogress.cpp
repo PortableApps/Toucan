@@ -11,25 +11,15 @@
 #include "../toucan.h"
 #include "../controls/vdtc.h"
 
-#include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
-#include <algorithm>
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
-	
-	//ScriptManager
-	EVT_BUTTON(ID_SCRIPTFINISH, frmProgress::OnScriptFinish)
-	EVT_BUTTON(ID_SCRIPTTEXT, frmProgress::OnScriptText)
-	EVT_BUTTON(ID_SCRIPTTIME, frmProgress::OnScriptTime)
-	EVT_BUTTON(ID_SCRIPTERROR, frmProgress::OnScriptError)
-	EVT_BUTTON(ID_SCRIPTBLANK, frmProgress::OnScriptBlank)
-
 END_EVENT_TABLE()
 
 //Constructor
@@ -125,93 +115,4 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 		}
 	file.Write();
 	}
-}
-
-//ID_SCRIPTFINISH
-void frmProgress::OnScriptFinish(wxCommandEvent& event){
-	if(wxGetApp().m_Script->GetCommand() < wxGetApp().m_Script->GetCount()){
-		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-		wxGetApp().m_Script->ParseCommand(wxGetApp().m_Script->GetCommand() - 1);
-	}
-	else{
-		wxGetApp().m_Script->CleanUp();
-		wxGetApp().m_Script->SetCommand(wxGetApp().m_Script->GetCommand() + 1);
-		//The int specifies which sort of job has just finished so we can refresh it correctly
-		//1 - Sync
-		//Others - Not yet implmented
-		if(event.GetInt() == 1){
-			if(wxGetApp().GetUsesGUI()){
-				//Turn off the preview
-				wxGetApp().MainWindow->m_Sync_Source_Tree->SetSync(false);
-				wxGetApp().MainWindow->m_Sync_Dest_Tree->SetSync(false);
-				
-				wxGetApp().MainWindow->m_Sync_Source_Tree->DeleteAllItems();
-				wxGetApp().MainWindow->m_Sync_Dest_Tree->DeleteAllItems();
-				
-				wxGetApp().MainWindow->m_Sync_Source_Tree->AddRoot(wxT("Hidden text"));
-				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddRoot(wxT("Hidden text"));
-				
-				wxGetApp().MainWindow->m_Sync_Source_Tree->AddNewPath(Normalise(wxGetApp().MainWindow->m_Sync_Source_Txt->GetValue()));
-				wxGetApp().MainWindow->m_Sync_Dest_Tree->AddNewPath(Normalise(wxGetApp().MainWindow->m_Sync_Dest_Txt->GetValue()));		
-			}
-		}
-		//If we are in console then set the global variable to let Toucan know it has finished
-		if(!wxGetApp().GetUsesGUI()){
-			wxGetApp().SetFinished(true);
-		}
-		#ifdef __WXMSW__
-			FLASHWINFO info;
-			info.uCount = 3;
-			info.dwTimeout = 0;
-			info.hwnd = (HWND) this->GetHWND();
-			info.cbSize = sizeof(info);
-			if(wxWindow::FindFocus() == this){
-				info.dwFlags = FLASHW_ALL|FLASHW_TIMERNOFG;			
-			}
-			else{
-				info.dwFlags = FLASHW_ALL;					
-			}
-			FlashWindowEx(&info);
-		#else
-			RequestUserAttention();
-		#endif
-	}
-}
-
-//ID_SCRIPTTEXT
-void frmProgress::OnScriptText(wxCommandEvent& event){
-	if(event.GetString() == wxEmptyString){
-		return;
-	}
-	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-	m_List->SetItem(index, 1, event.GetString());
-	m_List->EnsureVisible(index);
-	Update();
-}
-
-//ID_SCRIPTTEXT
-void frmProgress::OnScriptTime(wxCommandEvent& event){
-	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-	m_List->SetItem(index, 1, event.GetString());
-	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
-	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
-	m_List->EnsureVisible(index);
-	Update();
-}
-
-//ID_SCRIPTERROR
-void frmProgress::OnScriptError(wxCommandEvent& event){
-	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-	m_List->SetItem(index, 1, event.GetString());
-	m_List->SetItem(index, 0, event.GetString().Left(event.GetInt()));
-	m_List->SetItem(index, 1, event.GetString().Right(event.GetString().Length() - event.GetInt()));
-	m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-	m_List->EnsureVisible(index);
-	Update();
-}
-
-//ID_SCRIPTBLANK
-void frmProgress::OnScriptBlank(wxCommandEvent& WXUNUSED(event)){
-	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-	m_List->SetItem(index, 1, wxEmptyString);
 }

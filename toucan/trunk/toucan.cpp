@@ -313,8 +313,8 @@ void Toucan::OnProgress(wxCommandEvent &event){
 	}
 }
 
-void Toucan::OnFinish(wxCommandEvent &event){
-	m_LuaManager->RunNext();
+void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
+	m_LuaManager->CleanUp();
 }
 
 void Toucan::InitLangMaps(){

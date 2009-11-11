@@ -4,9 +4,11 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/wx.h>
+#include <wx/log.h>
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
+#include <cxxtest/ErrorPrinter.h>
+#include "test.h"
 #include "cmdline.h"
 #include "script.h"
 #include "basicfunctions.h"
@@ -14,10 +16,6 @@
 #include "data/syncdata.h"
 #include "data/backupdata.h"
 #include "data/securedata.h"
-
-#include <cxxtest/ErrorPrinter.h>
-#include "test.h"
-
 
 bool ParseCommandLine(){
 	OutputProgress(_("Welcome to the Toucan command line system"));

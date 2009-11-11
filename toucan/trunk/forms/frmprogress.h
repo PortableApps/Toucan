@@ -4,26 +4,20 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _FRMPROGRESS_H_
-#define _FRMPROGRESS_H_
+#ifndef FRMPROGRESS_H
+#define FRMPROGRESS_H
 
-#include <wx/wx.h>
-
-class wxFrame;
+#include <wx/frame.h>
 class wxListCtrl;
+class wxButton;
+class wxGauge;
 
-//Window 10000 - 10049
-#define ID_FRMPROGRESS 10000
-#define ID_PANEL_PROGRESS 10001
-#define ID_PROGRESS_LIST 10002
-#define ID_PROGRESS_GAUGE 10003
-
-//Script 10050 - 10099
-#define ID_SCRIPTFINISH 10050
-#define ID_SCRIPTTEXT 10051
-#define ID_SCRIPTTIME 10052
-#define ID_SCRIPTERROR 10053
-#define ID_SCRIPTBLANK 10054
+enum{
+	ID_FRMPROGRESS = wxID_HIGHEST + 1,
+	ID_PANEL_PROGRESS,
+	ID_PROGRESS_LIST,
+	ID_PROGRESS_GAUGE
+};
 
 class frmProgress: public wxFrame
 {

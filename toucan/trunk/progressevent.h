@@ -7,7 +7,6 @@
 #ifndef H_PROGRESSEVENT
 #define H_PROGRESSEVENT
 
-#include <wx/wx.h>
 #include <wx/event.h>
 
 class ProgressEvent : public wxEvent{
@@ -15,7 +14,6 @@ class ProgressEvent : public wxEvent{
 public:
 	ProgressEvent(wxEventType type, int id, wxString message, bool time = false, bool error = false) : 
 	wxEvent(id, type), m_Message(message), m_Time(time), m_Error(error){
-		wxMessageBox(_("making event"));
 	}
 
 	virtual wxEvent* Clone() const;

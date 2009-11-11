@@ -7,16 +7,21 @@
 #ifndef FRMVARIABLE_H
 #define FRMVARIABLE_H
 
-#define ID_FRMVARIABLE 10009
-#define ID_LOCATION 10010
-#define ID_LOCATION_TEXT 10011
-#define ID_VARIABLES 10012
-#define ID_VARIABLES_COMBO 10013
-#define ID_PREVIEW_TEXT 10014
+#include <wx/dialog.h>
+class wxTextCtrl;
+class wxComboBox;
+
+enum{
+	ID_FRMVARIABLE,
+	ID_LOCATION,
+	ID_LOCATION_TEXT,
+	ID_VARIABLES,
+	ID_VARIABLES_COMBO,
+	ID_PREVIEW_TEXT
+};
 
 class frmVariable: public wxDialog
 {
-    DECLARE_DYNAMIC_CLASS(frmVariable)
     DECLARE_EVENT_TABLE()
 
 public:

@@ -15,6 +15,7 @@
 #include <wx/datetime.h>
 #include <wx/filename.h>
 #include <wx/wfstream.h>
+#include <wx/log.h>
 #include <wx/dir.h>
 
 //This is needed as windows also defines a RemoveDirectory

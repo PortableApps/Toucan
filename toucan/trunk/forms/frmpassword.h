@@ -7,16 +7,18 @@
 #ifndef FRMPASSWORD_H
 #define FRMPASSWORD_H
 
-#include <wx/gbsizer.h>
-#include <wx/wx.h>
+#include <wx/dialog.h>
+class wxTextCtrl;
+class wxButton;
 
-#define ID_FRMPASSWORD 10000
-#define ID_PASSWORD 10001
-#define ID_PASSWORDREPEAT 10002
+enum{
+	ID_FRMPASSWORD = wxID_HIGHEST + 1,
+	ID_PASSWORD,
+	ID_PASSWORDREPEAT
+};
 
 class frmPassword: public wxDialog
 {    
-    DECLARE_DYNAMIC_CLASS(frmPassword)
     DECLARE_EVENT_TABLE()
 
 public:

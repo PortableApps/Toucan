@@ -4,11 +4,11 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _TOUCAN_H_
-#define _TOUCAN_H_
+#ifndef TOUCAN_H
+#define TOUCAN_H
 
-#include "progressevent.h"
-#include <wx/wx.h>
+//#include "progressevent.h"
+#include <wx/app.h>
 #include <map>
 
 class frmMain;

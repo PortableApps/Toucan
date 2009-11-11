@@ -4,11 +4,12 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/wx.h>
 #include <wx/regex.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
 #include <wx/listctrl.h>
+#include <wx/combobox.h>
+#include <wx/msgdlg.h>
 #include "rules.h"
 #include "toucan.h"
 #include "variables.h"

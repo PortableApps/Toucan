@@ -7,15 +7,20 @@
 #ifndef FRMRULE_H
 #define FRMRULE_H
 
-#include <wx/wx.h>
+#include <wx/dialog.h>
+#include <wx/string.h>
+#include <wx/textctrl.h>
+#include <wx/combobox.h>
+class wxButton;
 
-#define ID_FRMRULES 10003
-#define ID_TEXTCTRL 10004
-#define ID_COMBOBOX 10005
+enum{
+	ID_FRMRULES,
+	ID_TEXTCTRL,
+	ID_COMBOBOX
+};
 
 class frmRule : public wxDialog
 {    
-    DECLARE_DYNAMIC_CLASS(frmRule)
     DECLARE_EVENT_TABLE()
 
 public:

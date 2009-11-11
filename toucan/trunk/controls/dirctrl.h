@@ -16,7 +16,6 @@
 #include <wx/arrstr.h>
 #include <wx/imaglist.h>
 #include <wx/dir.h>
-#include <wx/wx.h>
 
 enum DirCtrlItemType{
 	DIRCTRL_DEFAULT,

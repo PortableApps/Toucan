@@ -13,7 +13,6 @@
 #include <wx/dir.h>
 #include <wx/gbsizer.h>
 #include <wx/stc/stc.h>
-#include <wx/wx.h>
 
 #include "frmmain.h"
 #include "frmrule.h"
@@ -36,7 +35,6 @@
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
-
 	//Sync
 	EVT_BUTTON(ID_SYNC_RUN, frmMain::OnSyncRunClick)
 	EVT_BUTTON(ID_SYNC_PREVIEW, frmMain::OnSyncPreviewClick)	
@@ -129,7 +127,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_MENU(ID_MENU_LOCATIONINCLUDE_EXTENSION, frmMain::OnMenuLocationIncludeExtensionClick)
 	EVT_MENU(ID_MENU_LOCATIONINCLUDE_NAME, frmMain::OnMenuLocationIncludeNameClick)
 	EVT_MENU(ID_MENU_FOLDEREXCLUDE_NAME, frmMain::OnMenuFolderExcludeNameClick)
-	
 END_EVENT_TABLE()
 
 //Constructor
@@ -1594,11 +1591,7 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_RUN
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
-	wxArrayString lines;
-	for(int i = 0; i < m_Script_Styled->GetNumberOfLines(); i++){
-		lines.Add(m_Script_Styled->GetLine(i));
-	}
-	wxGetApp().m_LuaManager->Run(lines);
+	wxGetApp().m_LuaManager->Run(m_Script_Styled->GetValue());
 }
 
 //ID_SCRIPT_NAME

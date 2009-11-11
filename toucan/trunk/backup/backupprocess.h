@@ -8,7 +8,6 @@
 #define H_BACKUPPROCESS
 
 #include <wx/process.h>
-#include <wx/txtstrm.h>
 
 class BackupProcess : public wxProcess{
 	

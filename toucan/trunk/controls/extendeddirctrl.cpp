@@ -6,7 +6,7 @@
 
 #include "extendeddirctrl.h"
 #include <wx/arrstr.h>
-#include <wx/wx.h>
+//#include <wx/wx.h>
 #include <wx/tokenzr.h>
 
 ExtendedDirCtrl::ExtendedDirCtrl(wxWindow* parent, const wxWindowID id = -1, const wxString& dir = wxDirDialogDefaultFolderStr,

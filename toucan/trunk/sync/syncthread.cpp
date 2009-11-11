@@ -12,7 +12,5 @@
 void *SyncThread::Entry(){
 	SyncFiles sync(m_Data->GetSource(), m_Data->GetDest(), m_Data);
 	sync.Execute();
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_FINISH);
-	wxPostEvent(&wxGetApp(), event);
 	return NULL;
 }

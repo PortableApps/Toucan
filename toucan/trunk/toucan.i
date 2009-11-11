@@ -2,6 +2,7 @@
 %include "wxstring.i"
 
 %{
+	#include <wx/msgdlg.h> 
 	#include "toucan.h"
 	#include "script.h"
 	#include "rules.h"

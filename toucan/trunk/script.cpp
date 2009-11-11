@@ -8,6 +8,7 @@
 #include <wx/tokenzr.h>
 #include <wx/fileconf.h>
 #include <wx/listctrl.h>
+#include <wx/msgdlg.h> 
 
 #include "job.h"
 #include "toucan.h"
@@ -244,7 +245,8 @@ bool ScriptManager::ParseCommand(int i){
 		job = new SecureJob(securedata);
 		securedata->SetPassword(GetPassword());
 	}
-	else if(strToken == wxT("Delete")){
+	//These need to be reimplemented in lua (toucan.i)
+	/*else if(strToken == wxT("Delete")){
 		wxString strSource = Normalise(tkz.GetNextToken());
 		if(wxRemoveFile(strSource)){
 			OutputProgress(_("Deleted ") + strSource);	
@@ -315,7 +317,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(&wxGetApp(), event);	
 		return true;
-	}
+	}*/
 	else{
 		return false;
 	}

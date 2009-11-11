@@ -5,8 +5,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "frmpassword.h"
-
-IMPLEMENT_DYNAMIC_CLASS(frmPassword, wxDialog)
+#include <wx/button.h>
+#include <wx/stattext.h>
+#include <wx/gbsizer.h>
+#include <wx/textctrl.h>
+#include <wx/sizer.h>
 
 BEGIN_EVENT_TABLE(frmPassword, wxDialog)
 
