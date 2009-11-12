@@ -46,6 +46,7 @@ endif(MSVC)
 
 #Traverse through the sub-directories
 add_subdirectory(backup)
+add_subdirectory(ccrypt)
 add_subdirectory(controls)
 add_subdirectory(data)
 add_subdirectory(forms)
@@ -54,6 +55,7 @@ add_subdirectory(sync)
 
 #Link against them
 link_directories(backup)
+link_directories(ccrypt)
 link_directories(controls)
 link_directories(data)
 link_directories(forms)
@@ -100,7 +102,7 @@ add_test(test toucan unittests)
 
 #Set up the exe
 add_executable(toucan ${source} ${headers})
-target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
+target_link_libraries(toucan backup ccrypt controls data forms secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
 
 if(MSVC)
     #Disable manifest creation as we have our own .rc file
