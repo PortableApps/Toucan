@@ -26,25 +26,6 @@ int mingw_compat_gethostname(char *name, size_t len) {
   return 0;
 }
 
-/* Windows replacement for gettimeofday(). Fills a struct timeval with
-   the current time, ignoring the timezone argument. Note: although
-   the result is in microseconds, it has only millisecond resolution. */
-int gettimeofday(struct timeval *tv, void *tz) {
-  SYSTEMTIME st;
-  FILETIME ft;
-  long long int t;
-
-  GetSystemTime(&st);              /* get current time (millisec resolution) */
-  SystemTimeToFileTime(&st, &ft);  /* converts to file time */
-  t = ((long long)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
-                                   /* 100 nanosec since Jan 1, 1601 UTC */ 
-  t -= 116444736000000000;          /* 100 nanosec since Jan 1, 1970 UTC */
-  t /= 10;                         /* microsec since Jan 1, 1970 UTC */ 
-  tv->tv_usec = t % 1000000;
-  tv->tv_sec = t / 1000000;
-  return 0; 
-}
-
 /* generic replacement for mkstemp() */
 int mkstemp(char *template) {
   int len = strlen(template);
@@ -80,3 +61,25 @@ int mkstemp(char *template) {
 }
 
 #endif /* __MINGW32__ */
+
+#if defined(__MINGW32__) || defined (_MSC_VER)
+#include <windows.h>
+/* Windows replacement for gettimeofday(). Fills a struct timeval with
+   the current time, ignoring the timezone argument. Note: although
+   the result is in microseconds, it has only millisecond resolution. */
+int gettimeofday(struct timeval *tv, void *tz) {
+  SYSTEMTIME st;
+  FILETIME ft;
+  long long int t;
+
+  GetSystemTime(&st);              /* get current time (millisec resolution) */
+  SystemTimeToFileTime(&st, &ft);  /* converts to file time */
+  t = ((long long)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+                                   /* 100 nanosec since Jan 1, 1601 UTC */ 
+  t -= 116444736000000000;          /* 100 nanosec since Jan 1, 1970 UTC */
+  t /= 10;                         /* microsec since Jan 1, 1970 UTC */ 
+  tv->tv_usec = t % 1000000;
+  tv->tv_sec = t / 1000000;
+  return 0; 
+}
+#endif

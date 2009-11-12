@@ -61,10 +61,13 @@ int mkstemp(char *template);
 #define gethostname(name, len) mingw_compat_gethostname(name, len)
 int mingw_compat_gethostname(char *name, size_t len);
 
+
+
+#endif /* __MINGW32__ */
+
+#if defined(__MINGW32__) || defined (_MSC_VER)
 int gettimeofday(struct timeval *tv, void *tz);
-
-#endif /* __MINGW32__ */ 
-
+#endif
 /* ---------------------------------------------------------------------- */
 /* setmode() and O_BINARY */
 
@@ -72,7 +75,7 @@ int gettimeofday(struct timeval *tv, void *tz);
 
 #include <io.h>  /* for setmode() */
 
-#elif defined(__MINGW32__) || defined(__EMX__)
+#elif defined(__MINGW32__) || defined(__EMX__) || defined(_MSC_VER)
 
 /* nothing needed */
 

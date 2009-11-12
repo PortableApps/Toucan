@@ -11,6 +11,10 @@
  *          Vincent Rijmen
  */
 
+#if defined (_MSC_VER)
+#define inline 
+#endif
+
 #include "rijndael.h"
 
 static int xshifts[3][2][4] = {

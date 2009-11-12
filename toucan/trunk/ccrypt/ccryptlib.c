@@ -14,8 +14,14 @@
    Rijndael, the candidate for the AES standard. */
 
 #include <stdlib.h>
+#if defined(_MSC_VER)
+#include <winsock2.h>
+#include <process.h>
+#define getpid _getpid
+#else
 #include <unistd.h>
 #include <sys/time.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 
