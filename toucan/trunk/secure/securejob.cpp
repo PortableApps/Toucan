@@ -17,11 +17,11 @@ SecureJob::SecureJob(SecureData *Data) : Job(Data){
 	;
 }
 
-bool SecureJob::Execute(){
+void* SecureJob::Entry(){
 	SecureData *data = static_cast<SecureData*>(GetData());
 	for(unsigned int i = 0; i < data->GetLocations().GetCount(); i++){
 		data->SetLocation(i, Normalise(data->GetLocation(i)));
 	}
 	Secure(data);
-	return true;
+	return NULL;
 }

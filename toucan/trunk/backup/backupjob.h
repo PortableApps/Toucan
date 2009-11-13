@@ -17,7 +17,7 @@ class BackupJob : public Job{
 
 public:
 	BackupJob(BackupData *Data);
-	bool Execute();
+	virtual void* Entry();
 };
 
 #endif

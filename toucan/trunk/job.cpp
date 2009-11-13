@@ -6,7 +6,7 @@
 
 #include "job.h"
 
-Job::Job(JobData *Data) : m_Data(Data){
+Job::Job(JobData *Data) : m_Data(Data), wxThread(wxTHREAD_JOINABLE){
 	;
 }
 

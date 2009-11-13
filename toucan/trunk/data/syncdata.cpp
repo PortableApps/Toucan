@@ -75,6 +75,7 @@ bool SyncData::TransferToForm(frmMain *window){
 		return false;
 	}
 
+	//If the job name isnt in the list then we need to add it
 	if(GetName() != wxT("SyncRemember") && window->m_Sync_Job_Select->GetStringSelection() != GetName()){
 		if(window->m_Sync_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
 			window->m_Sync_Job_Select->AppendString(GetName());
@@ -117,21 +118,6 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
 	SetRules(new Rules(window->m_Sync_Rules->GetStringSelection(), true));
 	return true;	
-}
-
-void SyncData::Output(){
-	wxMessageBox (GetSource(), wxT("Source"));
-	wxMessageBox(GetDest(), wxT("Destination"));
-	wxMessageBox(GetRules()->GetName(), wxT("Rules"));
-	wxMessageBox(GetFunction(), wxT("Function"));
-	wxVariant temp = GetTimeStamps();
-	wxMessageBox(temp.GetString(), wxT("Timestamps?"));
-	temp = GetAttributes();
-	wxMessageBox(temp.GetString(), wxT("Attributes?"));
-	temp = GetIgnoreRO();
-	wxMessageBox(temp.GetString(), wxT("Ignore Readonly?"));
-	temp = GetIgnoreDLS();
-	wxMessageBox(temp.GetString(), wxT("Ignore Daylight Savings?"));
 }
 
 bool SyncData::IsReady(){

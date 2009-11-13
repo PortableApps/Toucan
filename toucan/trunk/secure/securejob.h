@@ -17,7 +17,7 @@ class SecureJob : public Job{
 
 public:
 	SecureJob(SecureData *Data);
-	bool Execute();
+	virtual void* Entry();
 };
 
 #endif

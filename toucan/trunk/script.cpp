@@ -317,7 +317,7 @@ bool ScriptManager::ParseCommand(int i){
 		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
 		wxPostEvent(&wxGetApp(), event);	
 		return true;
-	}*/
+	}
 	else{
 		return false;
 	}
@@ -332,7 +332,7 @@ bool ScriptManager::ParseCommand(int i){
 
 	if(!job->Execute()){
 		CleanUp();
-	}
+	}*/
 
 	return true;	
 }

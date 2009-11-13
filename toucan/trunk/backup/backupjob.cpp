@@ -20,7 +20,7 @@ BackupJob::BackupJob(BackupData *Data) : Job(Data){
 	;
 }
 
-bool BackupJob::Execute(){
+void* BackupJob::Entry(){
 	BackupData *data = static_cast<BackupData*>(GetData());
 	//Expand all of the variables
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
@@ -105,5 +105,5 @@ bool BackupJob::Execute(){
 		}	
 	}
 	wxGetApp().SetFinished(false);
-	return true;
+	return NULL;
 }

@@ -59,12 +59,6 @@ public:
 	virtual bool TransferFromForm(frmMain* window) = 0;
 
 	/*!
-	 * Output all of the information related to the job, this is intended for 
-	 * debugging
-	 */
-	virtual void Output() = 0;
-
-	/*!
 	 * Checks to see if the job is ready to be used, i.e. all of the information
 	 * needed is present
 	 */
