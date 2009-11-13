@@ -12,14 +12,12 @@
 	#include "data/securedata.h"
 	#include "sync/syncjob.h"
 	#include "secure/securejob.h"
-	
-	wxString ExpandVariable(const wxString &variable){
-		return Normalise(variable);
-	}
 
 	void Sync(SyncData *data){
 		SyncJob *job = new SyncJob(data);
-		job->Execute();
+		job->Create();
+		job->Run();
+		job->Wait();
 	}
 
 	void Sync(const wxString &source, const wxString &dest, const wxString &function, 
@@ -57,7 +55,9 @@
 
 	void Secure(SecureData *data){
 		SecureJob *job = new SecureJob(data);
-		job->Execute();
+		job->Create();
+		job->Run();
+		job->Wait();
 	}
 	
 	void Secure(const wxString &jobname){
@@ -71,12 +71,84 @@
 			}
 		}
 	}
+
+	//Helper functions
+	wxString ExpandVariable(const wxString &variable){
+		return Normalise(variable);
+	}
+
+	bool Delete(const wxString &path){
+		wxString normpath = Normalise(path);
+		if(wxRemoveFile(path)){
+			OutputProgress(_("Deleted ") + normpath);	
+		}
+		else{
+			OutputProgress(_("Failed to delete ") + normpath, true, true);
+			return false;
+		}
+		return true;
+	}
+
+	bool Copy(const wxString &source, const wxString &dest){
+		wxString normsource = Normalise(source);
+		wxString normdest = Normalise(dest);
+		if(wxCopyFile(normsource, normdest, true)){
+			OutputProgress(_("Copied ") + normsource);	
+		}
+		else{
+			OutputProgress(_("Failed to copy ") + normsource, true, true);
+			return false;
+		}	
+		return true;
+	}
+
+	bool Move(const wxString &source, const wxString &dest){
+		wxString normsource = Normalise(source);
+		wxString normdest = Normalise(dest);
+		if(Copy(normsource, normdest)){
+			if(wxRemoveFile(normsource)){
+				OutputProgress(_("Moved") + normsource);	
+			}
+			else{
+				OutputProgress(_("Failed to move ") + normsource, true, true);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool Rename(const wxString &source, const wxString &dest){
+		wxString normsource = Normalise(source);
+		wxString normdest = Normalise(dest);
+		if(wxRenameFile(normsource, normdest, true)){
+			OutputProgress(_("Renamed ") + normsource);	
+		}
+		else{
+			OutputProgress(_("Failed to rename ") + normsource, true, true);
+			return false;
+		}
+		return true;
+	}
+
+	void Execute(const wxString &path, bool async = false){
+		wxString normpath = Normalise(path);
+		int flags = async ? wxEXEC_ASYNC : wxEXEC_SYNC|wxEXEC_NODISABLE;
+		wxExecute(normpath, flags);
+		OutputProgress(_("Executed ") + normpath);
+		return;
+	}
 %}
 
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
-wxString ExpandVariable(const wxString &variable);
 
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, bool timestamps = false);
 
 void Secure(const wxString &jobname);
+
+wxString ExpandVariable(const wxString &variable);
+bool Delete(const wxString &path);
+bool Copy(const wxString &source, const wxString &dest);
+bool Move(const wxString &source, const wxString &dest);
+bool Rename(const wxString &source, const wxString &dest);
+void Execute(const wxString &path, bool async = false);

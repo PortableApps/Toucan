@@ -211,7 +211,7 @@ bool ScriptManager::ProgressBarSetup(){
 }
 
 bool ScriptManager::ParseCommand(int i){
-	if(wxGetApp().GetAbort()){
+	/*if(wxGetApp().GetAbort()){
 		return false;
 	}
 	wxDateTime now = wxDateTime::Now();
@@ -244,79 +244,6 @@ bool ScriptManager::ParseCommand(int i){
 		SecureData* securedata = static_cast <SecureData*> (data);
 		job = new SecureJob(securedata);
 		securedata->SetPassword(GetPassword());
-	}
-	//These need to be reimplemented in lua (toucan.i)
-	/*else if(strToken == wxT("Delete")){
-		wxString strSource = Normalise(tkz.GetNextToken());
-		if(wxRemoveFile(strSource)){
-			OutputProgress(_("Deleted ") + strSource);	
-		}
-		else{
-			OutputProgress(_("Failed to delete ") + strSource, true, true);				
-		}
-		IncrementGauge();
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(&wxGetApp(), event);	
-		return true;
-	}
-	else if(strToken == wxT("Move")){
-		wxString strSource = Normalise(tkz.GetNextToken());
-		tkz.GetNextToken();
-		wxString strDest = Normalise(tkz.GetNextToken());
-		if(wxCopyFile(strSource, strDest, true)){
-			if(wxRemoveFile(strSource)){
-				OutputProgress(_("Moved") + strSource);	
-			}
-			else{
-				OutputProgress(_("Failed to move ") + strSource, true, true);
-			}
-		}
-		else{
-			OutputProgress(_("Failed to move ") + strSource, true, true);		
-		}
-		IncrementGauge();
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(&wxGetApp(), event);	
-		return true;
-	}
-	else if(strToken == wxT("Copy")){
-		wxString strSource = Normalise(tkz.GetNextToken());
-		tkz.GetNextToken();
-		wxString strDest = Normalise(tkz.GetNextToken());
-		if(wxCopyFile(strSource, strDest, true)){
-			OutputProgress(_("Copied ") + strSource);	
-		}
-		else{
-			OutputProgress(_("Failed to copy ") + strSource, true, true);
-		}
-		IncrementGauge();
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(&wxGetApp(), event);	
-		return true;
-	}
-	else if(strToken == wxT("Rename")){
-		wxString strSource = Normalise(tkz.GetNextToken());
-		tkz.GetNextToken();
-		wxString strDest = Normalise(tkz.GetNextToken());
-		if(wxRenameFile(strSource, strDest, true)){
-			OutputProgress(_("Renamed ") + strSource);	
-		}
-		else{
-			OutputProgress(_("Failed to rename ") + strSource, true, true);
-		}
-		IncrementGauge();
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(&wxGetApp(), event);	
-		return true;
-	}
-	else if(strToken == wxT("Execute")){
-		wxString strExecute = Normalise(tkz.GetNextToken());
-		wxExecute(strExecute, wxEXEC_SYNC|wxEXEC_NODISABLE);
-		OutputProgress(_("Executed ") + strExecute);
-		IncrementGauge();
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_SCRIPTFINISH);
-		wxPostEvent(&wxGetApp(), event);	
-		return true;
 	}
 	else{
 		return false;
