@@ -36,6 +36,7 @@ void LuaManager::StartUp(){
 	m_StartTime = wxDateTime::Now();
 	OutputProgress(_("Starting"), true);
 	OutputProgress(wxEmptyString);
+	m_Window->m_List->SetColumnWidth(1, m_Window->m_List->GetClientSize().GetWidth() - m_Window->m_List->GetColumnWidth(0));
 	m_Window->m_OK->Enable(false);
 	m_Window->m_Save->Enable(false);
 	m_Window->m_Cancel->Enable(true);
