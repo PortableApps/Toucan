@@ -297,17 +297,23 @@ void Toucan::OnProgress(wxCommandEvent &event){
 	if(m_UsesGUI){
 		frmProgress *window = m_LuaManager->GetProgressWindow();
 		if(window){
-			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), event.GetString());
-			/*if(event.ShowTime()){
+			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), wxEmptyString);
+			window->m_List->SetItem(index, 1, event.GetString());
+			if(event.GetInt() == 1){
+				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}
+			else if(event.GetInt() == 2){
+				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}
+			else if(event.GetInt() == 3){
 				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
 			}
-			if(event.ShowError()){
-				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}*/
 			window->m_List->EnsureVisible(index);
 			window->Update();
 		}
 	}
+	//TODO : Command line output
 	else{
 
 	}

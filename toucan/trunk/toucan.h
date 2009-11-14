@@ -7,7 +7,6 @@
 #ifndef TOUCAN_H
 #define TOUCAN_H
 
-//#include "progressevent.h"
 #include <wx/app.h>
 #include <map>
 

@@ -16,7 +16,6 @@
 #include <wx/fileconf.h>
 
 #include "toucan.h"
-#include "progressevent.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
 #include "forms/frmpassword.h"
@@ -54,9 +53,19 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 }
 
 void OutputProgress(const wxString &message, bool time, bool error){
-	//ProgressEvent event(PROGRESS_SEND, ID_PROGRESS, message, time, error);
 	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESS);
+	int type = 0;
+	if(time && error){
+		type = 1;
+	}
+	else if(error){
+		type = 2;
+	}
+	else if(time){
+		type = 3;
+	}
 	event.SetString(message);
+	event.SetInt(type);
 	wxGetApp().ProcessEvent(event);
 }
 
