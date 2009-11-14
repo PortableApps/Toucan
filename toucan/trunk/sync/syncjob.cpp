@@ -31,27 +31,15 @@ void* SyncJob::Entry(){
 	return NULL;
 }
 
-SyncFiles::SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata){
-	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
-		this->sourceroot = syncsource.Left(syncsource.Length() - 1);
-	}
-	else{
-		sourceroot = syncsource;
-	}
-	if(syncdest[syncdest.Length() - 1] == wxFILE_SEP_PATH){
-		this->destroot = syncdest.Left(syncdest.Length() - 1);
-	}
-	else{
-		destroot = syncdest;
-	}
-	this->data = syncdata;
+SyncFiles::SyncFiles(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
+          : SyncBase(syncsource, syncdest, syncdata){
 	this->preview = false;
 }
 
 bool SyncFiles::Execute(){
 	std::list<const wxString> sourcepaths = FolderContentsToList(sourceroot);
 	std::list<const wxString> destpaths = FolderContentsToList(destroot);
-	std::map<const wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
+	std::map<const wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
 	return true;
 }

@@ -23,7 +23,7 @@ public:
 class SyncFiles : public SyncBase
 {
 public:
-	SyncFiles(wxString syncsource, wxString syncdest, SyncData* syncdata);
+	SyncFiles(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata);
 	bool Execute();
 
 protected:

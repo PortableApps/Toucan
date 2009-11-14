@@ -13,7 +13,22 @@
 #include <wx/dir.h>
 #include <wx/filefn.h>
 
-SyncBase::SyncBase(){
+SyncBase::SyncBase(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
+         :data(syncdata)
+{
+	//Strip trailing slashes
+	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
+		this->sourceroot = syncsource.Left(syncsource.Length() - 1);
+	}
+	else{
+		sourceroot = syncsource;
+	}
+	if(syncdest[syncdest.Length() - 1] == wxFILE_SEP_PATH){
+		this->destroot = syncdest.Left(syncdest.Length() - 1);
+	}
+	else{
+		destroot = syncdest;
+	}
 	this->disablestreams = wxGetApp().m_Settings->GetDisableStream();
 }
 
@@ -45,10 +60,10 @@ std::list<const wxString> SyncBase::FolderContentsToList(wxString path){
 	return paths;
 }
 
-std::map<const wxString, short> SyncBase::MergeListsToMap(std::list<const wxString> sourcelist, std::list<const wxString> destlist){
+std::map<const wxString, int> SyncBase::MergeListsToMap(std::list<const wxString> sourcelist, std::list<const wxString> destlist){
 	std::list<const wxString>::iterator iter;
 	std::list<const wxString>::iterator destiter;
-	std::map<const wxString, short> mergeresult;
+	std::map<const wxString, int> mergeresult;
 	for(iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
 		bool destexists = false;
 		for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
@@ -58,7 +73,7 @@ std::map<const wxString, short> SyncBase::MergeListsToMap(std::list<const wxStri
 				break;
 			}
 		}
-		short where = 1;
+		int where = 1;
 		if(destexists){
 			where = 3;
 		}
@@ -70,8 +85,8 @@ std::map<const wxString, short> SyncBase::MergeListsToMap(std::list<const wxStri
 	return mergeresult;
 }
 
-bool SyncBase::OperationCaller(std::map<const wxString, short> paths){
-	for(std::map<const wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+bool SyncBase::OperationCaller(std::map<const wxString, int> paths){
+	for(std::map<const wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxGetApp().GetAbort()){
 			return true;
 		}
@@ -98,7 +113,7 @@ bool SyncBase::OperationCaller(std::map<const wxString, short> paths){
 				OnSourceAndDestFile((*iter).first);
 			}
 			//Update the progress bar for files only
-			if(wxGetApp().GetUsesGUI()){
+			if(wxGetApp().GetUsesGUI() && !preview){
 				IncrementGauge();
 				//If we have a file in both folders then increment again as we only do one pass
 				if((*iter).second == 3){

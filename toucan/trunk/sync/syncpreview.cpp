@@ -7,13 +7,16 @@
 #include "syncbase.h"
 #include "syncpreview.h"
 #include "../toucan.h"
-#include "../forms/frmprogress.h"
+#include "../data/syncdata.h"
+
 #include <list>
 #include <map>
 #include <wx/string.h>
 #include <wx/wfstream.h>
 
-SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncdata, bool issource) : SyncFiles(syncsource, syncdest, syncdata){
+SyncPreview::SyncPreview(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata, bool issource) 
+            :SyncBase(syncsource, syncdest, syncdata)
+{
 	this->sourcetree = issource;
 	this->preview = true;
 }
@@ -21,7 +24,7 @@ SyncPreview::SyncPreview(wxString syncsource, wxString syncdest, SyncData* syncd
 VdtcTreeItemBaseArray SyncPreview::Execute(){
 	std::list<const wxString> sourcepaths = FolderContentsToList(sourceroot);
 	std::list<const wxString> destpaths = FolderContentsToList(destroot);
-	std::map<const wxString, short> mergeresult = MergeListsToMap(sourcepaths, destpaths);
+	std::map<const wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
 	if(sourcetree){
 		return sourceitems;
@@ -32,8 +35,8 @@ VdtcTreeItemBaseArray SyncPreview::Execute(){
 
 }
 
-bool SyncPreview::OperationCaller(std::map<const wxString, short> paths){
-	for(std::map<const wxString, short>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+bool SyncPreview::OperationCaller(std::map<const wxString, int> paths){
+	for(std::map<const wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if((*iter).second == 1){
 				sourceitems.Add(new VdtcTreeItemBase(VDTC_TI_DIR, (*iter).first));
