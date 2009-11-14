@@ -707,7 +707,7 @@ void frmMain::CreateControls(){
 	//Lua keywords in 0
 	m_Script_Styled->SetKeyWords(0, wxT("and break do else elseif end false for function if in local nil not or repeat return then true until while"));
 	//Toucan keywords in 1
-	m_Script_Styled->SetKeyWords(1, wxT("print sync backup secure expand"));
+	m_Script_Styled->SetKeyWords(1, wxT("sync backup secure print expand copy rename move delete execute"));
 	m_Script_Styled->SetWrapMode(1);
 	m_Script_Styled->SetLexer(wxSTC_LEX_LUA);
 	ScriptSizer->Add(m_Script_Styled, 1, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 2 * border);
