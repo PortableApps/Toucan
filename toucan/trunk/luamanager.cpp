@@ -19,11 +19,11 @@
 #endif
 
 LuaManager::LuaManager(){
-	;
+	m_Window = NULL;
 }
 
 void LuaManager::StartUp(){
-	if(m_Window){
+	if(!m_Window){
 		m_Window = new frmProgress(NULL, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
 		m_Window->Show();
 	}
