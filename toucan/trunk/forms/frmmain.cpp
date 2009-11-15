@@ -1296,7 +1296,24 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_RUN
 void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
-	Run(wxT("Sync"));
+	wxString command = wxT("sync(\"");
+	command += m_Sync_Source_Txt->GetValue();
+	command += wxT("\", \"");
+	command += m_Sync_Dest_Txt->GetValue();
+	command += wxT("\", \"");
+	command += m_Sync_Function->GetStringSelection();
+	command += wxT("\", ");
+	command += ToString(m_Sync_Timestamp->IsChecked());
+	command += wxT(", ");
+	command += ToString(m_Sync_Attributes->IsChecked());
+	command += wxT(", ");
+	command += ToString(m_Sync_Ignore_Readonly->IsChecked());
+	command += wxT(", ");
+	command += ToString(m_Sync_Ignore_DaylightS->IsChecked());
+	command += wxT(", \"");
+	command += m_Sync_Rules->GetStringSelection();
+	command += wxT("\")");
+	wxGetApp().m_LuaManager->Run(command);
 }
 
 //ID_BACKUP_RUN
@@ -2276,5 +2293,14 @@ void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
 		m_Secure_TreeCtrl->AddNewPath(m_SecureLocations->Item(i));
+	}
+}
+
+wxString frmMain::ToString(bool bl){
+	if(bl){
+		return wxString("true");
+	}
+	else{
+		return wxString("false");
 	}
 }

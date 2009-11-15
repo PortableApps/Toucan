@@ -142,7 +142,9 @@
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
 
 void Sync(const wxString &jobname);
-void Sync(const wxString &source, const wxString &dest, const wxString &function, bool timestamps = false);
+void Sync(const wxString &source, const wxString &dest, const wxString &function, 
+          bool timestamps = false, bool attributes = false, bool ignorero = false, 
+          bool ignoredls = false, const wxString &rules = wxEmptyString);
 
 void Secure(const wxString &jobname);
 

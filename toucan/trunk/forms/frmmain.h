@@ -292,6 +292,9 @@ public:
 	
 	//Force a sizer to update its layout and then refresh the window
 	void UpdateSizer(wxSizer *sizer);
+
+	//Convenience function
+	wxString ToString(bool bl);
 	
 	//General
 	wxAuiManager m_auiManager;
