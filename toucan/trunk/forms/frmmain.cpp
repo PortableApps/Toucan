@@ -1296,13 +1296,13 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_RUN
 void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
-	wxString command = wxT("sync(\"");
+	wxString command = wxT("sync([[");
 	command += m_Sync_Source_Txt->GetValue();
-	command += wxT("\", \"");
+	command += wxT("]], [[");
 	command += m_Sync_Dest_Txt->GetValue();
-	command += wxT("\", \"");
+	command += wxT("]], [[");
 	command += m_Sync_Function->GetStringSelection();
-	command += wxT("\", ");
+	command += wxT("]], ");
 	command += ToString(m_Sync_Timestamp->IsChecked());
 	command += wxT(", ");
 	command += ToString(m_Sync_Attributes->IsChecked());
@@ -1310,9 +1310,9 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	command += ToString(m_Sync_Ignore_Readonly->IsChecked());
 	command += wxT(", ");
 	command += ToString(m_Sync_Ignore_DaylightS->IsChecked());
-	command += wxT(", \"");
+	command += wxT(", [[");
 	command += m_Sync_Rules->GetStringSelection();
-	command += wxT("\")");
+	command += wxT("]])");
 	wxGetApp().m_LuaManager->Run(command);
 }
 
