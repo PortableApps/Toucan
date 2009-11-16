@@ -1,4 +1,4 @@
-set(source backupjob.cpp backupprocess.cpp backupthread.cpp)
-set(headers backupjob.h backupprocess.h backupthread.h)
+set(source backupjob.cpp backupprocess.cpp)
+set(headers backupjob.h backupprocess.h)
 
 add_library(backup STATIC  ${source} ${headers})
