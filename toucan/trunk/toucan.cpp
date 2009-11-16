@@ -13,7 +13,9 @@
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 
+
 #include "signalprocess.h"
+#include "backup/backupprocess.h"
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -41,6 +43,7 @@ IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
 	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
+	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
 	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 END_EVENT_TABLE()
@@ -322,7 +325,8 @@ void Toucan::OnProcess(wxCommandEvent &event){
 }
 
 void Toucan::OnBackupProcess(wxCommandEvent &event){
-
+	m_ProcessMap[event.GetInt()] = false;
+	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, static_cast<BackupProcess*>(event.GetEventObject()));
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){

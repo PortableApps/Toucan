@@ -76,33 +76,32 @@ void* BackupJob::Entry(){
 		else{
 			EnableGauge(false);
 		}
-		wxString strCommand = data->CreateCommand(i);
+		wxString command = data->CreateCommand(i);
 		wxSetWorkingDirectory(path);
 		
-		BackupProcess *process = new BackupProcess();
-		long lgPID = wxExecute(strCommand, wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-	
-		process->SetRealPid(lgPID);
-		BackupThread *thread = new BackupThread(lgPID, process, data);
-
-		thread->Create();
-		thread->Run();
-
-		/*if(!wxGetApp().GetUsesGUI()){
-			while(!wxGetApp().GetFinished()){
-				//Nasty hack so we send some events to the dialog and
-				//thus output is displayed
-				OutputProgress(wxT(""));
-				//So we dont thrash the processor
-				wxMilliSleep(10);
-				wxGetApp().Yield(true);
+		int id = wxDateTime::Now().GetTicks();
+		BackupProcess *process = new BackupProcess(id);
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_BACKUPPROCESS);
+		event->SetEventObject(process);
+		event->SetInt(id);
+		event->SetString(command);
+		wxGetApp().QueueEvent(event);
+		while(wxGetApp().m_ProcessMap[id] != true){
+			if(!process->HasInput()){
+				//If there was no input then sleep for a while so we don't thrash the CPU
+				wxMilliSleep(100);
+				//Also yield for input incase it is backing up a large file
+				//wxGetApp().Yield();
 			}
-			thread->Wait();
 		}
-		else{
-			thread->Wait();
-		}*/	
+
+		//Grab any remaining output
+		while(process->HasInput())
+				;
+		//Tidy up any temp files
+		if(wxFileExists(data->GetFileLocation() + wxT(".tmp"))){
+			wxRemoveFile(data->GetFileLocation() + wxT(".tmp"));
+		}
 	}
-//	wxGetApp().SetFinished(false);
 	return NULL;
 }
