@@ -7,19 +7,16 @@
 #ifndef H_BACKUPPROCESS
 #define H_BACKUPPROCESS
 
-#include <wx/process.h>
+#include "../signalprocess.h"
 
-class BackupProcess : public wxProcess{
-	
+class BackupProcess : public SignalProcess 
+{
 public:
-    DECLARE_CLASS(BackupProcess)
-
-    BackupProcess(){
+	BackupProcess(int id) : SignalProcess(id){
         Redirect();
     }
 
     virtual bool HasInput();
-	void OnTerminate(int pid, int status);
 
 	void SetRealPid(const long& RealPID) {this->m_RealPID = RealPID;}
 	const long& GetRealPid() const {return m_RealPID;}

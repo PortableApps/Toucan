@@ -10,8 +10,6 @@
 #include <wx/log.h>
 #include <wx/txtstrm.h>
 
-IMPLEMENT_CLASS(BackupProcess, wxProcess)
-
 bool BackupProcess::HasInput()
 {
 	bool hasInput = false;
@@ -34,8 +32,4 @@ bool BackupProcess::HasInput()
 		hasInput = true;
 	}
 	return hasInput;
-}
-
-void BackupProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
-	;
 }
