@@ -12,7 +12,6 @@
 #include "../forms/frmmain.h"
 #include "../forms/frmprogress.h"
 #include "../backup/backupprocess.h"
-#include "../backup/backupthread.h"
 #include <wx/textfile.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>

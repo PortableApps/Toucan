@@ -5,7 +5,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupjob.h"
-#include "backupthread.h"
 #include "backupprocess.h"
 #include "../toucan.h"
 #include "../variables.h"
