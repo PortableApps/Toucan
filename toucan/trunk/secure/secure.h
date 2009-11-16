@@ -7,12 +7,10 @@
 #ifndef H_SECURE
 #define H_SECURE
 
-class frmProgress;
-class Rules;
 class SecureData;
 
 bool Secure(SecureData *data);
 bool CryptDir(wxString strPath, SecureData *data);
-bool CryptFile(wxString strFile, SecureData *data);
+bool CryptFile(const wxString &path, SecureData *data);
 
 #endif 

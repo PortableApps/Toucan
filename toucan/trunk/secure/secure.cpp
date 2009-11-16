@@ -4,20 +4,22 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <wx/file.h>
+#include <wx/wfstream.h>
 #include <wx/filefn.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
 
 #include "secure.h"
+extern "C"{
+	#include "../ccrypt/ccryptlib.h"
+}
 #include "../toucan.h"
 #include "../rules.h"
 #include "../variables.h"
 #include "../basicfunctions.h"
 #include "../data/securedata.h"
 #include "../forms/frmmain.h"
-#include "../forms/frmprogress.h"
 #include "../controls/vdtc.h"
 
 bool Secure(SecureData *data){
@@ -95,17 +97,17 @@ bool CryptDir(wxString strPath, SecureData *data)
 }
 
 
-bool CryptFile(wxString strFile, SecureData *data)
+bool CryptFile(const wxString &path, SecureData *data)
 {
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
 	//Check to see it the file should be excluded	
-	if(data->GetRules()->ShouldExclude(strFile, false)){
+	if(data->GetRules()->ShouldExclude(path, false)){
 		return true;
 	}
 	//Make sure that it is a 'real' file
-	wxFileName filename(strFile);
+	wxFileName filename(path);
 	if(filename.IsOk() == true){
 		wxString size = filename.GetHumanReadableSize();
 		if(size == wxT("Not available")){
@@ -120,8 +122,35 @@ bool CryptFile(wxString strFile, SecureData *data)
 	if(filename.GetExt() != wxT("cpt") && data->GetFunction() == _("Decrypt")){
 		return false;
 	}	
-	
-	//A couple of arrays to catch the output and surpress the command window
+
+	wxFileStream *filestream = new wxFileStream(path);
+/*	wxFileOffset size = filestream->GetLength();
+
+	char *in = new char[4096];
+	char *out = new char[4096];
+	ccrypt_stream_s stream;
+	ccencrypt_init(&stream, data->GetPassword().mb_str());
+
+	wxFileOffset bytesLeft = size;
+	while(bytesLeft > 0){
+		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
+		filestream->Read(in, bytesToRead);
+		if(filestream->GetLastError() != wxSTREAM_NO_ERROR){
+			//Error, need to add error handling code here
+		}
+		strm.avail_in = bytesToRead;
+		strm.next_in = in;
+        do{
+            strm.avail_out = 4096;
+            strm.next_out = out;
+            ccencrypt(&strm);
+            filestream->SeekO(-bytesToRead, wxFromCurrent);
+            filestream->Write(
+        }while(strm.avail_out == 0);
+	}
+
+*/
+	/*//A couple of arrays to catch the output and surpress the command window
 	wxArrayString arrErrors;
 	wxArrayString arrOutput;
 
@@ -181,6 +210,6 @@ bool CryptFile(wxString strFile, SecureData *data)
  			OutputProgress(_("Failed to decrypt ") + strFile + wxString::Format(wxT(" : %i"), lgReturn), true, true);
 		}
 	}
-	IncrementGauge();
+	IncrementGauge();*/
 	return true;
 }
