@@ -13,7 +13,9 @@
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 #include <wx/process.h>
-#include <wx/debugrpt.h>
+#include <wx/msgdlg.h>
+
+#include "signalprocess.h"
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -40,8 +42,8 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
-	//EVT_PROGRESS(ID_PROGRESS, Toucan::OnProgress)
 	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
+	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 END_EVENT_TABLE()
 
@@ -161,9 +163,6 @@ bool Toucan::OnInit(){
 	m_Settings = new Settings(GetSettingsPath() + wxT("Settings.ini"));
 	m_Settings->TransferFromFile();
 
-	//Create the script manager
-	m_Script = new ScriptManager();
-
 	//Create the lua manager
 	m_LuaManager = new LuaManager();
 
@@ -240,7 +239,6 @@ int Toucan::OnExit(){
 	CleanTemp();
 	delete m_Locale;
 	delete m_Settings;
-	delete m_Script;
 	delete m_Jobs_Config;
 	delete m_Rules_Config;
 	delete m_Scripts_Config;
@@ -317,6 +315,18 @@ void Toucan::OnProgress(wxCommandEvent &event){
 	else{
 
 	}
+}
+
+void Toucan::OnProcess(wxCommandEvent &event){
+	wxMessageBox(_("Executing"));
+	m_ProcessMap[event.GetInt()] = false;
+	SignalProcess *process = new SignalProcess(event.GetInt());
+	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	//process->Open(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE);
+}
+
+void Toucan::OnBackupProcess(wxCommandEvent &event){
+
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){

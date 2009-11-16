@@ -2,6 +2,8 @@
 %include "wxstring.i"
 
 %{
+	#include <wx/datetime.h>
+	#include <wx/event.h>
 	#include <wx/msgdlg.h> 
 	#include "toucan.h"
 	#include "script.h"
@@ -132,8 +134,16 @@
 
 	void Execute(const wxString &path, bool async = false){
 		wxString normpath = Normalise(path);
-		int flags = async ? wxEXEC_ASYNC : wxEXEC_SYNC|wxEXEC_NODISABLE;
-		wxExecute(normpath, flags);
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROCESS);
+		int id = wxDateTime::Now().GetTicks();
+		event.SetInt(id);
+		event.SetString(normpath);
+		wxGetApp().QueueEvent(event);
+		if(!async){
+			while(wxGetApp().m_ProcessMap[id] != true){
+				wxMilliSleep(100);
+			}
+		}
 		OutputProgress(_("Executed ") + normpath);
 		return;
 	}

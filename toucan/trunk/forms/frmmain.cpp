@@ -1960,7 +1960,7 @@ void frmMain::ClearToDefault(){
 }
 
 void frmMain::Run(const wxString &type){
-	JobData* data;
+	/*JobData* data;
 	if(type == wxT("Sync")){
 		data = new SyncData(wxT("Last") + type + wxT("Job"));
 	}
@@ -1987,7 +1987,7 @@ void frmMain::Run(const wxString &type){
 			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		}
 	}
-	delete data;
+	delete data;*/
 }
 
 void frmMain::CreateMenu(wxTreeEvent& event){

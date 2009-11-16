@@ -44,6 +44,6 @@ void *BackupThread::Entry(){
 	if(wxFileExists(m_Data->GetFileLocation() + wxT(".tmp"))){
 		wxRemoveFile(m_Data->GetFileLocation() + wxT(".tmp"));
 	}
-	wxGetApp().SetFinished(true);
+//	wxGetApp().SetFinished(true);
 	return NULL;
 }

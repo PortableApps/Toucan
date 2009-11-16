@@ -28,7 +28,6 @@ void* BackupJob::Entry(){
 	}
 	data->SetFileLocation(Normalise(data->GetFileLocation()));
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
-		wxGetApp().SetFinished(false);
 		wxString path = data->GetLocation(i);
 		bool isDir = false;
 		//If we have a directory clean it up
@@ -89,7 +88,7 @@ void* BackupJob::Entry(){
 		thread->Create();
 		thread->Run();
 
-		if(!wxGetApp().GetUsesGUI()){
+		/*if(!wxGetApp().GetUsesGUI()){
 			while(!wxGetApp().GetFinished()){
 				//Nasty hack so we send some events to the dialog and
 				//thus output is displayed
@@ -102,8 +101,8 @@ void* BackupJob::Entry(){
 		}
 		else{
 			thread->Wait();
-		}	
+		}*/	
 	}
-	wxGetApp().SetFinished(false);
+//	wxGetApp().SetFinished(false);
 	return NULL;
 }

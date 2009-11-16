@@ -100,7 +100,8 @@ bool ParseCommandLine(){
 		wxVariant var = CxxTest::ErrorPrinter().run();
 		return var.GetBool();
 	}
-	else if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
+	//All of this needs to be replaced by a simple call to lua
+	/*else if(wxGetApp().m_Jobs_Config->Read(cmdParser.GetParam(0) + wxT("/Type")) == wxT("Sync")){
 		wxArrayString arrScript;
 		arrScript.Add(wxT("Sync \"") + cmdParser.GetParam(0) + wxT("\""));
 		wxGetApp().m_Script->SetScript(arrScript);
@@ -227,7 +228,7 @@ bool ParseCommandLine(){
 			wxGetApp().m_Script->SetScript(arrScript);
 			wxGetApp().m_Script->Execute();
 		}
-	}
+	}*/
 	else{
 		OutputProgress(_("The command is not recognised"));
 		return false;
