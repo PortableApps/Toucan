@@ -369,7 +369,7 @@ void Toucan::InitLangMaps(){
 	m_LangToEn[_("Copy")] = wxT("Copy");
 	m_LangToEn[_("Update")] = wxT("Update");
 	m_LangToEn[_("Mirror")] = wxT("Mirror");
-	m_LangToEn[_("Equalise")] = wxT("Eualise");
+	m_LangToEn[_("Equalise")] = wxT("Equalise");
 	m_LangToEn[_("Move")] = wxT("Move");
 	m_LangToEn[_("Clean")] = wxT("Clean");
 	//Backup
