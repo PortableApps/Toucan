@@ -12,8 +12,6 @@
 #include <wx/listctrl.h>
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
-#include <wx/process.h>
-#include <wx/msgdlg.h>
 
 #include "signalprocess.h"
 
@@ -318,11 +316,9 @@ void Toucan::OnProgress(wxCommandEvent &event){
 }
 
 void Toucan::OnProcess(wxCommandEvent &event){
-	wxMessageBox(_("Executing"));
 	m_ProcessMap[event.GetInt()] = false;
 	SignalProcess *process = new SignalProcess(event.GetInt());
 	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
-	//process->Open(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE);
 }
 
 void Toucan::OnBackupProcess(wxCommandEvent &event){
