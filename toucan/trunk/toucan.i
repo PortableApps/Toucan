@@ -11,8 +11,10 @@
 	#include "variables.h"
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
+	#include "data/backupdata.h"
 	#include "data/securedata.h"
 	#include "sync/syncjob.h"
+	#include "backup/backupjob.h"
 	#include "secure/securejob.h"
 
 	void Sync(SyncData *data){
@@ -48,6 +50,25 @@
 		if(data->TransferFromFile()){
 			if(data->IsReady()){
 				Sync(data);
+			}
+			else{
+				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+			}
+		}
+	}
+	
+	void Backup(BackupData *data){
+		BackupJob *job = new BackupJob(data);
+		job->Create();
+		job->Run();
+		job->Wait();
+	}
+	
+	void Backup(const wxString &jobname){
+		BackupData *data = new BackupData(jobname);
+		if(data->TransferFromFile()){
+			if(data->IsReady()){
+				Backup(data);
 			}
 			else{
 				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
@@ -155,6 +176,7 @@ void Sync(const wxString &source, const wxString &dest, const wxString &function
           bool timestamps = false, bool attributes = false, bool ignorero = false, 
           bool ignoredls = false, const wxString &rules = wxEmptyString);
 
+void Backup(const wxString &jobname);
 void Secure(const wxString &jobname);
 
 wxString ExpandVariable(const wxString &variable);
