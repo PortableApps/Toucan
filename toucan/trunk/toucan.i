@@ -1,5 +1,5 @@
 %module toucan
-%include "wxstring.i"
+%include "typemaps.i"
 
 %{
 	#include <wx/datetime.h>

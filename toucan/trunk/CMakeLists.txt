@@ -75,7 +75,7 @@ set(source ${source} settings.cpp signalprocess.cpp test.cpp toucan.cpp toucan_w
 set(headers ${headers} basicfunctions.h cmdline.h dragndrop.h filecounter.h)
 set(headers ${headers} job.h luamanager.h luathread.h rules.h script.h)
 set(headers ${headers} settings.h signalprocess.h test.h toucan.h variables.h)
-set(headers ${headers} toucan.i wxstring.i)
+set(headers ${headers} toucan.i typemaps.i)
 
 if(WIN32)
     #Add the resource file for the icon

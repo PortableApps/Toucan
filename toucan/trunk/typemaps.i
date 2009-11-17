@@ -16,14 +16,11 @@
 
 %typemap(in,checkfn="lua_isstring")	const wxString& (wxString temp)
 %{temp = wxString(lua_tostring(L,$input), wxConvUTF8); $1=&temp;%}
-
 %typemap(out) const wxString&
 %{ lua_pushlstring(L,$1->data(),$1->size()); SWIG_arg++;%}
 
 %typemap(throws) wxString,wxString&,const wxString&
 %{ lua_pushlstring(L,$1.data(),$1.size()); SWIG_fail;%}
-%typemap(throws) wxString*,const wxString*
-%{ lua_pushlstring(L,$1->data(),$1->size()); SWIG_fail;%}
 
 // and the typechecks
 %typecheck(SWIG_TYPECHECK_STRING) wxString,const wxString& {
