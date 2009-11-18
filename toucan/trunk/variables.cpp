@@ -15,6 +15,27 @@
 #include "toucan.h"
 
 wxString Normalise(const wxString &path){
+#ifdef __WXMSW__
+	//We only need to set this up once, and do it the first time
+	if(wxGetApp().m_DriveLabels.empty()){
+		TCHAR drives[256];  
+		if(GetLogicalDriveStrings(256, drives)){  
+			LPTSTR drive = drives;  
+			while(*drive){  
+				wxString volumename = wxEmptyString;
+				TCHAR label[256]; 
+				if(GetVolumeInformation(drive, label, sizeof(label), NULL, 0, NULL, NULL, 0)){
+					volumename.Printf(wxT("%s"),label); 
+					if(volumename != wxEmptyString){
+						wxGetApp().m_DriveLabels[volumename] = wxString(drive).Left(2);
+					}
+				}
+				int offset = _tcslen(drive) + 1;  
+				drive += offset;  
+			}
+		}
+	}
+#endif
 	wxString token;
 	wxString normalised = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  
