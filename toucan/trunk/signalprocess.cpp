@@ -9,5 +9,5 @@
 
 void SignalProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
 	//Signal to toucan that we have finished
-	wxGetApp().m_ProcessMap[m_id] = true;
+	wxGetApp().m_StatusMap[m_id] = true;
 }

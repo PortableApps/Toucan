@@ -36,9 +36,6 @@ wxArrayString GetVariables(bool builtin);
 wxArrayString GetRules();
 wxArrayString GetScripts();
 
-//For use either from the command line or the GUI
-wxString InputPassword();
-
 //On each run of Toucan to ensure the jobs are up to date
 bool UpdateJobs(int version);
 bool UpdateRules(int version);

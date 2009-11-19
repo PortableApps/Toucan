@@ -16,6 +16,7 @@
 #include "signalprocess.h"
 #include "backup/backupprocess.h"
 #include "secure/secureprocess.h"
+#include "forms/frmpassword.h"
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -313,25 +314,27 @@ void Toucan::OnProgress(wxCommandEvent &event){
 			window->Update();
 		}
 	}
-	//TODO : Command line output
 	else{
-
+		std::cout << event.GetString();
+		if(event.GetInt() == 1 || event.GetInt() == 3){
+			std::cout << wxT("\t") << wxDateTime::Now().FormatISOTime();
+		}
 	}
 }
 
 void Toucan::OnProcess(wxCommandEvent &event){
-	m_ProcessMap[event.GetInt()] = false;
+	m_StatusMap[event.GetInt()] = false;
 	SignalProcess *process = new SignalProcess(event.GetInt());
 	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 }
 
 void Toucan::OnBackupProcess(wxCommandEvent &event){
-	m_ProcessMap[event.GetInt()] = false;
+	m_StatusMap[event.GetInt()] = false;
 	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, static_cast<BackupProcess*>(event.GetEventObject()));
 }
 
 void Toucan::OnSecureProcess(wxCommandEvent &event){
-	m_ProcessMap[event.GetInt()] = false;
+	m_StatusMap[event.GetInt()] = false;
 	wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
 	SecureProcess *process = new SecureProcess(event.GetInt());
 	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
@@ -339,6 +342,33 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 	m_LuaManager->CleanUp();
+}
+
+void Toucan::OnGetPassword(wxCommandEvent &event){
+	m_StatusMap[event.GetInt()] = false;
+	if(GetUsesGUI()){
+		frmPassword password(m_LuaManager->GetProgressWindow());
+		if(password.ShowModal() == wxID_OK){
+			m_Password = password.GetPassword();
+			m_StatusMap[event.GetInt()] = true;
+			return;
+		}
+	}
+	else{
+		std::string password, repeated;
+		std::cout << _("Please input your password: ");
+		std::getline(std::cin, password);
+		std::cout << _("Please repeat your password: ");
+		std::getline(std::cin, repeated);
+		if(password != repeated){
+			std::cout << _("Sorry the passwords do not match");
+			m_Password = wxEmptyString;
+			m_StatusMap[event.GetInt()] = true;
+			return;
+		}
+		m_Password = wxString(password.c_str(), wxConvUTF8); 
+	}
+	m_StatusMap[event.GetInt()] = true;
 }
 
 void Toucan::InitLangMaps(){

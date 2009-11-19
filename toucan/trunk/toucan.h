@@ -70,9 +70,11 @@ public:
 	std::map<wxString, wxString> m_LangToEn;
 	//Maps a unique id used for process generation and whether the process
 	//has finished
-	std::map<int, bool> m_ProcessMap;
+	std::map<int, bool> m_StatusMap;
 	//Used by secure to see if the process finished successfully
 	std::map<int, int> m_ProcessStatusMap;
+
+	wxString m_Password;
 
 private:
 	//Clean up the temporary files that might be in the data folder
@@ -87,6 +89,7 @@ private:
 	void OnBackupProcess(wxCommandEvent &event);
 	void OnSecureProcess(wxCommandEvent &event);
 	void OnFinish(wxCommandEvent &event);
+	void OnGetPassword(wxCommandEvent &event);
 
 	bool m_Abort;
 	wxString m_SettingsPath;

@@ -152,7 +152,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 	event->SetInt(id);
 	event->SetString(command);
 	wxGetApp().QueueEvent(event);
-	while(wxGetApp().m_ProcessMap[id] != true){
+	while(wxGetApp().m_StatusMap[id] != true){
 		wxMilliSleep(100);
 	}
 	long lgReturn = wxGetApp().m_ProcessStatusMap[id];

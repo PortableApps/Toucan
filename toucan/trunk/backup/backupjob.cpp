@@ -85,12 +85,10 @@ void* BackupJob::Entry(){
 		event->SetInt(id);
 		event->SetString(command);
 		wxGetApp().QueueEvent(event);
-		while(wxGetApp().m_ProcessMap[id] != true){
+		while(wxGetApp().m_StatusMap[id] != true){
 			if(!process->HasInput()){
 				//If there was no input then sleep for a while so we don't thrash the CPU
 				wxMilliSleep(100);
-				//Also yield for input incase it is backing up a large file
-				//wxGetApp().Yield();
 			}
 		}
 
