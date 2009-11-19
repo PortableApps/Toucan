@@ -10,14 +10,15 @@
 class SecureData;
 #include "../job.h"
 
-/*!
- * A specialisation of the Job class for a Secure job.
- */
 class SecureJob : public Job{
 
 public:
 	SecureJob(SecureData *Data);
 	virtual void* Entry();
+
+private:
+	bool CryptDir(const wxString &path, SecureData *data);
+	bool CryptFile(const wxString &path, SecureData *data);
 };
 
 #endif

@@ -18,7 +18,7 @@ public:
 
 	void OnTerminate(int pid, int status);
 
-private:
+protected:
 	int m_id;
 };
 

@@ -13,9 +13,9 @@
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 
-
 #include "signalprocess.h"
 #include "backup/backupprocess.h"
+#include "secure/secureprocess.h"
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -43,9 +43,10 @@ IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
 	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
-	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
-	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
+	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
+	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
+	EVT_COMMAND(ID_SECUREPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnSecureProcess)
 END_EVENT_TABLE()
 
 int main(int argc, char *argv[]){
@@ -327,6 +328,13 @@ void Toucan::OnProcess(wxCommandEvent &event){
 void Toucan::OnBackupProcess(wxCommandEvent &event){
 	m_ProcessMap[event.GetInt()] = false;
 	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, static_cast<BackupProcess*>(event.GetEventObject()));
+}
+
+void Toucan::OnSecureProcess(wxCommandEvent &event){
+	m_ProcessMap[event.GetInt()] = false;
+	wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
+	SecureProcess *process = new SecureProcess(event.GetInt());
+	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){

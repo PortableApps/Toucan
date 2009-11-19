@@ -4,10 +4,19 @@
 // License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
-#include "toucan.h"
-#include "signalprocess.h"
+#ifndef H_SECUREPROCESS
+#define H_SECUREPROCESS
 
-void SignalProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
-	//Signal to toucan that we have finished
-	wxGetApp().m_ProcessMap[m_id] = true;
-}
+#include "../signalprocess.h"
+
+class SecureProcess : public SignalProcess{
+	
+public:
+	SecureProcess(int id) : SignalProcess(id)
+	{
+    }
+
+	void OnTerminate(int pid, int status);
+};
+
+#endif

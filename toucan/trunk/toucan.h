@@ -20,9 +20,10 @@ class wxHtmlHelpController;
 
 enum{
 	ID_PROGRESS = wxID_HIGHEST + 1,
+	ID_FINISH,
 	ID_PROCESS,
 	ID_BACKUPPROCESS,
-	ID_FINISH
+	ID_SECUREPROCESS
 };
 
 class Toucan: public wxApp{    
@@ -70,6 +71,8 @@ public:
 	//Maps a unique id used for process generation and whether the process
 	//has finished
 	std::map<int, bool> m_ProcessMap;
+	//Used by secure to see if the process finished successfully
+	std::map<int, int> m_ProcessStatusMap;
 
 private:
 	//Clean up the temporary files that might be in the data folder
@@ -81,7 +84,8 @@ private:
 	//Used for outputing progress
 	void OnProgress(wxCommandEvent &event);
 	void OnProcess(wxCommandEvent &event);
-	void OnBackupProcess(wxCommandEvent & event);
+	void OnBackupProcess(wxCommandEvent &event);
+	void OnSecureProcess(wxCommandEvent &event);
 	void OnFinish(wxCommandEvent &event);
 
 	bool m_Abort;
