@@ -46,7 +46,7 @@ void* SecureJob::Entry(){
 			}
 		}
 	}
-	if(wxGetApp().GetUsesGUI()){
+	if(wxGetApp().IsGui()){
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->DeleteAllItems();
 		wxGetApp().MainWindow->m_Secure_TreeCtrl->AddRoot(wxT("HiddenRoot"));
 		for(unsigned int i = 0; i < wxGetApp().MainWindow->m_SecureLocations->GetCount(); i++){

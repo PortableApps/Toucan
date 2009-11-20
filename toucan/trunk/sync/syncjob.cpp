@@ -340,7 +340,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 				if(wxRemoveFile(path + filename)){
                     OutputProgress(_("Removed ") + path + filename);
 					//We have to increment the gauge for ourself here
-					if(wxGetApp().GetUsesGUI()){
+					if(wxGetApp().IsGui()){
 						IncrementGauge();					
 					}
                 }

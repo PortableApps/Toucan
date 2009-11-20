@@ -74,7 +74,13 @@ bool Toucan::OnInit(){
 
 	m_Abort = false;
 	//Are we in gui mode?
-	m_UsesGUI = argc == 1 ? true : false;
+	m_IsGui = argc == 1 ? true : false;
+
+	wxTextFile writetest(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("writetest"));
+	{
+		wxLogNull null;
+		m_IsReadOnly = writetest.Create() ? false : true;
+	}
 
 	//Work out where the settings dir is. Firstly get the exe dir
 	wxFileName settingspath = wxFileName::DirName((wxPathOnly(wxStandardPaths::Get().GetExecutablePath())));
@@ -177,7 +183,7 @@ bool Toucan::OnInit(){
 
 	MainWindow = new frmMain();
 
-	if(GetUsesGUI()){
+	if(m_IsGui){
 		MainWindow->Show();
 		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 			MainWindow->Maximize(false);
@@ -296,7 +302,7 @@ void Toucan::KillConime(){
 }
 
 void Toucan::OnProgress(wxCommandEvent &event){
-	if(m_UsesGUI){
+	if(m_IsGui){
 		frmProgress *window = m_LuaManager->GetProgressWindow();
 		if(window){
 			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), wxEmptyString);
@@ -338,7 +344,7 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
 	wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
 	SecureProcess *process = new SecureProcess(event.GetInt());
-	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE|wxEXEC_NOHIDE, process);
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
@@ -347,7 +353,7 @@ void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 
 void Toucan::OnGetPassword(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
-	if(GetUsesGUI()){
+	if(m_IsGui){
 		frmPassword password(m_LuaManager->GetProgressWindow());
 		if(password.ShowModal() == wxID_OK){
 			m_Password = password.GetPassword();

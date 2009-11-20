@@ -38,20 +38,10 @@ public:
 	void RebuildForm();
 	void SetAbort(const bool& Abort) {this->m_Abort = Abort;}
 
-
-	/*!
-	 * Gets whether Toucan should abort
-	 */
 	const bool& GetAbort() const {return m_Abort;}
-	/*!
-	 * Gets the path to save all settings into, it ends with the appropriate 
-	 * file path seperator
-	 */
 	const wxString& GetSettingsPath() const {return m_SettingsPath;}
-	/*!
-	 * Returns whether or not Toucan is operation in GUI mode
-	 */
-	const bool& GetUsesGUI() const {return m_UsesGUI;}
+	const bool& IsGui() const {return m_IsGui;}
+	const bool& IsReadOnly() const {return m_IsReadOnly;}
 
 	frmMain* MainWindow;
 	Settings* m_Settings;
@@ -94,7 +84,8 @@ private:
 
 	bool m_Abort;
 	wxString m_SettingsPath;
-	bool m_UsesGUI;
+	bool m_IsGui;
+	bool m_IsReadOnly;
 	bool m_Finished;
 	wxLocale* m_Locale;
 

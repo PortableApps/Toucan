@@ -113,7 +113,7 @@ bool SyncBase::OperationCaller(std::map<const wxString, int> paths){
 				OnSourceAndDestFile((*iter).first);
 			}
 			//Update the progress bar for files only
-			if(wxGetApp().GetUsesGUI() && !preview){
+			if(wxGetApp().IsGui() && !preview){
 				IncrementGauge();
 				//If we have a file in both folders then increment again as we only do one pass
 				if((*iter).second == 3){
