@@ -51,6 +51,8 @@ bool FileCounter::CountFolder(wxString path){
 	}
 	wxDir dir(path);
 	wxString strFilename;
+	//Suppress warnings about folders we cannot enumerate
+	wxLogNull null;
 	bool blDir = dir.GetFirst(&strFilename);
 	if(blDir){
 		do {
