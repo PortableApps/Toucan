@@ -325,7 +325,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncSourceButton, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
 	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncSourceButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -346,7 +346,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncDestButton, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
+	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
 	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncDestButtonSizer = new wxBoxSizer(wxVERTICAL);
