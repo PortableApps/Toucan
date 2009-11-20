@@ -8,6 +8,7 @@
 #include "variables.h"
 #include "toucan.h"
 #include <wx/dir.h>
+#include <wx/log.h>
 
 FileCounter::FileCounter(){
 	m_Count = 0;

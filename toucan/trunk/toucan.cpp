@@ -12,6 +12,7 @@
 #include <wx/listctrl.h>
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
+#include <wx/log.h>
 
 #include "signalprocess.h"
 #include "backup/backupprocess.h"
@@ -79,7 +80,8 @@ bool Toucan::OnInit(){
 	wxTextFile writetest(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("writetest"));
 	{
 		wxLogNull null;
-		m_IsReadOnly = writetest.Create() ? false : true;
+		m_IsReadOnly = !writetest.Create();
+		wxRemoveFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("writetest"));
 	}
 
 	//Work out where the settings dir is. Firstly get the exe dir
@@ -113,43 +115,23 @@ bool Toucan::OnInit(){
 	delete settings;
 	InitLangMaps();
 
-	//Make sure the jobs file is up to date!
-	int version = 1;
-	m_Jobs_Config->Read(wxT("General/Version"), &version);
-	if(version < 213){
-		m_Jobs_Config->Write(wxT("General/Version"), 213);
-		m_Jobs_Config->Flush();
-		UpdateJobs(version);
+	if(!UpdateJobs()){
+		return false;
+	}
+		
+	if(!UpdateRules()){
+		return false;
 	}
 
-	//Update the script file
-	version = 1;
-	m_Scripts_Config->Read(wxT("General/Version"), &version);
-	if(version < 202){
-		m_Scripts_Config->Write(wxT("General/Version"), 202);
-		m_Scripts_Config->Flush();
-		UpdateRules(version);
-	}
-
-	//Update the rules file
-	version = 1;
-	m_Rules_Config->Read(wxT("General/Version"), &version);
-	if(version < 202){
-		m_Rules_Config->Write(wxT("General/Version"), 202);
-		m_Rules_Config->Flush();
-		UpdateScripts(version);
+	if(!UpdateScripts()){
+		return false;
 	}	
-	
-	//Update the settings file
-	version = 1;
-	m_Rules_Config->Read(wxT("General/Version"), &version);
-	if(version < 213){
-		m_Rules_Config->Write(wxT("General/Version"), 213);
-		m_Rules_Config->Flush();
-		UpdateSettings(version);
+		
+	if(!UpdateSettings()){
+		return false;
 	}
 
-	//Create the settings class amd load the settings
+	//Create the settings class and load the settings
 	m_Settings = new Settings(GetSettingsPath() + wxT("Settings.ini"));
 	m_Settings->TransferFromFile();
 
@@ -179,10 +161,10 @@ bool Toucan::OnInit(){
 		ParseCommandLine();
 		if(!m_Settings->GetDisableLog()){
 			//Write out a log so we know what happened
-			wxTextFile file;
-			file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
+			//wxTextFile file;
+			//file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
 			//Yield to make sure all of the output has reached the progress dialog
-			Yield();
+			//Yield();
 /*			for(int i = 0; i < ProgressWindow->m_List->GetItemCount(); i++){
 				wxListItem itemcol1, itemcol2;
 

@@ -37,10 +37,10 @@ wxArrayString GetRules();
 wxArrayString GetScripts();
 
 //On each run of Toucan to ensure the jobs are up to date
-bool UpdateJobs(int version);
-bool UpdateRules(int version);
-bool UpdateScripts(int version);
-bool UpdateSettings(int version);
+bool UpdateJobs();
+bool UpdateRules();
+bool UpdateScripts();
+bool UpdateSettings();
 
 const wxString& ToLang(const wxString &en);
 const wxString& ToEn(const wxString &lang);

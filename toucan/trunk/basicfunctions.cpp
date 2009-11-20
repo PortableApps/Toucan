@@ -14,8 +14,10 @@
 #include <wx/intl.h>
 #include <wx/cmdline.h>
 #include <wx/fileconf.h>
+#include <wx/msgdlg.h>
 
 #include "toucan.h"
+#include "settings.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
 #include "forms/frmpassword.h"
@@ -217,233 +219,165 @@ wxArrayString GetScripts(){
 	return rules;
 }
 
-bool UpdateJobs(int version){
+bool UpdateJobs(){
+	long version;
+	wxFileConfig *config = wxGetApp().m_Jobs_Config;
+	config->Read(wxT("General/Version"), &version, 1);
+	//Return if we are up to date
+	if(version == 300){
+		return true;
+	}
+	if(!wxGetApp().IsReadOnly()){
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
+		return false;
+	}
 	//Back up the existing file
 	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"))){
 		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"), wxGetApp().GetSettingsPath() + wxT("Jobs.old"), true);		
 	}
-	if(version == 1){
-		bool blCont;
-		wxString strValue;
-		long dummy;
-		//Iterate through the groups adding them to the box
-		blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
-		while(blCont){
-			if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Sync")){
-				
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Exclusions"));
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Preview"));
-				
-				wxString strTemp;
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/1"));
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Source")) == wxEmptyString){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Source"), strTemp);
-				}
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/2"));
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Dest")) == wxEmptyString){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Dest"), strTemp);
-				}
-				
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/1"));
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/2"));
-				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/IgnoreReadOnly"), 0);
-				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/IgnoreDaylightSavings"), 0);
-				wxGetApp().m_Jobs_Config->Flush();
-			}
-			else if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Backup")){
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Exclusions"));
-				
-				wxString strTemp;
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/1"));
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations")) == wxEmptyString){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), wxT("#") + strTemp);
-				}
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/2"));
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/BackupLocation")) == wxEmptyString){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/BackupLocation"), strTemp);
-				}
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/1"));
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/2"));
-				
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Function")) == wxT("Incremental")){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Function"), _("Differential"));
-				}
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Format")) == wxT("7 Zip")){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), wxT("7-Zip"));
-				}
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Ratio")) == wxT("Normal")){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Ratio"), wxT("3"));
-				}
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Ratio")) == wxT("Ultra")){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Ratio"), wxT("5"));
-				}
-				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/IsPass"), 0);
-				wxGetApp().m_Jobs_Config->Flush();
-			}
-			else if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Secure")){
-				wxString strTemp;
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Files"));
-				strTemp.Replace(wxT("|"), wxT("#"));
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations")) == wxEmptyString){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
-				}
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Files"));
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Routine"));
-				if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Format")) == wxEmptyString){
-					wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Format"), strTemp);
-				}
-				wxGetApp().m_Jobs_Config->DeleteEntry(strValue + wxT("/Routine"));
-				
-				wxGetApp().m_Jobs_Config->Flush();
-			}
-			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
-		}
-		wxGetApp().m_Jobs_Config->Flush();
-		version = 200;
+	//We no longer support upgrading such old configs
+	if(version < 200){
+		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR);
+		return false;
 	}
 	if(version == 200){
 		bool blCont;
 		wxString strValue;
 		long dummy;
-		//Iterate through the groups adding them to the box
-		blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
+		//Iterate through all of the groups
+		blCont = config->GetFirstGroup(strValue, dummy);
 		while (blCont){
-			if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Backup")){
+			if(config->Read(strValue + wxT("/Type")) == wxT("Backup")){
 				wxString strTemp;
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations"));
+				strTemp = config->Read(strValue + wxT("/Locations"));
 				strTemp.Replace(wxT("#"), wxT("|"));		
-				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
-				wxGetApp().m_Jobs_Config->Flush();
+				config->Write(strValue + wxT("/Locations"), strTemp);
+				config->Flush();
 			}
-			else if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Secure")){
+			else if(config->Read(strValue + wxT("/Type")) == wxT("Secure")){
 				wxString strTemp;
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Locations"));
+				strTemp = config->Read(strValue + wxT("/Locations"));
 				strTemp.Replace(wxT("#"), wxT("|"));
-				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Locations"), strTemp);
-				wxGetApp().m_Jobs_Config->Flush();
+				config->Write(strValue + wxT("/Locations"), strTemp);
+				config->Flush();
 			}
-			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
+			blCont = config->GetNextGroup(strValue, dummy);
 		}
-		wxGetApp().m_Jobs_Config->Flush();
+		config->Flush();
 		version = 202;
 	}
 	if(version == 202){
 		bool blCont;
 		wxString strValue;
 		long dummy;
-		//Iterate through the groups adding them to the box
-		blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(strValue, dummy);
+		//Iterate through all of the groups
+		blCont = config->GetFirstGroup(strValue, dummy);
 		while (blCont){
-			if(wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Type")) == wxT("Sync")){
+			if(config->Read(strValue + wxT("/Type")) == wxT("Sync")){
 				wxString strTemp;
-				strTemp = wxGetApp().m_Jobs_Config->Read(strValue + wxT("/Function"));
+				strTemp = config->Read(strValue + wxT("/Function"));
 				if(strTemp == _("Mirror (Copy)") || strTemp == _("Mirror (Update)")){
 					strTemp = _("Mirror");
 				}
-				wxGetApp().m_Jobs_Config->Write(strValue + wxT("/Function"), strTemp);
-				wxGetApp().m_Jobs_Config->Flush();
+				config->Write(strValue + wxT("/Function"), strTemp);
 			}
-			blCont = wxGetApp().m_Jobs_Config->GetNextGroup(strValue, dummy);
+			blCont = config->GetNextGroup(strValue, dummy);
 		}
-		wxGetApp().m_Jobs_Config->Flush();
 		version = 204;
 	}
 	if(version == 204){
 		wxString value;
 		long dummy;
-		bool exists = wxGetApp().m_Jobs_Config->GetFirstGroup(value, dummy);
-
+		bool exists = config->GetFirstGroup(value, dummy);
 		while(exists){
 			//All of the functions need to use english only
-			wxGetApp().m_Jobs_Config->Write(value + wxT("/Function"), ToEn(wxGetApp().m_Jobs_Config->Read(value + wxT("/Function"))));
-			exists = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
+			config->Write(value + wxT("/Function"), ToEn(config->Read(value + wxT("/Function"))));
+			exists = config->GetNextGroup(value, dummy);
 		}
-
-		wxGetApp().m_Jobs_Config->Flush();
 	}
+	config->Write(wxT("General/Version"), 300);
+	config->Flush();
 	return true;
 }
 
-bool UpdateRules(int version){
+bool UpdateRules(){
+	long version;
+	wxFileConfig *config = wxGetApp().m_Rules_Config;
+	config->Read(wxT("General/Version"), &version, 1);
+	//Return if we are up to date
+	if(version == 300){
+		return true;
+	}
+	if(!wxGetApp().IsReadOnly()){
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
+		return false;
+	}
 	//Back up the existing file
 	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Rules.ini"))){
 		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Rules.ini"), wxGetApp().GetSettingsPath() + wxT("Rules.old"), true);		
 	}
-	if(version == 1){
-		bool blCont;
-		wxString strValue;
-		long dummy;
-		//Iterate through the groups adding them to the box
-		blCont = wxGetApp().m_Rules_Config->GetFirstGroup(strValue, dummy);
-		while (blCont){
-			if(strValue != wxT("General")){
-				if(wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToInclude")) != wxEmptyString){
-					wxString strTemp;
-					strTemp = wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToInclude"));
-					strTemp.Replace(wxT("#"), wxT("|"));
-					wxGetApp().m_Rules_Config->Write(strValue + wxT("/FilesToInclude"), strTemp);
-					wxGetApp().m_Rules_Config->Flush();
-				}	
-				if(wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToExclude")) != wxEmptyString){
-					wxString strTemp;
-					strTemp = wxGetApp().m_Rules_Config->Read(strValue + wxT("/FilesToExclude"));
-					strTemp.Replace(wxT("#"), wxT("|"));
-					wxGetApp().m_Rules_Config->Write(strValue + wxT("/FilesToExclude"), strTemp);
-					wxGetApp().m_Rules_Config->Flush();
-				}	
-				if(wxGetApp().m_Rules_Config->Read(strValue + wxT("/FoldersToExclude")) != wxEmptyString){
-					wxString strTemp;
-					strTemp = wxGetApp().m_Rules_Config->Read(strValue + wxT("/FoldersToExclude"));
-					strTemp.Replace(wxT("#"), wxT("|"));
-					wxGetApp().m_Rules_Config->Write(strValue + wxT("/FoldersToExclude"), strTemp);
-					wxGetApp().m_Rules_Config->Flush();
-				}			
-			}
-			blCont = wxGetApp().m_Rules_Config->GetNextGroup(strValue, dummy);
-		}
-		wxGetApp().m_Rules_Config->Flush();
+	//We no longer support upgrading such old configs
+	if(version < 200){
+		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR);
+		return false;
 	}
+	config->Write(wxT("General/Version"), 300);
+	config->Flush();
 	return true;
 }
 
-bool UpdateScripts(int version){
-	//Back up the existing file	
+bool UpdateScripts(){
+	long version;
+	wxFileConfig *config = wxGetApp().m_Scripts_Config;
+	config->Read(wxT("General/Version"), &version, 1);
+	//Return if we are up to date
+	if(version == 300){
+		return true;
+	}
+	if(!wxGetApp().IsReadOnly()){
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
+		return false;
+	}
+	//Back up the existing file
 	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"))){
-		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"), wxGetApp().GetSettingsPath() + wxT("Scripts.old"), true);		
+		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"), wxGetApp().GetSettingsPath() + wxT("Jobs.old"), true);		
 	}
-	if(version == 1){
-		bool blCont;
-		wxString strValue;
-		long dummy;
-		blCont = wxGetApp().m_Scripts_Config->GetFirstGroup(strValue, dummy);
-		while (blCont){
-			if(strValue != wxT("General")){
-				if(wxGetApp().m_Scripts_Config->Read(strValue + wxT("/Script")) != wxEmptyString){
-					wxString strTemp;
-					strTemp = wxGetApp().m_Scripts_Config->Read(strValue + wxT("/Script"));
-					strTemp.Replace(wxT("#"), wxT("|"));
-					wxGetApp().m_Scripts_Config->Write(strValue + wxT("/Script"), strTemp);
-					wxGetApp().m_Scripts_Config->Flush();
-				}			
-			}
-			blCont = wxGetApp().m_Scripts_Config->GetNextGroup(strValue, dummy);
-		}
-		wxGetApp().m_Scripts_Config->Flush();
+	//We no longer support upgrading such old configs
+	if(version < 200){
+		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR);
+		return false;
 	}
+	config->Write(wxT("General/Version"), 300);
+	config->Flush();
 	return true;
 }
 
-bool UpdateSettings(int version){
+bool UpdateSettings(){
+	long version;
+	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Settings.ini"));
+	config->Read(wxT("General/Version"), &version, 1);
+	//Return if we are up to date
+	if(version == 300){
+		delete config;
+		return true;
+	}
+	if(!wxGetApp().IsReadOnly()){
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
+		delete config;
+		return false;
+	}
 	//Back up the existing file	
 	if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Settings.ini"))){
 		wxCopyFile(wxGetApp().GetSettingsPath() + wxT("Settings.ini"), wxGetApp().GetSettingsPath() + wxT("Settings.old"), true);		
 	}
 	if(version == 1){
 		//All of the functions need to use english only
-		wxGetApp().m_Jobs_Config->Write(wxT("General/Tabs"), ToEn(wxGetApp().m_Jobs_Config->Read(wxT("General/Tabs"))));
-		wxGetApp().m_Jobs_Config->Write(wxT("General/Position"), ToEn(wxGetApp().m_Jobs_Config->Read(wxT("General/Position"))));
-
-		wxGetApp().m_Jobs_Config->Flush();
+		config->Write(wxT("General/Tabs"), ToEn(config->Read(wxT("General/Tabs"))));
+		config->Write(wxT("General/Position"), ToEn(config->Read(wxT("General/Position"))));
+		config->Flush();
 	}
+	config->Write(wxT("General/Version"), 300);
+	config->Flush();
+	delete config;
 	return true;
 }
