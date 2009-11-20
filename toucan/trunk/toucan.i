@@ -75,6 +75,12 @@
 			}
 		}
 	}
+	
+	void Backup(const wxArrayString &paths){
+		for(unsigned int i = 0; i < paths.GetCount(); ++i){
+			OutputProgress(paths.Item(i));
+		}
+	}
 
 	void Secure(SecureData *data){
 		if(wxGetApp().m_Password == wxEmptyString){
