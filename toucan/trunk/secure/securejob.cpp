@@ -135,7 +135,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 	wxString command;
 	if(data->GetFunction() == _("Encrypt")){
 		//Create and execute the command
-		command = wxT("./ccrypt -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = wxT("ccrypt -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 	}
 	//Decryption
 	else{
@@ -144,7 +144,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 			OutputProgress(_("Failed to decrypt ") + path, true, true);
 			return true;
 		}
-		command = wxT("./ccrypt -f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = wxT("ccrypt -f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 	}
 
 	int id = wxDateTime::Now().GetTicks();

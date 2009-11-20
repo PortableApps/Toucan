@@ -77,6 +77,16 @@
 	}
 
 	void Secure(SecureData *data){
+		if(wxGetApp().m_Password == wxEmptyString){
+			wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_GETPASSWORD);
+			int id = wxDateTime::Now().GetTicks();
+			event->SetInt(id);
+			wxGetApp().QueueEvent(event);
+			while(wxGetApp().m_StatusMap[id] != true){
+				wxMilliSleep(100);
+			}
+			data->SetPassword(wxGetApp().m_Password);
+		}
 		SecureJob *job = new SecureJob(data);
 		job->Create();
 		job->Run();
@@ -161,7 +171,7 @@
 		event->SetString(normpath);
 		wxGetApp().QueueEvent(event);
 		if(!async){
-			while(wxGetApp().m_ProcessMap[id] != true){
+			while(wxGetApp().m_StatusMap[id] != true){
 				wxMilliSleep(100);
 			}
 		}
@@ -177,6 +187,8 @@ void Sync(const wxString &source, const wxString &dest, const wxString &function
           bool ignoredls = false, const wxString &rules = wxEmptyString);
 
 void Backup(const wxString &jobname);
+void Backup(const wxArrayString &paths);
+
 void Secure(const wxString &jobname);
 
 wxString ExpandVariable(const wxString &variable);

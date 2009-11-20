@@ -16,7 +16,7 @@ public:
 	{
     }
 
-	void OnTerminate(int pid, int status);
+	virtual void OnTerminate(int pid, int status);
 
 protected:
 	int m_id;

@@ -23,7 +23,8 @@ enum{
 	ID_FINISH,
 	ID_PROCESS,
 	ID_BACKUPPROCESS,
-	ID_SECUREPROCESS
+	ID_SECUREPROCESS,
+	ID_GETPASSWORD
 };
 
 class Toucan: public wxApp{    
