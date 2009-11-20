@@ -1410,6 +1410,11 @@ void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
+	if(wxGetApp().IsReadOnly()){
+		wxGetApp().MainWindow->Destroy();
+		return;
+	}
+
 	int height, width, x, y;
 	wxClientDisplayRect(&x, &y, &width, &height);
 	
