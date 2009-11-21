@@ -15,6 +15,9 @@
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
 
+#include <shobjidl.h>
+#undef Yield
+
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
@@ -25,7 +28,10 @@ END_EVENT_TABLE()
 //Constructor
 frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
 	Init();
-	wxFrame::Create( parent, id, caption, pos, size, style );
+	wxFrame::Create(parent, id, caption, pos, size, style);
+#ifdef __WXMSW__
+	m_TaskBarId = RegisterWindowMessage(wxT("TaskbarButtonCreated"));
+#endif
 	CreateControls();
 	Centre();
 }
@@ -37,6 +43,7 @@ void frmProgress::Init(){
 	m_Cancel = NULL;
 	m_Save = NULL;
 	m_Gauge = NULL;
+	m_Taskbar = NULL;
 }
 
 //Create controls
@@ -116,3 +123,18 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 	file.Write();
 	}
 }
+
+#ifdef __WXMSW__
+WXLRESULT frmProgress::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam){
+	if(message == m_TaskBarId){
+		if(m_Taskbar){
+			m_Taskbar->Release();
+		}
+		
+		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_Taskbar);
+		m_Taskbar->HrInit();
+		m_Taskbar->SetProgressValue (static_cast<HWND>(this->GetHandle()), 50, 100);
+	}
+	return wxFrame::MSWWindowProc(message, wparam, lparam);
+}
+#endif

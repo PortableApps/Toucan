@@ -8,6 +8,7 @@
 #define FRMPROGRESS_H
 
 #include <wx/frame.h>
+struct ITaskbarList3;
 class wxListCtrl;
 class wxButton;
 class wxGauge;
@@ -32,6 +33,13 @@ public:
 
 	//Creates the controls and sizers
 	void CreateControls();
+
+#ifdef __WXMSW__
+	WXUINT m_TaskBarId;
+	ITaskbarList3 *m_Taskbar;
+	//We catch windows events so we can support windows 7 taskbar progress
+	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam);
+#endif
 
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
