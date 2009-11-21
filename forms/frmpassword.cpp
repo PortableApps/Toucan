@@ -46,8 +46,9 @@ void frmPassword::Init(){
 
 void frmPassword::CreateControls(){    
 	wxGridBagSizer* MainSizer = new wxGridBagSizer(0, 0);
+	MainSizer->SetCols(2);
+	MainSizer->SetRows(3);
     MainSizer->AddGrowableCol(1);
-    MainSizer->SetEmptyCellSize(wxSize(10, 20));
     SetSizer(MainSizer);
 
     wxStaticText* StaticPassword = new wxStaticText(this, wxID_STATIC, _("Password"));
