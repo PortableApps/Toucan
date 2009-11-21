@@ -318,6 +318,10 @@ void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 	if(window){
 		window->m_Gauge->SetValue(window->m_Gauge->GetRange());
 	}
+	wxCommandEvent event;
+	MainWindow->OnSyncRefresh(event);
+	MainWindow->OnBackupRefresh(event);
+	MainWindow->OnSecureRefresh(event);
 }
 
 void Toucan::OnGetPassword(wxCommandEvent &event){
