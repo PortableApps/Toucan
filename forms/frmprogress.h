@@ -45,14 +45,8 @@ public:
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);
 
-	//Script functions
-	void OnScriptFinish(wxCommandEvent& event);
-	void OnScriptText(wxCommandEvent& event);
-	void OnScriptTime(wxCommandEvent& event);
-	void OnScriptError(wxCommandEvent& event);
-	void OnScriptBlank(wxCommandEvent& event);
+	void IncrementGauge();
 
-	//wxTextCtrl* m_Text;
 	wxListCtrl* m_List;
 	wxButton* m_OK;
 	wxButton* m_Cancel;

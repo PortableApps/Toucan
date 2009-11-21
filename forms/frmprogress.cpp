@@ -127,14 +127,25 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 #ifdef __WXMSW__
 WXLRESULT frmProgress::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam){
 	if(message == m_TaskBarId){
-		if(m_Taskbar){
-			m_Taskbar->Release();
+		int major = wxPlatformInfo::Get().GetOSMajorVersion();
+		int minor = wxPlatformInfo::Get().GetOSMajorVersion();
+		//Only supported on windows 7 and greater
+		if(major >= 6 && minor >= 1){
+			if(m_Taskbar){
+				m_Taskbar->Release();
+			}
+			
+			CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_Taskbar);
+			m_Taskbar->HrInit();
 		}
-		
-		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_Taskbar);
-		m_Taskbar->HrInit();
-		m_Taskbar->SetProgressValue (static_cast<HWND>(this->GetHandle()), 50, 100);
 	}
 	return wxFrame::MSWWindowProc(message, wparam, lparam);
 }
 #endif
+
+void frmProgress::IncrementGauge(){
+	m_Gauge->SetValue(m_Gauge->GetValue() + 1);
+	if(m_Taskbar){
+		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
+	}
+}

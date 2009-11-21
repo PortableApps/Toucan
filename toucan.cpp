@@ -357,7 +357,7 @@ void Toucan::OnProgressSetup(wxCommandEvent &event){
 void Toucan::OnProgress(wxCommandEvent &WXUNUSED(event)){
 	frmProgress *window = m_LuaManager->GetProgressWindow();
 	if(window){
-		window->m_Gauge->SetValue(window->m_Gauge->GetValue() + 1);
+		window->IncrementGauge();
 	}
 }
 
