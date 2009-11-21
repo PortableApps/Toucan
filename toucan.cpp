@@ -13,6 +13,7 @@
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 #include <wx/log.h>
+#include <wx/gauge.h>
 
 #include "signalprocess.h"
 #include "backup/backupprocess.h"
@@ -44,12 +45,14 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
-	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
+	EVT_COMMAND(ID_OUTPUT, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnOutput)
 	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
 	EVT_COMMAND(ID_SECUREPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnSecureProcess)
 	EVT_COMMAND(ID_GETPASSWORD, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnGetPassword)
+	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
+	EVT_COMMAND(ID_PROGRESSSETUP, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgressSetup)
 END_EVENT_TABLE()
 
 int main(int argc, char *argv[]){
@@ -263,7 +266,7 @@ void Toucan::KillConime(){
 	#endif
 }
 
-void Toucan::OnProgress(wxCommandEvent &event){
+void Toucan::OnOutput(wxCommandEvent &event){
 	if(m_IsGui){
 		frmProgress *window = m_LuaManager->GetProgressWindow();
 		if(window){
@@ -311,6 +314,10 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 	m_LuaManager->CleanUp();
+	frmProgress *window = m_LuaManager->GetProgressWindow();
+	if(window){
+		window->m_Gauge->SetValue(window->m_Gauge->GetRange());
+	}
 }
 
 void Toucan::OnGetPassword(wxCommandEvent &event){
@@ -338,6 +345,20 @@ void Toucan::OnGetPassword(wxCommandEvent &event){
 		m_Password = wxString(password.c_str(), wxConvUTF8); 
 	}
 	m_StatusMap[event.GetInt()] = true;
+}
+
+void Toucan::OnProgressSetup(wxCommandEvent &event){
+	frmProgress *window = m_LuaManager->GetProgressWindow();
+	if(window){
+		window->m_Gauge->SetRange(event.GetInt());
+	}
+}
+
+void Toucan::OnProgress(wxCommandEvent &WXUNUSED(event)){
+	frmProgress *window = m_LuaManager->GetProgressWindow();
+	if(window){
+		window->m_Gauge->SetValue(window->m_Gauge->GetValue() + 1);
+	}
 }
 
 void Toucan::InitLangMaps(){

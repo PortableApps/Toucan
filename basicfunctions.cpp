@@ -55,7 +55,7 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 }
 
 void OutputProgress(const wxString &message, bool time, bool error){
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESS);
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
 	int type = 0;
 	if(time && error){
 		type = 1;
@@ -71,26 +71,9 @@ void OutputProgress(const wxString &message, bool time, bool error){
 	wxGetApp().ProcessEvent(event);
 }
 
-void SetGaugeRange(int range){
-	/*if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
-		wxGetApp().ProgressWindow->m_Gauge->SetRange(range);		
-	}*/
-}
-
-void SetGaugeValue(int value){
-	/*if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
-		wxGetApp().ProgressWindow->m_Gauge->SetValue(value);
-	}*/
-}
-
 void IncrementGauge(){
-	/*if(wxGetApp().ProgressWindow->m_Gauge->IsEnabled()){
-		wxGetApp().ProgressWindow->m_Gauge->SetValue(wxGetApp().ProgressWindow->m_Gauge->GetValue() + 1);
-	}*/
-}
-
-void EnableGauge(bool enable){
-	//wxGetApp().ProgressWindow->m_Gauge->Enable(enable);
+	wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESS);
+	wxGetApp().QueueEvent(event);
 }
 
 double GetInPB(wxString strValue){

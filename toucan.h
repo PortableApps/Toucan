@@ -19,12 +19,14 @@ class wxFileConfig;
 class wxHtmlHelpController;
 
 enum{
-	ID_PROGRESS = wxID_HIGHEST + 1,
+	ID_OUTPUT = wxID_HIGHEST + 1,
 	ID_FINISH,
 	ID_PROCESS,
 	ID_BACKUPPROCESS,
 	ID_SECUREPROCESS,
-	ID_GETPASSWORD
+	ID_GETPASSWORD,
+	ID_PROGRESS,
+	ID_PROGRESSSETUP
 };
 
 class Toucan: public wxApp{    
@@ -75,12 +77,14 @@ private:
 	//Set up the maps used for language conversion
 	void InitLangMaps();
 	//Used for outputing progress
-	void OnProgress(wxCommandEvent &event);
+	void OnOutput(wxCommandEvent &event);
 	void OnProcess(wxCommandEvent &event);
 	void OnBackupProcess(wxCommandEvent &event);
 	void OnSecureProcess(wxCommandEvent &event);
 	void OnFinish(wxCommandEvent &event);
 	void OnGetPassword(wxCommandEvent &event);
+	void OnProgress(wxCommandEvent &event);
+	void OnProgressSetup(wxCommandEvent &event);
 
 	bool m_Abort;
 	wxString m_SettingsPath;

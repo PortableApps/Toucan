@@ -9,6 +9,7 @@
 	#include "script.h"
 	#include "rules.h"
 	#include "variables.h"
+	#include "filecounter.h"
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
 	#include "data/backupdata.h"
@@ -18,6 +19,16 @@
 	#include "secure/securejob.h"
 
 	void Sync(SyncData *data){
+		FileCounter counter;
+		counter.AddPath(data->GetSource());
+		if(data->GetFunction() == _("Equalise")){
+			counter.AddPath(data->GetDest());
+		}
+		counter.Count();
+		int count = counter.GetCount();
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESSSETUP);
+		event->SetInt(count);
+		wxGetApp().QueueEvent(event);
 		SyncJob *job = new SyncJob(data);
 		job->Create();
 		job->Run();

@@ -69,11 +69,6 @@ void* BackupJob::Entry(){
 				return false;
 			}
 			file->Write();
-			//Set up the progress bar
-			EnableGauge(true);
-		}
-		else{
-			EnableGauge(false);
 		}
 		wxString command = data->CreateCommand(i);
 		wxSetWorkingDirectory(path);
