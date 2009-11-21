@@ -309,7 +309,7 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
 	wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
 	SecureProcess *process = new SecureProcess(event.GetInt());
-	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE|wxEXEC_NOHIDE, process);
+	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
