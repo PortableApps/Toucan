@@ -46,6 +46,7 @@ public:
 	void OnSaveClick(wxCommandEvent& event);
 
 	void IncrementGauge();
+	void FinishGauge();
 
 	wxListCtrl* m_List;
 	wxButton* m_OK;

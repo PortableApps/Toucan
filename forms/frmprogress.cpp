@@ -149,3 +149,10 @@ void frmProgress::IncrementGauge(){
 		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
 	}
 }
+
+void frmProgress::FinishGauge(){
+	m_Gauge->SetValue(m_Gauge->GetRange());
+	if(m_Taskbar){
+		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetRange(), m_Gauge->GetRange());
+	}
+}
