@@ -134,6 +134,14 @@
 			}
 		}
 	}
+	
+	void Secure(const wxArrayString &paths, const wxString &function, const wxString &rules = wxEmptyString){
+		SecureData *data = new SecureData(wxT("LastSecureJob"));
+		data->SetLocations(paths);
+		data->SetFunction(function);
+		data->SetRules(new Rules(rules, true));
+		Secure(data);
+	}
 
 	//Helper functions
 	wxString ExpandVariable(const wxString &variable){
@@ -222,6 +230,7 @@ void Backup(const wxArrayString &paths, const wxString &backuplocation, const wx
 			const wxString &rules = wxEmptyString);
 
 void Secure(const wxString &jobname);
+void Secure(const wxArrayString &paths, const wxString &function, const wxString &rules = wxEmptyString);
 
 wxString ExpandVariable(const wxString &variable);
 bool Delete(const wxString &path);
