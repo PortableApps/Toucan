@@ -69,6 +69,13 @@
 	}
 	
 	void Backup(BackupData *data){
+		FileCounter counter;
+		counter.AddPaths(data->GetLocations());
+		counter.Count();
+		int count = counter.GetCount();
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESSSETUP);
+		event->SetInt(count);
+		wxGetApp().QueueEvent(event);
 		BackupJob *job = new BackupJob(data);
 		job->Create();
 		job->Run();
@@ -107,6 +114,13 @@
 	}
 
 	void Secure(SecureData *data){
+		FileCounter counter;
+		counter.AddPaths(data->GetLocations());
+		counter.Count();
+		int count = counter.GetCount();
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESSSETUP);
+		event->SetInt(count);
+		wxGetApp().QueueEvent(event);
 		if(wxGetApp().m_Password == wxEmptyString){
 			wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_GETPASSWORD);
 			int id = wxDateTime::Now().GetTicks();

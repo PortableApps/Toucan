@@ -316,7 +316,7 @@ void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 	m_LuaManager->CleanUp();
 	frmProgress *window = m_LuaManager->GetProgressWindow();
 	if(window){
-		window->m_Gauge->SetValue(window->m_Gauge->GetRange());
+		window->FinishGauge();
 		wxCommandEvent event;
 		MainWindow->OnSyncRefresh(event);
 		MainWindow->OnBackupRefresh(event);
