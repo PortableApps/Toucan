@@ -26,23 +26,20 @@
 %typemap(in,checkfn="lua_istable") const wxArrayString& (wxArrayString array)
 %{	
 	int i=0;
-	OutputProgress(wxT("in creation loop"));
 	while(1)
 	{
 		lua_rawgeti(L,$input,i+1);
-		if (!lua_isnil(L,-1))
+		if (lua_isnil(L,-1))
 		{
-			OutputProgress(_("Breaking"));
 			lua_pop(L,1);
-			break;	// finished
+			break;
 		}
+		//If we find something that is not a string then fail
 		if (!lua_isstring(L,-1))
 		{
-			OutputProgress(_("Not a string"));
 			lua_pop(L,1);
-			return 0;	// error
+			return 0;
 		}
-		OutputProgress(_("Adding"));
 		array.Add(wxString(lua_tostring(L,-1), wxConvUTF8));
 		lua_pop(L,1);
 		++i;
