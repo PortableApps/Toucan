@@ -1993,37 +1993,6 @@ void frmMain::ClearToDefault(){
 	}
 }
 
-void frmMain::Run(const wxString &type){
-	/*JobData* data;
-	if(type == wxT("Sync")){
-		data = new SyncData(wxT("Last") + type + wxT("Job"));
-	}
-	else if(type == wxT("Backup")){
-		data = new BackupData(wxT("Last") + type + wxT("Job"));
-	}
-	else if(type == wxT("Secure")){
-		data = new SecureData(wxT("Last") + type + wxT("Job"));
-	}
-	else{
-		return;
-	}
-	if(data->TransferFromForm(this)){
-		if(data->IsReady()){
-			if(data->TransferToFile()){
-				wxArrayString arrScript;
-				arrScript.Add(type + wxT(" \"Last") + type + wxT("Job\""));
-				wxGetApp().SetAbort(false);
-				wxGetApp().m_Script->SetScript(arrScript);
-				wxGetApp().m_Script->Execute();
-			}
-		}
-		else{
-			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
-		}
-	}
-	delete data;*/
-}
-
 void frmMain::CreateMenu(wxTreeEvent& event){
 	menuTree->SelectItem(event.GetItem());
 	wxString strMenuTitle = menuRules->GetStringSelection();

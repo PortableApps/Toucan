@@ -274,9 +274,6 @@ public:
 	//Reset the form to its empty state
 	void ClearToDefault();
 	
-	//Run a job
-	void Run(const wxString &type);
-	
 	//Create the popup menu for rules
 	void CreateMenu(wxTreeEvent& event);
 	
