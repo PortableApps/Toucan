@@ -7,6 +7,8 @@
 #include <wx/button.h>
 #include <wx/listctrl.h>
 
+#include "toucan.h"
+#include "forms/frmmain.h"
 #include "luathread.h"
 #include "luamanager.h"
 #include "basicfunctions.h"
@@ -24,7 +26,7 @@ LuaManager::LuaManager(){
 
 void LuaManager::StartUp(){
 	if(!m_Window){
-		m_Window = new frmProgress(NULL, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
+		m_Window = new frmProgress(wxGetApp().MainWindow, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
 		m_Window->Show();
 	}
 	else{
