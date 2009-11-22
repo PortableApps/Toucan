@@ -1331,7 +1331,26 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
-	Run(wxT("Backup"));
+	wxString command = wxT("backup({[[");
+	for(unsigned int i = 0; i < m_BackupLocations->Count() - 1; i++){
+		command += m_BackupLocations->Item(i);
+		command += wxT("]], [[");
+	}
+	command += m_BackupLocations->Item(m_BackupLocations->Count() - 1);
+	command += wxT("]]}, [[");
+	command += m_Backup_Location->GetValue();
+	command += wxT("]], [[");
+	command += m_Backup_Function->GetStringSelection();
+	command += wxT("]], [[");
+	command += m_Backup_Format->GetStringSelection();
+	command += wxT("]], ");
+	command += wxString::Format(wxT("%d"), m_Backup_Ratio->GetValue());
+	command += wxT(", ");
+	command += ToString(m_Backup_IsPass->IsChecked());
+	command += wxT(", [[");
+	command += m_Backup_Rules->GetStringSelection();
+	command += wxT("]])");
+	wxGetApp().m_LuaManager->Run(command);
 }
 
 //ID_SECURE_RUN

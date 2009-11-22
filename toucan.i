@@ -87,9 +87,22 @@
 		}
 	}
 	
-	void Backup(const wxArrayString &paths){
-		for(unsigned int i = 0; i < paths.GetCount(); ++i){
-			OutputProgress(paths.Item(i));
+	void Backup(const wxArrayString &paths, const wxString &backuplocation, const wxString &function, 
+				const wxString &format, int compressionlevel = 3, bool password = false, 
+				const wxString &rules = wxEmptyString){
+		BackupData *data = new BackupData(wxT("LastBackupJob"));
+		data->SetLocations(paths);
+		data->SetFileLocation(backuplocation);
+		data->SetFunction(function);
+		data->SetFormat(format);
+		data->SetRatio(compressionlevel);
+		data->SetUsesPassword(password);
+		data->SetRules(new Rules(rules, true));
+		if(data->IsReady()){
+			Backup(data);
+		}
+		else{
+			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
 		}
 	}
 
@@ -204,7 +217,9 @@ void Sync(const wxString &source, const wxString &dest, const wxString &function
           bool ignoredls = false, const wxString &rules = wxEmptyString);
 
 void Backup(const wxString &jobname);
-void Backup(const wxArrayString &paths);
+void Backup(const wxArrayString &paths, const wxString &backuplocation, const wxString &function, 
+			const wxString &format, int compressionlevel = 3, bool password = false, 
+			const wxString &rules = wxEmptyString);
 
 void Secure(const wxString &jobname);
 
