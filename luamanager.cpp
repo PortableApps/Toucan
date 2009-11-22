@@ -8,10 +8,10 @@
 #include <wx/listctrl.h>
 
 #include "toucan.h"
-#include "forms/frmmain.h"
 #include "luathread.h"
 #include "luamanager.h"
 #include "basicfunctions.h"
+#include "forms/frmmain.h"
 #include "forms/frmprogress.h"
 #include "controls/loglistctrl.h"
 
