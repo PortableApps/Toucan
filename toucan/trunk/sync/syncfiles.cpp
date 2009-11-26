@@ -184,7 +184,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 				sourceAttributes = wxFileExists(source) ? GetFileAttributes(source) : FILE_ATTRIBUTE_NORMAL;
 		}
 		if(data->GetIgnoreRO()){
-			SetFileAttributes(source, FILE_ATTRIBUTE_NORMAL);
+			SetFileAttributes(dest, FILE_ATTRIBUTE_NORMAL);
 		}
 	#endif
 
