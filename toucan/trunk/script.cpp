@@ -80,7 +80,7 @@ bool ScriptManager::Validate(){
 		wxStringTokenizer tkz(m_Script.Item(i), wxT("\""), wxTOKEN_STRTOK);
 		wxString token = tkz.GetNextToken();
 		token.Trim();
-		if(token == wxT("Sync") || token == wxT("Secure") || token == _("Delete") || token == _("Execute") || token == wxT("Backup")){
+		if(token == wxT("Sync") || token == wxT("Secure") || token == wxT("Delete") || token == wxT("Execute") || token == wxT("Backup")){
 			if(tkz.CountTokens() != 1){
 				OutputProgress(wxString::Format(_("Line %d has an incorrect number of parameters"), i+1));
 				valid = false;
