@@ -110,8 +110,13 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 
 	wxString command;
 	if(data->GetFunction() == _("Encrypt")){
+		if(wxFileExists(path + wxT(".cpt"))){
+			//We have a file with the encrypted name already there, skip it
+			OutputProgress(_("Failed to encrypt ") + path, true, true);
+			return true;
+		}
 		//Create and execute the command
-		command = wxT("ccrypt -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = wxT("ccrypt -f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 	}
 	//Decryption
 	else{
