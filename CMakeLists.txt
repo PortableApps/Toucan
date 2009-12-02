@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 project(Toucan)
 
 #Find wxWidgets
-find_package(wxWidgets COMPONENTS base core net adv html aui stc REQUIRED)
+find_package(wxWidgetsImp COMPONENTS base core net adv html aui stc REQUIRED)
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})
 
