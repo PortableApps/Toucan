@@ -134,9 +134,15 @@ bool CryptFile(wxString strFile, SecureData *data)
 			SetFileAttributes(strFile,FILE_ATTRIBUTE_NORMAL);  
 		#endif
 
+		if(wxFileExists(strFile + wxT(".cpt"))){
+			//We have a file with the encrypted name already there, skip it
+			OutputProgress(_("Failed to encrypt ") + strFile, wxDateTime::Now().FormatTime(), true);
+			return true;
+		}
+
 		wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
 		//Create and execute the command
-		wxString command = wxT("./ccrypt -e -K\"") + data->GetPassword() + wxT("\" \"") + strFile + wxT("\"");
+		wxString command = wxT("./ccrypt -f -e -K\"") + data->GetPassword() + wxT("\" \"") + strFile + wxT("\"");
 		long lgReturn = wxExecute(command, arrErrors, arrOutput, wxEXEC_SYNC|wxEXEC_NODISABLE);
 
 		//Put the old attributed back
