@@ -2196,6 +2196,9 @@ wxArrayString frmMain::GetTranslatorNames(){
 }
 
 void frmMain::OnSettingsApplyClick(wxCommandEvent& WXUNUSED(event)){
+	if(wxGetApp().IsReadOnly()){
+		return;
+	}
 	wxGetApp().m_Settings->SetPosition(m_Notebook->GetPageText(m_Notebook->GetSelection()));
 	wxGetApp().m_Settings->SetTabStyle(m_Settings_TabStyle->GetStringSelection());
 	wxGetApp().m_Settings->SetLanguageCode(wxLocale::FindLanguageInfo(m_Settings_Language->GetStringSelection())->CanonicalName);

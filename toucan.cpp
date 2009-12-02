@@ -214,10 +214,13 @@ int Toucan::OnExit(){
 	CleanTemp();
 	delete m_Locale;
 	delete m_Settings;
-	delete m_Jobs_Config;
-	delete m_Rules_Config;
-	delete m_Scripts_Config;
-	delete m_Variables_Config;
+	//Deletion causes a flush which warns on read only devices
+	if(!wxGetApp().IsReadOnly()){
+		delete m_Jobs_Config;
+		delete m_Rules_Config;
+		delete m_Scripts_Config;
+		delete m_Variables_Config;
+	}
 	return wxApp::OnExit();
 }
 
