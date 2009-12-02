@@ -1,3 +1,6 @@
+#Toucan Specific - Please use this file instead of the standard file shipped
+#                  with CMake as it has proper support for wxWidgets 2.9.0
+#=============================================================================
 # - Find a wxWidgets (a.k.a., wxWindows) installation.
 # This module finds if wxWidgets is installed and selects a default
 # configuration to use. wxWidgets is a modular library. To specify the

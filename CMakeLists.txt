@@ -6,7 +6,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 project(Toucan)
 
 #Find wxWidgets
-find_package(wxWidgetsImp COMPONENTS base core net adv html aui stc REQUIRED)
+find_package(wxWidgets COMPONENTS base core net adv html aui stc REQUIRED)
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})
 
