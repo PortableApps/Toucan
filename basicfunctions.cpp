@@ -205,12 +205,15 @@ wxArrayString GetScripts(){
 bool UpdateJobs(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Jobs_Config;
+	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"))){
+		config->Write(wxT("General/Version"), 300);
+	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
 	if(version == 300){
 		return true;
 	}
-	if(!wxGetApp().IsReadOnly()){
+	if(wxGetApp().IsReadOnly()){
 		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
 		return false;
 	}
@@ -286,12 +289,15 @@ bool UpdateJobs(){
 bool UpdateRules(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Rules_Config;
+	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Rules.ini"))){
+		config->Write(wxT("General/Version"), 300);
+	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
 	if(version == 300){
 		return true;
 	}
-	if(!wxGetApp().IsReadOnly()){
+	if(wxGetApp().IsReadOnly()){
 		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
 		return false;
 	}
@@ -312,12 +318,15 @@ bool UpdateRules(){
 bool UpdateScripts(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Scripts_Config;
+	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"))){
+		config->Write(wxT("General/Version"), 300);
+	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
 	if(version == 300){
 		return true;
 	}
-	if(!wxGetApp().IsReadOnly()){
+	if(wxGetApp().IsReadOnly()){
 		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
 		return false;
 	}
@@ -338,13 +347,16 @@ bool UpdateScripts(){
 bool UpdateSettings(){
 	long version;
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Settings.ini"));
+	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Settings.ini"))){
+		config->Write(wxT("General/Version"), 300);
+	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
 	if(version == 300){
 		delete config;
 		return true;
 	}
-	if(!wxGetApp().IsReadOnly()){
+	if(wxGetApp().IsReadOnly()){
 		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR);
 		delete config;
 		return false;
