@@ -8,7 +8,11 @@
 #define FRMPROGRESS_H
 
 #include <wx/frame.h>
-struct ITaskbarList3;
+
+#ifdef __WXMSW__
+	struct ITaskbarList3;
+#endif
+
 class wxListCtrl;
 class wxButton;
 class wxGauge;

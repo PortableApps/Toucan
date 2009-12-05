@@ -69,7 +69,7 @@ void LuaManager::CleanUp(){
 	}
 	FlashWindowEx(&info);
 #else
-	RequestUserAttention();
+	m_Window->RequestUserAttention();
 #endif
 	m_Window = NULL;
 }

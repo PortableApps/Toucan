@@ -792,8 +792,6 @@ ELSE(wxWidgets_FIND_STYLE STREQUAL "win32")
           wxWidgets_DEFINITIONS  "${wxWidgets_CXX_FLAGS}")
         STRING(REGEX REPLACE "-D[^;]+;" ""
           wxWidgets_CXX_FLAGS "${wxWidgets_CXX_FLAGS}")
-        STRING(REPLACE "-D" ""
-          wxWidgets_DEFINITIONS "${wxWidgets_DEFINITIONS}")
 
         # parse include dirs from cxxflags; drop -I prefix
         STRING(REGEX MATCHALL "-I[^;]+"

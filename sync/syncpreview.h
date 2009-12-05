@@ -18,7 +18,7 @@ public:
 	VdtcTreeItemBaseArray Execute();
 
 protected:
-	bool OperationCaller(std::map<const wxString, int> paths);
+	bool OperationCaller(std::map<wxString, int> paths);
 	void  OnSourceNotDestFile(const wxString &path);
 	void  OnNotSourceDestFile(const wxString &path);
 	void  OnSourceAndDestFile(const wxString &path);
