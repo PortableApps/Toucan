@@ -37,9 +37,9 @@ SyncFiles::SyncFiles(const wxString &syncsource, const wxString &syncdest, SyncD
 }
 
 bool SyncFiles::Execute(){
-	std::list<const wxString> sourcepaths = FolderContentsToList(sourceroot);
-	std::list<const wxString> destpaths = FolderContentsToList(destroot);
-	std::map<const wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
+	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
+	std::list<wxString> destpaths = FolderContentsToList(destroot);
+	std::map<wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
 	return true;
 }
@@ -195,17 +195,22 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 			if(wxFileExists(desttemp)){
 				wxRemoveFile(desttemp);
 			}
-			if(data->GetIgnoreRO()){
-				SetFileAttributes(source, sourceAttributes); 
-			} 
+			#ifdef __WXMSW
+				if(data->GetIgnoreRO()){
+					SetFileAttributes(source, sourceAttributes); 
+				}
+			#endif 
 			return false;
 		}
 	}
 	else{
 		OutputProgress(_("Failed to copy ") + source, true, true);
-		if(data->GetIgnoreRO()){
-			SetFileAttributes(source, sourceAttributes); 
-		} 
+		#ifdef __WXMSW
+			if(data->GetIgnoreRO()){
+
+				SetFileAttributes(source, sourceAttributes); 
+			} 
+		#endif
 		return false;
 	}
 	if(data->GetTimeStamps()){

@@ -7,8 +7,10 @@ project(Toucan)
 
 #Find wxWidgets
 find_package(wxWidgets COMPONENTS base core net adv html aui stc REQUIRED)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${wxWidgets_CXX_FLAGS})
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})
+link_directories(${wxWidgets_LIBRARY_DIRS})
 
 #Define unicode if we need to
 if(wxWidgets_CONFIGURATION MATCHES "u")
@@ -101,7 +103,7 @@ add_test(test toucan unittests)
 
 #Set up the exe
 add_executable(toucan ${source} ${headers})
-target_link_libraries(toucan backup controls data forms secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
+target_link_libraries(toucan forms backup controls data secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
 
 if(MSVC)
     #Disable manifest creation as we have our own .rc file
@@ -109,10 +111,10 @@ if(MSVC)
 endif(MSVC)
 
 #Once we have built Toucan move it somewhere suitable
-set(Toucan_Output "C:\\" CACHE PATH "The path to an existing Toucan installation")
+set(Toucan_Output "" CACHE PATH "The path to an existing Toucan installation")
 set(Toucan_Exepath ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/toucan${CMAKE_EXECUTABLE_SUFFIX})
 add_custom_command(
     TARGET toucan
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${Toucan_Exepath} ${Toucan_Output}/App/toucan/toucan${CMAKE_EXECUTABLE_SUFFIX}
+    COMMAND ${CMAKE_COMMAND} -E copy ${Toucan_Exepath} ${Toucan_Output}/App/Toucan/toucan${CMAKE_EXECUTABLE_SUFFIX}
 )

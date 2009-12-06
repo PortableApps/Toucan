@@ -21,9 +21,9 @@ public:
 	virtual ~SyncBase();
 
 protected:
-	std::list<const wxString> FolderContentsToList(wxString path);
-	std::map<const wxString, int> MergeListsToMap(std::list<const wxString> sourcelist, std::list<const wxString> destlist);
-	bool OperationCaller(std::map<const wxString, int> paths);
+	std::list<wxString> FolderContentsToList(wxString path);
+	std::map<wxString, int> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
+	bool OperationCaller(std::map<wxString, int> paths);
 
 	virtual void OnSourceNotDestFile(const wxString &path) = 0;
 	virtual void OnNotSourceDestFile(const wxString &path) = 0;

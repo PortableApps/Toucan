@@ -15,8 +15,10 @@
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
 
-#include <shobjidl.h>
-#undef Yield
+#ifdef __WXMSW__
+	#include <shobjidl.h>
+	#undef Yield
+#endif
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxFrame)
@@ -43,7 +45,9 @@ void frmProgress::Init(){
 	m_Cancel = NULL;
 	m_Save = NULL;
 	m_Gauge = NULL;
+#ifdef __WXMSW__
 	m_Taskbar = NULL;
+#endif
 }
 
 //Create controls
@@ -145,14 +149,18 @@ WXLRESULT frmProgress::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM l
 
 void frmProgress::IncrementGauge(){
 	m_Gauge->SetValue(m_Gauge->GetValue() + 1);
+#ifdef __WXMSW__
 	if(m_Taskbar){
 		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
 	}
+#endif
 }
 
 void frmProgress::FinishGauge(){
 	m_Gauge->SetValue(m_Gauge->GetRange());
+#ifdef __WXMSW__
 	if(m_Taskbar){
 		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetRange(), m_Gauge->GetRange());
 	}
+#endif
 }
