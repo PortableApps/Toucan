@@ -23,7 +23,7 @@
 %typemap(out) const wxString&
 %{ lua_pushlstring(L,$1->data(),$1->size()); SWIG_arg++;%}
 
-%typemap(in,checkfn="lua_istable") const wxArrayString& (wxArrayString array, int i)
+%typemap(in,checkfn="lua_istable") const wxArrayString& (wxArrayString array, int i = 0)
 %{	
 	while(1)
 	{
