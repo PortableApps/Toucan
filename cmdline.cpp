@@ -9,7 +9,7 @@
 #include <wx/cmdline.h>
 
 bool ParseCommandLine(){
-	wxMessageOutput::Set(new wxMessageOutputStderr); 
+	delete wxMessageOutput::Set(new wxMessageOutputStderr); 
 	static const wxCmdLineEntryDesc desc[] =
 	{
 		{wxCMD_LINE_SWITCH, "g", "showgui", "Show user interface"},
@@ -19,7 +19,9 @@ bool ParseCommandLine(){
 
 	wxCmdLineParser parser(desc, wxGetApp().argc, wxGetApp().argv);
 	if(!parser.Parse()){
+		delete wxMessageOutput::Set(new wxMessageOutputBest);
 		return false;
 	}
+	delete wxMessageOutput::Set(new wxMessageOutputBest);
 	return true;
 }
