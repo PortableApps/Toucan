@@ -326,6 +326,9 @@ void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 			window->Raise();
 		}
 	}
+	else{
+		exit(1);
+	}
 }
 
 void Toucan::OnGetPassword(wxCommandEvent &event){

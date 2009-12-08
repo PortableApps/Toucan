@@ -52,7 +52,7 @@ void LuaManager::StartUp(){
 void LuaManager::CleanUp(){
 	if(!wxGetApp().IsGui()){
 		OutputProgress(wxEmptyString);
-		OutputProgress(_("Elapsed") + wxT(" ") + wxDateTime::Now().Subtract(m_StartTime).Format());
+		OutputProgress(_("Elapsed") + wxT("    ") + wxDateTime::Now().Subtract(m_StartTime).Format());
 		OutputProgress(_("Finished"), true);
 		return;
 	}
