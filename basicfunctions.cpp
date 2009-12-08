@@ -187,19 +187,22 @@ wxArrayString GetRules(){
 }
 
 wxArrayString GetScripts(){
-	bool cont;
-	wxString value;
-	long dummy;
-	wxArrayString rules;
-
-	cont = wxGetApp().m_Scripts_Config->GetFirstGroup(value, dummy);
-	while(cont){
-		if(value != wxT("General")){
-			rules.Add(value);
-		}
-		cont = wxGetApp().m_Scripts_Config->GetNextGroup(value, dummy);
+	if(!wxDirExists(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH)){
+		wxMkDir(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH);
 	}
-	return rules;
+	wxArrayString scripts;
+	wxString filename;
+	wxDir dir(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH);
+	if(dir.GetFirst(&filename)){
+		do{
+			wxFileName fname(filename);
+			if(!fname.IsDir() && fname.GetExt() == "lua"){
+				scripts.Add(fname.GetName());
+			}
+		}
+		while(dir.GetNext(&filename));
+	}
+	return scripts;
 }
 
 bool UpdateJobs(){

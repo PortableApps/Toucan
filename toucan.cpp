@@ -25,7 +25,6 @@
 #endif
 
 #include "toucan.h"
-#include "cmdline.h"
 #include "script.h"
 #include "settings.h"
 #include "luamanager.h"
@@ -315,7 +314,6 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
-std::cout << "closing";
 	m_LuaManager->CleanUp();
 	if(m_IsGui){
 		frmProgress *window = m_LuaManager->GetProgressWindow();
@@ -327,10 +325,6 @@ std::cout << "closing";
 			MainWindow->OnSecureRefresh(event);
 			window->Raise();
 		}
-	}
-	else{
-		std::cout << "closing";
-		OnExit();
 	}
 }
 

@@ -1649,30 +1649,7 @@ void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_NAME
 void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){	
-	m_Script_Styled->Clear();
-	wxString strFile = 	wxGetApp().m_Scripts_Config->Read(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"));
-	//Remove trailing | if it exists
-	if(strFile.Right(1) == wxT("|")){
-		strFile = strFile.Left(strFile.Length() - 1);
-		if(strFile.Length() == 0){
-			return;
-		}
-	}
-	//We should now have a nicely formatted array of one command per line
-	wxArrayString arrContents = StringToArrayString(strFile, wxT("|"));
-	//If we have more then one item then we need to add line breaks between them
-	if(arrContents.GetCount() > 1){
-		unsigned int i;
-		for(i = 0; i < arrContents.Count() - 1; i++){
-			m_Script_Styled->AppendText(arrContents.Item(i) + wxT("\n"));
-		}
-		m_Script_Styled->AppendText(arrContents.Item(i));
-		SetTitleBarText();
-	}
-	//If only one item then just add it
-	else if(arrContents.GetCount() == 1){
-		m_Script_Styled->AppendText(arrContents.Item(0));		
-	}
+	m_Script_Styled->LoadFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
 }
 
 //ID_SCRIPT_SAVE
@@ -1687,19 +1664,13 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
-	wxArrayString arrContents;
-	for(signed int i = 0; i < m_Script_Styled->GetNumberOfLines(); i++){
-		arrContents.Add(m_Script_Styled->GetLineText(i));
-	}
-	wxGetApp().m_Scripts_Config->Write(m_Script_Name->GetStringSelection() + wxT("/") + wxT("Script"), ArrayStringToString(arrContents, wxT("|")));
-	wxGetApp().m_Scripts_Config->Flush();
+	m_Script_Styled->SaveFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
 }
 
 //ID_SCRIPT_REMOVE
 void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	m_Script_Styled->Clear();
-	wxGetApp().m_Scripts_Config->DeleteGroup(m_Script_Name->GetStringSelection());
-	wxGetApp().m_Scripts_Config->Flush();
+	wxRemoveFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
 	UpdateSizer(ScriptNameSizer);
 }
