@@ -25,6 +25,12 @@ LuaManager::LuaManager(){
 }
 
 void LuaManager::StartUp(){
+	m_StartTime = wxDateTime::Now();
+	if(!wxGetApp().IsGui()){
+		OutputProgress(_("Starting"), true);
+		OutputProgress(wxEmptyString);
+		return;
+	}
 	if(!m_Window){
 		m_Window = new frmProgress(wxGetApp().MainWindow, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
 		m_Window->Show();
@@ -35,7 +41,6 @@ void LuaManager::StartUp(){
 	//Send all errors to the list control
 	LogListCtrl* logList = new LogListCtrl(m_Window->m_List);
 	delete wxLog::SetActiveTarget(logList);
-	m_StartTime = wxDateTime::Now();
 	OutputProgress(_("Starting"), true);
 	OutputProgress(wxEmptyString);
 	m_Window->m_List->SetColumnWidth(1, m_Window->m_List->GetClientSize().GetWidth() - m_Window->m_List->GetColumnWidth(0));
@@ -45,6 +50,12 @@ void LuaManager::StartUp(){
 }
 
 void LuaManager::CleanUp(){
+	if(!wxGetApp().IsGui()){
+		OutputProgress(wxEmptyString);
+		OutputProgress(_("Elapsed") + wxT(" ") + wxDateTime::Now().Subtract(m_StartTime).Format());
+		OutputProgress(_("Finished"), true);
+		return;
+	}
 	//Send all errors to the standard gui
 	delete wxLog::SetActiveTarget(new wxLogGui);
 	OutputProgress(wxEmptyString);

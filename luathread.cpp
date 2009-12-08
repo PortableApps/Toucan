@@ -30,7 +30,7 @@ void *LuaThread::Entry(){
 	if (luaL_loadstring(m_State, m_Command.mb_str()) || lua_pcall(m_State, 0, 0, 0)) {
 		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(m_State, -1), wxConvUTF8));
 	}
-	wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_FINISH);
-	wxGetApp().QueueEvent(event);
+	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_FINISH);
+	wxGetApp().ProcessEvent(event);
 	return NULL;
 }

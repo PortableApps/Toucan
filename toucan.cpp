@@ -14,11 +14,7 @@
 #include <wx/dir.h>
 #include <wx/log.h>
 #include <wx/gauge.h>
-
-#include "signalprocess.h"
-#include "backup/backupprocess.h"
-#include "secure/secureprocess.h"
-#include "forms/frmpassword.h"
+#include <wx/cmdline.h>
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -29,16 +25,17 @@
 #endif
 
 #include "toucan.h"
-#include "forms/frmmain.h"
-#include "forms/frmprogress.h"
 #include "cmdline.h"
-#include "basicfunctions.h"
 #include "script.h"
 #include "settings.h"
 #include "luamanager.h"
-#include "data/syncdata.h"
-#include "data/backupdata.h"
-#include "data/securedata.h"
+#include "signalprocess.h"
+#include "basicfunctions.h"
+#include "forms/frmmain.h"
+#include "backup/backupprocess.h"
+#include "secure/secureprocess.h"
+#include "forms/frmprogress.h"
+#include "forms/frmpassword.h"
 
 IMPLEMENT_APP_NO_MAIN(Toucan)
 
@@ -61,51 +58,83 @@ int main(int argc, char *argv[]){
 
 //Toucan startup
 bool Toucan::OnInit(){
-	#ifdef __WXMSW__
-		if(argc == 1){
-			ShowWindow(GetConsoleWindow(), SW_HIDE);
-		}
-	#endif
+	static const wxCmdLineEntryDesc desc[] =
+	{
+		{wxCMD_LINE_SWITCH, "h", "disablesplash", "Disables the splashscreen"},
+		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
+		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
+		{wxCMD_LINE_NONE}
+	};
+	wxCmdLineParser parser(desc, argc, argv);
 
- 	//Set the splash screen going
-	wxInitAllImageHandlers();
+	wxMessageOutput *old = wxMessageOutput::Set(new wxMessageOutputStderr);
+	if(parser.Parse() > 0){
+		return false;
+	}
+	delete wxMessageOutput::Set(old);
+
+	//If no script is found then we are in gui mode
+	if(!parser.Found("script")){
+		m_IsGui = true;
+		#ifdef __WXMSW__
+			ShowWindow(GetConsoleWindow(), SW_HIDE);
+		#endif
+	}
+	else{
+		m_IsGui = false;
+	}
+
+	const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+
 	wxSplashScreen *scrn = NULL;
-	if(wxFileExists(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("splash.jpg")) && argc == 1){
-		wxBitmap bitmap;
-		bitmap.LoadFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath())  + wxFILE_SEP_PATH + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
-		scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
+	wxInitAllImageHandlers();
+
+	if(m_IsGui && !parser.Found("disablesplash")){
+		if(wxFileExists(exedir + wxT("splash.jpg"))){
+			wxBitmap bitmap;
+			bitmap.LoadFile(exedir + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
+			scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
+		}
 	}
 
 	m_Abort = false;
-	//Are we in gui mode?
-	m_IsGui = argc == 1 ? true : false;
 
-	wxTextFile writetest(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("writetest"));
+	//Set the read only flag if needed
+	wxTextFile writetest(exedir + wxT("writetest"));
 	{
 		wxLogNull null;
 		m_IsReadOnly = !writetest.Create();
-		wxRemoveFile(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("writetest"));
+		wxRemoveFile(exedir + wxT("writetest"));
 	}
 
-	//Work out where the settings dir is. Firstly get the exe dir
-	wxFileName settingspath = wxFileName::DirName((wxPathOnly(wxStandardPaths::Get().GetExecutablePath())));
-	//Next remove the \App\toucan
-	settingspath.RemoveLastDir();
-	settingspath.RemoveLastDir();
-	//And the add \Data
-	settingspath.AppendDir(wxT("Data"));
+	if(parser.Found("datadirectory")){
+		wxString temp;
+		parser.Found("datadirectory", &temp);
+		wxFileName name(temp);
+		name.Normalize();
+		m_SettingsPath = name.GetFullPath();
+	}
+	else{
+		//Work out where the settings dir is. Firstly get the exe dir
+		wxFileName settingspath = wxFileName::DirName(exedir);
+		//Next remove the \App\toucan
+		settingspath.RemoveLastDir();
+		settingspath.RemoveLastDir();
+		//And the add \Data
+		settingspath.AppendDir(wxT("Data"));
+		m_SettingsPath = settingspath.GetFullPath();
 
-	m_SettingsPath = settingspath.GetFullPath();
+	}
 	//Make sure the data directory is there
 	if(!wxDirExists(GetSettingsPath())){
 		wxMkdir(GetSettingsPath());
 	}
 
 	//Create the config stuff and set it up
- 	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Jobs.ini"));
-	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Rules.ini"));
-	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Scripts.ini"));
-	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Variables.ini"));
+ 	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Jobs.ini"));
+	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Rules.ini"));
+	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Scripts.ini"));
+	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Variables.ini"));
 
 	m_Jobs_Config->SetExpandEnvVars(false);
 	m_Rules_Config->SetExpandEnvVars(false);
@@ -113,24 +142,12 @@ bool Toucan::OnInit(){
 	m_Variables_Config->SetExpandEnvVars(false);
 
 	//Set the language and init the maps
- 	wxFileConfig *settings = new wxFileConfig(wxT(""), wxT(""), GetSettingsPath() + wxT("Settings.ini"));
+ 	wxFileConfig *settings = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Settings.ini"));
 	SetLanguage(settings->Read(wxT("General/LanguageCode"), wxT("en")));
 	delete settings;
 	InitLangMaps();
 
-	if(!UpdateJobs()){
-		return false;
-	}
-		
-	if(!UpdateRules()){
-		return false;
-	}
-
-	if(!UpdateScripts()){
-		return false;
-	}	
-		
-	if(!UpdateSettings()){
+	if(!UpdateJobs() || !UpdateRules() || !UpdateScripts() || !UpdateSettings()){
 		return false;
 	}
 
@@ -141,49 +158,30 @@ bool Toucan::OnInit(){
 	//Create the lua manager
 	m_LuaManager = new LuaManager();
 
-	//Set up the help system
-	m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
-
-	wxFileSystem::AddHandler(new wxArchiveFSHandler);
-
-	MainWindow = new frmMain();
-
 	if(m_IsGui){
+		//Set up the help system
+		wxFileSystem::AddHandler(new wxArchiveFSHandler);
+		m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
+		//Set up the main form
+		MainWindow = new frmMain();
 		MainWindow->Show();
+
 		if(m_Settings->GetWidth() < 1 && m_Settings->GetHeight() < 1){
 			MainWindow->Maximize(false);
 		}
 		else{
 			MainWindow->Maximize(true);
 		}
+
 		if(scrn != NULL){
 			scrn->Destroy(); 
 		}
+
 	}
 	else{
-		ParseCommandLine();
-		if(!m_Settings->GetDisableLog()){
-			//Write out a log so we know what happened
-			//wxTextFile file;
-			//file.Create(GetSettingsPath() + wxDateTime::Now().FormatISODate() + wxT(" - ") + wxDateTime::Now().Format(wxT("%H")) + wxT("-")+ wxDateTime::Now().Format(wxT("%M")) + wxT("-") +  wxDateTime::Now().Format(wxT("%S")) + wxT(".txt"));
-			//Yield to make sure all of the output has reached the progress dialog
-			//Yield();
-/*			for(int i = 0; i < ProgressWindow->m_List->GetItemCount(); i++){
-				wxListItem itemcol1, itemcol2;
-
-				itemcol1.m_itemId = i;
-				itemcol1.m_col = 0;
-				itemcol1.m_mask = wxLIST_MASK_TEXT;
-				ProgressWindow->m_List->GetItem(itemcol1);
-				itemcol2.m_itemId = i;
-				itemcol2.m_col = 1;
-				itemcol2.m_mask = wxLIST_MASK_TEXT;
-				ProgressWindow->m_List->GetItem(itemcol2);
-				file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
-			}
-			file.Write();*/
-		}
-		wxGetApp().MainWindow->Destroy();
+		wxString script;
+		parser.Found("script", &script);
+		m_LuaManager->Run(script);
 	}
 	return true;
 }
@@ -292,8 +290,9 @@ void Toucan::OnOutput(wxCommandEvent &event){
 	else{
 		std::cout << event.GetString();
 		if(event.GetInt() == 1 || event.GetInt() == 3){
-			std::cout << wxT("\t") << wxDateTime::Now().FormatISOTime();
+			std::cout << "    " << wxDateTime::Now().FormatISOTime();
 		}
+		std::cout << std::endl;
 	}
 }
 
@@ -316,15 +315,22 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
+std::cout << "closing";
 	m_LuaManager->CleanUp();
-	frmProgress *window = m_LuaManager->GetProgressWindow();
-	if(window){
-		window->FinishGauge();
-		wxCommandEvent event;
-		MainWindow->OnSyncRefresh(event);
-		MainWindow->OnBackupRefresh(event);
-		MainWindow->OnSecureRefresh(event);
-		window->Raise();
+	if(m_IsGui){
+		frmProgress *window = m_LuaManager->GetProgressWindow();
+		if(window){
+			window->FinishGauge();
+			wxCommandEvent event;
+			MainWindow->OnSyncRefresh(event);
+			MainWindow->OnBackupRefresh(event);
+			MainWindow->OnSecureRefresh(event);
+			window->Raise();
+		}
+	}
+	else{
+		std::cout << "closing";
+		OnExit();
 	}
 }
 
