@@ -149,7 +149,9 @@ frmMain::frmMain(){
 
 //Destructor
 frmMain::~frmMain(){
-	m_HelpWindow->WriteCustomization(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
+	if(!wxGetApp().IsReadOnly()){
+		m_HelpWindow->WriteCustomization(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
+	}
 	delete m_Font;
 	delete m_BackupLocations;
 	delete m_SecureLocations;
