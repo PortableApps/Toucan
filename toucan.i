@@ -229,6 +229,26 @@
 		}
 		return;
 	}
+	
+	wxString GetScriptPath(const wxString &name){
+		wxString path = wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + name + ".lua";
+		if(wxFileExists(path)){
+			return path;
+		}
+		else{
+			return wxEmptyString;
+		}
+	}
+	
+	void InputPassword(){
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_GETPASSWORD);
+		int id = wxDateTime::Now().GetTicks();
+		event->SetInt(id);
+		wxGetApp().QueueEvent(event);
+		while(wxGetApp().m_StatusMap[id] != true){
+			wxMilliSleep(100);
+		}
+	}
 %}
 
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
@@ -247,8 +267,10 @@ void Secure(const wxString &jobname);
 void Secure(const wxArrayString &paths, const wxString &function, const wxString &rules = wxEmptyString);
 
 wxString ExpandVariable(const wxString &variable);
+wxString GetScriptPath(const wxString &name);
 bool Delete(const wxString &path);
 bool Copy(const wxString &source, const wxString &dest);
 bool Move(const wxString &source, const wxString &dest);
 bool Rename(const wxString &source, const wxString &dest);
 void Execute(const wxString &path, bool async = false);
+void InputPassword();
