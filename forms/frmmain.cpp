@@ -911,6 +911,29 @@ void frmMain::CreateControls(){
 		ScriptNameRemove->SetToolTip(_("Remove"));
 	}
 
+	//Disable certain buttons for read-only operation
+	if(wxGetApp().IsReadOnly()){
+		SyncJobSave->Disable();
+		SyncJobAdd->Disable();
+		SyncJobRemove->Disable();
+		BackupJobSave->Disable();
+		BackupJobAdd->Disable();
+		BackupJobRemove->Disable();
+		SecureJobSave->Disable();
+		SecureJobAdd->Disable();
+		SecureJobRemove->Disable();
+		RulesNameSave->Disable();
+		RulesNameAdd->Disable();
+		RulesNameRemove->Disable();
+		VariablesNameSave->Disable();
+		VariablesNameAdd->Disable();
+		VariablesNameRemove->Disable();
+		ScriptNameSave->Disable();
+		ScriptNameAdd->Disable();
+		ScriptNameRemove->Disable();
+		ApplySettings->Disable();
+	}
+
 	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));	
 
 	if(wxGetApp().m_Jobs_Config->Exists(wxT("SyncRemember")) && wxGetApp().m_Settings->GetRememberSync()){
