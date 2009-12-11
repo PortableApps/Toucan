@@ -41,5 +41,11 @@ bool UpdateSettings();
 
 const wxString& ToLang(const wxString &en);
 const wxString& ToEn(const wxString &lang);
+
+//Used by for_each in test.h
+void makedir(const wxString &path);
+void createfiles(const wxString &path);
+void deletedir(const wxString &path);
+void deletefiles(const wxString &path);
 	
 #endif

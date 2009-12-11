@@ -7,16 +7,20 @@
 #ifndef H_TEST
 #define H_TEST
 
+#include "basicfunctions.h"
 #include "variables.h"
 #include "rules.h"
+#include "filecounter.h"
 #include <wx/string.h>
 #include <wx/datetime.h>
 #include <wx/arrstr.h>
+#include <wx/stdpaths.h>
+#include <wx/textfile.h>
 #include <cxxtest/TestSuite.h>
+#include <algorithm>
+#include <vector>
 
-//Please note when modifying this file the descriptors at the end of cmdline.cpp need to be updated too
-
-class Tests : public CxxTest::TestSuite{
+class GeneralTests : public CxxTest::TestSuite{
 public:
 	void testVariables(){
 		TS_TRACE("Need test for @label@");
@@ -55,6 +59,43 @@ public:
 		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\test.txt"), false), true); //Excluded
 		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Testexclude\\test.txt"), false), true); //Excluded
 		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Testexclude\\specialchars++.txt"), false), false); //Included
+	}
+};
+
+class FileCounterTests : public CxxTest::TestSuite{
+public:
+	void setUp(){
+		const wxString testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
+		std::vector<wxString> folderlist;
+		folderlist.push_back(testdir);
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1");
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir2");
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
+		
+		std::for_each(folderlist.begin(), folderlist.end(), makedir);
+		std::for_each(folderlist.begin(), folderlist.end(), createfiles);
+	}
+
+	void tearDown(){
+		const wxString testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
+		std::vector<wxString> folderlist;
+		folderlist.push_back(testdir);
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1");
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir2");
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
+		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
+
+		std::for_each(folderlist.begin(), folderlist.end(), deletefiles);
+		std::for_each(folderlist.begin(), folderlist.end(), deletedir);
+	}
+
+	void testCounter(){
+		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
+		FileCounter counter;
+		counter.AddPath(unittestdir);
+		counter.Count();
+		TS_ASSERT_EQUALS(counter.GetCount(), 10);
 	}
 };
 

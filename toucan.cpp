@@ -15,6 +15,8 @@
 #include <wx/log.h>
 #include <wx/gauge.h>
 #include <wx/cmdline.h>
+#include <cxxtest/ErrorPrinter.h>
+
 
 #ifdef __WXMSW__
 	#define _WIN32_WINNT 0x0500 
@@ -24,6 +26,7 @@
 	#include <wx/msw/winundef.h>
 #endif
 
+#include "test.h"
 #include "toucan.h"
 #include "script.h"
 #include "settings.h"
@@ -60,6 +63,7 @@ bool Toucan::OnInit(){
 	static const wxCmdLineEntryDesc desc[] =
 	{
 		{wxCMD_LINE_SWITCH, "h", "disablesplash", "Disables the splashscreen"},
+		{wxCMD_LINE_SWITCH, "u", "unittests", "Runs the unittests"},
 		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_NONE}
@@ -73,7 +77,7 @@ bool Toucan::OnInit(){
 	delete wxMessageOutput::Set(old);
 
 	//If no script is found then we are in gui mode
-	if(!parser.Found("script")){
+	if(!parser.Found("script") && !parser.Found("unittests")){
 		m_IsGui = true;
 		#ifdef __WXMSW__
 			ShowWindow(GetConsoleWindow(), SW_HIDE);
@@ -156,6 +160,12 @@ bool Toucan::OnInit(){
 
 	//Create the lua manager
 	m_LuaManager = new LuaManager();
+
+	//Run the unit tests if needed and then exit
+	if(parser.Found("unittests")){
+		CxxTest::ErrorPrinter().run();
+		exit(0);
+	}
 
 	if(m_IsGui){
 		//Set up the help system

@@ -379,3 +379,26 @@ bool UpdateSettings(){
 	delete config;
 	return true;
 }
+
+//Used by for_each in test.h
+void makedir(const wxString &path){
+	wxMkDir(path);
+}
+
+//Used by for_each in test.h
+void createfiles(const wxString &path){
+	wxTextFile file;
+	file.Create(path + wxFILE_SEP_PATH + "file1");
+	file.Create(path + wxFILE_SEP_PATH + "file2");
+}
+
+//Used by for_each in test.h
+void deletedir(const wxString &path){
+	wxRmDir(path);
+}
+
+//Used by for_each in test.h
+void deletefiles(const wxString &path){
+	wxRemoveFile(path + wxFILE_SEP_PATH + "file1");
+	wxRemoveFile(path + wxFILE_SEP_PATH + "file2"); 
+}
