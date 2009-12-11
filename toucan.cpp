@@ -316,18 +316,13 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 	m_LuaManager->CleanUp();
 	if(m_IsGui){
-		frmProgress *window = m_LuaManager->GetProgressWindow();
-		if(window){
-			window->FinishGauge();
-			wxCommandEvent event;
-			MainWindow->OnSyncRefresh(event);
-			MainWindow->OnBackupRefresh(event);
-			MainWindow->OnSecureRefresh(event);
-			window->Raise();
-		}
+		wxCommandEvent event;
+		MainWindow->OnSyncRefresh(event);
+		MainWindow->OnBackupRefresh(event);
+		MainWindow->OnSecureRefresh(event);
 	}
 	else{
-		exit(1);
+		exit(0);
 	}
 }
 

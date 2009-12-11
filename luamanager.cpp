@@ -66,6 +66,7 @@ void LuaManager::CleanUp(){
 	m_Window->m_Cancel->Enable(false);
 
 	//Let the user know we have finished
+	m_Window->FinishGauge();
 #ifdef __WXMSW__
 	FLASHWINFO info;
 	info.uCount = 3;
