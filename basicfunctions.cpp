@@ -188,7 +188,7 @@ wxArrayString GetRules(){
 
 wxArrayString GetScripts(){
 	if(!wxDirExists(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH)){
-		wxMkDir(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH);
+		wxMkdir(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH);
 	}
 	wxArrayString scripts;
 	wxString filename;
@@ -382,7 +382,7 @@ bool UpdateSettings(){
 
 //Used by for_each in test.h
 void makedir(const wxString &path){
-	wxMkDir(path);
+	wxMkdir(path);
 }
 
 //Used by for_each in test.h
