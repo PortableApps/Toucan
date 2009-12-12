@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 project(Toucan)
 
@@ -25,7 +24,7 @@ include_directories(${LUA_INCLUDE_DIR})
 find_package(SWIG REQUIRED)
 
 #Find cxxtest
-find_package(CxxTest)
+find_package(CxxTest REQUIRED)
 include_directories(${CXXTEST_INCLUDE_DIR})
 
 if(MSVC)
@@ -96,10 +95,6 @@ add_custom_command(
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/test.h
     COMMAND ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} -o ${CMAKE_CURRENT_SOURCE_DIR}/test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/test.h
 )
-
-#Set up unit tests
-enable_testing()
-add_test(test toucan unittests)
 
 #Set up the exe
 add_executable(toucan ${source} ${headers})
