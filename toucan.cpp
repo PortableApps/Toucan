@@ -150,7 +150,7 @@ bool Toucan::OnInit(){
 	delete settings;
 	InitLangMaps();
 
-	if(!UpdateJobs() || !UpdateRules() || !UpdateScripts() || !UpdateSettings()){
+	if(!UpdateJobs() || !UpdateRules() /*|| !UpdateScripts()*/ || !UpdateSettings()){
 		return false;
 	}
 
