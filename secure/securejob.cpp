@@ -16,6 +16,7 @@
 #include <wx/filefn.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
+#include <wx/stdpaths.h>
 
 SecureJob::SecureJob(SecureData *Data) : Job(Data){
 	;
@@ -109,6 +110,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 #endif
 
 	wxString command;
+	const wxString exepath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "ccrypt ";
 	if(data->GetFunction() == _("Encrypt")){
 		if(wxFileExists(path + wxT(".cpt"))){
 			//We have a file with the encrypted name already there, skip it
@@ -116,7 +118,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 			return true;
 		}
 		//Create and execute the command
-		command = wxT("ccrypt -f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = exepath + wxT("-f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 	}
 	//Decryption
 	else{
@@ -125,7 +127,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 			OutputProgress(_("Failed to decrypt ") + path, true, true);
 			return true;
 		}
-		command = wxT("ccrypt -f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = exepath + wxT("-f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 	}
 
 	int id = wxDateTime::Now().GetTicks();
