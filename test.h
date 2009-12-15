@@ -86,6 +86,7 @@ public:
 		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
 		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
 
+		std::reverse(folderlist.begin(), folderlist.end());
 		std::for_each(folderlist.begin(), folderlist.end(), deletefiles);
 		std::for_each(folderlist.begin(), folderlist.end(), deletedir);
 	}
