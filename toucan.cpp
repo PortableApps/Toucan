@@ -66,6 +66,7 @@ bool Toucan::OnInit(){
 		{wxCMD_LINE_SWITCH, "u", "unittests", "Runs the unittests"},
 		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
+		{wxCMD_LINE_OPTION, "l", "logfile", "Path to save log", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_NONE}
 	};
 	wxCmdLineParser parser(desc, argc, argv);
@@ -101,6 +102,7 @@ bool Toucan::OnInit(){
 	}
 
 	m_Abort = false;
+	m_IsLogging = false;
 
 	//Set the read only flag if needed
 	wxTextFile writetest(exedir + wxT("writetest"));
@@ -161,6 +163,20 @@ bool Toucan::OnInit(){
 	//Create the lua manager
 	m_LuaManager = new LuaManager();
 
+	if(parser.Found("logfile")){
+		m_IsLogging = true;
+		wxString path;
+		parser.Found("logfile", &path);
+		m_LogFile = new wxTextFile(path);
+		if(wxFileExists(path)){
+			m_LogFile->Open();
+			m_LogFile->Clear();
+		}
+		else{
+			m_LogFile->Create();
+		}
+	}
+
 	//Run the unit tests if needed and then exit
 	if(parser.Found("unittests")){
 		CxxTest::ErrorPrinter().run();
@@ -217,8 +233,12 @@ void Toucan::SetLanguage(wxString strLanguage){
 
 //Cleanup
 int Toucan::OnExit(){
+	if(m_IsLogging){
+		m_LogFile->Write();
+	}
 	KillConime();
 	CleanTemp();
+	delete m_LogFile;
 	delete m_Locale;
 	delete m_Settings;
 	//Deletion causes a flush which warns on read only devices
@@ -277,6 +297,13 @@ void Toucan::KillConime(){
 }
 
 void Toucan::OnOutput(wxCommandEvent &event){
+	if(m_IsLogging){
+		wxString line = event.GetString();
+		if(event.GetInt() == 1 || event.GetInt() == 3){
+			line << "    " << wxDateTime::Now().FormatISOTime();
+		}
+		m_LogFile->AddLine(line);
+	}
 	if(m_IsGui){
 		frmProgress *window = m_LuaManager->GetProgressWindow();
 		if(window){
@@ -332,6 +359,7 @@ void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
 		MainWindow->OnSecureRefresh(event);
 	}
 	else{
+		OnExit();
 		exit(0);
 	}
 }

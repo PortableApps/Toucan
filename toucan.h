@@ -15,6 +15,7 @@ class frmProgress;
 class Settings;
 class ScriptManager;
 class LuaManager;
+class wxTextFile;
 class wxFileConfig;
 class wxHtmlHelpController;
 
@@ -90,8 +91,10 @@ private:
 	wxString m_SettingsPath;
 	bool m_IsGui;
 	bool m_IsReadOnly;
+	bool m_IsLogging;
 	bool m_Finished;
 	wxLocale* m_Locale;
+	wxTextFile* m_LogFile;
 
     DECLARE_CLASS(Toucan)
     DECLARE_EVENT_TABLE()
