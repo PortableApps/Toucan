@@ -121,12 +121,21 @@ public:
 		std::for_each(folderlist.begin(), folderlist.end(), deletedir);
 	}
 
-	void testCounter(){
+	void testDirectory(){
 		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
 		FileCounter counter;
 		counter.AddPath(unittestdir);
 		counter.Count();
 		TS_ASSERT_EQUALS(counter.GetCount(), 10);
+	}
+
+	void testFiles(){
+		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
+		FileCounter counter;
+		counter.AddPath(unittestdir + "file1");
+		counter.AddPath(unittestdir + "subdir1" + wxFILE_SEP_PATH + "file1");
+		counter.Count();
+		TS_ASSERT_EQUALS(counter.GetCount(), 2);
 	}
 };
 
