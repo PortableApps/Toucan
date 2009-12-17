@@ -34,6 +34,7 @@ protected:
 	virtual void OnNotSourceDestFolder(const wxString &path);
 	virtual void OnSourceAndDestFolder(const wxString &path);
 
+	bool CopyFile(const wxString &source, const wxString &dest);
 	bool CopyFilePlain(const wxString &source, const wxString &dest);
 	bool CopyFileStream(const wxString &source, const wxString &dest);
 	void CopyFileTimestamp(const wxString &source, const wxString &dest);
@@ -42,5 +43,11 @@ protected:
 	bool RemoveFile(const wxString &path);
 	bool SourceAndDestCopy(const wxString &source, const wxString &dest);
 };
+
+#ifdef __WXMSW__
+	DWORD CALLBACK CopyProgressRoutine(LARGE_INTEGER TotalFileSize, LARGE_INTEGER TotalBytesTransferred, LARGE_INTEGER StreamSize,
+							  LARGE_INTEGER StreamBytesTransferred, DWORD dwStreamNumber, DWORD dwCallbackReason,
+							  HANDLE hSourceFile, HANDLE hDestinationFile, LPVOID lpData);
+#endif
 
 #endif

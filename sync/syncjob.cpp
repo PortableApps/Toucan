@@ -171,6 +171,14 @@ void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 	}
 }
 
+bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
+#ifdef __WXMSW__
+	return CopyFileEx(source.fn_str(), dest.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
+#else
+	return wxCopyFile(source, dest, true);
+#endif
+}
+
 bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	//ATTN : Needs linux support
 	#ifdef __WXMSW__
@@ -186,7 +194,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	#endif
 
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
-	if(wxCopyFile(source, desttemp, true)){
+	if(CopyFile(source, desttemp)){
 		if(wxRenameFile(desttemp, dest, true)){
 			OutputProgress(_("Copied ") + source);
 		}
@@ -419,3 +427,18 @@ bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){
 	}
 	return true;	
 }
+
+#ifdef __WXMSW__
+DWORD CALLBACK CopyProgressRoutine(LARGE_INTEGER WXUNUSED(TotalFileSize), LARGE_INTEGER WXUNUSED(TotalBytesTransferred), 
+									LARGE_INTEGER WXUNUSED(StreamSize), LARGE_INTEGER WXUNUSED(StreamBytesTransferred), 
+									DWORD WXUNUSED(dwStreamNumber), DWORD WXUNUSED(dwCallbackReason),
+									HANDLE WXUNUSED(hSourceFile), HANDLE WXUNUSED(hDestinationFile), 
+									LPVOID WXUNUSED(lpData)){
+	if(wxGetApp().GetAbort()){
+		return PROGRESS_CANCEL;
+	}
+	else{
+		return PROGRESS_CONTINUE;
+	}
+}
+#endif
