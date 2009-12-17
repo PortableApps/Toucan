@@ -33,6 +33,7 @@ public:
 	void SetIgnoreRO(const bool& IgnoreRO) {this->m_IgnoreRO = IgnoreRO;}
 	void SetTimeStamps(const bool& TimeStamps) {this->m_TimeStamps = TimeStamps;}
 	void SetAttributes(const bool& Attributes) {this->m_Attributes = Attributes;}
+	void SetRecycle(const bool& Recycle) {this->m_Recycle = Recycle;}
 
 	const wxString& GetSource() const {return m_Source;}
 	const wxString& GetDest() const {return m_Dest;}
@@ -41,6 +42,7 @@ public:
 	const bool& GetIgnoreRO() const {return m_IgnoreRO;}
 	const bool& GetTimeStamps() const {return m_TimeStamps;}
 	const bool& GetAttributes() const {return m_Attributes;}
+	const bool& GetRecycle() const {return m_Recycle;}
 
 private:
 	wxString m_Source;
@@ -51,6 +53,7 @@ private:
 	bool m_Attributes;
 	bool m_IgnoreRO;
 	bool m_IgnoreDLS;
+	bool m_Recycle;
 };
 
 #endif

@@ -59,6 +59,7 @@ enum{
 	ID_SYNC_ATTRIB,
 	ID_SYNC_IGNORERO,
 	ID_SYNC_IGNOREDS,
+	ID_SYNC_RECYCLE,
 	//Backup
 	ID_PANEL_BACKUP,
 	ID_BACKUP_RUN,
@@ -310,6 +311,7 @@ public:
 	wxCheckBox* m_Sync_Attributes;
 	wxCheckBox* m_Sync_Ignore_Readonly;
 	wxCheckBox* m_Sync_Ignore_DaylightS;
+	wxCheckBox* m_Sync_Recycle;
 	
 	//Backup
 	wxBoxSizer* BackupTopSizer;

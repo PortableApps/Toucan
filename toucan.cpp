@@ -103,6 +103,7 @@ bool Toucan::OnInit(){
 
 	m_Abort = false;
 	m_IsLogging = false;
+	m_LogFile = NULL;
 
 	//Set the read only flag if needed
 	wxTextFile writetest(exedir + wxT("writetest"));

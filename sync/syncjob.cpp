@@ -64,7 +64,7 @@ void SyncFiles::OnNotSourceDestFile(const wxString &path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(!data->GetRules()->ShouldExclude(dest, false)){
-			RemoveFile(dest);			
+			RemoveFile(dest);	
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
@@ -342,8 +342,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 				RemoveDirectory(path + filename);
 			}
 			else{
-				if(wxRemoveFile(path + filename)){
-                    OutputProgress(_("Removed ") + path + filename);
+				if(RemoveFile(path + filename)){
 					//We have to increment the gauge for ourself here
 					if(wxGetApp().IsGui()){
 						IncrementGauge();					
@@ -374,10 +373,27 @@ bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest
 }
 
 bool SyncFiles::RemoveFile(const wxString &path){
-	if(wxRemoveFile(path)){
-		OutputProgress(_("Removed ") + path);			
+#ifdef __WXMSW__
+	wxString tmppath(path);
+	tmppath += wxT('\0');
+	
+	int flags = data->GetRecycle() ? FOF_ALLOWUNDO : 0;
+	SHFILEOPSTRUCT opstruct;
+	ZeroMemory(&opstruct, sizeof(opstruct));
+	opstruct.wFunc = FO_DELETE;
+	opstruct.pFrom = tmppath.fn_str();
+	opstruct.fFlags = flags | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
+	if(SHFileOperation(&opstruct) == 0){
+		OutputProgress(_("Removed ") + path);
+		return true;
 	}
-	return true;
+#else
+	if(wxRemoveFile(path)){
+		OutputProgress(_("Removed ") + path);		
+		return true;
+	}
+#endif
+	return false;
 }
 
 bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){

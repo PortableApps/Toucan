@@ -173,6 +173,7 @@ void frmMain::Init(){
 	m_Sync_Attributes = NULL;
 	m_Sync_Ignore_Readonly = NULL;
 	m_Sync_Ignore_DaylightS = NULL;
+	m_Sync_Recycle = NULL;
 	BackupTopSizer = NULL;
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
@@ -296,6 +297,10 @@ void frmMain::CreateControls(){
 	m_Sync_Ignore_DaylightS = new wxCheckBox(SyncPanel, ID_SYNC_IGNOREDS, _("Ignore Daylight Savings"));
 	m_Sync_Ignore_DaylightS->SetValue(false);
 	SyncOtherSizer->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, border);
+
+	m_Sync_Recycle = new wxCheckBox(SyncPanel, ID_SYNC_RECYCLE, _("Use Recycle Bin"));
+	m_Sync_Recycle->SetValue(false);
+	SyncOtherSizer->Add(m_Sync_Recycle, 0, wxALIGN_LEFT|wxALL, border);
 
 	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
@@ -1337,6 +1342,8 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	command += ToString(m_Sync_Ignore_Readonly->IsChecked());
 	command += wxT(", ");
 	command += ToString(m_Sync_Ignore_DaylightS->IsChecked());
+	command += wxT(", ");
+	command += ToString(m_Sync_Recycle->IsChecked());
 	command += wxT(", [[");
 	command += m_Sync_Rules->GetStringSelection();
 	command += wxT("]])");
