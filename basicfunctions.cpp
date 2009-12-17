@@ -55,7 +55,6 @@ wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
 }
 
 void OutputProgress(const wxString &message, bool time, bool error){
-	wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
 	int type = 0;
 	if(time && error){
 		type = 1;
@@ -66,9 +65,18 @@ void OutputProgress(const wxString &message, bool time, bool error){
 	else if(time){
 		type = 3;
 	}
-	event.SetString(message);
-	event.SetInt(type);
-	wxGetApp().ProcessEvent(event);
+	if(wxGetApp().IsGui()){
+		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
+		event->SetString(message);
+		event->SetInt(type);
+		wxGetApp().QueueEvent(event);
+	}
+	else{
+		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
+		event.SetString(message);
+		event.SetInt(type);
+		wxGetApp().ProcessEvent(event);
+	}
 }
 
 void IncrementGauge(){
