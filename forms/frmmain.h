@@ -81,6 +81,7 @@ enum{
 	ID_BACKUP_FORMAT,
 	ID_BACKUP_RATIO,
 	ID_BACKUP_ISPASS,
+	ID_BACKUP_TEST,
 	ID_BACKUP_EXPAND,
 	ID_BACKUP_LOCATIONSTATIC,
 	ID_BACKUP_FILESSTATIC,
@@ -328,6 +329,7 @@ public:
 	wxRadioBox* m_Backup_Format;
 	wxSlider* m_Backup_Ratio;
 	wxCheckBox* m_Backup_IsPass;
+	wxCheckBox* m_Backup_Test;
 	
 	//Secure
 	wxBoxSizer* SecureTopSizer;

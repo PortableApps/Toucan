@@ -14,6 +14,7 @@
 
 #include <wx/filename.h>
 #include <wx/textfile.h>
+#include <wx/stdpaths.h>
 
 BackupJob::BackupJob(BackupData *Data) : Job(Data){
 	;
@@ -90,6 +91,26 @@ void* BackupJob::Entry(){
 		//Grab any remaining output
 		while(process->HasInput())
 				;
+		if(data->GetTest()){
+			int id = wxDateTime::Now().GetTicks();
+			wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za");
+			BackupProcess *process = new BackupProcess(id);
+			wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_BACKUPPROCESS);
+			event->SetEventObject(process);
+			event->SetInt(id);
+			event->SetString(exe + " t " + data->GetFileLocation() + " * -r");
+			wxGetApp().QueueEvent(event);
+			while(wxGetApp().m_StatusMap[id] != true){
+				if(!process->HasInput()){
+					//If there was no input then sleep for a while so we don't thrash the CPU
+					wxMilliSleep(100);
+				}
+			}
+
+			//Grab any remaining output
+			while(process->HasInput())
+					;
+		}
 		//Tidy up any temp files
 		if(wxFileExists(data->GetFileLocation() + wxT(".tmp"))){
 			wxRemoveFile(data->GetFileLocation() + wxT(".tmp"));

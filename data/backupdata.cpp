@@ -39,6 +39,8 @@ bool BackupData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &btemp)) SetUsesPassword(btemp);
 		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Test"), &btemp)) SetTest(btemp);
+		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
 		else error = true;
 
@@ -60,6 +62,7 @@ bool BackupData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Format"), GetFormat())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Ratio"), GetRatio())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IsPass"), GetUsesPassword())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Test"), GetTest())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Backup"))) error = true;
 

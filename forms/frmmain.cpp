@@ -439,6 +439,9 @@ void frmMain::CreateControls(){
 	m_Backup_IsPass = new wxCheckBox(BackupPanel, ID_BACKUP_ISPASS, _("Password"));
 	BackupOtherSizer->Add(m_Backup_IsPass, 0, wxALIGN_TOP|wxALL, border);
 
+	m_Backup_Test = new wxCheckBox(BackupPanel, ID_BACKUP_TEST, _("Test After Creation"));
+	BackupOtherSizer->Add(m_Backup_Test, 0, wxALIGN_TOP|wxALL, border);
+
 	wxBoxSizer* BackupButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	BackupTopSizer->Add(BackupButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
@@ -1379,6 +1382,8 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	command += wxString::Format(wxT("%d"), m_Backup_Ratio->GetValue());
 	command += wxT(", ");
 	command += ToString(m_Backup_IsPass->IsChecked());
+	command += wxT(", ");
+	command += ToString(m_Backup_Test->IsChecked());
 	command += wxT(", [[");
 	command += m_Backup_Rules->GetStringSelection();
 	command += wxT("]])");
