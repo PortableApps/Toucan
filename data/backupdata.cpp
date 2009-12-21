@@ -131,16 +131,13 @@ void BackupData::Output(){
 	wxMessageBox(wxString::Format(wxT("%d"), GetRatio()), wxT("Compression Ratio"));
 }
 
-wxString BackupData::CreateCommand(int i){
-	
-	wxString strCommand, strTempDir;
-	//Setting up to use the first item in the array.
-	wxString strSecond = GetLocation(i);
-	
-	//strSolid is only used if 7zip is chosen to allow updating
-	wxString strSolid = wxEmptyString;
-
+wxArrayString BackupData::CreateCommands(){
+	wxArrayString commands;
+	wxString ratio, originalext;
+	wxString tempdir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");	
+	wxString solid = wxEmptyString;
 	wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za");
+	wxString includes = wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ");
 
 	//Turn the inputted format into one 7zip will understand
 	if (GetFormat() == wxT("Zip")){
@@ -149,49 +146,50 @@ wxString BackupData::CreateCommand(int i){
    	else if (GetFormat() == wxT("7-Zip")){
 		SetFormat(wxT("7z"));
 		//Make sure solid mode is turned off so updating works
-		strSolid = wxT(" -ms=off");
+		solid = wxT(" -ms=off");
 	}
-	//Ratio stuff, will need to be updated for new sliding scale
-	wxString strRatio = wxT(" -mx5");
+	else if(GetFormat() == wxT("GZip")){
+		SetFormat(wxT("tar"));
+		originalext = GetFileLocation().AfterLast('\\').AfterFirst('.');
+		SetFileLocation(GetFileLocation().Left(GetFileLocation().Length() - originalext.Length()) + "tar");
+	}
+
 	if (GetRatio() == 0){
-		strRatio = wxT(" -mx0");
+		ratio = wxT(" -mx0");
 	}
 	else if (GetRatio() == 1){
-		strRatio = wxT(" -mx1");
+		ratio = wxT(" -mx1");
 	}
 	else if (GetRatio() == 2){
-		strRatio = wxT(" -mx3");
+		ratio = wxT(" -mx3");
 	}
 	else if (GetRatio() == 3){
-		strRatio = wxT(" -mx5");
+		ratio = wxT(" -mx5");
 	}
 	else if (GetRatio() == 4){
-		strRatio = wxT(" -mx7");
+		ratio = wxT(" -mx7");
 	}
 	else if (GetRatio() == 5){
-		strRatio = wxT(" -mx9");
+		ratio = wxT(" -mx9");
 	}
-	if(i == 0){
-		//Checking to see if there is a password used
-		if(GetPassword() != wxEmptyString){
-			SetPassword(wxT(" -p") + GetPassword());
-			//If 7zip is used then make sure headers are encrypted
-			if(GetFormat() == wxT("7z")){
-				SetPassword(GetPassword() + wxT(" -mhe=on"));
-			}
+
+	//Checking to see if there is a password used
+	if(GetPassword() != wxEmptyString && GetPassword().Left(3) != " -p"){
+		SetPassword(wxT(" -p") + GetPassword());
+		//If 7zip is used then make sure headers are encrypted
+		if(GetFormat() == wxT("7z")){
+			SetPassword(GetPassword() + wxT(" -mhe=on"));
 		}
 	}
-   
-	strTempDir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");
 
 	if(GetFunction() == _("Complete")){
-		strCommand = exe + wxT(" a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;	
+		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + includes + tempdir);	
 	}
 	else if(GetFunction() == _("Update")){
-		strCommand = exe + wxT(" u -t") + GetFormat() + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir; 
+		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + includes + tempdir); 
 	}
 	else if(GetFunction() == _("Restore")){
-		strCommand =  exe + wxT("  x -aoa \"") + GetLocation(i) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword();	
+		commands.Add(exe + wxT("  x -aoa \"") + GetLocation(0) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword());	
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
@@ -200,13 +198,23 @@ wxString BackupData::CreateCommand(int i){
 		}
 		if(wxFileExists(GetFileLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxDateTime::Now();
-			strCommand = exe + wxT(" u") + GetPassword() + strRatio + strSolid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
+			commands.Add(exe + wxT(" u") + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") + includes + tempdir);
 		}
 		else{
-			strCommand = exe + wxT(" a -t") + GetFormat() + GetPassword() + strRatio + strSolid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") +  wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ") + strTempDir;
+			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") + includes + tempdir);
 		}
 	}
-	return strCommand;
+
+	if(GetFormat() == "tar"){
+		wxString tarpath = GetFileLocation();
+		SetFileLocation(GetFileLocation().Left(GetFileLocation().Length() - 3) + originalext);
+		commands.Add(exe + " a -tgzip " + GetPassword() + ratio + wxT(" \"") + GetFileLocation() + wxT("\" \"") + tarpath + wxT("\"") + tempdir);
+	}
+
+	if(GetTest()){
+		commands.Add(exe + " t " + GetFileLocation() + " * -r");
+	}
+	return commands;
 }
 
 

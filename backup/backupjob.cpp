@@ -22,11 +22,13 @@ BackupJob::BackupJob(BackupData *Data) : Job(Data){
 
 void* BackupJob::Entry(){
 	BackupData *data = static_cast<BackupData*>(GetData());
+
 	//Expand all of the variables
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
 		data->SetLocation(i, Normalise(data->GetLocation(i)));
 	}
 	data->SetFileLocation(Normalise(data->GetFileLocation()));
+
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
 		wxString path = data->GetLocation(i);
 		bool isDir = false;
@@ -71,34 +73,16 @@ void* BackupJob::Entry(){
 			}
 			file->Write();
 		}
-		wxString command = data->CreateCommand(i);
+		wxArrayString commands = data->CreateCommands();
 		wxSetWorkingDirectory(path);
 		
-		int id = wxDateTime::Now().GetTicks();
-		BackupProcess *process = new BackupProcess(id);
-		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_BACKUPPROCESS);
-		event->SetEventObject(process);
-		event->SetInt(id);
-		event->SetString(command);
-		wxGetApp().QueueEvent(event);
-		while(wxGetApp().m_StatusMap[id] != true){
-			if(!process->HasInput()){
-				//If there was no input then sleep for a while so we don't thrash the CPU
-				wxMilliSleep(100);
-			}
-		}
-
-		//Grab any remaining output
-		while(process->HasInput())
-				;
-		if(data->GetTest()){
+		for(unsigned int i = 0; i < commands.Count(); ++i){
 			int id = wxDateTime::Now().GetTicks();
-			wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za");
 			BackupProcess *process = new BackupProcess(id);
 			wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_BACKUPPROCESS);
 			event->SetEventObject(process);
 			event->SetInt(id);
-			event->SetString(exe + " t " + data->GetFileLocation() + " * -r");
+			event->SetString(commands.Item(i));
 			wxGetApp().QueueEvent(event);
 			while(wxGetApp().m_StatusMap[id] != true){
 				if(!process->HasInput()){
@@ -110,10 +94,17 @@ void* BackupJob::Entry(){
 			//Grab any remaining output
 			while(process->HasInput())
 					;
+			//Tidy up any temp files
+			if(wxFileExists(data->GetFileLocation() + wxT(".tmp"))){
+				wxRemoveFile(data->GetFileLocation() + wxT(".tmp"));
+			}
 		}
-		//Tidy up any temp files
-		if(wxFileExists(data->GetFileLocation() + wxT(".tmp"))){
-			wxRemoveFile(data->GetFileLocation() + wxT(".tmp"));
+		if(data->GetFormat() == wxT("tar")){
+			wxString ext = data->GetFileLocation().AfterLast('\\').AfterFirst('.');
+			wxString path = data->GetFileLocation().Left(data->GetFileLocation().Length() - ext.Length()) + "tar";
+			if(wxFileExists(path)){
+				wxRemoveFile(path);
+			}
 		}
 	}
 	return NULL;

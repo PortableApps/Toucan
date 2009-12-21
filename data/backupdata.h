@@ -29,7 +29,7 @@ public:
 	bool IsReady();
 	void Output();
 	
-	wxString CreateCommand(int i);
+	wxArrayString CreateCommands();
 	bool CreateList(wxTextFile *file, wxString path, int length);
 
 	void SetFileLocation(const wxString& FileLocation) {this->m_FileLocation = FileLocation;}

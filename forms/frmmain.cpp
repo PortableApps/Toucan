@@ -415,6 +415,7 @@ void frmMain::CreateControls(){
 	wxArrayString m_Backup_FormatStrings;
 	m_Backup_FormatStrings.Add(wxT("Zip"));
 	m_Backup_FormatStrings.Add(wxT("7-Zip"));
+	m_Backup_FormatStrings.Add(wxT("GZip"));
 	m_Backup_Format = new wxRadioBox(BackupPanel, ID_BACKUP_FORMAT, _("Format"), wxDefaultPosition, wxDefaultSize, m_Backup_FormatStrings, 1, wxRA_SPECIFY_COLS);
 	m_Backup_Format->SetSelection(0);
 	BackupTopSizer->Add(m_Backup_Format, 0, wxALIGN_TOP|wxALL, border);
