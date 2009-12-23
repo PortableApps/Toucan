@@ -1322,7 +1322,10 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 		}
 		else if(m_Backup_Format->GetStringSelection() == wxT("Zip")){
 			strWildcard = wxT("Zip Files (*.zip)|*.zip|All Files (*.*)|*.*");
-		}		
+		}
+		else if(m_Backup_Format->GetStringSelection() == wxT("GZip")){
+			strWildcard = wxT("GZip Files (*.tar.gz)|*.tar.gz|All Files (*.*)|*.*");
+		}
 		wxFileDialog dialog(this,_("Please choose a file to backup to"), wxPathOnly(m_Backup_Location->GetValue()), wxEmptyString, strWildcard, wxFD_SAVE);
 		if (dialog.ShowModal() == wxID_OK) {
 			m_Backup_Location->SetValue(dialog.GetPath());
