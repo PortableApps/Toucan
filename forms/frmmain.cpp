@@ -1318,7 +1318,7 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 	else{
 		wxString strWildcard;
 		if(m_Backup_Format->GetStringSelection() == wxT("7-Zip")){
-			strWildcard = wxT("7 Zip (*.7z)|*.7z|All Files (*.*)|*.*");
+			strWildcard = wxT("7-Zip Files (*.7z)|*.7z|All Files (*.*)|*.*");
 		}
 		else if(m_Backup_Format->GetStringSelection() == wxT("Zip")){
 			strWildcard = wxT("Zip Files (*.zip)|*.zip|All Files (*.*)|*.*");
