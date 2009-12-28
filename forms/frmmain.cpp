@@ -315,7 +315,7 @@ void frmMain::CreateControls(){
 	SyncButtonsSizer->Add(SyncRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Sync - Main
-    wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
+	wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
 	SyncMainSizer->SetCols(4);
 	SyncMainSizer->SetRows(3);
 	SyncMainSizer->AddGrowableCol(0);
@@ -453,7 +453,7 @@ void frmMain::CreateControls(){
 	BackupButtonsSizer->Add(BackupRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Backup - Main
-    wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
+	wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
 	BackupMainSizer->SetCols(4);
 	BackupMainSizer->SetRows(4);
 	BackupMainSizer->AddGrowableCol(0);
@@ -622,61 +622,61 @@ void frmMain::CreateControls(){
 	RulesNameSizer->Add(RulesNameRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Rules - Main
-    wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
-    RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
+	wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
+	RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
 
-    m_RulesList = new wxListCtrl(RulesPanel, ID_RULES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
+	m_RulesList = new wxListCtrl(RulesPanel, ID_RULES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
 	m_RulesList->InsertColumn(0, _("Rule"));
 	m_RulesList->InsertColumn(1, _("Type"));
-    RulesMainSizer->Add(m_RulesList, 1, wxGROW|wxALL, border);
+	RulesMainSizer->Add(m_RulesList, 1, wxGROW|wxALL, border);
 
-    wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
-    RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
+	RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-    wxBitmapButton* RulesAddItem = new wxBitmapButton(RulesPanel, ID_RULES_ADDITEM, GetBitmapResource(wxT("add.png")));
-    RulesRightSizer->Add(RulesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* RulesAddItem = new wxBitmapButton(RulesPanel, ID_RULES_ADDITEM, GetBitmapResource(wxT("add.png")));
+	RulesRightSizer->Add(RulesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBitmapButton* RulesRemoveItem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
-    RulesRightSizer->Add(RulesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* RulesRemoveItem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
+	RulesRightSizer->Add(RulesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
 	//Variables
 	wxPanel* VariablesPanel = new wxPanel(m_Notebook, ID_PANEL_VARIABLES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	wxBoxSizer* VariablesSizer = new wxBoxSizer(wxVERTICAL);
-    VariablesPanel->SetSizer(VariablesSizer);
+	VariablesPanel->SetSizer(VariablesSizer);
 
-    VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    VariablesSizer->Add(VariablesTopSizer, 0, wxALIGN_LEFT|wxALL, border);
+	VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	VariablesSizer->Add(VariablesTopSizer, 0, wxALIGN_LEFT|wxALL, border);
 	
 	wxStaticBox* VariablesName = new wxStaticBox(VariablesPanel, wxID_ANY, _("Name"));
 	wxStaticBoxSizer* VariablesNameSizer = new wxStaticBoxSizer(VariablesName, wxHORIZONTAL);
 	VariablesSizer->Add(VariablesNameSizer, 0, wxALIGN_TOP|wxLEFT, 2 * border);
 
-    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetVariables(false), wxCB_DROPDOWN|wxCB_READONLY);
+	m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetVariables(false), wxCB_DROPDOWN|wxCB_READONLY);
 	VariablesNameSizer->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* VariablesNameSave = new wxBitmapButton(VariablesPanel, ID_VARIABLES_SAVE, GetBitmapResource(wxT("save.png")));
 	VariablesNameSizer->Add(VariablesNameSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-    wxBitmapButton* VariablesNameAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, GetBitmapResource(wxT("add.png")));
+	wxBitmapButton* VariablesNameAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, GetBitmapResource(wxT("add.png")));
 	VariablesNameSizer->Add(VariablesNameAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBitmapButton* VariablesNameRemove = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVE, GetBitmapResource(wxT("remove.png")));
-    VariablesNameSizer->Add(VariablesNameRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* VariablesNameRemove = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVE, GetBitmapResource(wxT("remove.png")));
+	VariablesNameSizer->Add(VariablesNameRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBoxSizer* VariablesMainSizer = new wxBoxSizer(wxHORIZONTAL);
-    VariablesSizer->Add(VariablesMainSizer, 1, wxGROW|wxALL, border);
+	wxBoxSizer* VariablesMainSizer = new wxBoxSizer(wxHORIZONTAL);
+	VariablesSizer->Add(VariablesMainSizer, 1, wxGROW|wxALL, border);
 
-    m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
-    VariablesMainSizer->Add(m_Variables_List, 1, wxGROW|wxALL, border);
+	m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
+	VariablesMainSizer->Add(m_Variables_List, 1, wxGROW|wxALL, border);
 
-    wxBoxSizer* VariablesRightSizer = new wxBoxSizer(wxVERTICAL);
-    VariablesMainSizer->Add(VariablesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBoxSizer* VariablesRightSizer = new wxBoxSizer(wxVERTICAL);
+	VariablesMainSizer->Add(VariablesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-    wxBitmapButton* VariablesAddItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADDITEM, GetBitmapResource(wxT("add.png")));
-    VariablesRightSizer->Add(VariablesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* VariablesAddItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADDITEM, GetBitmapResource(wxT("add.png")));
+	VariablesRightSizer->Add(VariablesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBitmapButton* VariablesRemoveItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
-    VariablesRightSizer->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* VariablesRemoveItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
+	VariablesRightSizer->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
 	//Script
 	wxPanel* ScriptPanel = new wxPanel(m_Notebook, ID_PANEL_SCRIPT, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -727,7 +727,7 @@ void frmMain::CreateControls(){
 
 	//Settings
 	wxPanel* SettingsPanel = new wxPanel(m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-    wxGridBagSizer* SettingsSizer = new wxGridBagSizer(0, 0);
+	wxGridBagSizer* SettingsSizer = new wxGridBagSizer(0, 0);
 	SettingsPanel->SetSizer(SettingsSizer);
 
 	wxStaticBox* FieldsStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Remember Entered Information"));
@@ -797,9 +797,9 @@ void frmMain::CreateControls(){
 
 	m_HelpWindow = new wxHtmlHelpWindow;
 	m_HelpWindow->UseConfig(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
-    wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
-    wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("help") + wxFILE_SEP_PATH + wxT("toucan.htb"));
-    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
+	wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
+	wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("help") + wxFILE_SEP_PATH + wxT("toucan.htb"));
+	m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
 	m_HelpWindow->DisplayContents();
 	m_HelpWindow->RefreshLists();
 	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, border);
