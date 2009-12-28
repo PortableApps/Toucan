@@ -1560,7 +1560,7 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
 		return;
 	}
 	wxArrayString existing = GetVariables(true);
-    wxTextEntryDialog entrydialog(this, _("Please enter the name for the new variable"), _("New Variable"));
+	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new variable"), _("New Variable"));
 	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
@@ -1597,29 +1597,29 @@ void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnVariablesNameSelected(wxCommandEvent& WXUNUSED(event)){	
 	m_Variables_List->DeleteAllItems();
 	
-    wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());
+	wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());
     
 	long dummy;
-    wxString str;
-    int i = 0;
+	wxString str;
+	int i = 0;
 	
-    bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
-    while(bCont) {
-        m_Variables_List->InsertItem(i, wxT("Test"));
-        m_Variables_List->SetItem(i, 0, str);
+	bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
+	while(bCont) {
+		m_Variables_List->InsertItem(i, wxT("Test"));
+		m_Variables_List->SetItem(i, 0, str);
 		//Return the config to the top level
-        wxGetApp().m_Variables_Config->SetPath(wxT("/"));
-        wxString strTest = wxGetApp().m_Variables_Config->Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
-        m_Variables_List->SetItem(i, 1, strTest);
+		wxGetApp().m_Variables_Config->SetPath(wxT("/"));
+		wxString strTest = wxGetApp().m_Variables_Config->Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
+		m_Variables_List->SetItem(i, 1, strTest);
 		//Put the config location back
-        wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());    
-        bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
-        i++;
-    }
+		wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());    
+		bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
+		i++;
+	}
 	m_Variables_List->SetColumnWidth(0, -1);
 	m_Variables_List->SetColumnWidth(1, -1);
 	SetTitleBarText();
-    wxGetApp().m_Variables_Config->SetPath(wxT("/"));
+	wxGetApp().m_Variables_Config->SetPath(wxT("/"));
 }
 
 //ID_VARIABLES_ADDITEM
