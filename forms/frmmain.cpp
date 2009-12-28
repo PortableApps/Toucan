@@ -2317,10 +2317,5 @@ void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 }
 
 wxString frmMain::ToString(bool bl){
-	if(bl){
-		return wxString("true");
-	}
-	else{
-		return wxString("false");
-	}
+	return bl ? "true" : "false";
 }
