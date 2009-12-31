@@ -94,46 +94,40 @@ public:
 
 class FileCounterTests : public CxxTest::TestSuite{
 public:
+
+	wxString testdir;
+	std::vector<wxString> folderlist;
+
 	void setUp(){
-		const wxString testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
-		std::vector<wxString> folderlist;
+		testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests" + wxFILE_SEP_PATH;
 		folderlist.push_back(testdir);
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir2");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
+		folderlist.push_back(testdir + "subdir1");
+		folderlist.push_back(testdir + "subdir2");
+		folderlist.push_back(testdir + "subdir1" + wxFILE_SEP_PATH + "subdir1");
+		folderlist.push_back(testdir + "subdir1" + wxFILE_SEP_PATH + "subdir2");
 		
 		std::for_each(folderlist.begin(), folderlist.end(), makedir);
 		std::for_each(folderlist.begin(), folderlist.end(), createfiles);
 	}
 
 	void tearDown(){
-		const wxString testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
-		std::vector<wxString> folderlist;
-		folderlist.push_back(testdir);
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir2");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
-
+		//Flip the list as files must be removed before folders
 		std::reverse(folderlist.begin(), folderlist.end());
 		std::for_each(folderlist.begin(), folderlist.end(), deletefiles);
 		std::for_each(folderlist.begin(), folderlist.end(), deletedir);
 	}
 
 	void testDirectory(){
-		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
 		FileCounter counter;
-		counter.AddPath(unittestdir);
+		counter.AddPath(testdir);
 		counter.Count();
 		TS_ASSERT_EQUALS(counter.GetCount(), 10);
 	}
 
 	void testFiles(){
-		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
 		FileCounter counter;
-		counter.AddPath(unittestdir + "file1");
-		counter.AddPath(unittestdir + "subdir1" + wxFILE_SEP_PATH + "file1");
+		counter.AddPath(testdir + "file1");
+		counter.AddPath(testdir + "subdir1" + wxFILE_SEP_PATH + "file1");
 		counter.Count();
 		TS_ASSERT_EQUALS(counter.GetCount(), 2);
 	}
