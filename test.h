@@ -70,25 +70,56 @@ public:
 
 class RulesTests : public CxxTest::TestSuite{
 public:
-	void testRules(){
-		TS_TRACE("Need more complex rules tests");
-		wxArrayString fileexclude, folderexclude, locationinclude;
-		Rules rules(wxT("TestRules"));
-		//Add the exclusions and inclusions
+	Rules *rules;
+	wxArrayString fileexclude, folderexclude, locationinclude;
+
+	void setUp(){
+		rules = new Rules("testrules");
+
+		//Set up excluded files
 		fileexclude.Add(wxT(".doc"));
-		fileexclude.Add(wxT("test"));
-		rules.SetExcludedFiles(fileexclude);
-		folderexclude.Add(wxT("\\testexclude"));
-		rules.SetExcludedFolders(folderexclude);
-		locationinclude.Add(wxT("++"));
-		rules.SetIncludedLocations(locationinclude);
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\"), true), false); //Included
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\test.doc"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\"), true), false); //Included
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\TEST.txt"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\test.txt"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Testexclude\\test.txt"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Testexclude\\specialchars++.txt"), false), false); //Included
+		fileexclude.Add(wxT("testex"));
+		rules->SetExcludedFiles(fileexclude);
+
+		//Set up excluded folders
+		folderexclude.Add(wxT("\\testex"));
+		rules->SetExcludedFolders(folderexclude);
+
+		//Set up included locations
+		locationinclude.Add("++");
+		locationinclude.Add("testinc.txt");
+		rules->SetIncludedLocations(locationinclude);		
+	}
+
+	void tearDown(){
+		delete rules;
+	}
+
+	void testIncludeDefault(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\"), true), false); //Included
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\file.txt"), false), false); //Included
+	}
+
+	void testExcludeFile(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\test.doc"), false), true); //Excluded
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\testex.txt"), false), true); //Excluded
+	}
+
+	void testExcludeFolder(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Testexclude\\"), true), true); //Excluded
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Testexclude\\test.txt"), false), true); //Excluded
+	}
+
+	void testIncludeLocation(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Testexclude\\testinc.txt"), false), false); //Included
+	}
+	
+	void testCaseInsensative(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Test\\Documents\\TESTEX.txt"), false), true); //Excluded
+	}
+
+	void testPlusSigns(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Test\\specialchars++.txt"), false), false); //Included
 	}
 };
 
@@ -132,5 +163,7 @@ public:
 		TS_ASSERT_EQUALS(counter.GetCount(), 2);
 	}
 };
+
+#endif
 
 #endif
