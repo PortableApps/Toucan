@@ -203,7 +203,7 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 			if(wxFileExists(desttemp)){
 				wxRemoveFile(desttemp);
 			}
-			#ifdef __WXMSW
+			#ifdef __WXMSW__
 				if(data->GetIgnoreRO()){
 					SetFileAttributes(source, sourceAttributes); 
 				}
