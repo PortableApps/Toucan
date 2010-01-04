@@ -168,6 +168,7 @@ bool Toucan::OnInit(){
 		m_IsLogging = true;
 		wxString path;
 		parser.Found("logfile", &path);
+		Normalise(path);
 		m_LogFile = new wxTextFile(path);
 		if(wxFileExists(path)){
 			m_LogFile->Open();
