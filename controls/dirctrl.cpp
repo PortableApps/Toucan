@@ -48,7 +48,7 @@ DirCtrl::~DirCtrl(){
 void DirCtrl::AddItem(DirCtrlItem *item){
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
 	if(item->GetType() == DIRCTRL_FOLDER || item->GetType() == DIRCTRL_ROOT){
-		AddDirectory(item, GetScanDepth());
+		AddDirectory(item, 0);
 		Expand(id);
 	}
 }
@@ -60,9 +60,9 @@ void DirCtrl::AddItem(const wxString &path){
 }
 
 void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
-	if(depth == -1 || depth <= m_ScanDepth){
+	if(depth == -1 || depth < m_ScanDepth){
 		//If we have not yet added this directory then do so
-		if(GetChildrenCount(item->GetId()) == 0){
+		if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
 			DirCtrlItemArray items;
 			DirCtrlTraverser traverser(&items);
 
@@ -77,17 +77,16 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 			std::sort(items.begin(), items.end(), DirCtrlItemComparison);
 			//Add them to the tree
 			for(DirCtrlItemArray::iterator iter = items.begin(); iter != items.end(); ++iter){
-				wxTreeItemId id = AppendItem(item->GetId(), (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
+				AppendItem(item->GetId(), (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
 			}
 		}
-		//Now iterate through the nodes to expand any directories that need expanding
 		wxTreeItemIdValue cookie = 0;
-		DirCtrlItem *newitem;
+		DirCtrlItem *childitem;
 		wxTreeItemId child = GetFirstChild(item->GetId(), cookie);
 		while(child.IsOk()){
-			newitem = static_cast<DirCtrlItem*>(GetItemData(child));
-			if(newitem->GetType() == DIRCTRL_FOLDER) {
-				AddDirectory(newitem, (depth == -1 ? -1 : depth++));
+			childitem = static_cast<DirCtrlItem*>(GetItemData(child));
+			if(childitem->GetType() == DIRCTRL_FOLDER) {
+				AddDirectory(childitem, (depth == -1 ? -1 : depth + 1));
 			}
 			child = GetNextChild(item->GetId(), cookie);
 		}
@@ -99,7 +98,7 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 	if (id.IsOk()) {
 		DirCtrlItem *item = static_cast<DirCtrlItem*>(GetItemData(id));
 		if (item->GetType() == DIRCTRL_FOLDER){
-			AddDirectory(item, GetScanDepth());
+			AddDirectory(item, 0);
 		}
 	}	
 }
