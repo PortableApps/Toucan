@@ -9,7 +9,6 @@
 
 #include <vector>
 
-#include <wx/dynarray.h>
 #include <wx/treectrl.h>
 #include <wx/filename.h>
 #include <wx/string.h>
@@ -74,13 +73,12 @@ typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
 class DirCtrlTraverser : public wxDirTraverser{
 
 public:
-	DirCtrlTraverser(DirCtrlItemArray *items, wxString filespec = wxEmptyString) : m_Items(items), m_FileSpec(filespec) { }
+	DirCtrlTraverser(DirCtrlItemArray *items) : m_Items(items){ 
+	}
 
 	virtual wxDirTraverseResult OnFile(const wxString& filename){
-		if(!filename.Matches(m_FileSpec)){
-			m_Items->push_back(new DirCtrlItem(filename));
-		}
-		return wxDIR_IGNORE;
+		m_Items->push_back(new DirCtrlItem(filename));
+		return wxDIR_CONTINUE;
 	}
 
 	virtual wxDirTraverseResult OnDir(const wxString& dirname){
@@ -90,7 +88,6 @@ public:
 
 private:
 	DirCtrlItemArray *m_Items;
-	wxString m_FileSpec;
 };
 
 class DirCtrl : public wxTreeCtrl{
@@ -101,21 +98,14 @@ public:
 	virtual ~DirCtrl();
 
 	void AddItem(DirCtrlItem *item);
-
-	virtual void OnAddDirectory(DirCtrlItemArray *items);
-	virtual void OnItemAdded(wxTreeItemId id);
+	void AddItem(const wxString &path);
 	
-	//EventHandlers
+	//Event Handlers
 	void OnNodeExpand(wxTreeEvent &event);
 
 	//Inline functions
-	//Add one because we are counting > 0
-	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth + 1;}
-	void SetExtensions(const wxString &Extensions) {this->m_Extensions = Extensions;}
-	void SetImageList(wxImageList *Image) {this->m_Image = Image;}
+	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth;}
 	int GetScanDepth() const {return m_ScanDepth;}
-	const wxString& GetExtensions() const {return m_Extensions;} 
-	void ShowHidden(const bool &ShowHidden = true) { m_ShowHidden = ShowHidden; }
 
 private:
 	DECLARE_EVENT_TABLE()
@@ -123,8 +113,6 @@ private:
 	void AddDirectory(DirCtrlItem *item, int depth);
 	
 	int m_ScanDepth;
-	bool m_ShowHidden;
-	wxString m_Extensions;
 	wxImageList *m_Image;
 };
 

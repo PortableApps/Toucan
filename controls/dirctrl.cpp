@@ -53,8 +53,14 @@ void DirCtrl::AddItem(DirCtrlItem *item){
 	}
 }
 
+void DirCtrl::AddItem(const wxString &path){
+	wxFileName name(path);
+	DirCtrlItem *item = new DirCtrlItem(name);
+	AddItem(item);
+}
+
 void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
-	if(depth == -1 || depth > 0){
+	if(depth == -1 || depth <= m_ScanDepth){
 		//If we have not yet added this directory then do so
 		if(GetChildrenCount(item->GetId()) == 0){
 			DirCtrlItemArray items;
@@ -67,14 +73,11 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 			else{
 				return;
 			}
-			//Allow items to be removed if needed
-			OnAddDirectory(&items);
 			//Sort the remaining items
 			std::sort(items.begin(), items.end(), DirCtrlItemComparison);
 			//Add them to the tree
 			for(DirCtrlItemArray::iterator iter = items.begin(); iter != items.end(); ++iter){
 				wxTreeItemId id = AppendItem(item->GetId(), (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
-				OnItemAdded(id);
 			}
 		}
 		//Now iterate through the nodes to expand any directories that need expanding
@@ -84,19 +87,11 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 		while(child.IsOk()){
 			newitem = static_cast<DirCtrlItem*>(GetItemData(child));
 			if(newitem->GetType() == DIRCTRL_FOLDER) {
-				AddDirectory(newitem, (depth == -1 ? -1 : depth - 1));
+				AddDirectory(newitem, (depth == -1 ? -1 : depth++));
 			}
 			child = GetNextChild(item->GetId(), cookie);
 		}
 	}
-}
-
-void DirCtrl::OnAddDirectory(DirCtrlItemArray *WXUNUSED(items)){
-	return;
-}
-
-void DirCtrl::OnItemAdded(wxTreeItemId WXUNUSED(id)){
-	return;
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
@@ -108,5 +103,3 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 		}
 	}	
 }
-
-
