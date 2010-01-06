@@ -307,7 +307,7 @@ public:
 	wxTextCtrl* m_Sync_Source_Txt;
 	wxTextCtrl* m_Sync_Dest_Txt;
 	DirCtrl* m_Sync_Source_Tree;
-	wxVirtualDirTreeCtrl* m_Sync_Dest_Tree;
+	DirCtrl* m_Sync_Dest_Tree;
 	wxRadioBox* m_Sync_Function;
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;

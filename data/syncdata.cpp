@@ -97,7 +97,7 @@ bool SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteChildren(window->m_Sync_Dest_Tree->GetRootItem());
 	if(GetDest() != wxEmptyString){
-		window->m_Sync_Dest_Tree->AddNewPath(Normalise(GetDest()));		
+		window->m_Sync_Dest_Tree->AddItem(Normalise(GetDest()));		
 	}
 
 	window->m_Sync_Function->SetStringSelection(GetFunction());

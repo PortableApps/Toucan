@@ -98,6 +98,7 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
+	wxBusyCursor busy;
 	wxTreeItemId id = event.GetItem();
 	if(id.IsOk()){
 		DirCtrlItem *item = static_cast<DirCtrlItem*>(GetItemData(id));
@@ -108,6 +109,7 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 }
 
 void DirCtrl::ExpandAll(){
+	wxBusyCursor busy;
 	Freeze();
 	wxTreeCtrl::ExpandAll();
 	Thaw();

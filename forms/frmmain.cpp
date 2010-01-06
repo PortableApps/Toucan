@@ -353,7 +353,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncDestButton, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
+	m_Sync_Dest_Tree = new DirCtrl(SyncPanel, ID_SYNC_DEST_TREE);
 	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncDestButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -870,10 +870,7 @@ void frmMain::CreateControls(){
 	m_Sync_Rules->Append(wxEmptyString);
 	m_Backup_Rules->Append(wxEmptyString);
 	m_Secure_Rules->Append(wxEmptyString);
-	
-	m_Sync_Dest_Tree->SetSync(true);
-	m_Sync_Source_Tree->SetSync(true);
-	
+
 	//Set the tooltips if required
 	if(wxGetApp().m_Settings->GetEnableTooltips()){
 		//Sync
@@ -1048,8 +1045,7 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetPath()));
+		m_Sync_Dest_Tree->AddItem(dialog.GetPath());
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
 }
@@ -1837,7 +1833,7 @@ void frmMain::OnSyncSourceExpandClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_DEST_EXPAND
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Sync_Dest_Tree->NeatExpandAll(this);
+	m_Sync_Dest_Tree->ExpandAll();
 }
 
 //ID_BACKUP_EXPAND
@@ -2262,8 +2258,7 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Dest_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
 	}
 }
@@ -2286,8 +2281,7 @@ void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Dest_Tree);
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
+		m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }
 
