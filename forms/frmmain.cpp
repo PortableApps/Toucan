@@ -332,7 +332,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncSourceButton, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
+	m_Sync_Source_Tree = new DirCtrl(SyncPanel, ID_SYNC_SOURCE_TREE);
 	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncSourceButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -1036,8 +1036,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(dialog.GetPath()));
+		m_Sync_Source_Tree->AddItem(dialog.GetPath());
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
 }
@@ -2253,8 +2252,7 @@ void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Source_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Source_Txt->SetValue(dialog.GetValue());
 	}
 }
@@ -2280,8 +2278,7 @@ void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Source_Tree);
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 }
 

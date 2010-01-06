@@ -6,6 +6,7 @@
 
 #include "dirctrl.h"
 #include <algorithm>
+#include <wx/log.h>
 #include <wx/artprov.h>
 
 bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
@@ -69,6 +70,8 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 
 			wxDir dir(item->GetFullPath());
 			if(dir.IsOpened()){
+				//To stop errors on failing to parse some folders
+				wxLogNull null;
 				dir.Traverse(traverser);
 			}
 			else{
@@ -96,9 +99,9 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 	wxTreeItemId id = event.GetItem();
-	if (id.IsOk()) {
+	if(id.IsOk()){
 		DirCtrlItem *item = static_cast<DirCtrlItem*>(GetItemData(id));
-		if (item->GetType() == DIRCTRL_FOLDER){
+		if(item->GetType() == DIRCTRL_FOLDER){
 			AddDirectory(item, 0);
 		}
 	}	
