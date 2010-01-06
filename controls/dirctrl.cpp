@@ -106,3 +106,9 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 		}
 	}	
 }
+
+void DirCtrl::ExpandAll(){
+	Freeze();
+	wxTreeCtrl::ExpandAll();
+	Thaw();
+}

@@ -101,6 +101,7 @@ public:
 
 	void AddItem(DirCtrlItem *item);
 	void AddItem(const wxString &path);
+	void ExpandAll();
 	
 	//Event Handlers
 	void OnNodeExpand(wxTreeEvent &event);

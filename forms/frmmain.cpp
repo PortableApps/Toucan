@@ -1832,7 +1832,7 @@ void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 
 //ID_SYNC_SOURCE_EXPAND
 void frmMain::OnSyncSourceExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Sync_Source_Tree->NeatExpandAll(this);
+	m_Sync_Source_Tree->ExpandAll();
 }
 
 //ID_SYNC_DEST_EXPAND
