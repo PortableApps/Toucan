@@ -29,20 +29,22 @@ public:
 	DirCtrlItem(const wxFileName &path){
 		m_Path = path;
 		if(!wxFileExists(path.GetFullPath())){
-			m_Caption = path.GetName();
-			if(path.GetVolume().Length() == path.GetFullPath().Length()){
+			/*We add 2 because GetVolume returns C and we expect C:\ */
+			if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
+				m_Caption = path.GetFullPath();
 				m_Type = DIRCTRL_ROOT;
 				m_Icon = 2;
 			}
 			else{
+				m_Caption = path.GetName();
 				m_Type = DIRCTRL_FOLDER;
 				m_Icon = 1;
 			}
 		}
 		else{
-			m_Caption = path.GetFullPath().AfterLast(wxFILE_SEP_PATH);
+			m_Caption = path.GetFullName();
 			m_Type = DIRCTRL_FILE;
-			m_Icon = 0;
+			m_Icon = (path.GetExt() == "exe") ? 3 : 0;
 		}
 	};
 	
