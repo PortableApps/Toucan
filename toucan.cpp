@@ -269,33 +269,32 @@ void Toucan::RebuildForm(){
 }
 
 void Toucan::KillConime(){
-	#ifdef __WXMSW__
-		HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-		if(snapshot != INVALID_HANDLE_VALUE){
-			unsigned int toucanpid = _getpid();
-			PROCESSENTRY32 pe;
-			pe.dwSize = sizeof(PROCESSENTRY32);
+#ifdef __WXMSW__
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if(snapshot != INVALID_HANDLE_VALUE){
+		unsigned int toucanpid = _getpid();
+		PROCESSENTRY32 pe;
+		pe.dwSize = sizeof(PROCESSENTRY32);
 
-			if(!Process32First(snapshot, &pe)){
-				CloseHandle(snapshot);
-				return;
-			}
-
-			do{
-				//check if it is a conime process
-				if(wcsncmp(pe.szExeFile, wxT("conime.exe"), sizeof(pe.szExeFile)) || wcsncmp(pe.szExeFile, wxT("conime"), sizeof(pe.szExeFile))){
-					//then if toucan is its parent process
-					if(pe.th32ParentProcessID == toucanpid){
-						//then kill it
-						wxProcess::Kill(pe.th32ProcessID, wxSIGKILL);
-					}
-				}
-			}while(Process32Next(snapshot, &pe));
-			  
+		if(!Process32First(snapshot, &pe)){
 			CloseHandle(snapshot);
+			return;
 		}
-		
-	#endif
+		do{
+			size_t length = wcsnlen(pe.szExeFile, 10);
+			//check if it is a conime process
+			if(wcsncmp(pe.szExeFile, wxT("conime.exe"), length) == 0 || wcsncmp(pe.szExeFile, wxT("conime"), length) == 0){
+				//then if toucan is its parent process
+				if(pe.th32ParentProcessID == toucanpid){
+					//then kill it
+					wxProcess::Kill(pe.th32ProcessID, wxSIGKILL);
+				}
+			}
+		}while(Process32Next(snapshot, &pe));
+
+		CloseHandle(snapshot);
+	}
+#endif
 }
 
 void Toucan::OnOutput(wxCommandEvent &event){
