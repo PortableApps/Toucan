@@ -1,13 +1,17 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009-2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "dirctrl.h"
 #include <algorithm>
+#include <wx/event.h>
 #include <wx/log.h>
 #include <wx/artprov.h>
+#include <wx/msgdlg.h>
+
+wxDEFINE_EVENT(TRAVERSER_FINISHED, wxCommandEvent);
 
 bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 	if(a->GetType() == DIRCTRL_FOLDER && b->GetType() == DIRCTRL_FILE){
@@ -26,8 +30,35 @@ bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 	}
 }
 
+DirCtrlTraverser* DirTraverserThread::GetTraverser(){
+	DirCtrlItemArray* items = new std::vector<DirCtrlItem*>();
+	return new DirCtrlTraverser(items);
+}
+
+void* DirTraverserThread::Entry(){
+	//Get the traverser and traverse
+	DirCtrlTraverser* traverser = GetTraverser();
+	wxDir dir(m_Path);
+	dir.Traverse(*traverser);
+
+	//Sort the items, perhaps in the future the comparison method shoulf move
+	//to a seperare call so it can be easily changed in inherited classes
+	std::sort(traverser->GetItems()->begin(), traverser->GetItems()->end(), DirCtrlItemComparison);
+
+	//Send the results back to the calling DirCtrl which takes ownership 
+	//of the vector
+	wxCommandEvent* event = new wxCommandEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
+	event->SetExtraLong(this->GetId());
+	event->SetInt(m_Depth);
+	event->SetExtraLong(GetId());
+	event->SetClientData(traverser->GetItems());
+	wxQueueEvent(m_Handler, event);
+	return NULL;
+}
+
 BEGIN_EVENT_TABLE(DirCtrl, wxTreeCtrl)
 	EVT_TREE_ITEM_EXPANDING(-1, DirCtrl::OnNodeExpand)
+	EVT_COMMAND(ID_TRAVERSED, TRAVERSER_FINISHED, DirCtrl::OnTraversed)
 END_EVENT_TABLE()
 
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
@@ -65,34 +96,10 @@ void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
 	if(depth == -1 || depth < m_ScanDepth){
 		//If we have not yet added this directory then do so
 		if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-			DirCtrlItemArray items;
-			DirCtrlTraverser traverser(&items);
-
-			wxDir dir(item->GetFullPath());
-			if(dir.IsOpened()){
-				//To stop errors on failing to parse some folders
-				wxLogNull null;
-				dir.Traverse(traverser);
-			}
-			else{
-				return;
-			}
-			//Sort the remaining items
-			std::sort(items.begin(), items.end(), DirCtrlItemComparison);
-			//Add them to the tree
-			for(DirCtrlItemArray::iterator iter = items.begin(); iter != items.end(); ++iter){
-				AppendItem(item->GetId(), (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
-			}
-		}
-		wxTreeItemIdValue cookie = 0;
-		DirCtrlItem *childitem;
-		wxTreeItemId child = GetFirstChild(item->GetId(), cookie);
-		while(child.IsOk()){
-			childitem = static_cast<DirCtrlItem*>(GetItemData(child));
-			if(childitem->GetType() == DIRCTRL_FOLDER) {
-				AddDirectory(childitem, (depth == -1 ? -1 : depth + 1));
-			}
-			child = GetNextChild(item->GetId(), cookie);
+			DirTraverserThread *thread = new DirTraverserThread(item->GetFullPath(), depth, this);
+			thread->Create();
+			m_IdMap[thread->GetId()] = item->GetId();
+			thread->Run();
 		}
 	}
 }
@@ -105,7 +112,20 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 		if(item->GetType() == DIRCTRL_FOLDER){
 			AddDirectory(item, 0);
 		}
-	}	
+	}
+}
+
+void DirCtrl::OnTraversed(wxCommandEvent &event){
+	DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
+	for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
+		wxTreeItemId temp = m_IdMap[event.GetExtraLong()];
+		wxTreeItemId id = AppendItem(m_IdMap[event.GetExtraLong()], (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
+		DirCtrlItem* item = static_cast<DirCtrlItem*>(GetItemData(id));
+		if(item->GetType() == DIRCTRL_FOLDER){
+			AddDirectory(item, (event.GetInt() == -1 ? -1 : event.GetInt() + 1));
+		}
+		
+	}
 }
 
 void DirCtrl::ExpandAll(){
