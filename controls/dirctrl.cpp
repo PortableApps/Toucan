@@ -39,7 +39,11 @@ void* DirTraverserThread::Entry(){
 	//Get the traverser and traverse
 	DirCtrlTraverser* traverser = GetTraverser();
 	wxDir dir(m_Path);
-	dir.Traverse(*traverser);
+	if(dir.IsOpened()){
+		//To stop errors on failing to parse some folders
+		wxLogNull null;
+		dir.Traverse(*traverser);
+	}
 
 	//Sort the items, perhaps in the future the comparison method shoulf move
 	//to a seperare call so it can be easily changed in inherited classes
@@ -130,7 +134,6 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 		if(item->GetType() == DIRCTRL_FOLDER){
 			AddDirectory(item, (event.GetInt() == -1 ? -1 : event.GetInt() + 1));
 		}
-		
 	}
 }
 
