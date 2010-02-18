@@ -11,7 +11,7 @@ class LocalDirCtrl : public DirCtrl{
 
 public:
 	LocalDirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition,
-	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
+	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
 
 	void ReCreateTree();
 };
