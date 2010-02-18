@@ -9,7 +9,6 @@
 #include <wx/event.h>
 #include <wx/log.h>
 #include <wx/artprov.h>
-#include <wx/msgdlg.h>
 
 wxDEFINE_EVENT(TRAVERSER_FINISHED, wxCommandEvent);
 
