@@ -13,6 +13,7 @@
 #include <wx/dir.h>
 #include <wx/gbsizer.h>
 #include <wx/stc/stc.h>
+#include <wx/wx.h>
 
 #include "frmmain.h"
 #include "frmrule.h"
@@ -31,6 +32,7 @@
 #include "../controls/extendeddirctrl.h"
 #include "../controls/vdtc.h"
 #include "../controls/dirctrl.h"
+#include "../controls/dirctrlspec.h"
 #include "../controls/loglistctrl.h"
 
 //frmMain event table
@@ -464,8 +466,7 @@ void frmMain::CreateControls(){
 	wxStaticText* BackupComputerStatic = new wxStaticText(BackupPanel, wxID_ANY, _("Computer"));
 	BackupMainSizer->Add(BackupComputerStatic, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, border);
 
-	m_Backup_DirCtrl = new ExtendedDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
-	m_Backup_DirCtrl->ShowHidden(true);
+	m_Backup_DirCtrl = new LocalDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL);
 	BackupMainSizer->Add(m_Backup_DirCtrl, wxGBPosition(1, 0), wxGBSpan(3, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* BackupAddRemoveSizer = new wxBoxSizer(wxVERTICAL);
@@ -2287,7 +2288,7 @@ void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 
 void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
 	TreeStateSaver treesaver(m_Backup_TreeCtrl);
-	TreeStateSaver dirsaver(m_Backup_DirCtrl->GetTreeCtrl());
+	TreeStateSaver dirsaver(m_Backup_DirCtrl);
 	m_Backup_DirCtrl->ReCreateTree();
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));

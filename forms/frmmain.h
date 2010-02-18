@@ -26,6 +26,7 @@ class wxSlider;
 class wxStyledTextCtrl;
 
 class DirCtrl;
+class LocalDirCtrl;
 class Settings;
 class ExtendedDirCtrl;
 
@@ -324,7 +325,7 @@ public:
 	wxTextCtrl* m_Backup_Location;
 	wxTextCtrl* m_Backup_Pass;
 	wxTextCtrl* m_Backup_Repass;
-	ExtendedDirCtrl* m_Backup_DirCtrl;
+	LocalDirCtrl* m_Backup_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
 	wxRadioBox* m_Backup_Format;
