@@ -137,6 +137,18 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 	}
 }
 
+wxArrayString DirCtrl::GetSelectedPaths(){
+	wxArrayString paths;
+	wxArrayTreeItemIds items;
+	GetSelections(items);
+	for(unsigned int i = 0; i < items.Count(); i++){
+		wxTreeItemId id = items.Item(i);
+		DirCtrlItem* data = static_cast<DirCtrlItem*>(GetItemData(id));
+		paths.Add(data->GetFullPath());
+	}
+	return paths;
+}
+
 void DirCtrl::ExpandAll(){
 	wxBusyCursor busy;
 	Freeze();
