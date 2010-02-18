@@ -18,6 +18,7 @@ LocalDirCtrl::LocalDirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
 
 void LocalDirCtrl::ReCreateTree(){
 	DeleteAllItems();
+	AddRoot(wxT("Hidden Root"));
 #ifdef __WXMSW__
 	TCHAR drives[256];  
 	if(GetLogicalDriveStrings(256, drives)){  
