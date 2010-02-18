@@ -67,7 +67,7 @@ END_EVENT_TABLE()
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 		: wxTreeCtrl(parent, id, pos, size, style)
 {
-	SetScanDepth(2);
+	SetScanDepth(1);
 	AddRoot(wxT("Hidden Root"));
 	m_Image = new wxImageList(16, 16);
 	m_Image->Add(wxArtProvider::GetBitmap(wxART_NORMAL_FILE, wxART_OTHER));
