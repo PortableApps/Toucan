@@ -70,70 +70,95 @@ public:
 
 class RulesTests : public CxxTest::TestSuite{
 public:
-	void testRules(){
-		TS_TRACE("Need more complex rules tests");
-		wxArrayString fileexclude, folderexclude, locationinclude;
-		Rules rules(wxT("TestRules"));
-		//Add the exclusions and inclusions
+	Rules *rules;
+	wxArrayString fileexclude, folderexclude, locationinclude;
+
+	void setUp(){
+		rules = new Rules("testrules");
+
+		//Set up excluded files
 		fileexclude.Add(wxT(".doc"));
-		fileexclude.Add(wxT("test"));
-		rules.SetExcludedFiles(fileexclude);
-		folderexclude.Add(wxT("\\testexclude"));
-		rules.SetExcludedFolders(folderexclude);
-		locationinclude.Add(wxT("++"));
-		rules.SetIncludedLocations(locationinclude);
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\"), true), false); //Included
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\test.doc"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\"), true), false); //Included
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\TEST.txt"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Test\\Documents\\test.txt"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Testexclude\\test.txt"), false), true); //Excluded
-		TS_ASSERT_EQUALS(rules.ShouldExclude(wxT("C:\\Users\\Testexclude\\specialchars++.txt"), false), false); //Included
+		fileexclude.Add(wxT("testex"));
+		rules->SetExcludedFiles(fileexclude);
+
+		//Set up excluded folders
+		folderexclude.Add(wxT("\\testex"));
+		rules->SetExcludedFolders(folderexclude);
+
+		//Set up included locations
+		locationinclude.Add("++");
+		locationinclude.Add("testinc.txt");
+		rules->SetIncludedLocations(locationinclude);		
+	}
+
+	void tearDown(){
+		delete rules;
+	}
+
+	void testIncludeDefault(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\"), true), false); //Included
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\file.txt"), false), false); //Included
+	}
+
+	void testExcludeFile(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\test.doc"), false), true); //Excluded
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\testex.txt"), false), true); //Excluded
+	}
+
+	void testExcludeFolder(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Testexclude\\"), true), true); //Excluded
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Testexclude\\test.txt"), false), true); //Excluded
+	}
+
+	void testIncludeLocation(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Testexclude\\testinc.txt"), false), false); //Included
+	}
+	
+	void testCaseInsensative(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Test\\Documents\\TESTEX.txt"), false), true); //Excluded
+	}
+
+	void testPlusSigns(){
+		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Test\\specialchars++.txt"), false), false); //Included
 	}
 };
 
 class FileCounterTests : public CxxTest::TestSuite{
 public:
+
+	wxString testdir;
+	std::vector<wxString> folderlist;
+
 	void setUp(){
-		const wxString testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
-		std::vector<wxString> folderlist;
+		testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests" + wxFILE_SEP_PATH;
 		folderlist.push_back(testdir);
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir2");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
+		folderlist.push_back(testdir + "subdir1");
+		folderlist.push_back(testdir + "subdir2");
+		folderlist.push_back(testdir + "subdir1" + wxFILE_SEP_PATH + "subdir1");
+		folderlist.push_back(testdir + "subdir1" + wxFILE_SEP_PATH + "subdir2");
 		
 		std::for_each(folderlist.begin(), folderlist.end(), makedir);
 		std::for_each(folderlist.begin(), folderlist.end(), createfiles);
 	}
 
 	void tearDown(){
-		const wxString testdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
-		std::vector<wxString> folderlist;
-		folderlist.push_back(testdir);
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir2");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir1");
-		folderlist.push_back(testdir + wxFILE_SEP_PATH + "subdir1" + wxFILE_SEP_PATH + "subdir2");
-
+		//Flip the list as files must be removed before folders
 		std::reverse(folderlist.begin(), folderlist.end());
 		std::for_each(folderlist.begin(), folderlist.end(), deletefiles);
 		std::for_each(folderlist.begin(), folderlist.end(), deletedir);
 	}
 
 	void testDirectory(){
-		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
 		FileCounter counter;
-		counter.AddPath(unittestdir);
+		counter.AddPath(testdir);
 		counter.Count();
 		TS_ASSERT_EQUALS(counter.GetCount(), 10);
 	}
 
 	void testFiles(){
-		const wxString unittestdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "unittests";
 		FileCounter counter;
-		counter.AddPath(unittestdir + "file1");
-		counter.AddPath(unittestdir + "subdir1" + wxFILE_SEP_PATH + "file1");
+		counter.AddPath(testdir + "file1");
+		counter.AddPath(testdir + "subdir1" + wxFILE_SEP_PATH + "file1");
 		counter.Count();
 		TS_ASSERT_EQUALS(counter.GetCount(), 2);
 	}

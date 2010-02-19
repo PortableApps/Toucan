@@ -13,6 +13,7 @@
 #include <wx/dir.h>
 #include <wx/gbsizer.h>
 #include <wx/stc/stc.h>
+#include <wx/wx.h>
 
 #include "frmmain.h"
 #include "frmrule.h"
@@ -31,6 +32,7 @@
 #include "../controls/extendeddirctrl.h"
 #include "../controls/vdtc.h"
 #include "../controls/dirctrl.h"
+#include "../controls/dirctrlspec.h"
 #include "../controls/loglistctrl.h"
 
 //frmMain event table
@@ -332,7 +334,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncSourceButton, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Source_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
+	m_Sync_Source_Tree = new DirCtrl(SyncPanel, ID_SYNC_SOURCE_TREE);
 	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncSourceButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -353,7 +355,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncDestButton, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Dest_Tree = new wxVirtualDirTreeCtrl(SyncPanel, ID_SYNC_DEST_TREE, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE);
+	m_Sync_Dest_Tree = new DirCtrl(SyncPanel, ID_SYNC_DEST_TREE);
 	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncDestButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -464,8 +466,7 @@ void frmMain::CreateControls(){
 	wxStaticText* BackupComputerStatic = new wxStaticText(BackupPanel, wxID_ANY, _("Computer"));
 	BackupMainSizer->Add(BackupComputerStatic, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, border);
 
-	m_Backup_DirCtrl = new ExtendedDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
-	m_Backup_DirCtrl->ShowHidden(true);
+	m_Backup_DirCtrl = new LocalDirCtrl(BackupPanel, ID_BACKUP_DIRCTRL);
 	BackupMainSizer->Add(m_Backup_DirCtrl, wxGBPosition(1, 0), wxGBSpan(3, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* BackupAddRemoveSizer = new wxBoxSizer(wxVERTICAL);
@@ -860,8 +861,8 @@ void frmMain::CreateControls(){
 	m_Sync_Source_Tree->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
 	m_Sync_Dest_Tree->SetDropTarget(new DnDFileTreeText(m_Sync_Dest_Txt, m_Sync_Dest_Tree));
 	
-	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
-	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
+//	m_Backup_TreeCtrl->SetDropTarget(new DnDFileTree(m_Backup_TreeCtrl));
+//	m_Secure_TreeCtrl->SetDropTarget(new DnDFileTree(m_Secure_TreeCtrl));
 
 	m_Variables_List->InsertColumn(0, _("Computer"));
 	m_Variables_List->InsertColumn(1, _("Expansion"));
@@ -870,10 +871,7 @@ void frmMain::CreateControls(){
 	m_Sync_Rules->Append(wxEmptyString);
 	m_Backup_Rules->Append(wxEmptyString);
 	m_Secure_Rules->Append(wxEmptyString);
-	
-	m_Sync_Dest_Tree->SetSync(true);
-	m_Sync_Source_Tree->SetSync(true);
-	
+
 	//Set the tooltips if required
 	if(wxGetApp().m_Settings->GetEnableTooltips()){
 		//Sync
@@ -1036,8 +1034,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(dialog.GetPath()));
+		m_Sync_Source_Tree->AddItem(dialog.GetPath());
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
 }
@@ -1049,8 +1046,7 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetPath()));
+		m_Sync_Dest_Tree->AddItem(dialog.GetPath());
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
 }
@@ -1318,7 +1314,7 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 	else{
 		wxString strWildcard;
 		if(m_Backup_Format->GetStringSelection() == wxT("7-Zip")){
-			strWildcard = wxT("7 Zip (*.7z)|*.7z|All Files (*.*)|*.*");
+			strWildcard = wxT("7-Zip Files (*.7z)|*.7z|All Files (*.*)|*.*");
 		}
 		else if(m_Backup_Format->GetStringSelection() == wxT("Zip")){
 			strWildcard = wxT("Zip Files (*.zip)|*.zip|All Files (*.*)|*.*");
@@ -1418,31 +1414,31 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	if (m_Sync_Rules->GetStringSelection() != wxEmptyString){
 		Rules *rules = new Rules(m_Sync_Rules->GetStringSelection());
 		rules->TransferFromFile();
-		m_Sync_Dest_Tree->SetRules(rules);
+//		m_Sync_Dest_Tree->SetRules(rules);
 	}	
 
-	m_Sync_Dest_Tree->DeleteAllItems();
-	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-	m_Sync_Dest_Tree->SetPreview(true);
-	m_Sync_Dest_Tree->SetSync(true);
-	m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
+//	m_Sync_Dest_Tree->DeleteAllItems();
+//	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
+//	m_Sync_Dest_Tree->SetPreview(true);
+//	m_Sync_Dest_Tree->SetSync(true);
+//	m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
 		if (m_Sync_Rules->GetStringSelection() != wxEmptyString){
 			Rules *rules = new Rules(m_Sync_Rules->GetStringSelection());
 			rules->TransferFromFile();
-			m_Sync_Source_Tree->SetRules(rules);
+//			m_Sync_Source_Tree->SetRules(rules);
 		}	
-		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetSync(true);
-		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+//		m_Sync_Source_Tree->DeleteAllItems();
+//		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+//		m_Sync_Source_Tree->SetSync(true);
+//		m_Sync_Source_Tree->SetPreview(true);
+//		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	else{
-		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+//		m_Sync_Source_Tree->DeleteAllItems();
+//		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
+//		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	m_Notebook->Enable();
 }
@@ -1805,14 +1801,14 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 
 //ID_SYNC_SOURCE_TREE
 void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
-	menuTree = m_Sync_Source_Tree;
+//	menuTree = m_Sync_Source_Tree;
 	menuRules = m_Sync_Rules;
 	CreateMenu(event);
 }
 
 //ID_SYNC_DEST_TREE
 void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
-	menuTree = m_Sync_Dest_Tree;
+//	menuTree = m_Sync_Dest_Tree;
 	menuRules = m_Sync_Rules;
 	CreateMenu(event);
 }
@@ -1833,12 +1829,12 @@ void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 
 //ID_SYNC_SOURCE_EXPAND
 void frmMain::OnSyncSourceExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Sync_Source_Tree->NeatExpandAll(this);
+	m_Sync_Source_Tree->ExpandAll();
 }
 
 //ID_SYNC_DEST_EXPAND
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Sync_Dest_Tree->NeatExpandAll(this);
+	m_Sync_Dest_Tree->ExpandAll();
 }
 
 //ID_BACKUP_EXPAND
@@ -1979,8 +1975,8 @@ void frmMain::ClearToDefault(){
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->SetPreview(false);
-		m_Sync_Dest_Tree->SetPreview(false);
+//		m_Sync_Source_Tree->SetPreview(false);
+//		m_Sync_Dest_Tree->SetPreview(false);
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
 		m_Backup_Function->SetStringSelection(_("Complete"));
@@ -2253,8 +2249,7 @@ void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Source_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Source_Txt->SetValue(dialog.GetValue());
 	}
 }
@@ -2264,8 +2259,7 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddNewPath(Normalise(dialog.GetValue()));
+		m_Sync_Dest_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
 	}
 }
@@ -2280,8 +2274,7 @@ void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Source_Tree);
 		m_Sync_Source_Tree->DeleteAllItems();
-		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 }
 
@@ -2289,14 +2282,13 @@ void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Dest_Tree);
 		m_Sync_Dest_Tree->DeleteAllItems();
-		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-		m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
+		m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }
 
 void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
 	TreeStateSaver treesaver(m_Backup_TreeCtrl);
-	TreeStateSaver dirsaver(m_Backup_DirCtrl->GetTreeCtrl());
+	TreeStateSaver dirsaver(m_Backup_DirCtrl);
 	m_Backup_DirCtrl->ReCreateTree();
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));

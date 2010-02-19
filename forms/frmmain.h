@@ -25,6 +25,8 @@ class wxRadioBox;
 class wxSlider;
 class wxStyledTextCtrl;
 
+class DirCtrl;
+class LocalDirCtrl;
 class Settings;
 class ExtendedDirCtrl;
 
@@ -305,8 +307,8 @@ public:
 	wxComboBox* m_Sync_Rules;
 	wxTextCtrl* m_Sync_Source_Txt;
 	wxTextCtrl* m_Sync_Dest_Txt;
-	wxVirtualDirTreeCtrl* m_Sync_Source_Tree;
-	wxVirtualDirTreeCtrl* m_Sync_Dest_Tree;
+	DirCtrl* m_Sync_Source_Tree;
+	DirCtrl* m_Sync_Dest_Tree;
 	wxRadioBox* m_Sync_Function;
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;
@@ -323,7 +325,7 @@ public:
 	wxTextCtrl* m_Backup_Location;
 	wxTextCtrl* m_Backup_Pass;
 	wxTextCtrl* m_Backup_Repass;
-	ExtendedDirCtrl* m_Backup_DirCtrl;
+	LocalDirCtrl* m_Backup_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
 	wxRadioBox* m_Backup_Format;

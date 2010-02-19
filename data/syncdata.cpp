@@ -9,6 +9,7 @@
 #include "../toucan.h"
 #include "../variables.h"
 #include "../forms/frmmain.h"
+#include "../controls/dirctrl.h"
 #include "../controls/vdtc.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
@@ -87,16 +88,16 @@ bool SyncData::TransferToForm(frmMain *window){
 	}
 
 	window->m_Sync_Source_Txt->SetValue(GetSource());
-	window->m_Sync_Source_Tree->DeleteChildren(window->m_Sync_Source_Tree->GetRootItem());
+	window->m_Sync_Source_Tree->DeleteAllItems();
 	//ATTN : Move the wxEmptyString checks into the DirCtrl code 
 	if(GetSource() != wxEmptyString){
-		window->m_Sync_Source_Tree->AddNewPath(Normalise(GetSource()));		
+		window->m_Sync_Source_Tree->AddItem(Normalise(GetSource()));		
 	}
 
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
 	window->m_Sync_Dest_Tree->DeleteChildren(window->m_Sync_Dest_Tree->GetRootItem());
 	if(GetDest() != wxEmptyString){
-		window->m_Sync_Dest_Tree->AddNewPath(Normalise(GetDest()));		
+		window->m_Sync_Dest_Tree->AddItem(Normalise(GetDest()));		
 	}
 
 	window->m_Sync_Function->SetStringSelection(GetFunction());

@@ -77,6 +77,18 @@
 		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESSSETUP);
 		event->SetInt(count);
 		wxGetApp().QueueEvent(event);
+		if(data->GetUsesPassword()){
+			if(wxGetApp().m_Password == wxEmptyString){
+				wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_GETPASSWORD);
+				int id = wxDateTime::Now().GetTicks();
+				event->SetInt(id);
+				wxGetApp().QueueEvent(event);
+				while(wxGetApp().m_StatusMap[id] != true){
+					wxMilliSleep(100);
+				}
+			}
+			data->SetPassword(wxGetApp().m_Password);
+		}
 		BackupJob *job = new BackupJob(data);
 		job->Create();
 		job->Run();
