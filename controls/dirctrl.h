@@ -17,6 +17,12 @@
 #include <wx/imaglist.h>
 #include <wx/dir.h>
 
+#ifdef __WXMSW__
+	#define _WIN32_WINNT 0x0500 
+	#include <windows.h>
+	#include <wx/msw/winundef.h>
+#endif
+
 enum{
 	ID_TRAVERSED
 };
@@ -39,7 +45,21 @@ public:
 			if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
 				m_Caption = path.GetFullPath();
 				m_Type = DIRCTRL_ROOT;
+#ifdef __WXMSW__
+				unsigned int type = GetDriveType(path.GetFullPath());
+				if(type == DRIVE_REMOVABLE){
+					m_Icon = 5;
+				}
+				else if(type == DRIVE_CDROM){
+					m_Icon = 4;
+				}
+				else{
+					//Default to using the harddisk icon
+					m_Icon = 3;
+				}
+#else
 				m_Icon = 3;
+#endif
 			}
 			else{
 				m_Caption = path.GetName();
