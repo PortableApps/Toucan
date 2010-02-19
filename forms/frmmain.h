@@ -149,10 +149,6 @@ enum{
 	ID_MENU_FOLDEREXCLUDE_NAME,
 	ID_MENU_LOCATIONINCLUDE_NAME,
 	ID_MENU_LOCATIONINCLUDE_EXTENSION,
-	//Help
-	ID_PANEL_HELP,
-	ID_HELP,
-	ID_HELP_TESTS
 };
 
 class frmMain: public wxFrame
@@ -374,9 +370,6 @@ public:
 	wxVirtualDirTreeCtrl* menuTree;
 	wxComboBox* menuRules;
 	wxFont* m_Font;
-	
-	//Help
-	wxHtmlHelpWindow* m_HelpWindow;
 };
 
 #endif

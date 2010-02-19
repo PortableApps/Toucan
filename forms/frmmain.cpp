@@ -151,9 +151,6 @@ frmMain::frmMain(){
 
 //Destructor
 frmMain::~frmMain(){
-	if(!wxGetApp().IsReadOnly()){
-		m_HelpWindow->WriteCustomization(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
-	}
 	delete m_Font;
 	delete m_BackupLocations;
 	delete m_SecureLocations;
@@ -786,24 +783,6 @@ void frmMain::CreateControls(){
 	m_Settings_SmallBorders->SetValue(false);
 	OtherStaticBoxSizer->Add(m_Settings_SmallBorders, 0, wxALIGN_TOP|wxALL, border);
 
-	//Help
-	wxPanel* HelpPanel = new wxPanel(m_Notebook, ID_PANEL_HELP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	
-	wxBoxSizer* HelpSizer = new wxBoxSizer(wxVERTICAL);
-	HelpPanel->SetSizer(HelpSizer);
-	
-	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
-	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, border);
-
-	m_HelpWindow = new wxHtmlHelpWindow;
-	m_HelpWindow->UseConfig(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
-    wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
-    wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("help") + wxFILE_SEP_PATH + wxT("toucan.htb"));
-    m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
-	m_HelpWindow->DisplayContents();
-	m_HelpWindow->RefreshLists();
-	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, border);
-
 	//Add the panels
 	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, variablesbitmap, helpbitmap;
 	
@@ -825,7 +804,6 @@ void frmMain::CreateControls(){
 	m_Notebook->AddPage(VariablesPanel, _("Variables"), false, variablesbitmap);
 	m_Notebook->AddPage(ScriptPanel, _("Script"), false, scriptbitmap);
 	m_Notebook->AddPage(SettingsPanel, _("Settings"), false, settingsbitmap);
-	m_Notebook->AddPage(HelpPanel, _("Help"), false, helpbitmap);
 
 	this->m_auiManager.AddPane(m_Notebook, wxAuiPaneInfo()
 	                                    .Name(_T("Pane3")).Centre().CaptionVisible(false).CloseButton(false).DestroyOnClose(false).Resizable(true).Floatable(false).PaneBorder(false));
