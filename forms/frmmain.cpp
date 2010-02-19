@@ -487,9 +487,7 @@ void frmMain::CreateControls(){
 	wxStaticText* BackupFilesStatic = new wxStaticText(BackupPanel, ID_BACKUP_FILESSTATIC, _("Files to Backup"));
 	BackupMainSizer->Add(BackupFilesStatic, wxGBPosition(2, 2), wxGBSpan(1, 1), wxALL, border);
 
-	m_Backup_TreeCtrl = new wxVirtualDirTreeCtrl(BackupPanel, ID_BACKUP_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_HAS_BUTTONS|wxTR_LINES_AT_ROOT|wxTR_HIDE_ROOT|wxTR_SINGLE|wxBORDER_THEME);
-	m_Backup_TreeCtrl->SetSync(false);
-	m_Backup_TreeCtrl->SetPreview(true);
+	m_Backup_TreeCtrl = new PreviewDirCtrl(BackupPanel, ID_BACKUP_TREECTRL);
 	BackupMainSizer->Add(m_Backup_TreeCtrl, wxGBPosition(3, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* BackupAddExpandSizer = new wxBoxSizer(wxVERTICAL);
@@ -962,7 +960,7 @@ void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_BackupLocations->Add(arrPaths.Item(i));
-		m_Backup_TreeCtrl->AddNewPath(arrPaths.Item(i));		
+		m_Backup_TreeCtrl->AddItem(arrPaths.Item(i));		
 	}
 }
 
@@ -1432,7 +1430,7 @@ void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
 		//Loop through all the the filenames listed in the array and read them to the tree
-		m_Backup_TreeCtrl->AddNewPath(Normalise(m_BackupLocations->Item(i)));
+		m_Backup_TreeCtrl->AddItem(Normalise(m_BackupLocations->Item(i)));
 	}
 }
 
@@ -1728,7 +1726,7 @@ void frmMain::OnBackupAddVarClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable window(this);
 	if(window.ShowModal() == wxID_OK){
 		m_BackupLocations->Add(window.GetValue());
-		m_Backup_TreeCtrl->AddNewPath(Normalise(window.GetValue()));
+		m_Backup_TreeCtrl->AddItem(Normalise(window.GetValue()));
 	}
 }
 
@@ -1792,7 +1790,7 @@ void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
 
 //ID_BACKUP_TREECTRL
 void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
-	menuTree = m_Backup_TreeCtrl;
+//	menuTree = m_Backup_TreeCtrl;
 	menuRules = m_Backup_Rules;
 	CreateMenu(event);
 }
@@ -1816,7 +1814,7 @@ void frmMain::OnSyncDestExpandClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_EXPAND
 void frmMain::OnBackupExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Backup_TreeCtrl->NeatExpandAll(this);
+	m_Backup_TreeCtrl->ExpandAll();
 }
 
 //ID_SECURE_EXPAND
@@ -2270,7 +2268,7 @@ void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
 	m_Backup_TreeCtrl->DeleteAllItems();
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
-		m_Backup_TreeCtrl->AddNewPath(m_BackupLocations->Item(i));
+		m_Backup_TreeCtrl->AddItem(m_BackupLocations->Item(i));
 	}
 }
 

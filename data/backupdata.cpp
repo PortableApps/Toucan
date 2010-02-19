@@ -8,7 +8,7 @@
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../variables.h"
-#include "../controls/vdtc.h"
+#include "../controls/dirctrlspec.h"
 #include "../forms/frmmain.h"
 #include "../forms/frmprogress.h"
 #include "../backup/backupprocess.h"
@@ -16,6 +16,11 @@
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include <wx/dir.h>
+#include <wx/msgdlg.h>
+#include <wx/combobox.h>
+#include <wx/radiobox.h>
+#include <wx/slider.h>
+#include <wx/checkbox.h>
 
 bool BackupData::TransferFromFile(){
 	bool error = false;
@@ -93,7 +98,7 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_BackupLocations->Clear();
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		window->m_BackupLocations->Add(GetLocation(j));
-		window->m_Backup_TreeCtrl->AddNewPath(Normalise(GetLocation(j)));
+		window->m_Backup_TreeCtrl->AddItem(Normalise(GetLocation(j)));
 	}
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());

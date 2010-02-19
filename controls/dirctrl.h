@@ -159,7 +159,7 @@ public:
 	
 	//Event Handlers
 	void OnNodeExpand(wxTreeEvent &event);
-	void OnTraversed(wxCommandEvent &event);
+	virtual void OnTraversed(wxCommandEvent &event);
 
 	//Inline functions
 	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth;}
