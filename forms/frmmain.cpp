@@ -570,8 +570,7 @@ void frmMain::CreateControls(){
 	wxStaticText* SecureComputerStatic = new wxStaticText(SecurePanel, wxID_ANY, _("Computer"));
 	SecureMainSizer->Add(SecureComputerStatic, wxGBPosition(0, 0), wxGBSpan(1, 1), wxALL, border);
 
-	m_Secure_DirCtrl = new ExtendedDirCtrl(SecurePanel, ID_SECURE_DIRCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
-	m_Secure_DirCtrl->ShowHidden(true);	
+	m_Secure_DirCtrl = new LocalDirCtrl(SecurePanel, ID_SECURE_DIRCTRL);
 	SecureMainSizer->Add(m_Secure_DirCtrl, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SecureAddRemoveSizer = new wxBoxSizer(wxVERTICAL);
@@ -2299,7 +2298,7 @@ void frmMain::OnBackupRefresh(wxCommandEvent& WXUNUSED(event)){
 
 void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 	TreeStateSaver treesaver(m_Secure_TreeCtrl);
-	TreeStateSaver dirsaver(m_Secure_DirCtrl->GetTreeCtrl());
+	TreeStateSaver dirsaver(m_Secure_DirCtrl);
 	m_Secure_DirCtrl->ReCreateTree();
 	m_Secure_TreeCtrl->DeleteAllItems();
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));

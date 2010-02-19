@@ -18,7 +18,6 @@
 #include <wx/dir.h>
 
 #ifdef __WXMSW__
-	#define _WIN32_WINNT 0x0500 
 	#include <windows.h>
 	#include <wx/msw/winundef.h>
 #endif

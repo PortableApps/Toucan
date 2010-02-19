@@ -337,7 +337,7 @@ public:
 	wxBoxSizer* SecureTopSizer;
 	wxComboBox* m_Secure_Rules;
 	wxComboBox* m_Secure_Job_Select;
-	ExtendedDirCtrl* m_Secure_DirCtrl;
+	LocalDirCtrl* m_Secure_DirCtrl;
 	wxVirtualDirTreeCtrl* m_Secure_TreeCtrl;
 	wxRadioBox* m_Secure_Function;
 	wxTextCtrl* m_Secure_Pass;
