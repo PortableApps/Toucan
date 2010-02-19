@@ -9,6 +9,7 @@
 #include <wx/event.h>
 #include <wx/log.h>
 #include <wx/artprov.h>
+#include <wx/stdpaths.h>
 
 wxDEFINE_EVENT(TRAVERSER_FINISHED, wxCommandEvent);
 
@@ -69,11 +70,15 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
 {
 	SetScanDepth(1);
 	AddRoot(wxT("Hidden Root"));
+
+	const wxString bitmapdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "bitmaps" + wxFILE_SEP_PATH;
 	m_Image = new wxImageList(16, 16);
-	m_Image->Add(wxArtProvider::GetBitmap(wxART_NORMAL_FILE, wxART_OTHER));
-	m_Image->Add(wxArtProvider::GetBitmap(wxART_FOLDER, wxART_OTHER));
-	m_Image->Add(wxArtProvider::GetBitmap(wxART_HARDDISK, wxART_OTHER));
-	m_Image->Add(wxArtProvider::GetBitmap(wxART_EXECUTABLE_FILE , wxART_OTHER));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("folder.png"), wxBITMAP_TYPE_PNG));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("file.png"), wxBITMAP_TYPE_PNG));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("file-exe.png"), wxBITMAP_TYPE_PNG));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-harddisk.png"), wxBITMAP_TYPE_PNG));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-optical.png"), wxBITMAP_TYPE_PNG));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-removable-media.png"), wxBITMAP_TYPE_PNG));
 	AssignImageList(m_Image);
 }
 

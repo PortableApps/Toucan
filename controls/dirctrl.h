@@ -39,18 +39,18 @@ public:
 			if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
 				m_Caption = path.GetFullPath();
 				m_Type = DIRCTRL_ROOT;
-				m_Icon = 2;
+				m_Icon = 3;
 			}
 			else{
 				m_Caption = path.GetName();
 				m_Type = DIRCTRL_FOLDER;
-				m_Icon = 1;
+				m_Icon = 0;
 			}
 		}
 		else{
 			m_Caption = path.GetFullName();
 			m_Type = DIRCTRL_FILE;
-			m_Icon = (path.GetExt() == "exe") ? 3 : 0;
+			m_Icon = (path.GetExt() == "exe") ? 2 : 1;
 		}
 	};
 	
