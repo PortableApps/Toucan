@@ -19,13 +19,13 @@ void LocalDirCtrl::ReCreateTree(){
 	DeleteAllItems();
 	AddRoot(wxT("Hidden Root"));
 #ifdef __WXMSW__
-	TCHAR drives[256];  
-	if(GetLogicalDriveStrings(256, drives)){  
-		LPTSTR drive = drives;  
-		while(*drive){  
+	TCHAR drives[256];
+	if(GetLogicalDriveStrings(256, drives)){
+		LPTSTR drive = drives;
+		int offset = _tcslen(drive) + 1;
+		while(*drive){
 			AddItem(wxString(drive));
-			int offset = _tcslen(drive) + 1;  
-			drive += offset;  
+			drive += offset;
 		}
 	}
 #elif __WXGTK__
