@@ -36,6 +36,9 @@ wxString Normalise(const wxString &path){
 		}
 	}
 #endif
+	if(path.find("@") == wxNOT_FOUND){
+		return path;
+	}
 	wxString token;
 	wxString normalised = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  
