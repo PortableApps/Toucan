@@ -66,6 +66,10 @@ public:
 		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@@date@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
 		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@@date@@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT("@.zip"));
 	}
+
+	void testPlain(){
+		TS_ASSERT_EQUALS(Normalise(wxT("docs")), wxT("docs"));
+	}
 };
 
 class RulesTests : public CxxTest::TestSuite{
