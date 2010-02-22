@@ -16,6 +16,7 @@
 #include <wx/arrstr.h>
 #include <wx/imaglist.h>
 #include <wx/dir.h>
+#include <wx/colour.h>
 
 #ifdef __WXMSW__
 	#include <windows.h>
@@ -52,6 +53,7 @@ class DirCtrlItem : public wxTreeItemData{
 
 public:
 	DirCtrlItem(const wxFileName &path){
+		m_Colour = wxColour("Black");
 		m_Path = path;
 		if(!wxFileExists(path.GetFullPath())){
 			/*We add 2 because GetVolume returns C and we expect C:\ */
@@ -99,12 +101,15 @@ public:
 	wxString GetFullPath() const { return m_Path.GetFullPath(); }
 	wxString GetCaption() const { return m_Caption; }
 	DirCtrlItemType GetType() const { return m_Type; }
+	wxColour GetColour() const { return m_Colour; }
 	int GetIcon() const { return m_Icon; }
+	void SetColour(wxColour colour) { m_Colour = colour; }
 
 protected:
 	wxFileName m_Path;
 	wxString m_Caption;
 	DirCtrlItemType m_Type;
+	wxColour m_Colour;
 	int m_Icon;
 };
 
