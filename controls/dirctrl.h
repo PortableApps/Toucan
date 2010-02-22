@@ -22,6 +22,20 @@
 	#include <wx/msw/winundef.h>
 #endif
 
+//Saves which nodes are expanded on creation and then re-expands them on deletion
+//Useful if you are refreshing a wxGenericDirCtrl for example
+class TreeStateSaver{
+public:
+	TreeStateSaver(wxTreeCtrl *tree);
+	~TreeStateSaver();
+
+private:
+	wxArrayString SaveChildren(const wxString &path, wxTreeItemId parent);
+	void LoadChildren(wxString path, wxTreeItemId parent);
+	wxArrayString m_Paths;
+	wxTreeCtrl *m_Tree;
+};
+
 enum{
 	ID_TRAVERSED
 };
@@ -165,10 +179,11 @@ public:
 	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth;}
 	int GetScanDepth() const {return m_ScanDepth;}
 
+protected:
+	virtual void AddDirectory(DirCtrlItem *item, int depth);
+
 private:
 	DECLARE_EVENT_TABLE()
-
-	void AddDirectory(DirCtrlItem *item, int depth);
 
 	int m_ScanDepth;
 	wxImageList *m_Image;

@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncdata.h"
@@ -10,9 +10,12 @@
 #include "../variables.h"
 #include "../forms/frmmain.h"
 #include "../controls/dirctrl.h"
-#include "../controls/vdtc.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
+#include <wx/msgdlg.h>
+#include <wx/combobox.h>
+#include <wx/radiobox.h>
+#include <wx/checkbox.h>
 
 bool SyncData::TransferFromFile(){
 	bool error = false;

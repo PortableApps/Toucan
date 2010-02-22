@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "securejob.h"
@@ -11,7 +11,6 @@
 #include "../basicfunctions.h"
 #include "../data/securedata.h"
 #include "../forms/frmmain.h"
-#include "../controls/vdtc.h"
 
 #include <wx/filefn.h>
 #include <wx/dir.h>

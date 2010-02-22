@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2006 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _FRMMAIN_H_
-#define _FRMMAIN_H_
+#ifndef FRMMAIN_H
+#define FRMMAIN_H
 
 class wxFrame;
 class wxTreeCtrl;
@@ -14,7 +14,6 @@ class wxListCtrl;
 class wxListEvent;
 class wxHtmlHelpWindow;
 class wxFontPickerCtrl;
-class wxVirtualDirTreeCtrl;
 class wxTreeEvent;
 class wxComboBox;
 class wxTextCtrl;
@@ -29,7 +28,6 @@ class DirCtrl;
 class LocalDirCtrl;
 class PreviewDirCtrl;
 class Settings;
-class ExtendedDirCtrl;
 
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
@@ -335,7 +333,7 @@ public:
 	wxComboBox* m_Secure_Rules;
 	wxComboBox* m_Secure_Job_Select;
 	LocalDirCtrl* m_Secure_DirCtrl;
-	wxVirtualDirTreeCtrl* m_Secure_TreeCtrl;
+	PreviewDirCtrl* m_Secure_TreeCtrl;
 	wxRadioBox* m_Secure_Function;
 	wxTextCtrl* m_Secure_Pass;
 	wxTextCtrl* m_Secure_Repass;
@@ -368,7 +366,7 @@ public:
 	//Other
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
-	wxVirtualDirTreeCtrl* menuTree;
+	//wxTreeCtrl* menuTree;
 	wxComboBox* menuRules;
 	wxFont* m_Font;
 };

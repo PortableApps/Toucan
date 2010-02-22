@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "frmmain.h"
@@ -9,11 +9,12 @@
 #include "../variables.h"
 #include "../script.h"
 #include "../toucan.h"
-#include "../controls/vdtc.h"
 
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
+#include <wx/wx.h>
+
 
 #ifdef __WXMSW__
 	#include <shobjidl.h>

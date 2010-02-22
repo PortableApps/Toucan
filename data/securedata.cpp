@@ -1,17 +1,22 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "securedata.h"
 #include "../basicfunctions.h"
 #include "../toucan.h"
+#include "../rules.h"
 #include "../variables.h"
 #include "../forms/frmmain.h"
-#include "../controls/vdtc.h"
+#include "../controls/previewctrl.h"
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
+#include <wx/msgdlg.h>
+#include <wx/combobox.h>
+#include <wx/radiobox.h>
+#include <wx/checkbox.h>
 
 bool SecureData::TransferFromFile(){
 	bool error = false;
@@ -73,7 +78,7 @@ bool SecureData::TransferToForm(frmMain *window){
 	}
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
 		window->m_SecureLocations->Add(GetLocations().Item(k));
-		window->m_Secure_TreeCtrl->AddNewPath(Normalise(GetLocations().Item(k)));
+		window->m_Secure_TreeCtrl->AddItem(Normalise(GetLocations().Item(k)));
 	}
 
 	window->m_Secure_Function->SetStringSelection(GetFunction());

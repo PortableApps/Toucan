@@ -1,14 +1,15 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2008 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "backupdata.h"
 #include "../basicfunctions.h"
 #include "../toucan.h"
+#include "../rules.h"
 #include "../variables.h"
-#include "../controls/dirctrlspec.h"
+#include "../controls/previewctrl.h"
 #include "../forms/frmmain.h"
 #include "../forms/frmprogress.h"
 #include "../backup/backupprocess.h"
