@@ -19,7 +19,6 @@ public:
 	~PreviewDirCtrl();
 
 	void SetRules(Rules *rules) { m_Rules = rules; }
-	void OnTraversed(wxCommandEvent &event);
 
 private:
    Rules *m_Rules;

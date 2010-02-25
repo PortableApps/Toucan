@@ -37,12 +37,13 @@ private:
 	wxTreeCtrl *m_Tree;
 };
 
+//IDs for event handling
 enum{
 	ID_TRAVERSED
 };
 
+//Types of node in the treectrl
 enum DirCtrlItemType{
-	DIRCTRL_DEFAULT,
 	DIRCTRL_FILE,
 	DIRCTRL_FOLDER,
 	DIRCTRL_ROOT
@@ -50,44 +51,8 @@ enum DirCtrlItemType{
 
 //The item used in DirCtrl, four main properties, filename, caption, type, icon
 class DirCtrlItem : public wxTreeItemData{
-
 public:
-	DirCtrlItem(const wxFileName &path){
-		m_Colour = wxColour("Black");
-		m_Path = path;
-		if(!wxFileExists(path.GetFullPath())){
-			/*We add 2 because GetVolume returns C and we expect C:\ */
-			if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
-				m_Caption = path.GetFullPath();
-				m_Type = DIRCTRL_ROOT;
-#ifdef __WXMSW__
-				unsigned int type = GetDriveType(path.GetFullPath());
-				if(type == DRIVE_REMOVABLE){
-					m_Icon = 5;
-				}
-				else if(type == DRIVE_CDROM){
-					m_Icon = 4;
-				}
-				else{
-					//Default to using the harddisk icon
-					m_Icon = 3;
-				}
-#else
-				m_Icon = 3;
-#endif
-			}
-			else{
-				m_Caption = path.GetName();
-				m_Type = DIRCTRL_FOLDER;
-				m_Icon = 0;
-			}
-		}
-		else{
-			m_Caption = path.GetFullName();
-			m_Type = DIRCTRL_FILE;
-			m_Icon = (path.GetExt() == "exe") ? 2 : 1;
-		}
-	};
+	DirCtrlItem(const wxFileName &path);
 	
 	DirCtrlItem(const wxFileName &path, const wxString &caption, const DirCtrlItemType &type, const int &icon)
 				:m_Path(path),
@@ -116,44 +81,19 @@ protected:
 //Typedef a more convenient vector
 typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
 
-//A custom version of wxDirTraverser that only iterates through one directory
-//and adds all items to a DirCtrlItemArray
-class DirCtrlTraverser : public wxDirTraverser{
-public:
-	DirCtrlTraverser(DirCtrlItemArray* items) : m_Items(items)
-	{}
-
-	virtual wxDirTraverseResult OnFile(const wxString& filename){
-		m_Items->push_back(new DirCtrlItem(filename));
-		return wxDIR_CONTINUE;
-	}
-
-	virtual wxDirTraverseResult OnDir(const wxString& dirname){
-		m_Items->push_back(new DirCtrlItem(dirname));
-		return wxDIR_IGNORE;
-	}
-
-	DirCtrlItemArray* GetItems() { return m_Items; }
-
-private:
-	DirCtrlItemArray* m_Items;
-};
-
 //The thread that actually traverses the directories, posts back its results
 //in a DirTraverserThreadEvent
 class DirTraverserThread : public wxThread{
 public:
 
-	DirTraverserThread(const wxString& path, int depth, wxEvtHandler* handler) 
-		: m_Handler(handler), m_Path(path), m_Depth(depth), wxThread(wxTHREAD_DETACHED)
+	DirTraverserThread(const wxString& path, wxEvtHandler* handler) 
+		: m_Handler(handler), m_Path(path), wxThread(wxTHREAD_DETACHED)
 	{}
 
-	virtual DirCtrlTraverser* GetTraverser();
+	virtual void* Entry();
 	
 private:
-	virtual void* Entry();
 	wxString m_Path;
-	int m_Depth;
 	int m_Id;
 	wxEvtHandler* m_Handler;
 };
@@ -173,24 +113,23 @@ public:
 
 	void AddItem(DirCtrlItem *item);
 	void AddItem(const wxString &path);
+
 	//A neater version that uses freeze and thaw
 	void ExpandAll();
-	
-	//Event Handlers
-	void OnNodeExpand(wxTreeEvent &event);
-	virtual void OnTraversed(wxCommandEvent &event);
 
-	//Inline functions
-	void SetScanDepth(const int &ScanDepth) {this->m_ScanDepth = ScanDepth;}
-	int GetScanDepth() const {return m_ScanDepth;}
-
-protected:
-	virtual void AddDirectory(DirCtrlItem *item, int depth);
+	//Get the correct
+	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 private:
 	DECLARE_EVENT_TABLE()
 
-	int m_ScanDepth;
+	//Event Handlers
+	void OnNodeExpand(wxTreeEvent &event);
+	void OnTraversed(wxCommandEvent &event);
+
+	//Runs thread needed to add a directory
+	void AddDirectory(DirCtrlItem *item);
+
 	wxImageList *m_Image;
 	std::map<int, wxTreeItemId> m_IdMap;
 };

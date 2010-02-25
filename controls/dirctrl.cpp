@@ -59,6 +59,7 @@ void TreeStateSaver::LoadChildren(wxString path, wxTreeItemId parent){
 	return;
 }
 
+//Comparison function for std::sort
 bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 	if(a->GetType() == DIRCTRL_FOLDER && b->GetType() == DIRCTRL_FILE){
 		return true;
@@ -76,32 +77,68 @@ bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 	}
 }
 
-DirCtrlTraverser* DirTraverserThread::GetTraverser(){
-	DirCtrlItemArray* items = new std::vector<DirCtrlItem*>();
-	return new DirCtrlTraverser(items);
-}
+DirCtrlItem::DirCtrlItem(const wxFileName &path){
+	m_Colour = wxColour("Black");
+	m_Path = path;
+	if(!wxFileExists(path.GetFullPath())){
+		/*We add 2 because GetVolume returns C and we expect C:\ */
+		if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
+			m_Caption = path.GetFullPath();
+			m_Type = DIRCTRL_ROOT;
+#ifdef __WXMSW__
+			unsigned int type = GetDriveType(path.GetFullPath());
+			if(type == DRIVE_REMOVABLE){
+				m_Icon = 5;
+			}
+			else if(type == DRIVE_CDROM){
+				m_Icon = 4;
+			}
+			else{
+				//Default to using the harddisk icon
+				m_Icon = 3;
+			}
+#else
+			m_Icon = 3;
+#endif
+		}
+		else{
+			m_Caption = path.GetName();
+			m_Type = DIRCTRL_FOLDER;
+			m_Icon = 0;
+		}
+	}
+	else{
+		m_Caption = path.GetFullName();
+		m_Type = DIRCTRL_FILE;
+		m_Icon = (path.GetExt() == "exe") ? 2 : 1;
+	}
+};
 
 void* DirTraverserThread::Entry(){
-	//Get the traverser and traverse
-	DirCtrlTraverser* traverser = GetTraverser();
+	DirCtrlItemArray* items = new DirCtrlItemArray();
+	//Traverse though the directory and add each file and folder
 	wxDir dir(m_Path);
 	if(dir.IsOpened()){
-		//To stop errors on failing to parse some folders
+		wxString filename;
+		//Supress any warning we might get here about folders we cant open
 		wxLogNull null;
-		dir.Traverse(*traverser);
+		bool ok = dir.GetFirst(&filename);
+		if(ok){
+			do {
+				items->push_back(new DirCtrlItem(m_Path + wxFILE_SEP_PATH + filename));
+			} while(dir.GetNext(&filename));
+		}
 	}
 
 	//Sort the items, perhaps in the future the comparison method shoulf move
 	//to a seperare call so it can be easily changed in inherited classes
-	std::sort(traverser->GetItems()->begin(), traverser->GetItems()->end(), DirCtrlItemComparison);
+	std::sort(items->begin(), items->end(), DirCtrlItemComparison);
 
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
 	wxCommandEvent* event = new wxCommandEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
-	event->SetExtraLong(this->GetId());
-	event->SetInt(m_Depth);
-	event->SetExtraLong(GetId());
-	event->SetClientData(traverser->GetItems());
+	event->SetInt(GetId());
+	event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
 	return NULL;
 }
@@ -114,7 +151,6 @@ END_EVENT_TABLE()
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 		: wxTreeCtrl(parent, id, pos, size, style)
 {
-	SetScanDepth(1);
 	AddRoot(wxT("Hidden Root"));
 
 	const wxString bitmapdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "bitmaps" + wxFILE_SEP_PATH;
@@ -135,7 +171,7 @@ DirCtrl::~DirCtrl(){
 void DirCtrl::AddItem(DirCtrlItem *item){
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
 	if(item->GetType() == DIRCTRL_FOLDER || item->GetType() == DIRCTRL_ROOT){
-		AddDirectory(item, 0);
+		AddDirectory(item);
 		Expand(id);
 	}
 }
@@ -146,16 +182,18 @@ void DirCtrl::AddItem(const wxString &path){
 	AddItem(item);
 }
 
-void DirCtrl::AddDirectory(DirCtrlItem *item, int depth){
-	if(depth == -1 || depth < m_ScanDepth){
-		//If we have not yet added this directory then do so
-		if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-			DirTraverserThread *thread = new DirTraverserThread(item->GetFullPath(), depth, this);
-			thread->Create();
-			m_IdMap[thread->GetId()] = item->GetId();
-			thread->Run();
-		}
+void DirCtrl::AddDirectory(DirCtrlItem *item){
+	//If we have not yet added this directory then do so
+	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
+		DirTraverserThread *thread = GetThread(item->GetFullPath(), this);
+		thread->Create();
+		m_IdMap[thread->GetId()] = item->GetId();
+		thread->Run();
 	}
+}
+
+DirTraverserThread* DirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
+	return new DirTraverserThread(path, handler);
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
@@ -167,7 +205,7 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 		while(child.IsOk()){
 			DirCtrlItem *item = static_cast<DirCtrlItem*>(GetItemData(child));
 			if(item->GetType() == DIRCTRL_FOLDER){
-				AddDirectory(item, 0);
+				AddDirectory(item);
 			}
 			child = GetNextChild(parent, cookie);
 		}
@@ -178,12 +216,7 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 void DirCtrl::OnTraversed(wxCommandEvent &event){
 	DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
 	for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
-		wxTreeItemId temp = m_IdMap[event.GetExtraLong()];
-		wxTreeItemId id = AppendItem(m_IdMap[event.GetExtraLong()], (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
-		DirCtrlItem* item = static_cast<DirCtrlItem*>(GetItemData(id));
-		if(item->GetType() == DIRCTRL_FOLDER){
-			AddDirectory(item, (event.GetInt() == -1 ? -1 : event.GetInt() + 1));
-		}
+		wxTreeItemId id = AppendItem(m_IdMap[event.GetInt()], (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
 	}
 }
 
