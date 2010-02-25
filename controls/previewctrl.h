@@ -8,6 +8,19 @@
 
 class Rules;
 
+class PreviewTraverserThread : public DirTraverserThread{
+public:
+
+	PreviewTraverserThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
+		: m_Rules(rules), DirTraverserThread(path, handler)
+	{}
+
+	virtual void* Entry();
+
+private:
+	Rules *m_Rules;
+};
+
 //A basic previewing control, used by backup and secure
 class PreviewDirCtrl : public DirCtrl{
 
@@ -19,6 +32,9 @@ public:
 	~PreviewDirCtrl();
 
 	void SetRules(Rules *rules) { m_Rules = rules; }
+
+	//We use our own previewing thread
+	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 private:
    Rules *m_Rules;

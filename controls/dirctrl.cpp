@@ -59,24 +59,6 @@ void TreeStateSaver::LoadChildren(wxString path, wxTreeItemId parent){
 	return;
 }
 
-//Comparison function for std::sort
-bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
-	if(a->GetType() == DIRCTRL_FOLDER && b->GetType() == DIRCTRL_FILE){
-		return true;
-	}
-	else if(a->GetType() == DIRCTRL_FILE && b->GetType() == DIRCTRL_FOLDER){
-		return false;
-	}
-	else{
-		if(a->GetFullPath().CmpNoCase(b->GetFullPath()) >= 0){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
-}
-
 DirCtrlItem::DirCtrlItem(const wxFileName &path){
 	m_Colour = wxColour("Black");
 	m_Path = path;

@@ -78,6 +78,24 @@ protected:
 	int m_Icon;
 };
 
+//Comparison function for std::sort
+inline bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
+	if(a->GetType() == DIRCTRL_FOLDER && b->GetType() == DIRCTRL_FILE){
+		return true;
+	}
+	else if(a->GetType() == DIRCTRL_FILE && b->GetType() == DIRCTRL_FOLDER){
+		return false;
+	}
+	else{
+		if(a->GetFullPath().CmpNoCase(b->GetFullPath()) >= 0){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+}
+
 //Typedef a more convenient vector
 typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
 
@@ -92,7 +110,7 @@ public:
 
 	virtual void* Entry();
 	
-private:
+protected:
 	wxString m_Path;
 	int m_Id;
 	wxEvtHandler* m_Handler;
