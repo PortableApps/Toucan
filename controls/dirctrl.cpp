@@ -217,6 +217,7 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 	DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
 	for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
 		wxTreeItemId id = AppendItem(m_IdMap[event.GetInt()], (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
+		SetItemTextColour(id, (*iter)->GetColour());
 	}
 }
 
