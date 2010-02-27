@@ -24,9 +24,9 @@ class wxRadioBox;
 class wxSlider;
 class wxStyledTextCtrl;
 
-class DirCtrl;
 class LocalDirCtrl;
 class PreviewDirCtrl;
+class SyncPreviewDirCtrl;
 class Settings;
 
 #include <wx/aui/framemanager.h>
@@ -302,8 +302,8 @@ public:
 	wxComboBox* m_Sync_Rules;
 	wxTextCtrl* m_Sync_Source_Txt;
 	wxTextCtrl* m_Sync_Dest_Txt;
-	DirCtrl* m_Sync_Source_Tree;
-	DirCtrl* m_Sync_Dest_Tree;
+	SyncPreviewDirCtrl* m_Sync_Source_Tree;
+	SyncPreviewDirCtrl* m_Sync_Dest_Tree;
 	wxRadioBox* m_Sync_Function;
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;

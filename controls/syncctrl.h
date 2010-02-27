@@ -4,6 +4,9 @@
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
+#ifndef H_SYNCCTRL
+#define H_SYNCCTRL
+
 #include "previewctrl.h"
 
 enum SyncType{
@@ -20,12 +23,13 @@ public:
 					   const wxPoint& pos = wxDefaultPosition,
 					   const wxSize& size = wxDefaultSize,
 					   long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
-	~SyncPreviewDirCtrl();
 
 	//We use our own previewing thread
-	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	//virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 private:
    SyncPreviewDirCtrl *m_Ctrl;
    SyncType m_Type;
 };
+
+#endif

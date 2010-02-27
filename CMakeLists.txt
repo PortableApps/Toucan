@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
 project(Toucan)
 
 #Find wxWidgets
-find_package(wxWidgets COMPONENTS base core net adv html aui stc REQUIRED)
+find_package(wxWidgets COMPONENTS base core net adv aui stc REQUIRED)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${wxWidgets_CXX_FLAGS})
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})

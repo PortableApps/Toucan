@@ -4,6 +4,9 @@
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
+#ifndef H_LOCALDIRCTRL
+#define H_LOCALDIRCTRL
+
 #include "dirctrl.h"
 
 //A class to show all of the files and folders availiable to to local pc
@@ -17,3 +20,5 @@ public:
 
 	void ReCreateTree();
 };
+
+#endif

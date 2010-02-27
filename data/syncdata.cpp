@@ -9,7 +9,7 @@
 #include "../toucan.h"
 #include "../variables.h"
 #include "../forms/frmmain.h"
-#include "../controls/dirctrl.h"
+#include "../controls/syncctrl.h"
 #include <wx/variant.h>
 #include <wx/fileconf.h>
 #include <wx/msgdlg.h>

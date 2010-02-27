@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2006 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef TOUCAN_H
@@ -17,7 +17,6 @@ class ScriptManager;
 class LuaManager;
 class wxTextFile;
 class wxFileConfig;
-class wxHtmlHelpController;
 
 enum{
 	ID_OUTPUT = wxID_HIGHEST + 1,
@@ -54,9 +53,6 @@ public:
 	wxFileConfig* m_Rules_Config;
 	wxFileConfig* m_Scripts_Config;
 	wxFileConfig* m_Variables_Config;
-
-
-	wxHtmlHelpController* m_Help;
 	
 	//<drive label, drive letter> Used by variables to resolve drive labels
 	std::map<wxString, wxString> m_DriveLabels;

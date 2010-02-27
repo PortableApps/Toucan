@@ -4,6 +4,9 @@
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
+#ifndef H_PREVIEWCTRL
+#define H_PREVIEWCTRL
+
 #include "dirctrl.h"
 
 class Rules;
@@ -39,3 +42,5 @@ public:
 private:
    Rules *m_Rules;
 };
+
+#endif
