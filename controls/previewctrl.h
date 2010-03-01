@@ -11,11 +11,11 @@
 
 class Rules;
 
-class PreviewTraverserThread : public DirTraverserThread{
+class PreviewThread : public DirThread{
 public:
 
-	PreviewTraverserThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
-		: m_Rules(rules), DirTraverserThread(path, handler)
+	PreviewThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
+		: m_Rules(rules), DirThread(path, handler)
 	{}
 
 	virtual void* Entry();
@@ -37,7 +37,7 @@ public:
 	void SetRules(Rules *rules) { m_Rules = rules; }
 
 	//We use our own previewing thread
-	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	virtual DirThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 protected:
    Rules *m_Rules;

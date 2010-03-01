@@ -10,7 +10,7 @@
 #include <wx/log.h>
 #include <algorithm>
 
-void* SyncPreviewTraverserThread::Entry(){
+void* SyncPreviewThread::Entry(){
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
 	wxDir dir(m_Path);
@@ -55,6 +55,6 @@ SyncPreviewDirCtrl::SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType
    
 }
 
-DirTraverserThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
-	return new SyncPreviewTraverserThread(path, m_Rules, handler);
+DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
+	return new SyncPreviewThread(path, m_Rules, handler);
 }

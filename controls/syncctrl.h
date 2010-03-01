@@ -16,11 +16,11 @@ enum SyncType{
 	SYNC_DEST
 };
 
-class SyncPreviewTraverserThread : public PreviewTraverserThread{
+class SyncPreviewThread : public PreviewThread{
 public:
 
-	SyncPreviewTraverserThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
-		: PreviewTraverserThread(path, rules, handler)
+	SyncPreviewThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
+		: PreviewThread(path, rules, handler)
 	{}
 
 	virtual void* Entry();
@@ -37,7 +37,7 @@ public:
 					   long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
-	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	virtual DirThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 private:
    SyncPreviewDirCtrl *m_Ctrl;

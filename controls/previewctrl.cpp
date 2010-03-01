@@ -11,7 +11,7 @@
 #include <wx/log.h>
 #include <algorithm>
 
-void* PreviewTraverserThread::Entry(){
+void* PreviewThread::Entry(){
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
 	wxDir dir(m_Path);
@@ -59,6 +59,6 @@ PreviewDirCtrl::~PreviewDirCtrl(){
 	delete m_Rules;
 }
 
-DirTraverserThread* PreviewDirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
-	return new PreviewTraverserThread(path, m_Rules, handler);
+DirThread* PreviewDirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
+	return new PreviewThread(path, m_Rules, handler);
 }

@@ -100,11 +100,11 @@ inline bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
 
 //The thread that actually traverses the directories, posts back its results
-//in a DirTraverserThreadEvent
-class DirTraverserThread : public wxThread{
+//in a DirThreadEvent
+class DirThread : public wxThread{
 public:
 
-	DirTraverserThread(const wxString& path, wxEvtHandler* handler) 
+	DirThread(const wxString& path, wxEvtHandler* handler) 
 		: m_Handler(handler), m_Path(path), wxThread(wxTHREAD_DETACHED)
 	{}
 
@@ -136,7 +136,7 @@ public:
 	void ExpandAll();
 
 	//Get the correct
-	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	virtual DirThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 private:
 	DECLARE_EVENT_TABLE()

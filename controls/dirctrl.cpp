@@ -96,7 +96,7 @@ DirCtrlItem::DirCtrlItem(const wxFileName &path){
 	}
 };
 
-void* DirTraverserThread::Entry(){
+void* DirThread::Entry(){
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
 	wxDir dir(m_Path);
@@ -167,15 +167,15 @@ void DirCtrl::AddItem(const wxString &path){
 void DirCtrl::AddDirectory(DirCtrlItem *item){
 	//If we have not yet added this directory then do so
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-		DirTraverserThread *thread = GetThread(item->GetFullPath(), this);
+		DirThread *thread = GetThread(item->GetFullPath(), this);
 		thread->Create();
 		m_IdMap[thread->GetId()] = item->GetId();
 		thread->Run();
 	}
 }
 
-DirTraverserThread* DirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
-	return new DirTraverserThread(path, handler);
+DirThread* DirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
+	return new DirThread(path, handler);
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
