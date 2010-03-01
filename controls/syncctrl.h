@@ -9,9 +9,21 @@
 
 #include "previewctrl.h"
 
+class Rules;
+
 enum SyncType{
 	SYNC_SOURCE,
 	SYNC_DEST
+};
+
+class SyncPreviewTraverserThread : public PreviewTraverserThread{
+public:
+
+	SyncPreviewTraverserThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
+		: PreviewTraverserThread(path, rules, handler)
+	{}
+
+	virtual void* Entry();
 };
 
 //A more advanced previewing control, used by sync
@@ -25,7 +37,7 @@ public:
 					   long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
-	//virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
 private:
    SyncPreviewDirCtrl *m_Ctrl;

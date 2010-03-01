@@ -20,7 +20,7 @@ public:
 
 	virtual void* Entry();
 
-private:
+protected:
 	Rules *m_Rules;
 };
 
@@ -39,7 +39,7 @@ public:
 	//We use our own previewing thread
 	virtual DirTraverserThread* GetThread(const wxString& path, wxEvtHandler* handler);
 
-private:
+protected:
    Rules *m_Rules;
 };
 
