@@ -276,7 +276,7 @@ void Toucan::KillConime(){
 			return;
 		}
 		do{
-			size_t length = wcsnlen(pe.szExeFile, 10);
+			size_t length = wxStrnlen(pe.szExeFile, 10);
 			//check if it is a conime process
 			if(wcsncmp(pe.szExeFile, wxT("conime.exe"), length) == 0 || wcsncmp(pe.szExeFile, wxT("conime"), length) == 0){
 				//then if toucan is its parent process
