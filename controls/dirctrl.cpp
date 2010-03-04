@@ -167,15 +167,15 @@ void DirCtrl::AddItem(const wxString &path){
 void DirCtrl::AddDirectory(DirCtrlItem *item){
 	//If we have not yet added this directory then do so
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-		DirThread *thread = GetThread(item->GetFullPath(), this);
+		DirThread *thread = GetThread(item->GetFullPath());
 		thread->Create();
 		m_IdMap[thread->GetId()] = item->GetId();
 		thread->Run();
 	}
 }
 
-DirThread* DirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
-	return new DirThread(path, handler);
+DirThread* DirCtrl::GetThread(const wxString& path){
+	return new DirThread(path, this);
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){

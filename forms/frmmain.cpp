@@ -1006,7 +1006,6 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 	wxDirDialog dialog(this, _("Please select the source folder"), Normalise(m_Sync_Source_Txt->GetValue()));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
-		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddItem(dialog.GetPath());
 		m_Sync_Source_Txt->SetValue(dialog.GetPath());
 	}
@@ -1018,7 +1017,6 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 	wxDirDialog dialog(this, _("Please select the destination folder"), Normalise(m_Sync_Dest_Txt->GetValue()));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
-		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddItem(dialog.GetPath());
 		m_Sync_Dest_Txt->SetValue(dialog.GetPath());
 	}
@@ -1384,34 +1382,18 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
 	m_Notebook->Disable();
 
-	if (m_Sync_Rules->GetStringSelection() != wxEmptyString){
-		Rules *rules = new Rules(m_Sync_Rules->GetStringSelection());
-		rules->TransferFromFile();
-//		m_Sync_Dest_Tree->SetRules(rules);
-	}	
-
-//	m_Sync_Dest_Tree->DeleteAllItems();
-//	m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-//	m_Sync_Dest_Tree->SetPreview(true);
-//	m_Sync_Dest_Tree->SetSync(true);
-//	m_Sync_Dest_Tree->AddNewPath(Normalise(m_Sync_Dest_Txt->GetValue()));
+	m_Sync_Dest_Tree->DeleteChildren(m_Sync_Dest_Tree->GetRootItem());
+	m_Sync_Dest_Tree->SetPreview(true);
+	m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
-		if (m_Sync_Rules->GetStringSelection() != wxEmptyString){
-			Rules *rules = new Rules(m_Sync_Rules->GetStringSelection());
-			rules->TransferFromFile();
-//			m_Sync_Source_Tree->SetRules(rules);
-		}	
-//		m_Sync_Source_Tree->DeleteAllItems();
-//		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-//		m_Sync_Source_Tree->SetSync(true);
-//		m_Sync_Source_Tree->SetPreview(true);
-//		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->DeleteChildren(m_Sync_Source_Tree->GetRootItem());
+		m_Sync_Source_Tree->SetPreview(true);
+		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	else{
-//		m_Sync_Source_Tree->DeleteAllItems();
-//		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
-//		m_Sync_Source_Tree->AddNewPath(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->DeleteChildren(m_Sync_Source_Tree->GetRootItem());
+		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	m_Notebook->Enable();
 }
@@ -1948,8 +1930,8 @@ void frmMain::ClearToDefault(){
 		m_Sync_Source_Tree->AddRoot(wxT("Hidden root"));
 		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddRoot(wxT("Hidden root"));
-//		m_Sync_Source_Tree->SetPreview(false);
-//		m_Sync_Dest_Tree->SetPreview(false);
+		m_Sync_Source_Tree->SetPreview(false);
+		m_Sync_Dest_Tree->SetPreview(false);
 	}
 	if(m_Notebook->GetPageText(m_Notebook->GetSelection()) == _("Backup")){
 		m_Backup_Function->SetStringSelection(_("Complete"));

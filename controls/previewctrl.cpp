@@ -59,6 +59,6 @@ PreviewDirCtrl::~PreviewDirCtrl(){
 	delete m_Rules;
 }
 
-DirThread* PreviewDirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
-	return new PreviewThread(path, m_Rules, handler);
+DirThread* PreviewDirCtrl::GetThread(const wxString& path){
+	return new PreviewThread(path, m_Rules, this);
 }

@@ -37,7 +37,7 @@ public:
 	void SetRules(Rules *rules) { m_Rules = rules; }
 
 	//We use our own previewing thread
-	virtual DirThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	virtual DirThread* GetThread(const wxString& path);
 
 protected:
    Rules *m_Rules;

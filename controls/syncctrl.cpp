@@ -6,34 +6,16 @@
 
 #include "syncctrl.h"
 #include "../rules.h"
+#include "../variables.h"
+#include "../sync/syncpreview.h"
+#include "../data/syncdata.h"
 
 #include <wx/log.h>
 #include <algorithm>
 
 void* SyncPreviewThread::Entry(){
-	DirCtrlItemArray* items = new DirCtrlItemArray();
-	//Traverse though the directory and add each file and folder
-	wxDir dir(m_Path);
-	if(dir.IsOpened()){
-		wxString filename;
-		//Supress any warning we might get here about folders we cant open
-		wxLogNull null;
-		bool ok = dir.GetFirst(&filename);
-		if(ok){
-			do {
-				//Simple check to see if we should be excluded, if so colour red
-				wxString path = m_Path + wxFILE_SEP_PATH + filename;
-				DirCtrlItem* item = new DirCtrlItem(path);
-				if(m_Rules != NULL){
-					if(m_Rules->ShouldExclude(path, wxDirExists(path))){
-						item->SetColour(wxColour("Red"));
-					}
-				}
-				items->push_back(item);
-				
-			} while(dir.GetNext(&filename));
-		}
-	}
+	SyncPreview preview(m_Path, m_OppPath, m_Data, (m_Type == SYNC_SOURCE) ? true : false);
+	DirCtrlItemArray* items = new DirCtrlItemArray(preview.Execute());
 
 	//Sort the items, perhaps in the future the comparison method shoulf move
 	//to a seperare call so it can be easily changed in inherited classes
@@ -49,12 +31,33 @@ void* SyncPreviewThread::Entry(){
 }
 
 SyncPreviewDirCtrl::SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType type,
-									   SyncPreviewDirCtrl *ctrl, const wxPoint& pos, 
+									   SyncPreviewDirCtrl *ctrl, const wxPoint& pos,
 									   const wxSize& size, long style)
 									   :m_Type(type), m_Ctrl(ctrl), PreviewDirCtrl(parent, id, pos, size, style){
-   
+   m_Preview = false;  
+   m_Root = wxEmptyString;
 }
 
-DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxEvtHandler* handler){
-	return new SyncPreviewThread(path, m_Rules, handler);
+void SyncPreviewDirCtrl::AddItem(DirCtrlItem *item){
+	m_Root = item->GetFullPath();
+	DeleteChildren(GetRootItem());
+	DirCtrl::AddItem(item);
+}
+
+void SyncPreviewDirCtrl::AddItem(const wxString &path){
+	wxFileName name(path);
+	AddItem(new DirCtrlItem(name));
+}
+
+DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){
+	if(m_Preview){
+		SyncData *data = new SyncData(wxT("PreviewJob"));
+		data->TransferFromForm(wxGetApp().MainWindow);
+		data->SetSource(Normalise(data->GetSource()));
+		data->SetDest(Normalise(data->GetDest()));
+		return new SyncPreviewThread(path, m_Ctrl->GetRoot() + path.Right(path.Length() - m_Root.Length()), m_Type, data, this);
+	}
+	else{
+		return new DirThread(path, this);
+	}
 }

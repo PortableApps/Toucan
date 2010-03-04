@@ -129,14 +129,14 @@ public:
 
 	wxArrayString GetSelectedPaths();
 
-	void AddItem(DirCtrlItem *item);
-	void AddItem(const wxString &path);
+	virtual void AddItem(DirCtrlItem *item);
+	virtual void AddItem(const wxString &path);
 
 	//A neater version that uses freeze and thaw
 	void ExpandAll();
 
 	//Get the correct
-	virtual DirThread* GetThread(const wxString& path, wxEvtHandler* handler);
+	virtual DirThread* GetThread(const wxString& path);
 
 private:
 	DECLARE_EVENT_TABLE()
