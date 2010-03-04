@@ -15,8 +15,7 @@
 #include <wx/textfile.h>
 #include <wx/wx.h>
 
-
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	#include <shobjidl.h>
 	#undef Yield
 #endif
@@ -32,7 +31,7 @@ END_EVENT_TABLE()
 frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
 	Init();
 	wxFrame::Create(parent, id, caption, pos, size, style);
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	m_TaskBarId = RegisterWindowMessage(wxT("TaskbarButtonCreated"));
 #endif
 	CreateControls();
@@ -46,7 +45,7 @@ void frmProgress::Init(){
 	m_Cancel = NULL;
 	m_Save = NULL;
 	m_Gauge = NULL;
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	m_Taskbar = NULL;
 #endif
 }
@@ -129,7 +128,7 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 WXLRESULT frmProgress::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam){
 	if(message == m_TaskBarId){
 		int major = wxPlatformInfo::Get().GetOSMajorVersion();
@@ -150,16 +149,17 @@ WXLRESULT frmProgress::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM l
 
 void frmProgress::IncrementGauge(){
 	m_Gauge->SetValue(m_Gauge->GetValue() + 1);
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	if(m_Taskbar){
 		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
 	}
 #endif
+
 }
 
 void frmProgress::FinishGauge(){
 	m_Gauge->SetValue(m_Gauge->GetRange());
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	if(m_Taskbar){
 		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetRange(), m_Gauge->GetRange());
 	}
