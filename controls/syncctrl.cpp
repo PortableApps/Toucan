@@ -55,7 +55,23 @@ DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){
 		data->TransferFromForm(wxGetApp().MainWindow);
 		data->SetSource(Normalise(data->GetSource()));
 		data->SetDest(Normalise(data->GetDest()));
-		return new SyncPreviewThread(path, m_Ctrl->GetRoot() + path.Right(path.Length() - m_Root.Length()), m_Type, data, this);
+		//Remove a trailing slash if we have one
+		wxString trimmedpath = path;
+		if(trimmedpath.EndsWith(wxFILE_SEP_PATH)){
+			trimmedpath = path.BeforeLast(wxFILE_SEP_PATH);
+		}
+		//Likewise for the opposite path
+		wxString opproot = m_Ctrl->GetRoot();
+		if(opproot.EndsWith(wxFILE_SEP_PATH)){
+			opproot = opproot.BeforeLast(wxFILE_SEP_PATH);
+		}
+		wxString opp = opproot + wxFILE_SEP_PATH + trimmedpath.Right(path.Length() - m_Root.Length());
+		if(m_Type == SYNC_SOURCE){
+			return new SyncPreviewThread(trimmedpath, opp , m_Type, data, this);
+		}
+		else{
+			return new SyncPreviewThread(opp, trimmedpath , m_Type, data, this);			
+		}
 	}
 	else{
 		return new DirThread(path, this);

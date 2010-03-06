@@ -27,45 +27,39 @@ DirCtrlItemArray SyncPreview::Execute(){
 	std::list<wxString> destpaths = FolderContentsToList(destroot);
 	std::map<wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
-	if(sourcetree){
-		return sourceitems;
-	}
-	else{
-		return destitems;		
-	}
-
+	return sourcetree ? sourceitems : destitems;
 }
 
 bool SyncPreview::OperationCaller(std::map<wxString, int> paths){
 	for(std::map<wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if((*iter).second == 1){
-				sourceitems.push_back(new DirCtrlItem((*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first, true));
 				OnSourceNotDestFolder((*iter).first);
 			}
 			else if((*iter).second == 2){
-				destitems.push_back(new DirCtrlItem((*iter).first));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first, true));
 				OnNotSourceDestFolder((*iter).first);		
 			}
 			else if((*iter).second == 3){
-				sourceitems.push_back(new DirCtrlItem((*iter).first));
-				destitems.push_back(new DirCtrlItem((*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first, true));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first, true));
 				OnSourceAndDestFolder((*iter).first);
 			}
 		}
 		//We have a file
 		else{
 			if((*iter).second == 1){
-				sourceitems.push_back(new DirCtrlItem((*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first));
 				OnSourceNotDestFile((*iter).first);
 			}
 			else if((*iter).second == 2){
-				destitems.push_back(new DirCtrlItem((*iter).first));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first));
 				OnNotSourceDestFile((*iter).first);
 			}
 			else if((*iter).second == 3){
-				sourceitems.push_back(new DirCtrlItem((*iter).first));
-				destitems.push_back(new DirCtrlItem((*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first));
 				OnSourceAndDestFile((*iter).first);
 			}
 		}
@@ -77,7 +71,7 @@ void SyncPreview::OnSourceNotDestFile(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
-		DirCtrlItem* item = new DirCtrlItem(path);
+		DirCtrlItem* item = new DirCtrlItem(dest);
 		if(!data->GetRules()->ShouldExclude(source, false)){
 			item->SetColour(wxT("Blue"));
 			destitems.push_back(item);
@@ -107,7 +101,7 @@ void SyncPreview::OnNotSourceDestFile(const wxString &path){
 			}
 		}
 		else if(data->GetFunction() == _("Equalise")){
-			DirCtrlItem* item = new DirCtrlItem(path);
+			DirCtrlItem* item = new DirCtrlItem(source);
 			if(!data->GetRules()->ShouldExclude(dest, false)){
 				item->SetColour(wxT("Blue"));
 				sourceitems.push_back(item);
@@ -194,7 +188,7 @@ void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
-		DirCtrlItem* item = new DirCtrlItem(path);
+		DirCtrlItem* item = new DirCtrlItem(dest, true);
 		if(!data->GetRules()->ShouldExclude(source, true)){
 			item->SetColour(wxT("Blue"));
 		}
@@ -223,7 +217,7 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
-		DirCtrlItem* item = new DirCtrlItem(path);
+		DirCtrlItem* item = new DirCtrlItem(source, true);
 		if(!data->GetRules()->ShouldExclude(dest, true)){
 			item->SetColour(wxT("Blue"));
 

@@ -59,10 +59,10 @@ void TreeStateSaver::LoadChildren(wxString path, wxTreeItemId parent){
 	return;
 }
 
-DirCtrlItem::DirCtrlItem(const wxFileName &path){
+DirCtrlItem::DirCtrlItem(const wxFileName &path, bool isdir){
 	m_Colour = wxColour("Black");
 	m_Path = path;
-	if(!wxFileExists(path.GetFullPath())){
+	if(wxDirExists(path.GetFullPath()) || isdir){
 		/*We add 2 because GetVolume returns C and we expect C:\ */
 		if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
 			m_Caption = path.GetFullPath();
