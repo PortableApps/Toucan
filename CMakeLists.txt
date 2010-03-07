@@ -104,11 +104,6 @@ add_custom_command(
 add_executable(toucan ${source} ${headers})
 target_link_libraries(toucan forms backup controls data secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
 
-if(MSVC)
-    #Disable manifest creation as we have our own .rc file
-	set_target_properties(toucan PROPERTIES LINK_FLAGS "/MANIFEST:NO")
-endif(MSVC)
-
 #Once we have built Toucan move it somewhere suitable
 set(Toucan_Output "" CACHE PATH "The path to an existing Toucan installation")
 set(Toucan_Exepath ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/toucan${CMAKE_EXECUTABLE_SUFFIX})
