@@ -154,7 +154,6 @@ void DirCtrl::AddItem(DirCtrlItem *item){
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
 	if(item->GetType() == DIRCTRL_FOLDER || item->GetType() == DIRCTRL_ROOT){
 		AddDirectory(item);
-		Expand(id);
 	}
 }
 
