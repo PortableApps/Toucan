@@ -1382,17 +1382,14 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
 	m_Notebook->Disable();
 
-	m_Sync_Dest_Tree->DeleteChildren(m_Sync_Dest_Tree->GetRootItem());
 	m_Sync_Dest_Tree->SetPreview(true);
 	m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
-		m_Sync_Source_Tree->DeleteChildren(m_Sync_Source_Tree->GetRootItem());
 		m_Sync_Source_Tree->SetPreview(true);
 		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	else{
-		m_Sync_Source_Tree->DeleteChildren(m_Sync_Source_Tree->GetRootItem());
 		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	m_Notebook->Enable();
@@ -2203,7 +2200,6 @@ void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
-		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Source_Txt->SetValue(dialog.GetValue());
 	}
@@ -2213,7 +2209,6 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
-		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
 	}
@@ -2228,7 +2223,6 @@ void frmMain::OnSyncRefresh(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Source_Tree);
-		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 }
@@ -2236,7 +2230,6 @@ void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Dest_Tree);
-		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }
