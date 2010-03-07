@@ -58,13 +58,13 @@ bool Settings::TransferFromFile(){
 	
 	//Read from the settings file
 	if(!config->Read(wxT("General/Tabs"), &stemp)){
-		m_TabStyle = _("Icons and Text");
+		m_TabStyle = ToLang("Icons and Text");
 	}	
 	else{
 		m_TabStyle = ToLang(stemp);
 	}
 	if(!config->Read(wxT("General/Position"), &stemp)){
-		m_Position = _("Sync");
+		m_Position = ToLang("Sync");
 	}
 	else{
 		m_Position = ToLang(stemp);
