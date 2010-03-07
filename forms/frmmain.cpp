@@ -314,7 +314,7 @@ void frmMain::CreateControls(){
 	SyncButtonsSizer->Add(SyncRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Sync - Main
-    wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
+	wxGridBagSizer* SyncMainSizer = new wxGridBagSizer(0, 0);
 	SyncMainSizer->SetCols(4);
 	SyncMainSizer->SetRows(3);
 	SyncMainSizer->AddGrowableCol(0);
@@ -452,7 +452,7 @@ void frmMain::CreateControls(){
 	BackupButtonsSizer->Add(BackupRefreshButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Backup - Main
-    wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
+	wxGridBagSizer* BackupMainSizer = new wxGridBagSizer(0, 0);
 	BackupMainSizer->SetCols(4);
 	BackupMainSizer->SetRows(4);
 	BackupMainSizer->AddGrowableCol(0);
@@ -615,61 +615,61 @@ void frmMain::CreateControls(){
 	RulesNameSizer->Add(RulesNameRemove, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Rules - Main
-    wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
-    RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
+	wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
+	RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
 
-    m_RulesList = new wxListCtrl(RulesPanel, ID_RULES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
+	m_RulesList = new wxListCtrl(RulesPanel, ID_RULES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
 	m_RulesList->InsertColumn(0, _("Rule"));
 	m_RulesList->InsertColumn(1, _("Type"));
-    RulesMainSizer->Add(m_RulesList, 1, wxGROW|wxALL, border);
+	RulesMainSizer->Add(m_RulesList, 1, wxGROW|wxALL, border);
 
-    wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
-    RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
+	RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-    wxBitmapButton* RulesAddItem = new wxBitmapButton(RulesPanel, ID_RULES_ADDITEM, GetBitmapResource(wxT("add.png")));
-    RulesRightSizer->Add(RulesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* RulesAddItem = new wxBitmapButton(RulesPanel, ID_RULES_ADDITEM, GetBitmapResource(wxT("add.png")));
+	RulesRightSizer->Add(RulesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBitmapButton* RulesRemoveItem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
-    RulesRightSizer->Add(RulesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* RulesRemoveItem = new wxBitmapButton(RulesPanel, ID_RULES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
+	RulesRightSizer->Add(RulesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
 	//Variables
 	wxPanel* VariablesPanel = new wxPanel(m_Notebook, ID_PANEL_VARIABLES, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
 	wxBoxSizer* VariablesSizer = new wxBoxSizer(wxVERTICAL);
-    VariablesPanel->SetSizer(VariablesSizer);
+	VariablesPanel->SetSizer(VariablesSizer);
 
-    VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    VariablesSizer->Add(VariablesTopSizer, 0, wxALIGN_LEFT|wxALL, border);
+	VariablesTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	VariablesSizer->Add(VariablesTopSizer, 0, wxALIGN_LEFT|wxALL, border);
 	
 	wxStaticBox* VariablesName = new wxStaticBox(VariablesPanel, wxID_ANY, _("Name"));
 	wxStaticBoxSizer* VariablesNameSizer = new wxStaticBoxSizer(VariablesName, wxHORIZONTAL);
 	VariablesSizer->Add(VariablesNameSizer, 0, wxALIGN_TOP|wxLEFT, 2 * border);
 
-    m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetVariables(false), wxCB_DROPDOWN|wxCB_READONLY);
+	m_Variables_Name = new wxComboBox(VariablesPanel, ID_VARIABLES_NAME, _T(""), wxDefaultPosition, wxDefaultSize, GetVariables(false), wxCB_DROPDOWN|wxCB_READONLY);
 	VariablesNameSizer->Add(m_Variables_Name, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxBitmapButton* VariablesNameSave = new wxBitmapButton(VariablesPanel, ID_VARIABLES_SAVE, GetBitmapResource(wxT("save.png")));
 	VariablesNameSizer->Add(VariablesNameSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-    wxBitmapButton* VariablesNameAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, GetBitmapResource(wxT("add.png")));
+	wxBitmapButton* VariablesNameAdd = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADD, GetBitmapResource(wxT("add.png")));
 	VariablesNameSizer->Add(VariablesNameAdd, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBitmapButton* VariablesNameRemove = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVE, GetBitmapResource(wxT("remove.png")));
-    VariablesNameSizer->Add(VariablesNameRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* VariablesNameRemove = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVE, GetBitmapResource(wxT("remove.png")));
+	VariablesNameSizer->Add(VariablesNameRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBoxSizer* VariablesMainSizer = new wxBoxSizer(wxHORIZONTAL);
-    VariablesSizer->Add(VariablesMainSizer, 1, wxGROW|wxALL, border);
+	wxBoxSizer* VariablesMainSizer = new wxBoxSizer(wxHORIZONTAL);
+	VariablesSizer->Add(VariablesMainSizer, 1, wxGROW|wxALL, border);
 
-    m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
-    VariablesMainSizer->Add(m_Variables_List, 1, wxGROW|wxALL, border);
+	m_Variables_List = new wxListCtrl(VariablesPanel, ID_VARIABLES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
+	VariablesMainSizer->Add(m_Variables_List, 1, wxGROW|wxALL, border);
 
-    wxBoxSizer* VariablesRightSizer = new wxBoxSizer(wxVERTICAL);
-    VariablesMainSizer->Add(VariablesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxBoxSizer* VariablesRightSizer = new wxBoxSizer(wxVERTICAL);
+	VariablesMainSizer->Add(VariablesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
-    wxBitmapButton* VariablesAddItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADDITEM, GetBitmapResource(wxT("add.png")));
-    VariablesRightSizer->Add(VariablesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* VariablesAddItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_ADDITEM, GetBitmapResource(wxT("add.png")));
+	VariablesRightSizer->Add(VariablesAddItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
-    wxBitmapButton* VariablesRemoveItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
-    VariablesRightSizer->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
+	wxBitmapButton* VariablesRemoveItem = new wxBitmapButton(VariablesPanel, ID_VARIABLES_REMOVEITEM, GetBitmapResource(wxT("remove.png")));
+	VariablesRightSizer->Add(VariablesRemoveItem, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 
 	//Script
 	wxPanel* ScriptPanel = new wxPanel(m_Notebook, ID_PANEL_SCRIPT, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
@@ -720,7 +720,7 @@ void frmMain::CreateControls(){
 
 	//Settings
 	wxPanel* SettingsPanel = new wxPanel(m_Notebook, ID_PANEL_SETTINGS, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-    wxGridBagSizer* SettingsSizer = new wxGridBagSizer(0, 0);
+	wxGridBagSizer* SettingsSizer = new wxGridBagSizer(0, 0);
 	SettingsPanel->SetSizer(SettingsSizer);
 
 	wxStaticBox* FieldsStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Remember Entered Information"));
@@ -1508,7 +1508,7 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
 		return;
 	}
 	wxArrayString existing = GetVariables(true);
-    wxTextEntryDialog entrydialog(this, _("Please enter the name for the new variable"), _("New Variable"));
+	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new variable"), _("New Variable"));
 	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
@@ -1545,29 +1545,29 @@ void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnVariablesNameSelected(wxCommandEvent& WXUNUSED(event)){	
 	m_Variables_List->DeleteAllItems();
 	
-    wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());
+	wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());
     
 	long dummy;
-    wxString str;
-    int i = 0;
+	wxString str;
+	int i = 0;
 	
-    bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
-    while(bCont) {
-        m_Variables_List->InsertItem(i, wxT("Test"));
-        m_Variables_List->SetItem(i, 0, str);
+	bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
+	while(bCont) {
+		m_Variables_List->InsertItem(i, wxT("Test"));
+		m_Variables_List->SetItem(i, 0, str);
 		//Return the config to the top level
-        wxGetApp().m_Variables_Config->SetPath(wxT("/"));
-        wxString strTest = wxGetApp().m_Variables_Config->Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
-        m_Variables_List->SetItem(i, 1, strTest);
+		wxGetApp().m_Variables_Config->SetPath(wxT("/"));
+		wxString strTest = wxGetApp().m_Variables_Config->Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
+		m_Variables_List->SetItem(i, 1, strTest);
 		//Put the config location back
-        wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());    
-        bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
-        i++;
-    }
+		wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());    
+		bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
+		i++;
+	}
 	m_Variables_List->SetColumnWidth(0, -1);
 	m_Variables_List->SetColumnWidth(1, -1);
 	SetTitleBarText();
-    wxGetApp().m_Variables_Config->SetPath(wxT("/"));
+	wxGetApp().m_Variables_Config->SetPath(wxT("/"));
 }
 
 //ID_VARIABLES_ADDITEM
@@ -2257,10 +2257,5 @@ void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 }
 
 wxString frmMain::ToString(bool bl){
-	if(bl){
-		return wxString("true");
-	}
-	else{
-		return wxString("false");
-	}
+	return bl ? "true" : "false";
 }
