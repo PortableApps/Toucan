@@ -143,6 +143,7 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
 	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-harddisk.png"), wxBITMAP_TYPE_PNG));
 	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-optical.png"), wxBITMAP_TYPE_PNG));
 	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-removable-media.png"), wxBITMAP_TYPE_PNG));
+	m_Image->Add(wxBitmap(bitmapdir + wxT("folder-open.png"), wxBITMAP_TYPE_PNG));
 	AssignImageList(m_Image);
 }
 
@@ -152,6 +153,9 @@ DirCtrl::~DirCtrl(){
 
 void DirCtrl::AddItem(DirCtrlItem *item){
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
+	if(item->GetType() == DIRCTRL_FOLDER){
+		SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+	}
 	if(item->GetType() == DIRCTRL_FOLDER || item->GetType() == DIRCTRL_ROOT){
 		AddDirectory(item);
 	}
@@ -159,8 +163,7 @@ void DirCtrl::AddItem(DirCtrlItem *item){
 
 void DirCtrl::AddItem(const wxString &path){
 	wxFileName name(path);
-	DirCtrlItem *item = new DirCtrlItem(name);
-	AddItem(item);
+	AddItem(new DirCtrlItem(name));
 }
 
 void DirCtrl::AddDirectory(DirCtrlItem *item){
@@ -198,6 +201,9 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 	DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
 	for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
 		wxTreeItemId id = AppendItem(m_IdMap[event.GetInt()], (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
+		if((*iter)->GetType() == DIRCTRL_FOLDER){
+			SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+		}
 		SetItemTextColour(id, (*iter)->GetColour());
 	}
 }
