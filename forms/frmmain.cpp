@@ -779,27 +779,6 @@ void frmMain::CreateControls(){
 	m_Settings_SmallBorders->SetValue(false);
 	OtherStaticBoxSizer->Add(m_Settings_SmallBorders, 0, wxALIGN_TOP|wxALL, border);
 
-<<<<<<< local
-	//Help
-	wxPanel* HelpPanel = new wxPanel(m_Notebook, ID_PANEL_HELP, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL);
-	
-	wxBoxSizer* HelpSizer = new wxBoxSizer(wxVERTICAL);
-	HelpPanel->SetSizer(HelpSizer);
-	
-	wxButton* AboutButton = new wxButton(HelpPanel, wxID_ABOUT, _("About"));
-	HelpSizer->Add(AboutButton, 0, wxALIGN_TOP|wxALL, border);
-
-	m_HelpWindow = new wxHtmlHelpWindow;
-	m_HelpWindow->UseConfig(wxGetApp().m_Settings->GetConfig(), wxT("Help"));
-	wxGetApp().m_Help->SetHelpWindow(m_HelpWindow); 
-	wxGetApp().m_Help->AddBook(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("help") + wxFILE_SEP_PATH + wxT("toucan.htb"));
-	m_HelpWindow->Create(HelpPanel, ID_HELP, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_CONTENTS|wxHF_INDEX|wxHF_SEARCH|wxHF_TOOLBAR);
-	m_HelpWindow->DisplayContents();
-	m_HelpWindow->RefreshLists();
-	HelpSizer->Add(m_HelpWindow, 1, wxALIGN_TOP|wxTOP|wxEXPAND, border);
-
-=======
->>>>>>> other
 	//Add the panels
 	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, variablesbitmap, helpbitmap;
 	
@@ -2249,7 +2228,6 @@ void frmMain::OnSyncRefresh(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Source_Tree);
-		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 }
@@ -2257,7 +2235,6 @@ void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Dest_Tree);
-		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }
