@@ -105,6 +105,7 @@ enum{
 	ID_SECURE_PASS,
 	ID_SECURE_REPASS,
 	ID_SECURE_EXPAND,
+	ID_SECURE_FILESSATATIC,
 	//Rules
 	ID_PANEL_RULES,
 	ID_RULES_COMBO,
@@ -224,6 +225,7 @@ public:
 	void OnSecureTreeCtrlTooltip(wxTreeEvent& event);
 	void OnSecureTreeRightClick(wxTreeEvent& event);
 	void OnSecureRefresh(wxCommandEvent& event);
+	void OnSecureFunctionSelected(wxCommandEvent& event);
 
 	//Rules
 	void OnRulesComboSelected(wxCommandEvent& event);

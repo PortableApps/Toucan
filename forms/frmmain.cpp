@@ -89,6 +89,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SECURE_ADDVAR, frmMain::OnSecureAddVarClick)	
 	EVT_TREE_ITEM_GETTOOLTIP(ID_SECURE_TREECTRL, frmMain::OnSecureTreeCtrlTooltip)
 	EVT_TREE_ITEM_RIGHT_CLICK(ID_SECURE_TREECTRL, frmMain::OnSecureTreeRightClick)
+	EVT_RADIOBOX(ID_SECURE_FUNCTION, frmMain::OnSecureFunctionSelected)
 	EVT_BUTTON(ID_SECURE_REFRESH, frmMain::OnSecureRefresh)
 
 	//Rules
@@ -577,7 +578,7 @@ void frmMain::CreateControls(){
 	wxBitmapButton* SecureRemove = new wxBitmapButton(SecurePanel, ID_SECURE_REMOVE, GetBitmapResource(wxT("remove.png")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	SecureAddRemoveSizer->Add(SecureRemove, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, border);
 	
-	wxStaticText* SecureFilesStatic = new wxStaticText(SecurePanel, wxID_ANY, _("Files to Secure"));
+	wxStaticText* SecureFilesStatic = new wxStaticText(SecurePanel, ID_SECURE_FILESSATATIC, _("Files to Encrypt"));
 	SecureMainSizer->Add(SecureFilesStatic, wxGBPosition(0, 2), wxGBSpan(1, 1), wxALL, border);
 
 	m_Secure_TreeCtrl = new PreviewDirCtrl(SecurePanel, ID_SECURE_TREECTRL);
@@ -2075,6 +2076,15 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 	//else if(item->GetColour() == wxColour(wxT("Red"))){
 	//	event.SetToolTip(_("If needed"));
 	//}
+}
+
+void frmMain::OnSecureFunctionSelected(wxCommandEvent& event){
+	if(event.GetString() == _("Encrypt")){
+		wxWindow::FindWindowById(ID_SECURE_FILESSATATIC)->SetLabel(_("Files to Encrypt"));
+	}
+	else{
+		wxWindow::FindWindowById(ID_SECURE_FILESSATATIC)->SetLabel(_("Files to Decrypt"));
+	}
 }
 
 void frmMain::OnBackupFunctionSelected(wxCommandEvent& event){
