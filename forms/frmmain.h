@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2006 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _FRMMAIN_H_
-#define _FRMMAIN_H_
+#ifndef FRMMAIN_H
+#define FRMMAIN_H
 
 class wxFrame;
 class wxTreeCtrl;
@@ -14,7 +14,6 @@ class wxListCtrl;
 class wxListEvent;
 class wxHtmlHelpWindow;
 class wxFontPickerCtrl;
-class wxVirtualDirTreeCtrl;
 class wxTreeEvent;
 class wxComboBox;
 class wxTextCtrl;
@@ -25,10 +24,10 @@ class wxRadioBox;
 class wxSlider;
 class wxStyledTextCtrl;
 
-class DirCtrl;
 class LocalDirCtrl;
+class PreviewDirCtrl;
+class SyncPreviewDirCtrl;
 class Settings;
-class ExtendedDirCtrl;
 
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
@@ -149,10 +148,6 @@ enum{
 	ID_MENU_FOLDEREXCLUDE_NAME,
 	ID_MENU_LOCATIONINCLUDE_NAME,
 	ID_MENU_LOCATIONINCLUDE_EXTENSION,
-	//Help
-	ID_PANEL_HELP,
-	ID_HELP,
-	ID_HELP_TESTS
 };
 
 class frmMain: public wxFrame
@@ -307,8 +302,8 @@ public:
 	wxComboBox* m_Sync_Rules;
 	wxTextCtrl* m_Sync_Source_Txt;
 	wxTextCtrl* m_Sync_Dest_Txt;
-	DirCtrl* m_Sync_Source_Tree;
-	DirCtrl* m_Sync_Dest_Tree;
+	SyncPreviewDirCtrl* m_Sync_Source_Tree;
+	SyncPreviewDirCtrl* m_Sync_Dest_Tree;
 	wxRadioBox* m_Sync_Function;
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;
@@ -326,7 +321,7 @@ public:
 	wxTextCtrl* m_Backup_Pass;
 	wxTextCtrl* m_Backup_Repass;
 	LocalDirCtrl* m_Backup_DirCtrl;
-	wxVirtualDirTreeCtrl* m_Backup_TreeCtrl;
+	PreviewDirCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
 	wxRadioBox* m_Backup_Format;
 	wxSlider* m_Backup_Ratio;
@@ -337,8 +332,8 @@ public:
 	wxBoxSizer* SecureTopSizer;
 	wxComboBox* m_Secure_Rules;
 	wxComboBox* m_Secure_Job_Select;
-	ExtendedDirCtrl* m_Secure_DirCtrl;
-	wxVirtualDirTreeCtrl* m_Secure_TreeCtrl;
+	LocalDirCtrl* m_Secure_DirCtrl;
+	PreviewDirCtrl* m_Secure_TreeCtrl;
 	wxRadioBox* m_Secure_Function;
 	wxTextCtrl* m_Secure_Pass;
 	wxTextCtrl* m_Secure_Repass;
@@ -371,12 +366,9 @@ public:
 	//Other
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
-	wxVirtualDirTreeCtrl* menuTree;
+	//wxTreeCtrl* menuTree;
 	wxComboBox* menuRules;
 	wxFont* m_Font;
-	
-	//Help
-	wxHtmlHelpWindow* m_HelpWindow;
 };
 
 #endif

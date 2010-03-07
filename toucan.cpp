@@ -1,25 +1,23 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2006 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
 #include <wx/intl.h>
 #include <wx/fileconf.h>
-#include <wx/html/helpctrl.h>
 #include <wx/listctrl.h>
 #include <wx/fs_arc.h>
 #include <wx/dir.h>
 #include <wx/log.h>
 #include <wx/gauge.h>
 #include <wx/cmdline.h>
+#include <wx/image.h> 
 #include <cxxtest/ErrorPrinter.h>
 
-
 #ifdef __WXMSW__
-	#define _WIN32_WINNT 0x0500 
 	#include <windows.h>
 	#include <tlhelp32.h>
 	#include <process.h>
@@ -186,9 +184,6 @@ bool Toucan::OnInit(){
 	}
 
 	if(m_IsGui){
-		//Set up the help system
-		wxFileSystem::AddHandler(new wxArchiveFSHandler);
-		m_Help = new wxHtmlHelpController(wxHF_DEFAULT_STYLE|wxHF_EMBEDDED, MainWindow);
 		//Set up the main form
 		MainWindow = new frmMain();
 		MainWindow->Show();
@@ -281,7 +276,7 @@ void Toucan::KillConime(){
 			return;
 		}
 		do{
-			size_t length = wcsnlen(pe.szExeFile, 10);
+			size_t length = wxStrnlen(pe.szExeFile, 10);
 			//check if it is a conime process
 			if(wcsncmp(pe.szExeFile, wxT("conime.exe"), length) == 0 || wcsncmp(pe.szExeFile, wxT("conime"), length) == 0){
 				//then if toucan is its parent process

@@ -20,7 +20,8 @@ wxString Normalise(const wxString &path){
 	if(wxGetApp().m_DriveLabels.empty()){
 		TCHAR drives[256];  
 		if(GetLogicalDriveStrings(256, drives)){  
-			LPTSTR drive = drives;  
+			LPTSTR drive = drives;
+			int offset = _tcslen(drive) + 1;  
 			while(*drive){  
 				wxString volumename = wxEmptyString;
 				TCHAR label[256]; 
@@ -30,12 +31,14 @@ wxString Normalise(const wxString &path){
 						wxGetApp().m_DriveLabels[volumename] = wxString(drive).Left(2);
 					}
 				}
-				int offset = _tcslen(drive) + 1;  
 				drive += offset;  
 			}
 		}
 	}
 #endif
+	if(path.find("@") == wxNOT_FOUND){
+		return path;
+	}
 	wxString token;
 	wxString normalised = wxEmptyString;
 	wxDateTime now = wxDateTime::Now();  

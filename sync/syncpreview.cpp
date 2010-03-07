@@ -1,11 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncbase.h"
 #include "syncpreview.h"
+#include "../rules.h"
 #include "../toucan.h"
 #include "../data/syncdata.h"
 
@@ -21,50 +22,44 @@ SyncPreview::SyncPreview(const wxString &syncsource, const wxString &syncdest, S
 	this->preview = true;
 }
 
-VdtcTreeItemBaseArray SyncPreview::Execute(){
+DirCtrlItemArray SyncPreview::Execute(){
 	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
 	std::list<wxString> destpaths = FolderContentsToList(destroot);
 	std::map<wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
-	if(sourcetree){
-		return sourceitems;
-	}
-	else{
-		return destitems;		
-	}
-
+	return sourcetree ? sourceitems : destitems;
 }
 
 bool SyncPreview::OperationCaller(std::map<wxString, int> paths){
 	for(std::map<wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if((*iter).second == 1){
-				sourceitems.Add(new VdtcTreeItemBase(VDTC_TI_DIR, (*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first, true));
 				OnSourceNotDestFolder((*iter).first);
 			}
 			else if((*iter).second == 2){
-				destitems.Add(new VdtcTreeItemBase(VDTC_TI_DIR, (*iter).first));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first, true));
 				OnNotSourceDestFolder((*iter).first);		
 			}
 			else if((*iter).second == 3){
-				sourceitems.Add(new VdtcTreeItemBase(VDTC_TI_DIR, (*iter).first));
-				destitems.Add(new VdtcTreeItemBase(VDTC_TI_DIR, (*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first, true));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first, true));
 				OnSourceAndDestFolder((*iter).first);
 			}
 		}
 		//We have a file
 		else{
 			if((*iter).second == 1){
-				sourceitems.Add(new VdtcTreeItemBase(VDTC_TI_FILE, (*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first));
 				OnSourceNotDestFile((*iter).first);
 			}
 			else if((*iter).second == 2){
-				destitems.Add(new VdtcTreeItemBase(VDTC_TI_FILE, (*iter).first));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first));
 				OnNotSourceDestFile((*iter).first);
 			}
 			else if((*iter).second == 3){
-				sourceitems.Add(new VdtcTreeItemBase(VDTC_TI_FILE, (*iter).first));
-				destitems.Add(new VdtcTreeItemBase(VDTC_TI_FILE, (*iter).first));
+				sourceitems.push_back(new DirCtrlItem(sourceroot + wxFILE_SEP_PATH + (*iter).first));
+				destitems.push_back(new DirCtrlItem(destroot + wxFILE_SEP_PATH + (*iter).first));
 				OnSourceAndDestFile((*iter).first);
 			}
 		}
@@ -76,14 +71,14 @@ void SyncPreview::OnSourceNotDestFile(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
-		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
+		DirCtrlItem* item = new DirCtrlItem(dest);
 		if(!data->GetRules()->ShouldExclude(source, false)){
 			item->SetColour(wxT("Blue"));
-			destitems.Add(item);
+			destitems.push_back(item);
 			if(data->GetFunction() == _("Move")){
 				int pos = GetItemLocation(path, &sourceitems);
 				if(pos != -1){
-					sourceitems.Item(pos)->SetColour(wxT("Grey"));						
+					sourceitems[pos]->SetColour(wxT("Grey"));						
 				}
 			}
 		}
@@ -101,15 +96,15 @@ void SyncPreview::OnNotSourceDestFile(const wxString &path){
 			int pos = GetItemLocation(path, &destitems);
 			if(pos != -1){
 				if(!data->GetRules()->ShouldExclude(dest, false)){
-					destitems.Item(pos)->SetColour(wxT("Grey"));						
+					destitems[pos]->SetColour(wxT("Grey"));						
 				}
 			}
 		}
 		else if(data->GetFunction() == _("Equalise")){
-			VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_FILE, path);
+			DirCtrlItem* item = new DirCtrlItem(source);
 			if(!data->GetRules()->ShouldExclude(dest, false)){
 				item->SetColour(wxT("Blue"));
-				sourceitems.Add(item);
+				sourceitems.push_back(item);
 			}
 			else{
 				delete item;
@@ -126,11 +121,11 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			if(ShouldCopy(source, dest)){
 				int pos = GetItemLocation(path, &destitems);
 				if(pos != -1){
-					destitems.Item(pos)->SetColour(wxT("Green"));		
+					destitems[pos]->SetColour(wxT("Green"));		
 					if(data->GetFunction() == _("Move")){
 						int pos = GetItemLocation(path, &sourceitems);
 						if(pos != -1){
-							sourceitems.Item(pos)->SetColour(wxT("Grey"));						
+							sourceitems[pos]->SetColour(wxT("Grey"));						
 						}
 					}
 				}
@@ -153,7 +148,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				if(ShouldCopy(source, dest)){
 					int pos = GetItemLocation(path, &destitems);
 					if(pos != -1){
-						destitems.Item(pos)->SetColour(wxT("Green"));			
+						destitems[pos]->SetColour(wxT("Green"));			
 					}
 				}	
 			}
@@ -173,7 +168,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				if(ShouldCopy(source, dest)){
 					int pos = GetItemLocation(path, &destitems);
 					if(pos != -1){
-						destitems.Item(pos)->SetColour(wxT("Green"));			
+						destitems[pos]->SetColour(wxT("Green"));			
 					}
 				}	
 			}
@@ -181,7 +176,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				if(ShouldCopy(dest, source)){
 					int pos = GetItemLocation(path, &sourceitems);
 					if(pos != -1){
-						sourceitems.Item(pos)->SetColour(wxT("Green"));			
+						sourceitems[pos]->SetColour(wxT("Green"));			
 					}
 				}					
 			}
@@ -193,18 +188,18 @@ void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
-		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+		DirCtrlItem* item = new DirCtrlItem(dest, true);
 		if(!data->GetRules()->ShouldExclude(source, true)){
 			item->SetColour(wxT("Blue"));
 		}
 		else{
 			item->SetColour(wxT("Red"));
 		}
-		destitems.Add(item);
+		destitems.push_back(item);
 		if(data->GetFunction() == _("Move")){
 			int pos = GetItemLocation(path, &sourceitems);
 			if(pos != -1){
-				sourceitems.Item(pos)->SetColour(wxT("Red"));						
+				sourceitems[pos]->SetColour(wxT("Red"));						
 			}
 		}
 	}
@@ -217,12 +212,12 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 		int pos = GetItemLocation(path, &destitems);
 		if(pos != -1){
 			if(!data->GetRules()->ShouldExclude(dest, true)){
-				destitems.Item(pos)->SetColour(wxT("Grey"));				
+				destitems[pos]->SetColour(wxT("Grey"));				
 			}		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
-		VdtcTreeItemBase* item = new VdtcTreeItemBase(VDTC_TI_DIR, path);
+		DirCtrlItem* item = new DirCtrlItem(source, true);
 		if(!data->GetRules()->ShouldExclude(dest, true)){
 			item->SetColour(wxT("Blue"));
 
@@ -230,7 +225,7 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 		else{
 			item->SetColour(wxT("Red"));
 		}
-		sourceitems.Add(item);
+		sourceitems.push_back(item);
 	}
 }
 
@@ -241,15 +236,15 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 		int pos = GetItemLocation(path, &sourceitems);
 		if(pos != -1){
 			if(!data->GetRules()->ShouldExclude(source, true)){
-				sourceitems.Item(pos)->SetColour(wxT("Red"));				
+				sourceitems[pos]->SetColour(wxT("Red"));				
 			}		
 		}
 	}
 }
 
-int SyncPreview::GetItemLocation(const wxString &path, VdtcTreeItemBaseArray* array){
-	for(unsigned int i = 0; i < array->GetCount(); i++){
-		if(array->Item(i)->GetName() == path){
+int SyncPreview::GetItemLocation(const wxString &path, DirCtrlItemArray* array){
+	for(unsigned int i = 0; i < array->size(); i++){
+		if(array->at(i)->GetFullPath() == path){
 			return i;
 		}
 	}

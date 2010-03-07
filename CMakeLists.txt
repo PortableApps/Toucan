@@ -5,7 +5,7 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 project(Toucan)
 
 #Find wxWidgets
-find_package(wxWidgets COMPONENTS base core net adv html aui stc REQUIRED)
+find_package(wxWidgets COMPONENTS base core net adv aui stc REQUIRED)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${wxWidgets_CXX_FLAGS})
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})
@@ -28,6 +28,8 @@ find_package(CxxTest REQUIRED)
 include_directories(${CXXTEST_INCLUDE_DIR})
 
 if(MSVC)
+	#Ask if we are using a static CRT
+	set(Toucan_Static FALSE CACHE BOOL "Should we use the static CRT?")
     #Disable security warnings
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     #Set the warning level to maximum
@@ -35,15 +37,17 @@ if(MSVC)
         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     endif(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
 
+	if(Toucan_Static)
     #We statically link to reduce dependancies
-    foreach(flag_var CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE)
-        if(${flag_var} MATCHES "/MD")
-            string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-        endif(${flag_var} MATCHES "/MD")
-        if(${flag_var} MATCHES "/MDd")
-            string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
-        endif(${flag_var} MATCHES "/MDd")
-    endforeach(flag_var)
+		foreach(flag_var CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE)
+			if(${flag_var} MATCHES "/MD")
+				string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+			endif(${flag_var} MATCHES "/MD")
+			if(${flag_var} MATCHES "/MDd")
+				string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
+			endif(${flag_var} MATCHES "/MDd")
+		endforeach(flag_var)
+	endif(Toucan_Static)
 endif(MSVC)
 
 #Traverse through the sub-directories

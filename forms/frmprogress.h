@@ -9,7 +9,7 @@
 
 #include <wx/frame.h>
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	struct ITaskbarList3;
 #endif
 
@@ -38,7 +38,7 @@ public:
 	//Creates the controls and sizers
 	void CreateControls();
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !defined(__MINGW32__)
 	WXUINT m_TaskBarId;
 	ITaskbarList3 *m_Taskbar;
 	//We catch windows events so we can support windows 7 taskbar progress

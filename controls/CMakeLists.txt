@@ -1,5 +1,4 @@
-set(source dirctrl.cpp dirctrlspec.cpp extendeddirctrl.cpp loglistctrl.cpp vdtc.cpp)
-set(headers dirctrl.h dirctrlspec.h extendeddirctrl.h loglistctrl.h vdtc.h)
+set(source dirctrl.cpp localdirctrl.cpp loglistctrl.cpp previewctrl.cpp syncctrl.cpp)
+set(headers dirctrl.h localdirctrl.h loglistctrl.h previewctrl.h syncctrl.h)
 
 add_library(controls STATIC ${source} ${headers})
-
