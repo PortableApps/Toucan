@@ -6,6 +6,7 @@
 
 #include "frmmain.h"
 #include "frmprogress.h"
+#include "../luamanager.h"
 #include "../variables.h"
 #include "../script.h"
 #include "../toucan.h"
@@ -25,6 +26,7 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
+	EVT_CLOSE(frmProgress::OnClose)
 END_EVENT_TABLE()
 
 //Constructor
@@ -86,8 +88,13 @@ void frmProgress::CreateControls(){
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
+void frmProgress::OnClose(wxCloseEvent& WXUNUSED(event)){
+	wxGetApp().m_LuaManager->NullWindow();
+	Destroy();
+}
+
 void frmProgress::OnOkClick(wxCommandEvent& WXUNUSED(event)){
-	this->Close();
+	Close();
 }
 
 void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){

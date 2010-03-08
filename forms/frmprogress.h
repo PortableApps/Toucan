@@ -45,6 +45,7 @@ public:
 	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam);
 #endif
 
+	void OnClose(wxCloseEvent& event);
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);

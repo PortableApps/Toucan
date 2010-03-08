@@ -18,6 +18,7 @@ public:
 	LuaManager();
 	void Run(const wxString& line);
 	frmProgress* GetProgressWindow();
+	void NullWindow() { m_Window = NULL; }
 	void CleanUp();
 
 private:
