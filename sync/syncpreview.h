@@ -31,7 +31,6 @@ protected:
 private:
 	DirCtrlItemArray sourceitems;
 	DirCtrlItemArray destitems;
-	int GetItemLocation(const wxString &path, DirCtrlItemArray* array);
 	bool sourcetree;
 };
 

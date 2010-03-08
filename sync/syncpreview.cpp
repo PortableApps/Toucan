@@ -12,6 +12,7 @@
 
 #include <list>
 #include <map>
+#include <algorithm>
 #include <wx/string.h>
 #include <wx/wfstream.h>
 
@@ -76,9 +77,9 @@ void SyncPreview::OnSourceNotDestFile(const wxString &path){
 			item->SetColour(wxT("Blue"));
 			destitems.push_back(item);
 			if(data->GetFunction() == _("Move")){
-				int pos = GetItemLocation(path, &sourceitems);
-				if(pos != -1){
-					sourceitems[pos]->SetColour(wxT("Grey"));						
+				DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+				if(iter != sourceitems.end()){
+					(*iter)->SetColour(wxT("Grey"));						
 				}
 			}
 		}
@@ -93,21 +94,18 @@ void SyncPreview::OnNotSourceDestFile(const wxString &path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-			int pos = GetItemLocation(path, &destitems);
-			if(pos != -1){
+			DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+			if(iter != destitems.end()){
 				if(!data->GetRules()->ShouldExclude(dest, false)){
-					destitems[pos]->SetColour(wxT("Grey"));						
+					(*iter)->SetColour(wxT("Grey"));						
 				}
 			}
 		}
 		else if(data->GetFunction() == _("Equalise")){
-			DirCtrlItem* item = new DirCtrlItem(source);
 			if(!data->GetRules()->ShouldExclude(dest, false)){
+				DirCtrlItem* item = new DirCtrlItem(source);
 				item->SetColour(wxT("Blue"));
 				sourceitems.push_back(item);
-			}
-			else{
-				delete item;
 			}
 		}
 	}
@@ -119,13 +117,13 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(ShouldCopy(source, dest)){
-				int pos = GetItemLocation(path, &destitems);
-				if(pos != -1){
-					destitems[pos]->SetColour(wxT("Green"));		
+				DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+				if(iter != destitems.end()){
+					(*iter)->SetColour(wxT("Green"));		
 					if(data->GetFunction() == _("Move")){
-						int pos = GetItemLocation(path, &sourceitems);
-						if(pos != -1){
-							sourceitems[pos]->SetColour(wxT("Grey"));						
+						DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+						if(iter != sourceitems.end()){
+							(*iter)->SetColour(wxT("Grey"));						
 						}
 					}
 				}
@@ -146,9 +144,9 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			}
 			else if(tmFrom.IsLaterThan(tmTo)){
 				if(ShouldCopy(source, dest)){
-					int pos = GetItemLocation(path, &destitems);
-					if(pos != -1){
-						destitems[pos]->SetColour(wxT("Green"));			
+					DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+					if(iter != destitems.end()){
+						(*iter)->SetColour(wxT("Green"));			
 					}
 				}	
 			}
@@ -166,17 +164,17 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 
 			if(tmFrom.IsLaterThan(tmTo)){
 				if(ShouldCopy(source, dest)){
-					int pos = GetItemLocation(path, &destitems);
-					if(pos != -1){
-						destitems[pos]->SetColour(wxT("Green"));			
+					DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+					if(iter != destitems.end()){
+						(*iter)->SetColour(wxT("Green"));			
 					}
 				}	
 			}
 			else if(tmTo.IsLaterThan(tmFrom)){
 				if(ShouldCopy(dest, source)){
-					int pos = GetItemLocation(path, &sourceitems);
-					if(pos != -1){
-						sourceitems[pos]->SetColour(wxT("Green"));			
+					DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+					if(iter != sourceitems.end()){
+						(*iter)->SetColour(wxT("Green"));			
 					}
 				}					
 			}
@@ -197,9 +195,9 @@ void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 		}
 		destitems.push_back(item);
 		if(data->GetFunction() == _("Move")){
-			int pos = GetItemLocation(path, &sourceitems);
-			if(pos != -1){
-				sourceitems[pos]->SetColour(wxT("Red"));						
+			DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+			if(iter != sourceitems.end()){
+				(*iter)->SetColour(wxT("Red"));						
 			}
 		}
 	}
@@ -209,10 +207,10 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-		int pos = GetItemLocation(path, &destitems);
-		if(pos != -1){
+		DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+		if(iter != destitems.end()){
 			if(!data->GetRules()->ShouldExclude(dest, true)){
-				destitems[pos]->SetColour(wxT("Grey"));				
+				(*iter)->SetColour(wxT("Grey"));				
 			}		
 		}
 	}
@@ -233,22 +231,13 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Move")){
-		int pos = GetItemLocation(path, &sourceitems);
-		if(pos != -1){
+		DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+		if(iter != sourceitems.end()){
 			if(!data->GetRules()->ShouldExclude(source, true)){
-				sourceitems[pos]->SetColour(wxT("Red"));				
+				(*iter)->SetColour(wxT("Red"));				
 			}		
 		}
 	}
-}
-
-int SyncPreview::GetItemLocation(const wxString &path, DirCtrlItemArray* array){
-	for(unsigned int i = 0; i < array->size(); i++){
-		if(array->at(i)->GetFullPath() == path){
-			return i;
-		}
-	}
-	return -1;
 }
 
 bool SyncPreview::ShouldCopy(const wxString &source, const wxString &dest){

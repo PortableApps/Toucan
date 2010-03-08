@@ -96,8 +96,9 @@ inline bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 	}
 }
 
-//Typedef a more convenient vector
+//Typedef a more convenient vector and interator
 typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
+typedef std::vector<DirCtrlItem*>::iterator DirCtrlIter;
 
 //The thread that actually traverses the directories, posts back its results
 //in a DirThreadEvent

@@ -1382,17 +1382,14 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	wxBusyCursor cursor;
 	m_Notebook->Disable();
 
-	m_Sync_Dest_Tree->DeleteChildren(m_Sync_Dest_Tree->GetRootItem());
 	m_Sync_Dest_Tree->SetPreview(true);
 	m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
-		m_Sync_Source_Tree->DeleteChildren(m_Sync_Source_Tree->GetRootItem());
 		m_Sync_Source_Tree->SetPreview(true);
 		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	else{
-		m_Sync_Source_Tree->DeleteChildren(m_Sync_Source_Tree->GetRootItem());
 		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	m_Notebook->Enable();
@@ -1723,7 +1720,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("2.2.1"));
+	info.SetVersion(wxT("3.0"));
 	info.SetDescription(wxString::Format(wxT("Built on %s at %s"), __TDATE__, __TTIME__));
 	info.SetCopyright(wxT("(C) 2006-2009 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by Silvestre Herrera\nExtra thanks to Jorgen Bodde for his awesome wxVirtualDirTreeCtrl\n7Zip and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
@@ -2203,7 +2200,6 @@ void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
-		m_Sync_Source_Tree->DeleteAllItems();
 		m_Sync_Source_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Source_Txt->SetValue(dialog.GetValue());
 	}
@@ -2213,7 +2209,6 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
-		m_Sync_Dest_Tree->DeleteAllItems();
 		m_Sync_Dest_Tree->AddItem(Normalise(dialog.GetValue()));
 		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
 	}
