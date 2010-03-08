@@ -83,7 +83,6 @@ void LuaManager::CleanUp(){
 #else
 	m_Window->RequestUserAttention();
 #endif
-	m_Window = NULL;
 }
 
 void LuaManager::Run(const wxString &line){
