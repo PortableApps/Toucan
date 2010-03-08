@@ -1955,127 +1955,133 @@ void frmMain::ClearToDefault(){
 }
 
 void frmMain::CreateMenu(wxTreeEvent& event){
-//	menuTree->SelectItem(event.GetItem());
-//	wxString strMenuTitle = menuRules->GetStringSelection();
-//	if(strMenuTitle == wxEmptyString){
-//		//If no rules are selected then return
+	menuTree = static_cast<DirCtrl*> (event.GetEventObject());
+	DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(event.GetItem()));
+	menuTree->SelectItem(event.GetItem());
+	menuRules = menuTree->GetId() == ID_BACKUP_TREECTRL ? m_Backup_Rules : m_Secure_Rules;
+
+	wxString title = menuRules->GetStringSelection();
+	if(title == wxEmptyString){
 		return;
-//	}
-//	wxMenu menu(strMenuTitle);
-/*	if(wxFileExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
+	}
+
+	wxMenu menu(title);
+	if(wxFileExists(item->GetFullPath())){
 		menu.Append(ID_MENU_FILEEXCLUDE_EXTENSION, _("Exclude by extension"));
 		menu.Append(ID_MENU_FILEEXCLUDE_NAME, _("Exclude by name"));
 		menu.Append(ID_MENU_LOCATIONINCLUDE_EXTENSION, _("Include by extension"));
 		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, _("Include by name"));
 	}	
-	else if(wxDirExists(m_Secure_TreeCtrl->GetFullPath(event.GetItem()).GetFullPath())){
+	else{
 		menu.Append(ID_MENU_FOLDEREXCLUDE_NAME, _("Exclude by name"));
 		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, _("Include by name"));
-	}	*/
-//	this->PopupMenu(&menu, event.GetPoint() + menuTree->GetPosition());
+	}	
+	this->PopupMenu(&menu, event.GetPoint() + menuTree->GetPosition());
 }
 
 //ID_MENU_FILEEXCLUDE_EXTENSION
 void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
-	//if(menuRules->GetStringSelection() != wxEmptyString){
-	//	Rules rules(menuRules->GetStringSelection());
-	//	rules.TransferFromFile();
-	//	wxArrayString arrFileExclude = rules.GetExcludedFiles();
-	//	arrFileExclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
-	//	rules.SetExcludedFiles(arrFileExclude);
-	//	rules.TransferToFile();
-	//	//Refresh the rules display if needed
-	//	if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-	//		wxCommandEvent event;
-	//		OnRulesComboSelected(event);
-	//	}
-	//}
+	if(menuRules->GetStringSelection() != wxEmptyString){
+		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrFileExclude = rules.GetExcludedFiles();
+		arrFileExclude.Add(wxT(".") + wxFileName(item->GetFullPath()).GetExt());
+		rules.SetExcludedFiles(arrFileExclude);
+		rules.TransferToFile();
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_FILEEXCLUDE_NAME
 void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
-	//if(menuRules->GetStringSelection() != wxEmptyString){
-	//	Rules rules(menuRules->GetStringSelection());
-	//	rules.TransferFromFile();
-	//	wxArrayString arrFileExclude = rules.GetExcludedFolders();
-	//	arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-	//	rules.SetExcludedFiles(arrFileExclude);
-	//	rules.TransferToFile();
-	//	//Refresh the rules display if needed
-	//	if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-	//		wxCommandEvent event;
-	//		OnRulesComboSelected(event);
-	//	}
-	//}
+	if(menuRules->GetStringSelection() != wxEmptyString){
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrFileExclude = rules.GetExcludedFolders();
+		arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
+		rules.SetExcludedFiles(arrFileExclude);
+		rules.TransferToFile();
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_LOCATIONINCLUDE_EXTENSION
 void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
-	//if(menuRules->GetStringSelection() != wxEmptyString){
-	//	Rules rules(menuRules->GetStringSelection());
-	//	rules.TransferFromFile();
-	//	wxArrayString arrLocationInclude = rules.GetIncludedLocations();
-	//	arrLocationInclude.Add(wxT(".") + menuTree->GetFullPath(menuTree->GetSelection()).GetExt());
-	//	rules.SetIncludedLocations(arrLocationInclude);
-	//	rules.TransferToFile();
-	//	//Refresh the rules display if needed
-	//	if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-	//		wxCommandEvent event;
-	//		OnRulesComboSelected(event);
-	//	}
-	//}
+	if(menuRules->GetStringSelection() != wxEmptyString){
+		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrLocationInclude = rules.GetIncludedLocations();
+		arrLocationInclude.Add(wxT(".") + wxFileName(item->GetFullPath()).GetExt());
+		rules.SetIncludedLocations(arrLocationInclude);
+		rules.TransferToFile();
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_LOCATIONINCLUDE_NAME
 void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
-	//if(menuRules->GetStringSelection() != wxEmptyString){
-	//	Rules rules(menuRules->GetStringSelection());
-	//	rules.TransferFromFile();
-	//	wxArrayString arrLocationInclude = rules.GetIncludedLocations();
-	//	arrLocationInclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-	//	rules.SetIncludedLocations(arrLocationInclude);
-	//	rules.TransferToFile();
-	//	//Refresh the rules display if needed
-	//	if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-	//		wxCommandEvent event;
-	//		OnRulesComboSelected(event);
-	//	}
-	//}
+	if(menuRules->GetStringSelection() != wxEmptyString){
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrLocationInclude = rules.GetIncludedLocations();
+		arrLocationInclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
+		rules.SetIncludedLocations(arrLocationInclude);
+		rules.TransferToFile();
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 //ID_MENU_FOLDEREXCLUDE_NAME
 void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
-	//if(menuRules->GetStringSelection() != wxEmptyString){
-	//	Rules rules(menuRules->GetStringSelection());
-	//	rules.TransferFromFile();
-	//	wxArrayString arrFolderExclude = rules.GetExcludedFolders();
-	//	arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-	//	rules.SetExcludedFolders(arrFolderExclude);
-	//	rules.TransferToFile();
-	//	//Refresh the rules display if needed
-	//	if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-	//		wxCommandEvent event;
-	//		OnRulesComboSelected(event);
-	//	}
-	//}
+	if(menuRules->GetStringSelection() != wxEmptyString){
+		Rules rules(menuRules->GetStringSelection());
+		rules.TransferFromFile();
+		wxArrayString arrFolderExclude = rules.GetExcludedFolders();
+		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelections()));
+		rules.SetExcludedFolders(arrFolderExclude);
+		rules.TransferToFile();
+		//Refresh the rules display if needed
+		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
+			wxCommandEvent event;
+			OnRulesComboSelected(event);
+		}
+	}
 }
 
 void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
-	//wxVirtualDirTreeCtrl* tree = static_cast<wxVirtualDirTreeCtrl*> (event.GetEventObject());
-	//VdtcTreeItemBase* item = static_cast<VdtcTreeItemBase*> (tree->GetItemData(event.GetItem()));
+	DirCtrl* tree = static_cast<DirCtrl*> (event.GetEventObject());
+	DirCtrlItem* item = static_cast<DirCtrlItem*> (tree->GetItemData(event.GetItem()));
 
-	//if(item->GetColour() == wxColour(wxT("Blue"))){
-	//	event.SetToolTip(_("Copied "));
-	//}
-	//else if(item->GetColour() == wxColour(wxT("Grey"))){
-	//	event.SetToolTip(_("Deleted "));
-	//}
-	//else if(item->GetColour() == wxColour(wxT("Green"))){
-	//	event.SetToolTip(_("Overwritten"));
-	//}
-	//else if(item->GetColour() == wxColour(wxT("Red"))){
-	//	event.SetToolTip(_("If needed"));
-	//}
+	if(item->GetColour() == wxColour(wxT("Blue"))){
+		event.SetToolTip(_("Copied "));
+	}
+	else if(item->GetColour() == wxColour(wxT("Grey"))){
+		event.SetToolTip(_("Deleted "));
+	}
+	else if(item->GetColour() == wxColour(wxT("Green"))){
+		event.SetToolTip(_("Overwritten"));
+	}
+	else if(item->GetColour() == wxColour(wxT("Red"))){
+		event.SetToolTip(_("If needed"));
+	}
 }
 
 void frmMain::OnSecureFunctionSelected(wxCommandEvent& event){

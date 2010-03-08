@@ -368,7 +368,7 @@ public:
 	//Other
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
-	//wxTreeCtrl* menuTree;
+	wxTreeCtrl* menuTree;
 	wxComboBox* menuRules;
 	wxFont* m_Font;
 };
