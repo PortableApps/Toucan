@@ -9,7 +9,6 @@
 #include <wx/intl.h>
 #include <wx/fileconf.h>
 #include <wx/listctrl.h>
-#include <wx/fs_arc.h>
 #include <wx/dir.h>
 #include <wx/log.h>
 #include <wx/gauge.h>
