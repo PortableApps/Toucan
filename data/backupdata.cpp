@@ -151,8 +151,6 @@ wxArrayString BackupData::CreateCommands(){
 	}
    	else if (GetFormat() == wxT("7-Zip")){
 		SetFormat(wxT("7z"));
-		//Make sure solid mode is turned off so updating works
-		solid = wxT(" -ms=off");
 	}
 	else if(GetFormat() == wxT("GZip")){
 		SetFormat(wxT("tar"));
