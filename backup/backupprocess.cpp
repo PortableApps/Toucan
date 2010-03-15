@@ -18,7 +18,7 @@ bool BackupProcess::HasInput()
 			wxLogNull null;
 			wxProcess::Kill(this->GetRealPid(), wxSIGKILL);
 		}
-		wxTextInputStream tis(*GetInputStream());
+		wxTextInputStream tis(*GetInputStream(), "\x0009", wxConvUTF8);
 		wxString msg = tis.ReadLine();
 		if(msg.Left(7).Lower() == wxT("warning") || msg.Left(5).Lower() == wxT("error")){
 			OutputProgress(msg, true, true);
