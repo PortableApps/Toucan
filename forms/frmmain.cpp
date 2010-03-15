@@ -2055,7 +2055,7 @@ void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 		Rules rules(menuRules->GetStringSelection());
 		rules.TransferFromFile();
 		wxArrayString arrFolderExclude = rules.GetExcludedFolders();
-		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelections()));
+		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
 		rules.SetExcludedFolders(arrFolderExclude);
 		rules.TransferToFile();
 		//Refresh the rules display if needed
