@@ -226,3 +226,9 @@ void DirCtrl::ExpandAll(){
 	wxTreeCtrl::ExpandAll();
 	Thaw();
 }
+
+wxTreeItemId DirCtrl::GetSelection() const{
+	wxArrayTreeItemIds items;
+	GetSelections(items);
+	return items.Item(0);
+}

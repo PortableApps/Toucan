@@ -8,7 +8,6 @@
 #define FRMMAIN_H
 
 class wxFrame;
-class wxTreeCtrl;
 class wxDirCtrl;
 class wxListCtrl;
 class wxListEvent;
@@ -24,6 +23,7 @@ class wxRadioBox;
 class wxSlider;
 class wxStyledTextCtrl;
 
+class DirCtrl;
 class LocalDirCtrl;
 class PreviewDirCtrl;
 class SyncPreviewDirCtrl;
@@ -368,7 +368,7 @@ public:
 	//Other
 	wxArrayString* m_SecureLocations;
 	wxArrayString* m_BackupLocations;
-	wxTreeCtrl* menuTree;
+	DirCtrl* menuTree;
 	wxComboBox* menuRules;
 	wxFont* m_Font;
 };

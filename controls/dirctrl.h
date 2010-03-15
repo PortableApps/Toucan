@@ -139,6 +139,8 @@ public:
 	//Get the correct
 	virtual DirThread* GetThread(const wxString& path);
 
+	 wxTreeItemId GetSelection() const;
+
 private:
 	DECLARE_EVENT_TABLE()
 
