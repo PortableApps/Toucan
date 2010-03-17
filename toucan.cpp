@@ -16,6 +16,10 @@
 #include <wx/image.h> 
 #include <cxxtest/ErrorPrinter.h>
 
+#ifdef __MINGW32__
+#define _WIN32_WINNT 0x0500
+#endif
+
 #ifdef __WXMSW__
 	#include <windows.h>
 	#include <tlhelp32.h>

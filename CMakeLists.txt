@@ -5,7 +5,7 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 project(Toucan)
 
 #Find wxWidgets
-find_package(wxWidgets COMPONENTS base core net adv aui stc REQUIRED)
+find_package(wxWidgets COMPONENTS net adv aui stc core base REQUIRED)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${wxWidgets_CXX_FLAGS})
 include_directories(${wxWidgets_INCLUDE_DIRS})
 add_definitions(${wxWidgets_DEFINITIONS})
@@ -15,6 +15,10 @@ link_directories(${wxWidgets_LIBRARY_DIRS})
 if(wxWidgets_CONFIGURATION MATCHES "u")
     add_definitions(-DUNICODE)
 endif(wxWidgets_CONFIGURATION MATCHES "u")
+
+if(wxWidgets_CONFIGURATION MATCHES "d")
+    add_definitions(-D__WXDEBUG__)
+endif(wxWidgets_CONFIGURATION MATCHES "d")
 
 #Find Lua
 find_package(Lua51 REQUIRED)
