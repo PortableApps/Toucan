@@ -288,7 +288,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
 	char *sourcebuf = new char[4096];
-	char *destbuf = new char [4096];
+	char *destbuf = new char[4096];
 	wxFileOffset bytesLeft = size;
 	while(bytesLeft > 0){
 		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
@@ -302,7 +302,7 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 			delete[] destbuf;
 			return false;
 		}
-		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
+		if(wxTmemcmp(sourcebuf, destbuf, bytesToRead) != 0){
 			delete sourcestream;
 			delete deststream;
 			delete[] sourcebuf;
