@@ -40,7 +40,7 @@ public:
 					   SyncPreviewDirCtrl *ctrl, 
 					   const wxPoint& pos = wxDefaultPosition,
 					   const wxSize& size = wxDefaultSize,
-					   long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
+					   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
 	virtual DirThread* GetThread(const wxString& path);

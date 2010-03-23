@@ -125,7 +125,7 @@ class DirCtrl : public wxTreeCtrl{
 
 public:
 	DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition,
-	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
+	                     const wxSize& size = wxDefaultSize, long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 	virtual ~DirCtrl();
 
 	wxArrayString GetSelectedPaths();
@@ -136,11 +136,7 @@ public:
 	//A neater version that uses freeze and thaw
 	void ExpandAll();
 
-	//Get the correct
 	virtual DirThread* GetThread(const wxString& path);
-
-	 wxTreeItemId GetSelection() const;
-
 private:
 	DECLARE_EVENT_TABLE()
 

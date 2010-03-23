@@ -31,7 +31,7 @@ public:
 	PreviewDirCtrl(wxWindow* parent, wxWindowID id,
 				   const wxPoint& pos = wxDefaultPosition,
 				   const wxSize& size = wxDefaultSize,
-				   long style = wxTR_HAS_BUTTONS|wxTR_MULTIPLE|wxTR_HIDE_ROOT);
+				   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 	~PreviewDirCtrl();
 
 	void SetRules(Rules *rules) { m_Rules = rules; }

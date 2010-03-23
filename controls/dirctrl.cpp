@@ -198,13 +198,16 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 }
 
 void DirCtrl::OnTraversed(wxCommandEvent &event){
-	DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
-	for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
-		wxTreeItemId id = AppendItem(m_IdMap[event.GetInt()], (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
-		if((*iter)->GetType() == DIRCTRL_FOLDER){
-			SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+	wxTreeItemId parent = m_IdMap[event.GetInt()];
+	if(parent.IsOk()){
+		DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
+		for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
+			wxTreeItemId id = AppendItem(parent, (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
+			if((*iter)->GetType() == DIRCTRL_FOLDER){
+				SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+			}
+			SetItemTextColour(id, (*iter)->GetColour());
 		}
-		SetItemTextColour(id, (*iter)->GetColour());
 	}
 }
 
@@ -225,10 +228,4 @@ void DirCtrl::ExpandAll(){
 	Freeze();
 	wxTreeCtrl::ExpandAll();
 	Thaw();
-}
-
-wxTreeItemId DirCtrl::GetSelection() const{
-	wxArrayTreeItemIds items;
-	GetSelections(items);
-	return items.Item(0);
 }
