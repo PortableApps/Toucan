@@ -24,7 +24,6 @@ bool DnDFileTree::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wx
 
 bool DnDFileTreeText::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& arrFilenames){	
 	m_Text->SetValue(arrFilenames.Item(0));
-	m_Tree->DeleteAllItems();
 	m_Tree->AddItem(arrFilenames.Item(0));
 	return true;
 }
