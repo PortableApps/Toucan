@@ -7,7 +7,9 @@
 #include "toucan.h"
 #include "signalprocess.h"
 
-void SignalProcess::OnTerminate(int WXUNUSED(pid), int WXUNUSED(status)){
+void SignalProcess::OnTerminate(int WXUNUSED(pid), int status){
+	//Set the status
+	wxGetApp().m_ProcessStatusMap[m_id] = status;
 	//Signal to toucan that we have finished
 	wxGetApp().m_StatusMap[m_id] = true;
 }

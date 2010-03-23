@@ -61,7 +61,7 @@ public:
 	//Maps a unique id used for process generation and whether the process
 	//has finished
 	std::map<int, bool> m_StatusMap;
-	//Used by secure to see if the process finished successfully
+	//Used to see if the process finished successfully
 	std::map<int, int> m_ProcessStatusMap;
 
 	wxString m_Password;

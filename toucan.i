@@ -229,7 +229,7 @@
 		return true;
 	}
 
-	void Execute(const wxString &path, bool async = false){
+	int Execute(const wxString &path, bool async = false){
 		wxString normpath = Normalise(path);
 		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROCESS);
 		int id = wxDateTime::Now().GetTicks();
@@ -241,7 +241,7 @@
 				wxMilliSleep(100);
 			}
 		}
-		return;
+		return wxGetApp().m_ProcessStatusMap[id];
 	}
 	
 	wxString GetScriptPath(const wxString &name){
@@ -286,5 +286,5 @@ bool Delete(const wxString &path);
 bool Copy(const wxString &source, const wxString &dest);
 bool Move(const wxString &source, const wxString &dest);
 bool Rename(const wxString &source, const wxString &dest);
-void Execute(const wxString &path, bool async = false);
+int Execute(const wxString &path, bool async = false);
 void InputPassword();
