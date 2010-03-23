@@ -1573,23 +1573,15 @@ void frmMain::OnVariablesNameSelected(wxCommandEvent& WXUNUSED(event)){
 
 //ID_VARIABLES_ADDITEM
 void frmMain::OnVariablesAddItemClick(wxCommandEvent& WXUNUSED(event)){	
-	int j = m_Variables_List->GetItemCount();
-	m_Variables_List->InsertItem(j, wxT("Test"));
-	m_Variables_List->SetItem(j, 0, wxGetFullHostName());
-	wxString caption = _("Choose a directory");
-	wxString wildcard = wxT("All Files (*.*)|*.*");
-	wxString defaultFilename = wxEmptyString;
-	wxString defaultDir = wxT("/");
-	wxString strPath;
-	wxDirDialog dialog(this, caption, defaultDir);
+	wxString caption = "Choose a directory";
+	wxDirDialog dialog(this, caption);
 	if (dialog.ShowModal() == wxID_OK){
+		int j = m_Variables_List->GetItemCount();
+		m_Variables_List->InsertItem(j, wxGetFullHostName());
 		m_Variables_List->SetItem(j, 1, dialog.GetPath());
+		wxGetApp().m_Variables_Config->Write(m_Variables_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
+		wxGetApp().m_Variables_Config->Flush();
 	}
-	else{
-		m_Variables_List->SetItem(j, 1, wxEmptyString);
-	}
-	wxGetApp().m_Variables_Config->Write(m_Variables_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
-	wxGetApp().m_Variables_Config->Flush();
 }
 
 //ID_VARIABLES_REMOVEITEM
