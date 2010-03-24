@@ -169,6 +169,10 @@ void frmMain::Init(){
 	m_Sync_Dest_Txt = NULL;
 	m_Sync_Dest_Tree = NULL;
 	m_Sync_Function = NULL;
+	m_SyncCheckSize = NULL;
+	m_SyncCheckTime = NULL;
+	m_SyncCheckShort = NULL;
+	m_SyncCheckFull = NULL;
 	m_Sync_Timestamp = NULL;
 	m_Sync_Attributes = NULL;
 	m_Sync_Ignore_Readonly = NULL;
@@ -277,6 +281,22 @@ void frmMain::CreateControls(){
 	m_Sync_Function = new wxRadioBox(SyncPanel, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 4, wxRA_SPECIFY_ROWS);
 	m_Sync_Function->SetSelection(0);
 	SyncTopSizer->Add(m_Sync_Function, 0, wxALIGN_TOP|wxALL, border);
+
+	wxStaticBox* SyncChecks = new wxStaticBox(SyncPanel, wxID_ANY, _("File Checks"));
+	wxStaticBoxSizer* SyncChecksSizer = new wxStaticBoxSizer(SyncChecks, wxVERTICAL);
+	SyncTopSizer->Add(SyncChecksSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+	m_SyncCheckSize = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_SIZE, _("File size"));
+	SyncChecksSizer->Add(m_SyncCheckSize, 0, wxALIGN_LEFT|wxALL, 5);
+
+	m_SyncCheckTime = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_TIME, _("Modified time"));
+	SyncChecksSizer->Add(m_SyncCheckTime, 0, wxALIGN_LEFT|wxALL, 5);
+
+	m_SyncCheckShort = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_SHORT, _("Short Comparison"));
+	SyncChecksSizer->Add(m_SyncCheckShort, 0, wxALIGN_LEFT|wxALL, 5);
+
+	m_SyncCheckFull = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_FULL, _("Full Comparison"));
+	SyncChecksSizer->Add(m_SyncCheckFull, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxStaticBox* SyncOther = new wxStaticBox(SyncPanel, wxID_ANY, _("Other"));
 	wxStaticBoxSizer* SyncOtherSizer = new wxStaticBoxSizer(SyncOther, wxVERTICAL);

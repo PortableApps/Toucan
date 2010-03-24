@@ -56,6 +56,10 @@ enum{
 	ID_SYNC_DEST_EXPAND,
 	ID_SYNC_DEST_INSERT,
 	ID_SYNC_FUNCTION,
+	ID_SYNC_CHECK_SIZE,
+	ID_SYNC_CHECK_TIME,
+	ID_SYNC_CHECK_SHORT,
+	ID_SYNC_CHECK_FULL,
 	ID_SYNC_TIMESTAMP,
 	ID_SYNC_ATTRIB,
 	ID_SYNC_IGNORERO,
@@ -307,6 +311,10 @@ public:
 	SyncPreviewDirCtrl* m_Sync_Source_Tree;
 	SyncPreviewDirCtrl* m_Sync_Dest_Tree;
 	wxRadioBox* m_Sync_Function;
+	wxCheckBox* m_SyncCheckSize;
+	wxCheckBox* m_SyncCheckTime;
+	wxCheckBox* m_SyncCheckShort;
+	wxCheckBox* m_SyncCheckFull;
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;
 	wxCheckBox* m_Sync_Ignore_Readonly;
