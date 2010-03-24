@@ -29,6 +29,10 @@ public:
 	void SetSource(const wxString& Source) {this->m_Source = Source;}
 	void SetDest(const wxString& Dest) {this->m_Dest = Dest;}
 	void SetFunction(const wxString& Function) {this->m_Function = Function;}
+	void SetCheckSize(const bool& CheckSize) {this->m_CheckSize = CheckSize;}
+	void SetCheckTime(const bool& CheckTime) {this->m_CheckTime = CheckTime;}
+	void SetCheckShort(const bool& CheckShort) {this->m_CheckShort = CheckShort;}
+	void SetCheckFull(const bool& CheckFull) {this->m_CheckFull = CheckFull;}
 	void SetIgnoreDLS(const bool& IgnoreDLS) {this->m_IgnoreDLS = IgnoreDLS;}
 	void SetIgnoreRO(const bool& IgnoreRO) {this->m_IgnoreRO = IgnoreRO;}
 	void SetTimeStamps(const bool& TimeStamps) {this->m_TimeStamps = TimeStamps;}
@@ -38,6 +42,10 @@ public:
 	const wxString& GetSource() const {return m_Source;}
 	const wxString& GetDest() const {return m_Dest;}
 	const wxString& GetFunction() const {return m_Function;}
+	const bool& GetCheckSize() const {return m_CheckSize;}
+	const bool& GetCheckTime() const {return m_CheckTime;}
+	const bool& GetCheckShort() const {return m_CheckShort;}
+	const bool& GetCheckFull() const {return m_CheckFull;}
 	const bool& GetIgnoreDLS() const {return m_IgnoreDLS;}
 	const bool& GetIgnoreRO() const {return m_IgnoreRO;}
 	const bool& GetTimeStamps() const {return m_TimeStamps;}
@@ -49,6 +57,10 @@ private:
 	wxString m_Dest;
 	wxString m_Function;
 	wxString m_PreText;
+	bool m_CheckSize;
+	bool m_CheckTime;
+	bool m_CheckShort;
+	bool m_CheckFull;
 	bool m_TimeStamps;
 	bool m_Attributes;
 	bool m_IgnoreRO;

@@ -32,6 +32,14 @@ bool SyncData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp))  SetFunction(ToLang(stemp));
 		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckSize"), &btemp))  SetCheckSize(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckTime"), &btemp))  SetCheckTime(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckShort"), &btemp))  SetCheckShort(btemp);
+		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckFull"), &btemp))  SetCheckFull(btemp);
+		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/TimeStamps"), &btemp))  SetTimeStamps(btemp);
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Attributes"), &btemp))  SetAttributes(btemp);
@@ -60,6 +68,10 @@ bool SyncData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Source"),  GetSource())) error = true;	
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Dest"), GetDest())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckSize"), GetCheckSize())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckTime"), GetCheckTime())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckShort"), GetCheckShort())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckFull"), GetCheckFull())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/TimeStamps"), GetTimeStamps())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Attributes"), GetAttributes())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreReadOnly"), GetIgnoreRO())) error = true;
@@ -104,6 +116,10 @@ bool SyncData::TransferToForm(frmMain *window){
 	}
 
 	window->m_Sync_Function->SetStringSelection(GetFunction());
+	window->m_SyncCheckSize->SetValue(GetCheckSize());
+	window->m_SyncCheckTime->SetValue(GetCheckTime());
+	window->m_SyncCheckShort->SetValue(GetCheckShort());
+	window->m_SyncCheckFull->SetValue(GetCheckFull());
 	window->m_Sync_Timestamp->SetValue(GetTimeStamps());
 	window->m_Sync_Attributes->SetValue(GetAttributes());
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
@@ -120,6 +136,10 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetSource(window->m_Sync_Source_Txt->GetValue());
 	SetDest(window->m_Sync_Dest_Txt->GetValue());
 	SetFunction(window->m_Sync_Function->GetStringSelection());
+	SetCheckSize(window->m_SyncCheckSize->GetValue());
+	SetCheckTime(window->m_SyncCheckTime->GetValue());
+	SetCheckShort(window->m_SyncCheckShort->GetValue());
+	SetCheckFull(window->m_SyncCheckFull->GetValue());
 	SetTimeStamps(window->m_Sync_Timestamp->GetValue());
 	SetAttributes(window->m_Sync_Attributes->GetValue());
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
