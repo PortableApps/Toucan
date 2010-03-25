@@ -287,15 +287,19 @@ void frmMain::CreateControls(){
 	SyncTopSizer->Add(SyncChecksSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 	m_SyncCheckSize = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_SIZE, _("File size"));
+	m_SyncCheckSize->SetValue(false);
 	SyncChecksSizer->Add(m_SyncCheckSize, 0, wxALIGN_LEFT|wxALL, 5);
 
 	m_SyncCheckTime = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_TIME, _("Modified time"));
+	m_SyncCheckTime->SetValue(false);
 	SyncChecksSizer->Add(m_SyncCheckTime, 0, wxALIGN_LEFT|wxALL, 5);
 
 	m_SyncCheckShort = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_SHORT, _("Short Comparison"));
+	m_SyncCheckShort->SetValue(false);
 	SyncChecksSizer->Add(m_SyncCheckShort, 0, wxALIGN_LEFT|wxALL, 5);
 
 	m_SyncCheckFull = new wxCheckBox(SyncPanel, ID_SYNC_CHECK_FULL, _("Full Comparison"));
+	m_SyncCheckFull->SetValue(false);
 	SyncChecksSizer->Add(m_SyncCheckFull, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxStaticBox* SyncOther = new wxStaticBox(SyncPanel, wxID_ANY, _("Other"));

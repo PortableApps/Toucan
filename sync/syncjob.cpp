@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "syncjob.h"
@@ -50,7 +50,7 @@ void SyncFiles::OnSourceNotDestFile(const wxString &path){
 	//Clean doesnt copy any files
 	if(data->GetFunction() != _("Clean")){
 		if(!data->GetRules()->ShouldExclude(source, false)){
-			if(CopyFilePlain(source, dest)){
+			if(CopyIfNeeded(source, dest)){
 				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
 				}
@@ -69,7 +69,7 @@ void SyncFiles::OnNotSourceDestFile(const wxString &path){
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		if(!data->GetRules()->ShouldExclude(dest, false)){
-			CopyFilePlain(dest, source);
+			CopyIfNeeded(dest, source);
 		}
 	}
 }
@@ -79,7 +79,7 @@ void SyncFiles::OnSourceAndDestFile(const wxString &path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 		if(!data->GetRules()->ShouldExclude(source, false)){
-			if(CopyFileStream(source, dest)){
+			if(CopyIfNeeded(source, dest)){
 				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
 				}				
@@ -88,7 +88,7 @@ void SyncFiles::OnSourceAndDestFile(const wxString &path){
 	}
 	else if(data->GetFunction() == _("Update")){
 		if(!data->GetRules()->ShouldExclude(source, false)){
-			CopyFileTimestamp(source, dest);
+			CopyIfNeeded(source, dest);
 		}
 	}		
 	else if(data->GetFunction() == _("Equalise")){
@@ -172,14 +172,6 @@ void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 }
 
 bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
-#ifdef __WXMSW__
-	return CopyFileEx(source.fn_str(), dest.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
-#else
-	return wxCopyFile(source, dest, true);
-#endif
-}
-
-bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	//ATTN : Needs linux support
 	#ifdef __WXMSW__
 		long destAttributes = 0;
@@ -194,7 +186,13 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	#endif
 
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
-	if(CopyFile(source, desttemp)){
+	bool status;
+#ifdef __WXMSW__
+	status = CopyFileEx(source.fn_str(), desttemp.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
+#else
+	status = wxCopyFile(source, desttemp, true);
+#endif
+	if(status){
 		if(wxRenameFile(desttemp, dest, true)){
 			OutputProgress(_("Copied ") + source);
 		}
@@ -241,47 +239,112 @@ bool SyncFiles::CopyFilePlain(const wxString &source, const wxString &dest){
 	return true;
 }
 
-void SyncFiles::CopyFileTimestamp(const wxString &source, const wxString &dest){
-	wxDateTime tmTo, tmFrom;
-	wxFileName flTo(dest);
-	wxFileName flFrom(source);
-	flTo.GetTimes(NULL, &tmTo, NULL);
-	flFrom.GetTimes(NULL, &tmFrom, NULL);		
+bool SyncFiles::ShouldCopySize(const wxString &source, const wxString &dest){
+	wxFileName fnsource = wxFileName::FileName(source);
+	wxFileName fndest = wxFileName::FileName(dest);
+	return !(fnsource.GetSize() == fndest.GetSize());
+}
+
+bool SyncFiles::ShouldCopyTime(const wxString &source, const wxString &dest){
+	wxDateTime dtsource, dtdest;
+	wxFileName fnsource = wxFileName::FileName(source);
+	wxFileName fndest = wxFileName::FileName(dest);
+	fnsource.GetTimes(NULL, &dtsource, NULL);
+	fndest.GetTimes(NULL, &dtdest, NULL);		
 
 	if(data->GetIgnoreDLS()){
-		tmFrom.MakeTimezone(wxDateTime::Local, true);
+		dtsource.MakeTimezone(wxDateTime::Local, true);
+		dtdest.MakeTimezone(wxDateTime::Local, true);
 	}
 	//If they are within two seconds of each other then they are 
-	//likely the same due to filesystem differences (esp ext3)
-	if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
-		return;
+	//likely the same due to filesystem differences (esp ext3 and FAT)
+	if(dtsource.IsEqualUpTo(dtdest, wxTimeSpan(0, 0, 2, 0)) || dtsource.IsEarlierThan(dtdest)){
+		return false;
 	}
-	else if(tmFrom.IsLaterThan(tmTo)){
-		CopyFileStream(source, dest);
+	else{
+		return true;
 	}
 }
 
-//Returns true is there were no errors
-bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
-	if(disablestreams){
-		return CopyFilePlain(source, dest);
-	}
-
+bool SyncFiles::ShouldCopyShort(const wxString &source, const wxString &dest){
 	wxFileInputStream *sourcestream = new wxFileInputStream(source);
 	wxFileInputStream *deststream = new wxFileInputStream(dest);
 
-	//Something is wrong with our streams, return error
+	//Something is wrong with our streams, return false as
+	//it is not a good idea to copy in this case
 	if(!sourcestream->IsOk() || !deststream->IsOk()){
-		OutputProgress(_("Failed to copy ") + source, true, true);
+		delete sourcestream;
+		delete deststream;
+		return false;
+	}
+
+	//If we have different lengths then we need to copy
+	if(sourcestream->GetLength() != deststream->GetLength()){
+		return true;
+	}
+
+	wxFileOffset size = sourcestream->GetLength();
+
+	//We are just testing the start and the end so we need a small buffer
+	char sourcebufstart[100], sourcebufend[100], destbufstart[100], destbufend[100];
+
+	//Read the start
+	wxFileOffset bytesToRead = wxMin(size, 100);
+	sourcestream->Read(sourcebufstart, bytesToRead);
+	deststream->Read(destbufstart, bytesToRead);
+
+	//If we have a read error then return false as it is potentially 
+	//unsafe to copy
+	if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
+		delete sourcestream;
+		delete deststream;
+		return false;
+	}
+
+	//Seek to the end
+	sourcestream->SeekI(bytesToRead, wxFromEnd);
+	deststream->SeekI(bytesToRead, wxFromEnd);
+
+	sourcestream->Read(sourcebufend, bytesToRead);
+	deststream->Read(destbufend, bytesToRead);
+
+	//If we have a read error then return false as it is potentially 
+	//unsafe to copy
+	if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
+		delete sourcestream;
+		delete deststream;
+		return false;
+	}
+
+	//Use a memcmp rather than a strncmp as certain binary files can 
+	//contain embedded nulls
+	if(wxTmemcmp(sourcebufstart, destbufstart, bytesToRead) != 0 && wxTmemcmp(sourcebufend, destbufend, bytesToRead) != 0){
+		delete sourcestream;
+		delete deststream;
+		return true;
+	}
+
+	delete sourcestream;
+	delete deststream;
+	//If we make it here then the files are the same
+	return false;
+}
+
+bool SyncFiles::ShouldCopyFull(const wxString &source, const wxString &dest){
+	wxFileInputStream *sourcestream = new wxFileInputStream(source);
+	wxFileInputStream *deststream = new wxFileInputStream(dest);
+
+	//Something is wrong with our streams, return false as
+	//it is not a good idea to copy in this case
+	if(!sourcestream->IsOk() || !deststream->IsOk()){
 		delete sourcestream;
 		delete deststream;
 		return false;
 	}
 	
+	//If we have different lengths then we need to copy
 	if(sourcestream->GetLength() != deststream->GetLength()){
-		delete sourcestream;
-		delete deststream;
-		return CopyFilePlain(source, dest);
+		return true;
 	}
 
 	wxFileOffset size = sourcestream->GetLength();
@@ -294,20 +357,25 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
 		sourcestream->Read(sourcebuf, bytesToRead);
 		deststream->Read(destbuf, bytesToRead);
+
+		//If we have a read error then return false as it is potentially 
+		//unsafe to copy
 		if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
-			OutputProgress(_("Failed to copy ") + source, true, true);
 			delete sourcestream;
 			delete deststream;
 			delete[] sourcebuf;
 			delete[] destbuf;
 			return false;
 		}
+
+		//Use a memcmp rather than a strncmp as certain binary files can 
+		//contain embedded nulls
 		if(wxTmemcmp(sourcebuf, destbuf, bytesToRead) != 0){
 			delete sourcestream;
 			delete deststream;
 			delete[] sourcebuf;
 			delete[] destbuf;
-			return CopyFilePlain(source, dest);
+			return true;
 		}
 		bytesLeft-=bytesToRead;
 	}
@@ -315,15 +383,23 @@ bool SyncFiles::CopyFileStream(const wxString &source, const wxString &dest){
 	delete deststream;
 	delete[] sourcebuf;
 	delete[] destbuf;
-	//The two files are actually the same, but update the timestamps
-	if(data->GetTimeStamps()){
-		wxFileName from(source);
-		wxFileName to(dest);
-		wxDateTime access, mod, created;
-		from.GetTimes(&access ,&mod ,&created );
-		to.SetTimes(&access ,&mod , &created); 
-	}	
-	return true;
+	//If we make it here then the files are the same
+	return false;
+}
+
+bool SyncFiles::CopyIfNeeded(const wxString &source, const wxString &dest){
+	//If the dest file doesn't exists then we must copy
+	if(!wxFileExists(dest)){
+		return CopyFile(source, dest);
+	}
+	//If we fail any of the required tests then return false
+	if((data->GetCheckSize() && !ShouldCopySize(source, dest))
+		|| (data->GetCheckTime() && !ShouldCopyTime(source, dest))
+		|| (data->GetCheckShort() && !ShouldCopyShort(source, dest))
+		||(data->GetCheckFull() && !ShouldCopyFull(source, dest))){
+		return false;
+	}
+	return CopyFile(source, dest);
 }
 
 bool SyncFiles::RemoveDirectory(wxString path){
@@ -417,12 +493,12 @@ bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){
 
 	if(tmFrom.IsLaterThan(tmTo)){
 		if(!data->GetRules()->ShouldExclude(source, false)){
-			CopyFileStream(source, dest);			
+			CopyIfNeeded(source, dest);			
 		}
 	}
 	else if(tmTo.IsLaterThan(tmFrom)){
 		if(!data->GetRules()->ShouldExclude(dest, false)){
-			CopyFileStream(dest, source);
+			CopyIfNeeded(dest, source);
 		}
 	}
 	return true;	

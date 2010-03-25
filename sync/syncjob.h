@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_SYNCJOB
@@ -34,14 +34,18 @@ protected:
 	virtual void OnNotSourceDestFolder(const wxString &path);
 	virtual void OnSourceAndDestFolder(const wxString &path);
 
+	bool ShouldCopySize(const wxString &source, const wxString &dest);
+	bool ShouldCopyTime(const wxString &source, const wxString &dest);
+	bool ShouldCopyShort(const wxString &source, const wxString &dest);
+	bool ShouldCopyFull(const wxString &source, const wxString &dest);
+
+	bool CopyIfNeeded(const wxString &source, const wxString &dest);
 	bool CopyFile(const wxString &source, const wxString &dest);
-	bool CopyFilePlain(const wxString &source, const wxString &dest);
-	bool CopyFileStream(const wxString &source, const wxString &dest);
-	void CopyFileTimestamp(const wxString &source, const wxString &dest);
 	bool CopyFolderTimestamp(const wxString &source, const wxString &dest);
+	bool SourceAndDestCopy(const wxString &source, const wxString &dest);
+
 	bool RemoveDirectory(wxString path);
 	bool RemoveFile(const wxString &path);
-	bool SourceAndDestCopy(const wxString &source, const wxString &dest);
 };
 
 #ifdef __WXMSW__
