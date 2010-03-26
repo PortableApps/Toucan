@@ -12,6 +12,21 @@ class frmMain;
 #include "jobdata.h"
 #include <wx/string.h>
 
+struct SyncChecks{
+	bool Size;
+	bool Time;
+	bool Short;
+	bool Full;
+};
+
+struct SyncOptions{
+	bool TimeStamps;
+	bool Attributes;
+	bool IgnoreRO;
+	bool IgnoreDLS;
+	bool Recycle;
+};
+
 class SyncData : public JobData{
 
 public:
@@ -29,43 +44,36 @@ public:
 	void SetSource(const wxString& Source) {this->m_Source = Source;}
 	void SetDest(const wxString& Dest) {this->m_Dest = Dest;}
 	void SetFunction(const wxString& Function) {this->m_Function = Function;}
-	void SetCheckSize(const bool& CheckSize) {this->m_CheckSize = CheckSize;}
-	void SetCheckTime(const bool& CheckTime) {this->m_CheckTime = CheckTime;}
-	void SetCheckShort(const bool& CheckShort) {this->m_CheckShort = CheckShort;}
-	void SetCheckFull(const bool& CheckFull) {this->m_CheckFull = CheckFull;}
-	void SetIgnoreDLS(const bool& IgnoreDLS) {this->m_IgnoreDLS = IgnoreDLS;}
-	void SetIgnoreRO(const bool& IgnoreRO) {this->m_IgnoreRO = IgnoreRO;}
-	void SetTimeStamps(const bool& TimeStamps) {this->m_TimeStamps = TimeStamps;}
-	void SetAttributes(const bool& Attributes) {this->m_Attributes = Attributes;}
-	void SetRecycle(const bool& Recycle) {this->m_Recycle = Recycle;}
+	void SetCheckSize(const bool& CheckSize) {this->m_Checks.Size = CheckSize;}
+	void SetCheckTime(const bool& CheckTime) {this->m_Checks.Time = CheckTime;}
+	void SetCheckShort(const bool& CheckShort) {this->m_Checks.Short = CheckShort;}
+	void SetCheckFull(const bool& CheckFull) {this->m_Checks.Full = CheckFull;}
+	void SetIgnoreDLS(const bool& IgnoreDLS) {this->m_Options.IgnoreDLS = IgnoreDLS;}
+	void SetIgnoreRO(const bool& IgnoreRO) {this->m_Options.IgnoreRO = IgnoreRO;}
+	void SetTimeStamps(const bool& TimeStamps) {this->m_Options.TimeStamps = TimeStamps;}
+	void SetAttributes(const bool& Attributes) {this->m_Options.Attributes = Attributes;}
+	void SetRecycle(const bool& Recycle) {this->m_Options.Recycle = Recycle;}
 
 	const wxString& GetSource() const {return m_Source;}
 	const wxString& GetDest() const {return m_Dest;}
 	const wxString& GetFunction() const {return m_Function;}
-	const bool& GetCheckSize() const {return m_CheckSize;}
-	const bool& GetCheckTime() const {return m_CheckTime;}
-	const bool& GetCheckShort() const {return m_CheckShort;}
-	const bool& GetCheckFull() const {return m_CheckFull;}
-	const bool& GetIgnoreDLS() const {return m_IgnoreDLS;}
-	const bool& GetIgnoreRO() const {return m_IgnoreRO;}
-	const bool& GetTimeStamps() const {return m_TimeStamps;}
-	const bool& GetAttributes() const {return m_Attributes;}
-	const bool& GetRecycle() const {return m_Recycle;}
+	const bool& GetCheckSize() const {return m_Checks.Size;}
+	const bool& GetCheckTime() const {return m_Checks.Time;}
+	const bool& GetCheckShort() const {return m_Checks.Short;}
+	const bool& GetCheckFull() const {return m_Checks.Full;}
+	const bool& GetIgnoreDLS() const {return m_Options.IgnoreDLS;}
+	const bool& GetIgnoreRO() const {return m_Options.IgnoreRO;}
+	const bool& GetTimeStamps() const {return m_Options.TimeStamps;}
+	const bool& GetAttributes() const {return m_Options.Attributes;}
+	const bool& GetRecycle() const {return m_Options.Recycle;}
 
 private:
 	wxString m_Source;
 	wxString m_Dest;
 	wxString m_Function;
 	wxString m_PreText;
-	bool m_CheckSize;
-	bool m_CheckTime;
-	bool m_CheckShort;
-	bool m_CheckFull;
-	bool m_TimeStamps;
-	bool m_Attributes;
-	bool m_IgnoreRO;
-	bool m_IgnoreDLS;
-	bool m_Recycle;
+	SyncChecks m_Checks;
+	SyncOptions m_Options;
 };
 
 #endif

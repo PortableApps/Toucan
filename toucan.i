@@ -36,18 +36,21 @@
 	}
 
 	void Sync(const wxString &source, const wxString &dest, const wxString &function, 
-				bool timestamps = false, bool attributes = false, 
-				bool ignorero = false, bool ignoredls = false, bool recycle = false, const wxString &rules = wxEmptyString)
+			  SyncChecks checks, SyncOptions options, const wxString &rules = wxEmptyString)
 	{
 		SyncData *data = new SyncData(wxT("LastSyncJob"));
 		data->SetSource(source);
 		data->SetDest(dest);
 		data->SetFunction(function);
-		data->SetIgnoreRO(ignorero);
-		data->SetAttributes(attributes);
-		data->SetIgnoreDLS(ignoredls);
-		data->SetTimeStamps(timestamps);
-		data->SetRecycle(recycle);
+		data->SetCheckSize(checks.Size);
+		data->SetCheckTime(checks.Time);
+		data->SetCheckShort(checks.Short);
+		data->SetCheckFull(checks.Full);
+		data->SetIgnoreRO(options.IgnoreRO);
+		data->SetAttributes(options.Attributes);
+		data->SetIgnoreDLS(options.IgnoreDLS);
+		data->SetTimeStamps(options.TimeStamps);
+		data->SetRecycle(options.Recycle);
 		data->SetRules(new Rules(rules, true));
 		if(data->IsReady()){
 			Sync(data);
@@ -269,8 +272,7 @@ void OutputProgress(const wxString &message, bool time = false, bool error = fal
 
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, 
-		  bool timestamps = false, bool attributes = false, 
-		  bool ignorero = false, bool ignoredls = false, bool recycle = false, const wxString &rules = wxEmptyString);
+		  SyncChecks checks, SyncOptions options, const wxString &rules = wxEmptyString);
 
 void Backup(const wxString &jobname);
 void Backup(const wxArrayString &paths, const wxString &backuplocation, const wxString &function, 

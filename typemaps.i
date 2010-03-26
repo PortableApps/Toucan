@@ -8,6 +8,21 @@
 	#include <wx/arrstr.h>
 %}
 
+//This allows us to get a filed from a table, returns a bool
+%{
+	bool getfield(lua_State *L, const char *key, bool default){
+		bool ret = default;
+		lua_getfield(L, -1, key);
+		if(!lua_isboolean(L, -1)){
+			lua_pop(L, 1);
+			return ret;
+		}
+		ret = static_cast<bool>(lua_toboolean(L, -1));
+		lua_pop(L, 1);
+		return ret;
+	}
+%}
+
 %naturalvar wxString;
 %naturalvar wxArrayString;
 
@@ -46,12 +61,31 @@
 	$1 = &array;
 %}
 
+%typemap(in,checkfn="lua_istable") SyncChecks(SyncChecks checks)
+%{	
+	//By default we check size and short byte
+	checks.Size = getfield(L, "size", true);
+	checks.Time = getfield(L, "time", false);
+	checks.Short = getfield(L, "short", true);
+	checks.Full = getfield(L, "full", false);
+	$1 = checks;
+%}
+
+%typemap(in,checkfn="lua_istable") SyncOptions(SyncOptions options)
+%{
+	options.TimeStamps = getfield(L, "timestamps", true);
+	options.Attributes = getfield(L, "attributes", true);
+	options.IgnoreRO = getfield(L, "ignorero", false);
+	options.IgnoreDLS = getfield(L, "ignoredls", false);
+	options.Recycle = getfield(L, "recycle", false);
+	$1 = options;
+%}
+
 // and the typechecks
 %typecheck(SWIG_TYPECHECK_STRING) wxString,const wxString& {
   $1 = lua_isstring(L,$input);
 }
 
-%typecheck(SWIG_TYPECHECK_STRING_ARRAY) const wxArrayString& {
+%typecheck(SWIG_TYPECHECK_STRING_ARRAY) const wxArrayString&, SyncChecks, SyncOptions {
   $1 = lua_istable(L,$input);
 }
-
