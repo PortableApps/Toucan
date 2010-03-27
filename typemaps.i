@@ -14,11 +14,11 @@
 		bool ret = default;
 		lua_getfield(L, index, key);
 		if(!lua_isboolean(L, -1)){
-			lua_pop(L, -1);
+			lua_pop(L, 1);
 			return ret;
 		}
 		ret = static_cast<bool>(lua_toboolean(L, -1));
-		lua_pop(L, -1);
+		lua_pop(L, 1);
 		return ret;
 	}
 %}
