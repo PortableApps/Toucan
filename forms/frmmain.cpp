@@ -1327,25 +1327,26 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SYNC_RUN
 void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
-	wxString command = wxT("sync([[");
-	command += m_Sync_Source_Txt->GetValue();
-	command += wxT("]], [[");
-	command += m_Sync_Dest_Txt->GetValue();
-	command += wxT("]], [[");
-	command += m_Sync_Function->GetStringSelection();
-	command += wxT("]], ");
-	command += ToString(m_Sync_Timestamp->IsChecked());
-	command += wxT(", ");
-	command += ToString(m_Sync_Attributes->IsChecked());
-	command += wxT(", ");
-	command += ToString(m_Sync_Ignore_Readonly->IsChecked());
-	command += wxT(", ");
-	command += ToString(m_Sync_Ignore_DaylightS->IsChecked());
-	command += wxT(", ");
-	command += ToString(m_Sync_Recycle->IsChecked());
-	command += wxT(", [[");
-	command += m_Sync_Rules->GetStringSelection();
-	command += wxT("]])");
+	wxString command;
+	//source
+	command << "sync([[" <<m_Sync_Source_Txt->GetValue() << "]], ";
+	//dest
+	command << "[[" << m_Sync_Dest_Txt->GetValue() <<  "]], ";
+	//function
+	command << "[[" << m_Sync_Function->GetStringSelection() << "]], ";
+	//checks
+	command << "{size=" << ToString(m_SyncCheckSize->IsChecked()) << ","
+			<< "time=" << ToString(m_SyncCheckTime->IsChecked()) << ","
+			<< "short=" << ToString(m_SyncCheckShort->IsChecked()) << ","
+			<< "full=" << ToString(m_SyncCheckFull->IsChecked()) << "}, ";
+	//options
+	command << "{timestamp=" << ToString(m_Sync_Timestamp->IsChecked()) << ","
+			<< "attributes=" << ToString(m_Sync_Attributes->IsChecked()) << ","
+			<< "recycle=" << ToString(m_Sync_Recycle->IsChecked()) << ","
+			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked()) << ","
+			<< "ignoredls=" << ToString(m_Sync_Ignore_DaylightS->IsChecked()) << "}, ";
+	//rules
+	command << "[[" << m_Sync_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
 }
 
