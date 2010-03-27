@@ -1340,7 +1340,7 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 			<< "short=" << ToString(m_SyncCheckShort->IsChecked()) << ","
 			<< "full=" << ToString(m_SyncCheckFull->IsChecked()) << "}, ";
 	//options
-	command << "{timestamp=" << ToString(m_Sync_Timestamp->IsChecked()) << ","
+	command << "{timestamps=" << ToString(m_Sync_Timestamp->IsChecked()) << ","
 			<< "attributes=" << ToString(m_Sync_Attributes->IsChecked()) << ","
 			<< "recycle=" << ToString(m_Sync_Recycle->IsChecked()) << ","
 			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked()) << ","
