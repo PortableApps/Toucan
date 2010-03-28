@@ -122,6 +122,7 @@
 		data->SetRatio(compressionlevel);
 		data->SetUsesPassword(options.Password);
 		data->SetTest(options.Test);
+		data->SetSolid(options.Solid);
 		data->SetRules(new Rules(rules, true));
 		if(data->IsReady()){
 			Backup(data);

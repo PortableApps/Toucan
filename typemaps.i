@@ -83,6 +83,7 @@
 %{
 	$1.Password = getfield(L, $input,"password", $1.Password);
 	$1.Test = getfield(L, $input,"test", $1.Test);
+	$1.Solid = getfield(L, $input, "solid", $1.Solid);
 %}
 
 // and the typechecks

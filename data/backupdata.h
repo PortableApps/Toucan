@@ -16,8 +16,9 @@ class wxTextFile;
 struct BackupOptions{
 	bool Password;
 	bool Test;
+	bool Solid;
 
-	BackupOptions() : Password(false), Test(false)
+	BackupOptions() : Password(false), Test(false), Solid(true)
 	{}
 };
 
@@ -48,6 +49,7 @@ public:
 	void SetLocation(const int& i, const wxString& Location) {this->m_Locations.Item(i) = Location;}
 	void SetUsesPassword(const bool& UsesPassword) {this->m_Options.Password = UsesPassword;}
 	void SetTest(const bool& Test) {this->m_Options.Test = Test;}
+	void SetSolid(const bool& Solid) {this->m_Options.Solid = Solid;}
 	void SetPassword(const wxString& Password) {this->m_Password = Password;}
 
 	const wxString& GetFileLocation() const {return m_FileLocation;}
@@ -58,6 +60,7 @@ public:
 	const wxString& GetLocation(const int& i) const {return m_Locations.Item(i);}
 	const bool& GetUsesPassword() const {return m_Options.Password;}
 	const bool& GetTest() const {return m_Options.Test;}
+	const bool& GetSolid() const {return m_Options.Solid;}
 	const wxString& GetPassword() const {return m_Password;}
 
 private:

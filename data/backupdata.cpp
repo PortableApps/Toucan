@@ -47,6 +47,8 @@ bool BackupData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Test"), &btemp)) SetTest(btemp);
 		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Solid"), &btemp)) SetSolid(btemp);
+		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
 		else error = true;
 
@@ -69,6 +71,7 @@ bool BackupData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Ratio"), GetRatio())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IsPass"), GetUsesPassword())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Test"), GetTest())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Solid"), GetSolid())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Backup"))) error = true;
 
@@ -105,6 +108,8 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
 	window->m_Backup_IsPass->SetValue(GetUsesPassword());
+	window->m_Backup_Test->SetValue(GetTest());
+	window->m_BackupSolid->SetValue(GetSolid());
 	window->m_Backup_Rules->SetStringSelection(GetRules()->GetName());
 
 	//Notify the window that we have updated the rules
@@ -123,6 +128,8 @@ bool BackupData::TransferFromForm(frmMain *window){
 	SetFormat(window->m_Backup_Format->GetStringSelection()) ; 
 	SetRatio(window->m_Backup_Ratio->GetValue());
 	SetUsesPassword(window->m_Backup_IsPass->GetValue());
+	SetTest(window->m_Backup_Test->GetValue());
+	SetSolid(window->m_BackupSolid->GetValue());
 	SetRules(new Rules(window->m_Backup_Rules->GetStringSelection(), true));
 	return true;	
 }
@@ -151,6 +158,9 @@ wxArrayString BackupData::CreateCommands(){
 	}
    	else if (GetFormat() == wxT("7-Zip")){
 		SetFormat(wxT("7z"));
+		if(!GetSolid()){
+			solid = " -ms=off";
+		}
 	}
 	else if(GetFormat() == wxT("GZip")){
 		SetFormat(wxT("tar"));

@@ -466,6 +466,9 @@ void frmMain::CreateControls(){
 	m_Backup_Test = new wxCheckBox(BackupPanel, ID_BACKUP_TEST, _("Test After Creation"));
 	BackupOtherSizer->Add(m_Backup_Test, 0, wxALIGN_TOP|wxALL, border);
 
+	m_BackupSolid = new wxCheckBox(BackupPanel, ID_BACKUP_SOLID, _("Solid Mode"));
+	BackupOtherSizer->Add(m_BackupSolid, 0, wxALIGN_TOP|wxALL, border);
+
 	wxBoxSizer* BackupButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	BackupTopSizer->Add(BackupButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
 
@@ -1395,7 +1398,7 @@ void frmMain::OnSecureRunClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	command << "}, ";
 	//function
-	command << "[[" << m_Secure_Function->GetStringSelection() << "]], ");
+	command << "[[" << m_Secure_Function->GetStringSelection() << "]], ";
 	//rules
 	command << "[[" << m_Secure_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
