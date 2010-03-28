@@ -36,7 +36,8 @@
 	}
 
 	void Sync(const wxString &source, const wxString &dest, const wxString &function, 
-			  SyncChecks checks, SyncOptions options, const wxString &rules = wxEmptyString)
+			  SyncChecks checks = SyncChecks(), SyncOptions options = SyncOptions(), 
+			  const wxString &rules = wxEmptyString)
 	{
 		SyncData *data = new SyncData(wxT("LastSyncJob"));
 		data->SetSource(source);
@@ -272,7 +273,8 @@ void OutputProgress(const wxString &message, bool time = false, bool error = fal
 
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, 
-		  SyncChecks checks, SyncOptions options, const wxString &rules = wxEmptyString);
+		  SyncChecks checks = SyncChecks(), SyncOptions options = SyncOptions(), 
+		  const wxString &rules = wxEmptyString);
 
 void Backup(const wxString &jobname);
 void Backup(const wxArrayString &paths, const wxString &backuplocation, const wxString &function, 

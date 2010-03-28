@@ -64,19 +64,19 @@
 %typemap(in,checkfn="lua_istable") SyncChecks()
 %{	
 	//By default we check size and short byte
-	$1.Size = getfield(L, $input,"size", true);
-	$1.Time = getfield(L, $input, "time", false);
-	$1.Short = getfield(L, $input,"short", true);
-	$1.Full = getfield(L, $input,"full", false);
+	$1.Size = getfield(L, $input,"size", $1.Size);
+	$1.Time = getfield(L, $input, "time", $1.Time);
+	$1.Short = getfield(L, $input,"short", $1.Short);
+	$1.Full = getfield(L, $input,"full", $1.Full);
 %}
 
 %typemap(in,checkfn="lua_istable") SyncOptions()
 %{
-	$1.TimeStamps = getfield(L, $input,"timestamps", true);
-	$1.Attributes = getfield(L, $input,"attributes", true);
-	$1.IgnoreRO = getfield(L, $input,"ignorero", false);
-	$1.IgnoreDLS = getfield(L, $input,"ignoredls", false);
-	$1.Recycle = getfield(L, $input,"recycle", false);
+	$1.TimeStamps = getfield(L, $input,"timestamps", $1.TimeStamps);
+	$1.Attributes = getfield(L, $input,"attributes", $1.Attributes);
+	$1.IgnoreRO = getfield(L, $input,"ignorero", $1.IgnoreRO);
+	$1.IgnoreDLS = getfield(L, $input,"ignoredls", $1.IgnoreDLS);
+	$1.Recycle = getfield(L, $input,"recycle", $1.Recycle);
 %}
 
 // and the typechecks

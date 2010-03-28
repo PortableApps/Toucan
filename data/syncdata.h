@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_SYNCDATA
@@ -17,6 +17,9 @@ struct SyncChecks{
 	bool Time;
 	bool Short;
 	bool Full;
+
+	SyncChecks() : Size(true), Time(false), Short(true), Full(false)
+	{}
 };
 
 struct SyncOptions{
@@ -25,6 +28,10 @@ struct SyncOptions{
 	bool IgnoreRO;
 	bool IgnoreDLS;
 	bool Recycle;
+
+	SyncOptions() : TimeStamps(true), Attributes(true), IgnoreRO(false), 
+					IgnoreDLS(false), Recycle(false)
+	{}
 };
 
 class SyncData : public JobData{
