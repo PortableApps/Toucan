@@ -1362,27 +1362,26 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
-	wxString command = wxT("backup({[[");
-	for(unsigned int i = 0; i < m_BackupLocations->Count() - 1; i++){
-		command += m_BackupLocations->Item(i);
-		command += wxT("]], [[");
+	wxString command;
+	//sources
+	command << "backup({";
+	for(unsigned int i = 0; i < m_BackupLocations->Count(); i++){
+		command << "[[" <<  m_BackupLocations->Item(i) << "]],";
 	}
-	command += m_BackupLocations->Item(m_BackupLocations->Count() - 1);
-	command += wxT("]]}, [[");
-	command += m_Backup_Location->GetValue();
-	command += wxT("]], [[");
-	command += m_Backup_Function->GetStringSelection();
-	command += wxT("]], [[");
-	command += m_Backup_Format->GetStringSelection();
-	command += wxT("]], ");
-	command += wxString::Format(wxT("%d"), m_Backup_Ratio->GetValue());
-	command += wxT(", ");
-	command += ToString(m_Backup_IsPass->IsChecked());
-	command += wxT(", ");
-	command += ToString(m_Backup_Test->IsChecked());
-	command += wxT(", [[");
-	command += m_Backup_Rules->GetStringSelection();
-	command += wxT("]])");
+	command << "}, ";
+	//backup file
+	command << "[[" <<  m_Backup_Location->GetValue() << "]], ";
+	//function
+	command << "[[" <<   m_Backup_Function->GetStringSelection() << "]], ";
+	//format
+	command << "[[" <<   m_Backup_Format->GetStringSelection() << "]], ";
+	//compression ratio
+	command << "[[" << m_Backup_Ratio->GetValue() << "]], ";
+	//options
+	command << "{password=" << ToString(m_Backup_IsPass->IsChecked()) << ","
+			<< "test=" << ToString(m_Backup_Test->IsChecked()) << "}, ";
+	//rules
+	command << "[[" << m_Backup_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
 }
 
