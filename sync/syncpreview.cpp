@@ -116,7 +116,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
-			if(ShouldCopy(source, dest)){
+			if(CopyIfNeeded(source, dest)){
 				DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
 				if(iter != destitems.end()){
 					(*iter)->SetColour(wxT("Green"));		
@@ -143,7 +143,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				return;
 			}
 			else if(tmFrom.IsLaterThan(tmTo)){
-				if(ShouldCopy(source, dest)){
+				if(CopyIfNeeded(source, dest)){
 					DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
 					if(iter != destitems.end()){
 						(*iter)->SetColour(wxT("Green"));			
@@ -163,7 +163,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			}
 
 			if(tmFrom.IsLaterThan(tmTo)){
-				if(ShouldCopy(source, dest)){
+				if(CopyIfNeeded(source, dest)){
 					DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
 					if(iter != destitems.end()){
 						(*iter)->SetColour(wxT("Green"));			
@@ -171,7 +171,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				}	
 			}
 			else if(tmTo.IsLaterThan(tmFrom)){
-				if(ShouldCopy(dest, source)){
+				if(CopyIfNeeded(dest, source)){
 					DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
 					if(iter != sourceitems.end()){
 						(*iter)->SetColour(wxT("Green"));			
@@ -240,49 +240,17 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	}
 }
 
-bool SyncPreview::ShouldCopy(const wxString &source, const wxString &dest){
-//	if(disablestreams){
-//		return true;
-//	}
-
-	//See the real CopyFileStream for more info
-	wxFileInputStream sourcestream(source);
-	wxFileInputStream deststream(dest);
-
-	//Something is wrong with our streams, return error
-	if(!sourcestream.IsOk() || !deststream.IsOk()){
+bool SyncPreview::CopyIfNeeded(const wxString &source, const wxString &dest){
+	//If the dest file doesn't exists then we must copy
+	if(!wxFileExists(dest)){
+		return true;
+	}
+	//If we fail any of the required tests then return false
+	if((data->GetCheckSize() && !ShouldCopySize(source, dest))
+		|| (data->GetCheckTime() && !ShouldCopyTime(source, dest))
+		|| (data->GetCheckShort() && !ShouldCopyShort(source, dest))
+		||(data->GetCheckFull() && !ShouldCopyFull(source, dest))){
 		return false;
 	}
-
-	if(sourcestream.GetLength() != deststream.GetLength()){
-		return true;	
-	}
-
-	wxFileOffset size = sourcestream.GetLength();
-
-	//We read in 4KB chunks as testing seems to show they are the fastest
-	char *sourcebuf = new char[4096];
-	char *destbuf = new char [4096];
-	wxFileOffset bytesLeft = size;
-	while(bytesLeft > 0){
-		wxGetApp().Yield();
-		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
-		sourcestream.Read(sourcebuf, bytesToRead);
-		deststream.Read(destbuf, bytesToRead);
-		if(sourcestream.GetLastError() != wxSTREAM_NO_ERROR || deststream.GetLastError() != wxSTREAM_NO_ERROR){
-			delete[] sourcebuf;
-			delete[] destbuf;
-			return false;
-		}
-		if(strncmp(sourcebuf, destbuf, bytesToRead) != 0){
-			delete[] sourcebuf;
-			delete[] destbuf;
-			return true;
-		}
-		bytesLeft -= bytesToRead;
-	}
-	//The two files are actually the same
-	delete[] sourcebuf;
-	delete[] destbuf;
-	return false;
+	return true;
 }

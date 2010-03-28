@@ -26,7 +26,8 @@ protected:
 	void OnSourceNotDestFolder(const wxString &path);
 	void OnNotSourceDestFolder(const wxString &path);
 	void OnSourceAndDestFolder(const wxString &path);
-	bool ShouldCopy(const wxString &source, const wxString &dest);
+
+	bool CopyIfNeeded(const wxString &source, const wxString &dest);
 
 private:
 	DirCtrlItemArray sourceitems;
