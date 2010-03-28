@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_SYNCBASE
@@ -32,8 +32,12 @@ protected:
 	virtual void OnNotSourceDestFolder(const wxString &path) = 0;
 	virtual void OnSourceAndDestFolder(const wxString &path) = 0;
 
+	bool ShouldCopySize(const wxString &source, const wxString &dest);
+	bool ShouldCopyTime(const wxString &source, const wxString &dest);
+	bool ShouldCopyShort(const wxString &source, const wxString &dest);
+	bool ShouldCopyFull(const wxString &source, const wxString &dest);
+
 	bool preview;
-	bool disablestreams;
 	wxString sourceroot;
 	wxString destroot;
 	SyncData *data;

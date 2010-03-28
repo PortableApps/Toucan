@@ -34,11 +34,6 @@ protected:
 	virtual void OnNotSourceDestFolder(const wxString &path);
 	virtual void OnSourceAndDestFolder(const wxString &path);
 
-	bool ShouldCopySize(const wxString &source, const wxString &dest);
-	bool ShouldCopyTime(const wxString &source, const wxString &dest);
-	bool ShouldCopyShort(const wxString &source, const wxString &dest);
-	bool ShouldCopyFull(const wxString &source, const wxString &dest);
-
 	bool CopyIfNeeded(const wxString &source, const wxString &dest);
 	bool CopyFile(const wxString &source, const wxString &dest);
 	bool CopyFolderTimestamp(const wxString &source, const wxString &dest);

@@ -241,9 +241,9 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 }
 
 bool SyncPreview::ShouldCopy(const wxString &source, const wxString &dest){
-	if(disablestreams){
-		return true;
-	}
+//	if(disablestreams){
+//		return true;
+//	}
 
 	//See the real CopyFileStream for more info
 	wxFileInputStream sourcestream(source);
