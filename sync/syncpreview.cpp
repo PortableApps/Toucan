@@ -17,11 +17,8 @@
 #include <wx/wfstream.h>
 
 SyncPreview::SyncPreview(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata, bool issource) 
-            :SyncBase(syncsource, syncdest, syncdata)
-{
-	this->sourcetree = issource;
-	this->preview = true;
-}
+            :sourcetree(issource), SyncBase(syncsource, syncdest, syncdata)
+{}
 
 DirCtrlItemArray SyncPreview::Execute(){
 	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
@@ -31,7 +28,7 @@ DirCtrlItemArray SyncPreview::Execute(){
 	return sourcetree ? sourceitems : destitems;
 }
 
-bool SyncPreview::OperationCaller(std::map<wxString, int> paths){
+void SyncPreview::OperationCaller(std::map<wxString, int> paths){
 	for(std::map<wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if((*iter).second == 1){
@@ -65,7 +62,7 @@ bool SyncPreview::OperationCaller(std::map<wxString, int> paths){
 			}
 		}
 	}
-	return true;
+	return;
 }
 
 void SyncPreview::OnSourceNotDestFile(const wxString &path){

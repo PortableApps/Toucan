@@ -19,13 +19,13 @@ public:
 	DirCtrlItemArray Execute();
 
 protected:
-	bool OperationCaller(std::map<wxString, int> paths);
-	void OnSourceNotDestFile(const wxString &path);
-	void OnNotSourceDestFile(const wxString &path);
-	void OnSourceAndDestFile(const wxString &path);
-	void OnSourceNotDestFolder(const wxString &path);
-	void OnNotSourceDestFolder(const wxString &path);
-	void OnSourceAndDestFolder(const wxString &path);
+	virtual void OperationCaller(std::map<wxString, int> paths);
+	virtual void OnSourceNotDestFile(const wxString &path);
+	virtual void OnNotSourceDestFile(const wxString &path);
+	virtual void OnSourceAndDestFile(const wxString &path);
+	virtual void OnSourceNotDestFolder(const wxString &path);
+	virtual void OnNotSourceDestFolder(const wxString &path);
+	virtual void OnSourceAndDestFolder(const wxString &path);
 
 	bool CopyIfNeeded(const wxString &source, const wxString &dest);
 

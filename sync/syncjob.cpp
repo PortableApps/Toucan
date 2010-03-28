@@ -30,9 +30,8 @@ void* SyncJob::Entry(){
 }
 
 SyncFiles::SyncFiles(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
-          : SyncBase(syncsource, syncdest, syncdata){
-	this->preview = false;
-}
+          : SyncBase(syncsource, syncdest, syncdata)
+{}
 
 bool SyncFiles::Execute(){
 	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
@@ -40,6 +39,55 @@ bool SyncFiles::Execute(){
 	std::map<wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
 	return true;
+}
+
+void SyncFiles::OperationCaller(std::map<wxString, int> paths){
+	for(std::map<wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
+		if(wxGetApp().GetAbort()){
+			return;
+		}
+		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
+			if((*iter).second == 1){
+				if(!wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
+					wxMkdir(destroot + wxFILE_SEP_PATH + (*iter).first);
+				}
+				OnSourceNotDestFolder((*iter).first);
+			}
+			else if((*iter).second == 2){
+					if(!wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first)){
+					wxMkdir(sourceroot + wxFILE_SEP_PATH + (*iter).first);
+				}
+				OnNotSourceDestFolder((*iter).first);				
+			}
+			else if((*iter).second == 3){
+				OnSourceAndDestFolder((*iter).first);
+			}
+		}
+		//We have a file
+		else{
+			if((*iter).second == 1){
+				OnSourceNotDestFile((*iter).first);
+			}
+			else if((*iter).second == 2){
+				OnNotSourceDestFile((*iter).first);				
+			}
+			else if((*iter).second == 3){
+				OnSourceAndDestFile((*iter).first);
+			}
+			//Update the progress bar for files only
+			if(wxGetApp().IsGui()){
+				IncrementGauge();
+				//If we have a file in both folders then increment again as we only do one pass
+				if((*iter).second == 3){
+					//But only if we are in a two way sync
+					if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Equalise")){
+						IncrementGauge();	
+					}
+				}
+			}
+		}
+	}
+	return;
 }
 
 void SyncFiles::OnSourceNotDestFile(const wxString &path){

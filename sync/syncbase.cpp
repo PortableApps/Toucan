@@ -36,18 +36,10 @@ SyncBase::~SyncBase(){
 	;
 }
 
-std::list<wxString> SyncBase::FolderContentsToList(wxString path){
+std::list<wxString> SyncBase::FolderContentsToList(const wxString &path){
 	std::list<wxString> paths;
-	//Tidy up the path the make sure it is a directory
-	if (path[path.length()-1] != wxFILE_SEP_PATH) {
-		path += wxFILE_SEP_PATH;       
-	}
-	if(!preview){
-		if(!wxDirExists(path)){
-			wxMkdir(path);
-		}
-	}
-	if(wxDirExists(path)){
+	wxFileName fnpath = wxFileName::DirName(path);
+	if(fnpath.DirExists()){
 		wxString filename;
 		wxDir dir(path);
 		if(dir.GetFirst(&filename)){
@@ -83,49 +75,6 @@ std::map<wxString, int> SyncBase::MergeListsToMap(std::list<wxString> sourcelist
 		mergeresult[*destiter] = 2;
 	}
 	return mergeresult;
-}
-
-bool SyncBase::OperationCaller(std::map<wxString, int> paths){
-	for(std::map<wxString, int>::iterator iter = paths.begin(); iter != paths.end(); ++iter){
-		if(wxGetApp().GetAbort()){
-			return true;
-		}
-		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
-			if((*iter).second == 1){
-				OnSourceNotDestFolder((*iter).first);
-			}
-			else if((*iter).second == 2){
-				OnNotSourceDestFolder((*iter).first);				
-			}
-			else if((*iter).second == 3){
-				OnSourceAndDestFolder((*iter).first);
-			}
-		}
-		//We have a file
-		else{
-			if((*iter).second == 1){
-				OnSourceNotDestFile((*iter).first);
-			}
-			else if((*iter).second == 2){
-				OnNotSourceDestFile((*iter).first);				
-			}
-			else if((*iter).second == 3){
-				OnSourceAndDestFile((*iter).first);
-			}
-			//Update the progress bar for files only
-			if(wxGetApp().IsGui() && !preview){
-				IncrementGauge();
-				//If we have a file in both folders then increment again as we only do one pass
-				if((*iter).second == 3){
-					//But only if we are in a two way sync
-					if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Equalise")){
-						IncrementGauge();	
-					}
-				}
-			}
-		}
-	}
-	return true;
 }
 
 bool SyncBase::ShouldCopySize(const wxString &source, const wxString &dest){

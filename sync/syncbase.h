@@ -21,9 +21,9 @@ public:
 	virtual ~SyncBase();
 
 protected:
-	std::list<wxString> FolderContentsToList(wxString path);
+	std::list<wxString> FolderContentsToList(const wxString &path);
 	std::map<wxString, int> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
-	bool OperationCaller(std::map<wxString, int> paths);
+	virtual void OperationCaller(std::map<wxString, int> paths) = 0;
 
 	virtual void OnSourceNotDestFile(const wxString &path) = 0;
 	virtual void OnNotSourceDestFile(const wxString &path) = 0;
@@ -37,7 +37,6 @@ protected:
 	bool ShouldCopyShort(const wxString &source, const wxString &dest);
 	bool ShouldCopyFull(const wxString &source, const wxString &dest);
 
-	bool preview;
 	wxString sourceroot;
 	wxString destroot;
 	SyncData *data;

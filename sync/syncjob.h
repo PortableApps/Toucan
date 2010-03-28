@@ -27,6 +27,7 @@ public:
 	bool Execute();
 
 protected:
+	virtual void OperationCaller(std::map<wxString, int> paths);
 	virtual void OnSourceNotDestFile(const wxString &path);
 	virtual void OnNotSourceDestFile(const wxString &path);
 	virtual void OnSourceAndDestFile(const wxString &path);
