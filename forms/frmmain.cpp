@@ -1376,7 +1376,7 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	//format
 	command << "[[" <<   m_Backup_Format->GetStringSelection() << "]], ";
 	//compression ratio
-	command << "[[" << m_Backup_Ratio->GetValue() << "]], ";
+	command << m_Backup_Ratio->GetValue() << ", ";
 	//options
 	command << "{password=" << ToString(m_Backup_IsPass->IsChecked()) << ","
 			<< "test=" << ToString(m_Backup_Test->IsChecked()) << "}, ";
