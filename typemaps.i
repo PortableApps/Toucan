@@ -79,11 +79,17 @@
 	$1.Recycle = getfield(L, $input,"recycle", $1.Recycle);
 %}
 
+%typemap(in,checkfn="lua_istable") BackupOptions()
+%{
+	$1.Password = getfield(L, $input,"password", $1.Password);
+	$1.Test = getfield(L, $input,"test", $1.Test);
+%}
+
 // and the typechecks
 %typecheck(SWIG_TYPECHECK_STRING) wxString,const wxString& {
   $1 = lua_isstring(L,$input);
 }
 
-%typecheck(SWIG_TYPECHECK_STRING_ARRAY) const wxArrayString&, SyncChecks, SyncOptions {
+%typecheck(SWIG_TYPECHECK_STRING_ARRAY) const wxArrayString&, SyncChecks, SyncOptions, BackupOptions {
   $1 = lua_istable(L,$input);
 }

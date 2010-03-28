@@ -112,16 +112,16 @@
 	}
 	
 	void Backup(const wxArrayString &paths, const wxString &backuplocation, const wxString &function, 
-				const wxString &format, int compressionlevel = 3, bool password = false, 
-				bool test = false, const wxString &rules = wxEmptyString){
+				const wxString &format, int compressionlevel = 3, 
+				BackupOptions options = BackupOptions(), const wxString &rules = wxEmptyString){
 		BackupData *data = new BackupData(wxT("LastBackupJob"));
 		data->SetLocations(paths);
 		data->SetFileLocation(backuplocation);
 		data->SetFunction(function);
 		data->SetFormat(format);
 		data->SetRatio(compressionlevel);
-		data->SetUsesPassword(password);
-		data->SetTest(test);
+		data->SetUsesPassword(options.Password);
+		data->SetTest(options.Test);
 		data->SetRules(new Rules(rules, true));
 		if(data->IsReady()){
 			Backup(data);
@@ -278,8 +278,8 @@ void Sync(const wxString &source, const wxString &dest, const wxString &function
 
 void Backup(const wxString &jobname);
 void Backup(const wxArrayString &paths, const wxString &backuplocation, const wxString &function, 
-			const wxString &format, int compressionlevel = 3, bool password = false, 
-			bool test = false, const wxString &rules = wxEmptyString);
+			const wxString &format, int compressionlevel = 3, 
+			BackupOptions options = BackupOptions(), const wxString &rules = wxEmptyString);
 
 void Secure(const wxString &jobname);
 void Secure(const wxArrayString &paths, const wxString &function, const wxString &rules = wxEmptyString);
