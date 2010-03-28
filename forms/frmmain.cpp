@@ -273,7 +273,6 @@ void frmMain::CreateControls(){
 	//Sync - Options
 	wxArrayString m_Sync_FunctionStrings;
 	m_Sync_FunctionStrings.Add(_("Copy"));
-	m_Sync_FunctionStrings.Add(_("Update"));
 	m_Sync_FunctionStrings.Add(_("Mirror"));
 	m_Sync_FunctionStrings.Add(_("Equalise"));
 	m_Sync_FunctionStrings.Add(_("Move"));

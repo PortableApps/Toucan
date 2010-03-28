@@ -126,28 +126,6 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 				}
 			}		
 		}
-		else if(data->GetFunction() == _("Update")){
-			wxDateTime tmTo, tmFrom;
-			wxFileName flTo(dest);
-			wxFileName flFrom(source);
-			flTo.GetTimes(NULL, &tmTo, NULL);
-			flFrom.GetTimes(NULL, &tmFrom, NULL);		
-
-			if(data->GetIgnoreDLS()){
-				tmFrom.MakeTimezone(wxDateTime::Local, true);
-			}
-			if(tmFrom.IsEqualUpTo(tmTo, wxTimeSpan(0, 0, 2, 0))){
-				return;
-			}
-			else if(tmFrom.IsLaterThan(tmTo)){
-				if(CopyIfNeeded(source, dest)){
-					DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
-					if(iter != destitems.end()){
-						(*iter)->SetColour(wxT("Green"));			
-					}
-				}	
-			}
-		}
 		else if(data->GetFunction() == _("Equalise")){
 			wxDateTime tmTo, tmFrom;
 			wxFileName flTo(dest);

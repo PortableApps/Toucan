@@ -131,12 +131,7 @@ void SyncFiles::OnSourceAndDestFile(const wxString &path){
 				}				
 			}
 		}
-	}
-	else if(data->GetFunction() == _("Update")){
-		if(!data->GetRules()->ShouldExclude(source, false)){
-			CopyIfNeeded(source, dest);
-		}
-	}		
+	}	
 	else if(data->GetFunction() == _("Equalise")){
 		SourceAndDestCopy(source, dest);
 	}
