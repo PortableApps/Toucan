@@ -1387,17 +1387,17 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SECURE_RUN
 void frmMain::OnSecureRunClick(wxCommandEvent& WXUNUSED(event)){
-	wxString command = wxT("secure({[[");
-	for(unsigned int i = 0; i < m_SecureLocations->Count() - 1; i++){
-		command += m_SecureLocations->Item(i);
-		command += wxT("]], [[");
+	wxString command;
+	//sources
+	command << "secure({[[";
+	for(unsigned int i = 0; i < m_SecureLocations->Count(); i++){
+		command << "[[" <<  m_SecureLocations->Item(i) << "]],";
 	}
-	command += m_SecureLocations->Item(m_SecureLocations->Count() - 1);
-	command += wxT("]]}, [[");
-	command += m_Secure_Function->GetStringSelection();
-	command += wxT("]], [[");
-	command += m_Secure_Rules->GetStringSelection();
-	command += wxT("]])");
+	command << "}, ";
+	//function
+	command << "[[" << m_Secure_Function->GetStringSelection() << "]], ");
+	//rules
+	command << "[[" << m_Secure_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
 }
 
