@@ -346,8 +346,8 @@ bool SyncFiles::RemoveDirectory(wxString path){
 }
 
 bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest){
-	wxFileName from(source);
-	wxFileName to(dest);
+	wxFileName from = wxFileName::DirName(source);
+	wxFileName to = wxFileName::DirName(dest);
 	wxDateTime access, mod, created;
 	from.GetTimes(&access, &mod, &created);
 	to.SetTimes(&access, &mod, &created); 
