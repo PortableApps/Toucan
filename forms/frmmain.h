@@ -65,6 +65,7 @@ enum{
 	ID_SYNC_IGNORERO,
 	ID_SYNC_IGNOREDS,
 	ID_SYNC_RECYCLE,
+	ID_SYNC_PREVIEW_CHANGES,
 	//Backup
 	ID_PANEL_BACKUP,
 	ID_BACKUP_RUN,
@@ -319,6 +320,7 @@ public:
 	wxCheckBox* m_Sync_Ignore_Readonly;
 	wxCheckBox* m_Sync_Ignore_DaylightS;
 	wxCheckBox* m_Sync_Recycle;
+	wxCheckBox* m_SyncPreviewChanges;
 	
 	//Backup
 	wxBoxSizer* BackupTopSizer;
@@ -327,8 +329,6 @@ public:
 	wxStaticText* m_Backup_Location_Txt;
 	wxStaticText* m_Backup_Ratio_Text;
 	wxTextCtrl* m_Backup_Location;
-	wxTextCtrl* m_Backup_Pass;
-	wxTextCtrl* m_Backup_Repass;
 	LocalDirCtrl* m_Backup_DirCtrl;
 	PreviewDirCtrl* m_Backup_TreeCtrl;
 	wxRadioBox* m_Backup_Function;
@@ -345,9 +345,7 @@ public:
 	LocalDirCtrl* m_Secure_DirCtrl;
 	PreviewDirCtrl* m_Secure_TreeCtrl;
 	wxRadioBox* m_Secure_Function;
-	wxTextCtrl* m_Secure_Pass;
-	wxTextCtrl* m_Secure_Repass;
-	
+
 	//Rules
 	wxStaticBoxSizer* RulesNameSizer;
 	wxComboBox* m_Rules_Name;

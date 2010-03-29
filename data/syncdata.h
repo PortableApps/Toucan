@@ -28,9 +28,10 @@ struct SyncOptions{
 	bool IgnoreRO;
 	bool IgnoreDLS;
 	bool Recycle;
+	bool PreviewChanges;
 
 	SyncOptions() : TimeStamps(true), Attributes(true), IgnoreRO(false), 
-					IgnoreDLS(false), Recycle(false)
+					IgnoreDLS(false), Recycle(false), PreviewChanges(false)
 	{}
 };
 
@@ -60,6 +61,7 @@ public:
 	void SetTimeStamps(const bool& TimeStamps) {this->m_Options.TimeStamps = TimeStamps;}
 	void SetAttributes(const bool& Attributes) {this->m_Options.Attributes = Attributes;}
 	void SetRecycle(const bool& Recycle) {this->m_Options.Recycle = Recycle;}
+	void SetPreviewChanges(const bool& Changes) {this->m_Options.PreviewChanges = Changes;}
 
 	const wxString& GetSource() const {return m_Source;}
 	const wxString& GetDest() const {return m_Dest;}
@@ -73,6 +75,7 @@ public:
 	const bool& GetTimeStamps() const {return m_Options.TimeStamps;}
 	const bool& GetAttributes() const {return m_Options.Attributes;}
 	const bool& GetRecycle() const {return m_Options.Recycle;}
+	const bool& GetPreviewChanges() const {return m_Options.PreviewChanges;}
 
 private:
 	wxString m_Source;

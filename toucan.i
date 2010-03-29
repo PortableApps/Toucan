@@ -52,6 +52,7 @@
 		data->SetIgnoreDLS(options.IgnoreDLS);
 		data->SetTimeStamps(options.TimeStamps);
 		data->SetRecycle(options.Recycle);
+		data->SetPreviewChanges(options.PreviewChanges);
 		data->SetRules(new Rules(rules, true));
 		if(data->IsReady()){
 			Sync(data);

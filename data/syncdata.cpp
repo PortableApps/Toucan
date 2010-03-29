@@ -50,6 +50,8 @@ bool SyncData::TransferFromFile(){
 		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Recycle"), &btemp))  SetRecycle(btemp);
 		else error = true;
+	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/PreviewChanges"), &btemp))  SetPreviewChanges(btemp);
+		else error = true;
 	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
 		else error = true;
 
@@ -77,6 +79,7 @@ bool SyncData::TransferToFile(){
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreReadOnly"), GetIgnoreRO())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Recycle"), GetRecycle())) error = true;
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/PreviewChanges"), GetPreviewChanges())) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
 	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
 
@@ -125,6 +128,7 @@ bool SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
 	window->m_Sync_Ignore_DaylightS->SetValue(GetIgnoreDLS());
 	window->m_Sync_Recycle->SetValue(GetRecycle());
+	window->m_SyncPreviewChanges->SetValue(GetPreviewChanges());
 	window->m_Sync_Rules->SetStringSelection(GetRules()->GetName());
 	return true;
 }
@@ -145,6 +149,7 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
 	SetRecycle(window->m_Sync_Recycle->GetValue());
+	SetPreviewChanges(window->m_SyncPreviewChanges->GetValue());
 	SetRules(new Rules(window->m_Sync_Rules->GetStringSelection(), true));
 	return true;	
 }

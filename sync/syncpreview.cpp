@@ -16,6 +16,10 @@
 #include <wx/string.h>
 #include <wx/wfstream.h>
 
+bool isoriginal(DirCtrlItem *item){
+	return item->GetColour() == wxColour("Black");
+}
+
 SyncPreview::SyncPreview(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata, bool issource) 
             :sourcetree(issource), SyncBase(syncsource, syncdest, syncdata)
 {}
@@ -25,7 +29,19 @@ DirCtrlItemArray SyncPreview::Execute(){
 	std::list<wxString> destpaths = FolderContentsToList(destroot);
 	std::map<wxString, int> mergeresult = MergeListsToMap(sourcepaths, destpaths);
 	OperationCaller(mergeresult);
-	return sourcetree ? sourceitems : destitems;
+	//If needed we now filter out the unchanged items
+	if(data->GetPreviewChanges()){
+		if(sourcetree){
+			DirCtrlIter ret = std::remove_if(sourceitems.begin(), sourceitems.end(), isoriginal);
+			sourceitems.erase(ret, sourceitems.end());
+			return sourceitems;
+		}
+		else{
+			DirCtrlIter ret = std::remove_if(destitems.begin(), destitems.end(), isoriginal);
+			destitems.erase(ret, destitems.end());
+			return destitems;
+		}
+	}
 }
 
 void SyncPreview::OperationCaller(std::map<wxString, int> paths){

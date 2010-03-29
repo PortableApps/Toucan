@@ -178,6 +178,7 @@ void frmMain::Init(){
 	m_Sync_Ignore_Readonly = NULL;
 	m_Sync_Ignore_DaylightS = NULL;
 	m_Sync_Recycle = NULL;
+	m_SyncPreviewChanges = NULL;
 	BackupTopSizer = NULL;
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
@@ -188,21 +189,19 @@ void frmMain::Init(){
 	m_Backup_Function = NULL;
 	m_Backup_Format = NULL;
 	m_Backup_Ratio = NULL;
-	m_Backup_Pass = NULL;
-	m_Backup_Repass = NULL;
+	m_Backup_IsPass = NULL;
+	m_Backup_Test = NULL;
+	m_BackupSolid = NULL;
 	SecureTopSizer = NULL;
 	m_Secure_Rules = NULL;
 	m_Secure_Job_Select = NULL;
 	m_Secure_DirCtrl = NULL;
 	m_Secure_TreeCtrl = NULL;
 	m_Secure_Function = NULL;
-	m_Secure_Pass = NULL;
-	m_Secure_Repass = NULL;
 	m_Rules_Name = NULL;
 	m_RulesList = NULL;
 	m_Script_Styled = NULL;
-	
-//	menuTree = NULL;
+
 	menuRules = NULL;
 
 	m_Font = new wxFont();
@@ -324,6 +323,10 @@ void frmMain::CreateControls(){
 	m_Sync_Recycle = new wxCheckBox(SyncPanel, ID_SYNC_RECYCLE, _("Use Recycle Bin"));
 	m_Sync_Recycle->SetValue(false);
 	SyncOtherSizer->Add(m_Sync_Recycle, 0, wxALIGN_LEFT|wxALL, border);
+
+	m_SyncPreviewChanges = new wxCheckBox(SyncPanel, ID_SYNC_PREVIEW_CHANGES, _("Preview Only Changes"));
+	m_SyncPreviewChanges->SetValue(false);
+	SyncOtherSizer->Add(m_SyncPreviewChanges, 0, wxALIGN_LEFT|wxALL, border);
 
 	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
