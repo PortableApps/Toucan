@@ -219,7 +219,7 @@ void frmMain::CreateControls(){
 	}
 	else{
 		border = 5;
-		SetMinSize(wxSize(780, 520));
+		SetMinSize(wxSize(780, 540));
 	}
 
 	//Set the font from the settings
@@ -276,7 +276,7 @@ void frmMain::CreateControls(){
 	m_Sync_FunctionStrings.Add(_("Equalise"));
 	m_Sync_FunctionStrings.Add(_("Move"));
 	m_Sync_FunctionStrings.Add(_("Clean"));
-	m_Sync_Function = new wxRadioBox(SyncPanel, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 4, wxRA_SPECIFY_ROWS);
+	m_Sync_Function = new wxRadioBox(SyncPanel, ID_SYNC_FUNCTION, _("Function"), wxDefaultPosition, wxDefaultSize, m_Sync_FunctionStrings, 5, wxRA_SPECIFY_ROWS);
 	m_Sync_Function->SetSelection(0);
 	SyncTopSizer->Add(m_Sync_Function, 0, wxALIGN_TOP|wxALL, border);
 
