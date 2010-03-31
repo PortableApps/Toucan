@@ -11,10 +11,10 @@ class wxComboBox;
 class wxString;
 class wxArrayString;
 
-//Turns an array string into a string with the strings seperated by strSeperator, used when writing to ini files
-wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator);
-//Used for turning a string into an arraystring when the string are seperated by strSeperator, used when read from ini files
-wxArrayString StringToArrayString(wxString strMain, wxString strSeperator);
+//Turns an array string into a string with the strings seperated by seperator, used when writing to ini files
+wxString ArrayStringToString(const wxArrayString &strings, const wxString &seperator);
+//Used for turning a string into an arraystring when the string are seperated by seperator, used when read from ini files
+wxArrayString StringToArrayString(const wxString &string, const wxString &seperator);
 
 //Basic function to write output to progress form, used to keep code clean, with optional date and error
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
@@ -24,7 +24,7 @@ void IncrementGauge();
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/
-double GetInPB(wxString strValue);
+double GetInPB(const wxString &value);
 
 //Get a list of jobs of a specific type, or if an emptystring is passed then get
 //all job names that are in use

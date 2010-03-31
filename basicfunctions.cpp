@@ -32,26 +32,22 @@ const wxString& ToEn(const wxString &lang){
 	return wxGetApp().m_LangToEn[lang];
 }
 
-wxString ArrayStringToString(wxArrayString arrStrings, wxString strSeperator){
-	wxString strTemp;
-	for(unsigned int i = 0; i < arrStrings.GetCount(); i++){
-		strTemp = strTemp + strSeperator + arrStrings.Item(i);
+wxString ArrayStringToString(const wxArrayString &strings, const wxString &seperator){
+	wxString temp;
+	for(unsigned int i = 0; i < strings.GetCount(); i++){
+		temp = temp + seperator + strings.Item(i);
 	}
-	return strTemp;
+	return temp;
 }
 
-wxArrayString StringToArrayString(wxString strMain, wxString strSeperator){
-	//Arraystring to create	
-	wxArrayString arrMain;
+wxArrayString StringToArrayString(const wxString &string, const wxString &seperator){
+	wxArrayString strings;
 	//Use a string tokeniser to seperate the given string
-	wxStringTokenizer tkzMain(strMain, strSeperator, wxTOKEN_STRTOK);
-	wxString strToken;
-	while ( tkzMain.HasMoreTokens() ){  
-		strToken = tkzMain.GetNextToken();   
-		arrMain.Add(strToken);
-
+	wxStringTokenizer tkz(string, seperator, wxTOKEN_STRTOK);
+	while(tkz.HasMoreTokens()){  
+		strings.Add(tkz.GetNextToken());
 	}
-	return arrMain;
+	return strings;
 }
 
 void OutputProgress(const wxString &message, bool time, bool error){
@@ -84,14 +80,14 @@ void IncrementGauge(){
 	wxGetApp().QueueEvent(event);
 }
 
-double GetInPB(wxString strValue){
-	wxString strSize;
+double GetInPB(const wxString &value){
+	wxString size;
 	wxVariant var;
 	//The size is in bytes so the length is all but one
-	if(strValue.Right(2).Left(1) != wxT("k") && strValue.Right(2).Left(1) != wxT("M") && strValue.Right(2).Left(1) != wxT("G")){
-		if(strValue.Right(1) == wxT("B")){
-			var = strValue.Left(strValue.Length() - 1);
-			strSize = strValue.Right(1);
+	if(value.Right(2).Left(1) != wxT("k") && value.Right(2).Left(1) != wxT("M") && value.Right(2).Left(1) != wxT("G")){
+		if(value.Right(1) == wxT("B")){
+			var = value.Left(value.Length() - 1);
+			size = value.Right(1);
 		}
 		else{
 			//We do not know what unit is being used
@@ -100,23 +96,23 @@ double GetInPB(wxString strValue){
 	}
 	//The size is in a larger unit, so it all but two
 	else{
-		var = strValue.Left(strValue.Length() - 2);
-		strSize = strValue.Right(2);
+		var = value.Left(value.Length() - 2);
+		size = value.Right(2);
 	}
 	double dSize = var.GetDouble();
-	if(strSize == wxT("B")){
+	if(size == wxT("B")){
 		dSize = dSize/1024;
-		strSize = wxT("kB");
+		size = wxT("kB");
 	}
-	if(strSize == wxT("kB")){
+	if(size == wxT("kB")){
 		dSize = dSize/1024;
-		strSize = wxT("MB");
+		size = wxT("MB");
 	}
-	if(strSize == wxT("MB")){
+	if(size == wxT("MB")){
 		dSize = dSize/1024;
-		strSize = wxT("GB");
+		size = wxT("GB");
 	}
-	if(strSize == wxT("GB")){
+	if(size == wxT("GB")){
 		dSize = dSize/1024;
 	}
 	//Conveting to PB, should be plenty big for a while
