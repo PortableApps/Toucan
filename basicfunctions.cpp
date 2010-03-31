@@ -287,6 +287,29 @@ bool UpdateJobs(){
 			config->Write(value + wxT("/Function"), ToEn(config->Read(value + wxT("/Function"))));
 			exists = config->GetNextGroup(value, dummy);
 		}
+		version = 213;
+	}
+	if(version == 213){
+		wxString value;
+		long dummy;
+		bool exists = config->GetFirstGroup(value, dummy);
+		while(exists){
+			if(config->Read(value + wxT("/Type")) == wxT("Sync")){
+				wxString temp = config->Read(value + wxT("/Function"));
+				if(temp == _("Update")){
+					config->Write(value + wxT("/Function"), _("Copy"));
+					config->Write(value + wxT("/CheckTime"), true);
+				}
+				else if(temp == _("Copy") || temp == _("Mirror") || temp == _("Equalise")
+						temp == _("Clean") || temp == _("Move")){
+					config->Write(value + wxT("/CheckSize"), false);
+					config->Write(value + wxT("/CheckTime"), false);
+					config->Write(value + wxT("/CheckShort"), false);
+					config->Write(value + wxT("/CheckFull"), true);
+				}
+			}
+			exists = config->GetNextGroup(value, dummy);
+		}
 	}
 	config->Write(wxT("General/Version"), 300);
 	config->Flush();
