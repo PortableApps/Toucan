@@ -42,6 +42,9 @@ DirCtrlItemArray SyncPreview::Execute(){
 			return destitems;
 		}
 	}
+	else{
+		return sourcetree ? sourceitems : destitems;
+	}
 }
 
 void SyncPreview::OperationCaller(std::map<wxString, int> paths){
