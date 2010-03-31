@@ -10,8 +10,8 @@
 
 //This allows us to get a filed from a table, returns a bool
 %{
-	bool getfield(lua_State *L, int index, const char *key, bool default){
-		bool ret = default;
+	bool getfield(lua_State *L, int index, const char *key, bool bldefault){
+		bool ret = bldefault;
 		lua_getfield(L, index, key);
 		if(!lua_isboolean(L, -1)){
 			lua_pop(L, 1);
