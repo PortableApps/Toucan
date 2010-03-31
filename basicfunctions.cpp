@@ -301,7 +301,7 @@ bool UpdateJobs(){
 					config->Write(value + wxT("/CheckTime"), true);
 				}
 				else if(temp == _("Copy") || temp == _("Mirror") || temp == _("Equalise")
-						temp == _("Clean") || temp == _("Move")){
+						|| temp == _("Clean") || temp == _("Move")){
 					config->Write(value + wxT("/CheckSize"), false);
 					config->Write(value + wxT("/CheckTime"), false);
 					config->Write(value + wxT("/CheckShort"), false);
