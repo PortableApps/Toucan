@@ -733,6 +733,7 @@ void frmMain::CreateControls(){
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_LITERALSTRING, wxColour(wxT("rgb(163, 21, 21)")));
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_WORD, wxColour(wxT("rgb(0, 0, 255)")));
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_WORD2, wxColour(wxT("rgb(0, 0, 255)")));
+	m_Script_Styled->StyleSetForeground(wxSTC_LUA_WORD3, wxColour(wxT("rgb(0, 0, 255)")));
 	m_Script_Styled->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(wxT("rgb(43, 145, 175)")));
 	wxFont monofont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("consolas"));
 	m_Script_Styled->StyleSetFont(wxSTC_STYLE_DEFAULT, monofont);
@@ -742,7 +743,9 @@ void frmMain::CreateControls(){
 	//Lua keywords in 0
 	m_Script_Styled->SetKeyWords(0, wxT("and break do else elseif end false for function if in local nil not or repeat return then true until while"));
 	//Toucan keywords in 1
-	m_Script_Styled->SetKeyWords(1, wxT("sync backup secure print expand copy rename move delete execute getscript inputpassword"));
+	m_Script_Styled->SetKeyWords(1, wxT("sync backup secure print expand copy rename move delete execute getscript inputpassword shutdown"));
+	//Option keywords in 2
+	m_Script_Styled->SetKeyWords(2, wxT("size time short full ignorero ignoredls attributes timestamps recycle previewchanges password test solid"));
 	//Turn word wrap on
 	m_Script_Styled->SetWrapMode(1);
 	m_Script_Styled->SetLexer(wxSTC_LEX_LUA);

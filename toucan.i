@@ -269,6 +269,10 @@
 			wxMilliSleep(100);
 		}
 	}
+	
+	bool Shutdown(){
+		return wxShutdown();
+	}
 %}
 
 void OutputProgress(const wxString &message, bool time = false, bool error = false);
@@ -293,4 +297,5 @@ bool Copy(const wxString &source, const wxString &dest);
 bool Move(const wxString &source, const wxString &dest);
 bool Rename(const wxString &source, const wxString &dest);
 int Execute(const wxString &path, bool async = false);
+bool Shutdown();
 void InputPassword();
