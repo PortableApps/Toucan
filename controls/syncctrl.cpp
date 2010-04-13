@@ -45,6 +45,9 @@ void SyncPreviewDirCtrl::AddItem(DirCtrlItem *item){
 }
 
 void SyncPreviewDirCtrl::AddItem(const wxString &path){
+	if(path == wxEmptyString){
+		return;
+	}
 	wxFileName name(path);
 	AddItem(new DirCtrlItem(name));
 }
