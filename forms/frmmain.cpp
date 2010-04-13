@@ -1959,6 +1959,12 @@ void frmMain::ClearToDefault(){
 		m_Sync_Attributes->SetValue(false);
 		m_Sync_Ignore_Readonly->SetValue(false);
 		m_Sync_Ignore_DaylightS->SetValue(false);
+		m_Sync_Recycle->SetValue(false);
+		m_SyncPreviewChanges->SetValue(false);
+		m_SyncCheckFull->SetValue(false);
+		m_SyncCheckShort->SetValue(false);
+		m_SyncCheckSize->SetValue(false);
+		m_SyncCheckTime->SetValue(false);
 		m_Sync_Rules->SetStringSelection(wxEmptyString);
 		m_Sync_Source_Txt->SetValue(wxEmptyString);
 		m_Sync_Dest_Txt->SetValue(wxEmptyString);
@@ -1975,6 +1981,8 @@ void frmMain::ClearToDefault(){
 		m_Backup_Ratio->SetValue(3);
 		m_Backup_Ratio_Text->SetLabel(_("Default"));
 		m_Backup_IsPass->SetValue(false);
+		m_Backup_Test->SetValue(false);
+		m_BackupSolid->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
 		m_Backup_TreeCtrl->SetRules(new Rules(wxT("temp")));
