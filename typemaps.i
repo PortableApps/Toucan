@@ -75,7 +75,6 @@
 	$1.TimeStamps = getfield(L, $input,"timestamps", $1.TimeStamps);
 	$1.Attributes = getfield(L, $input,"attributes", $1.Attributes);
 	$1.IgnoreRO = getfield(L, $input,"ignorero", $1.IgnoreRO);
-	$1.IgnoreDLS = getfield(L, $input,"ignoredls", $1.IgnoreDLS);
 	$1.Recycle = getfield(L, $input,"recycle", $1.Recycle);
 	$1.PreviewChanges = getfield(L, $input,"previewchanges", $1.PreviewChanges);
 %}

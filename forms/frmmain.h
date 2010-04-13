@@ -63,7 +63,6 @@ enum{
 	ID_SYNC_TIMESTAMP,
 	ID_SYNC_ATTRIB,
 	ID_SYNC_IGNORERO,
-	ID_SYNC_IGNOREDS,
 	ID_SYNC_RECYCLE,
 	ID_SYNC_PREVIEW_CHANGES,
 	//Backup
@@ -318,7 +317,6 @@ public:
 	wxCheckBox* m_Sync_Timestamp;
 	wxCheckBox* m_Sync_Attributes;
 	wxCheckBox* m_Sync_Ignore_Readonly;
-	wxCheckBox* m_Sync_Ignore_DaylightS;
 	wxCheckBox* m_Sync_Recycle;
 	wxCheckBox* m_SyncPreviewChanges;
 	

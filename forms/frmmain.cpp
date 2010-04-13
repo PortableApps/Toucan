@@ -176,7 +176,6 @@ void frmMain::Init(){
 	m_Sync_Timestamp = NULL;
 	m_Sync_Attributes = NULL;
 	m_Sync_Ignore_Readonly = NULL;
-	m_Sync_Ignore_DaylightS = NULL;
 	m_Sync_Recycle = NULL;
 	m_SyncPreviewChanges = NULL;
 	BackupTopSizer = NULL;
@@ -315,10 +314,6 @@ void frmMain::CreateControls(){
 	m_Sync_Ignore_Readonly = new wxCheckBox(SyncPanel, ID_SYNC_IGNORERO, _("Ignore Read-Only"));
 	m_Sync_Ignore_Readonly->SetValue(false);
 	SyncOtherSizer->Add(m_Sync_Ignore_Readonly, 0, wxALIGN_LEFT|wxALL, border);
-
-	m_Sync_Ignore_DaylightS = new wxCheckBox(SyncPanel, ID_SYNC_IGNOREDS, _("Ignore Daylight Savings"));
-	m_Sync_Ignore_DaylightS->SetValue(false);
-	SyncOtherSizer->Add(m_Sync_Ignore_DaylightS, 0, wxALIGN_LEFT|wxALL, border);
 
 	m_Sync_Recycle = new wxCheckBox(SyncPanel, ID_SYNC_RECYCLE, _("Use Recycle Bin"));
 	m_Sync_Recycle->SetValue(false);
@@ -1351,8 +1346,7 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	command << "{timestamps=" << ToString(m_Sync_Timestamp->IsChecked()) << ","
 			<< "attributes=" << ToString(m_Sync_Attributes->IsChecked()) << ","
 			<< "recycle=" << ToString(m_Sync_Recycle->IsChecked()) << ","
-			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked()) << ","
-			<< "ignoredls=" << ToString(m_Sync_Ignore_DaylightS->IsChecked()) << "}, ";
+			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked()) << "}, ";
 	//rules
 	command << "[[" << m_Sync_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
@@ -1958,7 +1952,6 @@ void frmMain::ClearToDefault(){
 		m_Sync_Timestamp->SetValue(false);
 		m_Sync_Attributes->SetValue(false);
 		m_Sync_Ignore_Readonly->SetValue(false);
-		m_Sync_Ignore_DaylightS->SetValue(false);
 		m_Sync_Recycle->SetValue(false);
 		m_SyncPreviewChanges->SetValue(false);
 		m_SyncCheckFull->SetValue(false);

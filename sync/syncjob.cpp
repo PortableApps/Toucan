@@ -380,9 +380,8 @@ bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){
 	flTo.GetTimes(NULL, &tmTo, NULL);
 	flFrom.GetTimes(NULL, &tmFrom, NULL);		
 
-	if(data->GetIgnoreDLS()){
-		tmFrom.MakeTimezone(wxDateTime::Local, true);
-	}
+	tmFrom.MakeTimezone(wxDateTime::UTC, true);
+	tmTo.MakeTimezone(wxDateTime::UTC, true);
 
 	if(tmFrom.IsLaterThan(tmTo)){
 		if(!data->GetRules()->ShouldExclude(source, false)){

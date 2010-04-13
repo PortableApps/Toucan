@@ -152,9 +152,8 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			flTo.GetTimes(NULL, &tmTo, NULL);
 			flFrom.GetTimes(NULL, &tmFrom, NULL);		
 
-			if(data->GetIgnoreDLS()){
-				tmFrom.MakeTimezone(wxDateTime::Local, true);
-			}
+			tmFrom.MakeTimezone(wxDateTime::UTC, true);
+			tmTo.MakeTimezone(wxDateTime::UTC, true);
 
 			if(tmFrom.IsLaterThan(tmTo)){
 				if(CopyIfNeeded(source, dest)){

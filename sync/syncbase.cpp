@@ -89,11 +89,10 @@ bool SyncBase::ShouldCopyTime(const wxString &source, const wxString &dest){
 	wxFileName fndest = wxFileName::FileName(dest);
 	fnsource.GetTimes(NULL, &dtsource, NULL);
 	fndest.GetTimes(NULL, &dtdest, NULL);		
+		
+	dtsource.MakeTimezone(wxDateTime::UTC, true);
+	dtdest.MakeTimezone(wxDateTime::UTC, true);
 
-	if(data->GetIgnoreDLS()){
-		dtsource.MakeTimezone(wxDateTime::Local, true);
-		dtdest.MakeTimezone(wxDateTime::Local, true);
-	}
 	//If they are within two seconds of each other then they are 
 	//likely the same due to filesystem differences (esp ext3 and FAT)
 	if(dtsource.IsEqualUpTo(dtdest, wxTimeSpan(0, 0, 2, 0)) || dtsource.IsEarlierThan(dtdest)){

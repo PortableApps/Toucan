@@ -26,12 +26,11 @@ struct SyncOptions{
 	bool TimeStamps;
 	bool Attributes;
 	bool IgnoreRO;
-	bool IgnoreDLS;
 	bool Recycle;
 	bool PreviewChanges;
 
 	SyncOptions() : TimeStamps(true), Attributes(true), IgnoreRO(false), 
-					IgnoreDLS(false), Recycle(false), PreviewChanges(false)
+					Recycle(false), PreviewChanges(false)
 	{}
 };
 
@@ -54,7 +53,6 @@ public:
 	void SetCheckTime(const bool& CheckTime) {this->m_Checks.Time = CheckTime;}
 	void SetCheckShort(const bool& CheckShort) {this->m_Checks.Short = CheckShort;}
 	void SetCheckFull(const bool& CheckFull) {this->m_Checks.Full = CheckFull;}
-	void SetIgnoreDLS(const bool& IgnoreDLS) {this->m_Options.IgnoreDLS = IgnoreDLS;}
 	void SetIgnoreRO(const bool& IgnoreRO) {this->m_Options.IgnoreRO = IgnoreRO;}
 	void SetTimeStamps(const bool& TimeStamps) {this->m_Options.TimeStamps = TimeStamps;}
 	void SetAttributes(const bool& Attributes) {this->m_Options.Attributes = Attributes;}
@@ -68,7 +66,6 @@ public:
 	const bool& GetCheckTime() const {return m_Checks.Time;}
 	const bool& GetCheckShort() const {return m_Checks.Short;}
 	const bool& GetCheckFull() const {return m_Checks.Full;}
-	const bool& GetIgnoreDLS() const {return m_Options.IgnoreDLS;}
 	const bool& GetIgnoreRO() const {return m_Options.IgnoreRO;}
 	const bool& GetTimeStamps() const {return m_Options.TimeStamps;}
 	const bool& GetAttributes() const {return m_Options.Attributes;}

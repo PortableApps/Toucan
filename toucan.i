@@ -58,7 +58,6 @@
 		data->SetCheckFull(checks.Full);
 		data->SetIgnoreRO(options.IgnoreRO);
 		data->SetAttributes(options.Attributes);
-		data->SetIgnoreDLS(options.IgnoreDLS);
 		data->SetTimeStamps(options.TimeStamps);
 		data->SetRecycle(options.Recycle);
 		data->SetPreviewChanges(options.PreviewChanges);

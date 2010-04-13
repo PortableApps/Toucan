@@ -32,7 +32,6 @@ void SyncData::TransferFromFile(){
 	SetTimeStamps(Read<bool>("TimeStamps"));
 	SetAttributes(Read<bool>("Attributes"));
 	SetIgnoreRO(Read<bool>("IgnoreReadOnly"));
-	SetIgnoreDLS(Read<bool>("IgnoreDaylightSavings"));
 	SetRecycle(Read<bool>("Recycle"));
 	SetPreviewChanges(Read<bool>("PreviewChanges"));
 	SetRules(new Rules(Read<wxString>("Rules"), true));
@@ -52,7 +51,6 @@ void SyncData::TransferToFile(){
 	Write<bool>("TimeStamps", GetTimeStamps());
 	Write<bool>("Attributes", GetAttributes());
 	Write<bool>("IgnoreReadOnly", GetIgnoreRO());
-	Write<bool>("IgnoreDaylightSavings", GetIgnoreDLS());
 	Write<bool>("Recycle", GetRecycle());
 	Write<bool>("PreviewChanges", GetPreviewChanges());
 	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : "");
@@ -88,7 +86,6 @@ bool SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Timestamp->SetValue(GetTimeStamps());
 	window->m_Sync_Attributes->SetValue(GetAttributes());
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
-	window->m_Sync_Ignore_DaylightS->SetValue(GetIgnoreDLS());
 	window->m_Sync_Recycle->SetValue(GetRecycle());
 	window->m_SyncPreviewChanges->SetValue(GetPreviewChanges());
 	window->m_Sync_Rules->SetStringSelection(GetRules()->GetName());
@@ -109,7 +106,6 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetTimeStamps(window->m_Sync_Timestamp->GetValue());
 	SetAttributes(window->m_Sync_Attributes->GetValue());
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
-	SetIgnoreDLS(window->m_Sync_Ignore_DaylightS->GetValue());
 	SetRecycle(window->m_Sync_Recycle->GetValue());
 	SetPreviewChanges(window->m_SyncPreviewChanges->GetValue());
 	SetRules(new Rules(window->m_Sync_Rules->GetStringSelection(), true));
