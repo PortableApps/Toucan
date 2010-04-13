@@ -1477,26 +1477,31 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 
 	wxGetApp().m_Settings->TransferToFile();
 
-	if(wxGetApp().m_Settings->GetRememberSync()){
-		SyncData data(wxT("SyncRemember"));
-		data.TransferFromForm(this);
-		data.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
+	try{
+		if(wxGetApp().m_Settings->GetRememberSync()){
+			SyncData data(wxT("SyncRemember"));
+			data.TransferFromForm(this);
+			data.TransferToFile();
+			wxGetApp().m_Jobs_Config->Write(wxT("SyncRemember/Name"), m_Sync_Job_Select->GetStringSelection());
+			wxGetApp().m_Jobs_Config->Flush();
+		}
+		if(wxGetApp().m_Settings->GetRememberBackup()){	
+			BackupData bdata(wxT("BackupRemember"));
+			bdata.TransferFromForm(this);
+			bdata.TransferToFile();
+			wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
+			wxGetApp().m_Jobs_Config->Flush();
+		}
+		if(wxGetApp().m_Settings->GetRememberSecure()){
+			SecureData sdata(wxT("SecureRemember"));
+			sdata.TransferFromForm(this);
+			sdata.TransferToFile();
+			wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
+			wxGetApp().m_Jobs_Config->Flush();
+		}
 	}
-	if(wxGetApp().m_Settings->GetRememberBackup()){	
-		BackupData bdata(wxT("BackupRemember"));
-		bdata.TransferFromForm(this);
-		bdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("BackupRemember/Name"), m_Backup_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
-	}
-	if(wxGetApp().m_Settings->GetRememberSecure()){
-		SecureData sdata(wxT("SecureRemember"));
-		sdata.TransferFromForm(this);
-		sdata.TransferToFile();
-		wxGetApp().m_Jobs_Config->Write(wxT("SecureRemember/Name"), m_Secure_Job_Select->GetStringSelection());
-		wxGetApp().m_Jobs_Config->Flush();
+	catch(std::exception &arg){
+		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
 	}
 
 	wxGetApp().MainWindow->Destroy();
@@ -1901,7 +1906,12 @@ void frmMain::JobSave(const wxString &name, const wxString &type){
 	}
 	if (data->TransferFromForm(this)){
 		if (data->GetName() != wxEmptyString) {
-			data->TransferToFile();
+			try{
+				data->TransferToFile();
+			}
+			catch(std::exception &arg){
+				wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
+			}
 		}
 		else {
 			wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
@@ -1931,8 +1941,12 @@ void frmMain::JobLoad(const wxString &name, const wxString &type){
 	else{
 		return;
 	}
-	if (data->TransferFromFile()){
+	try{
+		data->TransferFromFile();
 		data->TransferToForm(this);
+	}
+	catch(std::exception &arg){
+		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
 	}
 	SetTitleBarText();
 	delete data;

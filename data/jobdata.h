@@ -8,6 +8,8 @@
 #define H_JOBDATA
 
 #include <wx/string.h>
+#include <wx/tokenzr.h>
+#include <wx/fileconf.h>
 #include "../toucan.h"
 #include "../basicfunctions.h"
 
@@ -19,17 +21,53 @@ public:
 	JobData(const wxString &name);
 	virtual ~JobData();
 
-	virtual bool TransferToFile() = 0;
-	virtual bool TransferFromFile() = 0;
+	virtual void TransferToFile() = 0;
+	virtual void TransferFromFile() = 0;
 	virtual bool TransferToForm(frmMain* window) = 0;
 	virtual bool TransferFromForm(frmMain* window) = 0;
-
-	virtual bool IsReady() = 0;
 
 	void SetName(const wxString& Name) {this->m_Name = Name;}
 	void SetRules(Rules *Rules) {this->m_Rules = Rules;}
 	const wxString& GetName() const {return m_Name;}
 	Rules* GetRules() const {return m_Rules;}
+
+protected:
+	template<typename T> T Read(const wxString& key){
+		T temp;
+		if(!wxGetApp().m_Jobs_Config->Read(GetName() + "/" +  key, &temp)){
+			throw std::runtime_error(std::string("There was an error reading from the jobs file, looking for " + key));
+		}
+		return temp;
+	}
+
+	template<> wxArrayString Read(const wxString& key){
+		wxString temp;
+		if(!wxGetApp().m_Jobs_Config->Read(GetName() + "/" +  key, &temp)){
+			throw std::runtime_error(std::string("There was an error reading from the jobs file, looking for " + key));
+		}
+		wxArrayString strings;
+		wxStringTokenizer tkz(temp, "|", wxTOKEN_STRTOK);
+		while(tkz.HasMoreTokens()){  
+			strings.Add(tkz.GetNextToken());
+		}
+		return strings;
+	}
+
+	template<typename T> void Write(const wxString& key, T value){
+		if(!wxGetApp().m_Jobs_Config->Write(GetName() + "/" +  key, value)){
+			throw std::runtime_error(std::string("There was an error writing to the jobs file"));
+		}
+	}
+
+	template<> void Write(const wxString& key, wxArrayString value){
+		wxString temp;
+		for(unsigned int i = 0; i < value.GetCount(); i++){
+			temp = temp + "|" + value.Item(i);
+		}
+		if(!wxGetApp().m_Jobs_Config->Write(GetName() + "/" +  key, temp)){
+			throw std::runtime_error(std::string("There was an error writing to the jobs file"));
+		}
+	}
 
 private:
 	wxString m_Name;

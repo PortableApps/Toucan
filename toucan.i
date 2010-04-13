@@ -19,6 +19,15 @@
 	#include "secure/securejob.h"
 
 	void Sync(SyncData *data){
+		if(data->GetSource() == wxEmptyString){
+			throw std::invalid_argument("The source path must not be empty");
+		}
+		if(data->GetDest() == wxEmptyString){
+			throw std::invalid_argument("The destination path must not be empty");
+		}
+		if(data->GetFunction() == wxEmptyString){
+			throw std::invalid_argument("A valid function must be selected");
+		}
 		FileCounter counter;
 		counter.AddPath(data->GetSource());
 		if(data->GetFunction() == _("Equalise")){
@@ -54,27 +63,38 @@
 		data->SetRecycle(options.Recycle);
 		data->SetPreviewChanges(options.PreviewChanges);
 		data->SetRules(new Rules(rules, true));
-		if(data->IsReady()){
+		try{
 			Sync(data);
 		}
-		else{
-			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+		catch(std::exception &arg){
+			OutputProgress(arg.what(), true, true);
 		}
 	}
 	
 	void Sync(const wxString &jobname){
 		SyncData *data = new SyncData(jobname);
-		if(data->TransferFromFile()){
-			if(data->IsReady()){
-				Sync(data);
-			}
-			else{
-				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
-			}
+		try{
+			data->TransferFromFile();
+			Sync(data);
+		}
+		catch(std::exception &arg){
+			OutputProgress(arg.what(), true, true);
 		}
 	}
 	
 	void Backup(BackupData *data){
+		if(data->GetLocations().Count() == 0){
+			throw std::invalid_argument("You must select some paths to backup");
+		}
+		if(data->GetFileLocation() == wxEmptyString){
+			throw std::invalid_argument("The backup archive must be specified");
+		}
+		if(data->GetFunction() == wxEmptyString){
+			throw std::invalid_argument("A valid function must be selected");
+		}
+		if(data->GetFormat() == wxEmptyString){
+			throw std::invalid_argument("A valid format must be selected");
+		}
 		FileCounter counter;
 		counter.AddPaths(data->GetLocations());
 		counter.Count();
@@ -102,13 +122,12 @@
 	
 	void Backup(const wxString &jobname){
 		BackupData *data = new BackupData(jobname);
-		if(data->TransferFromFile()){
-			if(data->IsReady()){
-				Backup(data);
-			}
-			else{
-				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
-			}
+		try{
+			data->TransferFromFile();
+			Backup(data);
+		}
+		catch(std::exception &arg){
+			OutputProgress(arg.what(), true, true);
 		}
 	}
 	
@@ -125,15 +144,21 @@
 		data->SetTest(options.Test);
 		data->SetSolid(options.Solid);
 		data->SetRules(new Rules(rules, true));
-		if(data->IsReady()){
+		try{
 			Backup(data);
 		}
-		else{
-			wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
+		catch(std::exception &arg){
+			OutputProgress(arg.what(), true, true);
 		}
 	}
 
 	void Secure(SecureData *data){
+		if(data->GetLocations().Count() == 0){
+			throw std::invalid_argument("You must select some paths to secure");
+		}
+		if(data->GetFunction() == wxEmptyString){
+			throw std::invalid_argument("A valid function must be selected");
+		}
 		FileCounter counter;
 		counter.AddPaths(data->GetLocations());
 		counter.Count();
@@ -159,13 +184,12 @@
 	
 	void Secure(const wxString &jobname){
 		SecureData *data = new SecureData(jobname);
-		if(data->TransferFromFile()){
-			if(data->IsReady()){
-				Secure(data);
-			}
-			else{
-				wxMessageBox(_("Not all of the required fields are filled"), _("Error"), wxICON_ERROR);
-			}
+		try{
+			data->TransferFromFile();
+			Secure(data);
+		}
+		catch(std::exception &arg){
+			OutputProgress(arg.what(), true, true);
 		}
 	}
 	
@@ -174,7 +198,12 @@
 		data->SetLocations(paths);
 		data->SetFunction(function);
 		data->SetRules(new Rules(rules, true));
-		Secure(data);
+		try{
+			Secure(data);
+		}
+		catch(std::exception &arg){
+			OutputProgress(arg.what(), true, true);
+		}
 	}
 
 	//Helper functions

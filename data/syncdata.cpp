@@ -17,79 +17,50 @@
 #include <wx/radiobox.h>
 #include <wx/checkbox.h>
 
-bool SyncData::TransferFromFile(){
-	bool error = false;
-	bool btemp;
-	wxString stemp;
-
+void SyncData::TransferFromFile(){
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
-		return false;
+		throw std::invalid_argument(std::string(GetName() + " is not a valid job"));
 	}
 
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Source"), &stemp)) SetSource(stemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Dest"), &stemp))  SetDest(stemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp))  SetFunction(ToLang(stemp));
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckSize"), &btemp))  SetCheckSize(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckTime"), &btemp))  SetCheckTime(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckShort"), &btemp))  SetCheckShort(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/CheckFull"), &btemp))  SetCheckFull(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/TimeStamps"), &btemp))  SetTimeStamps(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Attributes"), &btemp))  SetAttributes(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IgnoreReadOnly"), &btemp))  SetIgnoreRO(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IgnoreDaylightSavings"), &btemp))  SetIgnoreDLS(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Recycle"), &btemp))  SetRecycle(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/PreviewChanges"), &btemp))  SetPreviewChanges(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
-		else error = true;
-
-	if(error){
-		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
-		return false;
-	}
-	return true;
+	SetSource(Read<wxString>("Source"));
+	SetDest(Read<wxString>("Dest"));
+	SetFunction(ToLang(Read<wxString>("Function")));
+	SetCheckSize(Read<bool>("CheckSize"));
+	SetCheckTime(Read<bool>("CheckTime"));
+	SetCheckShort(Read<bool>("CheckShort"));
+	SetCheckFull(Read<bool>("CheckFull"));
+	SetTimeStamps(Read<bool>("TimeStamps"));
+	SetAttributes(Read<bool>("Attributes"));
+	SetIgnoreRO(Read<bool>("IgnoreReadOnly"));
+	SetIgnoreDLS(Read<bool>("IgnoreDaylightSavings"));
+	SetRecycle(Read<bool>("Recycle"));
+	SetPreviewChanges(Read<bool>("PreviewChanges"));
+	SetRules(new Rules(Read<wxString>("Rules"), true));
 }
 
-bool SyncData::TransferToFile(){
-	bool error = false;
-
+void SyncData::TransferToFile(){
+	//We do not check for errors as it may just signify the group does not exist
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Source"),  GetSource())) error = true;	
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Dest"), GetDest())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckSize"), GetCheckSize())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckTime"), GetCheckTime())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckShort"), GetCheckShort())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/CheckFull"), GetCheckFull())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/TimeStamps"), GetTimeStamps())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Attributes"), GetAttributes())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreReadOnly"), GetIgnoreRO())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IgnoreDaylightSavings"), GetIgnoreDLS())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Recycle"), GetRecycle())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/PreviewChanges"), GetPreviewChanges())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Sync"))) error = true;
+	Write<wxString>("Source", GetSource());
+	Write<wxString>("Dest", GetDest());
+	Write<wxString>("Function", ToEn(GetFunction()));
+	Write<bool>("CheckSize", GetCheckSize());
+	Write<bool>("CheckTime", GetCheckTime());
+	Write<bool>("CheckShort", GetCheckShort());
+	Write<bool>("CheckFull", GetCheckFull());
+	Write<bool>("TimeStamps", GetTimeStamps());
+	Write<bool>("Attributes", GetAttributes());
+	Write<bool>("IgnoreReadOnly", GetIgnoreRO());
+	Write<bool>("IgnoreDaylightSavings", GetIgnoreDLS());
+	Write<bool>("Recycle", GetRecycle());
+	Write<bool>("PreviewChanges", GetPreviewChanges());
+	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : "");
+	Write<wxString>("Type", "Sync");
 
-	wxGetApp().m_Jobs_Config->Flush();
-
-	if(error){
-		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
-		return false;
+	if(!wxGetApp().m_Jobs_Config->Flush()){
+		throw std::runtime_error("There was an error flushing the jobs file");
 	}
-	return true;
 }
 
 bool SyncData::TransferToForm(frmMain *window){
@@ -106,16 +77,9 @@ bool SyncData::TransferToForm(frmMain *window){
 	}
 
 	window->m_Sync_Source_Txt->SetValue(GetSource());
-	//ATTN : Move the wxEmptyString checks into the DirCtrl code 
-	if(GetSource() != wxEmptyString){
-		window->m_Sync_Source_Tree->AddItem(Normalise(GetSource()));		
-	}
-
+	window->m_Sync_Source_Tree->AddItem(Normalise(GetSource()));		
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
-	if(GetDest() != wxEmptyString){
-		window->m_Sync_Dest_Tree->AddItem(Normalise(GetDest()));		
-	}
-
+	window->m_Sync_Dest_Tree->AddItem(Normalise(GetDest()));
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_SyncCheckSize->SetValue(GetCheckSize());
 	window->m_SyncCheckTime->SetValue(GetCheckTime());
@@ -150,13 +114,4 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetPreviewChanges(window->m_SyncPreviewChanges->GetValue());
 	SetRules(new Rules(window->m_Sync_Rules->GetStringSelection(), true));
 	return true;	
-}
-
-bool SyncData::IsReady(){
-	if(GetSource() == wxEmptyString || GetDest() == wxEmptyString || GetFunction() == wxEmptyString){
-		return false;
-	}
-	else{
-		return true;
-	}
 }

@@ -23,65 +23,39 @@
 #include <wx/slider.h>
 #include <wx/checkbox.h>
 
-bool BackupData::TransferFromFile(){
-	bool error = false;
-	bool btemp;
-	wxString stemp;
-	int itemp;
-
+void BackupData::TransferFromFile(){
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
-		return false;
+		throw std::invalid_argument(std::string(GetName() + " is not a valid job"));
 	}
 
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/BackupLocation"), &stemp)) SetFileLocation(stemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &stemp)) SetLocations(StringToArrayString(stemp, wxT("|")));
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(ToLang(stemp));
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Format"), &stemp)) SetFormat(stemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Ratio"), &itemp)) SetRatio(itemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/IsPass"), &btemp)) SetUsesPassword(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Test"), &btemp)) SetTest(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Solid"), &btemp)) SetSolid(btemp);
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
-		else error = true;
-
-	if(error){
-		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
-		return false;
-	}
-	return true;
+	SetFileLocation(Read<wxString>("BackupLocation"));
+	SetLocations(Read<wxArrayString>("Locations"));
+	SetFunction(ToLang(Read<wxString>("Function")));
+	SetFormat(Read<wxString>("Format"));
+	SetRatio(Read<int>("Ratio"));
+	SetUsesPassword(Read<bool>("IsPass"));
+	SetTest(Read<bool>("Test"));
+	SetSolid(Read<bool>("Solid"));
+	SetRules(new Rules(Read<wxString>("Rules"), true));
 }
 
-bool BackupData::TransferToFile(){
-	bool error = false;
-
+void BackupData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/BackupLocation"),  GetFileLocation())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Format"), GetFormat())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Ratio"), GetRatio())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/IsPass"), GetUsesPassword())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Test"), GetTest())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Solid"), GetSolid())) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Backup"))) error = true;
+	Write<wxString>("BackupLocation", GetFileLocation());
+	Write<wxArrayString>("Locations", GetLocations());
+	Write<wxString>("Function", ToEn(GetFunction()));
+	Write<wxString>("Format", GetFormat());
+	Write<int>("Ratio", GetRatio());
+	Write<bool>("IsPass", GetUsesPassword());
+	Write<bool>("Test", GetTest());
+	Write<bool>("Solid", GetSolid());
+	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : wxT(""));
+	Write<wxString>("Type", "Backup");
 
-	wxGetApp().m_Jobs_Config->Flush();
-
-	if(error){
-		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
-		return false;
+	if(!wxGetApp().m_Jobs_Config->Flush()){
+		throw std::runtime_error("There was an error flushing the jobs file");
 	}
-	return true;
 }
 
 bool BackupData::TransferToForm(frmMain *window){
@@ -288,14 +262,4 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 		}		
 	}
 	return true;
-}
-
-bool BackupData::IsReady(){
-	if(GetLocations().Count() == 0 || GetFileLocation() == wxEmptyString
-	|| GetFunction() == wxEmptyString || GetFormat() == wxEmptyString){
-		return false;
-	}
-	else{
-		return true;
-	}
 }

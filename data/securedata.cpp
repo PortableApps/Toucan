@@ -18,45 +18,27 @@
 #include <wx/radiobox.h>
 #include <wx/checkbox.h>
 
-bool SecureData::TransferFromFile(){
-	bool error = false;
-	wxString stemp;
-
+void SecureData::TransferFromFile(){
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
-		return false;
+		throw std::invalid_argument(std::string(GetName() + " is not a valid job"));
 	}
 
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Locations"), &stemp)) SetLocations(StringToArrayString(stemp, wxT("|")));
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Function"), &stemp)) SetFunction(ToLang(stemp));
-		else error = true;
-	if(wxGetApp().m_Jobs_Config->Read(GetName() + wxT("/Rules"), &stemp))  SetRules(new Rules(stemp, true));
-		else error = true;
-
-	if(error){
-		wxMessageBox(_("There was an error reading from the jobs file"), _("Error"), wxICON_ERROR);
-		return false;
-	}
-	return true;
+	SetLocations(Read<wxArrayString>("Locations"));
+	SetFunction(Read<wxString>("Function"));
+	SetRules(new Rules(Read<wxString>("Rules"), true));
 }
 
-bool SecureData::TransferToFile(){
-	bool error = false;
-
+void SecureData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Locations"),  ArrayStringToString(GetLocations(), wxT("|")))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Function"), ToEn(GetFunction()))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Rules"), GetRules() ? GetRules()->GetName() : wxT(""))) error = true;
-	if(!wxGetApp().m_Jobs_Config->Write(GetName() + wxT("/Type"),  wxT("Secure"))) error = true;
+	Write<wxArrayString>("Locations", GetLocations());
+	Write<wxString>("Function", ToEn(GetFunction()));
+	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : wxT(""));
+	Write<wxString>("Type", "Secure");
 
-	wxGetApp().m_Jobs_Config->Flush();
-
-	if(error){
-		wxMessageBox(_("There was an error saving to the jobs file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
-		return false;
+	if(!wxGetApp().m_Jobs_Config->Flush()){
+		throw std::runtime_error("There was an error flushing the jobs file");
 	}
-	return true;
 }
 
 bool SecureData::TransferToForm(frmMain *window){
@@ -109,13 +91,4 @@ void SecureData::Output(){
 	}
 	wxMessageBox(GetFunction(), wxT("Function"));
 	wxMessageBox(GetPassword(), wxT("Pass"));
-}
-
-bool SecureData::IsReady(){
-	if(GetLocations().Count() == 0 || GetFunction() == wxEmptyString){
-		return false;
-	}
-	else{
-		return true;
-	}
 }

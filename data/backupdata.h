@@ -30,12 +30,11 @@ public:
 		;
 	}
 
-	bool TransferToFile();
-	bool TransferFromFile();
+	void TransferToFile();
+	void TransferFromFile();
 	bool TransferToForm(frmMain *window);
 	bool TransferFromForm(frmMain *window);
 
-	bool IsReady();
 	void Output();
 	
 	wxArrayString CreateCommands();

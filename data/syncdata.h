@@ -42,12 +42,10 @@ public:
 		;
 	}
 
-	bool TransferToFile();
-	bool TransferFromFile();
+	void TransferToFile();
+	void TransferFromFile();
 	bool TransferToForm(frmMain *window);
 	bool TransferFromForm(frmMain *window);
-
-	bool IsReady();
 
 	void SetSource(const wxString& Source) {this->m_Source = Source;}
 	void SetDest(const wxString& Dest) {this->m_Dest = Dest;}
