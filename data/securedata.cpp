@@ -84,11 +84,3 @@ bool SecureData::TransferFromForm(frmMain *window){
 
 	return true;	
 }
-
-void SecureData::Output(){
-	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		wxMessageBox(GetLocations().Item(i), wxT("Location"));
-	}
-	wxMessageBox(GetFunction(), wxT("Function"));
-	wxMessageBox(GetPassword(), wxT("Pass"));
-}

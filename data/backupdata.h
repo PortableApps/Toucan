@@ -35,8 +35,6 @@ public:
 	bool TransferToForm(frmMain *window);
 	bool TransferFromForm(frmMain *window);
 
-	void Output();
-	
 	wxArrayString CreateCommands();
 	bool CreateList(wxTextFile *file, wxString path, int length);
 

@@ -22,8 +22,6 @@ public:
 	void TransferFromFile();
 	bool TransferToForm(frmMain *window);
 	bool TransferFromForm(frmMain *window);
-	
-	void Output();
 
 	void SetFunction(const wxString& Function) {this->m_Function = Function;}
 	void SetPassword(const wxString& Password) {this->m_Password = Password;}

@@ -108,16 +108,6 @@ bool BackupData::TransferFromForm(frmMain *window){
 	return true;	
 }
 
-void BackupData::Output(){
-	wxMessageBox(GetFileLocation(), wxT("Backup Location"));
-	for(unsigned int i = 0; i < GetLocations().GetCount(); i++){
-		wxMessageBox(GetLocation(i), wxString::Format(wxT("Location %d"), i));
-	}
-	wxMessageBox(GetFunction(), wxT("Function"));
-	wxMessageBox(GetFormat(), wxT("Format"));
-	wxMessageBox(wxString::Format(wxT("%d"), GetRatio()), wxT("Compression Ratio"));
-}
-
 wxArrayString BackupData::CreateCommands(){
 	wxArrayString commands;
 	wxString ratio, originalext;
