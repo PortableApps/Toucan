@@ -213,7 +213,14 @@ bool UpdateJobs(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Jobs_Config;
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"))){
-		config->Write(wxT("General/Version"), 300);
+		if(!wxGetApp().IsReadOnly()){
+			config->Write(wxT("General/Version"), 300);
+			config->Flush();
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
@@ -320,7 +327,14 @@ bool UpdateRules(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Rules_Config;
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Rules.ini"))){
-		config->Write(wxT("General/Version"), 300);
+		if(!wxGetApp().IsReadOnly()){
+			config->Write(wxT("General/Version"), 300);
+			config->Flush();
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
@@ -349,7 +363,14 @@ bool UpdateScripts(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Scripts_Config;
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Scripts.ini"))){
-		config->Write(wxT("General/Version"), 300);
+		if(!wxGetApp().IsReadOnly()){
+			config->Write(wxT("General/Version"), 300);
+			config->Flush();
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
@@ -378,7 +399,14 @@ bool UpdateSettings(){
 	long version;
 	wxFileConfig *config = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath() + wxT("Settings.ini"));
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Settings.ini"))){
-		config->Write(wxT("General/Version"), 300);
+		if(!wxGetApp().IsReadOnly()){
+			config->Write(wxT("General/Version"), 300);
+			config->Flush();
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
