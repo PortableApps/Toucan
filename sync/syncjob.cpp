@@ -49,13 +49,19 @@ void SyncFiles::OperationCaller(std::map<wxString, int> paths){
 		if(wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first) || wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
 			if((*iter).second == 1){
 				if(!wxDirExists(destroot + wxFILE_SEP_PATH + (*iter).first)){
-					wxMkdir(destroot + wxFILE_SEP_PATH + (*iter).first);
+					if(!wxMkdir(destroot + wxFILE_SEP_PATH + (*iter).first)){
+						OutputProgress(_("Could not create") + " " + (*iter).first, true, true);
+						continue;
+					}
 				}
 				OnSourceNotDestFolder((*iter).first);
 			}
 			else if((*iter).second == 2){
-					if(!wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first)){
-					wxMkdir(sourceroot + wxFILE_SEP_PATH + (*iter).first);
+				if(!wxDirExists(sourceroot + wxFILE_SEP_PATH + (*iter).first)){
+					if(!wxMkdir(sourceroot + wxFILE_SEP_PATH + (*iter).first)){
+						OutputProgress(_("Could not create") + " " + (*iter).first, true, true);
+						continue;
+					}
 				}
 				OnNotSourceDestFolder((*iter).first);				
 			}
