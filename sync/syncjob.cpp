@@ -227,9 +227,15 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 	#endif
 
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
-	bool status;
+	int status;
 #ifdef __WXMSW__
-	status = CopyFileEx(source.fn_str(), desttemp.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
+	wxString sourcemsw(source), destmsw(desttemp);
+	//We replace these ourselves as windows doesn't when passed a long style path
+	sourcemsw.Replace("/", "\\");
+	destmsw.Replace("/", "\\");
+	sourcemsw.Prepend("\\\\?\\");
+	destmsw.Prepend("\\\\?\\");
+	status = CopyFileEx(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
 #else
 	status = wxCopyFile(source, desttemp, true);
 #endif
