@@ -76,11 +76,11 @@ set_source_files_properties(test.cpp PROPERTIES GENERATED true)
 set_source_files_properties(toucan_wrap.cpp PROPERTIES GENERATED true)
 
 #Add the source and header files
-set(source ${source} basicfunctions.cpp dragndrop.cpp filecounter.cpp)
+set(source ${source} basicfunctions.cpp dragndrop.cpp filecounter.cpp fileops.cpp)
 set(source ${source} job.cpp luamanager.cpp luathread.cpp rules.cpp settings.cpp)
 set(source ${source} signalprocess.cpp test.cpp toucan.cpp toucan_wrap.cpp variables.cpp)
 
-set(headers ${headers} basicfunctions.h dragndrop.h filecounter.h)
+set(headers ${headers} basicfunctions.h dragndrop.h filecounter.h fileops.h)
 set(headers ${headers} job.h luamanager.h luathread.h rules.h settings.h)
 set(headers ${headers} signalprocess.h test.h toucan.h variables.h)
 set(headers ${headers} toucan.i typemaps.i)

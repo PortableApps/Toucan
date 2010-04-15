@@ -10,6 +10,7 @@
 #include "../variables.h"
 #include "../data/syncdata.h"
 #include "../basicfunctions.h"
+#include "../fileops.h"
 
 #include <list>
 #include <map>
@@ -233,19 +234,7 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 	#endif
 
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
-	int status;
-#ifdef __WXMSW__
-	wxString sourcemsw(source), destmsw(desttemp);
-	//We replace these ourselves as windows doesn't when passed a long style path
-	sourcemsw.Replace("/", "\\");
-	destmsw.Replace("/", "\\");
-	sourcemsw.Prepend("\\\\?\\");
-	destmsw.Prepend("\\\\?\\");
-	status = CopyFileEx(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
-#else
-	status = wxCopyFile(source, desttemp, true);
-#endif
-	if(status){
+	if(File::Copy(source, desttemp)){
 		if(wxRenameFile(desttemp, dest, true)){
 			OutputProgress(_("Copied ") + source);
 		}
@@ -407,18 +396,3 @@ bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){
 	}
 	return true;	
 }
-
-#ifdef __WXMSW__
-DWORD CALLBACK CopyProgressRoutine(LARGE_INTEGER WXUNUSED(TotalFileSize), LARGE_INTEGER WXUNUSED(TotalBytesTransferred), 
-									LARGE_INTEGER WXUNUSED(StreamSize), LARGE_INTEGER WXUNUSED(StreamBytesTransferred), 
-									DWORD WXUNUSED(dwStreamNumber), DWORD WXUNUSED(dwCallbackReason),
-									HANDLE WXUNUSED(hSourceFile), HANDLE WXUNUSED(hDestinationFile), 
-									LPVOID WXUNUSED(lpData)){
-	if(wxGetApp().GetAbort()){
-		return PROGRESS_CANCEL;
-	}
-	else{
-		return PROGRESS_CONTINUE;
-	}
-}
-#endif
