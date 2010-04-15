@@ -9,15 +9,29 @@
 int File::Copy(const wxString& source, const wxString &dest){
 #ifdef __WXMSW__
 	wxString sourcemsw(source), destmsw(dest);
-	//We replace these ourselves as windows doesn't when passed a long style path
-	sourcemsw.Replace("/", "\\");
-	destmsw.Replace("/", "\\");
-	sourcemsw.Prepend("\\\\?\\");
-	destmsw.Prepend("\\\\?\\");
+	File::Normalise(&sourcemsw);
+	File::Normalise(&destmsw);
 	return CopyFileEx(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
 #else
 	return wxCopyFile(source, desttemp, true);
 #endif
+}
+
+int File::Rename(const wxString& source, const wxString &dest, bool overwrite){
+#ifdef __WXMSW__
+	wxString sourcemsw(source), destmsw(dest);
+	File::Normalise(&sourcemsw);
+	File::Normalise(&destmsw);
+	DWORD flags = overwrite ? MOVEFILE_REPLACE_EXISTING : 0;
+	return MoveFileWithProgress(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, flags);
+#else
+	return wxRenameFile(source, desttemp, overwrite);
+#endif
+}
+
+void File::Normalise(wxString *path){
+	path->Replace("/", "\\");
+	path->Prepend("\\\\?\\");
 }
 
 #ifdef __WXMSW__

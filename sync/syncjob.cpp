@@ -235,7 +235,7 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
 	if(File::Copy(source, desttemp)){
-		if(wxRenameFile(desttemp, dest, true)){
+		if(File::Rename(desttemp, dest, true)){
 			OutputProgress(_("Copied ") + source);
 		}
 		else{

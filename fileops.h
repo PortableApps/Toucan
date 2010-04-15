@@ -9,6 +9,8 @@
 
 namespace File{
 	int Copy(const wxString& source, const wxString &dest);
+	int Rename(const wxString& source, const wxString &dest, bool overwrite);
+	void Normalise(wxString *path);
 }
 
 #ifdef __WXMSW__
