@@ -29,6 +29,31 @@ int File::Rename(const wxString& source, const wxString &dest, bool overwrite){
 #endif
 }
 
+int File::Delete(const wxString& path, bool recycle){
+#ifdef __WXMSW__
+	//If we want to recycle then we must use a shfileop but it doesn't support
+	//long paths
+	if(recycle){
+		wxString tmppath(path);
+		tmppath += wxT('\0');
+
+		SHFILEOPSTRUCT opstruct;
+		ZeroMemory(&opstruct, sizeof(opstruct));
+		opstruct.wFunc = FO_DELETE;
+		opstruct.pFrom = tmppath.fn_str();
+		opstruct.fFlags = FOF_ALLOWUNDO | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
+		return SHFileOperation(&opstruct);
+	}
+	else{
+		wxString pathmsw(path);
+		File::Normalise(&pathmsw);
+		return DeleteFile(pathmsw.fn_str());
+	}
+#else
+	return wxRemoveFile(path);
+#endif
+}
+
 void File::Normalise(wxString *path){
 	path->Replace("/", "\\");
 	path->Prepend("\\\\?\\");

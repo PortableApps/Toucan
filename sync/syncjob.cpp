@@ -351,26 +351,10 @@ bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest
 }
 
 bool SyncFiles::RemoveFile(const wxString &path){
-#ifdef __WXMSW__
-	wxString tmppath(path);
-	tmppath += wxT('\0');
-	
-	int flags = data->GetRecycle() ? FOF_ALLOWUNDO : 0;
-	SHFILEOPSTRUCT opstruct;
-	ZeroMemory(&opstruct, sizeof(opstruct));
-	opstruct.wFunc = FO_DELETE;
-	opstruct.pFrom = tmppath.fn_str();
-	opstruct.fFlags = flags | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
-	if(SHFileOperation(&opstruct) == 0){
-		OutputProgress(_("Removed ") + path);
-		return true;
-	}
-#else
-	if(wxRemoveFile(path)){
+	if(File::Delete(path, data->GetRecycle())){
 		OutputProgress(_("Removed ") + path);		
 		return true;
 	}
-#endif
 	return false;
 }
 
