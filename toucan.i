@@ -8,6 +8,7 @@
 	#include "toucan.h"
 	#include "script.h"
 	#include "rules.h"
+	#include "fileops.h"
 	#include "variables.h"
 	#include "filecounter.h"
 	#include "basicfunctions.h"
@@ -212,7 +213,7 @@
 
 	bool Delete(const wxString &path){
 		wxString normpath = Normalise(path);
-		if(wxRemoveFile(path)){
+		if(File::Delete(path, false)){
 			OutputProgress(_("Deleted ") + normpath);	
 		}
 		else{
@@ -225,7 +226,7 @@
 	bool Copy(const wxString &source, const wxString &dest){
 		wxString normsource = Normalise(source);
 		wxString normdest = Normalise(dest);
-		if(wxCopyFile(normsource, normdest, true)){
+		if(File::Copy(normsource, normdest)){
 			OutputProgress(_("Copied ") + normsource);	
 		}
 		else{
@@ -238,14 +239,12 @@
 	bool Move(const wxString &source, const wxString &dest){
 		wxString normsource = Normalise(source);
 		wxString normdest = Normalise(dest);
-		if(Copy(normsource, normdest)){
-			if(wxRemoveFile(normsource)){
-				OutputProgress(_("Moved") + normsource);	
-			}
-			else{
-				OutputProgress(_("Failed to move ") + normsource, true, true);
-				return false;
-			}
+		if(File::Rename(normsource, normdest, true)){
+			OutputProgress(_("Moved") + normsource);	
+		}
+		else{
+			OutputProgress(_("Failed to move ") + normsource, true, true);
+			return false;
 		}
 		return true;
 	}
@@ -253,11 +252,11 @@
 	bool Rename(const wxString &source, const wxString &dest){
 		wxString normsource = Normalise(source);
 		wxString normdest = Normalise(dest);
-		if(wxRenameFile(normsource, normdest, true)){
-			OutputProgress(_("Renamed ") + normsource);	
+		if(File::Rename(normsource, normdest, true)){
+			OutputProgress(_("Moved") + normsource);	
 		}
 		else{
-			OutputProgress(_("Failed to rename ") + normsource, true, true);
+			OutputProgress(_("Failed to move ") + normsource, true, true);
 			return false;
 		}
 		return true;
