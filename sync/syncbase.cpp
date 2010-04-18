@@ -14,6 +14,7 @@
 #include <wx/filename.h>
 #include <wx/wfstream.h>
 #include <vector>
+#include <memory>
 
 SyncBase::SyncBase(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
          :data(syncdata)
