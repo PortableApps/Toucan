@@ -13,6 +13,7 @@
 #include <wx/datetime.h>
 #include <wx/filename.h>
 #include <wx/wfstream.h>
+#include <vector>
 
 SyncBase::SyncBase(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
          :data(syncdata)
@@ -104,78 +105,59 @@ bool SyncBase::ShouldCopyTime(const wxString &source, const wxString &dest){
 }
 
 bool SyncBase::ShouldCopyShort(const wxString &source, const wxString &dest){
-	wxFileInputStream *sourcestream = new wxFileInputStream(source);
-	wxFileInputStream *deststream = new wxFileInputStream(dest);
+	//For more detailed comments see the ShouldCopyFull function
+	std::auto_ptr<wxFileInputStream> sourcestream(new wxFileInputStream(source));
+	std::auto_ptr<wxFileInputStream> deststream(new wxFileInputStream(dest));
 
-	//Something is wrong with our streams, return false as
-	//it is not a good idea to copy in this case
 	if(!sourcestream->IsOk() || !deststream->IsOk()){
-		delete sourcestream;
-		delete deststream;
 		return false;
 	}
 
-	//If we have different lengths then we need to copy
 	if(sourcestream->GetLength() != deststream->GetLength()){
 		return true;
 	}
 
 	wxFileOffset size = sourcestream->GetLength();
+	wxFileOffset bytesToRead = wxMin(1024, size);
 
-	//We are just testing the start and the end so we need a small buffer
-	char sourcebufstart[100], sourcebufend[100], destbufstart[100], destbufend[100];
+	std::vector<char> sourcebuf(bytesToRead);
+	std::vector<char> destbuf(bytesToRead);
 
-	//Read the start
-	wxFileOffset bytesToRead = wxMin(size, 100);
-	sourcestream->Read(sourcebufstart, bytesToRead);
-	deststream->Read(destbufstart, bytesToRead);
+	sourcestream->Read(&sourcebuf[0], bytesToRead);
+	deststream->Read(&destbuf[0], bytesToRead);
 
-	//If we have a read error then return false as it is potentially 
-	//unsafe to copy
 	if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
-		delete sourcestream;
-		delete deststream;
 		return false;
+	}
+
+	if(wxTmemcmp(&sourcebuf[0], &destbuf[0], bytesToRead) != 0){
+		return true;
 	}
 
 	//Seek to the end
 	sourcestream->SeekI(bytesToRead, wxFromEnd);
 	deststream->SeekI(bytesToRead, wxFromEnd);
 
-	sourcestream->Read(sourcebufend, bytesToRead);
-	deststream->Read(destbufend, bytesToRead);
+	sourcestream->Read(&sourcebuf[0], bytesToRead);
+	deststream->Read(&destbuf[0], bytesToRead);
 
-	//If we have a read error then return false as it is potentially 
-	//unsafe to copy
 	if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
-		delete sourcestream;
-		delete deststream;
 		return false;
 	}
 
-	//Use a memcmp rather than a strncmp as certain binary files can 
-	//contain embedded nulls
-	if(wxTmemcmp(sourcebufstart, destbufstart, bytesToRead) != 0 && wxTmemcmp(sourcebufend, destbufend, bytesToRead) != 0){
-		delete sourcestream;
-		delete deststream;
+	if(wxTmemcmp(&sourcebuf[0], &destbuf[0], bytesToRead) != 0){
 		return true;
 	}
-
-	delete sourcestream;
-	delete deststream;
-	//If we make it here then the files are the same
 	return false;
 }
 
 bool SyncBase::ShouldCopyFull(const wxString &source, const wxString &dest){
-	wxFileInputStream *sourcestream = new wxFileInputStream(source);
-	wxFileInputStream *deststream = new wxFileInputStream(dest);
+	std::auto_ptr<wxFileInputStream> sourcestream(new wxFileInputStream(source));
+	std::auto_ptr<wxFileInputStream> deststream(new wxFileInputStream(dest));
 
 	//Something is wrong with our streams, return false as
 	//it is not a good idea to copy in this case
 	if(!sourcestream->IsOk() || !deststream->IsOk()){
-		delete sourcestream;
-		delete deststream;
 		return false;
 	}
 	
@@ -187,39 +169,30 @@ bool SyncBase::ShouldCopyFull(const wxString &source, const wxString &dest){
 	wxFileOffset size = sourcestream->GetLength();
 
 	//We read in 4KB chunks as testing seems to show they are the fastest
-	char *sourcebuf = new char[4096];
-	char *destbuf = new char[4096];
+	std::vector<char> sourcebuf(4096);
+	std::vector<char> destbuf(4096);
+
 	wxFileOffset bytesLeft = size;
 	while(bytesLeft > 0){
 		wxFileOffset bytesToRead = wxMin(4096, bytesLeft);
-		sourcestream->Read(sourcebuf, bytesToRead);
-		deststream->Read(destbuf, bytesToRead);
+		sourcebuf.resize(bytesToRead);
+		destbuf.resize(bytesToRead);
+		sourcestream->Read(&sourcebuf[0], bytesToRead);
+		deststream->Read(&destbuf[0], bytesToRead);
 
 		//If we have a read error then return false as it is potentially 
 		//unsafe to copy
 		if(sourcestream->GetLastError() != wxSTREAM_NO_ERROR || deststream->GetLastError() != wxSTREAM_NO_ERROR){
-			delete sourcestream;
-			delete deststream;
-			delete[] sourcebuf;
-			delete[] destbuf;
 			return false;
 		}
 
 		//Use a memcmp rather than a strncmp as certain binary files can 
 		//contain embedded nulls
-		if(wxTmemcmp(sourcebuf, destbuf, bytesToRead) != 0){
-			delete sourcestream;
-			delete deststream;
-			delete[] sourcebuf;
-			delete[] destbuf;
+		if(wxTmemcmp(&sourcebuf[0], &destbuf[0], bytesToRead) != 0){
 			return true;
 		}
 		bytesLeft-=bytesToRead;
 	}
-	delete sourcestream;
-	delete deststream;
-	delete[] sourcebuf;
-	delete[] destbuf;
 	//If we make it here then the files are the same
 	return false;
 }
