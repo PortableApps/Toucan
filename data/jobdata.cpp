@@ -16,6 +16,20 @@ JobData::~JobData(){
 	delete m_Rules;
 }
 
+template<typename T> T JobData::Read(const wxString& key){
+	T temp;
+	if(!wxGetApp().m_Jobs_Config->Read(GetName() + "/" +  key, &temp)){
+		throw std::runtime_error(std::string("There was an error reading from the jobs file, looking for " + key));
+	}
+	return temp;
+}
+
+template<typename T> void JobData::Write(const wxString& key, T value){
+	if(!wxGetApp().m_Jobs_Config->Write(GetName() + "/" +  key, value)){
+		throw std::runtime_error(std::string("There was an error writing to the jobs file"));
+	}
+}
+
 template<> wxArrayString JobData::Read(const wxString& key){
 	wxString temp;
 	if(!wxGetApp().m_Jobs_Config->Read(GetName() + "/" +  key, &temp)){
