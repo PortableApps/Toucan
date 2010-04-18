@@ -7,6 +7,7 @@
 #ifndef H_JOBDATA
 #define H_JOBDATA
 
+#include <stdexcept>
 #include <wx/string.h>
 #include <wx/tokenzr.h>
 #include <wx/fileconf.h>
@@ -40,31 +41,8 @@ protected:
 		return temp;
 	}
 
-	template<> wxArrayString Read(const wxString& key){
-		wxString temp;
-		if(!wxGetApp().m_Jobs_Config->Read(GetName() + "/" +  key, &temp)){
-			throw std::runtime_error(std::string("There was an error reading from the jobs file, looking for " + key));
-		}
-		wxArrayString strings;
-		wxStringTokenizer tkz(temp, "|", wxTOKEN_STRTOK);
-		while(tkz.HasMoreTokens()){  
-			strings.Add(tkz.GetNextToken());
-		}
-		return strings;
-	}
-
 	template<typename T> void Write(const wxString& key, T value){
 		if(!wxGetApp().m_Jobs_Config->Write(GetName() + "/" +  key, value)){
-			throw std::runtime_error(std::string("There was an error writing to the jobs file"));
-		}
-	}
-
-	template<> void Write(const wxString& key, wxArrayString value){
-		wxString temp;
-		for(unsigned int i = 0; i < value.GetCount(); i++){
-			temp = temp + "|" + value.Item(i);
-		}
-		if(!wxGetApp().m_Jobs_Config->Write(GetName() + "/" +  key, temp)){
 			throw std::runtime_error(std::string("There was an error writing to the jobs file"));
 		}
 	}
