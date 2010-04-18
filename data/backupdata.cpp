@@ -29,7 +29,7 @@ void BackupData::TransferFromFile(){
 	}
 
 	SetFileLocation(Read<wxString>("BackupLocation"));
-	SetLocations(Read<wxArrayString>("Locations"));
+	SetLocations(Read("Locations"));
 	SetFunction(ToLang(Read<wxString>("Function")));
 	SetFormat(Read<wxString>("Format"));
 	SetRatio(Read<int>("Ratio"));
@@ -42,16 +42,16 @@ void BackupData::TransferFromFile(){
 void BackupData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
-	Write<wxString>("BackupLocation", GetFileLocation());
-	Write<wxArrayString>("Locations", GetLocations());
-	Write<wxString>("Function", ToEn(GetFunction()));
-	Write<wxString>("Format", GetFormat());
-	Write<int>("Ratio", GetRatio());
-	Write<bool>("IsPass", GetUsesPassword());
-	Write<bool>("Test", GetTest());
-	Write<bool>("Solid", GetSolid());
-	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : wxT(""));
-	Write<wxString>("Type", "Backup");
+	Write("BackupLocation", GetFileLocation());
+	Write("Locations", GetLocations());
+	Write("Function", ToEn(GetFunction()));
+	Write("Format", GetFormat());
+	Write("Ratio", GetRatio());
+	Write("IsPass", GetUsesPassword());
+	Write("Test", GetTest());
+	Write("Solid", GetSolid());
+	Write("Rules", GetRules() ? GetRules()->GetName() : wxT(""));
+	Write("Type", "Backup");
 
 	if(!wxGetApp().m_Jobs_Config->Flush()){
 		throw std::runtime_error("There was an error flushing the jobs file");

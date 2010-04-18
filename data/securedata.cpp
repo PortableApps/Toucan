@@ -23,7 +23,7 @@ void SecureData::TransferFromFile(){
 		throw std::invalid_argument(std::string(GetName() + " is not a valid job"));
 	}
 
-	SetLocations(Read<wxArrayString>("Locations"));
+	SetLocations(Read("Locations"));
 	SetFunction(Read<wxString>("Function"));
 	SetRules(new Rules(Read<wxString>("Rules"), true));
 }
@@ -31,10 +31,10 @@ void SecureData::TransferFromFile(){
 void SecureData::TransferToFile(){
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
-	Write<wxArrayString>("Locations", GetLocations());
-	Write<wxString>("Function", ToEn(GetFunction()));
-	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : wxT(""));
-	Write<wxString>("Type", "Secure");
+	Write("Locations", GetLocations());
+	Write("Function", ToEn(GetFunction()));
+	Write("Rules", GetRules() ? GetRules()->GetName() : wxT(""));
+	Write("Type", "Secure");
 
 	if(!wxGetApp().m_Jobs_Config->Flush()){
 		throw std::runtime_error("There was an error flushing the jobs file");
