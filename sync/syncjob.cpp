@@ -32,7 +32,15 @@ void* SyncJob::Entry(){
 
 SyncFiles::SyncFiles(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
           : SyncBase(syncsource, syncdest, syncdata)
-{}
+{
+	if(!wxDirExists(syncsource) && !wxMkdir(syncsource)){
+		OutputProgress(_("Could not create") + " " + syncsource, true, true);
+	}
+	if(!wxDirExists(syncdest) && !wxMkdir(syncdest)){
+		OutputProgress(_("Could not create") + " " + syncdest, true, true);
+	}
+
+}
 
 bool SyncFiles::Execute(){
 	std::list<wxString> sourcepaths = FolderContentsToList(sourceroot);
