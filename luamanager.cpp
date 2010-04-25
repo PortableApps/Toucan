@@ -24,6 +24,7 @@ LuaManager::LuaManager(){
 }
 
 void LuaManager::StartUp(){
+	wxGetApp().SetAbort(false);
 	m_StartTime = wxDateTime::Now();
 	if(wxGetApp().IsGui()){
 		if(!m_Window){
