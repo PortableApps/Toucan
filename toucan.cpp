@@ -68,6 +68,7 @@ bool Toucan::OnInit(){
 		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "l", "logfile", "Path to save log", wxCMD_LINE_VAL_STRING},
+		{wxCMD_LINE_OPTION, "j", "job", "Job to run", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_NONE}
 	};
 	wxCmdLineParser parser(desc, argc, argv);
@@ -79,7 +80,7 @@ bool Toucan::OnInit(){
 	delete wxMessageOutput::Set(old);
 
 	//If no script is found then we are in gui mode
-	if(!parser.Found("script") && !parser.Found("unittests")){
+	if(!parser.Found("script") && !parser.Found("job") && !parser.Found("unittests")){
 		m_IsGui = true;
 		#ifdef __WXMSW__
 			ShowWindow(GetConsoleWindow(), SW_HIDE);
@@ -204,9 +205,22 @@ bool Toucan::OnInit(){
 
 	}
 	else{
-		wxString script;
-		parser.Found("script", &script);
-		m_LuaManager->Run(script);
+		if(parser.Found("script")){
+			wxString script;
+			parser.Found("script", &script);
+			m_LuaManager->Run(script);
+		}
+		else if(parser.Found("job")){
+			wxString name;
+			parser.Found("job", &name);
+			if(m_Jobs_Config->Exists(name)){
+				wxString type = m_Jobs_Config->Read(name + "/Type");
+				m_LuaManager->Run(type.Lower() + "([[" + name + "]])");
+			}
+			else{
+				OutputProgress(_("The job does not exist"), true, true);
+			}
+		}
 	}
 	return true;
 }
