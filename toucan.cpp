@@ -237,12 +237,16 @@ void Toucan::CleanTemp(){
 }
 
 //Language setup
-void Toucan::SetLanguage(wxString strLanguage){
-	int LangCode = wxLocale::FindLanguageInfo(strLanguage)->Language;
-	m_Locale = new wxLocale();
-	m_Locale->Init(LangCode);
-	m_Locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + _T("lang"));
-	m_Locale->AddCatalog(wxT("toucan"));
+void Toucan::SetLanguage(const wxString &lang){
+	if(wxLocale::FindLanguageInfo(lang)){
+		m_Locale = new wxLocale();
+		m_Locale->Init(wxLocale::FindLanguageInfo(lang)->Language);
+		m_Locale->AddCatalogLookupPathPrefix(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "lang");
+		m_Locale->AddCatalog("toucan");
+	}
+	else{
+		m_Locale = NULL;
+	}
 }
 
 //Cleanup

@@ -36,7 +36,7 @@ public:
 	virtual int OnExit();
 
 
-	void SetLanguage(wxString langcode);
+	void SetLanguage(const wxString &lang);
 	void RebuildForm();
 	void SetAbort(const bool& Abort) {this->m_Abort = Abort;}
 
