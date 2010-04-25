@@ -33,6 +33,7 @@ void LocalDirCtrl::ReCreateTree(){
 		}
 	}
 #elif __WXGTK__
-	AddItem(wxT("/"));
+	DirCtrlItem* item = new DirCtrlItem(wxFileName("/"), "root", DIRCTRL_ROOT, 3);
+	AddItem(item);
 #endif
 }

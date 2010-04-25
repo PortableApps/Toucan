@@ -13,7 +13,7 @@ int File::Copy(const wxString& source, const wxString &dest){
 	File::Normalise(&destmsw);
 	return CopyFileEx(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
 #else
-	return wxCopyFile(source, desttemp, true);
+	return wxCopyFile(source, dest, true);
 #endif
 }
 
@@ -25,7 +25,7 @@ int File::Rename(const wxString& source, const wxString &dest, bool overwrite){
 	DWORD flags = overwrite ? MOVEFILE_REPLACE_EXISTING : 0;
 	return MoveFileWithProgress(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, flags);
 #else
-	return wxRenameFile(source, desttemp, overwrite);
+	return wxRenameFile(source, dest, overwrite);
 #endif
 }
 
