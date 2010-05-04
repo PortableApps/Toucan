@@ -1377,7 +1377,7 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	//function
 	command << "[[" <<   ToEn(m_Backup_Function->GetStringSelection()) << "]], ";
 	//format
-	command << "[[" <<   ToEn(m_Backup_Format->GetStringSelection()) << "]], ";
+	command << "[[" <<   m_Backup_Format->GetStringSelection() << "]], ";
 	//compression ratio
 	command << m_Backup_Ratio->GetValue() << ", ";
 	//options
