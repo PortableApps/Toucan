@@ -352,20 +352,35 @@ void Toucan::OnOutput(wxCommandEvent &event){
 void Toucan::OnProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
 	SignalProcess *process = new SignalProcess(event.GetInt());
-	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	if(pid == 0){
+		//We have an error
+		OutputProgress(_("Could not run ") + event.GetString());
+		m_StatusMap[event.GetInt()] = true;
+	}
 }
 
 void Toucan::OnBackupProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
 	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, static_cast<BackupProcess*>(event.GetEventObject()));
 	static_cast<BackupProcess*>(event.GetEventObject())->SetRealPid(pid);
+	if(pid == 0){
+		//We have an error
+		OutputProgress(_("Could not run ") + event.GetString());
+		m_StatusMap[event.GetInt()] = true;
+	}
 }
 
 void Toucan::OnSecureProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
 	wxSetWorkingDirectory(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
 	SecureProcess *process = new SecureProcess(event.GetInt());
-	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
+	if(pid == 0){
+		//We have an error
+		OutputProgress(_("Could not run ") + event.GetString());
+		m_StatusMap[event.GetInt()] = true;
+	}
 }
 
 void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
