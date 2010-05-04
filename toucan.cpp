@@ -357,7 +357,8 @@ void Toucan::OnProcess(wxCommandEvent &event){
 
 void Toucan::OnBackupProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
-	wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, static_cast<BackupProcess*>(event.GetEventObject()));
+	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, static_cast<BackupProcess*>(event.GetEventObject()));
+	static_cast<BackupProcess*>(event.GetEventObject())->SetRealPid(pid);
 }
 
 void Toucan::OnSecureProcess(wxCommandEvent &event){
