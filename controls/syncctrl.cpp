@@ -48,8 +48,8 @@ void SyncPreviewDirCtrl::AddItem(const wxString &path){
 	if(path == wxEmptyString){
 		return;
 	}
-	wxFileName name(path);
-	AddItem(new DirCtrlItem(name));
+	//We only get directories in a sync control
+	AddItem(new DirCtrlItem(wxFileName::DirName(path)));
 }
 
 DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){

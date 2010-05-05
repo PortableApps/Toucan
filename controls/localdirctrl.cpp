@@ -27,8 +27,7 @@ void LocalDirCtrl::ReCreateTree(){
 		LPTSTR drive = drives;
 		int offset = _tcslen(drive) + 1;
 		while(*drive){
-			DirCtrlItem *item = new DirCtrlItem(wxFileName::DirName(drive));
-			AddItem(item);
+			AddItem(new DirCtrlItem(wxFileName::DirName(drive)));
 			drive += offset;
 		}
 	}

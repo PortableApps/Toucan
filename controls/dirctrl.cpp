@@ -168,8 +168,12 @@ void DirCtrl::AddItem(DirCtrlItem *item){
 }
 
 void DirCtrl::AddItem(const wxString &path){
-	wxFileName name(path);
-	AddItem(new DirCtrlItem(name));
+	if(wxDirExists(path)){
+		AddItem(new DirCtrlItem(wxFileName::DirName(path)));
+	}
+	else{
+		AddItem(new DirCtrlItem(wxFileName::FileName(path)));
+	}
 }
 
 void DirCtrl::AddDirectory(DirCtrlItem *item){
