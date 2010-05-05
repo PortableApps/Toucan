@@ -134,8 +134,15 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 	event->SetInt(id);
 	event->SetString(command);
 	wxGetApp().QueueEvent(event);
+	//If we are in console then we yield to make sure the event is processed
+	if(!wxGetApp().IsGui()){
+		wxGetApp().Yield();
+	}
 	while(wxGetApp().m_StatusMap[id] != true){
 		wxMilliSleep(100);
+		if(!wxGetApp().IsGui()){
+			wxGetApp().Yield();
+		}
 	}
 	long lgReturn = wxGetApp().m_ProcessStatusMap[id];
 	IncrementGauge();

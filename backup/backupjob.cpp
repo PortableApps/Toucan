@@ -84,10 +84,17 @@ void* BackupJob::Entry(){
 			event->SetInt(id);
 			event->SetString(commands.Item(i));
 			wxGetApp().QueueEvent(event);
+			//If we are in console then we yield to make sure the event is processed
+			if(!wxGetApp().IsGui()){
+				wxGetApp().Yield();
+			}
 			while(wxGetApp().m_StatusMap[id] != true){
 				if(!process->HasInput()){
 					//If there was no input then sleep for a while so we don't thrash the CPU
 					wxMilliSleep(100);
+					if(!wxGetApp().IsGui()){
+						wxGetApp().Yield();
+					}
 				}
 			}
 
