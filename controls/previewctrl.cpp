@@ -23,15 +23,18 @@ void* PreviewThread::Entry(){
 		if(ok){
 			do {
 				//Simple check to see if we should be excluded, if so colour red
-				wxString path = m_Path + wxFILE_SEP_PATH + filename;
-				DirCtrlItem* item = new DirCtrlItem(path);
-				if(m_Rules != NULL){
-					if(m_Rules->ShouldExclude(path, wxDirExists(path))){
-						item->SetColour(wxColour("Red"));
-					}
+				wxString path = m_Path + filename;
+				DirCtrlItem *item;
+				if(wxDirExists(path)){
+					item = new DirCtrlItem(wxFileName::DirName(path));
+				}
+				else{
+					item = new DirCtrlItem(wxFileName::FileName(path));
+				}
+				if(m_Rules != NULL && m_Rules->ShouldExclude(path, wxDirExists(path))){
+					item->SetColour(wxColour("Red"));
 				}
 				items->push_back(item);
-				
 			} while(dir.GetNext(&filename));
 		}
 	}
