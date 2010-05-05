@@ -59,10 +59,10 @@ void TreeStateSaver::LoadChildren(wxString path, wxTreeItemId parent){
 	return;
 }
 
-DirCtrlItem::DirCtrlItem(const wxFileName &path, bool isdir){
+DirCtrlItem::DirCtrlItem(const wxFileName &path){
 	m_Colour = wxColour("Black");
 	m_Path = path;
-	if(wxDirExists(path.GetFullPath()) || isdir){
+	if(path.IsDir()){
 		/*We add 2 because GetVolume returns C and we expect C:\ */
 		if(path.GetVolume().Length() + 2 == path.GetFullPath().Length()){
 			m_Caption = path.GetFullPath();
@@ -84,7 +84,7 @@ DirCtrlItem::DirCtrlItem(const wxFileName &path, bool isdir){
 #endif
 		}
 		else{
-			m_Caption = path.GetName();
+			m_Caption = path.GetDirs().Last();
 			m_Type = DIRCTRL_FOLDER;
 			m_Icon = 0;
 		}
@@ -107,7 +107,13 @@ void* DirThread::Entry(){
 		bool ok = dir.GetFirst(&filename);
 		if(ok){
 			do {
-				items->push_back(new DirCtrlItem(m_Path + wxFILE_SEP_PATH + filename));
+				const wxString path = m_Path + filename;
+				if(wxDirExists(path)){
+					items->push_back(new DirCtrlItem(wxFileName::DirName(path)));
+				}
+				else{
+					items->push_back(new DirCtrlItem(wxFileName::FileName(path)));
+				}
 			} while(dir.GetNext(&filename));
 		}
 	}

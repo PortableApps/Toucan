@@ -52,7 +52,7 @@ enum DirCtrlItemType{
 //The item used in DirCtrl, four main properties, filename, caption, type, icon
 class DirCtrlItem : public wxTreeItemData{
 public:
-	DirCtrlItem(const wxFileName &path, bool isdir = false);
+	DirCtrlItem(const wxFileName &path);
 	
 	DirCtrlItem(const wxFileName &path, const wxString &caption, const DirCtrlItemType &type, const int &icon)
 				:m_Path(path),
