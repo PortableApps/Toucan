@@ -1449,7 +1449,7 @@ void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	m_Secure_TreeCtrl->DeleteAllItems();
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
-		//Loop through all the the filenames listed in the array and readd them to the tree
+		//Loop through all the the filenames listed in the array and read them to the tree
 		m_Secure_TreeCtrl->AddItem(Normalise(m_SecureLocations->Item(i)));
 	}
 }

@@ -76,8 +76,12 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_BackupLocations->Clear();
 	for(unsigned int j = 0; j < GetLocations().GetCount(); j++){
 		window->m_BackupLocations->Add(GetLocation(j));
-		window->m_Backup_TreeCtrl->AddItem(Normalise(GetLocation(j)));
 	}
+
+	//Notify the window that we have updated the rules this also addes them to the tree
+	wxCommandEvent event;
+	window->OnBackupRulesSelected(event);
+
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
@@ -86,9 +90,6 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_BackupSolid->SetValue(GetSolid());
 	window->m_Backup_Rules->SetStringSelection(GetRules()->GetName());
 
-	//Notify the window that we have updated the rules
-	wxCommandEvent event;
-	window->OnBackupRulesSelected(event);
 	return false;
 }
 

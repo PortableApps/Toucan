@@ -55,20 +55,17 @@ bool SecureData::TransferToForm(frmMain *window){
 
 	window->m_Secure_TreeCtrl->DeleteChildren(window->m_Secure_TreeCtrl->GetRootItem());
 
-	for(unsigned int i = 0; i < window->m_SecureLocations->GetCount(); i++){
-		window->m_SecureLocations->RemoveAt(i);
-	}
+	window->m_SecureLocations->clear();
 	for(unsigned int k = 0; k < GetLocations().Count(); k++){
 		window->m_SecureLocations->Add(GetLocations().Item(k));
-		window->m_Secure_TreeCtrl->AddItem(Normalise(GetLocations().Item(k)));
 	}
+	//Notify the window that we have updated the rules this also addes them to the tree
+	wxCommandEvent event;
+	window->OnSecureRulesSelected(event);
 
 	window->m_Secure_Function->SetStringSelection(GetFunction());
 	window->m_Secure_Rules->SetStringSelection(GetRules()->GetName());
 
-	//Notify the window that we have updated the rules
-	wxCommandEvent event;
-	window->OnSecureRulesSelected(event);
 
 	return true;
 }
