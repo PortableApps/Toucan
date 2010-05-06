@@ -1657,7 +1657,7 @@ void frmMain::OnVariablesListActivated(wxListEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_RUN
 void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
-	wxGetApp().m_LuaManager->Run(m_Script_Styled->GetValue());
+	wxGetApp().m_LuaManager->Run(m_Script_Styled->GetValue(), false);
 }
 
 //ID_SCRIPT_NAME

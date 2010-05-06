@@ -16,7 +16,7 @@ class LuaManager{
 
 public:
 	LuaManager();
-	void Run(const wxString& line);
+	void Run(const wxString& line, const bool showprogress = true);
 	frmProgress* GetProgressWindow();
 	void NullWindow() { m_Window = NULL; }
 	void CleanUp();

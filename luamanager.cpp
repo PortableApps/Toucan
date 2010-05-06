@@ -3,6 +3,8 @@
 // Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
+
+#include <wx/gauge.h>
 #include <wx/button.h>
 #include <wx/listctrl.h>
 
@@ -84,11 +86,15 @@ void LuaManager::CleanUp(){
 	}
 }
 
-void LuaManager::Run(const wxString &line){
+void LuaManager::Run(const wxString &line, const bool showprogress){
 	if(line == wxEmptyString){
 		return;
 	}
 	StartUp();
+	if(!showprogress){
+		m_Window->m_Gauge->Show(false);
+		m_Window->SetSize(m_Window->GetSize() + wxSize(1, 1));
+	}
 	LuaThread *thread = new LuaThread(line);
 	thread->Create();
 	thread->Run();
