@@ -810,7 +810,7 @@ void frmMain::CreateControls(){
 	//Add the panels
 	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, variablesbitmap, helpbitmap;
 	
-	if(wxGetApp().m_Settings->GetTabStyle() == _("Icons and Text")){
+	if(m_Settings_TabStyle->GetStringSelection() == _("Icons and Text")){
 		syncbitmap = GetBitmapResource(wxT("sync.png"));
 		backupbitmap = GetBitmapResource(wxT("backup.png"));
 		securebitmap = GetBitmapResource(wxT("secure.png"));
