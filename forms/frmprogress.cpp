@@ -7,7 +7,6 @@
 #include "frmmain.h"
 #include "frmprogress.h"
 #include "../luamanager.h"
-#include "../variables.h"
 #include "../script.h"
 #include "../toucan.h"
 

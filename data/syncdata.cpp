@@ -7,7 +7,7 @@
 #include "syncdata.h"
 #include "../rules.h"
 #include "../toucan.h"
-#include "../variables.h"
+#include "../path.h"
 #include "../forms/frmmain.h"
 #include "../controls/syncctrl.h"
 #include <wx/variant.h>
@@ -75,9 +75,9 @@ bool SyncData::TransferToForm(frmMain *window){
 	}
 
 	window->m_Sync_Source_Txt->SetValue(GetSource());
-	window->m_Sync_Source_Tree->AddItem(Normalise(GetSource()));		
+	window->m_Sync_Source_Tree->AddItem(Path::Normalise(GetSource()));		
 	window->m_Sync_Dest_Txt->SetValue(GetDest());
-	window->m_Sync_Dest_Tree->AddItem(Normalise(GetDest()));
+	window->m_Sync_Dest_Tree->AddItem(Path::Normalise(GetDest()));
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_SyncCheckSize->SetValue(GetCheckSize());
 	window->m_SyncCheckTime->SetValue(GetCheckTime());

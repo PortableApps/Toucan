@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2006-2009 Steven Lamerton
-// Licence:     GNU GPL 2 (See readme for more info
+// Copyright:   Copyright (C) 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/fileconf.h>
@@ -11,10 +11,27 @@
 #include <wx/utils.h>
 #include <wx/filename.h>
 
-#include "variables.h"
+#include "path.h"
 #include "toucan.h"
+#include "basicfunctions.h"
 
-wxString Normalise(const wxString &path){
+void Path::Create(const wxString &path){
+    if(wxDirExists(path)){
+        return;
+    }
+
+    wxFileName name = wxFileName::DirName(path);
+    wxArrayString folders = name.GetDirs();
+    wxString workingpath = name.GetVolume() + wxFileName::GetVolumeSeparator() + wxFILE_SEP_PATH;
+    for(unsigned int i = 0; i < folders.GetCount(); i++){
+        workingpath = workingpath + folders.Item(i) + wxFILE_SEP_PATH;
+        if(!wxDirExists(workingpath) && !wxMkdir(workingpath)){
+		    OutputProgress(_("Could not create") + " " + workingpath, true, true);
+	    }
+    }
+}
+
+wxString Path::Normalise(const wxString &path){
 #ifdef __WXMSW__
 	//We only need to set this up once, and do it the first time
 	if(wxGetApp().m_DriveLabels.empty()){

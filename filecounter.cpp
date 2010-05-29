@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "filecounter.h"
-#include "variables.h"
+#include "path.h"
 #include "toucan.h"
 #include <wx/dir.h>
 #include <wx/log.h>
@@ -15,12 +15,12 @@ FileCounter::FileCounter(){
 }
 
 void FileCounter::AddPath(const wxString &path){
-	m_Paths.Add(Normalise(path));
+    m_Paths.Add(Path::Normalise(path));
 }
 
 void FileCounter::AddPaths(const wxArrayString &paths){
 	for(unsigned int i = 0; i < paths.Count(); i++){
-		m_Paths.Add(Normalise(paths.Item(i)));
+        m_Paths.Add(Path::Normalise(paths.Item(i)));
 	}
 }
 

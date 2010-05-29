@@ -7,7 +7,7 @@
 #include "backupjob.h"
 #include "backupprocess.h"
 #include "../toucan.h"
-#include "../variables.h"
+#include "../path.h"
 #include "../basicfunctions.h"
 #include "../data/backupdata.h"
 #include "../forms/frmprogress.h"
@@ -25,9 +25,9 @@ void* BackupJob::Entry(){
 
 	//Expand all of the variables
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
-		data->SetLocation(i, Normalise(data->GetLocation(i)));
+        data->SetLocation(i, Path::Normalise(data->GetLocation(i)));
 	}
-	data->SetFileLocation(Normalise(data->GetFileLocation()));
+    data->SetFileLocation(Path::Normalise(data->GetFileLocation()));
 
 	for(unsigned int i = 0; i < data->GetLocations().Count(); i++){
 		wxString path = data->GetLocation(i);

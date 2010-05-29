@@ -25,8 +25,8 @@
 #include "../rules.h"
 #include "../luamanager.h"
 #include "../basicfunctions.h"
+#include "../path.h"
 #include "../settings.h"
-#include "../variables.h"
 #include "../data/securedata.h"
 #include "../data/backupdata.h"
 #include "../data/syncdata.h"
@@ -1006,7 +1006,7 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
 		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
-			if(Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())){
+			if(Path::Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())){
 				m_BackupLocations->RemoveAt(i);
 			}
 		}
@@ -1020,7 +1020,7 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	if (m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection()) == m_Secure_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
 		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
-			if(Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())){
+            if(Path::Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())){
 				m_SecureLocations->RemoveAt(i);
 			}
 		}
@@ -1031,7 +1031,7 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_SYNC_SOURCE_BTN
 void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 	//Need to replace this with a better browser
-	wxDirDialog dialog(this, _("Please select the source folder"), Normalise(m_Sync_Source_Txt->GetValue()));
+	wxDirDialog dialog(this, _("Please select the source folder"), Path::Normalise(m_Sync_Source_Txt->GetValue()));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Source_Tree->AddItem(dialog.GetPath());
@@ -1042,7 +1042,7 @@ void frmMain::OnSyncSourceBtnClick(wxCommandEvent& WXUNUSED(event)){
 //ID_SYNC_DEST_BTN
 void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 	//Need to replace this with a better browser	
-	wxDirDialog dialog(this, _("Please select the destination folder"), Normalise(m_Sync_Dest_Txt->GetValue()));
+	wxDirDialog dialog(this, _("Please select the destination folder"), Path::Normalise(m_Sync_Dest_Txt->GetValue()));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxBusyCursor cursor;
 		m_Sync_Dest_Tree->AddItem(dialog.GetPath());
@@ -1410,14 +1410,14 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	m_Notebook->Disable();
 
 	m_Sync_Dest_Tree->SetPreview(true);
-	m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
+	m_Sync_Dest_Tree->AddItem(Path::Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
 		m_Sync_Source_Tree->SetPreview(true);
-		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->AddItem(Path::Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	else{
-		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->AddItem(Path::Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	m_Notebook->Enable();
 }
@@ -1434,7 +1434,7 @@ void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for (unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
 		//Loop through all the the filenames listed in the array and read them to the tree
-		m_Backup_TreeCtrl->AddItem(Normalise(m_BackupLocations->Item(i)));
+		m_Backup_TreeCtrl->AddItem(Path::Normalise(m_BackupLocations->Item(i)));
 	}
 }
 
@@ -1450,7 +1450,7 @@ void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 	for (unsigned int i = 0; i < m_SecureLocations->GetCount(); i++) {
 		//Loop through all the the filenames listed in the array and read them to the tree
-		m_Secure_TreeCtrl->AddItem(Normalise(m_SecureLocations->Item(i)));
+		m_Secure_TreeCtrl->AddItem(Path::Normalise(m_SecureLocations->Item(i)));
 	}
 }
 
@@ -1727,7 +1727,7 @@ void frmMain::OnBackupAddVarClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable window(this);
 	if(window.ShowModal() == wxID_OK){
 		m_BackupLocations->Add(window.GetValue());
-		m_Backup_TreeCtrl->AddItem(Normalise(window.GetValue()));
+		m_Backup_TreeCtrl->AddItem(Path::Normalise(window.GetValue()));
 	}
 }
 
@@ -1736,7 +1736,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable window(this);
 	if(window.ShowModal() == wxID_OK){
 		m_SecureLocations->Add(window.GetValue());
-		m_Secure_TreeCtrl->AddItem(Normalise(window.GetValue()));
+		m_Secure_TreeCtrl->AddItem(Path::Normalise(window.GetValue()));
 	}
 }
 
@@ -1757,7 +1757,7 @@ void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
 	if(m_Backup_TreeCtrl->GetItemParent(event.GetItem()) == m_Backup_TreeCtrl->GetRootItem()){
 		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
-			if(Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetItemText(event.GetItem())){
+			if(Path::Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetItemText(event.GetItem())){
 				event.SetToolTip(m_BackupLocations->Item(i));
 			}
 		}
@@ -1768,7 +1768,7 @@ void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
 void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 	if(m_Secure_TreeCtrl->GetItemParent(event.GetItem()) == m_Secure_TreeCtrl->GetRootItem()){
 		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
-			if(Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetItemText(event.GetItem())){
+			if(Path::Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetItemText(event.GetItem())){
 				event.SetToolTip(m_SecureLocations->Item(i));
 			}
 		}
@@ -2255,7 +2255,7 @@ void frmMain::OnSyncSourceInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
-		m_Sync_Source_Tree->AddItem(Normalise(dialog.GetValue()));
+		m_Sync_Source_Tree->AddItem(Path::Normalise(dialog.GetValue()));
 		m_Sync_Source_Txt->SetValue(dialog.GetValue());
 	}
 }
@@ -2264,7 +2264,7 @@ void frmMain::OnSyncDestInsertClick(wxCommandEvent& WXUNUSED(event)){
 	frmVariable dialog(this);
 	if(dialog.ShowModal() == wxID_OK){
 		wxBusyCursor cursor;
-		m_Sync_Dest_Tree->AddItem(Normalise(dialog.GetValue()));
+		m_Sync_Dest_Tree->AddItem(Path::Normalise(dialog.GetValue()));
 		m_Sync_Dest_Txt->SetValue(dialog.GetValue());
 	}
 }
@@ -2278,14 +2278,14 @@ void frmMain::OnSyncRefresh(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncSourceRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Source_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Source_Tree);
-		m_Sync_Source_Tree->AddItem(Normalise(m_Sync_Source_Txt->GetValue()));
+		m_Sync_Source_Tree->AddItem(Path::Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 }
 
 void frmMain::OnSyncDestRefresh(wxCommandEvent& WXUNUSED(event)){
 	if(m_Sync_Dest_Txt->GetValue() != wxEmptyString){
 		TreeStateSaver saver(m_Sync_Dest_Tree);
-		m_Sync_Dest_Tree->AddItem(Normalise(m_Sync_Dest_Txt->GetValue()));
+		m_Sync_Dest_Tree->AddItem(Path::Normalise(m_Sync_Dest_Txt->GetValue()));
 	}
 }
 

@@ -14,7 +14,7 @@
 #include <wx/dirdlg.h>
 
 #include "frmvariable.h"
-#include "../variables.h"
+#include "../path.h"
 #include "../basicfunctions.h"
 
 BEGIN_EVENT_TABLE(frmVariable, wxDialog)
@@ -113,7 +113,7 @@ void frmVariable::OnVariablesClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmVariable::OnTextChange(wxCommandEvent& WXUNUSED(event)){
-	m_Preview_Text->SetValue(Normalise(m_Location_Text->GetValue()));
+    m_Preview_Text->SetValue(Path::Normalise(m_Location_Text->GetValue()));
 }
 
 wxString frmVariable::GetValue(){

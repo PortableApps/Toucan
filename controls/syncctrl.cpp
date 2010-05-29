@@ -6,7 +6,7 @@
 
 #include "syncctrl.h"
 #include "../rules.h"
-#include "../variables.h"
+#include "../path.h"
 #include "../sync/syncpreview.h"
 #include "../data/syncdata.h"
 
@@ -56,8 +56,8 @@ DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){
 	if(m_Preview){
 		SyncData *data = new SyncData(wxT("PreviewJob"));
 		data->TransferFromForm(wxGetApp().MainWindow);
-		data->SetSource(Normalise(data->GetSource()));
-		data->SetDest(Normalise(data->GetDest()));
+        data->SetSource(Path::Normalise(data->GetSource()));
+        data->SetDest(Path::Normalise(data->GetDest()));
 		//Remove a trailing slash if we have one
 		wxString trimmedpath = path;
 		if(trimmedpath.EndsWith(wxFILE_SEP_PATH)){

@@ -8,7 +8,6 @@
 #include "../basicfunctions.h"
 #include "../toucan.h"
 #include "../rules.h"
-#include "../variables.h"
 #include "../controls/previewctrl.h"
 #include "../forms/frmmain.h"
 #include "../forms/frmprogress.h"

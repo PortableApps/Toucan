@@ -8,7 +8,7 @@
 #define H_TEST
 
 #include "basicfunctions.h"
-#include "variables.h"
+#include "path.h"
 #include "rules.h"
 #include "filecounter.h"
 #include <wx/string.h>
@@ -23,52 +23,52 @@
 class VariablesTests : public CxxTest::TestSuite{
 public:
 	void testDate(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@date@")), wxDateTime::Now().FormatISODate());
+        TS_ASSERT_EQUALS(Path::Normalise(wxT("@date@")), wxDateTime::Now().FormatISODate());
 	}
 
 	void testTime(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@time@")), wxDateTime::Now().Format(wxT("%H")) + wxT("-") +  wxDateTime::Now().Format(wxT("%M")));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("@time@")), wxDateTime::Now().Format(wxT("%H")) + wxT("-") +  wxDateTime::Now().Format(wxT("%M")));
 	}
 
 	void testYear(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@YYYY@")), wxDateTime::Now().Format(wxT("%Y")));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("@YYYY@")), wxDateTime::Now().Format(wxT("%Y")));
 	}
 
 	void testMonth(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@MM@")), wxDateTime::Now().Format(wxT("%m")));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("@MM@")), wxDateTime::Now().Format(wxT("%m")));
 	}
 
 	void testDay(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@DD@")), wxDateTime::Now().Format(wxT("%d")));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("@DD@")), wxDateTime::Now().Format(wxT("%d")));
 	}
 
 	void testHour(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@hh@")), wxDateTime::Now().Format(wxT("%H")));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("@hh@")), wxDateTime::Now().Format(wxT("%H")));
 	}
 
 	void testMinute(){
-		TS_ASSERT_EQUALS(Normalise(wxT("@mm@")), wxDateTime::Now().Format(wxT("%M")));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("@mm@")), wxDateTime::Now().Format(wxT("%M")));
 	}
 
 	void testAtEmbedded(){
-		TS_ASSERT_EQUALS(Normalise(wxT("C:\\thisisa@test\\path.doc")), wxT("C:\\thisisa@test\\path.doc"));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("C:\\thisisa@test\\path.doc")), wxT("C:\\thisisa@test\\path.doc"));
 	}
 
 	void testDateEmbedded(){
-		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@date@.zip")), wxT("C:\\testdir\\") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("C:\\testdir\\@date@.zip")), wxT("C:\\testdir\\") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
 	}
 
 	void testBunchedEmbeddded(){
-		TS_ASSERT_EQUALS(Normalise(wxT("C:\\@YYYY@@MM@\\@date@.zip")), wxT("C:\\") + wxDateTime::Now().Format(wxT("%Y")) + wxDateTime::Now().Format(wxT("%m")) + wxT("\\") + wxDateTime::Now().FormatISODate()+ wxT(".zip"));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("C:\\@YYYY@@MM@\\@date@.zip")), wxT("C:\\") + wxDateTime::Now().Format(wxT("%Y")) + wxDateTime::Now().Format(wxT("%m")) + wxT("\\") + wxDateTime::Now().FormatISODate()+ wxT(".zip"));
 	}
 
 	void testExtraAt(){
-		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@@date@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
-		TS_ASSERT_EQUALS(Normalise(wxT("C:\\testdir\\@@date@@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT("@.zip"));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("C:\\testdir\\@@date@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT(".zip"));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("C:\\testdir\\@@date@@.zip")), wxT("C:\\testdir\\@") + wxDateTime::Now().FormatISODate() + wxT("@.zip"));
 	}
 
 	void testPlain(){
-		TS_ASSERT_EQUALS(Normalise(wxT("docs")), wxT("docs"));
+		TS_ASSERT_EQUALS(Path::Normalise(wxT("docs")), wxT("docs"));
 	}
 };
 

@@ -12,7 +12,7 @@
 #include <wx/msgdlg.h>
 #include "rules.h"
 #include "toucan.h"
-#include "variables.h"
+#include "path.h"
 #include "basicfunctions.h"
 #include "forms/frmmain.h"
 
@@ -38,13 +38,13 @@ bool Rules::ShouldExclude(wxString strName, bool blIsDir){
 	//If this is the first time we have run then we need to expand the rules if they have variables in them
 	if(!m_Normalised){
 		for(unsigned int i = 0; i < m_ExcludedFiles.GetCount(); i++){
-			m_ExcludedFiles.Item(i) = Normalise(m_ExcludedFiles.Item(i));
+            m_ExcludedFiles.Item(i) = Path::Normalise(m_ExcludedFiles.Item(i));
 		}
 		for(unsigned int i = 0; i < m_ExcludedFolders.GetCount(); i++){
-			m_ExcludedFolders.Item(i) = Normalise(m_ExcludedFolders.Item(i));
+            m_ExcludedFolders.Item(i) = Path::Normalise(m_ExcludedFolders.Item(i));
 		}
 		for(unsigned int i = 0; i < m_IncludedLocations.GetCount(); i++){
-			m_IncludedLocations.Item(i) = Normalise(m_IncludedLocations.Item(i));
+            m_IncludedLocations.Item(i) = Path::Normalise(m_IncludedLocations.Item(i));
 		}
 		m_Normalised = true;
 	}

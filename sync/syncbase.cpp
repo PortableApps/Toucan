@@ -6,6 +6,7 @@
 
 #include "syncbase.h"
 #include "../rules.h"
+#include "../path.h"
 #include "../basicfunctions.h"
 #include "../data/syncdata.h"
 #include <wx/dir.h>
@@ -32,6 +33,8 @@ SyncBase::SyncBase(const wxString &syncsource, const wxString &syncdest, SyncDat
 	else{
 		destroot = syncdest;
 	}
+    sourceroot = Path::Normalise(sourceroot);
+    destroot = Path::Normalise(destroot);
 }
 
 SyncBase::~SyncBase(){

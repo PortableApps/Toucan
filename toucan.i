@@ -8,8 +8,8 @@
 	#include "toucan.h"
 	#include "script.h"
 	#include "rules.h"
+	#include "path.h"
 	#include "fileops.h"
-	#include "variables.h"
 	#include "filecounter.h"
 	#include "basicfunctions.h"
 	#include "data/syncdata.h"
@@ -208,11 +208,11 @@
 
 	//Helper functions
 	wxString ExpandVariable(const wxString &variable){
-		return Normalise(variable);
+		return Path::Normalise(variable);
 	}
 
 	bool Delete(const wxString &path){
-		wxString normpath = Normalise(path);
+		wxString normpath = Path::Normalise(path);
 		if(File::Delete(path, false)){
 			OutputProgress(_("Deleted ") + normpath);	
 		}
@@ -224,8 +224,8 @@
 	}
 
 	bool Copy(const wxString &source, const wxString &dest){
-		wxString normsource = Normalise(source);
-		wxString normdest = Normalise(dest);
+		wxString normsource = Path::Normalise(source);
+		wxString normdest = Path::Normalise(dest);
 		if(File::Copy(normsource, normdest)){
 			OutputProgress(_("Copied ") + normsource);	
 		}
@@ -237,8 +237,8 @@
 	}
 
 	bool Move(const wxString &source, const wxString &dest){
-		wxString normsource = Normalise(source);
-		wxString normdest = Normalise(dest);
+		wxString normsource = Path::Normalise(source);
+		wxString normdest = Path::Normalise(dest);
 		if(File::Rename(normsource, normdest, true)){
 			OutputProgress(_("Moved") + normsource);	
 		}
@@ -250,8 +250,8 @@
 	}
 
 	bool Rename(const wxString &source, const wxString &dest){
-		wxString normsource = Normalise(source);
-		wxString normdest = Normalise(dest);
+		wxString normsource = Path::Normalise(source);
+		wxString normdest = Path::Normalise(dest);
 		if(File::Rename(normsource, normdest, true)){
 			OutputProgress(_("Moved") + normsource);	
 		}
@@ -263,7 +263,7 @@
 	}
 
 	int Execute(const wxString &path, bool async = false){
-		wxString normpath = Normalise(path);
+		wxString normpath = Path::Normalise(path);
 		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROCESS);
 		int id = wxDateTime::Now().GetTicks();
 		event->SetInt(id);

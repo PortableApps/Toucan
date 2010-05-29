@@ -7,7 +7,7 @@
 #include "securejob.h"
 #include "../toucan.h"
 #include "../rules.h"
-#include "../variables.h"
+#include "../path.h"
 #include "../basicfunctions.h"
 #include "../data/securedata.h"
 #include "../forms/frmmain.h"
@@ -27,7 +27,7 @@ void* SecureJob::Entry(){
 	wxArrayString locations = data->GetLocations();
 
 	for(unsigned int i = 0; i < locations.GetCount(); i++){
-		data->SetLocation(i, Normalise(data->GetLocation(i)));
+        data->SetLocation(i, Path::Normalise(data->GetLocation(i)));
 	}
 
 	//Iterate through the entries in the array
