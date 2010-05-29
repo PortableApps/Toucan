@@ -62,6 +62,8 @@ bool BackupData::TransferToForm(frmMain *window){
 		return false;
 	}
 
+	window->m_Backup_Rules->SetStringSelection(GetRules()->GetName());
+
 	if(GetName() != wxT("BackupRemember") && window->m_Backup_Job_Select->GetStringSelection() != GetName()){
 		if(window->m_Backup_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
 			window->m_Backup_Job_Select->AppendString(GetName());
@@ -87,8 +89,6 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_IsPass->SetValue(GetUsesPassword());
 	window->m_Backup_Test->SetValue(GetTest());
 	window->m_BackupSolid->SetValue(GetSolid());
-	window->m_Backup_Rules->SetStringSelection(GetRules()->GetName());
-
 	return false;
 }
 

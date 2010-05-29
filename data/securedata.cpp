@@ -45,6 +45,8 @@ bool SecureData::TransferToForm(frmMain *window){
 		return false;
 	}
 
+	window->m_Secure_Rules->SetStringSelection(GetRules()->GetName());
+
 	if(GetName() != wxT("SecureRemember") && window->m_Secure_Job_Select->GetStringSelection() != GetName()){
 		if(window->m_Secure_Job_Select->FindString(GetName(), true) == wxNOT_FOUND){
 			window->m_Secure_Job_Select->AppendString(GetName());
@@ -63,8 +65,6 @@ bool SecureData::TransferToForm(frmMain *window){
 	window->OnSecureRulesSelected(event);
 
 	window->m_Secure_Function->SetStringSelection(GetFunction());
-	window->m_Secure_Rules->SetStringSelection(GetRules()->GetName());
-
 
 	return true;
 }
