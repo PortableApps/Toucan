@@ -214,7 +214,7 @@ bool UpdateJobs(){
 	wxFileConfig *config = wxGetApp().m_Jobs_Config;
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"))){
 		if(!wxGetApp().IsReadOnly()){
-			config->Write(wxT("General/Version"), 300);
+			config->Write(wxT("General/Version"), 301);
 			config->Flush();
 			return true;
 		}
@@ -224,7 +224,7 @@ bool UpdateJobs(){
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
-	if(version == 300){
+	if(version == 301){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
@@ -317,8 +317,46 @@ bool UpdateJobs(){
 			}
 			exists = config->GetNextGroup(value, dummy);
 		}
+        version = 300;
 	}
-	config->Write(wxT("General/Version"), 300);
+	if(version == 300){
+		wxString value;
+		long dummy;
+		bool exists = config->GetFirstGroup(value, dummy);
+		while(exists){
+			if(config->Read(value + wxT("/Type")) == wxT("Sync")){
+                if(!config->Read("CheckSize")){
+					config->Write(value + wxT("/CheckSize"), false);
+                }
+                if(!config->Read("CheckTime")){
+					config->Write(value + wxT("/CheckTime"), false);
+                }
+                if(!config->Read("CheckShort")){
+					config->Write(value + wxT("/CheckShort"), false);
+                }
+                if(!config->Read("CheckFull")){
+					config->Write(value + wxT("/CheckFull"), false);
+                }
+                if(!config->Read("Recycle")){
+					config->Write(value + wxT("/Recycle"), false);
+                }
+                if(!config->Read("PreviewChanges")){
+					config->Write(value + wxT("/PreviewChanges"), false);
+                }
+			}
+			else if(config->Read(value + wxT("/Type")) == wxT("Backup")){
+                if(!config->Read("Test")){
+					config->Write(value + wxT("/Test"), false);
+                }
+                if(!config->Read("Solid")){
+					config->Write(value + wxT("/Solid"), false);
+                }
+			}
+			exists = config->GetNextGroup(value, dummy);
+		}
+        version = 301;
+	}
+	config->Write(wxT("General/Version"), 301);
 	config->Flush();
 	return true;
 }
