@@ -36,14 +36,15 @@ private:
 class SyncPreviewDirCtrl : public PreviewDirCtrl{
 
 public:
-	SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType type,
-					   SyncPreviewDirCtrl *ctrl, 
+	SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType type, 
 					   const wxPoint& pos = wxDefaultPosition,
 					   const wxSize& size = wxDefaultSize,
 					   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
 	virtual DirThread* GetThread(const wxString& path);
+
+    void SetOppCtrl(SyncPreviewDirCtrl *ctrl) { m_Ctrl = ctrl; }
 
 	//We override additem so only one item is added at a time
 	virtual void AddItem(DirCtrlItem *item);

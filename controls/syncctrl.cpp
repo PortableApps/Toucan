@@ -31,9 +31,9 @@ void* SyncPreviewThread::Entry(){
 }
 
 SyncPreviewDirCtrl::SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType type,
-									   SyncPreviewDirCtrl *ctrl, const wxPoint& pos,
+									   const wxPoint& pos,
 									   const wxSize& size, long style)
-									   :m_Type(type), m_Ctrl(ctrl), PreviewDirCtrl(parent, id, pos, size, style){
+									   :m_Type(type), PreviewDirCtrl(parent, id, pos, size, style){
    m_Preview = false;  
    m_Root = wxEmptyString;
 }

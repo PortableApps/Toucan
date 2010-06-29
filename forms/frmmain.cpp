@@ -354,7 +354,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncSourceButton = new wxButton(SyncPanel, ID_SYNC_SOURCE_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncSourceButton, wxGBPosition(1, 1), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Source_Tree = new SyncPreviewDirCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, SYNC_SOURCE, m_Sync_Dest_Tree);
+	m_Sync_Source_Tree = new SyncPreviewDirCtrl(SyncPanel, ID_SYNC_SOURCE_TREE, SYNC_SOURCE);
 	SyncMainSizer->Add(m_Sync_Source_Tree, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncSourceButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -375,7 +375,7 @@ void frmMain::CreateControls(){
 	wxButton* SyncDestButton = new wxButton(SyncPanel, ID_SYNC_DEST_BTN, wxT("..."), wxDefaultPosition, wxSize(25, -1));
 	SyncMainSizer->Add(SyncDestButton, wxGBPosition(1, 3), wxGBSpan(1, 1), wxALL, border);
 
-	m_Sync_Dest_Tree = new SyncPreviewDirCtrl(SyncPanel, ID_SYNC_DEST_TREE, SYNC_DEST, m_Sync_Source_Tree);
+	m_Sync_Dest_Tree = new SyncPreviewDirCtrl(SyncPanel, ID_SYNC_DEST_TREE, SYNC_DEST);
 	SyncMainSizer->Add(m_Sync_Dest_Tree, wxGBPosition(2, 2), wxGBSpan(1, 1), wxEXPAND|wxALL, border);
 
 	wxBoxSizer* SyncDestButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -865,6 +865,10 @@ void frmMain::CreateControls(){
 	m_Settings_RememberSecure->SetValue(wxGetApp().m_Settings->GetRememberSecure());
 	m_Settings_EnableTooltips->SetValue(wxGetApp().m_Settings->GetEnableTooltips());
 	m_Settings_SmallBorders->SetValue(wxGetApp().m_Settings->GetSmallBorders());
+
+    //Set up the sync controls
+    m_Sync_Source_Tree->SetOppCtrl(m_Sync_Dest_Tree);
+    m_Sync_Dest_Tree->SetOppCtrl(m_Sync_Source_Tree);
 
 	//Set the drag and drop targets
 	m_Sync_Source_Txt->SetDropTarget(new DnDFileTreeText(m_Sync_Source_Txt, m_Sync_Source_Tree));
