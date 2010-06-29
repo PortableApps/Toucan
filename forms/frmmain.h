@@ -258,6 +258,7 @@ public:
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
 	void OnAboutClick(wxCommandEvent& event);
+	void OnHelpClick(wxCommandEvent& event);
 	void OnSettingsFontClick(wxCommandEvent& event);
 	void OnTabChanged(wxAuiNotebookEvent& event); 
 	void OnSettingsApplyClick(wxCommandEvent& event);

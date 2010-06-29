@@ -120,6 +120,7 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
 	EVT_BUTTON(wxID_ABOUT, frmMain::OnAboutClick)
+	EVT_BUTTON(wxID_HELP, frmMain::OnHelpClick)
 	EVT_BUTTON(wxID_APPLY, frmMain::OnSettingsApplyClick)
 	EVT_BUTTON(ID_SETTINGS_FONT, frmMain::OnSettingsFontClick)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
@@ -788,12 +789,15 @@ void frmMain::CreateControls(){
 	wxButton* ApplySettings = new wxButton(SettingsPanel, wxID_APPLY, _("Apply"));
 	SettingsSizer->Add(ApplySettings, wxGBPosition(3, 0), wxGBSpan(1, 1), wxALL, border);
 
-	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
-	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
-	SettingsSizer->Add(FontStaticBoxSizer, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL, border);
+	wxStaticBox* HelpStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Help"));
+	wxStaticBoxSizer* HelpStaticBoxSizer = new wxStaticBoxSizer(HelpStaticBox, wxVERTICAL);
+	SettingsSizer->Add(HelpStaticBoxSizer, wxGBPosition(0, 1), wxGBSpan(1, 1), wxALL, border);
 
-	m_Settings_Font = new wxButton(SettingsPanel, ID_SETTINGS_FONT, _("Choose font"), wxDefaultPosition, wxDefaultSize, 0);
-	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+	wxButton* Help = new wxButton(SettingsPanel, wxID_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0);
+	HelpStaticBoxSizer->Add(Help, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+
+	wxButton* About = new wxButton(SettingsPanel, wxID_ABOUT, _("About"), wxDefaultPosition, wxDefaultSize, 0);
+	HelpStaticBoxSizer->Add(About, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	wxStaticBox* OtherBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Other"));
 	wxStaticBoxSizer* OtherStaticBoxSizer = new wxStaticBoxSizer(OtherBox, wxVERTICAL);
@@ -806,6 +810,13 @@ void frmMain::CreateControls(){
 	m_Settings_SmallBorders = new wxCheckBox(SettingsPanel, ID_SETTINGS_SMALLBORDERS, _("Small Borders"));
 	m_Settings_SmallBorders->SetValue(false);
 	OtherStaticBoxSizer->Add(m_Settings_SmallBorders, 0, wxALIGN_TOP|wxALL, border);
+
+	wxStaticBox* FontStaticBox = new wxStaticBox(SettingsPanel, wxID_ANY, _("Font"));
+	wxStaticBoxSizer* FontStaticBoxSizer = new wxStaticBoxSizer(FontStaticBox, wxHORIZONTAL);
+	SettingsSizer->Add(FontStaticBoxSizer, wxGBPosition(2, 1), wxGBSpan(1, 1), wxALL, border);
+
+	m_Settings_Font = new wxButton(SettingsPanel, ID_SETTINGS_FONT, _("Choose font"), wxDefaultPosition, wxDefaultSize, 0);
+	FontStaticBoxSizer->Add(m_Settings_Font, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
 	//Add the panels
 	wxBitmap syncbitmap, backupbitmap, securebitmap, settingsbitmap, scriptbitmap, rulesbitmap, variablesbitmap, helpbitmap;
@@ -1751,6 +1762,12 @@ void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	info.SetLicense(wxT("Toucan and its component parts are all licensed under the GNU GPL Version 2 or a compatible license."));
 	info.SetTranslators(GetTranslatorNames());
 	wxAboutBox(info);
+}
+
+//wxID_HELP
+void frmMain::OnHelpClick(wxCommandEvent& WXUNUSED(event)){
+    const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+    wxLaunchDefaultBrowser("file:///" + exedir + "/help/index.html");
 }
 
 //ID_BACKUP_TREECTRL
