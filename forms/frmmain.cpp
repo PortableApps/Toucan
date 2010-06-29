@@ -1343,9 +1343,9 @@ void frmMain::OnBackupLocationClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	wxString command;
 	//source
-	command << "sync([[" <<m_Sync_Source_Txt->GetValue() << "]], ";
+	command << "sync([=[" <<m_Sync_Source_Txt->GetValue() << "]=], ";
 	//dest
-	command << "[[" << m_Sync_Dest_Txt->GetValue() <<  "]], ";
+	command << "[=[" << m_Sync_Dest_Txt->GetValue() <<  "]=], ";
 	//function
 	command << "[[" << ToEn(m_Sync_Function->GetStringSelection()) << "]], ";
 	//checks
@@ -1380,11 +1380,11 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	//sources
 	command << "backup({";
 	for(unsigned int i = 0; i < m_BackupLocations->Count(); i++){
-		command << "[[" <<  m_BackupLocations->Item(i) << "]],";
+		command << "[=[" <<  m_BackupLocations->Item(i) << "]=],";
 	}
 	command << "}, ";
 	//backup file
-	command << "[[" <<  m_Backup_Location->GetValue() << "]], ";
+	command << "[=[" <<  m_Backup_Location->GetValue() << "]=], ";
 	//function
 	command << "[[" <<   ToEn(m_Backup_Function->GetStringSelection()) << "]], ";
 	//format
@@ -1403,9 +1403,9 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSecureRunClick(wxCommandEvent& WXUNUSED(event)){
 	wxString command;
 	//sources
-	command << "secure({[[";
+	command << "secure({";
 	for(unsigned int i = 0; i < m_SecureLocations->Count(); i++){
-		command << "[[" <<  m_SecureLocations->Item(i) << "]],";
+		command << "[=[" <<  m_SecureLocations->Item(i) << "]=],";
 	}
 	command << "}, ";
 	//function
@@ -1430,6 +1430,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	else{
 		m_Sync_Source_Tree->AddItem(Path::Normalise(m_Sync_Source_Txt->GetValue()));
 	}
+
 	m_Notebook->Enable();
 }
 
