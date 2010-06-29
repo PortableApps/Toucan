@@ -87,6 +87,9 @@ void LuaManager::CleanUp(){
 }
 
 void LuaManager::Run(const wxString &line, const bool showprogress){
+    //We initially set the password to blank
+    wxGetApp().m_Password = "";
+
 	if(line == wxEmptyString){
 		return;
 	}
