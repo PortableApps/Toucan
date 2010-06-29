@@ -39,7 +39,7 @@ void LuaManager::StartUp(){
 		LogListCtrl* logList = new LogListCtrl(m_Window->m_List);
 		delete wxLog::SetActiveTarget(logList);
 	}
-	OutputProgress("Toucan 3.1", true);
+	OutputProgress("Toucan 3.0.1", true);
 	OutputProgress(_("Date:") + " " + m_StartTime.FormatISODate());
 	OutputProgress(_("Computer Name:") + " " + wxGetHostName());
 	OutputProgress(_("Operating System:") + " " + wxGetOsDescription());
