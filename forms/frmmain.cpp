@@ -1902,7 +1902,6 @@ void frmMain::JobRemove(wxComboBox* box){
 }
 
 void frmMain::JobSave(const wxString &name, const wxString &type){
-	wxBusyCursor cursor;
 	JobData* data;
 	if(type == wxT("Sync")){
 		data = new SyncData(name);
