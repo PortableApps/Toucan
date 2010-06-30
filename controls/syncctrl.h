@@ -51,6 +51,7 @@ public:
 	virtual void AddItem(const wxString &path);
 
 	void SetPreview(bool preview) { m_Preview = preview; }
+    bool GetPreview() { return m_Preview; }
 
 	const wxString& GetRoot() { return m_Root; }
 

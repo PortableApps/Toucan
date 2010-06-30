@@ -5,6 +5,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "dirctrl.h"
+#include "../forms/frmmain.h"
+#include "syncctrl.h"
 #include <algorithm>
 #include <wx/event.h>
 #include <wx/log.h>
@@ -219,6 +221,14 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 			SetItemTextColour(id, (*iter)->GetColour());
 		}
 	}
+    if(GetId() == ID_SYNC_SOURCE_TREE || GetId() == ID_SYNC_DEST_TREE){
+        if(GetItemParent(parent) == this->GetRootItem())
+        {
+            SyncPreviewDirCtrl* ctrl = static_cast<SyncPreviewDirCtrl*>(this);
+            if(ctrl->GetPreview())
+                Expand(parent);
+        }
+    }
 }
 
 wxArrayString DirCtrl::GetSelectedPaths(){
