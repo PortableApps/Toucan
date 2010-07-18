@@ -95,7 +95,7 @@ void SyncPreview::OnSourceNotDestFile(const wxString &path){
 			item->SetColour(wxT("Blue"));
 			destitems.push_back(item);
 			if(data->GetFunction() == _("Move")){
-				DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+				DirCtrlIter iter = FindPath(&sourceitems, source);
 				if(iter != sourceitems.end()){
 					(*iter)->SetColour(wxT("Grey"));						
 				}
@@ -112,7 +112,7 @@ void SyncPreview::OnNotSourceDestFile(const wxString &path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-			DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+	        DirCtrlIter iter = FindPath(&destitems, dest);
 			if(iter != destitems.end()){
 				if(!data->GetRules()->ShouldExclude(dest, false)){
 					(*iter)->SetColour(wxT("Grey"));						
@@ -135,11 +135,11 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 	if(!data->GetRules()->ShouldExclude(dest, false)){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(CopyIfNeeded(source, dest)){
-				DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+	            DirCtrlIter iter = FindPath(&destitems, dest);
 				if(iter != destitems.end()){
 					(*iter)->SetColour(wxT("Green"));		
 					if(data->GetFunction() == _("Move")){
-						DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+				        DirCtrlIter iter = FindPath(&sourceitems, source);
 						if(iter != sourceitems.end()){
 							(*iter)->SetColour(wxT("Grey"));						
 						}
@@ -159,7 +159,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 
 			if(tmFrom.IsLaterThan(tmTo)){
 				if(CopyIfNeeded(source, dest)){
-					DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+				DirCtrlIter iter = FindPath(&destitems, dest);
 					if(iter != destitems.end()){
 						(*iter)->SetColour(wxT("Green"));			
 					}
@@ -167,7 +167,7 @@ void SyncPreview::OnSourceAndDestFile(const wxString &path){
 			}
 			else if(tmTo.IsLaterThan(tmFrom)){
 				if(CopyIfNeeded(dest, source)){
-					DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+				    DirCtrlIter iter = FindPath(&sourceitems, source);
 					if(iter != sourceitems.end()){
 						(*iter)->SetColour(wxT("Green"));			
 					}
@@ -190,7 +190,7 @@ void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 		}
 		destitems.push_back(item);
 		if(data->GetFunction() == _("Move")){
-			DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+			DirCtrlIter iter = FindPath(&sourceitems, source);
 			if(iter != sourceitems.end()){
 				(*iter)->SetColour(wxT("Red"));						
 			}
@@ -202,7 +202,7 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-		DirCtrlIter iter = std::find(destitems.begin(), destitems.end(), dest);
+		DirCtrlIter iter = FindPath(&destitems, dest);
 		if(iter != destitems.end()){
 			if(!data->GetRules()->ShouldExclude(dest, true)){
 				(*iter)->SetColour(wxT("Grey"));				
@@ -213,7 +213,6 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 		DirCtrlItem* item = new DirCtrlItem(wxFileName::DirName(source));
 		if(!data->GetRules()->ShouldExclude(dest, true)){
 			item->SetColour(wxT("Blue"));
-
 		}
 		else{
 			item->SetColour(wxT("Red"));
@@ -226,7 +225,7 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Move")){
-		DirCtrlIter iter = std::find(sourceitems.begin(), sourceitems.end(), source);
+	    DirCtrlIter iter = FindPath(&sourceitems, source);
 		if(iter != sourceitems.end()){
 			if(!data->GetRules()->ShouldExclude(source, true)){
 				(*iter)->SetColour(wxT("Red"));				
@@ -248,4 +247,13 @@ bool SyncPreview::CopyIfNeeded(const wxString &source, const wxString &dest){
 		return false;
 	}
 	return true;
+}
+
+DirCtrlIter SyncPreview::FindPath(DirCtrlItemArray* items, const wxString &path){
+    for(DirCtrlIter iter = items->begin(); iter != items->end(); ++iter){
+        if((*iter)->GetFullPath() == path){
+            return iter;
+        }
+    }
+    return items->end();
 }

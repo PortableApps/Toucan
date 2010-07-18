@@ -30,6 +30,8 @@ protected:
 	bool CopyIfNeeded(const wxString &source, const wxString &dest);
 
 private:
+    DirCtrlIter FindPath(DirCtrlItemArray* items, const wxString &path);
+
 	DirCtrlItemArray sourceitems;
 	DirCtrlItemArray destitems;
 	bool sourcetree;
