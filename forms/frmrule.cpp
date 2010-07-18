@@ -95,18 +95,15 @@ void frmRule::OnTextUpdated(wxCommandEvent& WXUNUSED(event)){
             m_OK->Enable(false);        
         }
     }
-    //Date or time
-    else if(rule.Left(1) == wxT("<") || rule.Left(1) == wxT(">")){
+    //Date or time need to be greater than 1 oterwise we cannot decide
+    else if(rule.Left(1) == wxT("<") || rule.Left(1) == wxT(">") && rule.length() > 1){
 		if(m_Type->GetStringSelection() != _("File to Exclude")){
 			m_OK->Enable(false);
 			return;
 		}
         wxDateTime date;
         wxRegEx regex(wxT("(([0-9]+)(kB|MB|GB))"));
-        if(date.ParseDate(rule.Right(rule.Length() - 1))){
-            m_OK->Enable(true);
-        }
-        else if(regex.Matches(rule.Right(rule.Length() - 1))){
+        if(regex.Matches(rule.Right(rule.Length() - 1))){
 			//Check that we are matching the whole length of the string
             if(regex.GetMatch(rule.Right(rule.Length() - 1)).Length() == rule.Length() - 1){
                 m_OK->Enable(true);
@@ -115,8 +112,16 @@ void frmRule::OnTextUpdated(wxCommandEvent& WXUNUSED(event)){
                 m_OK->Enable(false); 
             }
         }
+        else if(isdigit(rule.Last())){
+            if(date.ParseDate(rule.Right(rule.Length() - 1))){
+                m_OK->Enable(true);
+            }
+            else{
+                m_OK->Enable(false);        
+            }
+        }
         else{
-            m_OK->Enable(false);        
+            m_OK->Enable(false);
         }
     }
     //Plain text
