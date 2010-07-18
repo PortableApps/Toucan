@@ -221,13 +221,9 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 			SetItemTextColour(id, (*iter)->GetColour());
 		}
 	}
-    if(GetId() == ID_SYNC_SOURCE_TREE || GetId() == ID_SYNC_DEST_TREE){
-        if(GetItemParent(parent) == this->GetRootItem())
-        {
-            SyncPreviewDirCtrl* ctrl = static_cast<SyncPreviewDirCtrl*>(this);
-            if(ctrl->GetPreview())
-                Expand(parent);
-        }
+    if(GetItemParent(parent) == this->GetRootItem())
+    {
+        Expand(parent);
     }
 }
 
@@ -241,6 +237,10 @@ wxArrayString DirCtrl::GetSelectedPaths(){
 		paths.Add(data->GetFullPath());
 	}
 	return paths;
+}
+
+wxString DirCtrl::GetPath(wxTreeItemId item){
+    return static_cast<DirCtrlItem*>(GetItemData(item))->GetFullPath();
 }
 
 void DirCtrl::ExpandAll(){

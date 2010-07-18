@@ -1021,7 +1021,7 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
 		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
-			if(Path::Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetItemText(m_Backup_TreeCtrl->GetSelection())){
+			if(Path::Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetPath(m_Backup_TreeCtrl->GetSelection())){
 				m_BackupLocations->RemoveAt(i);
 			}
 		}
@@ -1035,7 +1035,7 @@ void frmMain::OnSecureRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	if (m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection()) == m_Secure_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
 		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
-            if(Path::Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetItemText(m_Secure_TreeCtrl->GetSelection())){
+            if(Path::Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetPath(m_Secure_TreeCtrl->GetSelection())){
 				m_SecureLocations->RemoveAt(i);
 			}
 		}
@@ -1779,7 +1779,7 @@ void frmMain::OnHelpClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
 	if(m_Backup_TreeCtrl->GetItemParent(event.GetItem()) == m_Backup_TreeCtrl->GetRootItem()){
 		for(unsigned int i = 0; i < m_BackupLocations->GetCount(); i++){
-			if(Path::Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetItemText(event.GetItem())){
+			if(Path::Normalise(m_BackupLocations->Item(i)) == m_Backup_TreeCtrl->GetPath(event.GetItem())){
 				event.SetToolTip(m_BackupLocations->Item(i));
 			}
 		}
@@ -1790,7 +1790,7 @@ void frmMain::OnBackupTreeCtrlTooltip(wxTreeEvent& event){
 void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 	if(m_Secure_TreeCtrl->GetItemParent(event.GetItem()) == m_Secure_TreeCtrl->GetRootItem()){
 		for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
-			if(Path::Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetItemText(event.GetItem())){
+			if(Path::Normalise(m_SecureLocations->Item(i)) == m_Secure_TreeCtrl->GetPath(event.GetItem())){
 				event.SetToolTip(m_SecureLocations->Item(i));
 			}
 		}

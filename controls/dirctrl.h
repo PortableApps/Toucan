@@ -129,6 +129,7 @@ public:
 	virtual ~DirCtrl();
 
 	wxArrayString GetSelectedPaths();
+    wxString GetPath(wxTreeItemId item);
 
 	virtual void AddItem(DirCtrlItem *item);
 	virtual void AddItem(const wxString &path);
