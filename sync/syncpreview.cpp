@@ -239,14 +239,16 @@ bool SyncPreview::CopyIfNeeded(const wxString &source, const wxString &dest){
 	if(!wxFileExists(dest)){
 		return true;
 	}
-	//If we fail any of the required tests then return false
-	if((data->GetCheckSize() && !ShouldCopySize(source, dest))
-		|| (data->GetCheckTime() && !ShouldCopyTime(source, dest))
-		|| (data->GetCheckShort() && !ShouldCopyShort(source, dest))
-		||(data->GetCheckFull() && !ShouldCopyFull(source, dest))){
-		return false;
+	//If copy if anything says copy
+	if(    (data->GetCheckSize() && ShouldCopySize(source, dest))
+		|| (data->GetCheckTime() && ShouldCopyTime(source, dest))
+		|| (data->GetCheckShort() && ShouldCopyShort(source, dest))
+		|| (data->GetCheckFull() && ShouldCopyFull(source, dest))
+        || (!data->GetCheckSize() && !data->GetCheckTime() && 
+            !data->GetCheckShort() && !data->GetCheckFull())){
+		return true;
 	}
-	return true;
+	return false;
 }
 
 DirCtrlIter SyncPreview::FindPath(DirCtrlItemArray* items, const wxString &path){

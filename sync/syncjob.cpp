@@ -275,16 +275,18 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 bool SyncFiles::CopyIfNeeded(const wxString &source, const wxString &dest){
 	//If the dest file doesn't exists then we must copy
 	if(!wxFileExists(dest)){
+        return CopyFile(source, dest);
+	}
+	//If copy if anything says copy
+	if(    (data->GetCheckSize() && ShouldCopySize(source, dest))
+		|| (data->GetCheckTime() && ShouldCopyTime(source, dest))
+		|| (data->GetCheckShort() && ShouldCopyShort(source, dest))
+		|| (data->GetCheckFull() && ShouldCopyFull(source, dest))
+        || (!data->GetCheckSize() && !data->GetCheckTime() && 
+            !data->GetCheckShort() && !data->GetCheckFull())){
 		return CopyFile(source, dest);
 	}
-	//If we fail any of the required tests then return false
-	if((data->GetCheckSize() && !ShouldCopySize(source, dest))
-		|| (data->GetCheckTime() && !ShouldCopyTime(source, dest))
-		|| (data->GetCheckShort() && !ShouldCopyShort(source, dest))
-		||(data->GetCheckFull() && !ShouldCopyFull(source, dest))){
-		return false;
-	}
-	return CopyFile(source, dest);
+	return false;
 }
 
 bool SyncFiles::RemoveDirectory(wxString path){
