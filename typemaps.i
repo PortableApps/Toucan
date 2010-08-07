@@ -27,10 +27,10 @@
 %naturalvar wxArrayString;
 
 %typemap(in,checkfn="lua_isstring") wxString
-%{$1 = wxString(lua_tostring(L,$input), wxConvUTF8);%}
+%{$1 = wxString(lua_tostring(L,$input), *wxConvCurrent);%}
 
 %typemap(in,checkfn="lua_isstring")	const wxString& (wxString temp)
-%{temp = wxString(lua_tostring(L,$input), wxConvUTF8); $1=&temp;%}
+%{temp = wxString(lua_tostring(L,$input), *wxConvCurrent); $1=&temp;%}
 
 %typemap(out) wxString
 %{ lua_pushlstring(L,$1.data(),$1.size()); SWIG_arg++;%}
@@ -54,7 +54,7 @@
 			lua_pop(L,1);
 			return 0;
 		}
-		array.Add(wxString(lua_tostring(L,-1), wxConvUTF8));
+		array.Add(wxString(lua_tostring(L,-1), *wxConvCurrent));
 		lua_pop(L,1);
 		++i;
 	}
