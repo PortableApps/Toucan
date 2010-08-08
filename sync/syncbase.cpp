@@ -121,6 +121,11 @@ bool SyncBase::ShouldCopyShort(const wxString &source, const wxString &dest){
 		return true;
 	}
 
+    //Handle zero length files correctly
+    if(sourcestream->GetLength() == 0){
+        return false;
+    }
+
 	wxFileOffset size = sourcestream->GetLength();
 	wxFileOffset bytesToRead = wxMin(1024, size);
 
@@ -169,6 +174,11 @@ bool SyncBase::ShouldCopyFull(const wxString &source, const wxString &dest){
 	if(sourcestream->GetLength() != deststream->GetLength()){
 		return true;
 	}
+
+    //Handle zero length files correctly
+    if(sourcestream->GetLength() == 0){
+        return false;
+    }
 
 	wxFileOffset size = sourcestream->GetLength();
 
