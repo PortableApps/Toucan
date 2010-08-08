@@ -243,7 +243,7 @@ bool Rules::TransferToForm(frmMain *window){
 	for(unsigned int i = 0; i < m_IncludedLocations.GetCount(); i++){
 		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
 		window->m_RulesList->SetItem(pos, 0, m_IncludedLocations.Item(i));
-		window->m_RulesList->SetItem(pos, 1, _("Locations to Include"));
+		window->m_RulesList->SetItem(pos, 1, _("Location to Include"));
 	}
 
 	return true;
