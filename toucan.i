@@ -213,7 +213,7 @@
 
 	bool Delete(const wxString &path){
 		wxString normpath = Path::Normalise(path);
-		if(File::Delete(path, false)){
+		if(File::Delete(normpath, false)){
 			OutputProgress(_("Deleted ") + normpath);	
 		}
 		else{
