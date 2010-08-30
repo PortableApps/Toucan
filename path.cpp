@@ -64,38 +64,72 @@ wxString Path::Normalise(const wxString &path){
 	while(tkz.HasMoreTokens()){
         token = tkz.GetNextToken();
 		wxString strValue, read;
-		if(token == wxT("date")){
+		if(token == "date"){
 			token = now.FormatISODate();
 			normalised += token;
 			previousmatched = true;
 		}
-		else if(token == wxT("time")){
-			token = now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M"));
+		else if(token == "time"){
+			token = now.Format("%H") + "-" +  now.Format("%M");
 			normalised += token;
 			previousmatched = true;
 		}
-		else if(token == wxT("YYYY")){
-			token = now.Format(wxT("%Y"));
+		else if(token == "YYYY" || token == "year"){
+			token = now.Format("%Y");
 			normalised += token;
 			previousmatched = true;
 		}
-		else if(token == wxT("MM")){
-			token = now.Format(wxT("%m"));
+		else if(token == "MM" || token == "month"){
+			token = now.Format("%m");
 			normalised += token;
 			previousmatched = true;
 		}
-		else if(token == wxT("DD")){
-			token = now.Format(wxT("%d"));
+		else if(token == "monthname"){
+            token = wxDateTime::GetMonthName(wxDateTime::Now().GetMonth());
 			normalised += token;
 			previousmatched = true;
 		}
-		else if(token == wxT("hh")){
+		else if(token == "monthshortname"){
+            token = wxDateTime::GetMonthName(wxDateTime::Now().GetMonth(), wxDateTime::Name_Abbr);
+			normalised += token;
+			previousmatched = true;
+		}
+		else if(token == "DD" || token == "day"){
+			token = now.Format("%d");
+			normalised += token;
+			previousmatched = true;
+		}
+		else if(token == "dayname"){
+            token = wxDateTime::GetWeekDayName(wxDateTime::Now().GetWeekDay());
+			normalised += token;
+			previousmatched = true;
+		}
+		else if(token == "dayshortname"){
+            token = wxDateTime::GetWeekDayName(wxDateTime::Now().GetWeekDay(), wxDateTime::Name_Abbr);
+			normalised += token;
+			previousmatched = true;
+		}
+		else if(token == "hh" || token == "hour"){
 			token = now.Format(wxT("%H"));
 			normalised += token;
 			previousmatched = true;
 		}
-		else if(token == wxT("mm")){
-			token = now.Format(wxT("%M"));
+		else if(token == "mm" || token == "minute"){
+			token = now.Format("%M");
+			normalised += token;
+			previousmatched = true;
+		}
+		else if(token == "dayofweek"){
+            int num = wxDateTime::Now().GetWeekDay();
+            if(num == 0)
+                num = 7;
+            token = wxString::Format("%d", num);
+			normalised += token;
+			previousmatched = true;
+		}
+		else if(token == "weekofyear"){
+            int num = wxDateTime::Now().GetWeekOfYear();
+            token = wxString::Format("%d", num);
 			normalised += token;
 			previousmatched = true;
 		}

@@ -159,17 +159,23 @@ wxArrayString GetVariables(bool builtin = false){
 		cont = wxGetApp().m_Variables_Config->GetNextGroup(value, dummy);
 	}
 	if(builtin){
-		variables.Add(wxT("date"));
-		variables.Add(wxT("time"));
-		variables.Add(wxT("docs"));
-		variables.Add(wxT("drive"));
-		variables.Add(wxT("volume"));
-		variables.Add(wxT("label"));
-		variables.Add(wxT("YYYY"));
-		variables.Add(wxT("MM"));
-		variables.Add(wxT("DD"));
-		variables.Add(wxT("hh"));
-		variables.Add(wxT("mm"));
+		variables.Add("date");
+		variables.Add("time");
+		variables.Add("docs");
+		variables.Add("drive");
+		variables.Add("volume");
+		variables.Add("label");
+		variables.Add("year");
+		variables.Add("month");
+        variables.Add("monthname");
+        variables.Add("monthshortname");
+		variables.Add("day");
+		variables.Add("dayname");
+		variables.Add("dayshortname");
+		variables.Add("hour");
+		variables.Add("minute");
+        variables.Add("dayofweek");
+        variables.Add("weekofyear");
 	}
 	return variables;	
 }
