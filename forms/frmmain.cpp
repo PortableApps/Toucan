@@ -1351,7 +1351,7 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	//dest
 	command << "[=[" << m_Sync_Dest_Txt->GetValue() <<  "]=], ";
 	//function
-	command << "[[" << ToEn(m_Sync_Function->GetStringSelection()) << "]], ";
+	command << "[[" << m_Sync_Function->GetStringSelection() << "]], ";
 	//checks
 	command << "{size=" << ToString(m_SyncCheckSize->IsChecked()) << ","
 			<< "time=" << ToString(m_SyncCheckTime->IsChecked()) << ","
@@ -1390,7 +1390,7 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	//backup file
 	command << "[=[" <<  m_Backup_Location->GetValue() << "]=], ";
 	//function
-	command << "[[" <<   ToEn(m_Backup_Function->GetStringSelection()) << "]], ";
+	command << "[[" <<   m_Backup_Function->GetStringSelection() << "]], ";
 	//format
 	command << "[[" <<   m_Backup_Format->GetStringSelection() << "]], ";
 	//compression ratio
@@ -1413,7 +1413,7 @@ void frmMain::OnSecureRunClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	command << "}, ";
 	//function
-	command << "[[" << ToEn(m_Secure_Function->GetStringSelection()) << "]], ";
+	command << "[[" << m_Secure_Function->GetStringSelection() << "]], ";
 	//rules
 	command << "[[" << m_Secure_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
