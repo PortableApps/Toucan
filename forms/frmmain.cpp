@@ -1799,28 +1799,28 @@ void frmMain::OnSecureTreeCtrlTooltip(wxTreeEvent& event){
 
 //ID_SYNC_SOURCE_TREE
 void frmMain::OnSyncSourceTreeRightClick(wxTreeEvent& event){
-//	menuTree = m_Sync_Source_Tree;
+	menuTree = m_Sync_Source_Tree;
 	menuRules = m_Sync_Rules;
 	CreateMenu(event);
 }
 
 //ID_SYNC_DEST_TREE
 void frmMain::OnSyncDestTreeRightClick(wxTreeEvent& event){
-//	menuTree = m_Sync_Dest_Tree;
+	menuTree = m_Sync_Dest_Tree;
 	menuRules = m_Sync_Rules;
 	CreateMenu(event);
 }
 
 //ID_BACKUP_TREECTRL
 void frmMain::OnBackupTreeRightClick(wxTreeEvent& event){
-//	menuTree = m_Backup_TreeCtrl;
+	menuTree = m_Backup_TreeCtrl;
 	menuRules = m_Backup_Rules;
 	CreateMenu(event);
 }
 
 //ID_SECURE_TREECTRL
 void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
-//	menuTree = m_Secure_TreeCtrl;
+	menuTree = m_Secure_TreeCtrl;
 	menuRules = m_Secure_Rules;
 	CreateMenu(event);
 }
@@ -2018,7 +2018,6 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 	menuTree = static_cast<DirCtrl*> (event.GetEventObject());
 	DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(event.GetItem()));
 	menuTree->SelectItem(event.GetItem());
-	menuRules = menuTree->GetId() == ID_BACKUP_TREECTRL ? m_Backup_Rules : m_Secure_Rules;
 
 	wxString title = menuRules->GetStringSelection();
 	if(title == wxEmptyString){
