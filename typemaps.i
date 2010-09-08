@@ -17,7 +17,7 @@
 			lua_pop(L, 1);
 			return ret;
 		}
-		ret = static_cast<bool>(lua_toboolean(L, -1));
+		ret = (lua_toboolean(L, -1) != 0);
 		lua_pop(L, 1);
 		return ret;
 	}
