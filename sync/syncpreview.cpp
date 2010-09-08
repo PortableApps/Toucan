@@ -17,7 +17,7 @@
 #include <wx/wfstream.h>
 
 bool isoriginal(DirCtrlItem *item){
-	return item->GetColour() == wxColour("Black");
+	return (item->GetColour() == wxColour("Black") && item->GetType() != DIRCTRL_FOLDER);
 }
 
 SyncPreview::SyncPreview(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata, bool issource) 
