@@ -87,8 +87,12 @@ void LuaManager::CleanUp(){
 }
 
 void LuaManager::Run(const wxString &line, const bool showprogress){
-    //We initially set the password to blank
-    wxGetApp().m_Password = "";
+    //If we are in gui mode then reset as new runs should prompt again
+    //otherwise do not clear as the password is set from the commandline
+    if(wxGetApp().IsGui()){
+        //We initially set the password to blank
+        wxGetApp().m_Password = "";
+    }
 
 	if(line == wxEmptyString){
 		return;

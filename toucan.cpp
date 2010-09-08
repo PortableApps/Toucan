@@ -69,6 +69,7 @@ bool Toucan::OnInit(){
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "l", "logfile", "Path to save log", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "j", "job", "Job to run", wxCMD_LINE_VAL_STRING},
+        {wxCMD_LINE_OPTION, "p", "password", "Password for jobs and scripts", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_NONE}
 	};
 	wxCmdLineParser parser(desc, argc, argv);
@@ -88,7 +89,7 @@ bool Toucan::OnInit(){
 	}
 	else{
 		m_IsGui = false;
-	}
+    }
 
 	const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 
@@ -205,6 +206,11 @@ bool Toucan::OnInit(){
 
 	}
 	else{
+        if(parser.Found("password")){
+            wxString pass;
+            parser.Found("password", &pass);
+            m_Password = pass;
+        }
 		if(parser.Found("script")){
 			wxString script;
 			parser.Found("script", &script);
