@@ -10,7 +10,7 @@
 namespace File{
 	int Copy(const wxString& source, const wxString &dest);
 	int Rename(const wxString& source, const wxString &dest, bool overwrite);
-	int Delete(const wxString&path, bool recycle);
+	int Delete(const wxString&path, bool recycle, bool ignorero);
 	void Normalise(wxString *path);
 }
 

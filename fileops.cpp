@@ -29,10 +29,13 @@ int File::Rename(const wxString& source, const wxString &dest, bool overwrite){
 #endif
 }
 
-int File::Delete(const wxString& path, bool recycle){
+int File::Delete(const wxString& path, bool recycle, bool ignorero){
 #ifdef __WXMSW__
 	//If we want to recycle then we must use a shfileop but it doesn't support
 	//long paths
+    if(ignorero){
+        SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
+    }
 	if(recycle){
 		wxString tmppath(path);
 		tmppath += wxT('\0');

@@ -344,7 +344,7 @@ bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest
 }
 
 bool SyncFiles::RemoveFile(const wxString &path){
-	if(File::Delete(path, data->GetRecycle())){
+	if(File::Delete(path, data->GetRecycle(), data->GetIgnoreRO())){
 		OutputProgress(_("Removed ") + path);		
 		return true;
 	}
