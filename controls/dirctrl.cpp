@@ -141,6 +141,7 @@ END_EVENT_TABLE()
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 		: wxTreeCtrl(parent, id, pos, size, style)
 {
+    m_Expand = false;
 	AddRoot(wxT("Hidden Root"));
 
 	const wxString bitmapdir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "bitmaps" + wxFILE_SEP_PATH;
@@ -160,6 +161,8 @@ DirCtrl::~DirCtrl(){
 }
 
 void DirCtrl::AddItem(DirCtrlItem *item){
+    //As we only ever expand by calling ExpandAll we can turn it off here
+    m_Expand = false;
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
 	if(item->GetType() == DIRCTRL_FOLDER){
 		SetItemImage(id, 6, wxTreeItemIcon_Expanded);
@@ -221,7 +224,7 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
 			SetItemTextColour(id, (*iter)->GetColour());
 		}
 	}
-    if(GetItemParent(parent) == this->GetRootItem())
+    if(GetItemParent(parent) == this->GetRootItem() || m_Expand)
     {
         Expand(parent);
     }
@@ -244,8 +247,6 @@ wxString DirCtrl::GetPath(wxTreeItemId item){
 }
 
 void DirCtrl::ExpandAll(){
-	wxBusyCursor busy;
-	Freeze();
+    m_Expand = true;
 	wxTreeCtrl::ExpandAll();
-	Thaw();
 }

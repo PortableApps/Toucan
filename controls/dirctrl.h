@@ -150,6 +150,7 @@ private:
 
 	wxImageList *m_Image;
 	std::map<int, wxTreeItemId> m_IdMap;
+    bool m_Expand;
 };
 
 #endif
