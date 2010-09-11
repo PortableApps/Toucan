@@ -1425,10 +1425,12 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 	m_Notebook->Disable();
 
 	m_Sync_Dest_Tree->SetPreview(true);
+	m_Sync_Dest_Tree->SetPreviewChanges(m_SyncPreviewChanges->IsChecked());
 	m_Sync_Dest_Tree->AddItem(Path::Normalise(m_Sync_Dest_Txt->GetValue()));
 
 	if(m_Sync_Function->GetStringSelection() == _("Equalise") || m_Sync_Function->GetStringSelection() == _("Move")){
 		m_Sync_Source_Tree->SetPreview(true);
+	    m_Sync_Source_Tree->SetPreviewChanges(m_SyncPreviewChanges->IsChecked());
 		m_Sync_Source_Tree->AddItem(Path::Normalise(m_Sync_Source_Txt->GetValue()));
 	}
 	else{

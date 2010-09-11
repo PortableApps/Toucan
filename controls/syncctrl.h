@@ -53,12 +53,19 @@ public:
 	void SetPreview(bool preview) { m_Preview = preview; }
     bool GetPreview() { return m_Preview; }
 
+	void SetPreviewChanges(bool previewchanges) { m_PreviewChanges = previewchanges; }
+    bool GetPreviewChanges() { return m_PreviewChanges; }
+
 	const wxString& GetRoot() { return m_Root; }
+
+protected:
+	virtual void OnTraversed(wxCommandEvent &event);
 
 private:
 	SyncPreviewDirCtrl* m_Ctrl;
 	SyncType m_Type;
 	bool m_Preview;
+    bool m_PreviewChanges;
 	wxString m_Root;
 };
 

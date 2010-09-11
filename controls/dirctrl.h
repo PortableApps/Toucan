@@ -135,22 +135,25 @@ public:
 	virtual void AddItem(const wxString &path);
 
 	//A neater version that uses freeze and thaw
-	void ExpandAll();
+	virtual void ExpandAll();
 
 	virtual DirThread* GetThread(const wxString& path);
+
+protected:
+	//Event Handlers
+	virtual void OnNodeExpand(wxTreeEvent &event);
+	virtual void OnTraversed(wxCommandEvent &event);
+
+	//Runs thread needed to add a directory
+	virtual void AddDirectory(DirCtrlItem *item);
+
+    bool m_Expand;
+
 private:
 	DECLARE_EVENT_TABLE()
 
-	//Event Handlers
-	void OnNodeExpand(wxTreeEvent &event);
-	void OnTraversed(wxCommandEvent &event);
-
-	//Runs thread needed to add a directory
-	void AddDirectory(DirCtrlItem *item);
-
 	wxImageList *m_Image;
 	std::map<int, wxTreeItemId> m_IdMap;
-    bool m_Expand;
 };
 
 #endif

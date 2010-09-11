@@ -52,6 +52,34 @@ void SyncPreviewDirCtrl::AddItem(const wxString &path){
 	AddItem(new DirCtrlItem(wxFileName::DirName(path)));
 }
 
+void SyncPreviewDirCtrl::OnTraversed(wxCommandEvent &event){
+	wxTreeItemId parent = m_IdMap[event.GetInt()];
+	if(parent.IsOk()){
+		DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
+        if(this->GetPreviewChanges() && items->empty()){
+            wxTreeItemId newparent = this->GetItemParent(parent);
+            this->Delete(parent);
+            while(newparent.IsOk() && !this->ItemHasChildren(newparent)){
+                parent = newparent;
+                newparent = this->GetItemParent(parent);
+                this->Delete(parent);
+            }
+            return;
+        }
+		for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
+			wxTreeItemId id = AppendItem(parent, (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
+			if((*iter)->GetType() == DIRCTRL_FOLDER){
+				SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+			}
+			SetItemTextColour(id, (*iter)->GetColour());
+		}
+	}
+    if(GetItemParent(parent) == this->GetRootItem() || m_Expand)
+    {
+        Expand(parent);
+    }
+}
+
 DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){
 	if(m_Preview){
 		SyncData *data = new SyncData(wxT("PreviewJob"));
