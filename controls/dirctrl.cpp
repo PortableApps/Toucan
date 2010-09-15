@@ -186,6 +186,7 @@ void DirCtrl::AddDirectory(DirCtrlItem *item){
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
 		DirThread *thread = GetThread(item->GetFullPath());
 		thread->Create();
+        thread->SetPriority(WXTHREAD_MIN_PRIORITY);
 		m_IdMap[thread->GetId()] = item->GetId();
 		thread->Run();
 	}
