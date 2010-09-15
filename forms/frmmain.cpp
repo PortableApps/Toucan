@@ -1829,22 +1829,42 @@ void frmMain::OnSecureTreeRightClick(wxTreeEvent& event){
 
 //ID_SYNC_SOURCE_EXPAND
 void frmMain::OnSyncSourceExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Sync_Source_Tree->ExpandAll();
+    if(m_Sync_Source_Tree->GetSelection().IsOk()){
+        m_Sync_Source_Tree->ExpandAllChildren(m_Sync_Source_Tree->GetSelection());
+    }
+    else{
+	    m_Sync_Source_Tree->ExpandAll();
+    }
 }
 
 //ID_SYNC_DEST_EXPAND
 void frmMain::OnSyncDestExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Sync_Dest_Tree->ExpandAll();
+    if(m_Sync_Dest_Tree->GetSelection().IsOk()){
+        m_Sync_Dest_Tree->ExpandAllChildren(m_Sync_Dest_Tree->GetSelection());
+    }
+    else{
+	    m_Sync_Dest_Tree->ExpandAll();
+    }
 }
 
 //ID_BACKUP_EXPAND
 void frmMain::OnBackupExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Backup_TreeCtrl->ExpandAll();
+    if(m_Backup_TreeCtrl->GetSelection().IsOk()){
+        m_Backup_TreeCtrl->ExpandAllChildren(m_Backup_TreeCtrl->GetSelection());
+    }
+    else{
+	    m_Backup_TreeCtrl->ExpandAll();
+    }
 }
 
 //ID_SECURE_EXPAND
 void frmMain::OnSecureExpandClick(wxCommandEvent& WXUNUSED(event)){
-	m_Secure_TreeCtrl->ExpandAll();
+    if(m_Secure_TreeCtrl->GetSelection().IsOk()){
+        m_Secure_TreeCtrl->ExpandAllChildren(m_Secure_TreeCtrl->GetSelection());
+    }
+    else{
+	    m_Secure_TreeCtrl->ExpandAll();
+    }
 }
 
 //ID_AUINOTEBOOK

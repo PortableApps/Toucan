@@ -251,3 +251,8 @@ void DirCtrl::ExpandAll(){
     m_Expand = true;
 	wxTreeCtrl::ExpandAll();
 }
+
+void DirCtrl::ExpandAllChildren(const wxTreeItemId &item){
+    m_Expand = true;
+	wxTreeCtrl::ExpandAllChildren(item);
+}

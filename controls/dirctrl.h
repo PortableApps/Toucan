@@ -134,8 +134,8 @@ public:
 	virtual void AddItem(DirCtrlItem *item);
 	virtual void AddItem(const wxString &path);
 
-	//A neater version that uses freeze and thaw
 	virtual void ExpandAll();
+	virtual void ExpandAllChildren(const wxTreeItemId &item);
 
 	virtual DirThread* GetThread(const wxString& path);
 
