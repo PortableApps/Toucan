@@ -137,6 +137,8 @@ public:
 	virtual void ExpandAll();
 	virtual void ExpandAllChildren(const wxTreeItemId &item);
 
+    virtual void ExpandUnexpanded(const wxTreeItemId &item);
+
 	virtual DirThread* GetThread(const wxString& path);
 
 protected:

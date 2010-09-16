@@ -8,6 +8,7 @@
 #include "../forms/frmmain.h"
 #include "syncctrl.h"
 #include <algorithm>
+#include <wx/app.h>
 #include <wx/event.h>
 #include <wx/log.h>
 #include <wx/artprov.h>
@@ -161,8 +162,6 @@ DirCtrl::~DirCtrl(){
 }
 
 void DirCtrl::AddItem(DirCtrlItem *item){
-    //As we only ever expand by calling ExpandAll we can turn it off here
-    m_Expand = false;
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
 	if(item->GetType() == DIRCTRL_FOLDER){
 		SetItemImage(id, 6, wxTreeItemIcon_Expanded);
@@ -229,6 +228,12 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
     {
         Expand(parent);
     }
+    //See if we were the last node to expand, if so unset the cursor and thaw
+    m_IdMap.erase(event.GetInt());
+    if(m_IdMap.empty()){
+        m_Expand = false;
+        wxTheApp->GetTopWindow()->SetCursor(wxNullCursor);
+    }
 }
 
 wxArrayString DirCtrl::GetSelectedPaths(){
@@ -247,12 +252,29 @@ wxString DirCtrl::GetPath(wxTreeItemId item){
     return static_cast<DirCtrlItem*>(GetItemData(item))->GetFullPath();
 }
 
+void DirCtrl::ExpandUnexpanded(const wxTreeItemId &item){
+    if(!item)
+        return;
+
+    if(item == GetRootItem() || (IsExpanded(item) && HasChildren(item))){
+        wxTreeItemIdValue cookie;
+	    wxTreeItemId child = GetFirstChild(item, cookie);
+	    while(child.IsOk()){
+            ExpandUnexpanded(child);
+		    child = GetNextChild(item, cookie);
+	    }
+    }
+    else{
+        Expand(item);
+    }
+}
+
 void DirCtrl::ExpandAll(){
     m_Expand = true;
-	wxTreeCtrl::ExpandAll();
+	ExpandUnexpanded(GetRootItem());
 }
 
 void DirCtrl::ExpandAllChildren(const wxTreeItemId &item){
     m_Expand = true;
-	wxTreeCtrl::ExpandAllChildren(item);
+	ExpandUnexpanded(item);
 }
