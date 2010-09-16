@@ -228,12 +228,6 @@ void DirCtrl::OnTraversed(wxCommandEvent &event){
     {
         Expand(parent);
     }
-    //See if we were the last node to expand, if so unset the cursor and thaw
-    m_IdMap.erase(event.GetInt());
-    if(m_IdMap.empty()){
-        m_Expand = false;
-        wxTheApp->GetTopWindow()->SetCursor(wxNullCursor);
-    }
 }
 
 wxArrayString DirCtrl::GetSelectedPaths(){
