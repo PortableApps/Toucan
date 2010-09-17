@@ -162,6 +162,7 @@ DirCtrl::~DirCtrl(){
 }
 
 void DirCtrl::AddItem(DirCtrlItem *item){
+    m_Expand = false;
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
 	if(item->GetType() == DIRCTRL_FOLDER){
 		SetItemImage(id, 6, wxTreeItemIcon_Expanded);
