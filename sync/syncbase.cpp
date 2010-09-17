@@ -35,6 +35,8 @@ SyncBase::SyncBase(const wxString &syncsource, const wxString &syncdest, SyncDat
 	}
     sourceroot = Path::Normalise(sourceroot);
     destroot = Path::Normalise(destroot);
+    sourceroot.Replace("\\\\", "\\");
+    destroot.Replace("\\\\", "\\");
 }
 
 SyncBase::~SyncBase(){
