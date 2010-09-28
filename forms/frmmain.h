@@ -22,6 +22,7 @@ class wxListBox;
 class wxRadioBox;
 class wxSlider;
 class wxStyledTextCtrl;
+class wxGrid;
 
 class DirCtrl;
 class LocalDirCtrl;
@@ -117,7 +118,7 @@ enum{
 	ID_RULES_SAVE,
 	ID_RULES_ADD,
 	ID_RULES_REMOVE,
-	ID_RULES_LIST,
+    ID_RULES_GRID,
 	ID_RULES_ADDITEM,
 	ID_RULES_REMOVEITEM,
 	//Variables
@@ -237,7 +238,7 @@ public:
 	void OnRulesRemoveClick(wxCommandEvent& event);
 	void OnRulesAddItemClick(wxCommandEvent& event);
 	void OnRulesRemoveItemClick(wxCommandEvent& event);
-	void OnRulesItemActivated(wxListEvent& event);
+    void SetRulesGrid();
 	
 	//Variables
 	void OnVariablesSaveClick(wxCommandEvent& event);
@@ -349,6 +350,8 @@ public:
 	wxStaticBoxSizer* RulesNameSizer;
 	wxComboBox* m_Rules_Name;
 	wxListCtrl* m_RulesList;
+    wxGrid* m_RulesGrid;
+    wxArrayString m_RulesChoices;
 	
 	//Variables
 	wxBoxSizer* VariablesTopSizer;

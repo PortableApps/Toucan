@@ -7,7 +7,7 @@
 #include <wx/regex.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
-#include <wx/listctrl.h>
+#include <wx/grid.h>
 #include <wx/combobox.h>
 #include <wx/msgdlg.h>
 #include "rules.h"
@@ -200,25 +200,20 @@ bool Rules::TransferFromForm(frmMain *window){
 		return false;
 	}
 
+    //Clear the existing rules
 	Clear();
-	for(int i = 0; i < window->m_RulesList->GetItemCount(); i++){
-		wxListItem itemcol1, itemcol2;
-		itemcol1.m_itemId = i;
-		itemcol1.m_col = 0;
-		itemcol1.m_mask = wxLIST_MASK_TEXT;
-		window->m_RulesList->GetItem(itemcol1);
-		itemcol2.m_itemId = i;
-		itemcol2.m_col = 1;
-		itemcol2.m_mask = wxLIST_MASK_TEXT;
-		window->m_RulesList->GetItem(itemcol2);
-		if(itemcol2.m_text == _("File to Exclude")){
-			m_ExcludedFiles.Add(itemcol1.m_text);
+	for(int i = 0; i < window->m_RulesGrid->GetNumberRows(); i++){
+		//Rules type is in column one and the rule in column two
+        const wxString type = window->m_RulesGrid->GetCellValue(i, 0);
+        const wxString rule = window->m_RulesGrid->GetCellValue(i, 1);
+		if(type == _("File to Exclude")){
+			m_ExcludedFiles.Add(rule);
 		}
-		else if(itemcol2.m_text == _("Folder to Exclude")){
-			m_ExcludedFolders.Add(itemcol1.m_text);
+		else if(type == _("Folder to Exclude")){
+			m_ExcludedFolders.Add(rule);
 		}
-		else if(itemcol2.m_text == _("Location to Include")){
-			m_IncludedLocations.Add(itemcol1.m_text);
+		else if(type == _("Location to Include")){
+			m_IncludedLocations.Add(rule);
 		}
 	}
 	return true;
@@ -229,22 +224,34 @@ bool Rules::TransferToForm(frmMain *window){
 		return false;
 	}
 
+    //Set the rule name
 	window->m_Rules_Name->SetStringSelection(GetName());
+
+    wxGrid* grid = window->m_RulesGrid;
+    const int count = m_ExcludedFiles.Count() + m_ExcludedFolders.Count() + m_IncludedLocations.GetCount();
+    int runningpos = 0;
+    //Create a new grid with enough rows for the new items;
+    grid->ClearGrid();
+    grid->DeleteRows(0, grid->GetNumberRows());
+    grid->AppendRows(count);
+    //Set the editors
+    for(int i = 0; i < count; i++){
+        grid->SetCellEditor(i, 0, new wxGridCellChoiceEditor(window->m_RulesChoices));
+        grid->SetCellValue(i, 0, window->m_RulesChoices.Item(0));
+    }
+
+    //Add the individual rules
 	for(unsigned int i = 0; i < m_ExcludedFiles.Count(); i++){
-		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
-		window->m_RulesList->SetItem(pos, 0, m_ExcludedFiles.Item(i));
-		window->m_RulesList->SetItem(pos, 1, _("File to Exclude"));
+		grid->SetCellValue(_("File to Exclude"), runningpos, 0);
+		grid->SetCellValue(m_ExcludedFiles.Item(i), runningpos++, 1);
 	}
 	for(unsigned int i = 0; i < m_ExcludedFolders.Count(); i++){
-		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
-		window->m_RulesList->SetItem(pos, 0, m_ExcludedFolders.Item(i));
-		window->m_RulesList->SetItem(pos, 1, _("Folder to Exclude"));
+		grid->SetCellValue(_("Folder to Exclude"), runningpos, 0);
+		grid->SetCellValue(m_ExcludedFolders.Item(i), runningpos++, 1);
 	}
 	for(unsigned int i = 0; i < m_IncludedLocations.GetCount(); i++){
-		int pos = window->m_RulesList->InsertItem(window->m_RulesList->GetItemCount(), wxT("Test"));
-		window->m_RulesList->SetItem(pos, 0, m_IncludedLocations.Item(i));
-		window->m_RulesList->SetItem(pos, 1, _("Location to Include"));
-	}
-
+		grid->SetCellValue(_("Location to Include"), runningpos, 0);
+		grid->SetCellValue(m_IncludedLocations.Item(i), runningpos++, 1);
+    }
 	return true;
 }

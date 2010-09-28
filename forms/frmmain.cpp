@@ -13,10 +13,10 @@
 #include <wx/dir.h>
 #include <wx/gbsizer.h>
 #include <wx/stc/stc.h>
+#include <wx/grid.h>
 #include <wx/wx.h>
 
 #include "frmmain.h"
-#include "frmrule.h"
 #include "frmprogress.h"
 #include "frmvariable.h"
 #include "../toucan.h"
@@ -99,7 +99,6 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_RULES_REMOVE, frmMain::OnRulesRemoveClick)
 	EVT_BUTTON(ID_RULES_ADDITEM, frmMain::OnRulesAddItemClick)
 	EVT_BUTTON(ID_RULES_REMOVEITEM, frmMain::OnRulesRemoveItemClick)
-	EVT_LIST_ITEM_ACTIVATED(ID_RULES_LIST, frmMain::OnRulesItemActivated)
 	
 	//Variables
 	EVT_BUTTON(ID_VARIABLES_SAVE, frmMain::OnVariablesSaveClick)
@@ -207,6 +206,10 @@ void frmMain::Init(){
 	m_Font = new wxFont();
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
+
+    m_RulesChoices.Add(_("File to Exclude"));
+    m_RulesChoices.Add(_("Folder to Exclude"));
+    m_RulesChoices.Add(_("Location to Include"));
 }
 
 void frmMain::CreateControls(){	
@@ -644,10 +647,12 @@ void frmMain::CreateControls(){
 	wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
 	RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
 
-	m_RulesList = new wxListCtrl(RulesPanel, ID_RULES_LIST, wxDefaultPosition, wxSize(100, 100), wxLC_REPORT|wxBORDER_THEME);
-	m_RulesList->InsertColumn(0, _("Rule"));
-	m_RulesList->InsertColumn(1, _("Type"));
-	RulesMainSizer->Add(m_RulesList, 1, wxGROW|wxALL, border);
+    m_RulesGrid = new wxGrid(RulesPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS | wxBORDER_THEME);
+    RulesMainSizer->Add(m_RulesGrid, 1, wxGROW|wxALL, border);
+
+    //Create the grid and set the various styles
+    m_RulesGrid->CreateGrid(1, 2, wxGrid::wxGridSelectRows);
+    SetRulesGrid();
 
 	wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
 	RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
@@ -1067,55 +1072,40 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADDITEM
 void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
-	frmRule window(this);
-	if(window.ShowModal() == wxID_OK){
-		int pos = m_RulesList->InsertItem(m_RulesList->GetItemCount(), wxT("Test"));
-		m_RulesList->SetItem(pos, 0, window.GetRule());
-		m_RulesList->SetItem(pos, 1, window.GetType());
-		m_RulesList->SetColumnWidth(0, -1);
-		m_RulesList->SetColumnWidth(1, -1);
-	}
+    //Append a new item
+    m_RulesGrid->AppendRows();
+
+    //Set the cell editor for the type column
+    int newrow = m_RulesGrid->GetNumberRows() - 1;
+    m_RulesGrid->SetCellEditor(newrow, 0, new wxGridCellChoiceEditor(m_RulesChoices));
+    m_RulesGrid->SetCellValue(newrow, 0, m_RulesChoices.Item(0));
 }
 
-//ID_RULES_LIST
-void frmMain::OnRulesItemActivated(wxListEvent& event){
-	wxListItem itemcol1, itemcol2;
-	itemcol1.m_itemId = event.GetIndex();
-	itemcol1.m_col = 0;
-	itemcol1.m_mask = wxLIST_MASK_TEXT;
-	m_RulesList->GetItem(itemcol1);
-	itemcol2.m_itemId = event.GetIndex();
-	itemcol2.m_col = 1;
-	itemcol2.m_mask = wxLIST_MASK_TEXT;
-	m_RulesList->GetItem(itemcol2);
-
-	frmRule window(this);
-	window.SetRule(itemcol1.m_text);
-	window.SetType(itemcol2.m_text);
-	if(window.ShowModal() == wxID_OK){
-		m_RulesList->SetItem(event.GetIndex(), 0, window.GetRule());
-		m_RulesList->SetItem(event.GetIndex(), 1, window.GetType());
-		m_RulesList->SetColumnWidth(0, -1);
-		m_RulesList->SetColumnWidth(1, -1);
-	}
-}
-
-//ID_RULES_ADD_FOLDEREXCLUDE
+//ID_RULES_ADD_REMOVEITEM
 void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
-	wxString selected;
-	long item = -1;
-	for (;;)
-	{
-		item = m_RulesList->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if(item == -1)
-			break;
-		selected = m_RulesList->GetItemText(item);
-		m_RulesList->DeleteItem(item);
-	}
+    //Get the bounds for the selected blocks
+    wxGridCellCoordsArray topleft = m_RulesGrid->GetSelectionBlockTopLeft();
+    wxGridCellCoordsArray bottomright = m_RulesGrid->GetSelectionBlockBottomRight();
+
+    //Make sure that for every end there is a start
+    if(topleft.Count() != bottomright.Count())
+        return;
+
+    //Loop through each block, this is reverse order so we start at the bottom
+    for(unsigned int i = 0; i < bottomright.Count(); i++){
+        int top = topleft.Item(i).GetRow();
+        int bottom = bottomright.Item(i).GetRow();
+        //Remove the lines from the bottom up so they don't invalidate the other positions
+        do{
+            m_RulesGrid->DeleteRows(bottom);
+            bottom--;
+        }while(top <= bottom);
+    }
 }
 
 //ID_RULES_SAVE
 void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
+    //If there is no existing name prompt for one
 	if(m_Rules_Name->GetStringSelection() == wxEmptyString){
 		wxTextEntryDialog dialog(this,  _("Please enter the name for the new rules"), _("New Rules"));
 		if(dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
@@ -1126,42 +1116,32 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
-	Rules rules(m_Rules_Name->GetStringSelection());
+    //Actually save the rules
+    const wxString name = m_Rules_Name->GetStringSelection();
+	Rules rules(name);
 	rules.TransferFromForm(this);
 	rules.TransferToFile();
-	//Store what the old selected rules were
-	wxString sync, backup, secure;
-	sync = m_Sync_Rules->GetStringSelection();
-	backup = m_Backup_Rules->GetStringSelection();
-	secure = m_Secure_Rules->GetStringSelection();
-	//Set up the rules boxes
-	m_Sync_Rules->Clear();
-	m_Backup_Rules->Clear();
-	m_Secure_Rules->Clear();
-	m_Sync_Rules->Append(GetRules());
-	m_Backup_Rules->Append(GetRules());
-	m_Secure_Rules->Append(GetRules());
-	//Set them to old values
-	m_Sync_Rules->SetStringSelection(sync);
-	m_Backup_Rules->SetStringSelection(backup);
-	m_Secure_Rules->SetStringSelection(secure);
+    //If the name isn't in the rules boxes then add it to all as the are identical
+    if(m_Sync_Rules->FindString(name) == wxNOT_FOUND){
+        m_Sync_Rules->Append(name);
+        m_Backup_Rules->Append(name);
+        m_Secure_Rules->Append(name);
+    }
 	//Then refresh if needed
-	if(m_Sync_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
-		wxCommandEvent event;
+    wxCommandEvent event;
+	if(m_Sync_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection())
 		OnSyncRefresh(event);
-	}
-	if(m_Backup_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
-		wxCommandEvent event;
+
+	if(m_Backup_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection())
 		OnBackupRefresh(event);
-	}
-	if(m_Secure_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection()){
-		wxCommandEvent event;
+
+	if(m_Secure_Rules->GetStringSelection() == m_Rules_Name->GetStringSelection())
 		OnSecureRefresh(event);
-	}
 }
 
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
+    //Check to save existing rules
 	if(m_RulesList->GetItemCount() > 0){
 		wxMessageDialog dialog(this, _("Do you wish to save the current rules?"), _("Rules Save"), wxYES_NO|wxCANCEL);
 		int ret = dialog.ShowModal();
@@ -1173,6 +1153,7 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
+    //Get name for new rules
 	wxArrayString existing = GetRules();
 	wxTextEntryDialog entrydialog(this, _("Please enter the name for the new rules"), _("New Rules"));
 	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
@@ -1191,7 +1172,7 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	m_RulesList->DeleteAllItems();
+	SetRulesGrid();
 	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
@@ -1200,14 +1181,10 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
-	//Clear the existing rules
-	m_RulesList->DeleteAllItems();
 	Rules rules(m_Rules_Name->GetStringSelection());
 	if (rules.TransferFromFile()) {
 		rules.TransferToForm(this);
 	}
-	m_RulesList->SetColumnWidth(0, -1);
-	m_RulesList->SetColumnWidth(1, -1);
 	SetTitleBarText();
 }
 
@@ -2351,6 +2328,24 @@ void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 	for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
 		m_Secure_TreeCtrl->AddItem(m_SecureLocations->Item(i));
 	}
+}
+
+void frmMain::SetRulesGrid(){
+    //Create the grid and set the various styles
+    m_RulesGrid->ClearGrid();
+    m_RulesGrid->DeleteRows(0, m_RulesGrid->GetNumberRows());
+    m_RulesGrid->AppendRows(1);
+    m_RulesGrid->HideRowLabels();
+    m_RulesGrid->UseNativeColHeader();
+    m_RulesGrid->SetColLabelValue(0, "Type");
+    m_RulesGrid->SetColLabelValue(1, "Rule");
+    m_RulesGrid->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
+
+    //Set up the initial entry
+    m_RulesGrid->SetCellEditor(0, 0, new wxGridCellChoiceEditor(m_RulesChoices));
+    m_RulesGrid->SetCellValue(0, 0, m_RulesChoices.Item(0));
+    m_RulesGrid->SetColSize(0, 150);
+    m_RulesGrid->SetColSize(1, 200);
 }
 
 wxString frmMain::ToString(bool bl){
