@@ -652,6 +652,7 @@ void frmMain::CreateControls(){
 
     //Create the grid and set the various styles
     m_RulesGrid->CreateGrid(1, 2, wxGrid::wxGridSelectRows);
+    m_RulesGrid->EnableGridLines(false);
     SetRulesGrid();
 
 	wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
@@ -2334,16 +2335,11 @@ void frmMain::SetRulesGrid(){
     //Create the grid and set the various styles
     m_RulesGrid->ClearGrid();
     m_RulesGrid->DeleteRows(0, m_RulesGrid->GetNumberRows());
-    m_RulesGrid->AppendRows(1);
     m_RulesGrid->HideRowLabels();
     m_RulesGrid->UseNativeColHeader();
     m_RulesGrid->SetColLabelValue(0, "Type");
     m_RulesGrid->SetColLabelValue(1, "Rule");
     m_RulesGrid->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
-
-    //Set up the initial entry
-    m_RulesGrid->SetCellEditor(0, 0, new wxGridCellChoiceEditor(m_RulesChoices));
-    m_RulesGrid->SetCellValue(0, 0, m_RulesChoices.Item(0));
     m_RulesGrid->SetColSize(0, 150);
     m_RulesGrid->SetColSize(1, 200);
 }
