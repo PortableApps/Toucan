@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef FRMPROGRESS_H
@@ -16,12 +16,14 @@
 class wxListCtrl;
 class wxButton;
 class wxGauge;
+class wxBitmapButton;
 
 enum{
 	ID_FRMPROGRESS = wxID_HIGHEST + 1,
 	ID_PANEL_PROGRESS,
 	ID_PROGRESS_LIST,
-	ID_PROGRESS_GAUGE
+	ID_PROGRESS_GAUGE,
+    ID_PROGRESS_AUTOSCROLL
 };
 
 class frmProgress: public wxFrame
@@ -49,6 +51,8 @@ public:
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);
+    void OnAutoscrollClick(wxCommandEvent& event);
+    wxBitmap GetBitmapResource(const wxString& name);
 
 	void IncrementGauge();
 	void FinishGauge();
@@ -56,8 +60,10 @@ public:
 	wxListCtrl* m_List;
 	wxButton* m_OK;
 	wxButton* m_Cancel;
-	wxButton* m_Save;
+	wxBitmapButton* m_Save;
+    wxBitmapButton* m_Autoscroll;
 	wxGauge* m_Gauge;
+    bool m_ShouldScroll;
 };
 
 #endif

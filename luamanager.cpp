@@ -6,6 +6,7 @@
 
 #include <wx/gauge.h>
 #include <wx/button.h>
+#include <wx/bmpbuttn.h>
 #include <wx/listctrl.h>
 
 #include "toucan.h"

@@ -25,6 +25,7 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
+    EVT_BUTTON(ID_PROGRESS_AUTOSCROLL, frmProgress::OnAutoscrollClick)
 	EVT_CLOSE(frmProgress::OnClose)
 END_EVENT_TABLE()
 
@@ -49,6 +50,7 @@ void frmProgress::Init(){
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	m_Taskbar = NULL;
 #endif
+    m_ShouldScroll = true;
 }
 
 //Create controls
@@ -63,8 +65,20 @@ void frmProgress::CreateControls(){
 	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100, wxDefaultPosition, wxDefaultSize, wxGA_SMOOTH|wxGA_HORIZONTAL);
 	TopSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
 
+	wxBoxSizer* MiddleSizer = new wxBoxSizer(wxHORIZONTAL);
+	TopSizer->Add(MiddleSizer, 1, wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
 	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
-	TopSizer->Add(m_List, 1, wxGROW|wxALL, 5);
+	MiddleSizer->Add(m_List, 1, wxGROW|wxALL, 5);
+
+	wxBoxSizer* SmallButtonSizer = new wxBoxSizer(wxVERTICAL);
+	MiddleSizer->Add(SmallButtonSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+	m_Save = new wxBitmapButton(Panel, wxID_SAVE, GetBitmapResource(wxT("save.png")));
+	SmallButtonSizer->Add(m_Save, 0, wxALL, 5);
+
+	m_Autoscroll = new wxBitmapButton(Panel, ID_PROGRESS_AUTOSCROLL, GetBitmapResource(wxT("autoscroll.png")));
+	SmallButtonSizer->Add(m_Autoscroll, 0, wxALL, 5);
 
 	wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
 	TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -74,9 +88,6 @@ void frmProgress::CreateControls(){
 
 	m_Cancel = new wxButton(Panel, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	ButtonSizer->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-	m_Save = new wxButton(Panel, wxID_SAVE, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-	ButtonSizer->Add(m_Save, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 	
 	//Add columns
 	m_List->InsertColumn(0, _("Time"));
@@ -85,6 +96,16 @@ void frmProgress::CreateControls(){
 	//Set the form icon
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+}
+
+//Get bitmap resources
+wxBitmap frmProgress::GetBitmapResource(const wxString& name){
+	wxString path = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("bitmaps") + wxFILE_SEP_PATH;
+	wxBitmap bitmap(path + name, wxBITMAP_TYPE_PNG);
+	if(bitmap.IsOk()){
+		return bitmap;
+	}
+	return wxNullBitmap;
 }
 
 void frmProgress::OnClose(wxCloseEvent& WXUNUSED(event)){
@@ -170,4 +191,8 @@ void frmProgress::FinishGauge(){
 		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetRange(), m_Gauge->GetRange());
 	}
 #endif
+}
+
+void frmProgress::OnAutoscrollClick(wxCommandEvent& event){
+    m_ShouldScroll = !m_ShouldScroll;
 }
