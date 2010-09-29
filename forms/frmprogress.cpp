@@ -62,14 +62,17 @@ void frmProgress::CreateControls(){
 	wxBoxSizer* TopSizer = new wxBoxSizer(wxVERTICAL);
 	Panel->SetSizer(TopSizer);
 
-	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100, wxDefaultPosition, wxDefaultSize, wxGA_SMOOTH|wxGA_HORIZONTAL);
-	TopSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
-
 	wxBoxSizer* MiddleSizer = new wxBoxSizer(wxHORIZONTAL);
 	TopSizer->Add(MiddleSizer, 1, wxGROW|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
+    wxBoxSizer* ProgressSizer = new wxBoxSizer(wxVERTICAL);
+    MiddleSizer->Add(ProgressSizer, 1, wxGROW);
+
+	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100, wxDefaultPosition, wxDefaultSize, wxGA_SMOOTH|wxGA_HORIZONTAL);
+	ProgressSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
+
 	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
-	MiddleSizer->Add(m_List, 1, wxGROW|wxALL, 5);
+	ProgressSizer->Add(m_List, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* SmallButtonSizer = new wxBoxSizer(wxVERTICAL);
 	MiddleSizer->Add(SmallButtonSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
