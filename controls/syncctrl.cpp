@@ -23,10 +23,11 @@ void* SyncPreviewThread::Entry(){
 
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
-	wxCommandEvent* event = new wxCommandEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
-	event->SetInt(GetId());
-	event->SetClientData(items);
+    wxTreeEvent *event = new wxTreeEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
+    event->SetItem(m_Parent);
+    event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
+
 	return NULL;
 }
 
@@ -52,8 +53,8 @@ void SyncPreviewDirCtrl::AddItem(const wxString &path){
 	AddItem(new DirCtrlItem(wxFileName::DirName(path)));
 }
 
-void SyncPreviewDirCtrl::OnTraversed(wxCommandEvent &event){
-	wxTreeItemId parent = m_IdMap[event.GetInt()];
+void SyncPreviewDirCtrl::OnTraversed(wxTreeEvent &event){
+	wxTreeItemId parent = event.GetItem();
 	if(parent.IsOk()){
 		DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
         if(this->GetPreviewChanges() && items->empty()){
@@ -80,7 +81,7 @@ void SyncPreviewDirCtrl::OnTraversed(wxCommandEvent &event){
     }
 }
 
-DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){
+DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
 	if(m_Preview){
 		SyncData *data = new SyncData(wxT("PreviewJob"));
 		data->TransferFromForm(wxGetApp().MainWindow);
@@ -98,13 +99,13 @@ DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path){
 		}
 		wxString opp = opproot + wxFILE_SEP_PATH + trimmedpath.Right(path.Length() - m_Root.Length());
 		if(m_Type == SYNC_SOURCE){
-			return new SyncPreviewThread(trimmedpath, opp , m_Type, data, this);
+			return new SyncPreviewThread(trimmedpath, opp , m_Type, data, parent, this);
 		}
 		else{
-			return new SyncPreviewThread(opp, trimmedpath , m_Type, data, this);			
+			return new SyncPreviewThread(opp, trimmedpath , m_Type, data, parent, this);			
 		}
 	}
 	else{
-		return new DirThread(path, this);
+		return new DirThread(path, parent, this);
 	}
 }

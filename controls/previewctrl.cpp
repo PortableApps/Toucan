@@ -45,10 +45,11 @@ void* PreviewThread::Entry(){
 
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
-	wxCommandEvent* event = new wxCommandEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
-	event->SetInt(GetId());
-	event->SetClientData(items);
+    wxTreeEvent *event = new wxTreeEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
+    event->SetItem(m_Parent);
+    event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
+
 	return NULL;
 }
 
@@ -62,6 +63,6 @@ PreviewDirCtrl::~PreviewDirCtrl(){
 	delete m_Rules;
 }
 
-DirThread* PreviewDirCtrl::GetThread(const wxString& path){
-	return new PreviewThread(path, m_Rules, this);
+DirThread* PreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
+	return new PreviewThread(path, parent, m_Rules, this);
 }

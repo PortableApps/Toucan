@@ -20,8 +20,8 @@ enum SyncType{
 class SyncPreviewThread : public DirThread{
 public:
 
-	SyncPreviewThread(const wxString& path, const wxString &opppath, SyncType type, SyncData *data, wxEvtHandler* handler) 
-		: m_Data(data), m_OppPath(opppath), m_Type(type), DirThread(path, handler)
+	SyncPreviewThread(const wxString& path, const wxString &opppath, SyncType type, SyncData *data, wxTreeItemId parent, wxEvtHandler* handler) 
+		: m_Data(data), m_OppPath(opppath), m_Type(type), DirThread(path, parent, handler)
 	{}
 
 	virtual void* Entry();
@@ -42,7 +42,7 @@ public:
 					   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
-	virtual DirThread* GetThread(const wxString& path);
+	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
 
     void SetOppCtrl(SyncPreviewDirCtrl *ctrl) { m_Ctrl = ctrl; }
 
@@ -59,7 +59,7 @@ public:
 	const wxString& GetRoot() { return m_Root; }
 
 protected:
-	virtual void OnTraversed(wxCommandEvent &event);
+	virtual void OnTraversed(wxTreeEvent &event);
 
 private:
 	SyncPreviewDirCtrl* m_Ctrl;

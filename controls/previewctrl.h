@@ -14,8 +14,8 @@ class Rules;
 class PreviewThread : public DirThread{
 public:
 
-	PreviewThread(const wxString& path, Rules *rules, wxEvtHandler* handler) 
-		: m_Rules(rules), DirThread(path, handler)
+	PreviewThread(const wxString& path, wxTreeItemId parent, Rules *rules, wxEvtHandler* handler) 
+		: m_Rules(rules), DirThread(path, parent, handler)
 	{}
 
 	virtual void* Entry();
@@ -37,7 +37,7 @@ public:
 	void SetRules(Rules *rules) { m_Rules = rules; }
 
 	//We use our own previewing thread
-	virtual DirThread* GetThread(const wxString& path);
+	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
 
 protected:
    Rules *m_Rules;

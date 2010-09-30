@@ -105,20 +105,20 @@ typedef std::vector<DirCtrlItem*>::iterator DirCtrlIter;
 class DirThread : public wxThread{
 public:
 
-	DirThread(const wxString& path, wxEvtHandler* handler) 
-		: m_Handler(handler), m_Path(path), wxThread(wxTHREAD_DETACHED)
+	DirThread(const wxString& path, wxTreeItemId parent, wxEvtHandler* handler) 
+		: m_Handler(handler), m_Path(path), m_Parent(parent), wxThread(wxTHREAD_DETACHED)
 	{}
 
 	virtual void* Entry();
 	
 protected:
 	wxString m_Path;
-	int m_Id;
+	wxTreeItemId m_Parent;
 	wxEvtHandler* m_Handler;
 };
 
 //Declare our own event type
-wxDECLARE_EVENT(TRAVERSER_FINISHED, wxCommandEvent);
+wxDECLARE_EVENT(TRAVERSER_FINISHED, wxTreeEvent);
 
 //The dirctrl itself
 class DirCtrl : public wxTreeCtrl{
@@ -139,12 +139,12 @@ public:
 
     virtual void ExpandUnexpanded(const wxTreeItemId &item);
 
-	virtual DirThread* GetThread(const wxString& path);
+	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
 
 protected:
 	//Event Handlers
 	virtual void OnNodeExpand(wxTreeEvent &event);
-	virtual void OnTraversed(wxCommandEvent &event);
+	virtual void OnTraversed(wxTreeEvent &event);
 
 	//Runs thread needed to add a directory
 	virtual void AddDirectory(DirCtrlItem *item);
@@ -155,7 +155,6 @@ private:
 	DECLARE_EVENT_TABLE()
 
 	wxImageList *m_Image;
-	std::map<int, wxTreeItemId> m_IdMap;
 };
 
 #endif

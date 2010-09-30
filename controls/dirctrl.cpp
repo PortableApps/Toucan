@@ -14,7 +14,7 @@
 #include <wx/artprov.h>
 #include <wx/stdpaths.h>
 
-wxDEFINE_EVENT(TRAVERSER_FINISHED, wxCommandEvent);
+wxDEFINE_EVENT(TRAVERSER_FINISHED, wxTreeEvent);
 
 TreeStateSaver::TreeStateSaver(wxTreeCtrl *tree){
 	m_Tree = tree;
@@ -127,16 +127,17 @@ void* DirThread::Entry(){
 
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
-	wxCommandEvent* event = new wxCommandEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
-	event->SetInt(GetId());
-	event->SetClientData(items);
+    wxTreeEvent *event = new wxTreeEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
+    event->SetItem(m_Parent);
+    event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
+
 	return NULL;
 }
 
 BEGIN_EVENT_TABLE(DirCtrl, wxTreeCtrl)
 	EVT_TREE_ITEM_EXPANDING(-1, DirCtrl::OnNodeExpand)
-	EVT_COMMAND(ID_TRAVERSED, TRAVERSER_FINISHED, DirCtrl::OnTraversed)
+    EVT_COMMAND(ID_TRAVERSED, TRAVERSER_FINISHED, DirCtrl::OnTraversed)
 END_EVENT_TABLE()
 
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
@@ -184,16 +185,15 @@ void DirCtrl::AddItem(const wxString &path){
 void DirCtrl::AddDirectory(DirCtrlItem *item){
 	//If we have not yet added this directory then do so
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-		DirThread *thread = GetThread(item->GetFullPath());
+		DirThread *thread = GetThread(item->GetFullPath(), item->GetId());
 		thread->Create();
         thread->SetPriority(WXTHREAD_MIN_PRIORITY);
-		m_IdMap[thread->GetId()] = item->GetId();
 		thread->Run();
 	}
 }
 
-DirThread* DirCtrl::GetThread(const wxString& path){
-	return new DirThread(path, this);
+DirThread* DirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
+	return new DirThread(path, parent, this);
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){
@@ -213,8 +213,8 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 	}
 }
 
-void DirCtrl::OnTraversed(wxCommandEvent &event){
-	wxTreeItemId parent = m_IdMap[event.GetInt()];
+void DirCtrl::OnTraversed(wxTreeEvent &event){
+	wxTreeItemId parent = event.GetItem();
 	if(parent.IsOk()){
 		DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
 		for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
