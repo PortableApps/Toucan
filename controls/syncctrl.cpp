@@ -23,7 +23,7 @@ void* SyncPreviewThread::Entry(){
 
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
-    wxTreeEvent *event = new wxTreeEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
+    wxTreeEvent *event = new wxTreeEvent(EVT_TRAVERSER_FINISHED, ID_TRAVERSED);
     event->SetItem(m_Parent);
     event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);

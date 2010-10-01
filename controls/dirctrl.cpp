@@ -14,7 +14,7 @@
 #include <wx/artprov.h>
 #include <wx/stdpaths.h>
 
-wxDEFINE_EVENT(TRAVERSER_FINISHED, wxTreeEvent);
+wxDEFINE_EVENT(EVT_TRAVERSER_FINISHED, wxTreeEvent);
 
 TreeStateSaver::TreeStateSaver(wxTreeCtrl *tree){
 	m_Tree = tree;
@@ -127,18 +127,13 @@ void* DirThread::Entry(){
 
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
-    wxTreeEvent *event = new wxTreeEvent(TRAVERSER_FINISHED, ID_TRAVERSED);
+    wxTreeEvent *event = new wxTreeEvent(EVT_TRAVERSER_FINISHED, ID_TRAVERSED);
     event->SetItem(m_Parent);
     event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
 
 	return NULL;
 }
-
-BEGIN_EVENT_TABLE(DirCtrl, wxTreeCtrl)
-	EVT_TREE_ITEM_EXPANDING(-1, DirCtrl::OnNodeExpand)
-    EVT_COMMAND(ID_TRAVERSED, TRAVERSER_FINISHED, DirCtrl::OnTraversed)
-END_EVENT_TABLE()
 
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 		: wxTreeCtrl(parent, id, pos, size, style)
@@ -156,6 +151,10 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
 	m_Image->Add(wxBitmap(bitmapdir + wxT("drive-removable-media.png"), wxBITMAP_TYPE_PNG));
 	m_Image->Add(wxBitmap(bitmapdir + wxT("folder-open.png"), wxBITMAP_TYPE_PNG));
 	AssignImageList(m_Image);
+
+    //Bind our events
+    Bind(wxEVT_COMMAND_TREE_ITEM_EXPANDING, &DirCtrl::OnNodeExpand, this, wxID_ANY);
+    Bind(EVT_TRAVERSER_FINISHED, &DirCtrl::OnTraversed, this, ID_TRAVERSED);
 }
 
 DirCtrl::~DirCtrl(){

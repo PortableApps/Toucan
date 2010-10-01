@@ -118,7 +118,7 @@ protected:
 };
 
 //Declare our own event type
-wxDECLARE_EVENT(TRAVERSER_FINISHED, wxTreeEvent);
+wxDECLARE_EVENT(EVT_TRAVERSER_FINISHED, wxTreeEvent);
 
 //The dirctrl itself
 class DirCtrl : public wxTreeCtrl{
@@ -152,8 +152,6 @@ protected:
     bool m_Expand;
 
 private:
-	DECLARE_EVENT_TABLE()
-
 	wxImageList *m_Image;
 };
 
