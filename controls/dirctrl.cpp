@@ -14,6 +14,10 @@
 #include <wx/artprov.h>
 #include <wx/stdpaths.h>
 
+#include <boost/threadpool.hpp>
+
+using namespace boost::threadpool;
+
 wxDEFINE_EVENT(EVT_TRAVERSER_FINISHED, wxTreeEvent);
 
 TreeStateSaver::TreeStateSaver(wxTreeCtrl *tree){
@@ -99,7 +103,7 @@ DirCtrlItem::DirCtrlItem(const wxFileName &path){
 	}
 };
 
-void* DirThread::Entry(){
+void DirThread::operator()(){
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
 	wxDir dir(m_Path);
@@ -131,8 +135,6 @@ void* DirThread::Entry(){
     event->SetItem(m_Parent);
     event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
-
-	return NULL;
 }
 
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
@@ -155,6 +157,8 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
     //Bind our events
     Bind(wxEVT_COMMAND_TREE_ITEM_EXPANDING, &DirCtrl::OnNodeExpand, this, wxID_ANY);
     Bind(EVT_TRAVERSER_FINISHED, &DirCtrl::OnTraversed, this, ID_TRAVERSED);
+
+    m_Pool = new boost::threadpool::pool(4);
 }
 
 DirCtrl::~DirCtrl(){
@@ -185,9 +189,8 @@ void DirCtrl::AddDirectory(DirCtrlItem *item){
 	//If we have not yet added this directory then do so
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
 		DirThread *thread = GetThread(item->GetFullPath(), item->GetId());
-		thread->Create();
-        thread->SetPriority(WXTHREAD_MIN_PRIORITY);
-		thread->Run();
+        //Add our new thread to the threadpool
+        m_Pool->schedule(*thread);
 	}
 }
 

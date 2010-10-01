@@ -24,7 +24,7 @@ public:
 		: m_Data(data), m_OppPath(opppath), m_Type(type), DirThread(path, parent, handler)
 	{}
 
-	virtual void* Entry();
+	virtual void operator()();
 
 private:
 	SyncData *m_Data;

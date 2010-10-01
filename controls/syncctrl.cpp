@@ -13,7 +13,7 @@
 #include <wx/log.h>
 #include <algorithm>
 
-void* SyncPreviewThread::Entry(){
+void SyncPreviewThread::operator()(){
 	SyncPreview preview(m_Path, m_OppPath, m_Data, (m_Type == SYNC_SOURCE) ? true : false);
 	DirCtrlItemArray* items = new DirCtrlItemArray(preview.Execute());
 
@@ -27,8 +27,6 @@ void* SyncPreviewThread::Entry(){
     event->SetItem(m_Parent);
     event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
-
-	return NULL;
 }
 
 SyncPreviewDirCtrl::SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType type,

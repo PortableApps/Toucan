@@ -18,7 +18,7 @@ public:
 		: m_Rules(rules), DirThread(path, parent, handler)
 	{}
 
-	virtual void* Entry();
+	virtual void operator()();
 
 protected:
 	Rules *m_Rules;

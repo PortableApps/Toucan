@@ -11,7 +11,7 @@
 #include <wx/log.h>
 #include <algorithm>
 
-void* PreviewThread::Entry(){
+void PreviewThread::operator()(){
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
 	wxDir dir(m_Path);
@@ -49,8 +49,6 @@ void* PreviewThread::Entry(){
     event->SetItem(m_Parent);
     event->SetClientData(items);
 	wxQueueEvent(m_Handler, event);
-
-	return NULL;
 }
 
 PreviewDirCtrl::PreviewDirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
