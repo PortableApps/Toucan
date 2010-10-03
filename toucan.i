@@ -99,6 +99,9 @@
 		counter.AddPaths(data->GetLocations());
 		counter.Count();
 		int count = counter.GetCount();
+		if(data->GetTest()){
+			count = count * 2;
+		}
 		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESSSETUP);
 		event->SetInt(count);
 		wxGetApp().QueueEvent(event);
