@@ -66,7 +66,7 @@ std::map<wxString, int> SyncBase::MergeListsToMap(std::list<wxString> sourcelist
 	for(iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
 		bool destexists = false;
 		for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
-			if(*destiter == *iter){
+			if((*destiter).Lower() == (*iter).Lower()){
 				destexists = true;
 				destlist.erase(destiter);
 				break;

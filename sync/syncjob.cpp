@@ -272,7 +272,9 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 	return true;
 }
 
-bool SyncFiles::CopyIfNeeded(const wxString &source, const wxString &dest){
+bool SyncFiles::CopyIfNeeded(wxString source, wxString dest){
+    source.MakeLower();
+    dest.MakeLower();
 	//If the dest file doesn't exists then we must copy
 	if(!wxFileExists(dest)){
         return CopyFile(source, dest);

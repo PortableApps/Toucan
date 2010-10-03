@@ -35,7 +35,7 @@ protected:
 	virtual void OnNotSourceDestFolder(const wxString &path);
 	virtual void OnSourceAndDestFolder(const wxString &path);
 
-	bool CopyIfNeeded(const wxString &source, const wxString &dest);
+	bool CopyIfNeeded(wxString source, wxString dest);
 	bool CopyFile(const wxString &source, const wxString &dest);
 	bool CopyFolderTimestamp(const wxString &source, const wxString &dest);
 	bool SourceAndDestCopy(const wxString &source, const wxString &dest);

@@ -234,7 +234,9 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	}
 }
 
-bool SyncPreview::CopyIfNeeded(const wxString &source, const wxString &dest){
+bool SyncPreview::CopyIfNeeded(wxString source, wxString dest){
+    source.MakeLower();
+    dest.MakeLower();
 	//If the dest file doesn't exists then we must copy
 	if(!wxFileExists(dest)){
 		return true;
