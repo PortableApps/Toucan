@@ -36,11 +36,11 @@ public:
 
 	void SetRules(Rules *rules) { m_Rules = rules; }
 
-	//We use our own previewing thread
-	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
-
 protected:
    Rules *m_Rules;
+
+	//Runs thread needed to add a directory
+	virtual void AddDirectory(DirCtrlItem *item);
 };
 
 #endif

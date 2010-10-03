@@ -111,7 +111,7 @@ public:
 		: m_Handler(handler), m_Path(path), m_Parent(parent)
 	{}
 
-	virtual void operator()();
+	void operator()();
 	
 protected:
 	wxString m_Path;
@@ -141,8 +141,6 @@ public:
 
     virtual void ExpandUnexpanded(const wxTreeItemId &item);
 
-	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
-
 protected:
 	//Event Handlers
 	virtual void OnNodeExpand(wxTreeEvent &event);
@@ -152,10 +150,11 @@ protected:
 	virtual void AddDirectory(DirCtrlItem *item);
 
     bool m_Expand;
+    boost::threadpool::pool *m_Pool;
 
 private:
 	wxImageList *m_Image;
-    boost::threadpool::pool *m_Pool;
+
 };
 
 #endif
