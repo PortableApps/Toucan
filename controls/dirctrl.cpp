@@ -188,10 +188,14 @@ void DirCtrl::AddItem(const wxString &path){
 void DirCtrl::AddDirectory(DirCtrlItem *item){
 	//If we have not yet added this directory then do so
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-		DirThread *thread = new DirThread(item->GetFullPath(), item->GetId(), this);
+		DirThread *thread = GetThread(item->GetFullPath(), item->GetId());
         //Add our new thread to the threadpool
         m_Pool->schedule(*thread);
 	}
+}
+
+DirThread* DirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
+	return new DirThread(path, parent, this);
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){

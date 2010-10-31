@@ -41,6 +41,8 @@ public:
 					   const wxSize& size = wxDefaultSize,
 					   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 
+	//We use our own previewing thread
+	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
 
     void SetOppCtrl(SyncPreviewDirCtrl *ctrl) { m_Ctrl = ctrl; }
 
@@ -58,9 +60,6 @@ public:
 
 protected:
 	virtual void OnTraversed(wxTreeEvent &event);
-
-	//Runs thread needed to add a directory
-	virtual void AddDirectory(DirCtrlItem *item);
 
 private:
 	SyncPreviewDirCtrl* m_Ctrl;
