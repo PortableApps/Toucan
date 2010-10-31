@@ -18,8 +18,6 @@
 #include <wx/dir.h>
 #include <wx/colour.h>
 
-#include <boost/threadpool.hpp>
-
 #ifdef __WXMSW__
 	#include <windows.h>
 	#include <wx/msw/winundef.h>
@@ -104,14 +102,14 @@ typedef std::vector<DirCtrlItem*>::iterator DirCtrlIter;
 
 //The thread that actually traverses the directories, posts back its results
 //in a DirThreadEvent
-class DirThread{
+class DirThread : public wxThread{
 public:
 
 	DirThread(const wxString& path, wxTreeItemId parent, wxEvtHandler* handler) 
-		: m_Handler(handler), m_Path(path), m_Parent(parent)
+		: m_Handler(handler), m_Path(path), m_Parent(parent), wxThread(wxTHREAD_DETACHED)
 	{}
 
-	virtual void operator()();
+	virtual void* Entry();
 	
 protected:
 	wxString m_Path;
@@ -155,7 +153,6 @@ protected:
 
 private:
 	wxImageList *m_Image;
-    boost::threadpool::pool *m_Pool;
 };
 
 #endif
