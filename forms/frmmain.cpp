@@ -33,7 +33,6 @@
 #include "../controls/syncctrl.h"
 #include "../controls/previewctrl.h"
 #include "../controls/localdirctrl.h"
-#include "../controls/loglistctrl.h"
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)

@@ -7,7 +7,7 @@
 #include <wx/gauge.h>
 #include <wx/button.h>
 #include <wx/bmpbuttn.h>
-#include <wx/listctrl.h>
+#include <wx/grid.h>
 
 #include "toucan.h"
 #include "luathread.h"
@@ -15,7 +15,7 @@
 #include "basicfunctions.h"
 #include "forms/frmmain.h"
 #include "forms/frmprogress.h"
-#include "controls/loglistctrl.h"
+#include "controls/loggridctrl.h"
 
 #ifdef __WXMSW__
 	#include <windows.h>
@@ -35,10 +35,10 @@ void LuaManager::StartUp(){
 			m_Window->Show();
 		}
 		else{
-			m_Window->m_List->DeleteAllItems();
+			m_Window->ProgressGrid->ClearGrid();
 		}
-		LogListCtrl* logList = new LogListCtrl(m_Window->m_List);
-		delete wxLog::SetActiveTarget(logList);
+		LogGridCtrl* Log = new LogGridCtrl(m_Window->ProgressGrid);
+		delete wxLog::SetActiveTarget(Log);
 	}
 	OutputProgress("Toucan 3.0.4", true);
 	OutputProgress(_("Date:") + " " + m_StartTime.FormatISODate());
@@ -46,7 +46,7 @@ void LuaManager::StartUp(){
 	OutputProgress(_("Operating System:") + " " + wxGetOsDescription());
 	OutputProgress(wxEmptyString);
 	if(wxGetApp().IsGui()){
-		m_Window->m_List->SetColumnWidth(1, m_Window->m_List->GetClientSize().GetWidth() - m_Window->m_List->GetColumnWidth(0));
+//		m_Window->m_List->SetColumnWidth(1, m_Window->m_List->GetClientSize().GetWidth() - m_Window->m_List->GetColumnWidth(0));
 		m_Window->m_OK->Enable(false);
 		m_Window->m_Save->Enable(false);
 		m_Window->m_Cancel->Enable(true);

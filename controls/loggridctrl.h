@@ -1,26 +1,26 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _LOGLISTCTRL_H_
-#define _LOGLISTCTRL_H_
+#ifndef H_LOGGRIDCTRL
+#define H_LOGGRIDCTRL
 
 #include <wx/log.h>
 
-class wxListCtrl;
+class wxGrid;
 
-class LogListCtrl : public wxLog
+class LogGridCtrl : public wxLog
 {
 public:
 	//Constructor
-    LogListCtrl(wxListCtrl* list);
+    LogGridCtrl(wxGrid* grid);
     //Catch the logs
     virtual void DoLog(wxLogLevel WXUNUSED(level), const wxString& msg, time_t timestamp);
 
 private:
-    wxListCtrl* m_List;
+    wxGrid* Grid;
 };
 
 #endif
