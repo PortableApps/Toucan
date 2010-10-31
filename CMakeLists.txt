@@ -20,13 +20,6 @@ if(wxWidgets_CONFIGURATION MATCHES "d")
     add_definitions(-D__WXDEBUG__)
 endif(wxWidgets_CONFIGURATION MATCHES "d")
 
-#Find boost
-set(Boost_ADDITIONAL_VERSIONS "1.44.0")
-set(BOOST_ROOT "C:/Programming/boost_1_44_0")
-find_package(Boost 1.35.0 REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories("C:/Programming/boost_1_44_0/stage/lib")
-
 #Find Lua
 find_package(Lua51 REQUIRED)
 include_directories(${LUA_INCLUDE_DIR})
