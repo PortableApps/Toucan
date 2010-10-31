@@ -81,37 +81,31 @@ void SyncPreviewDirCtrl::OnTraversed(wxTreeEvent &event){
     }
 }
 
-void SyncPreviewDirCtrl::AddDirectory(DirCtrlItem *item){
-	//If we have not yet added this directory then do so
-	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-	    if(m_Preview){
-		    SyncData *data = new SyncData(wxT("PreviewJob"));
-		    data->TransferFromForm(wxGetApp().MainWindow);
-            data->SetSource(Path::Normalise(data->GetSource()));
-            data->SetDest(Path::Normalise(data->GetDest()));
-		    //Remove a trailing slash if we have one
-		    wxString trimmedpath = item->GetFullPath();
-		    if(trimmedpath.EndsWith(wxFILE_SEP_PATH)){
-			    trimmedpath = item->GetFullPath().BeforeLast(wxFILE_SEP_PATH);
-		    }
-		    //Likewise for the opposite path
-		    wxString opproot = m_Ctrl->GetRoot();
-		    if(opproot.EndsWith(wxFILE_SEP_PATH)){
-			    opproot = opproot.BeforeLast(wxFILE_SEP_PATH);
-		    }
-		    wxString opp = opproot + wxFILE_SEP_PATH + trimmedpath.Right(item->GetFullPath().Length() - m_Root.Length());
-		    if(m_Type == SYNC_SOURCE){
-			    SyncPreviewThread *thread = new SyncPreviewThread(trimmedpath, opp , m_Type, data, item->GetId(), this);
-                m_Pool->schedule(*thread);
-		    }
-		    else{
-			    SyncPreviewThread *thread = new SyncPreviewThread(opp, trimmedpath , m_Type, data, item->GetId(), this);
-                m_Pool->schedule(*thread);
-		    }
-	    }
-	    else{
-		    DirThread *thread = new DirThread(item->GetFullPath(), item->GetId(), this);
-            m_Pool->schedule(*thread);
-	    }
+DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
+	if(m_Preview){
+		SyncData *data = new SyncData(wxT("PreviewJob"));
+		data->TransferFromForm(wxGetApp().MainWindow);
+        data->SetSource(Path::Normalise(data->GetSource()));
+        data->SetDest(Path::Normalise(data->GetDest()));
+		//Remove a trailing slash if we have one
+		wxString trimmedpath = path;
+		if(trimmedpath.EndsWith(wxFILE_SEP_PATH)){
+			trimmedpath = path.BeforeLast(wxFILE_SEP_PATH);
+		}
+		//Likewise for the opposite path
+		wxString opproot = m_Ctrl->GetRoot();
+		if(opproot.EndsWith(wxFILE_SEP_PATH)){
+			opproot = opproot.BeforeLast(wxFILE_SEP_PATH);
+		}
+		wxString opp = opproot + wxFILE_SEP_PATH + trimmedpath.Right(path.Length() - m_Root.Length());
+		if(m_Type == SYNC_SOURCE){
+			return new SyncPreviewThread(trimmedpath, opp , m_Type, data, parent, this);
+		}
+		else{
+			return new SyncPreviewThread(opp, trimmedpath , m_Type, data, parent, this);			
+		}
+	}
+	else{
+		return new DirThread(path, parent, this);
 	}
 }

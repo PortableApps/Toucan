@@ -139,6 +139,8 @@ public:
 
     virtual void ExpandUnexpanded(const wxTreeItemId &item);
 
+	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
+
 protected:
 	//Event Handlers
 	virtual void OnNodeExpand(wxTreeEvent &event);
@@ -148,7 +150,6 @@ protected:
 	virtual void AddDirectory(DirCtrlItem *item);
 
     bool m_Expand;
-    boost::threadpool::pool *m_Pool;
 
 private:
 	wxImageList *m_Image;

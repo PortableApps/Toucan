@@ -63,11 +63,6 @@ PreviewDirCtrl::~PreviewDirCtrl(){
 	delete m_Rules;
 }
 
-void PreviewDirCtrl::AddDirectory(DirCtrlItem *item){
-	//If we have not yet added this directory then do so
-	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-		PreviewThread *thread = new PreviewThread(item->GetFullPath(), item->GetId(), m_Rules, this);
-        //Add our new thread to the threadpool
-        m_Pool->schedule(*thread);
-	}
+DirThread* PreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
+	return new PreviewThread(path, parent, m_Rules, this);
 }
