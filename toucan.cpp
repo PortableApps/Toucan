@@ -8,7 +8,7 @@
 #include <wx/splash.h>
 #include <wx/intl.h>
 #include <wx/fileconf.h>
-#include <wx/grid.h>
+#include <wx/listctrl.h>
 #include <wx/dir.h>
 #include <wx/log.h>
 #include <wx/gauge.h>
@@ -330,21 +330,20 @@ void Toucan::OnOutput(wxCommandEvent &event){
 	if(m_IsGui){
 		frmProgress *window = m_LuaManager->GetProgressWindow();
 		if(window){
-            window->ProgressGrid->AppendRows();
-            long index = window->ProgressGrid->GetNumberRows() - 1;
-			window->ProgressGrid->SetCellValue(index, 1, event.GetString());
+			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), wxEmptyString);
+			window->m_List->SetItem(index, 1, event.GetString());
 			if(event.GetInt() == 1){
-				window->ProgressGrid->SetCellValue(index, 0, wxDateTime::Now().FormatISOTime());
-				window->ProgressGrid->SetCellTextColour(index, 1, wxColour(wxT("Red")));
+				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
 			}
 			else if(event.GetInt() == 2){
-				window->ProgressGrid->SetCellTextColour(index, 1, wxColour(wxT("Red")));
+				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
 			}
 			else if(event.GetInt() == 3){
-				window->ProgressGrid->SetCellValue(index, 0, wxDateTime::Now().FormatISOTime());
+				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
 			}
             if(window->m_ShouldScroll){
-			    window->ProgressGrid->MakeCellVisible(index, 0);
+			    window->m_List->EnsureVisible(index);
 			    window->Update();
             }
 		}

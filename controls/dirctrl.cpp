@@ -188,7 +188,6 @@ void DirCtrl::AddDirectory(DirCtrlItem *item){
 		thread->Create();
         thread->SetPriority(WXTHREAD_MIN_PRIORITY);
 		thread->Run();
-    }
 }
 
 DirThread* DirCtrl::GetThread(const wxString& path, wxTreeItemId parent){

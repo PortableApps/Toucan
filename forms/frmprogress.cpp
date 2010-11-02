@@ -11,7 +11,7 @@
 #include "../toucan.h"
 
 #include <wx/stdpaths.h>
-#include <wx/grid.h>
+#include <wx/listctrl.h>
 #include <wx/textfile.h>
 #include <wx/wx.h>
 
@@ -42,7 +42,7 @@ frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& captio
 
 //frmProgress initialisation
 void frmProgress::Init(){
-	ProgressGrid = NULL;
+	m_List = NULL;
 	m_OK = NULL;
 	m_Cancel = NULL;
 	m_Save = NULL;
@@ -68,23 +68,11 @@ void frmProgress::CreateControls(){
     wxBoxSizer* ProgressSizer = new wxBoxSizer(wxVERTICAL);
     MiddleSizer->Add(ProgressSizer, 1, wxGROW);
 
-	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100);
+	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100, wxDefaultPosition, wxDefaultSize, wxGA_SMOOTH|wxGA_HORIZONTAL);
 	ProgressSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
 
-	ProgressGrid = new wxGrid(Panel, ID_PROGRESS_GRID, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS | wxBORDER_THEME);
-	ProgressSizer->Add(ProgressGrid, 1, wxGROW|wxALL, 5);
-
-    //Create the grid and set the various styles
-    ProgressGrid->CreateGrid(1, 2, wxGrid::wxGridSelectRows);
-    ProgressGrid->HideRowLabels();
-    ProgressGrid->EnableEditing(false);
-    ProgressGrid->EnableGridLines(false);
-    ProgressGrid->UseNativeColHeader();
-    ProgressGrid->SetColLabelValue(0, _("Time"));
-    ProgressGrid->SetColLabelValue(1, _("Status"));
-    ProgressGrid->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
-    ProgressGrid->SetColSize(0, 150);
-    ProgressGrid->SetColSize(1, 200);
+	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
+	ProgressSizer->Add(m_List, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* SmallButtonSizer = new wxBoxSizer(wxVERTICAL);
 	MiddleSizer->Add(SmallButtonSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -103,9 +91,14 @@ void frmProgress::CreateControls(){
 
 	m_Cancel = new wxButton(Panel, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	ButtonSizer->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
+	
+	//Add columns
+	m_List->InsertColumn(0, _("Time"));
+	m_List->InsertColumn(1, _("Status"));
+	
 	//Set the form icon
-	this->SetIcon(wxIcon(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "Toucan.ico", wxBITMAP_TYPE_ICO));
+	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
+	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
 }
 
 //Get bitmap resources
@@ -132,7 +125,12 @@ void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
-	wxFileDialog dialog(this, _("Save"), wxEmptyString, wxEmptyString, "Text Files (*.txt)|*.txt", wxFD_SAVE);
+	wxString strCaption = _("Save");
+	wxString strWildcard;
+	strWildcard = wxT("Text Files (*.txt)|*.txt");
+	wxString defaultFilename = wxEmptyString;
+	wxString defaultDir = wxT("/");
+	wxFileDialog dialog(this, strCaption, defaultDir, defaultFilename, strWildcard, wxFD_SAVE);
 	if(dialog.ShowModal() == wxID_OK){
 		wxTextFile file(dialog.GetPath());
 		if(wxFileExists(dialog.GetPath())){
@@ -143,10 +141,20 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 		else{
 			file.Create();
 		}
-        for(int i = 0; i < ProgressGrid->GetNumberRows(); i++){
-            file.AddLine(ProgressGrid->GetCellValue(i, 0) + wxT("\t") + ProgressGrid->GetCellValue(i, 1));
-	    }
-	    file.Write();
+		for(int i = 0; i < m_List->GetItemCount() - 1; i++){
+			wxListItem itemcol1, itemcol2;
+
+			itemcol1.m_itemId = i;
+			itemcol1.m_col = 0;
+			itemcol1.m_mask = wxLIST_MASK_TEXT;
+			m_List->GetItem(itemcol1);
+			itemcol2.m_itemId = i;
+			itemcol2.m_col = 1;
+			itemcol2.m_mask = wxLIST_MASK_TEXT;
+			m_List->GetItem(itemcol2);
+			file.AddLine(itemcol1.m_text + wxT("\t") + itemcol2.m_text);
+		}
+	file.Write();
 	}
 }
 
@@ -188,6 +196,6 @@ void frmProgress::FinishGauge(){
 #endif
 }
 
-void frmProgress::OnAutoscrollClick(wxCommandEvent& WXUNUSED(event)){
+void frmProgress::OnAutoscrollClick(wxCommandEvent& event){
     m_ShouldScroll = !m_ShouldScroll;
 }

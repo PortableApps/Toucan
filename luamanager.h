@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
-// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+// Copyright:   Copyright (C) 2009 Steven Lamerton
+// License:     GNU GPL 2 (See readme for more info)
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_LUAMANAGER

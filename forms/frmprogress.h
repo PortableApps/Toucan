@@ -13,7 +13,7 @@
 	struct ITaskbarList3;
 #endif
 
-class wxGrid;
+class wxListCtrl;
 class wxButton;
 class wxGauge;
 class wxBitmapButton;
@@ -21,7 +21,7 @@ class wxBitmapButton;
 enum{
 	ID_FRMPROGRESS = wxID_HIGHEST + 1,
 	ID_PANEL_PROGRESS,
-	ID_PROGRESS_GRID,
+	ID_PROGRESS_LIST,
 	ID_PROGRESS_GAUGE,
     ID_PROGRESS_AUTOSCROLL
 };
@@ -57,7 +57,7 @@ public:
 	void IncrementGauge();
 	void FinishGauge();
 
-	wxGrid* ProgressGrid;
+	wxListCtrl* m_List;
 	wxButton* m_OK;
 	wxButton* m_Cancel;
 	wxBitmapButton* m_Save;
