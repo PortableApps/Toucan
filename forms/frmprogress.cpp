@@ -27,6 +27,7 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
     EVT_BUTTON(ID_PROGRESS_AUTOSCROLL, frmProgress::OnAutoscrollClick)
 	EVT_CLOSE(frmProgress::OnClose)
+    EVT_SIZE(frmProgress::OnSize)
 END_EVENT_TABLE()
 
 //Constructor
@@ -196,6 +197,11 @@ void frmProgress::FinishGauge(){
 #endif
 }
 
-void frmProgress::OnAutoscrollClick(wxCommandEvent& event){
+void frmProgress::OnAutoscrollClick(wxCommandEvent& WXUNUSED(event)){
     m_ShouldScroll = !m_ShouldScroll;
+}
+
+void frmProgress::OnSize(wxSizeEvent &event){
+    m_List->SetColumnWidth(1, -1);
+    event.Skip();
 }

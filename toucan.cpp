@@ -346,6 +346,7 @@ void Toucan::OnOutput(wxCommandEvent &event){
 			    window->m_List->EnsureVisible(index);
 			    window->Update();
             }
+            window->m_List->SetColumnWidth(1, -1);
 		}
 	}
 	else{
