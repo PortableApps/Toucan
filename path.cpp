@@ -26,7 +26,7 @@ void Path::Create(const wxString &path){
     for(unsigned int i = 0; i < folders.GetCount(); i++){
         workingpath = workingpath + folders.Item(i) + wxFILE_SEP_PATH;
         if(!wxDirExists(workingpath) && !wxMkdir(workingpath)){
-		    OutputProgress(_("Could not create") + " " + workingpath, OutputType::Error);
+		    OutputProgress(_("Could not create") + " " + workingpath, Error);
 	    }
     }
 }
