@@ -62,7 +62,7 @@ void OutputProgress(const wxString &message, OutputType type){
         mq.send(out.data(), out.size(), type);
     }
     catch(std::exception &ex){
-        wxMessageBox(ex.what());
+        wxLogError("%s", ex.what());
     }
 }
 

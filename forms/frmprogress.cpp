@@ -240,7 +240,7 @@ void frmProgress::OnIdle(wxIdleEvent &event){
         }
     }
     catch(std::exception &ex){
-        wxMessageBox(ex.what());
+        wxLogError("%s", ex.what());
     }
     //wxString wxmessage(message.c_str(), wxConvUTF8);
 
