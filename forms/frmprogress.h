@@ -56,6 +56,10 @@ public:
     void OnAutoscrollClick(wxCommandEvent& event);
     wxBitmap GetBitmapResource(const wxString& name);
 
+    void RequestUserAttention();
+    void StartProgress();
+    void FinishProgress();
+
 	void IncrementGauge();
 	void FinishGauge();
 

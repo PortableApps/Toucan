@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/listctrl.h>
@@ -17,6 +17,8 @@ extern "C" {
 }
 
 LuaThread::LuaThread(const wxString &line) : wxThread(), m_Command(line){
+    m_StartTime = wxDateTime::Now();
+
 	m_State = luaL_newstate();
 	luaL_openlibs(m_State);
 	luaopen_toucan(m_State);
@@ -27,16 +29,18 @@ LuaThread::LuaThread(const wxString &line) : wxThread(), m_Command(line){
 }
 
 void *LuaThread::Entry(){
+    OutputProgress("Toucan 3.0.4", StartingLine);
+    OutputProgress(_("Date:") + " " + m_StartTime.FormatISODate(), StartingInfo);
+	OutputProgress(_("Computer Name:") + " " + wxGetHostName(), StartingInfo);
+	OutputProgress(_("Operating System:") + " " + wxGetOsDescription(), StartingInfo);
+	OutputProgress(wxEmptyString, Message);
+
 	if (luaL_loadstring(m_State, m_Command.mb_str()) || lua_pcall(m_State, 0, 0, 0)) {
 		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(m_State, -1), wxConvUTF8), Error);
 	}
-	if(wxGetApp().IsGui()){
-		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_FINISH);
-		wxGetApp().QueueEvent(event);
-	}
-	else{
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_FINISH);
-		wxGetApp().ProcessEvent(event);
-	}
+
+    OutputProgress(wxEmptyString, Message);
+    OutputProgress(_("Elapsed:") + wxT(" ") + wxDateTime::Now().Subtract(m_StartTime).Format(), FinishingInfo);
+    OutputProgress(_("Finished"), FinishingLine);
 	return NULL;
 }

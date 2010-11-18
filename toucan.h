@@ -20,7 +20,6 @@ class wxFileConfig;
 
 enum{
 	ID_OUTPUT = wxID_HIGHEST + 1,
-	ID_FINISH,
 	ID_PROCESS,
 	ID_BACKUPPROCESS,
 	ID_SECUREPROCESS,
@@ -77,7 +76,6 @@ private:
 	void OnProcess(wxCommandEvent &event);
 	void OnBackupProcess(wxCommandEvent &event);
 	void OnSecureProcess(wxCommandEvent &event);
-	void OnFinish(wxCommandEvent &event);
 	void OnGetPassword(wxCommandEvent &event);
 	void OnProgress(wxCommandEvent &event);
 	void OnProgressSetup(wxCommandEvent &event);

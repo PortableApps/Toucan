@@ -10,6 +10,7 @@
 #include "../script.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
+#include "../controls/loglistctrl.h"
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
@@ -18,6 +19,7 @@ using namespace boost::interprocess;
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
+#include <wx/datetime.h>
 #include <wx/wx.h>
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
@@ -219,10 +221,12 @@ void frmProgress::OnIdle(wxIdleEvent &event){
         std::string message;
         message.resize(10000);
         size_t size;
-        unsigned priority;
+        unsigned int priority;
+
         if(mq.try_receive(&message[0], message.size(), size, priority)){
             message.resize(size);
             wxString wxmessage(message.c_str(), wxConvUTF8);
+
         	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 			m_List->SetItem(index, 1, wxmessage);
 
@@ -232,19 +236,29 @@ void frmProgress::OnIdle(wxIdleEvent &event){
 			if(priority == Error || priority == StartingLine || priority == FinishingLine){
 				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
 			}
+
             if(m_ShouldScroll){
 			    m_List->EnsureVisible(index);
 			    Update();
             }
+
             m_List->SetColumnWidth(1, -1);
+
+            if(priority == StartingLine){
+                StartProgress();
+            }
+            else if(priority == FinishingLine){
+                FinishProgress();
+                
+            }
+            else{
+                event.RequestMore();
+            }
         }
     }
     catch(std::exception &ex){
         wxLogError("%s", ex.what());
     }
-    //wxString wxmessage(message.c_str(), wxConvUTF8);
-
-
 	/*if(wxGetApp().m_IsLogging){
 		wxString line = message;
 		if(priority == 1 || priority == 3){
@@ -252,33 +266,54 @@ void frmProgress::OnIdle(wxIdleEvent &event){
 		}
 		m_LogFile->AddLine(line);
 	}*/
-	//if(wxGetApp().m_IsGui){
-			/*long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-			m_List->SetItem(index, 1, wxmessage);
-			if(priority == 1){
-				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(priority == 2){
-				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(priority == 3){
-				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-			}
-            if(m_ShouldScroll){
-			    m_List->EnsureVisible(index);
-			    Update();
-            }
-            m_List->SetColumnWidth(1, -1);*/
-		//}
-	/*}
-	else{
-		std::cout << wxmessage;
-		if(priority == 1 || priority == 3){
-			std::cout << "    " << wxDateTime::Now().FormatISOTime();
-		}
-		std::cout << std::endl;
-	}*/
+}
 
-    event.RequestMore();
+void frmProgress::RequestUserAttention(){
+#ifdef __WXMSW__
+	FLASHWINFO info;
+	info.uCount = 3;
+	info.dwTimeout = 0;
+	info.hwnd = static_cast<HWND>(GetHWND());
+	info.cbSize = sizeof(info);
+	if(wxWindow::FindFocus() == this){
+        info.dwFlags = FLASHW_ALL|FLASHW_TIMERNOFG;			
+	}
+	else{
+		info.dwFlags = FLASHW_ALL;					
+	}
+	FlashWindowEx(&info);
+#else
+    wxTopLevelWindow::RequestUserAttention();
+#endif
+}
+
+void frmProgress::StartProgress(){
+    //Send all errors to this window
+    LogListCtrl* logList = new LogListCtrl(m_List);
+    delete wxLog::SetActiveTarget(logList);
+
+    m_OK->Enable(false);
+    m_Save->Enable(false);
+    m_Cancel->Enable(true);
+}
+
+void frmProgress::FinishProgress(){
+    //Send all errors to the standard gui
+	delete wxLog::SetActiveTarget(new wxLogGui);
+		        
+    //Enable the buttons
+    m_OK->Enable(true);
+    m_Save->Enable(true);
+    m_Cancel->Enable(false);
+
+    //Let the user know we have finished
+    FinishGauge();
+    RequestUserAttention();
+
+    //if(m_IsGui){
+	//   wxCommandEvent event;
+	//   MainWindow->OnSyncRefresh(event);
+	//   MainWindow->OnBackupRefresh(event);
+	//   MainWindow->OnSecureRefresh(event);
+	//}
 }

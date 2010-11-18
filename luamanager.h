@@ -19,13 +19,11 @@ public:
 	void Run(const wxString& line, const bool showprogress = true);
 	frmProgress* GetProgressWindow();
 	void NullWindow() { m_Window = NULL; }
-	void CleanUp();
+
 
 private:
-	void StartUp();
 
 	frmProgress *m_Window;
-	wxDateTime m_StartTime;
 };
 
 #endif

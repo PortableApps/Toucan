@@ -47,7 +47,6 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
-	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
 	EVT_COMMAND(ID_SECUREPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnSecureProcess)
@@ -188,6 +187,9 @@ bool Toucan::OnInit(){
 		CxxTest::ErrorPrinter().run();
 		exit(0);
 	}
+
+    //Remove any messgae queues that might be left from a crash 
+    boost::interprocess::message_queue::remove("progress");
 
 	if(m_IsGui){
 		//Set up the main form
@@ -352,20 +354,6 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 		//We have an error
 		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
-	}
-}
-
-void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
-	m_LuaManager->CleanUp();
-	if(m_IsGui){
-		wxCommandEvent event;
-		MainWindow->OnSyncRefresh(event);
-		MainWindow->OnBackupRefresh(event);
-		MainWindow->OnSecureRefresh(event);
-	}
-	else{
-		OnExit();
-		exit(0);
 	}
 }
 
