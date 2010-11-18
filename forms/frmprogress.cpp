@@ -10,6 +10,10 @@
 #include "../script.h"
 #include "../toucan.h"
 
+#include <boost/interprocess/ipc/message_queue.hpp>
+
+using namespace boost::interprocess;
+
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
@@ -28,6 +32,7 @@ BEGIN_EVENT_TABLE(frmProgress, wxFrame)
     EVT_BUTTON(ID_PROGRESS_AUTOSCROLL, frmProgress::OnAutoscrollClick)
 	EVT_CLOSE(frmProgress::OnClose)
     EVT_SIZE(frmProgress::OnSize)
+    EVT_IDLE(frmProgress::OnIdle)
 END_EVENT_TABLE()
 
 //Constructor
@@ -204,4 +209,78 @@ void frmProgress::OnAutoscrollClick(wxCommandEvent& WXUNUSED(event)){
 void frmProgress::OnSize(wxSizeEvent &event){
     m_List->SetColumnWidth(1, -1);
     event.Skip();
+}
+
+void frmProgress::OnIdle(wxIdleEvent &event){
+    try{
+        message_queue mq(open_or_create, "progress", 100, 10000);
+
+        std::string message;
+        message.resize(10000);
+        size_t size;
+        unsigned priority;
+        if(mq.try_receive(&message[0], message.size(), size, priority)){
+            message.resize(size);
+            wxString wxmessage(message.c_str(), wxConvUTF8);
+        	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
+			m_List->SetItem(index, 1, wxmessage);
+			if(priority == 1){
+				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}
+			else if(priority == 2){
+				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}
+			else if(priority == 3){
+				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+			}
+            if(m_ShouldScroll){
+			    m_List->EnsureVisible(index);
+			    Update();
+            }
+            m_List->SetColumnWidth(1, -1);
+        }
+    }
+    catch(std::exception &ex){
+        wxMessageBox(ex.what());
+    }
+    //wxString wxmessage(message.c_str(), wxConvUTF8);
+
+
+	/*if(wxGetApp().m_IsLogging){
+		wxString line = message;
+		if(priority == 1 || priority == 3){
+			line << "    " << wxDateTime::Now().FormatISOTime();
+		}
+		m_LogFile->AddLine(line);
+	}*/
+	//if(wxGetApp().m_IsGui){
+			/*long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
+			m_List->SetItem(index, 1, wxmessage);
+			if(priority == 1){
+				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}
+			else if(priority == 2){
+				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			}
+			else if(priority == 3){
+				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+			}
+            if(m_ShouldScroll){
+			    m_List->EnsureVisible(index);
+			    Update();
+            }
+            m_List->SetColumnWidth(1, -1);*/
+		//}
+	/*}
+	else{
+		std::cout << wxmessage;
+		if(priority == 1 || priority == 3){
+			std::cout << "    " << wxDateTime::Now().FormatISOTime();
+		}
+		std::cout << std::endl;
+	}*/
+
+    event.RequestMore();
 }

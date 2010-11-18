@@ -16,6 +16,10 @@
 #include <wx/fileconf.h>
 #include <wx/msgdlg.h>
 
+#include <boost/interprocess/ipc/message_queue.hpp>
+
+using namespace boost::interprocess;
+
 #include "toucan.h"
 #include "settings.h"
 #include "basicfunctions.h"
@@ -61,18 +65,17 @@ void OutputProgress(const wxString &message, bool time, bool error){
 	else if(time){
 		type = 3;
 	}
-	if(wxGetApp().IsGui()){
-		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
-		event->SetString(message);
-		event->SetInt(type);
-		wxGetApp().QueueEvent(event);
-	}
-	else{
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
-		event.SetString(message);
-		event.SetInt(type);
-		wxGetApp().ProcessEvent(event);
-	}
+
+    std::string out =  message.ToStdString();
+
+    try{
+        message_queue mq(open_or_create, "progress", 100, 10000);
+        mq.send(out.data(), out.size(), type);
+    }
+    catch(std::exception &ex){
+        wxMessageBox(ex.what());
+    }
+
 }
 
 void IncrementGauge(){

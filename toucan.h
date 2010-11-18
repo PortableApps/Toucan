@@ -74,7 +74,6 @@ private:
 	//Set up the maps used for language conversion
 	void InitLangMaps();
 	//Used for outputing progress
-	void OnOutput(wxCommandEvent &event);
 	void OnProcess(wxCommandEvent &event);
 	void OnBackupProcess(wxCommandEvent &event);
 	void OnSecureProcess(wxCommandEvent &event);

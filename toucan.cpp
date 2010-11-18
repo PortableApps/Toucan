@@ -16,6 +16,8 @@
 #include <wx/image.h> 
 #include <cxxtest/ErrorPrinter.h>
 
+#include <boost/interprocess/ipc/message_queue.hpp>
+
 #ifdef __MINGW32__
 #define _WIN32_WINNT 0x0500
 #endif
@@ -45,7 +47,6 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
-	EVT_COMMAND(ID_OUTPUT, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnOutput)
 	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
@@ -257,6 +258,7 @@ void Toucan::SetLanguage(const wxString &lang){
 
 //Cleanup
 int Toucan::OnExit(){
+    boost::interprocess::message_queue::remove("progress");
 	if(m_IsLogging){
 		m_LogFile->Write();
 	}
@@ -317,45 +319,6 @@ void Toucan::KillConime(){
 		CloseHandle(snapshot);
 	}
 #endif
-}
-
-void Toucan::OnOutput(wxCommandEvent &event){
-	if(m_IsLogging){
-		wxString line = event.GetString();
-		if(event.GetInt() == 1 || event.GetInt() == 3){
-			line << "    " << wxDateTime::Now().FormatISOTime();
-		}
-		m_LogFile->AddLine(line);
-	}
-	if(m_IsGui){
-		frmProgress *window = m_LuaManager->GetProgressWindow();
-		if(window){
-			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), wxEmptyString);
-			window->m_List->SetItem(index, 1, event.GetString());
-			if(event.GetInt() == 1){
-				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(event.GetInt() == 2){
-				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(event.GetInt() == 3){
-				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-			}
-            if(window->m_ShouldScroll){
-			    window->m_List->EnsureVisible(index);
-			    window->Update();
-            }
-            window->m_List->SetColumnWidth(1, -1);
-		}
-	}
-	else{
-		std::cout << event.GetString();
-		if(event.GetInt() == 1 || event.GetInt() == 3){
-			std::cout << "    " << wxDateTime::Now().FormatISOTime();
-		}
-		std::cout << std::endl;
-	}
 }
 
 void Toucan::OnProcess(wxCommandEvent &event){
