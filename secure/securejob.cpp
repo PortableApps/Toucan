@@ -113,7 +113,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 	if(data->GetFunction() == _("Encrypt")){
 		if(wxFileExists(path + wxT(".cpt"))){
 			//We have a file with the encrypted name already there, skip it
-			OutputProgress(_("Failed to encrypt ") + path, true, true);
+			OutputProgress(_("Failed to encrypt ") + path, Error);
 			return true;
 		}
 		//Create and execute the command
@@ -123,7 +123,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 	else{
 		if(wxFileExists(path.Left(path.Length() - 4))){
 			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + path, true, true);
+			OutputProgress(_("Failed to decrypt ") + path, Error);
 			return true;
 		}
 		command = exepath + wxT("-f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
@@ -154,18 +154,18 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 
 	if(data->GetFunction() == _("Encrypt")){
 		if(lgReturn == 0){        
-			OutputProgress(_("Encrypted ") + path);
+            OutputProgress(_("Encrypted ") + path, Message);
 		}
 		else{
-			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), true, true);
+			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), Error);
 		}
 	}
 	else{
 		if(lgReturn == 0){       
- 			OutputProgress(_("Decrypted ") + path);
+ 			OutputProgress(_("Decrypted ") + path, Message);
 		}
 		else{
- 			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), true, true);
+ 			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), Error);
 		}
 	}
 	return true;

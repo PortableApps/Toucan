@@ -40,11 +40,11 @@ void LuaManager::StartUp(){
 		LogListCtrl* logList = new LogListCtrl(m_Window->m_List);
 		delete wxLog::SetActiveTarget(logList);
 	}
-	OutputProgress("Toucan 3.0.4", true);
-	OutputProgress(_("Date:") + " " + m_StartTime.FormatISODate());
-	OutputProgress(_("Computer Name:") + " " + wxGetHostName());
-	OutputProgress(_("Operating System:") + " " + wxGetOsDescription());
-	OutputProgress(wxEmptyString);
+    OutputProgress("Toucan 3.0.4", StartingLine);
+    OutputProgress(_("Date:") + " " + m_StartTime.FormatISODate(), StartingInfo);
+	OutputProgress(_("Computer Name:") + " " + wxGetHostName(), StartingInfo);
+	OutputProgress(_("Operating System:") + " " + wxGetOsDescription(), StartingInfo);
+	OutputProgress(wxEmptyString, Message);
 	if(wxGetApp().IsGui()){
 		m_Window->m_List->SetColumnWidth(1, m_Window->m_List->GetClientSize().GetWidth() - m_Window->m_List->GetColumnWidth(0));
 		m_Window->m_OK->Enable(false);
@@ -57,10 +57,10 @@ void LuaManager::CleanUp(){
 	if(wxGetApp().IsGui()){
 		//Send all errors to the standard gui
 		delete wxLog::SetActiveTarget(new wxLogGui);
-		OutputProgress(wxEmptyString);
+        OutputProgress(wxEmptyString, Message);
 	}
-	OutputProgress(_("Elapsed:") + wxT(" ") + wxDateTime::Now().Subtract(m_StartTime).Format());
-	OutputProgress(_("Finished"), true);
+    OutputProgress(_("Elapsed:") + wxT(" ") + wxDateTime::Now().Subtract(m_StartTime).Format(), FinishingInfo);
+    OutputProgress(_("Finished"), FinishingLine);
 	if(wxGetApp().IsGui()){
 		m_Window->m_OK->Enable(true);
 		m_Window->m_Save->Enable(true);

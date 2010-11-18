@@ -225,7 +225,7 @@ bool Toucan::OnInit(){
 				m_LuaManager->Run(type.Lower() + "([[" + name + "]])");
 			}
 			else{
-				OutputProgress(_("The job does not exist"), true, true);
+				OutputProgress(_("The job does not exist"), Error);
 			}
 		}
 	}
@@ -327,7 +327,7 @@ void Toucan::OnProcess(wxCommandEvent &event){
 	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	if(pid == 0){
 		//We have an error
-		OutputProgress(_("Could not run ") + event.GetString());
+		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
 	}
 }
@@ -338,7 +338,7 @@ void Toucan::OnBackupProcess(wxCommandEvent &event){
 	static_cast<BackupProcess*>(event.GetEventObject())->SetRealPid(pid);
 	if(pid == 0){
 		//We have an error
-		OutputProgress(_("Could not run ") + event.GetString());
+		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
 	}
 }
@@ -350,7 +350,7 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	if(pid == 0){
 		//We have an error
-		OutputProgress(_("Could not run ") + event.GetString());
+		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
 	}
 }

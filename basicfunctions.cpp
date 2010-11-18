@@ -54,18 +54,7 @@ wxArrayString StringToArrayString(const wxString &string, const wxString &sepera
 	return strings;
 }
 
-void OutputProgress(const wxString &message, bool time, bool error){
-	int type = 0;
-	if(time && error){
-		type = 1;
-	}
-	else if(error){
-		type = 2;
-	}
-	else if(time){
-		type = 3;
-	}
-
+void OutputProgress(const wxString &message, OutputType type){
     std::string out =  message.ToStdString();
 
     try{
@@ -75,7 +64,6 @@ void OutputProgress(const wxString &message, bool time, bool error){
     catch(std::exception &ex){
         wxMessageBox(ex.what());
     }
-
 }
 
 void IncrementGauge(){

@@ -9,6 +9,7 @@
 #include "../luamanager.h"
 #include "../script.h"
 #include "../toucan.h"
+#include "../basicfunctions.h"
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
@@ -224,14 +225,11 @@ void frmProgress::OnIdle(wxIdleEvent &event){
             wxString wxmessage(message.c_str(), wxConvUTF8);
         	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
 			m_List->SetItem(index, 1, wxmessage);
-			if(priority == 1){
-				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+
+            if(priority == Error){
 				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
 			}
-			else if(priority == 2){
-				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(priority == 3){
+			if(priority == Error || priority == StartingLine || priority == FinishingLine){
 				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
 			}
             if(m_ShouldScroll){

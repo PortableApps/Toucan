@@ -227,10 +227,10 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
 	if(File::Copy(source, desttemp)){
 		if(File::Rename(desttemp, dest, true)){
-			OutputProgress(_("Copied ") + source);
+			OutputProgress(_("Copied ") + source, OutputType::Message);
 		}
 		else{
-			OutputProgress(_("Failed to copy ") + source, true, true);
+			OutputProgress(_("Failed to copy ") + source, OutputType::Error);
 			if(wxFileExists(desttemp)){
 				wxRemoveFile(desttemp);
 			}
@@ -243,7 +243,7 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 		}
 	}
 	else{
-		OutputProgress(_("Failed to copy ") + source, true, true);
+        OutputProgress(_("Failed to copy ") + source, OutputType::Error);
 		#ifdef __WXMSW__
 			if(data->GetIgnoreRO()){
 
@@ -328,7 +328,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 	{
   		wxLogNull log;
 		if(wxFileName::Rmdir(path)){
-			OutputProgress(_("Removed ") + path);
+            OutputProgress(_("Removed ") + path, OutputType::Message);
 		}
 	}
 	return true;
@@ -345,7 +345,7 @@ bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest
 
 bool SyncFiles::RemoveFile(const wxString &path){
 	if(File::Delete(path, data->GetRecycle(), data->GetIgnoreRO())){
-		OutputProgress(_("Removed ") + path);		
+        OutputProgress(_("Removed ") + path, OutputType::Message);		
 		return true;
 	}
 	return false;

@@ -67,7 +67,7 @@
 			Sync(data);
 		}
 		catch(std::exception &arg){
-			OutputProgress(arg.what(), true, true);
+			OutputProgress(arg.what(), Error);
 		}
 	}
 	
@@ -78,7 +78,7 @@
 			Sync(data);
 		}
 		catch(std::exception &arg){
-			OutputProgress(arg.what(), true, true);
+			OutputProgress(arg.what(), Error);
 		}
 	}
 	
@@ -130,7 +130,7 @@
 			Backup(data);
 		}
 		catch(std::exception &arg){
-			OutputProgress(arg.what(), true, true);
+			OutputProgress(arg.what(), Error);
 		}
 	}
 	
@@ -151,7 +151,7 @@
 			Backup(data);
 		}
 		catch(std::exception &arg){
-			OutputProgress(arg.what(), true, true);
+			OutputProgress(arg.what(), Error);
 		}
 	}
 
@@ -192,7 +192,7 @@
 			Secure(data);
 		}
 		catch(std::exception &arg){
-			OutputProgress(arg.what(), true, true);
+			OutputProgress(arg.what(), Error);
 		}
 	}
 	
@@ -205,7 +205,7 @@
 			Secure(data);
 		}
 		catch(std::exception &arg){
-			OutputProgress(arg.what(), true, true);
+			OutputProgress(arg.what(), Error);
 		}
 	}
 
@@ -217,10 +217,10 @@
 	bool Delete(const wxString &path){
 		wxString normpath = Path::Normalise(path);
 		if(File::Delete(normpath, false, false)){
-			OutputProgress(_("Deleted ") + normpath);	
+			OutputProgress(_("Deleted ") + normpath, Message);	
 		}
 		else{
-			OutputProgress(_("Failed to delete ") + normpath, true, true);
+			OutputProgress(_("Failed to delete ") + normpath, Error);
 			return false;
 		}
 		return true;
@@ -230,10 +230,10 @@
 		wxString normsource = Path::Normalise(source);
 		wxString normdest = Path::Normalise(dest);
 		if(File::Copy(normsource, normdest)){
-			OutputProgress(_("Copied ") + normsource);	
+			OutputProgress(_("Copied ") + normsource, Message);	
 		}
 		else{
-			OutputProgress(_("Failed to copy ") + normsource, true, true);
+			OutputProgress(_("Failed to copy ") + normsource, Error);
 			return false;
 		}	
 		return true;
@@ -243,10 +243,10 @@
 		wxString normsource = Path::Normalise(source);
 		wxString normdest = Path::Normalise(dest);
 		if(File::Rename(normsource, normdest, true)){
-			OutputProgress(_("Moved") + normsource);	
+			OutputProgress(_("Moved") + normsource, Message);	
 		}
 		else{
-			OutputProgress(_("Failed to move ") + normsource, true, true);
+			OutputProgress(_("Failed to move ") + normsource, Error);
 			return false;
 		}
 		return true;
@@ -256,10 +256,10 @@
 		wxString normsource = Path::Normalise(source);
 		wxString normdest = Path::Normalise(dest);
 		if(File::Rename(normsource, normdest, true)){
-			OutputProgress(_("Moved") + normsource);	
+			OutputProgress(_("Moved") + normsource, Message);	
 		}
 		else{
-			OutputProgress(_("Failed to move ") + normsource, true, true);
+			OutputProgress(_("Failed to move ") + normsource, Error);
 			return false;
 		}
 		return true;
@@ -305,7 +305,7 @@
 	}
 %}
 
-void OutputProgress(const wxString &message, bool time = false, bool error = false);
+void OutputProgress(const wxString &message, OutputType type);
 
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, 

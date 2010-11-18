@@ -21,10 +21,10 @@ bool BackupProcess::HasInput()
 		wxTextInputStream tis(*GetInputStream(), "\x0009", wxConvUTF8);
 		wxString msg = tis.ReadLine();
 		if(msg.Left(7).Lower() == wxT("warning") || msg.Left(5).Lower() == wxT("error")){
-			OutputProgress(msg, true, true);
+            OutputProgress(msg, Error);
 		}
 		else{
-			OutputProgress(msg);
+            OutputProgress(msg, Message);
 		}
 		IncrementGauge();
 		//Need a window update or refresh in here
