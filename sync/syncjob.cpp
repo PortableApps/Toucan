@@ -72,17 +72,6 @@ void SyncFiles::OperationCaller(std::map<wxString, int> paths){
 			else if((*iter).second == 3){
 				OnSourceAndDestFile((*iter).first);
 			}
-			//Update the progress bar for files only
-			if(wxGetApp().IsGui()){
-				IncrementGauge();
-				//If we have a file in both folders then increment again as we only do one pass
-				if((*iter).second == 3){
-					//But only if we are in a two way sync
-					if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Equalise")){
-						IncrementGauge();	
-					}
-				}
-			}
 		}
 	}
 	return;
@@ -286,6 +275,7 @@ bool SyncFiles::CopyIfNeeded(wxString source, wxString dest){
             !data->GetCheckShort() && !data->GetCheckFull())){
 		return CopyFile(source, dest);
 	}
+    OutputProgress(_("Skipped ") + source, Message);
 	return false;
 }
 
@@ -314,10 +304,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 			}
 			else{
 				if(RemoveFile(path + filename)){
-					//We have to increment the gauge for ourself here
-					if(wxGetApp().IsGui()){
-						IncrementGauge();					
-					}
+                    OutputProgress(_("Removed ") + path, Message);
                 }
             }
 	

@@ -51,7 +51,6 @@ BEGIN_EVENT_TABLE(Toucan, wxApp)
 	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
 	EVT_COMMAND(ID_SECUREPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnSecureProcess)
 	EVT_COMMAND(ID_GETPASSWORD, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnGetPassword)
-	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
 	EVT_COMMAND(ID_PROGRESSSETUP, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgressSetup)
 END_EVENT_TABLE()
 
@@ -388,13 +387,6 @@ void Toucan::OnProgressSetup(wxCommandEvent &event){
 	frmProgress *window = m_LuaManager->GetProgressWindow();
 	if(window){
 		window->m_Gauge->SetRange(event.GetInt());
-	}
-}
-
-void Toucan::OnProgress(wxCommandEvent &WXUNUSED(event)){
-	frmProgress *window = m_LuaManager->GetProgressWindow();
-	if(window){
-		window->IncrementGauge();
 	}
 }
 

@@ -26,7 +26,6 @@ bool BackupProcess::HasInput()
 		else{
             OutputProgress(msg, Message);
 		}
-		IncrementGauge();
 		//Need a window update or refresh in here
 		wxMilliSleep(50);
 		hasInput = true;

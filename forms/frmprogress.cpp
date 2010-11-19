@@ -217,6 +217,9 @@ void frmProgress::OnIdle(wxIdleEvent &event){
 			if(priority == Error || priority == StartingLine || priority == FinishingLine){
 				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
 			}
+            if(priority == Message || priority == Error){
+                IncrementGauge();
+            }
 
             if(m_ShouldScroll){
 			    m_List->EnsureVisible(index);

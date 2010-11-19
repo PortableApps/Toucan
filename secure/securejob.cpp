@@ -145,7 +145,6 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 		}
 	}
 	long lgReturn = wxGetApp().m_ProcessStatusMap[id];
-	IncrementGauge();
 
 	//Put the old attributed back
 #ifdef __WXMSW__

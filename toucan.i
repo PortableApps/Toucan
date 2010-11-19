@@ -30,10 +30,13 @@
 			throw std::invalid_argument("A valid function must be selected");
 		}
 		FileCounter counter;
-		counter.AddPath(data->GetSource());
-		if(data->GetFunction() == _("Equalise")){
-			counter.AddPath(data->GetDest());
+		if(data->GetFunction() != _("Mirror")){
+			counter.AddPath(data->GetSource());		
 		}
+		else{
+			counter.AddPath(data->GetDest());	
+		}
+
 		counter.Count();
 		int count = counter.GetCount();
 		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESSSETUP);

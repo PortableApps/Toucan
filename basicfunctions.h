@@ -21,16 +21,13 @@ wxArrayString StringToArrayString(const wxString &string, const wxString &sepera
 enum OutputType{
     FinishingLine, //(includes time)
     FinishingInfo,
-    Message,
+    Message, //(increments the progress bar)
     StartingInfo,
     StartingLine, //(includes time)
-    Error //(includes time and red colour)
+    Error //(includes time and red colour and increments the progress bar)
 };
 
 void OutputProgress(const wxString &message, OutputType type);
-
-//Functions to set up the progress bar
-void IncrementGauge();
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/

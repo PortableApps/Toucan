@@ -66,11 +66,6 @@ void OutputProgress(const wxString &message, OutputType type){
     }
 }
 
-void IncrementGauge(){
-	wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESS);
-	wxGetApp().QueueEvent(event);
-}
-
 double GetInPB(const wxString &value){
 	wxString size;
 	wxVariant var;
