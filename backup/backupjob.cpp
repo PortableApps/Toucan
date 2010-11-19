@@ -67,7 +67,7 @@ void* BackupJob::Entry(){
 					length += 2;
 				}
 			}
-            OutputProgress(_("Creating file list, this may take some time."), OutputType::Message);
+            OutputProgress(_("Creating file list, this may take some time."), Message);
 			if(!data->CreateList(file, data->GetLocation(i), length)){
 				return false;
 			}
