@@ -7,7 +7,7 @@
 #ifndef FRMPROGRESS_H
 #define FRMPROGRESS_H
 
-#include <wx/frame.h>
+#include <wx/dialog.h>
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	struct ITaskbarList3;
@@ -26,7 +26,7 @@ enum{
     ID_PROGRESS_AUTOSCROLL
 };
 
-class frmProgress: public wxFrame
+class frmProgress: public wxDialog
 {
 	DECLARE_EVENT_TABLE()
 
@@ -41,10 +41,8 @@ public:
 	void CreateControls();
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
-	WXUINT m_TaskBarId;
 	ITaskbarList3 *m_Taskbar;
-	//We catch windows events so we can support windows 7 taskbar progress
-	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam);
+    void SetTaskbar(ITaskbarList3 *bar) {m_Taskbar = bar;}
 #endif
 
     void OnIdle(wxIdleEvent& event);

@@ -37,21 +37,22 @@ void LuaManager::Run(const wxString &line, const bool showprogress){
 	if(line == wxEmptyString)
 		return;
 
+	LuaThread *thread = new LuaThread(line);
+	thread->Create();
+	thread->Run();
+
     if(wxGetApp().IsGui()){
-        m_Window = new frmProgress(NULL, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
+        m_Window = new frmProgress(wxGetApp().MainWindow, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
+        m_Window->SetTaskbar(wxGetApp().MainWindow->m_Taskbar);
 
         if(!showprogress){
 		    m_Window->m_Gauge->Show(false);
 		    m_Window->SetSize(m_Window->GetSize() + wxSize(1, 1));
 	    }
 
-        m_Window->Show();
+        m_Window->ShowModal();
 
     }
-
-	LuaThread *thread = new LuaThread(line);
-	thread->Create();
-	thread->Run();
 }
 
 

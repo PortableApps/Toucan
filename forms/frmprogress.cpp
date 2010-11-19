@@ -28,7 +28,7 @@ using namespace boost::interprocess;
 #endif
 
 //frmProgress event table
-BEGIN_EVENT_TABLE(frmProgress, wxFrame)
+BEGIN_EVENT_TABLE(frmProgress, wxDialog)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
@@ -41,10 +41,7 @@ END_EVENT_TABLE()
 //Constructor
 frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
 	Init();
-	wxFrame::Create(parent, id, caption, pos, size, style);
-#if defined(__WXMSW__) && !defined(__MINGW32__)
-	m_TaskBarId = RegisterWindowMessage(wxT("TaskbarButtonCreated"));
-#endif
+	wxDialog::Create(parent, id, caption, pos, size, style);
 	CreateControls();
 	Centre();
 }
@@ -56,9 +53,6 @@ void frmProgress::Init(){
 	m_Cancel = NULL;
 	m_Save = NULL;
 	m_Gauge = NULL;
-#if defined(__WXMSW__) && !defined(__MINGW32__)
-	m_Taskbar = NULL;
-#endif
     m_ShouldScroll = true;
 }
 
@@ -121,6 +115,12 @@ wxBitmap frmProgress::GetBitmapResource(const wxString& name){
 }
 
 void frmProgress::OnClose(wxCloseEvent& WXUNUSED(event)){
+    //Clear the taskbar when we close
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+	if(m_Taskbar){
+		m_Taskbar->SetProgressState(static_cast<HWND>(wxGetApp().MainWindow->GetHandle()), TBPF_NOPROGRESS);
+	}
+#endif
 	wxGetApp().m_LuaManager->NullWindow();
 	Destroy();
 }
@@ -167,30 +167,11 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-#if defined(__WXMSW__) && !defined(__MINGW32__)
-WXLRESULT frmProgress::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam){
-	if(message == m_TaskBarId){
-		int major = wxPlatformInfo::Get().GetOSMajorVersion();
-		int minor = wxPlatformInfo::Get().GetOSMajorVersion();
-		//Only supported on windows 7 and greater
-		if(major >= 6 && minor >= 1){
-			if(m_Taskbar){
-				m_Taskbar->Release();
-			}
-			
-			CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_Taskbar);
-			m_Taskbar->HrInit();
-		}
-	}
-	return wxFrame::MSWWindowProc(message, wparam, lparam);
-}
-#endif
-
 void frmProgress::IncrementGauge(){
 	m_Gauge->SetValue(m_Gauge->GetValue() + 1);
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	if(m_Taskbar){
-		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
+		m_Taskbar->SetProgressValue(static_cast<HWND>(wxGetApp().MainWindow->GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
 	}
 #endif
 
@@ -200,7 +181,7 @@ void frmProgress::FinishGauge(){
 	m_Gauge->SetValue(m_Gauge->GetRange());
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	if(m_Taskbar){
-		m_Taskbar->SetProgressValue (static_cast<HWND>(GetHandle()), m_Gauge->GetRange(), m_Gauge->GetRange());
+		m_Taskbar->SetProgressValue(static_cast<HWND>(wxGetApp().MainWindow->GetHandle()), m_Gauge->GetRange(), m_Gauge->GetRange());
 	}
 #endif
 }
@@ -269,11 +250,12 @@ void frmProgress::OnIdle(wxIdleEvent &event){
 }
 
 void frmProgress::RequestUserAttention(){
+    //We actaully need the main frame to flash as we are just a modal dialog
 #ifdef __WXMSW__
 	FLASHWINFO info;
 	info.uCount = 3;
 	info.dwTimeout = 0;
-	info.hwnd = static_cast<HWND>(GetHWND());
+	info.hwnd = static_cast<HWND>(wxGetApp().MainWindow->GetHandle());
 	info.cbSize = sizeof(info);
 	if(wxWindow::FindFocus() == this){
         info.dwFlags = FLASHW_ALL|FLASHW_TIMERNOFG;			
@@ -283,7 +265,7 @@ void frmProgress::RequestUserAttention(){
 	}
 	FlashWindowEx(&info);
 #else
-    wxTopLevelWindow::RequestUserAttention();
+    wxGetApp().MainWindow->RequestUserAttention();
 #endif
 }
 
