@@ -1,13 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include "backupprocess.h"
-#include <wx/log.h>
 #include <wx/txtstrm.h>
 
 bool BackupProcess::HasInput()
@@ -26,8 +25,6 @@ bool BackupProcess::HasInput()
 		else{
             OutputProgress(msg, Message);
 		}
-		//Need a window update or refresh in here
-		wxMilliSleep(50);
 		hasInput = true;
 	}
 	return hasInput;
