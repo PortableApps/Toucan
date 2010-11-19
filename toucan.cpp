@@ -31,7 +31,6 @@
 
 #include "test.h"
 #include "toucan.h"
-#include "script.h"
 #include "settings.h"
 #include "luamanager.h"
 #include "signalprocess.h"

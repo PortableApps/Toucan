@@ -77,7 +77,6 @@ private:
 	void OnBackupProcess(wxCommandEvent &event);
 	void OnSecureProcess(wxCommandEvent &event);
 	void OnGetPassword(wxCommandEvent &event);
-	void OnProgress(wxCommandEvent &event);
 	void OnProgressSetup(wxCommandEvent &event);
 
 	bool m_Abort;

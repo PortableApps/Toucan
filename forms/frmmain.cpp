@@ -17,11 +17,9 @@
 #include <wx/wx.h>
 
 #include "frmmain.h"
-#include "frmprogress.h"
 #include "frmvariable.h"
 #include "../toucan.h"
 #include "../dragndrop.h"
-#include "../script.h"
 #include "../rules.h"
 #include "../luamanager.h"
 #include "../basicfunctions.h"

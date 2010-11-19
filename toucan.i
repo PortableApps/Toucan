@@ -4,9 +4,7 @@
 %{
 	#include <wx/datetime.h>
 	#include <wx/event.h>
-	#include <wx/msgdlg.h> 
 	#include "toucan.h"
-	#include "script.h"
 	#include "rules.h"
 	#include "path.h"
 	#include "fileops.h"
