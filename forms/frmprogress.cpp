@@ -292,10 +292,9 @@ void frmProgress::FinishProgress(){
     FinishGauge();
     RequestUserAttention();
 
-    //if(m_IsGui){
-	//   wxCommandEvent event;
-	//   MainWindow->OnSyncRefresh(event);
-	//   MainWindow->OnBackupRefresh(event);
-	//   MainWindow->OnSecureRefresh(event);
-	//}
+    //Refresh the gui to show any changes
+	wxCommandEvent event;
+	wxGetApp().MainWindow->OnSyncRefresh(event);
+	wxGetApp().MainWindow->OnBackupRefresh(event);
+	wxGetApp().MainWindow->OnSecureRefresh(event);
 }
