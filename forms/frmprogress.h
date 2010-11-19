@@ -17,6 +17,7 @@ class wxListCtrl;
 class wxButton;
 class wxGauge;
 class wxBitmapButton;
+class wxBitmapToggleButton;
 
 enum{
 	ID_FRMPROGRESS = wxID_HIGHEST + 1,
@@ -51,7 +52,6 @@ public:
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);
-    void OnAutoscrollClick(wxCommandEvent& event);
     wxBitmap GetBitmapResource(const wxString& name);
 
     void RequestUserAttention();
@@ -65,9 +65,8 @@ public:
 	wxButton* m_OK;
 	wxButton* m_Cancel;
 	wxBitmapButton* m_Save;
-    wxBitmapButton* m_Autoscroll;
+    wxBitmapToggleButton* m_Autoscroll;
 	wxGauge* m_Gauge;
-    bool m_ShouldScroll;
 };
 
 #endif

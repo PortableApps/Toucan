@@ -7,7 +7,6 @@
 #include "frmmain.h"
 #include "frmprogress.h"
 #include "../luamanager.h"
-#include "../script.h"
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include "../controls/loglistctrl.h"
@@ -20,6 +19,7 @@ using namespace boost::interprocess;
 #include <wx/listctrl.h>
 #include <wx/textfile.h>
 #include <wx/datetime.h>
+#include <wx/tglbtn.h>
 #include <wx/wx.h>
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
@@ -32,7 +32,6 @@ BEGIN_EVENT_TABLE(frmProgress, wxDialog)
 	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
-    EVT_BUTTON(ID_PROGRESS_AUTOSCROLL, frmProgress::OnAutoscrollClick)
 	EVT_CLOSE(frmProgress::OnClose)
     EVT_SIZE(frmProgress::OnSize)
     EVT_IDLE(frmProgress::OnIdle)
@@ -53,7 +52,6 @@ void frmProgress::Init(){
 	m_Cancel = NULL;
 	m_Save = NULL;
 	m_Gauge = NULL;
-    m_ShouldScroll = true;
 }
 
 //Create controls
@@ -83,7 +81,8 @@ void frmProgress::CreateControls(){
 	m_Save = new wxBitmapButton(Panel, wxID_SAVE, GetBitmapResource(wxT("save.png")));
 	SmallButtonSizer->Add(m_Save, 0, wxALL, 5);
 
-	m_Autoscroll = new wxBitmapButton(Panel, ID_PROGRESS_AUTOSCROLL, GetBitmapResource(wxT("autoscroll.png")));
+	m_Autoscroll = new wxBitmapToggleButton(Panel, ID_PROGRESS_AUTOSCROLL, GetBitmapResource(wxT("autoscroll.png")));
+    m_Autoscroll->SetValue(true);
 	SmallButtonSizer->Add(m_Autoscroll, 0, wxALL, 5);
 
 	wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -186,10 +185,6 @@ void frmProgress::FinishGauge(){
 #endif
 }
 
-void frmProgress::OnAutoscrollClick(wxCommandEvent& WXUNUSED(event)){
-    m_ShouldScroll = !m_ShouldScroll;
-}
-
 void frmProgress::OnSize(wxSizeEvent &event){
     m_List->SetColumnWidth(1, -1);
     event.Skip();
@@ -221,7 +216,7 @@ void frmProgress::OnIdle(wxIdleEvent &event){
                 IncrementGauge();
             }
 
-            if(m_ShouldScroll){
+            if(m_Autoscroll->GetValue()){
 			    m_List->EnsureVisible(index);
 			    Update();
             }
