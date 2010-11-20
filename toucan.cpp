@@ -342,10 +342,8 @@ void Toucan::OnOutput(wxCommandEvent &event){
 			else if(event.GetInt() == 3){
 				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
 			}
-            if(window->m_ShouldScroll){
-			    window->m_List->EnsureVisible(index);
-			    window->Update();
-            }
+			window->m_List->EnsureVisible(index);
+			window->Update();
 		}
 	}
 	else{
