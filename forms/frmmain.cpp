@@ -1894,7 +1894,7 @@ void frmMain::JobAdd(wxComboBox* box){
 	if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == dialog.GetValue().Lower()){
-				wxMessageBox(_("There is already a job with this name"), _("Error"), wxICON_ERROR);
+				wxMessageBox(_("There is already a job with this name"), _("Error"), wxOK|wxICON_ERROR);
 				return;
 			}
 		}
