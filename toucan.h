@@ -8,6 +8,7 @@
 #define TOUCAN_H
 
 #include <wx/app.h>
+#include <wx/timer.h>
 #include <map>
 
 class frmMain;
@@ -17,6 +18,7 @@ class ScriptManager;
 class LuaManager;
 class wxTextFile;
 class wxFileConfig;
+class wxTimerEvent;
 
 enum{
 	ID_OUTPUT = wxID_HIGHEST + 1,
@@ -31,8 +33,9 @@ enum{
 class Toucan: public wxApp{    
 
 public:
-	virtual bool OnInit();
-	virtual int OnExit();
+	bool OnInit();
+	int OnExit();
+    void OnTimer(wxTimerEvent &event);
 
 
 	void SetLanguage(const wxString &lang);
@@ -87,6 +90,7 @@ private:
 	bool m_Finished;
 	wxLocale* m_Locale;
 	wxTextFile* m_LogFile;
+    wxTimer *m_Timer;
 
     DECLARE_CLASS(Toucan)
     DECLARE_EVENT_TABLE()

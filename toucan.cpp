@@ -18,6 +18,8 @@
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
+using namespace boost::interprocess;
+
 #ifdef __MINGW32__
 #define _WIN32_WINNT 0x0500
 #endif
@@ -51,6 +53,7 @@ BEGIN_EVENT_TABLE(Toucan, wxApp)
 	EVT_COMMAND(ID_SECUREPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnSecureProcess)
 	EVT_COMMAND(ID_GETPASSWORD, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnGetPassword)
 	EVT_COMMAND(ID_PROGRESSSETUP, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgressSetup)
+    EVT_TIMER(wxID_ANY, Toucan::OnTimer)
 END_EVENT_TABLE()
 
 int main(int argc, char *argv[]){
@@ -207,6 +210,8 @@ bool Toucan::OnInit(){
 
 	}
 	else{
+        m_Timer = new wxTimer(this, wxID_ANY);
+        m_Timer->Start(5);
         if(parser.Found("password")){
             wxString pass;
             parser.Found("password", &pass);
@@ -225,7 +230,7 @@ bool Toucan::OnInit(){
 				m_LuaManager->Run(type.Lower() + "([[" + name + "]])");
 			}
 			else{
-				OutputProgress(_("The job does not exist"), Error);
+                OutputProgress(_("The job does not exist"), FinishingLine);
 			}
 		}
 	}
@@ -258,6 +263,10 @@ void Toucan::SetLanguage(const wxString &lang){
 
 //Cleanup
 int Toucan::OnExit(){
+    if(!IsGui()){
+        m_Timer->Stop();
+        delete m_Timer;
+    }
     boost::interprocess::message_queue::remove("progress");
 	if(m_IsLogging){
 		m_LogFile->Write();
@@ -448,4 +457,36 @@ void Toucan::InitLangMaps(){
 	m_LangToEn[_("Script")] = wxT("Script");
 	m_LangToEn[_("Settings")] = wxT("Settings");
 	m_LangToEn[_("Help")] = wxT("Help");
+}
+
+void Toucan::OnTimer(wxTimerEvent &WXUNUSED(event)){
+    try{
+        message_queue mq(open_or_create, "progress", 100, 10000);
+
+        std::string message;
+        message.resize(10000);
+        size_t size;
+        unsigned int priority;
+
+        if(mq.try_receive(&message[0], message.size(), size, priority)){
+            message.resize(size);
+            wxString wxmessage(message.c_str(), wxConvUTF8);
+
+            std::cout << wxmessage;
+
+			if(priority == Error || priority == StartingLine || priority == FinishingLine){
+                std::cout << "\t" << wxDateTime::Now().FormatISOTime();
+			}
+
+            if(priority == FinishingLine){
+                OnExit();
+                exit(EXIT_SUCCESS);
+            }
+
+            std::cout << std::endl;
+        }
+    }
+    catch(std::exception &ex){
+        wxLogError("%s", ex.what());
+    }
 }
