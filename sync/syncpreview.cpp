@@ -91,7 +91,7 @@ void SyncPreview::OnSourceNotDestFile(const wxString &path){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
 		DirCtrlItem* item = new DirCtrlItem(dest);
-		if(!data->GetRules()->ShouldExclude(source, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(source)) != Excluded){
 			item->SetColour(wxT("Blue"));
 			destitems.push_back(item);
 			if(data->GetFunction() == _("Move")){
@@ -110,17 +110,17 @@ void SyncPreview::OnSourceNotDestFile(const wxString &path){
 void SyncPreview::OnNotSourceDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(!data->GetRules()->ShouldExclude(dest, false)){
+	if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 	        DirCtrlIter iter = FindPath(&destitems, dest);
 			if(iter != destitems.end()){
-				if(!data->GetRules()->ShouldExclude(dest, false)){
+				if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 					(*iter)->SetColour(wxT("Grey"));						
 				}
 			}
 		}
 		else if(data->GetFunction() == _("Equalise")){
-			if(!data->GetRules()->ShouldExclude(dest, false)){
+			if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 				DirCtrlItem* item = new DirCtrlItem(source);
 				item->SetColour(wxT("Blue"));
 				sourceitems.push_back(item);
@@ -132,7 +132,7 @@ void SyncPreview::OnNotSourceDestFile(const wxString &path){
 void SyncPreview::OnSourceAndDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	if(!data->GetRules()->ShouldExclude(dest, false)){
+	if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(CopyIfNeeded(source, dest)){
 	            DirCtrlIter iter = FindPath(&destitems, dest);
@@ -182,7 +182,7 @@ void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
 		DirCtrlItem* item = new DirCtrlItem(wxFileName::DirName(dest));
-		if(!data->GetRules()->ShouldExclude(source, true)){
+		if(data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
 			item->SetColour(wxT("Blue"));
 		}
 		else{
@@ -204,14 +204,14 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		DirCtrlIter iter = FindPath(&destitems, dest);
 		if(iter != destitems.end()){
-			if(!data->GetRules()->ShouldExclude(dest, true)){
+			if(data->GetRules()->Matches(wxFileName::DirName(dest)) != Excluded){
 				(*iter)->SetColour(wxT("Grey"));				
 			}		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
 		DirCtrlItem* item = new DirCtrlItem(wxFileName::DirName(source));
-		if(!data->GetRules()->ShouldExclude(dest, true)){
+		if(data->GetRules()->Matches(wxFileName::DirName(dest)) != Excluded){
 			item->SetColour(wxT("Blue"));
 		}
 		else{
@@ -227,7 +227,7 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	if(data->GetFunction() == _("Move")){
 	    DirCtrlIter iter = FindPath(&sourceitems, source);
 		if(iter != sourceitems.end()){
-			if(!data->GetRules()->ShouldExclude(source, true)){
+			if(data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
 				(*iter)->SetColour(wxT("Red"));				
 			}		
 		}

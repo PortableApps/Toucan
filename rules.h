@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007-2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_RULES
@@ -9,121 +9,100 @@
 
 class frmMain;
 
-#include <wx/arrstr.h>
+#include "path.h"
 
-/*!
- * A class that describes a set of rules to be used in any operation in Toucan.
- */
-class Rules{
+#include <wx/arrstr.h>
+#include <wx/filename.h>
+
+#include <vector>
+
+enum RuleFunction{
+    FileInclude,
+    FileExclude,
+    FolderInclude,
+    FolderExclude,
+    AbsoluteFolderExclude
+};
+
+enum RuleType{
+    Simple,
+    Regex,
+    Date,
+    Size
+};
+
+enum RuleResult{
+    NoMatch,
+    Included,
+    Excluded,
+    AbsoluteExcluded
+};
+
+class Rule{
+public:
+    Rule(const wxString rule, RuleFunction function, RuleType type){
+        this->rule = rule;
+        this->normalised = Path::Normalise(rule);
+        this->function = function;
+        this->type = type;
+    }
+
+    RuleResult Matches(wxFileName path);
+
+
+private:
+    wxString rule;
+    wxString normalised;
+    RuleFunction function;
+    RuleType type;
+};
+
+class RuleSet{
 
 public:
+    RuleSet(const wxString &name) { this->name = name; }
 
-	/*!
-	 * Construct a set of Rules with the given name and optionally load it from 
-	 * the rules file
-	 */
-	Rules(const wxString &name, bool loadfromfile = false);
+    RuleResult Matches(wxFileName path);
 
-	/*!
-	 * Transfers the rules to the rules file, using GetName() as the group
-	 * name
-	 * \return Returns true is the rules could be written, false otherwise
-	 */
 	bool TransferToFile();
-	/*!
-	 * Transfers the rules from the rules file, using GetName() as the group
-	 * name
-	 * \return Returns true if the rules could be read, false otherwise
-	 */
 	bool TransferFromFile();
-	/*!
-	 * Transfers the rules to the main window
-	 * \return Returns true is the rules could be copied to the form, false 
-	 * otherwise
-	 */
 	bool TransferToForm(frmMain *window);
-	/*!
-	 * Transfers the data from the main window
-	 * \return Returns true is the rules could be read from the form, false 
-	 * otherwise
-	 */
 	bool TransferFromForm(frmMain *window);
 
-	/*!
-	 * \return Returns true if there are no rules specified, false otherwise
-	 */
-	bool IsEmpty();
-	/*!
-	 * Clears the Rules
-	 */
+	void Add(Rule rule) { rules.push_back(rule); }
+
+	const wxString& GetName() const {return name;}
+
+	/*bool IsEmpty();
 	void Clear(){
 		m_ExcludedFiles.Clear();
 		m_ExcludedFolders.Clear();
 		m_IncludedLocations.Clear();
 	}
 
-	/*!
-	 * \param path The path to compare against the rules
-	 * \param directory Is the path a directory?
-	 * \return Returns true if the specifed file / folder should be excluded, 
-	 * false otherwise
-	 */
 	bool ShouldExclude(wxString path, bool directory); 
-	
-	/*!
-	 * Sets the name of the Rules
-	 */
 	void SetName(const wxString& Name) {this->m_Name = Name;}
-	/*!
-	 * Sets Rules governing file exclusions, this supports dates prefixed with a 
-	 * less than or greater than sign, files sizes prefixed with a less than or 
-	 * greater than sign and suffixed with B, kB, MB or GB, a regex prefixed 
-	 * with an asterisk or plain text
-	 */	
 	void SetExcludedFiles(const wxArrayString& FilesToExclude){
 		this->m_ExcludedFiles = FilesToExclude;
 		m_Normalised = false;
 	}
-	/*!
-	 * Sets Rules governing folder exclusions, this supports a regex prefixed 
-	 * with an asterisk or plain text
-	 */	
 	void SetExcludedFolders(const wxArrayString& FoldersToExclude){
 		this->m_ExcludedFolders = FoldersToExclude;
 		m_Normalised = false;
 	}
-	/*!
-	 * Sets Rules governing location inclusions, this supports a regex prefixed 
-	 * with an asterisk or plain text
-	 */	
 	void SetIncludedLocations(const wxArrayString& LocationsToInclude){
 		this->m_IncludedLocations = LocationsToInclude;
 		m_Normalised = false;
 	}
 
-	/*!
-	 * Gets the name of the Rules
-	 */
 	const wxString& GetName() const {return m_Name;}
-	/*!
-	 * Gets the Rules governing file exclusion
-	 */
 	const wxArrayString& GetExcludedFiles() const {return m_ExcludedFiles;}
-	/*!
-	 * Gets the Rules governing folder exclusion
-	 */
 	const wxArrayString& GetExcludedFolders() const {return m_ExcludedFolders;}
-	/*!
-	 * Gets the Rules governing location inclusions
-	 */
-	const wxArrayString& GetIncludedLocations() const {return m_IncludedLocations;}
+	const wxArrayString& GetIncludedLocations() const {return m_IncludedLocations;}*/
 
 private:
-	wxArrayString m_ExcludedFiles;
-	wxArrayString m_ExcludedFolders;
-	wxArrayString m_IncludedLocations;
-	wxString m_Name;
-	bool m_Normalised;
+    std::vector<Rule> rules;
+	wxString name;
 };	
 
 #endif

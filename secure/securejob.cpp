@@ -82,7 +82,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 		return true;
 	}
 	//Check to see it the file should be excluded	
-	if(data->GetRules()->ShouldExclude(path, false)){
+	if(data->GetRules()->Matches(wxFileName::FileName(path)) == Excluded){
 		return true;
 	}
 	//Make sure that it is a 'real' file

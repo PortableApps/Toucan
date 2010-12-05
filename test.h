@@ -72,7 +72,7 @@ public:
 	}
 };
 
-class RulesTests : public CxxTest::TestSuite{
+/*class RulesTests : public CxxTest::TestSuite{
 public:
 	Rules *rules;
 	wxArrayString fileexclude, folderexclude, locationinclude;
@@ -125,7 +125,7 @@ public:
 	void testPlusSigns(){
 		TS_ASSERT_EQUALS(rules->ShouldExclude(wxT("C:\\Users\\Test\\specialchars++.txt"), false), false); //Included
 	}
-};
+};*/
 
 class FileCounterTests : public CxxTest::TestSuite{
 public:

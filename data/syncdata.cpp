@@ -34,7 +34,10 @@ void SyncData::TransferFromFile(){
 	SetIgnoreRO(Read<bool>("IgnoreReadOnly"));
 	SetRecycle(Read<bool>("Recycle"));
 	SetPreviewChanges(Read<bool>("PreviewChanges"));
-	SetRules(new Rules(Read<wxString>("Rules"), true));
+
+    RuleSet *rules = new RuleSet(Read<wxString>("Rules"));
+    rules->TransferFromFile();
+	SetRules(rules);
 }
 
 void SyncData::TransferToFile(){
@@ -108,6 +111,10 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetRecycle(window->m_Sync_Recycle->GetValue());
 	SetPreviewChanges(window->m_SyncPreviewChanges->GetValue());
-	SetRules(new Rules(window->m_Sync_Rules->GetStringSelection(), true));
+
+    RuleSet *rules = new RuleSet(window->m_Sync_Rules->GetStringSelection());
+    rules->TransferFromFile();
+	SetRules(rules);
+
 	return true;	
 }

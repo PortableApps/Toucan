@@ -9,19 +9,19 @@
 
 #include "dirctrl.h"
 
-class Rules;
+class RuleSet;
 
 class PreviewThread : public DirThread{
 public:
 
-	PreviewThread(const wxString& path, wxTreeItemId parent, Rules *rules, wxEvtHandler* handler) 
+	PreviewThread(const wxString& path, wxTreeItemId parent, RuleSet *rules, wxEvtHandler* handler) 
 		: m_Rules(rules), DirThread(path, parent, handler)
 	{}
 
 	virtual void* Entry();
 
 protected:
-	Rules *m_Rules;
+	RuleSet *m_Rules;
 };
 
 //A basic previewing control, used by backup and secure
@@ -34,13 +34,13 @@ public:
 				   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 	~PreviewDirCtrl();
 
-	void SetRules(Rules *rules) { m_Rules = rules; }
+	void SetRules(RuleSet *rules) { m_Rules = rules; }
 
 	//We use our own previewing thread
 	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
 
 protected:
-   Rules *m_Rules;
+   RuleSet *m_Rules;
 };
 
 #endif

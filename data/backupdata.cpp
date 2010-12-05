@@ -35,7 +35,10 @@ void BackupData::TransferFromFile(){
 	SetUsesPassword(Read<bool>("IsPass"));
 	SetTest(Read<bool>("Test"));
 	SetSolid(Read<bool>("Solid"));
-	SetRules(new Rules(Read<wxString>("Rules"), true));
+
+	RuleSet *rules = new RuleSet(Read<wxString>("Rules"));
+    rules->TransferFromFile();
+	SetRules(rules);
 }
 
 void BackupData::TransferToFile(){
@@ -104,7 +107,11 @@ bool BackupData::TransferFromForm(frmMain *window){
 	SetUsesPassword(window->m_Backup_IsPass->GetValue());
 	SetTest(window->m_Backup_Test->GetValue());
 	SetSolid(window->m_BackupSolid->GetValue());
-	SetRules(new Rules(window->m_Backup_Rules->GetStringSelection(), true));
+
+	RuleSet *rules = new RuleSet(window->m_Backup_Rules->GetStringSelection());
+    rules->TransferFromFile();
+	SetRules(rules);
+
 	return true;	
 }
 
@@ -222,11 +229,12 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 					//If the direcotry doesnt have any subfiles then we can safely add it to the file list
 					wxDir* dircheck = new wxDir(path + filename);
 					if(!dircheck->HasFiles() && !dircheck->HasSubDirs()){
-						if(!GetRules()->ShouldExclude(path + filename, true)){
+						if(GetRules()->Matches(wxFileName::DirName(path + filename)) != Excluded){
 							wxString strCombined = path + filename;
 							strCombined = strCombined.Right(strCombined.Length() - length);
 							file->AddLine(strCombined);
 						}
+
 					}
 					delete dircheck;
 					//Always call the function again to ensure that ALL files and folders are processed
@@ -234,7 +242,7 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 				}
 				//If it is a file
 				else{
-					if(!GetRules()->ShouldExclude(path + filename, false)){
+					if(GetRules()->Matches(wxFileName::FileName(path + filename)) != Excluded){
 						wxString strCombined = path + filename;
 						strCombined = strCombined.Right(strCombined.Length() - length);
 						file->AddLine(strCombined);
@@ -246,7 +254,7 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 	}
 	//We have been passed a file
 	else{
-		if(!GetRules()->ShouldExclude(path, false)){
+		if(GetRules()->Matches(wxFileName::FileName(path)) != Excluded){
 			path = path.Right(path.Length() - length);
 			file->AddLine(path);
 		}		

@@ -62,7 +62,9 @@
 		data->SetTimeStamps(options.TimeStamps);
 		data->SetRecycle(options.Recycle);
 		data->SetPreviewChanges(options.PreviewChanges);
-		data->SetRules(new Rules(rules, true));
+        RuleSet *ruleset = new RuleSet(rules);
+        ruleset->TransferFromFile();
+		data->SetRules(ruleset);
 		try{
 			Sync(data);
 		}
@@ -146,7 +148,9 @@
 		data->SetUsesPassword(options.Password);
 		data->SetTest(options.Test);
 		data->SetSolid(options.Solid);
-		data->SetRules(new Rules(rules, true));
+        RuleSet *ruleset = new RuleSet(rules);
+        ruleset->TransferFromFile();
+		data->SetRules(ruleset);
 		try{
 			Backup(data);
 		}
@@ -200,7 +204,9 @@
 		SecureData *data = new SecureData(wxT("LastSecureJob"));
 		data->SetLocations(paths);
 		data->SetFunction(function);
-		data->SetRules(new Rules(rules, true));
+        RuleSet *ruleset = new RuleSet(rules);
+        ruleset->TransferFromFile();
+		data->SetRules(ruleset);
 		try{
 			Secure(data);
 		}

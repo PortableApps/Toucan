@@ -93,7 +93,7 @@ void SyncFiles::OnSourceNotDestFile(const wxString &path){
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Clean doesnt copy any files
 	if(data->GetFunction() != _("Clean")){
-		if(!data->GetRules()->ShouldExclude(source, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(source)) != Excluded){
 			if(CopyIfNeeded(source, dest)){
 				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
@@ -107,12 +107,12 @@ void SyncFiles::OnNotSourceDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-		if(!data->GetRules()->ShouldExclude(dest, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 			RemoveFile(dest);	
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
-		if(!data->GetRules()->ShouldExclude(dest, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 			CopyIfNeeded(dest, source);
 		}
 	}
@@ -122,7 +122,7 @@ void SyncFiles::OnSourceAndDestFile(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
-		if(!data->GetRules()->ShouldExclude(source, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(source)) != Excluded){
 			if(CopyIfNeeded(source, dest)){
 				if(data->GetFunction() == _("Move")){
 					RemoveFile(source);
@@ -145,7 +145,7 @@ void SyncFiles::OnSourceNotDestFolder(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxDir destdir(dest);
 		wxDir sourcedir(source);
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->ShouldExclude(source, true)){
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
 			wxRmdir(dest);
 		}
 		else{
@@ -165,7 +165,7 @@ void SyncFiles::OnNotSourceDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-		if(!data->GetRules()->ShouldExclude(dest, true)){
+		if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
 			RemoveDirectory(dest);		
 		}
 	}
@@ -173,7 +173,7 @@ void SyncFiles::OnNotSourceDestFolder(const wxString &path){
 		SyncFiles sync(source, dest, data);
 		sync.Execute();
 		wxDir dir(source);
-		if(!dir.HasFiles() && !dir.HasSubDirs() && data->GetRules()->ShouldExclude(dest, true)){
+		if(!dir.HasFiles() && !dir.HasSubDirs() && data->GetRules()->Matches(wxFileName::DirName(dest)) != Excluded){
 			wxRmdir(dest);
 		}
 		else{
@@ -194,7 +194,7 @@ void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 	if(data->GetFunction() != _("Clean")){
 		wxDir destdir(dest);
 		wxDir sourcedir(source);
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->ShouldExclude(source, true)){
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
 			wxRmdir(dest);
 		}
 		else{
@@ -362,12 +362,12 @@ bool SyncFiles::SourceAndDestCopy(const wxString &source, const wxString &dest){
 	tmTo.MakeTimezone(wxDateTime::UTC, true);
 
 	if(tmFrom.IsLaterThan(tmTo)){
-		if(!data->GetRules()->ShouldExclude(source, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(source)) != Excluded){
 			CopyIfNeeded(source, dest);			
 		}
 	}
 	else if(tmTo.IsLaterThan(tmFrom)){
-		if(!data->GetRules()->ShouldExclude(dest, false)){
+		if(data->GetRules()->Matches(wxFileName::FileName(source)) != Excluded){
 			CopyIfNeeded(dest, source);
 		}
 	}

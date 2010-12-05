@@ -15,7 +15,7 @@
 #include "../basicfunctions.h"
 
 class frmMain;
-class Rules;
+class RuleSet;
 
 class JobData{
 public:
@@ -28,9 +28,9 @@ public:
 	virtual bool TransferFromForm(frmMain* window) = 0;
 
 	void SetName(const wxString& Name) {this->m_Name = Name;}
-	void SetRules(Rules *Rules) {this->m_Rules = Rules;}
+	void SetRules(RuleSet *rules) {this->rules = rules;}
 	const wxString& GetName() const {return m_Name;}
-	Rules* GetRules() const {return m_Rules;}
+	RuleSet* GetRules() const {return rules;}
 
 protected:
 	template<class T> T Read(const wxString& key){
@@ -73,7 +73,7 @@ protected:
 
 private:
 	wxString m_Name;
-	Rules *m_Rules;
+	RuleSet *rules;
 };
 
 #endif

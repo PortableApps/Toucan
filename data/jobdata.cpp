@@ -9,10 +9,10 @@
 
 JobData::JobData(const wxString& name){
 	m_Name = name;
-	m_Rules = NULL;
+	rules = NULL;
 }
 
 JobData::~JobData(){
-	delete m_Rules;
+	delete rules;
 }
 

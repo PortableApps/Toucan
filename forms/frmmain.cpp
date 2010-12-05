@@ -207,9 +207,16 @@ void frmMain::Init(){
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
 
+    m_RulesChoices.Add(_("File to Include"));
     m_RulesChoices.Add(_("File to Exclude"));
+    m_RulesChoices.Add(_("Folder to Include"));
     m_RulesChoices.Add(_("Folder to Exclude"));
-    m_RulesChoices.Add(_("Location to Include"));
+    m_RulesChoices.Add(_("Absolute Folder to Exclude"));
+
+    m_RulesTypeChoices.Add(_("Simple"));
+    m_RulesTypeChoices.Add(_("Regex"));
+    m_RulesTypeChoices.Add(_("File Size"));
+    m_RulesTypeChoices.Add(_("Modified Date"));
 }
 
 void frmMain::CreateControls(){	
@@ -651,7 +658,7 @@ void frmMain::CreateControls(){
     RulesMainSizer->Add(m_RulesGrid, 1, wxGROW|wxALL, border);
 
     //Create the grid and set the various styles
-    m_RulesGrid->CreateGrid(1, 2, wxGrid::wxGridSelectRows);
+    m_RulesGrid->CreateGrid(1, 3/*, wxGrid::wxGridSelectRows*/);
     m_RulesGrid->EnableGridLines(false);
     SetRulesGrid();
 
@@ -1080,6 +1087,8 @@ void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
     int newrow = m_RulesGrid->GetNumberRows() - 1;
     m_RulesGrid->SetCellEditor(newrow, 0, new wxGridCellChoiceEditor(m_RulesChoices));
     m_RulesGrid->SetCellValue(newrow, 0, m_RulesChoices.Item(0));
+    m_RulesGrid->SetCellEditor(newrow, 1, new wxGridCellChoiceEditor(m_RulesTypeChoices));
+    m_RulesGrid->SetCellValue(newrow, 1, m_RulesTypeChoices.Item(0));
 }
 
 //ID_RULES_ADD_REMOVEITEM
@@ -1102,6 +1111,12 @@ void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
             bottom--;
         }while(top <= bottom);
     }
+
+    wxGridCellCoordsArray cells = m_RulesGrid->GetSelectedCells();
+    for(unsigned int i = 0; i < cells.Count(); i++){
+        m_RulesGrid->DeleteRows(cells.Item(i).GetRow());
+    }
+
 }
 
 //ID_RULES_SAVE
@@ -1119,9 +1134,10 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 	}
     //Actually save the rules
     const wxString name = m_Rules_Name->GetStringSelection();
-	Rules rules(name);
-	rules.TransferFromForm(this);
-	rules.TransferToFile();
+	RuleSet rules(name);
+	if(!rules.TransferFromForm(this) || !rules.TransferToFile())
+		return;
+	
     //If the name isn't in the rules boxes then add it to all as the are identical
     if(m_Sync_Rules->FindString(name) == wxNOT_FOUND){
         m_Sync_Rules->Append(name);
@@ -1182,7 +1198,7 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
-	Rules rules(m_Rules_Name->GetStringSelection());
+	RuleSet rules(m_Rules_Name->GetStringSelection());
 	if (rules.TransferFromFile()) {
 		rules.TransferToForm(this);
 	}
@@ -1421,8 +1437,9 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 //ID_BACKUP_PREVIEW
 void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
-		Rules *rules = new Rules(m_Backup_Rules->GetStringSelection());
-		rules->TransferFromFile();
+		RuleSet *rules = new RuleSet(m_Backup_Rules->GetStringSelection());
+		if(!rules->TransferFromFile())
+			return;
 		m_Backup_TreeCtrl->SetRules(rules);
 	}
 	//Delete all items and re-add the root
@@ -1437,8 +1454,9 @@ void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 //ID_SECURE_PREVIEW
 void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
-		Rules *rules = new Rules(m_Secure_Rules->GetStringSelection());
-		rules->TransferFromFile();
+		RuleSet *rules = new RuleSet(m_Secure_Rules->GetStringSelection());
+		if(!rules->TransferFromFile())
+			return;
 		m_Secure_TreeCtrl->SetRules(rules);
 	}
 	//Delete all items and re-add the root
@@ -1999,7 +2017,7 @@ void frmMain::ClearToDefault(){
 		m_BackupSolid->SetValue(false);
 		m_Backup_Location->SetValue(wxEmptyString);
 		m_Backup_TreeCtrl->DeleteAllItems();
-		m_Backup_TreeCtrl->SetRules(new Rules(wxT("temp")));
+		m_Backup_TreeCtrl->SetRules(new RuleSet(wxT("temp")));
 		m_Backup_TreeCtrl->AddRoot(wxT("Hidden root"));
 		m_Backup_Rules->SetStringSelection(wxEmptyString);
 		m_BackupLocations->Clear();
@@ -2008,7 +2026,7 @@ void frmMain::ClearToDefault(){
 		m_Secure_Function->SetStringSelection(_("Encrypt"));
 		m_Secure_Rules->SetStringSelection(wxEmptyString);
 		m_Secure_TreeCtrl->DeleteAllItems();
-		m_Secure_TreeCtrl->SetRules(new Rules(wxT("temp")));
+		m_Secure_TreeCtrl->SetRules(new RuleSet(wxT("temp")));
 		m_Secure_TreeCtrl->AddRoot(wxT("Hidden root"));
 		m_SecureLocations->Clear();
 	}
@@ -2042,11 +2060,10 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
 		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
-		Rules rules(menuRules->GetStringSelection());
-		rules.TransferFromFile();
-		wxArrayString arrFileExclude = rules.GetExcludedFiles();
-		arrFileExclude.Add(wxT(".") + wxFileName(item->GetFullPath()).GetExt());
-		rules.SetExcludedFiles(arrFileExclude);
+		RuleSet rules(menuRules->GetStringSelection());
+		if(!rules.TransferFromFile())
+			return;
+		rules.Add(Rule("." + wxFileName(item->GetFullPath()).GetExt(), FileExclude, Simple));
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
@@ -2059,11 +2076,11 @@ void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 //ID_MENU_FILEEXCLUDE_NAME
 void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules(menuRules->GetStringSelection());
-		rules.TransferFromFile();
-		wxArrayString arrFileExclude = rules.GetExcludedFolders();
-		arrFileExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetExcludedFiles(arrFileExclude);
+		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
+		RuleSet rules(menuRules->GetStringSelection());
+		if(!rules.TransferFromFile())
+			return;
+		rules.Add(Rule(menuTree->GetItemText(item), FileExclude, Simple));
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
@@ -2077,11 +2094,10 @@ void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
 		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
-		Rules rules(menuRules->GetStringSelection());
-		rules.TransferFromFile();
-		wxArrayString arrLocationInclude = rules.GetIncludedLocations();
-		arrLocationInclude.Add(wxT(".") + wxFileName(item->GetFullPath()).GetExt());
-		rules.SetIncludedLocations(arrLocationInclude);
+		RuleSet rules(menuRules->GetStringSelection());
+		if(!rules.TransferFromFile())
+			return;
+		rules.Add(Rule("." + wxFileName(item->GetFullPath()).GetExt(), FileInclude, Simple));
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
@@ -2094,11 +2110,11 @@ void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event
 //ID_MENU_LOCATIONINCLUDE_NAME
 void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules(menuRules->GetStringSelection());
-		rules.TransferFromFile();
-		wxArrayString arrLocationInclude = rules.GetIncludedLocations();
-		arrLocationInclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetIncludedLocations(arrLocationInclude);
+		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
+		RuleSet rules(menuRules->GetStringSelection());
+		if(!rules.TransferFromFile())
+			return;
+		rules.Add(Rule(menuTree->GetItemText(item), FileExclude, Simple));
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
@@ -2111,11 +2127,11 @@ void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
 //ID_MENU_FOLDEREXCLUDE_NAME
 void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
 	if(menuRules->GetStringSelection() != wxEmptyString){
-		Rules rules(menuRules->GetStringSelection());
-		rules.TransferFromFile();
-		wxArrayString arrFolderExclude = rules.GetExcludedFolders();
-		arrFolderExclude.Add(menuTree->GetItemText(menuTree->GetSelection()));
-		rules.SetExcludedFolders(arrFolderExclude);
+		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
+		RuleSet rules(menuRules->GetStringSelection());
+		if(!rules.TransferFromFile())
+			return;
+		rules.Add(Rule(menuTree->GetItemText(item), FolderExclude, Simple));
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
@@ -2337,8 +2353,9 @@ void frmMain::SetRulesGrid(){
     m_RulesGrid->DeleteRows(0, m_RulesGrid->GetNumberRows());
     m_RulesGrid->HideRowLabels();
     m_RulesGrid->UseNativeColHeader();
-    m_RulesGrid->SetColLabelValue(0, "Type");
-    m_RulesGrid->SetColLabelValue(1, "Rule");
+    m_RulesGrid->SetColLabelValue(0, _("Include / Exclude"));
+    m_RulesGrid->SetColLabelValue(1, _("Type"));
+    m_RulesGrid->SetColLabelValue(2, _("Rule"));
     m_RulesGrid->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
     m_RulesGrid->SetColSize(0, 150);
     m_RulesGrid->SetColSize(1, 200);

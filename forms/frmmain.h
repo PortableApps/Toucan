@@ -298,7 +298,7 @@ public:
 
 	//Convenience function
 	wxString ToString(bool bl);
-	
+
 	//General
 	wxAuiManager m_auiManager;
 	wxAuiNotebook* m_Notebook;
@@ -352,6 +352,7 @@ public:
 	wxListCtrl* m_RulesList;
     wxGrid* m_RulesGrid;
     wxArrayString m_RulesChoices;
+    wxArrayString m_RulesTypeChoices;
 	
 	//Variables
 	wxBoxSizer* VariablesTopSizer;
