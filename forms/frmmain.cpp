@@ -198,7 +198,7 @@ void frmMain::Init(){
 	m_Secure_TreeCtrl = NULL;
 	m_Secure_Function = NULL;
 	m_Rules_Name = NULL;
-	m_RulesList = NULL;
+	m_RulesGrid = NULL;
 	m_Script_Styled = NULL;
 
 	menuRules = NULL;
@@ -207,11 +207,11 @@ void frmMain::Init(){
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
 
-    m_RulesChoices.Add(_("File to Include"));
-    m_RulesChoices.Add(_("File to Exclude"));
-    m_RulesChoices.Add(_("Folder to Include"));
-    m_RulesChoices.Add(_("Folder to Exclude"));
-    m_RulesChoices.Add(_("Absolute Folder to Exclude"));
+    m_RulesChoices.Add(_("File Include"));
+    m_RulesChoices.Add(_("File Exclude"));
+    m_RulesChoices.Add(_("Folder Include"));
+    m_RulesChoices.Add(_("Folder Exclude"));
+    m_RulesChoices.Add(_("Absolute Folder Exclude"));
 
     m_RulesTypeChoices.Add(_("Simple"));
     m_RulesTypeChoices.Add(_("Regex"));
@@ -658,7 +658,7 @@ void frmMain::CreateControls(){
     RulesMainSizer->Add(m_RulesGrid, 1, wxGROW|wxALL, border);
 
     //Create the grid and set the various styles
-    m_RulesGrid->CreateGrid(1, 3/*, wxGrid::wxGridSelectRows*/);
+    m_RulesGrid->CreateGrid(1, 3);
     m_RulesGrid->EnableGridLines(false);
     SetRulesGrid();
 
@@ -1159,7 +1159,7 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_RULES_ADD
 void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
     //Check to save existing rules
-	if(m_RulesList->GetItemCount() > 0){
+	if(m_RulesGrid->GetNumberRows() > 0){
 		wxMessageDialog dialog(this, _("Do you wish to save the current rules?"), _("Rules Save"), wxYES_NO|wxCANCEL);
 		int ret = dialog.ShowModal();
 		if(ret == wxID_YES){
@@ -1182,7 +1182,7 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 		}
 		m_Rules_Name->AppendString(entrydialog.GetValue());
 		m_Rules_Name->SetStringSelection(entrydialog.GetValue());
-		m_RulesList->DeleteAllItems();
+		SetRulesGrid();
 		UpdateSizer(RulesNameSizer);
 	}
 }

@@ -476,6 +476,16 @@ void Toucan::InitLangMaps(){
 	m_EnToLang[wxT("Script")] = _("Script");
 	m_EnToLang[wxT("Settings")] = _("Settings");
 	m_EnToLang[wxT("Help")] = _("Help");
+    //Rules
+    m_EnToLang["Simple"] = _("Simple");
+    m_EnToLang["Regex"] = _("Regex");
+    m_EnToLang["Size"] = _("Size");
+    m_EnToLang["Date"] = _("Date");
+    m_EnToLang["File Include"] = _("File Include");
+    m_EnToLang["File Exclude"] = _("File Exclude");
+    m_EnToLang["Folder Include"] = _("Folder Include");
+    m_EnToLang["Folder Exclude"] = _("Folder Exclude");
+    m_EnToLang["Absolute Folder Exclude"] =_("Absolute Folder Exclude");
 	
 	//Sync
 	m_LangToEn[_("Copy")] = wxT("Copy");
@@ -504,4 +514,14 @@ void Toucan::InitLangMaps(){
 	m_LangToEn[_("Script")] = wxT("Script");
 	m_LangToEn[_("Settings")] = wxT("Settings");
 	m_LangToEn[_("Help")] = wxT("Help");
+    //Rules
+    m_LangToEn[_("Simple")] = "Simple";
+    m_LangToEn[_("Regex")] = "Regex";
+    m_LangToEn[_("Size")] = "Size";
+    m_LangToEn[_("Date")] = "Date";
+    m_LangToEn[_("File Include")] = "File Include";
+    m_LangToEn[_("File Exclude")] = "File Exclude";
+    m_LangToEn[_("Folder Include")] = "Folder Include";
+    m_LangToEn[_("Folder Exclude")] = "Folder Exclude";
+    m_LangToEn[_("Absolute Folder Exclude")] ="Absolute Folder Exclude";
 }
