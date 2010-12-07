@@ -2358,7 +2358,8 @@ void frmMain::SetRulesGrid(){
     m_RulesGrid->SetColLabelValue(2, _("Rule"));
     m_RulesGrid->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
     m_RulesGrid->SetColSize(0, 150);
-    m_RulesGrid->SetColSize(1, 200);
+    m_RulesGrid->SetColSize(1, 150);
+    m_RulesGrid->SetColSize(2, 150);
 }
 
 wxString frmMain::ToString(bool bl){
