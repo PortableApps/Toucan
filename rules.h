@@ -40,7 +40,8 @@ enum RuleResult{
 
 class Rule{
 public:
-    Rule(const wxString rule, RuleFunction function, RuleType type){
+    Rule() {}
+    Rule(const wxString &rule, RuleFunction function, RuleType type){
         this->rule = rule;
         this->normalised = Path::Normalise(rule);
         this->function = function;
@@ -49,12 +50,12 @@ public:
 
     RuleResult Matches(wxFileName path);
 
-
-private:
     wxString rule;
-    wxString normalised;
     RuleFunction function;
     RuleType type;
+
+private:
+    wxString normalised;
 };
 
 class RuleSet{
@@ -72,34 +73,6 @@ public:
 	void Add(Rule rule) { rules.push_back(rule); }
 
 	const wxString& GetName() const {return name;}
-
-	/*bool IsEmpty();
-	void Clear(){
-		m_ExcludedFiles.Clear();
-		m_ExcludedFolders.Clear();
-		m_IncludedLocations.Clear();
-	}
-
-	bool ShouldExclude(wxString path, bool directory); 
-	void SetName(const wxString& Name) {this->m_Name = Name;}
-	void SetExcludedFiles(const wxArrayString& FilesToExclude){
-		this->m_ExcludedFiles = FilesToExclude;
-		m_Normalised = false;
-	}
-	void SetExcludedFolders(const wxArrayString& FoldersToExclude){
-		this->m_ExcludedFolders = FoldersToExclude;
-		m_Normalised = false;
-	}
-	void SetIncludedLocations(const wxArrayString& LocationsToInclude){
-		this->m_IncludedLocations = LocationsToInclude;
-		m_Normalised = false;
-	}
-
-	const wxString& GetName() const {return m_Name;}
-	const wxArrayString& GetExcludedFiles() const {return m_ExcludedFiles;}
-	const wxArrayString& GetExcludedFolders() const {return m_ExcludedFolders;}
-	const wxArrayString& GetIncludedLocations() const {return m_IncludedLocations;}*/
-
 private:
     std::vector<Rule> rules;
 	wxString name;

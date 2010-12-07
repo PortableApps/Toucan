@@ -16,6 +16,24 @@
 #include "basicfunctions.h"
 #include "forms/frmmain.h"
 
+#include <boost/bimap.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/assign/list_inserter.hpp>
+
+//A pair of bimaps for easily converting between our enums and strings
+static const boost::bimap<wxString, RuleType> typemap = boost::assign::list_of<boost::bimap<wxString, RuleType>::relation>
+    (_("Simple"), Simple)
+    (_("Regex"), Regex)
+    (_("Size"), Size)
+    (_("Date"), Date);
+
+static const boost::bimap<wxString, RuleFunction> functionmap = boost::assign::list_of<boost::bimap<wxString, RuleFunction>::relation>
+    (_("File Include"), FileInclude)
+    (_("File Exclude"), FileExclude)
+    (_("Folder Include"), FolderInclude)
+    (_("Folder Exclude"), FolderExclude)
+    (_("Absolute Folder Exclude"), AbsoluteFolderExclude);
+
 RuleResult Rule::Matches(wxFileName path){
     bool match = false;
     if(type == Simple){
@@ -74,103 +92,92 @@ RuleResult RuleSet::Matches(wxFileName path){
 }
 
 bool RuleSet::TransferFromFile(){
-	/*bool error = false;
-	wxString stemp;
+    std::unique_ptr<wxFileConfig> config(new wxFileConfig("", "", wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules" + wxFILE_SEP_PATH + name + ".ini"));
 
-	if(!wxGetApp().m_Rules_Config->Exists(GetName())){
-		return false;
-	}
+    wxString temprule, tempfunction, temptype;
 
-	if(wxGetApp().m_Rules_Config->Read(GetName() + wxT("/FilesToInclude"), &stemp)) SetIncludedLocations(StringToArrayString(stemp, wxT("|")));
-		else error = true;
-	if(wxGetApp().m_Rules_Config->Read(GetName() + wxT("/FilesToExclude"), &stemp)) SetExcludedFiles(StringToArrayString(stemp, wxT("|")));
-		else error = true; 	
-	if(wxGetApp().m_Rules_Config->Read(GetName() + wxT("/FoldersToExclude"), &stemp))  SetExcludedFolders(StringToArrayString(stemp, wxT("|")));
-		else error = true;
-	
-	if(error){
-		wxMessageBox(_("There was an error reading from the rules file"), _("Error"), wxICON_ERROR);
-		return false;
-	}*/
+    //Iterate through all of the groups and read the rules
+    for(unsigned int i = 0; i < config->GetNumberOfGroups(); i++){
+        if(!config->Read(wxString::Format("%d", i) + "/Rule", &temprule)
+        || !config->Read(wxString::Format("%d", i) + "/Function", &tempfunction)
+        || !config->Read(wxString::Format("%d", i) + "/Type", &temptype)){
+            wxMessageBox(_("There was an error reading from the rules file"), _("Error"), wxICON_ERROR);
+            return false;
+        }
+        else{
+            Rule rule;
+            rule.rule = temprule;
+            rule.function = functionmap.left.at(ToLang(tempfunction));
+            rule.type = typemap.left.at(ToLang(temptype));
+            rules.push_back(rule);
+        }
+    }
 
-	return true;
+    return true;
 }
 
 bool RuleSet::TransferToFile(){
-	/*bool error = false;
+    if(!wxDirExists(wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules")){
+        wxMkdir(wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules");
+    }
+    std::unique_ptr<wxFileConfig> config(new wxFileConfig("", "", wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules" + wxFILE_SEP_PATH + name + ".ini"));
+    config->DeleteAll();
+    config->SetExpandEnvVars(false);
 
-	wxGetApp().m_Rules_Config->DeleteGroup(GetName());
+    for(unsigned int i = 0; i < rules.size(); i++){
+        if(!config->Write(wxString::Format("%d", i) + "/Rule", rules.at(i).rule)
+        || !config->Write(wxString::Format("%d", i) + "/Function", ToEn(functionmap.right.at(rules.at(i).function)))
+        || !config->Write(wxString::Format("%d", i) + "/Type", ToEn(typemap.right.at(rules.at(i).type)))){
+            wxMessageBox(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
+		    return false;
+        }
+    }
 
-	if(!wxGetApp().m_Rules_Config->Write(GetName() + wxT("/FilesToInclude"),  ArrayStringToString(GetIncludedLocations(), wxT("|")))) error = true;	
-	if(!wxGetApp().m_Rules_Config->Write(GetName() + wxT("/FilesToExclude"), ArrayStringToString(GetExcludedFiles(), wxT("|")))) error = true;	
-	if(!wxGetApp().m_Rules_Config->Write(GetName() + wxT("/FoldersToExclude"), ArrayStringToString(GetExcludedFolders(), wxT("|")))) error = true;
-	
-	wxGetApp().m_Rules_Config->Flush();
-	
-	if(error){
-		wxMessageBox(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
-		return false;
-	}*/
-	return true;
+    return true;
 }
 
 bool RuleSet::TransferFromForm(frmMain *window){
-	/*if(!window){
-		return false;
-	}
+    if(!window){
+        return false;
+    }
 
     //Clear the existing rules
-	Clear();
-	for(int i = 0; i < window->m_RulesGrid->GetNumberRows(); i++){
-		//Rules type is in column one and the rule in column two
-        const wxString type = window->m_RulesGrid->GetCellValue(i, 0);
-        const wxString rule = window->m_RulesGrid->GetCellValue(i, 1);
-		if(type == _("File to Exclude")){
-			m_ExcludedFiles.Add(rule);
-		}
-		else if(type == _("Folder to Exclude")){
-			m_ExcludedFolders.Add(rule);
-		}
-		else if(type == _("Location to Include")){
-			m_IncludedLocations.Add(rule);
-		}
-	}*/
-	return true;
+    rules.clear();
+    for(int i = 0; i < window->m_RulesGrid->GetNumberRows(); i++){
+        Rule rule;
+        rule.rule  = window->m_RulesGrid->GetCellValue(i, 2);
+        rule.function = functionmap.left.at(window->m_RulesGrid->GetCellValue(i, 0));
+        rule.type = typemap.left.at(window->m_RulesGrid->GetCellValue(i, 1));
+        rules.push_back(rule);
+    }
+    return true;
 }
 
 bool RuleSet::TransferToForm(frmMain *window){
-	/*if(!window){
-		return false;
-	}
-
-    //Set the rule name
-	window->m_Rules_Name->SetStringSelection(GetName());
-
-    wxGrid* grid = window->m_RulesGrid;
-    const int count = m_ExcludedFiles.Count() + m_ExcludedFolders.Count() + m_IncludedLocations.GetCount();
-    int runningpos = 0;
-    //Create a new grid with enough rows for the new items;
-    grid->ClearGrid();
-    grid->DeleteRows(0, grid->GetNumberRows());
-    grid->AppendRows(count);
-    //Set the editors
-    for(int i = 0; i < count; i++){
-        grid->SetCellEditor(i, 0, new wxGridCellChoiceEditor(window->m_RulesChoices));
-        grid->SetCellValue(i, 0, window->m_RulesChoices.Item(0));
+    if(!window){
+        return false;
     }
 
-    //Add the individual rules
-	for(unsigned int i = 0; i < m_ExcludedFiles.Count(); i++){
-		grid->SetCellValue(_("File to Exclude"), runningpos, 0);
-		grid->SetCellValue(m_ExcludedFiles.Item(i), runningpos++, 1);
-	}
-	for(unsigned int i = 0; i < m_ExcludedFolders.Count(); i++){
-		grid->SetCellValue(_("Folder to Exclude"), runningpos, 0);
-		grid->SetCellValue(m_ExcludedFolders.Item(i), runningpos++, 1);
-	}
-	for(unsigned int i = 0; i < m_IncludedLocations.GetCount(); i++){
-		grid->SetCellValue(_("Location to Include"), runningpos, 0);
-		grid->SetCellValue(m_IncludedLocations.Item(i), runningpos++, 1);
-    }*/
-	return true;
+    //Set the rule name
+    window->m_Rules_Name->SetStringSelection(GetName());
+
+    //Create a new grid with enough rows for the new items;
+    wxGrid* grid = window->m_RulesGrid;
+    if(grid->GetNumberRows() > 0)
+        grid->DeleteRows(0, grid->GetNumberRows());
+    grid->AppendRows(rules.size());
+
+    //Add the rules
+    for(unsigned int i = 0; i < rules.size(); i++){
+        //Set the editors
+        grid->SetCellEditor(i, 0, new wxGridCellChoiceEditor(window->m_RulesChoices));
+        grid->SetCellValue(i, 0, window->m_RulesChoices.Item(0));
+        grid->SetCellEditor(i, 1, new wxGridCellChoiceEditor(window->m_RulesTypeChoices));
+        grid->SetCellValue(i, 1, window->m_RulesTypeChoices.Item(0));
+        //Add the items
+        grid->SetCellValue(i, 0, functionmap.right.at(rules.at(i).function));
+        grid->SetCellValue(i, 1, typemap.right.at(rules.at(i).type));
+        grid->SetCellValue(i, 2, rules.at(i).rule);
+    }
+    return true;
 }

@@ -181,18 +181,20 @@ wxArrayString GetVariables(bool builtin = false){
 }
 
 wxArrayString GetRules(){
-	bool cont;
-	wxString value;
-	long dummy;
 	wxArrayString rules;
-
-	cont = wxGetApp().m_Rules_Config->GetFirstGroup(value, dummy);
-	while(cont){
-		if(value != wxT("General")){
-			rules.Add(value);
+	wxString path = wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules";
+	wxDir dir(path);
+	wxString filename;
+	bool valid = dir.GetFirst(&filename);
+	if(valid){
+		do{
+            //We have a file
+			if(!wxDirExists(path + filename)){
+                rules.Add(filename.BeforeFirst('.'));			
+			}
 		}
-		cont = wxGetApp().m_Rules_Config->GetNextGroup(value, dummy);
-	}
+		while(dir.GetNext(&filename));
+	} 
 	return rules;
 }
 

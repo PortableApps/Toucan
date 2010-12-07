@@ -8,6 +8,11 @@ project(Toucan)
 find_package(wxWidgets COMPONENTS net adv aui stc scintilla core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
+#Find boost
+set(BOOST_ROOT "C:/Programming/boost_1_44_0")
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 #Find Lua
 find_package(Lua51 REQUIRED)
 include_directories(${LUA_INCLUDE_DIR})
