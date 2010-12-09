@@ -208,9 +208,6 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 		return true;
 	}
 
-	//Yield so the display remains responsive
-	wxGetApp().Yield();
-
 	if(wxDirExists(path)){
 		//Clean up the path passed
 		if (path[path.length()-1] != wxFILE_SEP_PATH) {
@@ -218,36 +215,35 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 		}
 		wxDir dir(path);
 		wxString filename;
-		bool blDir = dir.GetFirst(&filename);
 		//If the path is ok
-		if(blDir){
+		if(dir.GetFirst(&filename)){
 			//Loop through all of the files and folders in the directory
 			do {
-				//If it is a directory
-				if(wxDirExists(path + filename))
-				{
-					//If the direcotry doesnt have any subfiles then we can safely add it to the file list
-					wxDir* dircheck = new wxDir(path + filename);
-					if(!dircheck->HasFiles() && !dircheck->HasSubDirs()){
-						if(GetRules()->Matches(wxFileName::DirName(path + filename)) != Excluded){
-							wxString strCombined = path + filename;
-							strCombined = strCombined.Right(strCombined.Length() - length);
-							file->AddLine(strCombined);
-						}
+                wxFileName location = wxFileName(path + filename);
+                RuleResult result = GetRules()->Matches(location);
 
+                if((result == Excluded && location.IsDir()) || 
+                  ((result == Included || result == NoMatch) && !location.IsDir())){
+                    //We recurse to check for included files or add the file to the list
+                    CreateList(file, path + filename, length);
+                }
+                else if((result == Included || result == NoMatch) && location.IsDir()){
+                    wxDir* dircheck = new wxDir(path + filename);
+                    bool nosub = !dircheck->HasFiles() && !dircheck->HasSubDirs();
+                    delete dircheck;
+                    //If we has no subfile or subfolders add to the list, otherwise recurse
+                    if(nosub){
+                        file->AddLine((path + filename).Right((path + filename).length() - length));
 					}
-					delete dircheck;
-					//Always call the function again to ensure that ALL files and folders are processed
-					CreateList(file, path + filename, length);
-				}
-				//If it is a file
-				else{
-					if(GetRules()->Matches(wxFileName::FileName(path + filename)) != Excluded){
-						wxString strCombined = path + filename;
-						strCombined = strCombined.Right(strCombined.Length() - length);
-						file->AddLine(strCombined);
-					}
-				}
+                    else{
+                        CreateList(file, path + filename, length);
+                    }
+					
+                }
+                else{
+                    //Do nothing as we are either an excluded file or an 
+                    //absolutely excluded folder
+                }
 			}
 			while (dir.GetNext(&filename));
 		}  
@@ -255,8 +251,7 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 	//We have been passed a file
 	else{
 		if(GetRules()->Matches(wxFileName::FileName(path)) != Excluded){
-			path = path.Right(path.Length() - length);
-			file->AddLine(path);
+			file->AddLine(path.Right(path.Length() - length));
 		}		
 	}
 	return true;
