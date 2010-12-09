@@ -35,6 +35,9 @@ static const boost::bimap<wxString, RuleFunction> functionmap = boost::assign::l
     (_("Absolute Folder Exclude"), AbsoluteFolderExclude);
 
 RuleResult Rule::Matches(wxFileName path){
+    //If we have a folder then a file rule isn't applied, but not vice-versa
+    if(path.IsDir() && (function == FileInclude || function == FileExclude))
+        return NoMatch;
     bool match = false;
     if(type == Simple){
         if(path.GetFullPath().Lower().Find(normalised.Lower()) != wxNOT_FOUND)
@@ -66,11 +69,11 @@ RuleResult Rule::Matches(wxFileName path){
     }
 
     if(match){
-        if(type == FileInclude || type == FolderInclude)
+        if(function == FileInclude || function == FolderInclude)
             return Included;
-        else if(type == FileExclude || type == FolderExclude)
+        else if(function == FileExclude || function == FolderExclude)
             return Excluded;
-        else if(type == AbsoluteFolderExclude)
+        else if(function == AbsoluteFolderExclude)
             return AbsoluteExcluded;
     }
     else{
