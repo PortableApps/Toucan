@@ -2349,8 +2349,8 @@ void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 
 void frmMain::SetRulesGrid(){
     //Create the grid and set the various styles
-    m_RulesGrid->ClearGrid();
-    m_RulesGrid->DeleteRows(0, m_RulesGrid->GetNumberRows());
+    if(m_RulesGrid->GetNumberRows() > 0)
+        m_RulesGrid->DeleteRows(0, m_RulesGrid->GetNumberRows());
     m_RulesGrid->HideRowLabels();
     m_RulesGrid->UseNativeColHeader();
     m_RulesGrid->SetColLabelValue(0, _("Include / Exclude"));
