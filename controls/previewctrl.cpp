@@ -19,8 +19,7 @@ void* PreviewThread::Entry(){
 		wxString filename;
 		//Supress any warning we might get here about folders we cant open
 		wxLogNull null;
-		bool ok = dir.GetFirst(&filename);
-		if(ok){
+		if(dir.GetFirst(&filename)){
 			do {
 				//Simple check to see if we should be excluded, if so colour red
 				wxString path = m_Path + filename;
@@ -32,8 +31,8 @@ void* PreviewThread::Entry(){
                     name = wxFileName::DirName(path);
 				else
 					name = wxFileName::FileName(path);
-                item = new DirCtrlItem(wxFileName::DirName(path));
-				if(m_Rules != NULL && m_Rules->Matches(name) != Excluded){
+                item = new DirCtrlItem(name);
+				if(m_Rules != NULL && (m_Rules->Matches(name) == Excluded || m_Rules->Matches(name) == AbsoluteExcluded)){
 					item->SetColour(wxColour("Red"));
 				}
 				items->push_back(item);
