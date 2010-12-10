@@ -17,7 +17,7 @@ public:
 	virtual void* Entry();
 
 private:
-	bool CryptDir(const wxString &path, SecureData *data);
+	bool Crypt(const wxString &path, SecureData *data);
 	bool CryptFile(const wxString &path, SecureData *data);
 };
 

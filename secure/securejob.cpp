@@ -31,76 +31,65 @@ void* SecureJob::Entry(){
 	}
 
 	//Iterate through the entries in the array
-	for(unsigned int i = 0; i < locations.Count(); i++)
-	{
-		if(wxGetApp().GetAbort()){
-			return NULL;
-		}
-		//Need to add normalisation to SecureData
-		if(locations.Item(i) != wxEmptyString){
-			if(wxDirExists(locations.Item(i))){
-				CryptDir(locations.Item(i), data);
-			}
-			else{
-				CryptFile(locations.Item(i), data);
-			}
-		}
+	for(unsigned int i = 0; i < locations.Count(); i++){
+        Crypt(locations.Item(i), data);
 	}
 	return NULL;
 }
 
-bool SecureJob::CryptDir(const wxString &path, SecureData *data)
+bool SecureJob::Crypt(const wxString &path, SecureData *data)
 {   
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
-	wxDir dir(path);
-	wxString filename;
-	bool blDir = dir.GetFirst(&filename);
-	if (blDir)
-	{
-		do {
-			if(wxGetApp().GetAbort()){
-				return true;
-			}
-			if (wxDirExists(path + wxFILE_SEP_PATH + filename) ){
-				CryptDir(path + wxFILE_SEP_PATH + filename, data);
-			}
-			else{
-				CryptFile(path + wxFILE_SEP_PATH + filename, data);
-			}
-		}
-		while (dir.GetNext(&filename) );
-	}   
+    if(wxDirExists(path)){
+	    wxDir dir(path);
+	    wxString filename;
+	    if(dir.GetFirst(&filename)){
+		    do{
+                wxFileName location = wxFileName(path + filename);
+                RuleResult result = data->GetRules()->Matches(location);
+
+                if((result == Excluded && location.IsDir()) || 
+                  ((result == Included || result == NoMatch))){
+                    //We recurse into subdirectories or to crypt files
+                    Crypt(path + filename, data);
+                }
+                else{
+                    //Do nothing as we are either an excluded file or an 
+                    //absolutely excluded folder
+                }
+		    }
+		    while (dir.GetNext(&filename) );
+	    }
+    }
+    else{
+        RuleResult res = data->GetRules()->Matches(wxFileName::FileName(path));
+        if(res != Excluded && res != AbsoluteExcluded){
+            CryptFile(path, data);
+        }
+    }
 	return true;
 }
 
 
-bool SecureJob::CryptFile(const wxString &path, SecureData *data)
-{
-	if(wxGetApp().GetAbort()){
-		return true;
-	}
-	//Check to see it the file should be excluded	
-	if(data->GetRules()->Matches(wxFileName::FileName(path)) == Excluded){
-		return true;
-	}
-	//Make sure that it is a 'real' file
-	wxFileName filename(path);
-	if(filename.IsOk() == true){
-		wxString size = filename.GetHumanReadableSize();
-		if(size == wxT("Not available")){
-			return false;
-		}
-	}
+bool SecureJob::CryptFile(const wxString &path, SecureData *data){
+    if(wxGetApp().GetAbort()){
+        return false;
+
+    //Make sure that it is a 'real' file
+    wxFileName filename(path);
+    if(filename.IsOk() && filename.GetSize() == 0)
+        return false;
 
 	//Ensure that we are not encrypting an already encrypted file or decrypting a non encrypted file
-	if(filename.GetExt() == wxT("cpt") && data->GetFunction() == _("Encrypt")){
+	if(filename.GetExt() == wxT("cpt") && data->GetFunction() == _("Encrypt"))
+	||(filename.GetExt() != wxT("cpt") && data->GetFunction() == _("Decrypt"))
+    ||(wxFileExists(path + wxT(".cpt") && data->GetFunction() == _("Encrypt"))
+    ||(wxFileExists(path.Left(path.length() - 4)) && data->GetFunction() == _("Decrypt")){
+        OutputProgress(_("Failed to encrypt ") + path, true, true);
 		return false;
-	}
-	if(filename.GetExt() != wxT("cpt") && data->GetFunction() == _("Decrypt")){
-		return false;
-	}	
+    }
 
 	//Set the file attributes to normal
 #ifdef __WXMSW__   
@@ -109,35 +98,19 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 #endif
 
 	wxString command;
-	const wxString exepath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "ccrypt ";
-	if(data->GetFunction() == _("Encrypt")){
-		if(wxFileExists(path + wxT(".cpt"))){
-			//We have a file with the encrypted name already there, skip it
-			OutputProgress(_("Failed to encrypt ") + path, true, true);
-			return true;
-		}
-		//Create and execute the command
+	const wxString exepath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "ccrypt";
+
+	if(data->GetFunction() == _("Encrypt"))
 		command = exepath + wxT("-f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
-	}
-	//Decryption
-	else{
-		if(wxFileExists(path.Left(path.Length() - 4))){
-			//We have a file with the decryped name already there, skip it
-			OutputProgress(_("Failed to decrypt ") + path, true, true);
-			return true;
-		}
+	else
 		command = exepath + wxT("-f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
-	}
 
 	int id = wxDateTime::Now().GetTicks();
 	wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_SECUREPROCESS);
 	event->SetInt(id);
 	event->SetString(command);
 	wxGetApp().QueueEvent(event);
-	//If we are in console then we yield to make sure the event is processed
-	if(!wxGetApp().IsGui()){
-		wxGetApp().Yield();
-	}
+
 	while(wxGetApp().m_StatusMap[id] != true){
 		wxMilliSleep(100);
 		if(!wxGetApp().IsGui()){
@@ -153,20 +126,16 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data)
 #endif
 
 	if(data->GetFunction() == _("Encrypt")){
-		if(lgReturn == 0){        
+		if(lgReturn == 0)
 			OutputProgress(_("Encrypted ") + path);
-		}
-		else{
+		else
 			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), true, true);
-		}
 	}
 	else{
-		if(lgReturn == 0){       
+		if(lgReturn == 0)
  			OutputProgress(_("Decrypted ") + path);
-		}
-		else{
+		else
  			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), true, true);
-		}
 	}
 	return true;
 }

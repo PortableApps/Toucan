@@ -250,7 +250,8 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 	}
 	//We have been passed a file
 	else{
-		if(GetRules()->Matches(wxFileName::FileName(path)) != Excluded){
+		RuleResult res = GetRules()->Matches(wxFileName::FileName(path));
+        if(res != Excluded && res != AbsoluteExcluded){
 			file->AddLine(path.Right(path.Length() - length));
 		}		
 	}
