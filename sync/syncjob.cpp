@@ -139,13 +139,16 @@ void SyncFiles::OnSourceNotDestFolder(const wxString &path){
 	//Call the function on the next subfolder
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
-	//Always recurse into the next directory
-	SyncFiles sync(source, dest, data);
-	sync.Execute();
+	//Always recurse into the next directory unless we have an absolute exclude
+    RuleResult res = data->GetRules()->Matches(wxFileName::DirName(source));
+    if(res != AbsoluteExcluded){
+	    SyncFiles sync(source, dest, data);
+	    sync.Execute();
+    }
 	if(data->GetFunction() != _("Clean")){
 		wxDir destdir(dest);
 		wxDir sourcedir(source);
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded){
 			wxRmdir(dest);
 		}
 		else{
@@ -164,14 +167,17 @@ void SyncFiles::OnSourceNotDestFolder(const wxString &path){
 void SyncFiles::OnNotSourceDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
+    RuleResult res = data->GetRules()->Matches(wxFileName::FileName(dest));
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-		if(data->GetRules()->Matches(wxFileName::FileName(dest)) != Excluded){
+		if(res != Excluded && res != AbsoluteExcluded){
 			RemoveDirectory(dest);		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
-		SyncFiles sync(source, dest, data);
-		sync.Execute();
+        if(res != AbsoluteExcluded){
+		    SyncFiles sync(source, dest, data);
+		    sync.Execute();
+        }
 		wxDir dir(source);
 		if(!dir.HasFiles() && !dir.HasSubDirs() && data->GetRules()->Matches(wxFileName::DirName(dest)) != Excluded){
 			wxRmdir(dest);
@@ -189,12 +195,15 @@ void SyncFiles::OnSourceAndDestFolder(const wxString &path){
 	wxString source = sourceroot + wxFILE_SEP_PATH + path;
 	wxString dest = destroot + wxFILE_SEP_PATH + path;
 	//Always recurse into the next directory
-	SyncFiles sync(source, dest, data);
-	sync.Execute();
+    RuleResult res = data->GetRules()->Matches(wxFileName::DirName(source));
+    if(res != AbsoluteExcluded){
+	    SyncFiles sync(source, dest, data);
+	    sync.Execute();
+    }
 	if(data->GetFunction() != _("Clean")){
 		wxDir destdir(dest);
 		wxDir sourcedir(source);
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded && res != AbsoluteExcluded){
 			wxRmdir(dest);
 		}
 		else{

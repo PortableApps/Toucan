@@ -182,7 +182,8 @@ void SyncPreview::OnSourceNotDestFolder(const wxString &path){
 		wxString source = sourceroot + wxFILE_SEP_PATH + path;
 		wxString dest = destroot + wxFILE_SEP_PATH + path;
 		DirCtrlItem* item = new DirCtrlItem(wxFileName::DirName(dest));
-		if(data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
+        RuleResult res = data->GetRules()->Matches(wxFileName::DirName(source));
+		if(res != Excluded && res != AbsoluteFolderExclude){
 			item->SetColour(wxT("Blue"));
 		}
 		else{
@@ -204,14 +205,16 @@ void SyncPreview::OnNotSourceDestFolder(const wxString &path){
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		DirCtrlIter iter = FindPath(&destitems, dest);
 		if(iter != destitems.end()){
-			if(data->GetRules()->Matches(wxFileName::DirName(dest)) != Excluded){
+            RuleResult res = data->GetRules()->Matches(wxFileName::DirName(dest));
+			if(res != Excluded && res != AbsoluteExcluded){
 				(*iter)->SetColour(wxT("Grey"));				
 			}		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
+        RuleResult res = data->GetRules()->Matches(wxFileName::DirName(dest));
 		DirCtrlItem* item = new DirCtrlItem(wxFileName::DirName(source));
-		if(data->GetRules()->Matches(wxFileName::DirName(dest)) != Excluded){
+		if(res != Excluded && res != AbsoluteExcluded){
 			item->SetColour(wxT("Blue"));
 		}
 		else{
@@ -227,7 +230,8 @@ void SyncPreview::OnSourceAndDestFolder(const wxString &path){
 	if(data->GetFunction() == _("Move")){
 	    DirCtrlIter iter = FindPath(&sourceitems, source);
 		if(iter != sourceitems.end()){
-			if(data->GetRules()->Matches(wxFileName::DirName(source)) != Excluded){
+            RuleResult res = data->GetRules()->Matches(wxFileName::DirName(source));
+			if(res != Excluded && res != AbsoluteExcluded){
 				(*iter)->SetColour(wxT("Red"));				
 			}		
 		}
