@@ -74,7 +74,7 @@ bool SecureJob::Crypt(const wxString &path, SecureData *data)
 
 
 bool SecureJob::CryptFile(const wxString &path, SecureData *data){
-    if(wxGetApp().GetAbort()){
+    if(wxGetApp().GetAbort())
         return false;
 
     //Make sure that it is a 'real' file
@@ -83,10 +83,10 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
         return false;
 
 	//Ensure that we are not encrypting an already encrypted file or decrypting a non encrypted file
-	if(filename.GetExt() == wxT("cpt") && data->GetFunction() == _("Encrypt"))
+	if((filename.GetExt() == wxT("cpt") && data->GetFunction() == _("Encrypt"))
 	||(filename.GetExt() != wxT("cpt") && data->GetFunction() == _("Decrypt"))
-    ||(wxFileExists(path + wxT(".cpt") && data->GetFunction() == _("Encrypt"))
-    ||(wxFileExists(path.Left(path.length() - 4)) && data->GetFunction() == _("Decrypt")){
+    ||(wxFileExists(path + wxT(".cpt")) && data->GetFunction() == _("Encrypt"))
+    ||(wxFileExists(path.Left(path.length() - 4)) && data->GetFunction() == _("Decrypt"))){
         OutputProgress(_("Failed to encrypt ") + path, true, true);
 		return false;
     }
