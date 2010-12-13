@@ -72,17 +72,6 @@ void SyncFiles::OperationCaller(std::map<wxString, int> paths){
 			else if((*iter).second == 3){
 				OnSourceAndDestFile((*iter).first);
 			}
-			//Update the progress bar for files only
-			if(wxGetApp().IsGui()){
-				IncrementGauge();
-				//If we have a file in both folders then increment again as we only do one pass
-				if((*iter).second == 3){
-					//But only if we are in a two way sync
-					if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Equalise")){
-						IncrementGauge();	
-					}
-				}
-			}
 		}
 	}
 	return;
@@ -236,10 +225,10 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 	wxString desttemp = wxPathOnly(dest) + wxFILE_SEP_PATH + wxT("Toucan.tmp");
 	if(File::Copy(source, desttemp)){
 		if(File::Rename(desttemp, dest, true)){
-			OutputProgress(_("Copied ") + source);
+			OutputProgress(_("Copied ") + source, Message);
 		}
 		else{
-			OutputProgress(_("Failed to copy ") + source, true, true);
+			OutputProgress(_("Failed to copy ") + source, Error);
 			if(wxFileExists(desttemp)){
 				wxRemoveFile(desttemp);
 			}
@@ -252,7 +241,7 @@ bool SyncFiles::CopyFile(const wxString &source, const wxString &dest){
 		}
 	}
 	else{
-		OutputProgress(_("Failed to copy ") + source, true, true);
+        OutputProgress(_("Failed to copy ") + source, Error);
 		#ifdef __WXMSW__
 			if(data->GetIgnoreRO()){
 
@@ -295,6 +284,7 @@ bool SyncFiles::CopyIfNeeded(wxString source, wxString dest){
             !data->GetCheckShort() && !data->GetCheckFull())){
 		return CopyFile(source, dest);
 	}
+    OutputProgress(_("Skipped ") + source, Message);
 	return false;
 }
 
@@ -323,10 +313,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 			}
 			else{
 				if(RemoveFile(path + filename)){
-					//We have to increment the gauge for ourself here
-					if(wxGetApp().IsGui()){
-						IncrementGauge();					
-					}
+                    OutputProgress(_("Removed ") + path, Message);
                 }
             }
 	
@@ -337,7 +324,7 @@ bool SyncFiles::RemoveDirectory(wxString path){
 	{
   		wxLogNull log;
 		if(wxFileName::Rmdir(path)){
-			OutputProgress(_("Removed ") + path);
+            OutputProgress(_("Removed ") + path, Message);
 		}
 	}
 	return true;
@@ -354,7 +341,7 @@ bool SyncFiles::CopyFolderTimestamp(const wxString &source, const wxString &dest
 
 bool SyncFiles::RemoveFile(const wxString &path){
 	if(File::Delete(path, data->GetRecycle(), data->GetIgnoreRO())){
-		OutputProgress(_("Removed ") + path);		
+        OutputProgress(_("Removed ") + path, Message);		
 		return true;
 	}
 	return false;

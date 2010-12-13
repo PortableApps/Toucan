@@ -1,13 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "../toucan.h"
 #include "../basicfunctions.h"
 #include "backupprocess.h"
-#include <wx/log.h>
 #include <wx/txtstrm.h>
 
 bool BackupProcess::HasInput()
@@ -21,14 +20,11 @@ bool BackupProcess::HasInput()
 		wxTextInputStream tis(*GetInputStream(), "\x0009", wxConvUTF8);
 		wxString msg = tis.ReadLine();
 		if(msg.Left(7).Lower() == wxT("warning") || msg.Left(5).Lower() == wxT("error")){
-			OutputProgress(msg, true, true);
+            OutputProgress(msg, Error);
 		}
 		else{
-			OutputProgress(msg);
+            OutputProgress(msg, Message);
 		}
-		IncrementGauge();
-		//Need a window update or refresh in here
-		wxMilliSleep(50);
 		hasInput = true;
 	}
 	return hasInput;

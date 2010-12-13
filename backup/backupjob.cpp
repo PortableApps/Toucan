@@ -1,8 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
+
 
 #include "backupjob.h"
 #include "backupprocess.h"
@@ -67,7 +68,7 @@ void* BackupJob::Entry(){
 					length += 2;
 				}
 			}
-			OutputProgress(_("Creating file list, this may take some time."));
+            OutputProgress(_("Creating file list, this may take some time."), Message);
 			if(!data->CreateList(file, data->GetLocation(i), length)){
 				return false;
 			}
@@ -84,17 +85,10 @@ void* BackupJob::Entry(){
 			event->SetInt(id);
 			event->SetString(commands.Item(i));
 			wxGetApp().QueueEvent(event);
-			//If we are in console then we yield to make sure the event is processed
-			if(!wxGetApp().IsGui()){
-				wxGetApp().Yield();
-			}
 			while(wxGetApp().m_StatusMap[id] != true){
 				if(!process->HasInput()){
 					//If there was no input then sleep for a while so we don't thrash the CPU
 					wxMilliSleep(100);
-					if(!wxGetApp().IsGui()){
-						wxGetApp().Yield();
-					}
 				}
 			}
 

@@ -17,11 +17,9 @@
 #include <wx/wx.h>
 
 #include "frmmain.h"
-#include "frmprogress.h"
 #include "frmvariable.h"
 #include "../toucan.h"
 #include "../dragndrop.h"
-#include "../script.h"
 #include "../rules.h"
 #include "../luamanager.h"
 #include "../basicfunctions.h"
@@ -34,6 +32,11 @@
 #include "../controls/previewctrl.h"
 #include "../controls/localdirctrl.h"
 #include "../controls/loglistctrl.h"
+
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+	#include <shobjidl.h>
+	#undef Yield
+#endif
 
 //frmMain event table
 BEGIN_EVENT_TABLE(frmMain, wxFrame)
@@ -147,6 +150,9 @@ frmMain::frmMain(){
 
 	Init();
 	wxFrame::Create(NULL, ID_AUIFRAME, wxT("Toucan"), position, size, style);
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+	m_TaskBarId = RegisterWindowMessage(wxT("TaskbarButtonCreated"));
+#endif
 	CreateControls();
 }
 
@@ -202,6 +208,10 @@ void frmMain::Init(){
 	m_Script_Styled = NULL;
 
 	menuRules = NULL;
+
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+	m_Taskbar = NULL;
+#endif
 
 	m_Font = new wxFont();
 	m_BackupLocations = new wxArrayString();
@@ -1902,7 +1912,7 @@ void frmMain::JobAdd(wxComboBox* box){
 	if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == dialog.GetValue().Lower()){
-				wxMessageBox(_("There is already a job with this name"), _("Error"), wxICON_ERROR);
+				wxMessageBox(_("There is already a job with this name"), _("Error"), wxOK|wxICON_ERROR);
 				return;
 			}
 		}
@@ -2365,3 +2375,22 @@ void frmMain::SetRulesGrid(){
 wxString frmMain::ToString(bool bl){
 	return bl ? "true" : "false";
 }
+
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+WXLRESULT frmMain::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam){
+	if(message == m_TaskBarId){
+		int major = wxPlatformInfo::Get().GetOSMajorVersion();
+		int minor = wxPlatformInfo::Get().GetOSMajorVersion();
+		//Only supported on windows 7 and greater
+		if(major >= 6 && minor >= 1){
+			if(m_Taskbar){
+				m_Taskbar->Release();
+			}
+			
+			CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_Taskbar);
+			m_Taskbar->HrInit();
+		}
+	}
+	return wxFrame::MSWWindowProc(message, wparam, lparam);
+}
+#endif

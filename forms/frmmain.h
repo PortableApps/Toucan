@@ -33,6 +33,10 @@ class Settings;
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
 
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+    struct ITaskbarList3;
+#endif
+
 enum{
 	ID_AUIFRAME = wxID_HIGHEST + 1,
 	ID_AUINOTEBOOK,
@@ -298,6 +302,13 @@ public:
 
 	//Convenience function
 	wxString ToString(bool bl);
+
+#if defined(__WXMSW__) && !defined(__MINGW32__)
+	WXUINT m_TaskBarId;
+	ITaskbarList3 *m_Taskbar;
+	//We catch windows events so we can support windows 7 taskbar progress
+	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam);
+#endif
 
 	//General
 	wxAuiManager m_auiManager;

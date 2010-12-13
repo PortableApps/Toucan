@@ -16,11 +16,18 @@ wxString ArrayStringToString(const wxArrayString &strings, const wxString &seper
 //Used for turning a string into an arraystring when the string are seperated by seperator, used when read from ini files
 wxArrayString StringToArrayString(const wxString &string, const wxString &seperator);
 
-//Basic function to write output to progress form, used to keep code clean, with optional date and error
-void OutputProgress(const wxString &message, bool time = false, bool error = false);
+//Priority codes for progress output, higher codes have higher priority and so 
+//go to the bottom of the list
+enum OutputType{
+    FinishingLine, //(includes time)
+    FinishingInfo,
+    Message, //(increments the progress bar)
+    StartingInfo,
+    StartingLine, //(includes time)
+    Error //(includes time and red colour and increments the progress bar)
+};
 
-//Functions to set up the progress bar
-void IncrementGauge();
+void OutputProgress(const wxString &message, OutputType type);
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
 Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/

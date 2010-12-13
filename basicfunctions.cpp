@@ -16,6 +16,10 @@
 #include <wx/fileconf.h>
 #include <wx/msgdlg.h>
 
+#include <boost/interprocess/ipc/message_queue.hpp>
+
+using namespace boost::interprocess;
+
 #include "toucan.h"
 #include "settings.h"
 #include "basicfunctions.h"
@@ -50,34 +54,18 @@ wxArrayString StringToArrayString(const wxString &string, const wxString &sepera
 	return strings;
 }
 
-void OutputProgress(const wxString &message, bool time, bool error){
-	int type = 0;
-	if(time && error){
-		type = 1;
-	}
-	else if(error){
-		type = 2;
-	}
-	else if(time){
-		type = 3;
-	}
-	if(wxGetApp().IsGui()){
-		wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
-		event->SetString(message);
-		event->SetInt(type);
-		wxGetApp().QueueEvent(event);
-	}
-	else{
-		wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, ID_OUTPUT);
-		event.SetString(message);
-		event.SetInt(type);
-		wxGetApp().ProcessEvent(event);
-	}
-}
+void OutputProgress(const wxString &message, OutputType type){
+    std::string out =  message.ToStdString();
 
-void IncrementGauge(){
-	wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_PROGRESS);
-	wxGetApp().QueueEvent(event);
+    try{
+//        permissions access;
+ //       access.set_unrestricted();
+        message_queue mq(open_or_create, "progress", 100, 10000/*, access*/);
+        mq.send(out.data(), out.size(), type);
+    }
+    catch(std::exception &ex){
+        wxLogError("%s", ex.what());
+    }
 }
 
 double GetInPB(const wxString &value){

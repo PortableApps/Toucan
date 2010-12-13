@@ -1,13 +1,13 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef FRMPROGRESS_H
 #define FRMPROGRESS_H
 
-#include <wx/frame.h>
+#include <wx/dialog.h>
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	struct ITaskbarList3;
@@ -16,15 +16,18 @@
 class wxListCtrl;
 class wxButton;
 class wxGauge;
+class wxBitmapButton;
+class wxBitmapToggleButton;
 
 enum{
 	ID_FRMPROGRESS = wxID_HIGHEST + 1,
 	ID_PANEL_PROGRESS,
 	ID_PROGRESS_LIST,
-	ID_PROGRESS_GAUGE
+	ID_PROGRESS_GAUGE,
+    ID_PROGRESS_AUTOSCROLL
 };
 
-class frmProgress: public wxFrame
+class frmProgress: public wxDialog
 {
 	DECLARE_EVENT_TABLE()
 
@@ -39,17 +42,21 @@ public:
 	void CreateControls();
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
-	WXUINT m_TaskBarId;
 	ITaskbarList3 *m_Taskbar;
-	//We catch windows events so we can support windows 7 taskbar progress
-	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lparam);
+    void SetTaskbar(ITaskbarList3 *bar) {m_Taskbar = bar;}
 #endif
 
+    void OnIdle(wxIdleEvent& event);
     void OnSize(wxSizeEvent& event);
 	void OnClose(wxCloseEvent& event);
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);
+    wxBitmap GetBitmapResource(const wxString& name);
+
+    void RequestUserAttention();
+    void StartProgress();
+    void FinishProgress();
 
 	void IncrementGauge();
 	void FinishGauge();
@@ -57,7 +64,8 @@ public:
 	wxListCtrl* m_List;
 	wxButton* m_OK;
 	wxButton* m_Cancel;
-	wxButton* m_Save;
+	wxBitmapButton* m_Save;
+    wxBitmapToggleButton* m_Autoscroll;
 	wxGauge* m_Gauge;
 };
 

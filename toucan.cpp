@@ -16,6 +16,10 @@
 #include <wx/image.h> 
 #include <cxxtest/ErrorPrinter.h>
 
+#include <boost/interprocess/ipc/message_queue.hpp>
+
+using namespace boost::interprocess;
+
 #ifdef __MINGW32__
 #define _WIN32_WINNT 0x0500
 #endif
@@ -29,7 +33,6 @@
 
 #include "test.h"
 #include "toucan.h"
-#include "script.h"
 #include "settings.h"
 #include "luamanager.h"
 #include "signalprocess.h"
@@ -45,14 +48,12 @@ IMPLEMENT_APP_NO_MAIN(Toucan)
 IMPLEMENT_CLASS(Toucan, wxApp)
 
 BEGIN_EVENT_TABLE(Toucan, wxApp)
-	EVT_COMMAND(ID_OUTPUT, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnOutput)
-	EVT_COMMAND(ID_FINISH, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnFinish)
 	EVT_COMMAND(ID_PROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProcess)
 	EVT_COMMAND(ID_BACKUPPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnBackupProcess)
 	EVT_COMMAND(ID_SECUREPROCESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnSecureProcess)
 	EVT_COMMAND(ID_GETPASSWORD, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnGetPassword)
-	EVT_COMMAND(ID_PROGRESS, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgress)
 	EVT_COMMAND(ID_PROGRESSSETUP, wxEVT_COMMAND_BUTTON_CLICKED, Toucan::OnProgressSetup)
+    EVT_TIMER(wxID_ANY, Toucan::OnTimer)
 END_EVENT_TABLE()
 
 int main(int argc, char *argv[]){
@@ -188,6 +189,9 @@ bool Toucan::OnInit(){
 		exit(0);
 	}
 
+    //Remove any messgae queues that might be left from a crash 
+    boost::interprocess::message_queue::remove("progress");
+
 	if(m_IsGui){
 		//Set up the main form
 		MainWindow = new frmMain();
@@ -206,6 +210,8 @@ bool Toucan::OnInit(){
 
 	}
 	else{
+        m_Timer = new wxTimer(this, wxID_ANY);
+        m_Timer->Start(5);
         if(parser.Found("password")){
             wxString pass;
             parser.Found("password", &pass);
@@ -224,7 +230,7 @@ bool Toucan::OnInit(){
 				m_LuaManager->Run(type.Lower() + "([[" + name + "]])");
 			}
 			else{
-				OutputProgress(_("The job does not exist"), true, true);
+                OutputProgress(_("The job does not exist"), FinishingLine);
 			}
 		}
 	}
@@ -257,6 +263,11 @@ void Toucan::SetLanguage(const wxString &lang){
 
 //Cleanup
 int Toucan::OnExit(){
+    if(!IsGui()){
+        m_Timer->Stop();
+        delete m_Timer;
+    }
+    boost::interprocess::message_queue::remove("progress");
 	if(m_IsLogging){
 		m_LogFile->Write();
 	}
@@ -319,50 +330,13 @@ void Toucan::KillConime(){
 #endif
 }
 
-void Toucan::OnOutput(wxCommandEvent &event){
-	if(m_IsLogging){
-		wxString line = event.GetString();
-		if(event.GetInt() == 1 || event.GetInt() == 3){
-			line << "    " << wxDateTime::Now().FormatISOTime();
-		}
-		m_LogFile->AddLine(line);
-	}
-	if(m_IsGui){
-		frmProgress *window = m_LuaManager->GetProgressWindow();
-		if(window){
-			long index = window->m_List->InsertItem(window->m_List->GetItemCount(), wxEmptyString);
-			window->m_List->SetItem(index, 1, event.GetString());
-			if(event.GetInt() == 1){
-				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(event.GetInt() == 2){
-				window->m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			else if(event.GetInt() == 3){
-				window->m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-			}
-			window->m_List->EnsureVisible(index);
-			window->Update();
-		}
-            window->m_List->SetColumnWidth(1, -1);
-	}
-	else{
-		std::cout << event.GetString();
-		if(event.GetInt() == 1 || event.GetInt() == 3){
-			std::cout << "    " << wxDateTime::Now().FormatISOTime();
-		}
-		std::cout << std::endl;
-	}
-}
-
 void Toucan::OnProcess(wxCommandEvent &event){
 	m_StatusMap[event.GetInt()] = false;
 	SignalProcess *process = new SignalProcess(event.GetInt());
 	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	if(pid == 0){
 		//We have an error
-		OutputProgress(_("Could not run ") + event.GetString());
+		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
 	}
 }
@@ -373,7 +347,7 @@ void Toucan::OnBackupProcess(wxCommandEvent &event){
 	static_cast<BackupProcess*>(event.GetEventObject())->SetRealPid(pid);
 	if(pid == 0){
 		//We have an error
-		OutputProgress(_("Could not run ") + event.GetString());
+		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
 	}
 }
@@ -385,22 +359,8 @@ void Toucan::OnSecureProcess(wxCommandEvent &event){
 	long pid = wxExecute(event.GetString(), wxEXEC_ASYNC|wxEXEC_NODISABLE, process);
 	if(pid == 0){
 		//We have an error
-		OutputProgress(_("Could not run ") + event.GetString());
+		OutputProgress(_("Could not run ") + event.GetString(), Error);
 		m_StatusMap[event.GetInt()] = true;
-	}
-}
-
-void Toucan::OnFinish(wxCommandEvent &WXUNUSED(event)){
-	m_LuaManager->CleanUp();
-	if(m_IsGui){
-		wxCommandEvent event;
-		MainWindow->OnSyncRefresh(event);
-		MainWindow->OnBackupRefresh(event);
-		MainWindow->OnSecureRefresh(event);
-	}
-	else{
-		OnExit();
-		exit(0);
 	}
 }
 
@@ -435,13 +395,6 @@ void Toucan::OnProgressSetup(wxCommandEvent &event){
 	frmProgress *window = m_LuaManager->GetProgressWindow();
 	if(window){
 		window->m_Gauge->SetRange(event.GetInt());
-	}
-}
-
-void Toucan::OnProgress(wxCommandEvent &WXUNUSED(event)){
-	frmProgress *window = m_LuaManager->GetProgressWindow();
-	if(window){
-		window->IncrementGauge();
 	}
 }
 
@@ -524,4 +477,36 @@ void Toucan::InitLangMaps(){
     m_LangToEn[_("Folder Include")] = "Folder Include";
     m_LangToEn[_("Folder Exclude")] = "Folder Exclude";
     m_LangToEn[_("Absolute Folder Exclude")] ="Absolute Folder Exclude";
+}
+
+void Toucan::OnTimer(wxTimerEvent &WXUNUSED(event)){
+    try{
+        message_queue mq(open_or_create, "progress", 100, 10000);
+
+        std::string message;
+        message.resize(10000);
+        size_t size;
+        unsigned int priority;
+
+        if(mq.try_receive(&message[0], message.size(), size, priority)){
+            message.resize(size);
+            wxString wxmessage(message.c_str(), wxConvUTF8);
+
+            std::cout << wxmessage;
+
+			if(priority == Error || priority == StartingLine || priority == FinishingLine){
+                std::cout << "\t" << wxDateTime::Now().FormatISOTime();
+			}
+
+            if(priority == FinishingLine){
+                OnExit();
+                exit(EXIT_SUCCESS);
+            }
+
+            std::cout << std::endl;
+        }
+    }
+    catch(std::exception &ex){
+        wxLogError("%s", ex.what());
+    }
 }

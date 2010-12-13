@@ -87,7 +87,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
 	||(filename.GetExt() != wxT("cpt") && data->GetFunction() == _("Decrypt"))
     ||(wxFileExists(path + wxT(".cpt")) && data->GetFunction() == _("Encrypt"))
     ||(wxFileExists(path.Left(path.length() - 4)) && data->GetFunction() == _("Decrypt"))){
-        OutputProgress(_("Failed to encrypt ") + path, true, true);
+        OutputProgress(_("Failed to encrypt ") + path, Error);
 		return false;
     }
 
@@ -110,15 +110,10 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
 	event->SetInt(id);
 	event->SetString(command);
 	wxGetApp().QueueEvent(event);
-
 	while(wxGetApp().m_StatusMap[id] != true){
 		wxMilliSleep(100);
-		if(!wxGetApp().IsGui()){
-			wxGetApp().Yield();
-		}
 	}
 	long lgReturn = wxGetApp().m_ProcessStatusMap[id];
-	IncrementGauge();
 
 	//Put the old attributed back
 #ifdef __WXMSW__
@@ -127,15 +122,15 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
 
 	if(data->GetFunction() == _("Encrypt")){
 		if(lgReturn == 0)
-			OutputProgress(_("Encrypted ") + path);
+            OutputProgress(_("Encrypted ") + path, Message);
 		else
-			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), true, true);
+			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), Error);
 	}
 	else{
 		if(lgReturn == 0)
- 			OutputProgress(_("Decrypted ") + path);
+ 			OutputProgress(_("Decrypted ") + path, Message);
 		else
- 			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), true, true);
+ 			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), Error);
 	}
 	return true;
 }
