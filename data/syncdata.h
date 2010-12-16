@@ -46,8 +46,8 @@ public:
 	bool TransferToForm(frmMain *window);
 	bool TransferFromForm(frmMain *window);
 
-	void SetSource(const wxString& Source) {this->m_Source = Source;}
-	void SetDest(const wxString& Dest) {this->m_Dest = Dest;}
+	void SetSource(const wxFileName& source) {this->source = source;}
+	void SetDest(const wxFileName& dest) {this->dest = dest;}
 	void SetFunction(const wxString& Function) {this->m_Function = Function;}
 	void SetCheckSize(const bool& CheckSize) {this->m_Checks.Size = CheckSize;}
 	void SetCheckTime(const bool& CheckTime) {this->m_Checks.Time = CheckTime;}
@@ -59,8 +59,8 @@ public:
 	void SetRecycle(const bool& Recycle) {this->m_Options.Recycle = Recycle;}
 	void SetPreviewChanges(const bool& Changes) {this->m_Options.PreviewChanges = Changes;}
 
-	const wxString& GetSource() const {return m_Source;}
-	const wxString& GetDest() const {return m_Dest;}
+	const wxFileName& GetSource() const {return source;}
+	const wxFileName& GetDest() const {return dest;}
 	const wxString& GetFunction() const {return m_Function;}
 	const bool& GetCheckSize() const {return m_Checks.Size;}
 	const bool& GetCheckTime() const {return m_Checks.Time;}
@@ -73,8 +73,8 @@ public:
 	const bool& GetPreviewChanges() const {return m_Options.PreviewChanges;}
 
 private:
-	wxString m_Source;
-	wxString m_Dest;
+	wxFileName source;
+	wxFileName dest;
 	wxString m_Function;
 	wxString m_PreText;
 	SyncChecks m_Checks;

@@ -23,25 +23,25 @@ public:
 class SyncFiles : public SyncBase
 {
 public:
-	SyncFiles(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata);
+	SyncFiles(const wxFileName &syncsource, const wxFileName &syncdest, SyncData* syncdata);
 	bool Execute();
 
 protected:
 	virtual void OperationCaller(std::map<wxString, int> paths);
-	virtual void OnSourceNotDestFile(const wxString &path);
-	virtual void OnNotSourceDestFile(const wxString &path);
-	virtual void OnSourceAndDestFile(const wxString &path);
-	virtual void OnSourceNotDestFolder(const wxString &path);
-	virtual void OnNotSourceDestFolder(const wxString &path);
-	virtual void OnSourceAndDestFolder(const wxString &path);
+	virtual void OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest);
+	virtual void OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest);
+	virtual void OnSourceAndDestFile(const wxFileName &source, const wxFileName &dest);
+	virtual void OnSourceNotDestFolder(const wxFileName &source, const wxFileName &dest);
+	virtual void OnNotSourceDestFolder(const wxFileName &source, const wxFileName &dest);
+	virtual void OnSourceAndDestFolder(const wxFileName &source, const wxFileName &dest);
 
-	bool CopyIfNeeded(wxString source, wxString dest);
-	bool CopyFile(const wxString &source, const wxString &dest);
-	bool CopyFolderTimestamp(const wxString &source, const wxString &dest);
-	bool SourceAndDestCopy(const wxString &source, const wxString &dest);
+	bool CopyIfNeeded(const wxFileName &source, const wxFileName &dest);
+	bool CopyFile(const wxFileName &source, const wxFileName &dest);
+	bool CopyFolderTimestamp(const wxFileName &source, const wxFileName &dest);
+	bool SourceAndDestCopy(const wxFileName &source, const wxFileName &dest);
 
-	bool RemoveDirectory(wxString path);
-	bool RemoveFile(const wxString &path);
+	bool RemoveDirectory(const wxFileName &path);
+	bool RemoveFile(const wxFileName &path);
 };
 
 #endif

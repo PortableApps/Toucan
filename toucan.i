@@ -29,10 +29,10 @@
 		}
 		FileCounter counter;
 		if(data->GetFunction() != _("Mirror")){
-			counter.AddPath(data->GetSource());		
+			counter.AddPath(data->GetSource().GetFullPath());		
 		}
 		else{
-			counter.AddPath(data->GetDest());	
+			counter.AddPath(data->GetDest().GetFullPath());	
 		}
 
 		counter.Count();

@@ -6,16 +6,18 @@
 
 #include "toucan.h"
 #include <wx/string.h>
+#include <wx/filename.h>
 
 namespace File{
-	int Copy(const wxString& source, const wxString &dest);
-	int Rename(const wxString& source, const wxString &dest, bool overwrite);
-	int Delete(const wxString&path, bool recycle, bool ignorero);
-	void Normalise(wxString *path);
+	int Copy(const wxFileName &source, const wxFileName &dest);
+	int Rename(const wxFileName &source, const wxFileName &dest, bool overwrite);
+	int Delete(const wxFileName &path, bool recycle, bool ignorero);
+    //In wxMSW we get the full path and then preprend \\?\ to avoid filename limits
+    wxString GetLongPath(const wxFileName &path);
 }
 
 #ifdef __WXMSW__
-	DWORD CALLBACK CopyProgressRoutine(LARGE_INTEGER TotalFileSize, LARGE_INTEGER TotalBytesTransferred, LARGE_INTEGER StreamSize,
-							  LARGE_INTEGER StreamBytesTransferred, DWORD dwStreamNumber, DWORD dwCallbackReason,
-							  HANDLE hSourceFile, HANDLE hDestinationFile, LPVOID lpData);
+    DWORD CALLBACK CopyProgressRoutine(LARGE_INTEGER TotalFileSize, LARGE_INTEGER TotalBytesTransferred, LARGE_INTEGER StreamSize,
+                                       LARGE_INTEGER StreamBytesTransferred, DWORD dwStreamNumber, DWORD dwCallbackReason,
+                                       HANDLE hSourceFile, HANDLE hDestinationFile, LPVOID lpData);
 #endif

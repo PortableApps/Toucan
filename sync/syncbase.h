@@ -13,32 +13,35 @@ class Rules;
 #include <map>
 #include <list>
 #include <wx/string.h>
+#include <wx/filename.h>
+
+bool operator < (const wxFileName &a, const wxFileName &b);
 
 class SyncBase
 {
 public:
-	SyncBase(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata);
+	SyncBase(const wxFileName &syncsource, const wxFileName &syncdest, SyncData* syncdata);
 	virtual ~SyncBase();
 
 protected:
-	std::list<wxString> FolderContentsToList(const wxString &path);
+	std::list<wxString> FolderContentsToList(const wxFileName &path);
 	std::map<wxString, int> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
 	virtual void OperationCaller(std::map<wxString, int> paths) = 0;
 
-	virtual void OnSourceNotDestFile(const wxString &path) = 0;
-	virtual void OnNotSourceDestFile(const wxString &path) = 0;
-	virtual void OnSourceAndDestFile(const wxString &path) = 0;
-	virtual void OnSourceNotDestFolder(const wxString &path) = 0;
-	virtual void OnNotSourceDestFolder(const wxString &path) = 0;
-	virtual void OnSourceAndDestFolder(const wxString &path) = 0;
+	virtual void OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest) = 0;
+	virtual void OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest) = 0;
+	virtual void OnSourceAndDestFile(const wxFileName &source, const wxFileName &dest) = 0;
+	virtual void OnSourceNotDestFolder(const wxFileName &source, const wxFileName &dest) = 0;
+	virtual void OnNotSourceDestFolder(const wxFileName &source, const wxFileName &dest) = 0;
+	virtual void OnSourceAndDestFolder(const wxFileName &source, const wxFileName &dest) = 0;
 
-	bool ShouldCopySize(const wxString &source, const wxString &dest);
-	bool ShouldCopyTime(const wxString &source, const wxString &dest);
-	bool ShouldCopyShort(const wxString &source, const wxString &dest);
-	bool ShouldCopyFull(const wxString &source, const wxString &dest);
+	bool ShouldCopySize(const wxFileName &source, const wxFileName &dest);
+	bool ShouldCopyTime(const wxFileName &source, const wxFileName &dest);
+	bool ShouldCopyShort(const wxFileName &source, const wxFileName &dest);
+	bool ShouldCopyFull(const wxFileName &source, const wxFileName &dest);
 
-	wxString sourceroot;
-	wxString destroot;
+	wxFileName sourceroot;
+	wxFileName destroot;
 	SyncData *data;
 };
 

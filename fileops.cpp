@@ -6,60 +6,58 @@
 
 #include "fileops.h"
 
-int File::Copy(const wxString& source, const wxString &dest){
+int File::Copy(const wxFileName &source, const wxFileName &dest){
+    wxString longsource = GetLongPath(source), longdest = GetLongPath(dest);
 #ifdef __WXMSW__
-	wxString sourcemsw(source), destmsw(dest);
-	File::Normalise(&sourcemsw);
-	File::Normalise(&destmsw);
-	return CopyFileEx(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
+	return CopyFileEx(longsource.fn_str(), longdest.fn_str(), &CopyProgressRoutine, NULL, NULL, 0);
 #else
-	return wxCopyFile(source, dest, true);
+	return wxCopyFile(longsource, longdest, true);
 #endif
 }
 
-int File::Rename(const wxString& source, const wxString &dest, bool overwrite){
+int File::Rename(const wxFileName &source, const wxFileName &dest, bool overwrite){
+    wxString longsource = GetLongPath(source), longdest = GetLongPath(dest);
 #ifdef __WXMSW__
-	wxString sourcemsw(source), destmsw(dest);
-	File::Normalise(&sourcemsw);
-	File::Normalise(&destmsw);
 	DWORD flags = overwrite ? MOVEFILE_REPLACE_EXISTING : 0;
-	return MoveFileWithProgress(sourcemsw.fn_str(), destmsw.fn_str(), &CopyProgressRoutine, NULL, flags);
+	return MoveFileWithProgress(longsource.fn_str(), longdest.fn_str(), &CopyProgressRoutine, NULL, flags);
 #else
-	return wxRenameFile(source, dest, overwrite);
+	return wxRenameFile(longsource, longdest, overwrite);
 #endif
 }
 
-int File::Delete(const wxString& path, bool recycle, bool ignorero){
+int File::Delete(const wxFileName &path, bool recycle, bool ignorero){
+    wxString longpath = GetLongPath(path);
 #ifdef __WXMSW__
 	//If we want to recycle then we must use a shfileop but it doesn't support
 	//long paths
     if(ignorero){
-        SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
+        SetFileAttributes(longpath.fn_str(), FILE_ATTRIBUTE_NORMAL);
     }
 	if(recycle){
-		wxString tmppath(path);
+		wxString tmppath(path.GetFullPath());
 		tmppath += wxT('\0');
 
 		SHFILEOPSTRUCT opstruct;
 		ZeroMemory(&opstruct, sizeof(opstruct));
 		opstruct.wFunc = FO_DELETE;
-		opstruct.pFrom = tmppath.fn_str();
+		opstruct.pFrom = longpath.fn_str() + '\0';
 		opstruct.fFlags = FOF_ALLOWUNDO | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
 		return SHFileOperation(&opstruct);
 	}
 	else{
-		wxString pathmsw(path);
-		File::Normalise(&pathmsw);
-		return DeleteFile(pathmsw.fn_str());
+		return DeleteFile(longpath.fn_str());
 	}
 #else
-	return wxRemoveFile(path);
+	return wxRemoveFile(longpath);
 #endif
 }
 
-void File::Normalise(wxString *path){
-	path->Replace("/", "\\");
-	path->Prepend("\\\\?\\");
+wxString File::GetLongPath(const wxFileName &path){
+#ifdef __WXMSW__
+    return "\\\\?\\" + path.GetFullPath();
+#else
+    return path.GetFullPath();
+#endif
 }
 
 #ifdef __WXMSW__

@@ -17,41 +17,35 @@
 #include <vector>
 #include <memory>
 
-SyncBase::SyncBase(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata) 
+bool operator < (const wxFileName &a, const wxFileName &b){
+    if(a.SameAs(b))
+        return false;
+    else if(a.GetFullPath().CmpNoCase(b.GetFullPath()) < 0)
+        return true;
+    else
+        return false;
+}
+
+
+SyncBase::SyncBase(const wxFileName &source, const wxFileName &dest, SyncData* syncdata) 
          :data(syncdata)
 {
-	//Strip trailing slashes
-	if(syncsource[syncsource.Length() - 1] == wxFILE_SEP_PATH){
-		this->sourceroot = syncsource.Left(syncsource.Length() - 1);
-	}
-	else{
-		sourceroot = syncsource;
-	}
-	if(syncdest[syncdest.Length() - 1] == wxFILE_SEP_PATH){
-		this->destroot = syncdest.Left(syncdest.Length() - 1);
-	}
-	else{
-		destroot = syncdest;
-	}
-    sourceroot = Path::Normalise(sourceroot);
-    destroot = Path::Normalise(destroot);
-    sourceroot.Replace("\\\\", "\\");
-    destroot.Replace("\\\\", "\\");
+    this->sourceroot = Path::Normalise(source);
+    this->destroot = Path::Normalise(dest);
 }
 
 SyncBase::~SyncBase(){
 	;
 }
 
-std::list<wxString> SyncBase::FolderContentsToList(const wxString &path){
+std::list<wxString> SyncBase::FolderContentsToList(const wxFileName &path){
 	std::list<wxString> paths;
-	wxFileName fnpath = wxFileName::DirName(path);
-	if(fnpath.DirExists()){
+	if(path.DirExists()){
 		wxString filename;
-		wxDir dir(path);
+		wxDir dir(path.GetFullPath());
 		if(dir.GetFirst(&filename)){
 			do{
-				paths.push_back(filename);
+		        paths.push_back(filename);
 			}
 			while(dir.GetNext(&filename));
 		}
@@ -60,13 +54,11 @@ std::list<wxString> SyncBase::FolderContentsToList(const wxString &path){
 }
 
 std::map<wxString, int> SyncBase::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
-	std::list<wxString>::iterator iter;
-	std::list<wxString>::iterator destiter;
 	std::map<wxString, int> mergeresult;
-	for(iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
+	for(auto iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
 		bool destexists = false;
-		for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
-			if((*destiter).Lower() == (*iter).Lower()){
+		for(auto destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
+			if(wxFileName(*iter).SameAs(wxFileName(*destiter))){
 				destexists = true;
 				destlist.erase(destiter);
 				break;
@@ -78,24 +70,20 @@ std::map<wxString, int> SyncBase::MergeListsToMap(std::list<wxString> sourcelist
 		}
 		mergeresult[*iter] = where;
 	}
-	for(destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
+	for(auto destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
 		mergeresult[*destiter] = 2;
 	}
 	return mergeresult;
 }
 
-bool SyncBase::ShouldCopySize(const wxString &source, const wxString &dest){
-	wxFileName fnsource = wxFileName::FileName(source);
-	wxFileName fndest = wxFileName::FileName(dest);
-	return !(fnsource.GetSize() == fndest.GetSize());
+bool SyncBase::ShouldCopySize(const wxFileName &source, const wxFileName &dest){
+	return !(source.GetSize() == dest.GetSize());
 }
 
-bool SyncBase::ShouldCopyTime(const wxString &source, const wxString &dest){
+bool SyncBase::ShouldCopyTime(const wxFileName &source, const wxFileName &dest){
 	wxDateTime dtsource, dtdest;
-	wxFileName fnsource = wxFileName::FileName(source);
-	wxFileName fndest = wxFileName::FileName(dest);
-	fnsource.GetTimes(NULL, &dtsource, NULL);
-	fndest.GetTimes(NULL, &dtdest, NULL);		
+	source.GetTimes(NULL, &dtsource, NULL);
+	dest.GetTimes(NULL, &dtdest, NULL);		
 		
 	dtsource.MakeTimezone(wxDateTime::UTC, true);
 	dtdest.MakeTimezone(wxDateTime::UTC, true);
@@ -110,10 +98,10 @@ bool SyncBase::ShouldCopyTime(const wxString &source, const wxString &dest){
 	}
 }
 
-bool SyncBase::ShouldCopyShort(const wxString &source, const wxString &dest){
+bool SyncBase::ShouldCopyShort(const wxFileName &source, const wxFileName &dest){
 	//For more detailed comments see the ShouldCopyFull function
-	std::auto_ptr<wxFileInputStream> sourcestream(new wxFileInputStream(source));
-	std::auto_ptr<wxFileInputStream> deststream(new wxFileInputStream(dest));
+	std::unique_ptr<wxFileInputStream> sourcestream(new wxFileInputStream(source.GetFullPath()));
+	std::unique_ptr<wxFileInputStream> deststream(new wxFileInputStream(dest.GetFullPath()));
 
 	if(!sourcestream->IsOk() || !deststream->IsOk()){
 		return false;
@@ -162,9 +150,9 @@ bool SyncBase::ShouldCopyShort(const wxString &source, const wxString &dest){
 	return false;
 }
 
-bool SyncBase::ShouldCopyFull(const wxString &source, const wxString &dest){
-	std::auto_ptr<wxFileInputStream> sourcestream(new wxFileInputStream(source));
-	std::auto_ptr<wxFileInputStream> deststream(new wxFileInputStream(dest));
+bool SyncBase::ShouldCopyFull(const wxFileName &source, const wxFileName &dest){
+	std::unique_ptr<wxFileInputStream> sourcestream(new wxFileInputStream(source.GetFullPath()));
+	std::unique_ptr<wxFileInputStream> deststream(new wxFileInputStream(dest.GetFullPath()));
 
 	//Something is wrong with our streams, return false as
 	//it is not a good idea to copy in this case

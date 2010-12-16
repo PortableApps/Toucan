@@ -68,6 +68,7 @@ public:
 	DirCtrlItemType GetType() const { return m_Type; }
 	wxColour GetColour() const { return m_Colour; }
 	int GetIcon() const { return m_Icon; }
+    wxFileName GetPath() const { return m_Path; }
 	void SetColour(wxColour colour) { m_Colour = colour; }
 
 protected:

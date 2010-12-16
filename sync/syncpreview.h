@@ -11,7 +11,6 @@ class SyncData;
 #include "syncbase.h"
 #include "../controls/dirctrl.h"
 
-
 class SyncPreview : public SyncBase{
 public:
 
@@ -20,17 +19,17 @@ public:
 
 protected:
 	virtual void OperationCaller(std::map<wxString, int> paths);
-	virtual void OnSourceNotDestFile(const wxString &path);
-	virtual void OnNotSourceDestFile(const wxString &path);
-	virtual void OnSourceAndDestFile(const wxString &path);
-	virtual void OnSourceNotDestFolder(const wxString &path);
-	virtual void OnNotSourceDestFolder(const wxString &path);
-	virtual void OnSourceAndDestFolder(const wxString &path);
+	virtual void OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest);
+	virtual void OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest);
+	virtual void OnSourceAndDestFile(const wxFileName &source, const wxFileName &dest);
+	virtual void OnSourceNotDestFolder(const wxFileName &source, const wxFileName &dest);
+	virtual void OnNotSourceDestFolder(const wxFileName &source, const wxFileName &dest);
+	virtual void OnSourceAndDestFolder(const wxFileName &source, const wxFileName &dest);
 
-	bool CopyIfNeeded(wxString source, wxString dest);
+	bool CopyIfNeeded(const wxFileName &source, const wxFileName &dest);
 
 private:
-    DirCtrlIter FindPath(DirCtrlItemArray* items, const wxString &path);
+    DirCtrlIter FindPath(DirCtrlItemArray* items, const wxFileName &path);
 
 	DirCtrlItemArray sourceitems;
 	DirCtrlItemArray destitems;

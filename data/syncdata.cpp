@@ -44,8 +44,8 @@ void SyncData::TransferToFile(){
 	//We do not check for errors as it may just signify the group does not exist
 	wxGetApp().m_Jobs_Config->DeleteGroup(GetName());
 
-	Write<wxString>("Source", GetSource());
-	Write<wxString>("Dest", GetDest());
+	Write<wxString>("Source", GetSource().GetFullPath());
+	Write<wxString>("Dest", GetDest().GetFullPath());
 	Write<wxString>("Function", ToEn(GetFunction()));
 	Write<bool>("CheckSize", GetCheckSize());
 	Write<bool>("CheckTime", GetCheckTime());
@@ -77,10 +77,10 @@ bool SyncData::TransferToForm(frmMain *window){
 		window->m_Sync_Job_Select->SetStringSelection(GetName());
 	}
 
-	window->m_Sync_Source_Txt->SetValue(GetSource());
-	window->m_Sync_Source_Tree->AddItem(Path::Normalise(GetSource()));		
-	window->m_Sync_Dest_Txt->SetValue(GetDest());
-	window->m_Sync_Dest_Tree->AddItem(Path::Normalise(GetDest()));
+	window->m_Sync_Source_Txt->SetValue(GetSource().GetFullPath());
+	window->m_Sync_Source_Tree->AddItem(Path::Normalise(GetSource()).GetFullPath());		
+	window->m_Sync_Dest_Txt->SetValue(GetDest().GetFullPath());
+	window->m_Sync_Dest_Tree->AddItem(Path::Normalise(GetDest()).GetFullPath());
 	window->m_Sync_Function->SetStringSelection(GetFunction());
 	window->m_SyncCheckSize->SetValue(GetCheckSize());
 	window->m_SyncCheckTime->SetValue(GetCheckTime());

@@ -5,8 +5,10 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/string.h>
+#include <wx/filename.h>
 
 namespace Path{
+    wxFileName Normalise(const wxFileName &filename);
     wxString Normalise(const wxString &path);
-    void Create(const wxString &path);
+    void CreateDirectoryPath(const wxFileName &path);
 }

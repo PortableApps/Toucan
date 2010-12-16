@@ -15,20 +15,30 @@
 #include "toucan.h"
 #include "basicfunctions.h"
 
-void Path::Create(const wxString &path){
-    if(wxDirExists(path)){
-        return;
-    }
+#include <Windows.h>
+#include <wx/msw/winundef.h>
 
-    wxFileName name = wxFileName::DirName(path);
-    wxArrayString folders = name.GetDirs();
-    wxString workingpath = name.GetVolume() + wxFileName::GetVolumeSeparator() + wxFILE_SEP_PATH;
+void Path::CreateDirectoryPath(const wxFileName &path){
+    if(!path.IsDir() || path.DirExists())
+        return;
+
+    wxArrayString folders = path.GetDirs();
+    wxString workingpath = path.GetVolume() + wxFileName::GetVolumeSeparator();
     for(unsigned int i = 0; i < folders.GetCount(); i++){
         workingpath = workingpath + folders.Item(i) + wxFILE_SEP_PATH;
-        if(!wxDirExists(workingpath) && !wxMkdir(workingpath)){
+#ifdef __WXMSW__
+        if(!wxDirExists(workingpath) || CreateDirectory(workingpath.fn_str(), NULL)){ 
+#else
+        if(!wxDirExists(workingpath) || !wxMkdir(workingpath)){
+#endif
 		    OutputProgress(_("Could not create") + " " + workingpath, Error);
 	    }
     }
+}
+
+wxFileName Path::Normalise(const wxFileName &filename){
+    wxString path = Path::Normalise(filename.GetFullPath());
+    return wxFileName(path);
 }
 
 wxString Path::Normalise(const wxString &path){
