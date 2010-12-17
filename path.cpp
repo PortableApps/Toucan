@@ -23,7 +23,13 @@ void Path::CreateDirectoryPath(const wxFileName &path){
         return;
 
     wxArrayString folders = path.GetDirs();
-    wxString workingpath = path.GetVolume() + wxFileName::GetVolumeSeparator() + wxFILE_SEP_PATH;
+    wxString workingpath;
+    //We need to do things differently with a unc path
+    if(path.GetFullPath().Left(2) == "\\\\")
+        workingpath = "\\\\?\\UNC\\" + path.GetVolume() + "\\";
+    else
+        workingpath = "\\\\?\\" + path.GetVolume() + wxFileName::GetVolumeSeparator() + wxFILE_SEP_PATH;
+ 
     for(unsigned int i = 0; i < folders.GetCount(); i++){
         workingpath = workingpath + folders.Item(i) + wxFILE_SEP_PATH;
 #ifdef __WXMSW__

@@ -54,7 +54,10 @@ int File::Delete(const wxFileName &path, bool recycle, bool ignorero){
 
 wxString File::GetLongPath(const wxFileName &path){
 #ifdef __WXMSW__
-    return "\\\\?\\" + path.GetFullPath();
+    if(path.GetFullPath().Left(2) == "\\\\")
+        return "\\\\?\\UNC\\" + path.GetVolume() + path.GetPath(wxPATH_GET_SEPARATOR) + path.GetFullName();
+    else
+        return "\\\\?\\" + path.GetFullPath();
 #else
     return path.GetFullPath();
 #endif

@@ -136,7 +136,7 @@ void SyncFiles::OnSourceNotDestFolder(const wxFileName &source, const wxFileName
 		wxDir destdir(dest.GetFullPath());
 		wxDir sourcedir(source.GetFullPath());
 		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded){
-			RemoveDirectory(dest);
+			DeleteDirectory(dest);
 		}
 		else{
 			//Set the timestamps if needed
@@ -146,7 +146,7 @@ void SyncFiles::OnSourceNotDestFolder(const wxFileName &source, const wxFileName
 		}
 		if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
 			//If we are moving and there are no files left then we need to remove the folder
-			RemoveDirectory(source);
+			DeleteDirectory(source);
 		}
 	}
 }
@@ -155,7 +155,7 @@ void SyncFiles::OnNotSourceDestFolder(const wxFileName &source, const wxFileName
     RuleResult res = data->GetRules()->Matches(dest);
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		if(res != Excluded && res != AbsoluteExcluded){
-			RemoveDirectory(dest);		
+			DeleteDirectory(dest);		
 		}
 	}
 	else if(data->GetFunction() == _("Equalise")){
@@ -165,7 +165,7 @@ void SyncFiles::OnNotSourceDestFolder(const wxFileName &source, const wxFileName
         }
 		wxDir dir(source.GetFullPath());
 		if(!dir.HasFiles() && !dir.HasSubDirs() && data->GetRules()->Matches(dest) != Excluded){
-			RemoveDirectory(dest);
+			DeleteDirectory(dest);
 		}
 		else{
 			//Set the timestamps if needed
@@ -187,7 +187,7 @@ void SyncFiles::OnSourceAndDestFolder(const wxFileName &source, const wxFileName
 		wxDir destdir(dest.GetFullPath());
 		wxDir sourcedir(source.GetFullPath());
 		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded && res != AbsoluteExcluded){
-			RemoveDirectory(dest);
+			DeleteDirectory(dest);
 		}
 		else{
 			//Set the timestamps if needed
@@ -197,7 +197,7 @@ void SyncFiles::OnSourceAndDestFolder(const wxFileName &source, const wxFileName
 		}
 		if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
 			//If we are moving and there are no files left then we need to remove the folder
-			RemoveDirectory(source);
+			DeleteDirectory(source);
 		}
 	}
 }
@@ -280,7 +280,7 @@ bool SyncFiles::CopyIfNeeded(const wxFileName &source, const wxFileName &dest){
 	return false;
 }
 
-bool SyncFiles::RemoveDirectory(const wxFileName &path){
+bool SyncFiles::DeleteDirectory(const wxFileName &path){
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
@@ -296,7 +296,7 @@ bool SyncFiles::RemoveDirectory(const wxFileName &path){
 				return true;
 			}
 			if(wxDirExists(path.GetFullPath() + filename)){
-				RemoveDirectory(wxFileName(path.GetFullPath() + filename));
+				DeleteDirectory(wxFileName(path.GetFullPath() + filename));
 			}
 			else{
 				if(RemoveFile(wxFileName(path.GetFullPath() + filename))){
@@ -310,7 +310,7 @@ bool SyncFiles::RemoveDirectory(const wxFileName &path){
 	delete dir;
 	{
   		wxLogNull log;
-		if(RemoveDirectory(path)){
+		if(wxRmDir(path.GetFullPath())){
             OutputProgress(_("Removed ") + path.GetFullPath(), Message);
 		}
 	}

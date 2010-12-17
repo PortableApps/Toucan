@@ -40,7 +40,7 @@ protected:
 	bool CopyFolderTimestamp(const wxFileName &source, const wxFileName &dest);
 	bool SourceAndDestCopy(const wxFileName &source, const wxFileName &dest);
 
-	bool RemoveDirectory(const wxFileName &path);
+	bool DeleteDirectory(const wxFileName &path);
 	bool RemoveFile(const wxFileName &path);
 };
 
