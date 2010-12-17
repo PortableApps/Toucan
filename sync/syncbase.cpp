@@ -17,16 +17,6 @@
 #include <vector>
 #include <memory>
 
-bool operator < (const wxFileName &a, const wxFileName &b){
-    if(a.SameAs(b))
-        return false;
-    else if(a.GetFullPath().CmpNoCase(b.GetFullPath()) < 0)
-        return true;
-    else
-        return false;
-}
-
-
 SyncBase::SyncBase(const wxFileName &source, const wxFileName &dest, SyncData* syncdata) 
          :data(syncdata)
 {
@@ -40,7 +30,7 @@ SyncBase::~SyncBase(){
 
 std::list<wxString> SyncBase::FolderContentsToList(const wxFileName &path){
 	std::list<wxString> paths;
-	if(path.DirExists()){
+	if(path.IsOk() && path.DirExists()){
 		wxString filename;
 		wxDir dir(path.GetFullPath());
 		if(dir.GetFirst(&filename)){

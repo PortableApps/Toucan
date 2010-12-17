@@ -51,8 +51,8 @@
 			  const wxString &rules = wxEmptyString)
 	{
 		SyncData *data = new SyncData(wxT("LastSyncJob"));
-		data->SetSource(source);
-		data->SetDest(dest);
+		data->SetSource(wxFileName::DirName(source));
+		data->SetDest(wxFileName::DirName(dest));
 		data->SetFunction(function);
 		data->SetCheckSize(checks.Size);
 		data->SetCheckTime(checks.Time);

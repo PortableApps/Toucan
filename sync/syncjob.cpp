@@ -50,10 +50,13 @@ void SyncFiles::OperationCaller(std::map<wxString, int> paths){
 		if(wxGetApp().GetAbort()){
 			return;
 		}
-        wxFileName source = sourceroot.GetFullPath() + (*iter).first;
-        wxFileName dest = destroot.GetFullPath() + (*iter).first;
-		if(source.DirExists() || dest.DirExists()){
-			if((*iter).second == 1){
+        wxFileName source, dest;
+        if(wxDirExists(sourceroot.GetPathWithSep() + (*iter).first)
+        || wxDirExists(destroot.GetPathWithSep() + (*iter).first)){
+            source = wxFileName::DirName(sourceroot.GetPathWithSep() + (*iter).first);
+            dest = wxFileName::DirName(destroot.GetPathWithSep() + (*iter).first); 
+
+            if((*iter).second == 1){
 				OnSourceNotDestFolder(source, dest);
 			}
 			else if((*iter).second == 2){
@@ -62,10 +65,12 @@ void SyncFiles::OperationCaller(std::map<wxString, int> paths){
 			else if((*iter).second == 3){
 				OnSourceAndDestFolder(source, dest);
 			}
-		}
-		//We have a file
-		else{
-			if((*iter).second == 1){
+        }
+        else{
+            source = wxFileName::FileName(sourceroot.GetPathWithSep() + (*iter).first);
+            dest = wxFileName::FileName(destroot.GetPathWithSep() + (*iter).first); 
+
+            if((*iter).second == 1){
 				OnSourceNotDestFile(source, dest);
 			}
 			else if((*iter).second == 2){
@@ -74,7 +79,7 @@ void SyncFiles::OperationCaller(std::map<wxString, int> paths){
 			else if((*iter).second == 3){
 				OnSourceAndDestFile(source, dest);
 			}
-		}
+        }
 	}
 	return;
 }
