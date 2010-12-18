@@ -41,7 +41,8 @@ RuleResult Rule::Matches(wxFileName path){
         return NoMatch;
     bool match = false;
     if(type == Simple){
-        if(path.GetFullPath().Lower().Find(normalised.Lower()) != wxNOT_FOUND)
+        if(path.GetFullPath().Lower().Find(normalised.Lower()) != wxNOT_FOUND
+        || path.GetFullPath().Matches(normalised))
             match = true;
     }
     else if(type == Regex){
