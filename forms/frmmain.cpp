@@ -32,6 +32,7 @@
 #include "../controls/previewctrl.h"
 #include "../controls/localdirctrl.h"
 #include "../controls/loglistctrl.h"
+#include "../controls/rulesgrid.h"
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	#include <shobjidl.h>
@@ -664,13 +665,8 @@ void frmMain::CreateControls(){
 	wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
 	RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
 
-    m_RulesGrid = new wxGrid(RulesPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS | wxBORDER_THEME);
+    m_RulesGrid = new RulesGrid(RulesPanel, wxID_ANY);
     RulesMainSizer->Add(m_RulesGrid, 1, wxGROW|wxALL, border);
-
-    //Create the grid and set the various styles
-    m_RulesGrid->CreateGrid(1, 3);
-    m_RulesGrid->EnableGridLines(false);
-    SetRulesGrid();
 
 	wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
 	RulesMainSizer->Add(RulesRightSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
@@ -1103,30 +1099,7 @@ void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADD_REMOVEITEM
 void frmMain::OnRulesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
-    //Get the bounds for the selected blocks
-    wxGridCellCoordsArray topleft = m_RulesGrid->GetSelectionBlockTopLeft();
-    wxGridCellCoordsArray bottomright = m_RulesGrid->GetSelectionBlockBottomRight();
-
-    //Make sure that for every end there is a start
-    if(topleft.Count() != bottomright.Count())
-        return;
-
-    //Loop through each block, this is reverse order so we start at the bottom
-    for(unsigned int i = 0; i < bottomright.Count(); i++){
-        int top = topleft.Item(i).GetRow();
-        int bottom = bottomright.Item(i).GetRow();
-        //Remove the lines from the bottom up so they don't invalidate the other positions
-        do{
-            m_RulesGrid->DeleteRows(bottom);
-            bottom--;
-        }while(top <= bottom);
-    }
-
-    wxGridCellCoordsArray cells = m_RulesGrid->GetSelectedCells();
-    for(unsigned int i = 0; i < cells.Count(); i++){
-        m_RulesGrid->DeleteRows(cells.Item(i).GetRow());
-    }
-
+    m_RulesGrid->DeleteSelected();
 }
 
 //ID_RULES_SAVE
@@ -1192,14 +1165,14 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 		}
 		m_Rules_Name->AppendString(entrydialog.GetValue());
 		m_Rules_Name->SetStringSelection(entrydialog.GetValue());
-		SetRulesGrid();
+		m_RulesGrid->Clear();
 		UpdateSizer(RulesNameSizer);
 	}
 }
 
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	SetRulesGrid();
+	m_RulesGrid->Clear();
 	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
 	wxGetApp().m_Rules_Config->Flush();
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
@@ -2355,21 +2328,6 @@ void frmMain::OnSecureRefresh(wxCommandEvent& WXUNUSED(event)){
 	for(unsigned int i = 0; i < m_SecureLocations->GetCount(); i++){
 		m_Secure_TreeCtrl->AddItem(m_SecureLocations->Item(i));
 	}
-}
-
-void frmMain::SetRulesGrid(){
-    //Create the grid and set the various styles
-    if(m_RulesGrid->GetNumberRows() > 0)
-        m_RulesGrid->DeleteRows(0, m_RulesGrid->GetNumberRows());
-    m_RulesGrid->HideRowLabels();
-    m_RulesGrid->UseNativeColHeader();
-    m_RulesGrid->SetColLabelValue(0, _("Include / Exclude"));
-    m_RulesGrid->SetColLabelValue(1, _("Type"));
-    m_RulesGrid->SetColLabelValue(2, _("Rule"));
-    m_RulesGrid->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
-    m_RulesGrid->SetColSize(0, 150);
-    m_RulesGrid->SetColSize(1, 150);
-    m_RulesGrid->SetColSize(2, 150);
 }
 
 wxString frmMain::ToString(bool bl){

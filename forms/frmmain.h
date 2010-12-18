@@ -29,6 +29,7 @@ class LocalDirCtrl;
 class PreviewDirCtrl;
 class SyncPreviewDirCtrl;
 class Settings;
+class RulesGrid;
 
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
@@ -242,7 +243,6 @@ public:
 	void OnRulesRemoveClick(wxCommandEvent& event);
 	void OnRulesAddItemClick(wxCommandEvent& event);
 	void OnRulesRemoveItemClick(wxCommandEvent& event);
-    void SetRulesGrid();
 	
 	//Variables
 	void OnVariablesSaveClick(wxCommandEvent& event);
@@ -360,7 +360,7 @@ public:
 	//Rules
 	wxStaticBoxSizer* RulesNameSizer;
 	wxComboBox* m_Rules_Name;
-    wxGrid* m_RulesGrid;
+    RulesGrid* m_RulesGrid;
     wxArrayString m_RulesChoices;
     wxArrayString m_RulesTypeChoices;
 	

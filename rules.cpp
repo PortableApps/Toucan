@@ -15,6 +15,7 @@
 #include "path.h"
 #include "basicfunctions.h"
 #include "forms/frmmain.h"
+#include "controls/rulesgrid.h"
 
 #include <boost/bimap.hpp>
 #include <boost/assign/list_of.hpp>
@@ -165,9 +166,8 @@ bool RuleSet::TransferToForm(frmMain *window){
     window->m_Rules_Name->SetStringSelection(GetName());
 
     //Create a new grid with enough rows for the new items;
-    wxGrid* grid = window->m_RulesGrid;
-    if(grid->GetNumberRows() > 0)
-        grid->DeleteRows(0, grid->GetNumberRows());
+    RulesGrid* grid = window->m_RulesGrid;
+    grid->Clear();
     grid->AppendRows(rules.size());
 
     //Add the rules
