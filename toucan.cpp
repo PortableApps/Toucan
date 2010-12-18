@@ -32,6 +32,8 @@ using namespace boost::interprocess;
 #endif
 
 #include "test.h"
+#include "path.h"
+#include "fileops.h"
 #include "toucan.h"
 #include "settings.h"
 #include "luamanager.h"
@@ -111,10 +113,10 @@ bool Toucan::OnInit(){
 
 	//Set the read only flag if needed
 	wxTextFile writetest(exedir + wxT("writetest"));
-	{
+    {
 		wxLogNull null;
 		m_IsReadOnly = !writetest.Create();
-		wxRemoveFile(exedir + wxT("writetest"));
+		File::Delete(wxFileName::FileName(exedir + wxT("writetest")), false, false);
 	}
 
 	if(parser.Found("datadirectory")){
@@ -137,14 +139,14 @@ bool Toucan::OnInit(){
 	}
 	//Make sure the data directory is there
 	if(!wxDirExists(GetSettingsPath())){
-		wxMkdir(GetSettingsPath());
+		Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath()));
 	}
 
 	//Create the config stuff and set it up
- 	m_Jobs_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Jobs.ini"));
-	m_Rules_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Rules.ini"));
-	m_Scripts_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Scripts.ini"));
-	m_Variables_Config = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Variables.ini"));
+ 	m_Jobs_Config = new wxFileConfig("", "", m_SettingsPath + "Jobs.ini");
+	m_Rules_Config = new wxFileConfig("", "", m_SettingsPath + "Rules.ini");
+	m_Scripts_Config = new wxFileConfig("", "", m_SettingsPath + "Scripts.ini");
+	m_Variables_Config = new wxFileConfig("", "", m_SettingsPath + "Variables.ini");
 
 	m_Jobs_Config->SetExpandEnvVars(false);
 	m_Rules_Config->SetExpandEnvVars(false);
@@ -152,8 +154,8 @@ bool Toucan::OnInit(){
 	m_Variables_Config->SetExpandEnvVars(false);
 
 	//Set the language and init the maps
- 	wxFileConfig *settings = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Settings.ini"));
-	SetLanguage(settings->Read(wxT("General/LanguageCode"), wxT("en")));
+ 	wxFileConfig *settings = new wxFileConfig("", "", m_SettingsPath + "Settings.ini");
+	SetLanguage(settings->Read("General/LanguageCode", "en"));
 	delete settings;
 	SetupLanguageMap();
 
