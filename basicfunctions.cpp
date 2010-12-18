@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007-2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/tokenzr.h>
@@ -17,6 +17,9 @@
 #include <wx/msgdlg.h>
 
 #include <boost/interprocess/ipc/message_queue.hpp>
+#include <boost/bimap.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/assign/list_inserter.hpp>
 
 using namespace boost::interprocess;
 
@@ -27,13 +30,50 @@ using namespace boost::interprocess;
 #include "forms/frmpassword.h"
 
 //ATTN : This needs clearing up into smaller files
+
+static boost::bimap<wxString, wxString> languagemap;
+
+void SetupLanguageMap(){
+    languagemap = boost::assign::list_of<boost::bimap<wxString, wxString>::relation>
+    ("Copy", _("Copy"))
+    ("Update", _("Update"))
+    ("Mirror", _("Mirror"))
+    ("Equalise", _("Equalise"))
+    ("Move", _("Move"))
+    ("Clean", _("Clean"))
+    ("Complete", _("Complete"))
+    ("Update", _("Update"))
+    ("Differential", _("Differential"))
+    ("Restore", _("Restore"))
+    ("Encrypt", _("Encrypt"))
+    ("Decrypt", _("Decrypt"))
+    ("Icons and Text", _("Icons and Text"))
+    ("Text", _("Text"))
+    ("Sync", _("Sync"))
+    ("Backup", _("Backup"))
+    ("Secure", _("Secure"))
+    ("Rules", _("Rules"))
+    ("Variables", _("Variables"))
+    ("Script", _("Script"))
+    ("Settings", _("Settings"))
+    ("Help", _("Help"))
+    ("Simple", _("Simple"))
+    ("Regex", _("Regex"))
+    ("Size", _("Size"))
+    ("Date", _("Date"))
+    ("File Include", _("File Include"))
+    ("File Exclude", _("File Exclude"))
+    ("Folder Include", _("Folder Include"))
+    ("Folder Exclude", _("Folder Exclude"))
+    ("Absolute Folder Exclude", _("Absolute Folder Exclude"));
+}
  
 const wxString& ToLang(const wxString &en){
-	return wxGetApp().m_EnToLang[en];
+	return languagemap.left.at(en);
 }
 
 const wxString& ToEn(const wxString &lang){
-	return wxGetApp().m_LangToEn[lang];
+	return languagemap.right.at(lang);
 }
 
 wxString ArrayStringToString(const wxArrayString &strings, const wxString &seperator){

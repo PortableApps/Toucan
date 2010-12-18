@@ -58,8 +58,6 @@ public:
 	
 	//<drive label, drive letter> Used by variables to resolve drive labels
 	std::map<wxString, wxString> m_DriveLabels;
-	std::map<wxString, wxString> m_EnToLang;
-	std::map<wxString, wxString> m_LangToEn;
 	//Maps a unique id used for process generation and whether the process
 	//has finished
 	std::map<int, bool> m_StatusMap;

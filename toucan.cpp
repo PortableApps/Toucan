@@ -155,7 +155,7 @@ bool Toucan::OnInit(){
  	wxFileConfig *settings = new wxFileConfig(wxT(""), wxT(""), m_SettingsPath + wxT("Settings.ini"));
 	SetLanguage(settings->Read(wxT("General/LanguageCode"), wxT("en")));
 	delete settings;
-	InitLangMaps();
+	SetupLanguageMap();
 
 	if(!UpdateJobs() || !UpdateRules() /*|| !UpdateScripts()*/ || !UpdateSettings()){
 		return false;
@@ -289,7 +289,7 @@ int Toucan::OnExit(){
 void Toucan::RebuildForm(){
 	MainWindow->Destroy();
 	SetLanguage(m_Settings->GetLanguageCode());
-	InitLangMaps();
+	SetupLanguageMap();
 	m_Settings->TransferFromFile();
 	MainWindow = new frmMain();
 	MainWindow->Show();
@@ -396,87 +396,6 @@ void Toucan::OnProgressSetup(wxCommandEvent &event){
 	if(window){
 		window->m_Gauge->SetRange(event.GetInt());
 	}
-}
-
-void Toucan::InitLangMaps(){
-	m_EnToLang.clear();
-	m_LangToEn.clear();
-	
-	//Sync
-	m_EnToLang[wxT("Copy")] = _("Copy");
-	m_EnToLang[wxT("Update")] = _("Update");
-	m_EnToLang[wxT("Mirror")] = _("Mirror");
-	m_EnToLang[wxT("Equalise")] = _("Equalise");
-	m_EnToLang[wxT("Move")] = _("Move");
-	m_EnToLang[wxT("Clean")] = _("Clean");
-	//Backup
-	m_EnToLang[wxT("Complete")] = _("Complete");
-	m_EnToLang[wxT("Update")] = _("Update");
-	m_EnToLang[wxT("Differential")] = _("Differential");
-	m_EnToLang[wxT("Restore")] = _("Restore");
-	//Secure
-	m_EnToLang[wxT("Encrypt")] = _("Encrypt");
-	m_EnToLang[wxT("Decrypt")] = _("Decrypt");
-	//Settings
-	m_EnToLang[wxT("Icons and Text")] = _("Icons and Text");
-	m_EnToLang[wxT("Text")] = _("Text");
-	//Tab Labels
-	m_EnToLang[wxT("Sync")] = _("Sync");
-	m_EnToLang[wxT("Backup")] = _("Backup");
-	m_EnToLang[wxT("Secure")] = _("Secure");
-	m_EnToLang[wxT("Rules")] = _("Rules");
-	m_EnToLang[wxT("Variables")] = _("Variables");
-	m_EnToLang[wxT("Script")] = _("Script");
-	m_EnToLang[wxT("Settings")] = _("Settings");
-	m_EnToLang[wxT("Help")] = _("Help");
-    //Rules
-    m_EnToLang["Simple"] = _("Simple");
-    m_EnToLang["Regex"] = _("Regex");
-    m_EnToLang["Size"] = _("Size");
-    m_EnToLang["Date"] = _("Date");
-    m_EnToLang["File Include"] = _("File Include");
-    m_EnToLang["File Exclude"] = _("File Exclude");
-    m_EnToLang["Folder Include"] = _("Folder Include");
-    m_EnToLang["Folder Exclude"] = _("Folder Exclude");
-    m_EnToLang["Absolute Folder Exclude"] =_("Absolute Folder Exclude");
-	
-	//Sync
-	m_LangToEn[_("Copy")] = wxT("Copy");
-	m_LangToEn[_("Update")] = wxT("Update");
-	m_LangToEn[_("Mirror")] = wxT("Mirror");
-	m_LangToEn[_("Equalise")] = wxT("Equalise");
-	m_LangToEn[_("Move")] = wxT("Move");
-	m_LangToEn[_("Clean")] = wxT("Clean");
-	//Backup
-	m_LangToEn[_("Complete")] = wxT("Complete");
-	m_LangToEn[_("Update")] = wxT("Update");
-	m_LangToEn[_("Differential")] = wxT("Differential");
-	m_LangToEn[_("Restore")] = wxT("Restore");
-	//Secure
-	m_LangToEn[_("Encrypt")] = wxT("Encrypt");
-	m_LangToEn[_("Decrypt")] = wxT("Decrypt");
-	//Settings
-	m_LangToEn[_("Icons and Text")] = wxT("Icons and Text");
-	m_LangToEn[_("Text")] = wxT("Text");
-	//Tab Labels
-	m_LangToEn[_("Sync")] = wxT("Sync");
-	m_LangToEn[_("Backup")] = wxT("Backup");
-	m_LangToEn[_("Secure")] = wxT("Secure");
-	m_LangToEn[_("Rules")] = wxT("Rules");
-	m_LangToEn[_("Variables")] = wxT("Variables");
-	m_LangToEn[_("Script")] = wxT("Script");
-	m_LangToEn[_("Settings")] = wxT("Settings");
-	m_LangToEn[_("Help")] = wxT("Help");
-    //Rules
-    m_LangToEn[_("Simple")] = "Simple";
-    m_LangToEn[_("Regex")] = "Regex";
-    m_LangToEn[_("Size")] = "Size";
-    m_LangToEn[_("Date")] = "Date";
-    m_LangToEn[_("File Include")] = "File Include";
-    m_LangToEn[_("File Exclude")] = "File Exclude";
-    m_LangToEn[_("Folder Include")] = "Folder Include";
-    m_LangToEn[_("Folder Exclude")] = "Folder Exclude";
-    m_LangToEn[_("Absolute Folder Exclude")] ="Absolute Folder Exclude";
 }
 
 void Toucan::OnTimer(wxTimerEvent &WXUNUSED(event)){

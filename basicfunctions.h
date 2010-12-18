@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2007-2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_BASICFUNCTIONS
@@ -10,6 +10,8 @@
 class wxComboBox;
 class wxString;
 class wxArrayString;
+
+void SetupLanguageMap();
 
 //Turns an array string into a string with the strings seperated by seperator, used when writing to ini files
 wxString ArrayStringToString(const wxArrayString &strings, const wxString &seperator);
