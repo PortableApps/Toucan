@@ -157,6 +157,10 @@ wxString Path::Normalise(const wxString &path){
 			normalised += wxStandardPaths::Get().GetDocumentsDir();
 			previousmatched = true;
 		}
+        else if(token == "username"){
+            normalised += wxGetUserId();
+            previousmatched = true;
+        }
 		else if(token == wxT("volume")){
 			#ifdef __WXMSW__
 				wxString strName = wxEmptyString;
