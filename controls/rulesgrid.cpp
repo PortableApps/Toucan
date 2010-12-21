@@ -10,6 +10,7 @@ RulesGrid::RulesGrid(wxWindow* parent, wxWindowID id) : wxGrid(parent, id, wxDef
                                                         wxDefaultSize, wxWANTS_CHARS|wxBORDER_THEME){
     Bind(wxEVT_KEY_DOWN, &RulesGrid::OnKeyDown, this, wxID_ANY);
     Bind(wxEVT_KEY_UP, &RulesGrid::OnKeyUp, this, wxID_ANY);
+    Bind(wxEVT_GRID_CELL_LEFT_CLICK, &RulesGrid::OnCellLeftClick, this, wxID_ANY);
     CreateGrid(0, 3);
     EnableGridLines(false);
     HideRowLabels();
@@ -40,6 +41,15 @@ void RulesGrid::OnKeyUp(wxKeyEvent &event){
         DeleteSelected();
 }
 
+void RulesGrid::OnCellLeftClick(wxGridEvent &event){
+    SetGridCursor(event.GetRow(), event.GetCol());
+    EnableCellEditControl(true);
+    wxGridCellEditor *edit = GetCellEditor(event.GetRow(), event.GetCol());
+    edit->Show(true);
+    edit->DecRef();
+    event.Skip();
+}
+
 void RulesGrid::DeleteSelected(){
     //Get the bounds for the selected blocks
     wxGridCellCoordsArray topleft = GetSelectionBlockTopLeft();
@@ -65,4 +75,7 @@ void RulesGrid::DeleteSelected(){
     for(unsigned int i = 0; i < cells.Count(); i++){
         DeleteRows(cells.Item(i).GetRow());
     }
+
+    //Deselct everything as otherwise the selections will look wrong
+    ClearSelection();
 }

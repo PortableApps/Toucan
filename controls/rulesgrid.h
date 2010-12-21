@@ -12,5 +12,6 @@ public:
     void Clear();
     void OnKeyDown(wxKeyEvent &event);
     void OnKeyUp(wxKeyEvent &event);
+    void OnCellLeftClick(wxGridEvent &event);
     void DeleteSelected();
 };
