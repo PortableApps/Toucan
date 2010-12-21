@@ -204,6 +204,7 @@ wxArrayString GetVariables(bool builtin = false){
 		variables.Add("minute");
         variables.Add("dayofweek");
         variables.Add("weekofyear");
+        variables.Add("username");
 	}
 	return variables;	
 }
