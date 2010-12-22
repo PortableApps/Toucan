@@ -17,24 +17,6 @@
 #include "forms/frmmain.h"
 #include "controls/rulesgrid.h"
 
-#include <boost/bimap.hpp>
-#include <boost/assign/list_of.hpp>
-#include <boost/assign/list_inserter.hpp>
-
-//A pair of bimaps for easily converting between our enums and strings
-static const boost::bimap<wxString, RuleType> typemap = boost::assign::list_of<boost::bimap<wxString, RuleType>::relation>
-    (_("Simple"), Simple)
-    (_("Regex"), Regex)
-    (_("Size"), Size)
-    (_("Date"), Date);
-
-static const boost::bimap<wxString, RuleFunction> functionmap = boost::assign::list_of<boost::bimap<wxString, RuleFunction>::relation>
-    (_("File Include"), FileInclude)
-    (_("File Exclude"), FileExclude)
-    (_("Folder Include"), FolderInclude)
-    (_("Folder Exclude"), FolderExclude)
-    (_("Absolute Folder Exclude"), AbsoluteFolderExclude);
-
 RuleResult Rule::Matches(wxFileName path){
     //If we have a folder then a file rule isn't applied, but not vice-versa
     if(path.IsDir() && (function == FileInclude || function == FileExclude))
@@ -83,6 +65,45 @@ RuleResult Rule::Matches(wxFileName path){
     }
 }
 
+bool Rule::IsValid(){
+    //We do not support folder size exclusions
+    if((function == FolderInclude || function == FolderExclude)
+    &&(type == Size))
+        return false;
+    if(type == Regex){
+        wxLogNull nulllog;
+        wxRegEx regex(rule, wxRE_ICASE| wxRE_EXTENDED);
+        if(regex.IsValid())
+            return true;
+        else
+            return false;      
+    }
+    else if(type == Date){
+        wxDateTime date;
+        //We strip the leading < or >
+        if(rule.Left(1) == wxT("<") || rule.Left(1) == wxT(">") && rule.length() > 1 && date.ParseDate(rule.Right(rule.length() - 1)))
+            return true;
+        else
+            return false;
+    }
+    else if(type == Size){
+        wxRegEx regex(wxT("(([0-9]+)(kB|MB|GB))"));
+        //We strip the leading < or >
+        if((rule.Left(1) == wxT("<") || rule.Left(1) == wxT(">")) && rule.length() > 1 && regex.Matches(rule.Right(rule.length() - 1))){
+			//Check that we are matching the whole length of the string
+            if(regex.GetMatch(rule.Right(rule.length() - 1)).length() == rule.length() - 1)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+    else{
+        return true;
+    }
+}
+
 RuleResult RuleSet::Matches(wxFileName path){
 	if(rules.empty())
 		return NoMatch;
@@ -94,6 +115,18 @@ RuleResult RuleSet::Matches(wxFileName path){
     }
 	
 	return NoMatch;
+}
+
+bool RuleSet::IsValid(){
+    if(rules.empty())
+        return true;
+
+    for(auto iter = rules.begin() ; iter != rules.end(); iter++){
+        if(!(*iter).IsValid())
+            return false;
+    }
+	
+	return true;
 }
 
 bool RuleSet::TransferFromFile(){
@@ -182,6 +215,7 @@ bool RuleSet::TransferToForm(frmMain *window){
         grid->SetCellValue(i, 0, functionmap.right.at(rules.at(i).function));
         grid->SetCellValue(i, 1, typemap.right.at(rules.at(i).type));
         grid->SetCellValue(i, 2, rules.at(i).rule);
+        grid->ValidateRow(i);
     }
     return true;
 }

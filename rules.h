@@ -16,6 +16,10 @@ class frmMain;
 
 #include <vector>
 
+#include <boost/bimap.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/assign/list_inserter.hpp>
+
 enum RuleFunction{
     FileInclude,
     FileExclude,
@@ -38,6 +42,20 @@ enum RuleResult{
     AbsoluteExcluded
 };
 
+//A pair of bimaps for easily converting between our enums and strings
+static const boost::bimap<wxString, RuleType> typemap = boost::assign::list_of<boost::bimap<wxString, RuleType>::relation>
+    (_("Simple"), Simple)
+    (_("Regex"), Regex)
+    (_("Size"), Size)
+    (_("Date"), Date);
+
+static const boost::bimap<wxString, RuleFunction> functionmap = boost::assign::list_of<boost::bimap<wxString, RuleFunction>::relation>
+    (_("File Include"), FileInclude)
+    (_("File Exclude"), FileExclude)
+    (_("Folder Include"), FolderInclude)
+    (_("Folder Exclude"), FolderExclude)
+    (_("Absolute Folder Exclude"), AbsoluteFolderExclude);
+
 class Rule{
 public:
     Rule() {}
@@ -49,6 +67,7 @@ public:
     }
 
     RuleResult Matches(wxFileName path);
+    bool IsValid();
 
     wxString rule;
     RuleFunction function;
@@ -59,11 +78,11 @@ private:
 };
 
 class RuleSet{
-
 public:
     RuleSet(const wxString &name) { this->name = name; }
 
     RuleResult Matches(wxFileName path);
+    bool IsValid();
 
 	bool TransferToFile();
 	bool TransferFromFile();

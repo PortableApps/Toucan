@@ -13,5 +13,7 @@ public:
     void OnKeyDown(wxKeyEvent &event);
     void OnKeyUp(wxKeyEvent &event);
     void OnCellLeftClick(wxGridEvent &event);
+    void OnCellChanged(wxGridEvent &event);
     void DeleteSelected();
+    void ValidateRow(int row);
 };

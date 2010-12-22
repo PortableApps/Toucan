@@ -226,8 +226,8 @@ void frmMain::Init(){
 
     m_RulesTypeChoices.Add(_("Simple"));
     m_RulesTypeChoices.Add(_("Regex"));
-    m_RulesTypeChoices.Add(_("File Size"));
-    m_RulesTypeChoices.Add(_("Modified Date"));
+    m_RulesTypeChoices.Add(_("Size"));
+    m_RulesTypeChoices.Add(_("Date"));
 }
 
 void frmMain::CreateControls(){	
