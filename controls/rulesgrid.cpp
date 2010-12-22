@@ -19,6 +19,7 @@ RulesGrid::RulesGrid(wxWindow* parent, wxWindowID id) : wxGrid(parent, id, wxDef
     EnableGridLines(false);
     HideRowLabels();
     UseNativeColHeader();
+    DisableDragRowSize();
     SetColLabelValue(0, _("Include / Exclude"));
     SetColLabelValue(1, _("Type"));
     SetColLabelValue(2, _("Rule"));
