@@ -33,7 +33,7 @@ class frmProgress: public wxDialog
 
 public:
 	//Constructor
-	frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style);
+	frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption);
 
 	//Sets up all of the member vaiables
 	void Init();

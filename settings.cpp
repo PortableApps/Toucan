@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2008 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "settings.h"
@@ -28,6 +28,10 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/Width"), m_Width);
 	config->Write(wxT("General/X"), m_X);
 	config->Write(wxT("General/Y"), m_Y);
+	config->Write(wxT("General/ProgressHeight"), m_ProgressHeight);
+	config->Write(wxT("General/ProgressWidth"), m_ProgressWidth);
+	config->Write(wxT("General/ProgressX"), m_ProgressX);
+	config->Write(wxT("General/ProgressY"), m_ProgressY);
 	config->Write(wxT("General/RememberSync"), m_RememberSync);
 	config->Write(wxT("General/RememberBackup"), m_RememberBackup);
 	config->Write(wxT("General/RememberSecure"), m_RememberSecure);
@@ -35,6 +39,7 @@ bool Settings::TransferToFile(){
 	config->Write(wxT("General/SmallBorders"), m_SmallBorders);
 	config->Write(wxT("Sync/DisableStream"), m_DisableStream);
 	config->Write(wxT("CommandLine/DisableLog"), m_DisableLog);
+    config->Flush();
 	return true;
 }
 
@@ -43,10 +48,8 @@ bool Settings::TransferFromFile(){
 	m_LanguageCode = wxT("en");
 	wxFont temp = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
 	m_Font = temp.GetNativeFontInfoDesc();
-	m_Height = 1;
-	m_Width = 1;
-	m_Y = 0;
-	m_X = 0;
+	m_Height = m_Width = m_Y = m_X = -1;
+    m_ProgressHeight = m_ProgressWidth = m_ProgressY = m_ProgressX = -1;
 	m_RememberSync = false;
 	m_RememberBackup = false;
 	m_RememberSecure = false;
@@ -75,6 +78,10 @@ bool Settings::TransferFromFile(){
 	config->Read(wxT("General/Width"), &m_Width);
 	config->Read(wxT("General/X"), &m_X);
 	config->Read(wxT("General/Y"), &m_Y);
+	config->Read(wxT("General/ProgressHeight"), &m_ProgressHeight);
+	config->Read(wxT("General/ProgressWidth"), &m_ProgressWidth);
+	config->Read(wxT("General/ProgressX"), &m_ProgressX);
+	config->Read(wxT("General/ProgressY"), &m_ProgressY);
 	config->Read(wxT("General/RememberSync"), &m_RememberSync);
 	config->Read(wxT("General/RememberBackup"), &m_RememberBackup);
 	config->Read(wxT("General/RememberSecure"), &m_RememberSecure);

@@ -42,7 +42,7 @@ void LuaManager::Run(const wxString &line, const bool showprogress){
 	thread->Run();
 
     if(wxGetApp().IsGui()){
-        m_Window = new frmProgress(wxGetApp().MainWindow, wxID_ANY, _("Progress"), wxDefaultPosition, wxSize(640, 480), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER);
+        m_Window = new frmProgress(wxGetApp().MainWindow, wxID_ANY, _("Progress"));
         m_Window->SetTaskbar(wxGetApp().MainWindow->m_Taskbar);
 
         if(!showprogress){

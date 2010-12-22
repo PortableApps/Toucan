@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2008 - 2009 Steven Lamerton
-// License:     GNU GPL 2 (See readme for more info)
+// Copyright:   Copyright (C) 2008 - 2010 Steven Lamerton
+// License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #ifndef H_SETTINGS
@@ -51,6 +51,15 @@ public:
 	const bool& GetEnableTooltips() const {return m_EnableTooltips;}
 	const bool& GetSmallBorders() const {return m_SmallBorders;}
 
+	void SetProgressHeight(const double& Height) {this->m_ProgressHeight = Height;}
+	void SetProgressWidth(const double& Width) {this->m_ProgressWidth = Width;}
+	void SetProgressX(const double& X) {this->m_ProgressX = X;}
+	void SetProgressY(const double& Y) {this->m_ProgressY = Y;}
+	const double& GetProgressHeight() const {return m_ProgressHeight;}
+	const double& GetProgressWidth() const {return m_ProgressWidth;}
+	const double& GetProgressX() const {return m_ProgressX;}
+	const double& GetProgressY() const {return m_ProgressY;}
+
 private:
 	wxString m_Position;
 	wxString m_TabStyle;
@@ -68,6 +77,10 @@ private:
 	bool m_EnableTooltips;
 	bool m_SmallBorders;
 	wxFileConfig* config;
+    double m_ProgressHeight;
+    double m_ProgressWidth;
+    double m_ProgressX;
+    double m_ProgressY;
 };
 
 #endif

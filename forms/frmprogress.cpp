@@ -8,6 +8,7 @@
 #include "frmprogress.h"
 #include "../luamanager.h"
 #include "../toucan.h"
+#include "../settings.h"
 #include "../basicfunctions.h"
 #include "../controls/loglistctrl.h"
 
@@ -38,11 +39,28 @@ BEGIN_EVENT_TABLE(frmProgress, wxDialog)
 END_EVENT_TABLE()
 
 //Constructor
-frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style){
-	Init();
-	wxDialog::Create(parent, id, caption, pos, size, style);
-	CreateControls();
-	Centre();
+frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& caption){
+    Init();
+
+    wxGetApp().m_Settings->TransferFromFile();
+
+    //Set up the size and position
+    int height, width;
+    wxClientDisplayRect(NULL, NULL, &width, &height);
+
+    wxPoint position((int)(wxGetApp().m_Settings->GetProgressX() * width), (int)(wxGetApp().m_Settings->GetProgressY() * height));
+    if(position.x < 0 || position.y < 0 || position.x > width || position.y > height){
+        position = wxDefaultPosition;
+    }
+
+    wxSize size((int)(wxGetApp().m_Settings->GetProgressWidth() * width), (int)(wxGetApp().m_Settings->GetProgressHeight() * height));
+    if(size.GetX() < 0 || size.GetY() < 0)
+        size = wxSize(640, 480);
+
+    long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER;
+
+    wxDialog::Create(parent, id, caption, position, size, style);
+    CreateControls();
 }
 
 //frmProgress initialisation
@@ -114,6 +132,17 @@ wxBitmap frmProgress::GetBitmapResource(const wxString& name){
 }
 
 void frmProgress::OnClose(wxCloseEvent& WXUNUSED(event)){
+    if(!wxGetApp().IsReadOnly()){
+        int height, width, x, y;
+        wxClientDisplayRect(&x, &y, &width, &height);
+	
+        wxGetApp().m_Settings->SetProgressHeight((double)(this->GetSize().GetHeight())/(height));
+        wxGetApp().m_Settings->SetProgressWidth((double)(this->GetSize().GetWidth())/(width));
+        wxGetApp().m_Settings->SetProgressX((double)(this->GetScreenPosition().x)/(width));
+        wxGetApp().m_Settings->SetProgressY((double)(this->GetScreenPosition().y)/(height));
+
+        wxGetApp().m_Settings->TransferToFile();
+    }
     //Clear the taskbar when we close
 #if defined(__WXMSW__) && !defined(__MINGW32__)
 	if(m_Taskbar){
