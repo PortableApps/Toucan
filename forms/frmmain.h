@@ -147,6 +147,8 @@ enum{
 	ID_SCRIPT_RUN,
     ID_SCRIPT_COMMAND_ADD,
     ID_SCRIPT_COMMAND_TYPE,
+    ID_SCRIPT_UNDO,
+    ID_SCRIPT_REDO,
 	//Settings
 	ID_PANEL_SETTINGS,
 	ID_SETTINGS_TABSTYLE,
@@ -264,6 +266,8 @@ public:
 	void OnScriptRemoveClick(wxCommandEvent& event);
     void OnScriptCommandTypeChange(wxCommandEvent &event);
     void OnScriptCommandAddClick(wxCommandEvent &event);
+    void OnScriptUndo(wxCommandEvent &event);
+    void OnScriptRedo(wxCommandEvent &event);
 		
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);

@@ -121,6 +121,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_COMBOBOX(ID_SCRIPT_NAME, frmMain::OnScriptSelected)
     EVT_CHOICE(ID_SCRIPT_COMMAND_TYPE, frmMain::OnScriptCommandTypeChange)
     EVT_BUTTON(ID_SCRIPT_COMMAND_ADD, frmMain::OnScriptCommandAddClick)
+    EVT_BUTTON(ID_SCRIPT_UNDO, frmMain::OnScriptUndo)
+    EVT_BUTTON(ID_SCRIPT_REDO, frmMain::OnScriptRedo)
 	
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
@@ -748,18 +750,28 @@ void frmMain::CreateControls(){
     wxBoxSizer *ScriptCommandSizer = new wxBoxSizer(wxHORIZONTAL);
     ScriptSizer->Add(ScriptCommandSizer, 0, wxEXPAND, 0);
 
+    wxBitmapButton* ScriptUndo = new wxBitmapButton(ScriptPanel, ID_SCRIPT_UNDO, GetBitmapResource("undo.png"));
+    ScriptCommandSizer->Add(ScriptUndo, 0, wxLEFT, 2 * border);
+
+    wxBitmapButton* ScriptRedo = new wxBitmapButton(ScriptPanel, ID_SCRIPT_REDO, GetBitmapResource("redo.png"));
+    ScriptCommandSizer->Add(ScriptRedo, 0, wxRIGHT, 2 * border);
+
+    ScriptCommandSizer->AddSpacer(20);
+
     wxArrayString types;
     types.push_back(_("Jobs"));
     types.push_back(_("Job Commands"));
     types.push_back(_("Other Commands"));
-    m_ScriptCommandType = new wxChoice(ScriptPanel, ID_SCRIPT_COMMAND_TYPE, wxDefaultPosition, wxDefaultSize, types);
-    ScriptCommandSizer->Add(m_ScriptCommandType, 0, wxCENTRE|wxLEFT|wxBOTTOM|wxTOP,  2 * border);
+    m_ScriptCommandType = new wxChoice(ScriptPanel, ID_SCRIPT_COMMAND_TYPE, wxDefaultPosition, wxSize(-1, 28), types);
+    ScriptCommandSizer->Add(m_ScriptCommandType, 0, wxCENTRE|wxLEFT, 2 * border);
+    ScriptCommandSizer->AddSpacer(2);
 
-    m_ScriptCommandList = new wxChoice(ScriptPanel, wxID_ANY);
-    ScriptCommandSizer->Add(m_ScriptCommandList, 1, wxCENTRE|wxLEFT|wxBOTTOM|wxTOP,  2 * border);
+    m_ScriptCommandList = new wxChoice(ScriptPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 28));
+    ScriptCommandSizer->Add(m_ScriptCommandList, 1, wxCENTRE, 2 * border);
+    ScriptCommandSizer->AddSpacer(2);
 
     wxBitmapButton* ScriptCommandAdd = new wxBitmapButton(ScriptPanel, ID_SCRIPT_COMMAND_ADD, GetBitmapResource("add.png"));
-    ScriptCommandSizer->Add(ScriptCommandAdd, 0, wxALL,  2 * border);
+    ScriptCommandSizer->Add(ScriptCommandAdd, 0, wxRIGHT, 2 * border);
 
 	m_Script_Styled = new wxStyledTextCtrl(ScriptPanel, ID_SCRIPT_STYLED, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_COMMENT, wxColour(wxT("rgb(0, 128, 0)")));
@@ -2414,4 +2426,14 @@ void frmMain::OnScriptCommandTypeChange(wxCommandEvent& WXUNUSED(event)){
 
 void frmMain::OnScriptCommandAddClick(wxCommandEvent& WXUNUSED(event)){
     m_Script_Styled->AddText(m_ScriptCommandList->GetStringSelection());
+    m_Script_Styled->Refresh();
 }
+
+void frmMain::OnScriptUndo(wxCommandEvent& WXUNUSED(event)){
+    m_Script_Styled->Undo();
+}
+
+void frmMain::OnScriptRedo(wxCommandEvent& WXUNUSED(event)){
+    m_Script_Styled->Redo();
+}
+
