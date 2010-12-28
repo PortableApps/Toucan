@@ -119,6 +119,8 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_BUTTON(ID_SCRIPT_ADD, frmMain::OnScriptAddClick)
 	EVT_BUTTON (ID_SCRIPT_REMOVE, frmMain::OnScriptRemoveClick)
 	EVT_COMBOBOX(ID_SCRIPT_NAME, frmMain::OnScriptSelected)
+    EVT_CHOICE(ID_SCRIPT_COMMAND_TYPE, frmMain::OnScriptCommandTypeChange)
+    EVT_BUTTON(ID_SCRIPT_COMMAND_ADD, frmMain::OnScriptCommandAddClick)
 	
 	//Other
 	EVT_CLOSE(frmMain::OnCloseWindow)
@@ -147,6 +149,9 @@ frmMain::frmMain(){
 		position = wxDefaultPosition;
 	}
 	wxSize size((int)(wxGetApp().m_Settings->GetWidth() * width), (int)(wxGetApp().m_Settings->GetHeight() * height));
+    if(size.GetX() < 0 || size.GetY() < 0)
+        size = wxDefaultSize;
+
 	long style = wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxCLOSE_BOX;
 
 	Init();
@@ -269,7 +274,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SyncJobsSizer = new wxStaticBoxSizer(SyncJobs, wxHORIZONTAL);
 	SyncJobsRulesSizer->Add(SyncJobsSizer, 0, wxALIGN_TOP|wxALL, border);
 
-	wxArrayString syncjobs = GetJobs(wxT("Sync"));
+	wxArrayString syncjobs = GetJobs(Jobs::Sync);
 	m_Sync_Job_Select = new wxComboBox(SyncPanel, ID_SYNC_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, syncjobs, wxCB_DROPDOWN|wxCB_READONLY);
 	SyncJobsSizer->Add(m_Sync_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
@@ -424,7 +429,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* BackupJobsSizer = new wxStaticBoxSizer(BackupJobs, wxHORIZONTAL);
 	BackupJobsRulesSizer->Add(BackupJobsSizer, 0, wxALIGN_TOP|wxALL, border);
 
-	wxArrayString backupjobs = GetJobs(wxT("Backup"));
+	wxArrayString backupjobs = GetJobs(Jobs::Backup);
 	m_Backup_Job_Select = new wxComboBox(BackupPanel, ID_BACKUP_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, backupjobs, wxCB_DROPDOWN|wxCB_READONLY);
 	BackupJobsSizer->Add(m_Backup_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
@@ -562,7 +567,7 @@ void frmMain::CreateControls(){
 	wxStaticBoxSizer* SecureJobsSizer = new wxStaticBoxSizer(SecureJobs, wxHORIZONTAL);
 	SecureJobsRulesSizer->Add(SecureJobsSizer, 0, wxALIGN_TOP|wxALL, border);
 
-	wxArrayString securejobs = GetJobs(wxT("Secure"));
+	wxArrayString securejobs = GetJobs(Jobs::Secure);
 	m_Secure_Job_Select = new wxComboBox(SecurePanel, ID_SECURE_JOB_SELECT, _T(""), wxDefaultPosition, wxDefaultSize, securejobs, wxCB_DROPDOWN|wxCB_READONLY);
 	SecureJobsSizer->Add(m_Secure_Job_Select, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
 
@@ -739,6 +744,22 @@ void frmMain::CreateControls(){
 
 	wxButton* ScriptRun = new wxButton(ScriptPanel, ID_SCRIPT_RUN, _("Run"), wxDefaultPosition, wxDefaultSize, 0);
 	ScriptNameSizer->Add(ScriptRun, 0, wxALIGN_CENTER_VERTICAL|wxALL, border);
+
+    wxBoxSizer *ScriptCommandSizer = new wxBoxSizer(wxHORIZONTAL);
+    ScriptSizer->Add(ScriptCommandSizer, 0, wxEXPAND, 0);
+
+    wxArrayString types;
+    types.push_back(_("Jobs"));
+    types.push_back(_("Job Commands"));
+    types.push_back(_("Other Commands"));
+    m_ScriptCommandType = new wxChoice(ScriptPanel, ID_SCRIPT_COMMAND_TYPE, wxDefaultPosition, wxDefaultSize, types);
+    ScriptCommandSizer->Add(m_ScriptCommandType, 0, wxCENTRE|wxLEFT|wxBOTTOM|wxTOP,  2 * border);
+
+    m_ScriptCommandList = new wxChoice(ScriptPanel, wxID_ANY);
+    ScriptCommandSizer->Add(m_ScriptCommandList, 1, wxCENTRE|wxLEFT|wxBOTTOM|wxTOP,  2 * border);
+
+    wxBitmapButton* ScriptCommandAdd = new wxBitmapButton(ScriptPanel, ID_SCRIPT_COMMAND_ADD, GetBitmapResource("add.png"));
+    ScriptCommandSizer->Add(ScriptCommandAdd, 0, wxALL,  2 * border);
 
 	m_Script_Styled = new wxStyledTextCtrl(ScriptPanel, ID_SCRIPT_STYLED, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME);
 	m_Script_Styled->StyleSetForeground(wxSTC_LUA_COMMENT, wxColour(wxT("rgb(0, 128, 0)")));
@@ -1880,7 +1901,7 @@ void frmMain::SetTitleBarText(){
 }
 
 void frmMain::JobAdd(wxComboBox* box){
-	wxArrayString existing = GetJobs(wxEmptyString);
+	wxArrayString existing = GetJobs(Jobs::All);
 	wxTextEntryDialog dialog(this,  _("Please enter the name for the new job"), _("New Job"));
 	if (dialog.ShowModal() == wxID_OK && dialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
@@ -2352,3 +2373,45 @@ WXLRESULT frmMain::MSWWindowProc(WXUINT message, WXWPARAM wparam, WXLPARAM lpara
 	return wxFrame::MSWWindowProc(message, wparam, lparam);
 }
 #endif
+
+void frmMain::OnScriptCommandTypeChange(wxCommandEvent& WXUNUSED(event)){
+    wxArrayString items;
+    if(m_ScriptCommandType->GetStringSelection() == _("Jobs")){
+        wxArrayString jobs = GetJobs(Jobs::Sync);
+        for(unsigned int i = 0; i < jobs.Count(); i++)
+            items.push_back("sync([[" + jobs.Item(i) + "]])");
+        jobs = GetJobs(Jobs::Backup);
+        for(unsigned int i = 0; i < jobs.Count(); i++)
+            items.push_back("backup([[" + jobs.Item(i) + "]])");
+        jobs = GetJobs(Jobs::Secure);
+        for(unsigned int i = 0; i < jobs.Count(); i++)
+            items.push_back("secure([[" + jobs.Item(i) + "]])");
+    }
+    else if(m_ScriptCommandType->GetStringSelection() == _("Job Commands")){
+        items.push_back("sync([[jobname]])");
+        items.push_back("backup([[jobname]])");
+        items.push_back("secure([[jobname]])");
+        items.push_back("sync([[source]], [[dest]], [[function]], {size = true, time = false, short = true, full = false}, "
+                        "{timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false}, "
+                        "[[rules]])");
+        items.push_back("backup({[[path1]], [[path2]]}, [[location]], [[function]], [[format]], ratio, "
+                        "{password = false, test = false, solid = true}, [[rules]])");
+        items.push_back("secure({[[path1]], [[path2]]}, [[function]], [[rules]])");
+    }
+    else if(m_ScriptCommandType->GetStringSelection() == _("Other Commands")){
+        items.push_back("print([[message]])");
+        items.push_back("expand([[variable]])");
+        items.push_back("delete([[path]])");
+        items.push_back("copy([[source]], [[destination]])");
+        items.push_back("move([[source]], [[destination]])");
+        items.push_back("rename([[source]], [[destination]])");
+        items.push_back("execute([[path]])");
+        items.push_back("inputpassword()");
+        items.push_back("shutdown()");
+    }
+    m_ScriptCommandList->Set(items);
+}
+
+void frmMain::OnScriptCommandAddClick(wxCommandEvent& WXUNUSED(event)){
+    m_Script_Styled->AddText(m_ScriptCommandList->GetStringSelection());
+}

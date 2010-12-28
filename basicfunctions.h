@@ -29,6 +29,15 @@ enum OutputType{
     Error //(includes time and red colour and increments the progress bar)
 };
 
+namespace Jobs{
+    enum Type{
+        Sync,
+        Backup,
+        Secure,
+        All
+    };
+};
+
 void OutputProgress(const wxString &message, OutputType type);
 
 /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
@@ -37,7 +46,7 @@ double GetInPB(const wxString &value);
 
 //Get a list of jobs of a specific type, or if an emptystring is passed then get
 //all job names that are in use
-wxArrayString GetJobs(const wxString &type);
+wxArrayString GetJobs(Jobs::Type type);
 wxArrayString GetVariables(bool builtin);
 wxArrayString GetRules();
 wxArrayString GetScripts();

@@ -23,6 +23,7 @@ class wxRadioBox;
 class wxSlider;
 class wxStyledTextCtrl;
 class wxGrid;
+class wxChoice;
 
 class DirCtrl;
 class LocalDirCtrl;
@@ -144,6 +145,8 @@ enum{
 	ID_SCRIPT_STYLED,
 	ID_SCRIPT_CHECK,
 	ID_SCRIPT_RUN,
+    ID_SCRIPT_COMMAND_ADD,
+    ID_SCRIPT_COMMAND_TYPE,
 	//Settings
 	ID_PANEL_SETTINGS,
 	ID_SETTINGS_TABSTYLE,
@@ -259,6 +262,8 @@ public:
 	void OnScriptSaveClick(wxCommandEvent& event);	
 	void OnScriptAddClick(wxCommandEvent& event);
 	void OnScriptRemoveClick(wxCommandEvent& event);
+    void OnScriptCommandTypeChange(wxCommandEvent &event);
+    void OnScriptCommandAddClick(wxCommandEvent &event);
 		
 	//Other
 	void OnCloseWindow(wxCloseEvent& event);
@@ -373,6 +378,8 @@ public:
 	wxStaticBoxSizer* ScriptNameSizer;
 	wxStyledTextCtrl* m_Script_Styled;
 	wxComboBox* m_Script_Name;
+    wxChoice* m_ScriptCommandType;
+    wxChoice* m_ScriptCommandList;
 	
 	//Settings
 	wxRadioBox* m_Settings_TabStyle;

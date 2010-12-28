@@ -148,31 +148,22 @@ double GetInPB(const wxString &value){
 	return dSize;
 }
 
-wxArrayString GetJobs(const wxString &type){
-	bool blCont;
-	wxString value;
-	long dummy;
-	wxArrayString jobs;
-	//Iterate through all of the groups
-	blCont = wxGetApp().m_Jobs_Config->GetFirstGroup(value, dummy);
-	while (blCont){
-		//If the group is of the correct type then add it to the combobox
-		if(wxGetApp().m_Jobs_Config->Read(value + wxT("/Type")) == type){
-			if(value != wxT("SyncRemember") && value != wxT("BackupRemember") && value != wxT("SecureRemember")){
-				jobs.Add(value);				
-			}
-		}
-		else if(type == wxEmptyString){
-			jobs.Add(value);
-		}
-		blCont = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
-	}
-	if(type == wxEmptyString){
-		jobs.Add(wxT("SyncRemember"));
-		jobs.Add(wxT("BackupRemember"));
-		jobs.Add(wxT("SecureRemember"));
-	}
-	return jobs;	
+wxArrayString GetJobs(Jobs::Type type){
+    bool ok;
+    wxString value, inputtype;
+    long dummy;
+    wxArrayString jobs;
+    ok = wxGetApp().m_Jobs_Config->GetFirstGroup(value, dummy);
+    while(ok){
+        inputtype = wxGetApp().m_Jobs_Config->Read(value + "/Type");
+        if((type == Jobs::Sync && inputtype == "Sync" && value != "SyncRemember")
+        ||(type == Jobs::Backup && inputtype == "Backup" && value != "BackupRemember")
+        ||(type == Jobs::Secure && inputtype == "Secure" && value != "SecureRemember")
+        ||(type == Jobs::All))
+            jobs.push_back(value);
+        ok = wxGetApp().m_Jobs_Config->GetNextGroup(value, dummy);
+    }
+    return jobs;	
 }
 
 wxArrayString GetVariables(bool builtin = false){
