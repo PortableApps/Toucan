@@ -64,10 +64,11 @@ public:
         this->normalised = Path::Normalise(rule);
         this->function = function;
         this->type = type;
+        this->valid = Validate();
     }
 
     RuleResult Matches(wxFileName path);
-    bool IsValid();
+    bool IsValid() { return valid; }
 
     wxString rule;
     RuleFunction function;
@@ -75,6 +76,8 @@ public:
 
 private:
     wxString normalised;
+    bool valid;
+    bool Validate();
 };
 
 class RuleSet{

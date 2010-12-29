@@ -18,6 +18,9 @@
 #include "controls/rulesgrid.h"
 
 RuleResult Rule::Matches(wxFileName path){
+    //If we have an invalid rule then don't try to match
+    if(!valid)
+        return NoMatch;
     //If we have a folder then a file rule isn't applied, but not vice-versa
     if(path.IsDir() && (function == FileInclude || function == FileExclude))
         return NoMatch;
@@ -65,7 +68,7 @@ RuleResult Rule::Matches(wxFileName path){
     }
 }
 
-bool Rule::IsValid(){
+bool Rule::Validate(){
     //We do not support folder size exclusions
     if((function == FolderInclude || function == FolderExclude)
     &&(type == Size))
