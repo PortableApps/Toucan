@@ -18,11 +18,11 @@
 	#include "secure/securejob.h"
 
 	void Sync(SyncData *data){
-		if(data->GetSource() == wxEmptyString){
-			throw std::invalid_argument("The source path must not be empty");
+		if(data->GetSource().GetFullPath() == wxEmptyString || !data->GetSource().IsDir()){
+			throw std::invalid_argument("The source path is invalid");
 		}
-		if(data->GetDest() == wxEmptyString){
-			throw std::invalid_argument("The destination path must not be empty");
+		if(data->GetDest().GetFullPath() == wxEmptyString || !data->GetDest().IsDir()){
+			throw std::invalid_argument("The destination path  is invalid");
 		}
 		if(data->GetFunction() == wxEmptyString){
 			throw std::invalid_argument("A valid function must be selected");
@@ -89,7 +89,7 @@
 		if(data->GetLocations().Count() == 0){
 			throw std::invalid_argument("You must select some paths to backup");
 		}
-		if(data->GetFileLocation() == wxEmptyString){
+		if(data->GetFileLocation() == wxEmptyString || wxDirExists(data->GetFileLocation())){
 			throw std::invalid_argument("The backup archive must be specified");
 		}
 		if(data->GetFunction() == wxEmptyString){
