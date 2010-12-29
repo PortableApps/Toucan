@@ -146,10 +146,7 @@ bool RuleSet::TransferFromFile(){
             return false;
         }
         else{
-            Rule rule;
-            rule.rule = temprule;
-            rule.function = functionmap.left.at(ToLang(tempfunction));
-            rule.type = typemap.left.at(ToLang(temptype));
+            Rule rule(temprule, functionmap.left.at(ToLang(tempfunction)), typemap.left.at(ToLang(temptype)));
             rules.push_back(rule);
         }
     }
@@ -185,10 +182,9 @@ bool RuleSet::TransferFromForm(frmMain *window){
     //Clear the existing rules
     rules.clear();
     for(int i = 0; i < window->m_RulesGrid->GetNumberRows(); i++){
-        Rule rule;
-        rule.rule  = window->m_RulesGrid->GetCellValue(i, 2);
-        rule.function = functionmap.left.at(window->m_RulesGrid->GetCellValue(i, 0));
-        rule.type = typemap.left.at(window->m_RulesGrid->GetCellValue(i, 1));
+        Rule rule(window->m_RulesGrid->GetCellValue(i, 2),
+                  functionmap.left.at(window->m_RulesGrid->GetCellValue(i, 0)),
+                  typemap.left.at(window->m_RulesGrid->GetCellValue(i, 1)));
         rules.push_back(rule);
     }
     return true;

@@ -58,7 +58,6 @@ static const boost::bimap<wxString, RuleFunction> functionmap = boost::assign::l
 
 class Rule{
 public:
-    Rule() {}
     Rule(const wxString &rule, RuleFunction function, RuleType type){
         this->rule = rule;
         this->normalised = Path::Normalise(rule);
