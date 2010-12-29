@@ -943,6 +943,8 @@ void frmMain::CreateControls(){
 	//Set the tooltips if required
 	if(wxGetApp().m_Settings->GetEnableTooltips()){
 		//Sync
+        SyncSourceButton->SetToolTip(_("Browse"));
+        SyncDestButton->SetToolTip(_("Browse"));
 		SyncJobSave->SetToolTip(_("Save"));
 		SyncJobAdd->SetToolTip(_("Add"));
 		SyncJobRemove->SetToolTip(_("Remove"));
@@ -952,6 +954,7 @@ void frmMain::CreateControls(){
 		SyncDestInsert->SetToolTip(_("Insert Variable"));
 		SyncRefreshButton->SetToolTip(_("Refresh"));
 		//Backup
+        BackupLocationButton->SetToolTip(_("Browse"));
 		BackupJobSave->SetToolTip(_("Save"));
 		BackupJobAdd->SetToolTip(_("Add"));
 		BackupJobRemove->SetToolTip(_("Remove"));
@@ -976,6 +979,7 @@ void frmMain::CreateControls(){
 		RulesAddItem->SetToolTip(_("Add"));
 		RulesRemoveItem->SetToolTip(_("Remove"));
 		//Variables
+        VariablesNameSave->SetToolTip(_("Save"));
 		VariablesNameAdd->SetToolTip(_("Add"));
 		VariablesNameRemove->SetToolTip(_("Remove"));
 		VariablesAddItem->SetToolTip(_("Add"));
@@ -984,6 +988,9 @@ void frmMain::CreateControls(){
 		ScriptNameSave->SetToolTip(_("Save"));
 		ScriptNameAdd->SetToolTip(_("Add"));
 		ScriptNameRemove->SetToolTip(_("Remove"));
+        ScriptUndo->SetToolTip(_("Undo"));
+        ScriptRedo->SetToolTip(_("Redo"));
+        ScriptCommandAdd->SetToolTip(_("Add"));
 	}
 
 	//Disable certain buttons for read-only operation
