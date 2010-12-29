@@ -21,7 +21,7 @@ bool isoriginal(DirCtrlItem *item){
 }
 
 SyncPreview::SyncPreview(const wxString &syncsource, const wxString &syncdest, SyncData* syncdata, bool issource) 
-            :sourcetree(issource), SyncBase(syncsource, syncdest, syncdata)
+            :sourcetree(issource), SyncBase(wxFileName::DirName(syncsource), wxFileName::DirName(syncdest), syncdata)
 {}
 
 DirCtrlItemArray SyncPreview::Execute(){
@@ -49,9 +49,11 @@ DirCtrlItemArray SyncPreview::Execute(){
 
 void SyncPreview::OperationCaller(std::map<wxString, int> paths){
 	for(auto iter = paths.begin(); iter != paths.end(); ++iter){
-        wxFileName source = sourceroot.GetFullPath() + (*iter).first;
-        wxFileName dest = destroot.GetFullPath() + (*iter).first;
-		if(source.DirExists() || dest.DirExists()){
+        wxFileName source, dest;
+        if(wxDirExists(sourceroot.GetPathWithSep() + (*iter).first)
+        || wxDirExists(destroot.GetPathWithSep() + (*iter).first)){
+            source = wxFileName::DirName(sourceroot.GetPathWithSep() + (*iter).first);
+            dest = wxFileName::DirName(destroot.GetPathWithSep() + (*iter).first); 
 			if((*iter).second == 1){
 				sourceitems.push_back(new DirCtrlItem(source));
 				OnSourceNotDestFolder(source, dest);
@@ -67,7 +69,10 @@ void SyncPreview::OperationCaller(std::map<wxString, int> paths){
 			}
 		}
 		//We have a file
-		else{
+        else{
+            source = wxFileName::FileName(sourceroot.GetPathWithSep() + (*iter).first);
+            dest = wxFileName::FileName(destroot.GetPathWithSep() + (*iter).first); 
+
 			if((*iter).second == 1){
 				sourceitems.push_back(new DirCtrlItem(source));
 				OnSourceNotDestFile(source, dest);
