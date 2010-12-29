@@ -33,6 +33,8 @@ std::list<wxString> SyncBase::FolderContentsToList(const wxFileName &path){
 	if(path.IsOk() && path.DirExists()){
 		wxString filename;
 		wxDir dir(path.GetFullPath());
+        if(!dir.IsOpened())
+            return paths;
 		if(dir.GetFirst(&filename)){
 			do{
 		        paths.push_back(filename);
