@@ -135,7 +135,7 @@ void SyncFiles::OnSourceNotDestFolder(const wxFileName &source, const wxFileName
 	if(data->GetFunction() != _("Clean")){
 		wxDir destdir(dest.GetFullPath());
 		wxDir sourcedir(source.GetFullPath());
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded){
+		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res == Excluded){
 			DeleteDirectory(dest);
 		}
 		else{
