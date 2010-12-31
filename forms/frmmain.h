@@ -160,11 +160,12 @@ enum{
 	ID_SETTINGS_ENABLETOOLTIPS,
 	ID_SETTINGS_SMALLBORDERS,
 	//Menu
-	ID_MENU_FILEEXCLUDE_EXTENSION,
 	ID_MENU_FILEEXCLUDE_NAME,
+	ID_MENU_FILEEXCLUDE_EXTENSION,
+	ID_MENU_FILEINCLUDE_NAME,
+	ID_MENU_FILEINCLUDE_EXTENSION,
 	ID_MENU_FOLDEREXCLUDE_NAME,
-	ID_MENU_LOCATIONINCLUDE_NAME,
-	ID_MENU_LOCATIONINCLUDE_EXTENSION,
+	ID_MENU_FOLDERINCLUDE_NAME
 };
 
 class frmMain: public wxFrame
@@ -278,11 +279,7 @@ public:
 	void OnSettingsApplyClick(wxCommandEvent& event);
 	
 	//Menu
-	void OnMenuFileExcludeExtensionClick(wxCommandEvent& event);
-	void OnMenuFileExcludeNameClick(wxCommandEvent& event);
-	void OnMenuLocationIncludeExtensionClick(wxCommandEvent& event);
-	void OnMenuLocationIncludeNameClick(wxCommandEvent& event);
-	void OnMenuFolderExcludeNameClick(wxCommandEvent& event);
+	void OnRulesMenuClick(wxCommandEvent& event);
 	
 	//Job functions
 	void JobAdd(wxComboBox* box);

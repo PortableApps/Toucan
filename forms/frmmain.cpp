@@ -133,11 +133,12 @@ BEGIN_EVENT_TABLE(frmMain, wxFrame)
 	EVT_AUINOTEBOOK_PAGE_CHANGED(ID_AUINOTEBOOK, frmMain::OnTabChanged)
 	
 	//Menu
-	EVT_MENU(ID_MENU_FILEEXCLUDE_EXTENSION, frmMain::OnMenuFileExcludeExtensionClick)
-	EVT_MENU(ID_MENU_FILEEXCLUDE_NAME, frmMain::OnMenuFileExcludeNameClick)
-	EVT_MENU(ID_MENU_LOCATIONINCLUDE_EXTENSION, frmMain::OnMenuLocationIncludeExtensionClick)
-	EVT_MENU(ID_MENU_LOCATIONINCLUDE_NAME, frmMain::OnMenuLocationIncludeNameClick)
-	EVT_MENU(ID_MENU_FOLDEREXCLUDE_NAME, frmMain::OnMenuFolderExcludeNameClick)
+	EVT_MENU(ID_MENU_FILEEXCLUDE_EXTENSION, frmMain::OnRulesMenuClick)
+	EVT_MENU(ID_MENU_FILEEXCLUDE_NAME, frmMain::OnRulesMenuClick)
+	EVT_MENU(ID_MENU_FILEINCLUDE_EXTENSION, frmMain::OnRulesMenuClick)
+	EVT_MENU(ID_MENU_FILEINCLUDE_NAME, frmMain::OnRulesMenuClick)
+	EVT_MENU(ID_MENU_FOLDEREXCLUDE_NAME, frmMain::OnRulesMenuClick)
+	EVT_MENU(ID_MENU_FOLDERINCLUDE_NAME, frmMain::OnRulesMenuClick)
 END_EVENT_TABLE()
 
 //Constructor
@@ -2066,95 +2067,67 @@ void frmMain::CreateMenu(wxTreeEvent& event){
 	}
 
 	wxMenu menu(title);
-	if(wxFileExists(item->GetFullPath())){
+
+    wxTextCtrl *opp, *current;
+    if(menuTree->GetId() == ID_SYNC_SOURCE_TREE){
+        opp = m_Sync_Dest_Txt;
+        current = m_Sync_Source_Txt;
+    }
+    else{
+        opp = m_Sync_Source_Txt;
+        current = m_Sync_Dest_Txt;
+    }
+	//Remove a trailing slash if we have one
+	wxString currentpath = current->GetValue();
+	if(currentpath.EndsWith(wxFILE_SEP_PATH))
+		currentpath = currentpath.BeforeLast(wxFILE_SEP_PATH);
+	//Likewise for the opposite path
+	wxString opppath = opp->GetValue();
+	if(opppath.EndsWith(wxFILE_SEP_PATH)){
+		opppath = opppath.BeforeLast(wxFILE_SEP_PATH);
+	}
+
+	wxString path = item->GetFullPath().Right(item->GetFullPath().Length() - currentpath.Length());
+
+	if(!wxDirExists(Path::Normalise(currentpath + path)) 
+    && !wxDirExists(Path::Normalise(opppath + path))){
 		menu.Append(ID_MENU_FILEEXCLUDE_EXTENSION, _("Exclude by extension"));
 		menu.Append(ID_MENU_FILEEXCLUDE_NAME, _("Exclude by name"));
-		menu.Append(ID_MENU_LOCATIONINCLUDE_EXTENSION, _("Include by extension"));
-		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, _("Include by name"));
+		menu.Append(ID_MENU_FILEINCLUDE_EXTENSION, _("Include by extension"));
+		menu.Append(ID_MENU_FILEINCLUDE_NAME, _("Include by name"));
 	}	
 	else{
 		menu.Append(ID_MENU_FOLDEREXCLUDE_NAME, _("Exclude by name"));
-		menu.Append(ID_MENU_LOCATIONINCLUDE_NAME, _("Include by name"));
+		menu.Append(ID_MENU_FOLDERINCLUDE_NAME, _("Include by name"));
 	}	
 	this->PopupMenu(&menu, event.GetPoint() + menuTree->GetPosition());
 }
 
-//ID_MENU_FILEEXCLUDE_EXTENSION
-void frmMain::OnMenuFileExcludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
+void frmMain::OnRulesMenuClick(wxCommandEvent& evt){
 	if(menuRules->GetStringSelection() != wxEmptyString){
 		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
 		RuleSet rules(menuRules->GetStringSelection());
 		if(!rules.TransferFromFile())
 			return;
-		rules.Add(Rule("." + wxFileName(item->GetFullPath()).GetExt(), FileExclude, Simple));
-		rules.TransferToFile();
-		//Refresh the rules display if needed
-		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-			wxCommandEvent event;
-			OnRulesComboSelected(event);
-		}
-	}
-}
 
-//ID_MENU_FILEEXCLUDE_NAME
-void frmMain::OnMenuFileExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
-	if(menuRules->GetStringSelection() != wxEmptyString){
-		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
-		RuleSet rules(menuRules->GetStringSelection());
-		if(!rules.TransferFromFile())
-			return;
-		rules.Add(Rule(menuTree->GetItemText(item), FileExclude, Simple));
-		rules.TransferToFile();
-		//Refresh the rules display if needed
-		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-			wxCommandEvent event;
-			OnRulesComboSelected(event);
-		}
-	}
-}
+        wxString rule;
+        if(evt.GetId() == ID_MENU_FILEEXCLUDE_EXTENSION || evt.GetId() == ID_MENU_FILEINCLUDE_EXTENSION)
+            rule = "." + wxFileName(item->GetFullPath()).GetExt();
+        else
+            rule = item->GetCaption();
 
-//ID_MENU_LOCATIONINCLUDE_EXTENSION
-void frmMain::OnMenuLocationIncludeExtensionClick(wxCommandEvent& WXUNUSED(event)){
-	if(menuRules->GetStringSelection() != wxEmptyString){
-		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
-		RuleSet rules(menuRules->GetStringSelection());
-		if(!rules.TransferFromFile())
-			return;
-		rules.Add(Rule("." + wxFileName(item->GetFullPath()).GetExt(), FileInclude, Simple));
-		rules.TransferToFile();
-		//Refresh the rules display if needed
-		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-			wxCommandEvent event;
-			OnRulesComboSelected(event);
-		}
-	}
-}
 
-//ID_MENU_LOCATIONINCLUDE_NAME
-void frmMain::OnMenuLocationIncludeNameClick(wxCommandEvent& WXUNUSED(event)){
-	if(menuRules->GetStringSelection() != wxEmptyString){
-		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
-		RuleSet rules(menuRules->GetStringSelection());
-		if(!rules.TransferFromFile())
-			return;
-		rules.Add(Rule(menuTree->GetItemText(item), FileExclude, Simple));
-		rules.TransferToFile();
-		//Refresh the rules display if needed
-		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
-			wxCommandEvent event;
-			OnRulesComboSelected(event);
-		}
-	}
-}
+        RuleFunction function;
+        if(evt.GetId() == ID_MENU_FILEEXCLUDE_EXTENSION || evt.GetId() == ID_MENU_FILEEXCLUDE_NAME)
+            function = FileExclude;
+        else if(evt.GetId() == ID_MENU_FILEINCLUDE_EXTENSION || evt.GetId() == ID_MENU_FILEINCLUDE_NAME)
+            function = FileInclude;
+        else if(evt.GetId() == ID_MENU_FOLDERINCLUDE_NAME)
+            function = FolderInclude;
+        else if(evt.GetId() == ID_MENU_FOLDEREXCLUDE_NAME)
+            function = FolderExclude;
 
-//ID_MENU_FOLDEREXCLUDE_NAME
-void frmMain::OnMenuFolderExcludeNameClick(wxCommandEvent& WXUNUSED(event)){
-	if(menuRules->GetStringSelection() != wxEmptyString){
-		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
-		RuleSet rules(menuRules->GetStringSelection());
-		if(!rules.TransferFromFile())
-			return;
-		rules.Add(Rule(menuTree->GetItemText(item), FolderExclude, Simple));
+		rules.Add(Rule(rule, function, Simple));
 		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
