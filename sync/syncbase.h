@@ -15,8 +15,6 @@ class Rules;
 #include <wx/string.h>
 #include <wx/filename.h>
 
-bool operator < (const wxFileName &a, const wxFileName &b);
-
 class SyncBase
 {
 public:
@@ -26,7 +24,7 @@ public:
 protected:
 	std::list<wxString> FolderContentsToList(const wxFileName &path);
 	std::map<wxString, int> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
-	virtual void OperationCaller(std::map<wxString, int> paths) = 0;
+    void OperationCaller(std::map<wxString, int> paths);
 
 	virtual void OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest) = 0;
 	virtual void OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest) = 0;

@@ -45,45 +45,6 @@ bool SyncFiles::Execute(){
 	return true;
 }
 
-void SyncFiles::OperationCaller(std::map<wxString, int> paths){
-	for(auto iter = paths.begin(); iter != paths.end(); ++iter){
-		if(wxGetApp().GetAbort()){
-			return;
-		}
-        wxFileName source, dest;
-        if(wxDirExists(sourceroot.GetPathWithSep() + (*iter).first)
-        || wxDirExists(destroot.GetPathWithSep() + (*iter).first)){
-            source = wxFileName::DirName(sourceroot.GetPathWithSep() + (*iter).first);
-            dest = wxFileName::DirName(destroot.GetPathWithSep() + (*iter).first); 
-
-            if((*iter).second == 1){
-				OnSourceNotDestFolder(source, dest);
-			}
-			else if((*iter).second == 2){
-				OnNotSourceDestFolder(source, dest);				
-			}
-			else if((*iter).second == 3){
-				OnSourceAndDestFolder(source, dest);
-			}
-        }
-        else{
-            source = wxFileName::FileName(sourceroot.GetPathWithSep() + (*iter).first);
-            dest = wxFileName::FileName(destroot.GetPathWithSep() + (*iter).first); 
-
-            if((*iter).second == 1){
-				OnSourceNotDestFile(source, dest);
-			}
-			else if((*iter).second == 2){
-				OnNotSourceDestFile(source, dest);				
-			}
-			else if((*iter).second == 3){
-				OnSourceAndDestFile(source, dest);
-			}
-        }
-	}
-	return;
-}
-
 void SyncFiles::OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest){
 	//Clean doesnt copy any files
 	if(data->GetFunction() != _("Clean")){

@@ -47,51 +47,8 @@ DirCtrlItemArray SyncPreview::Execute(){
 	}
 }
 
-void SyncPreview::OperationCaller(std::map<wxString, int> paths){
-	for(auto iter = paths.begin(); iter != paths.end(); ++iter){
-        wxFileName source, dest;
-        if(wxDirExists(sourceroot.GetPathWithSep() + (*iter).first)
-        || wxDirExists(destroot.GetPathWithSep() + (*iter).first)){
-            source = wxFileName::DirName(sourceroot.GetPathWithSep() + (*iter).first);
-            dest = wxFileName::DirName(destroot.GetPathWithSep() + (*iter).first); 
-			if((*iter).second == 1){
-				sourceitems.push_back(new DirCtrlItem(source));
-				OnSourceNotDestFolder(source, dest);
-			}
-			else if((*iter).second == 2){
-				destitems.push_back(new DirCtrlItem(dest));
-				OnNotSourceDestFolder(source, dest);		
-			}
-			else if((*iter).second == 3){
-				sourceitems.push_back(new DirCtrlItem(source));
-				destitems.push_back(new DirCtrlItem(dest));
-				OnSourceAndDestFolder(source, dest);
-			}
-		}
-		//We have a file
-        else{
-            source = wxFileName::FileName(sourceroot.GetPathWithSep() + (*iter).first);
-            dest = wxFileName::FileName(destroot.GetPathWithSep() + (*iter).first); 
-
-			if((*iter).second == 1){
-				sourceitems.push_back(new DirCtrlItem(source));
-				OnSourceNotDestFile(source, dest);
-			}
-			else if((*iter).second == 2){
-				destitems.push_back(new DirCtrlItem(dest));
-				OnNotSourceDestFile(source, dest);
-			}
-			else if((*iter).second == 3){
-				sourceitems.push_back(new DirCtrlItem(source));
-				destitems.push_back(new DirCtrlItem(dest));
-				OnSourceAndDestFile(source, dest);
-			}
-		}
-	}
-	return;
-}
-
 void SyncPreview::OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest){
+    sourceitems.push_back(new DirCtrlItem(source));
 	if(data->GetFunction() != _("Clean")){
 		DirCtrlItem* item = new DirCtrlItem(dest);
 		if(data->GetRules()->Matches(source) != Excluded){
@@ -111,6 +68,7 @@ void SyncPreview::OnSourceNotDestFile(const wxFileName &source, const wxFileName
 }
 
 void SyncPreview::OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest){
+    destitems.push_back(new DirCtrlItem(dest));
 	if(data->GetRules()->Matches(dest) != Excluded){
 		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 	        DirCtrlIter iter = FindPath(&destitems, dest);
@@ -131,6 +89,8 @@ void SyncPreview::OnNotSourceDestFile(const wxFileName &source, const wxFileName
 }
 
 void SyncPreview::OnSourceAndDestFile(const wxFileName &source, const wxFileName &dest){
+	sourceitems.push_back(new DirCtrlItem(source));
+	destitems.push_back(new DirCtrlItem(dest));
 	if(data->GetRules()->Matches(dest) != Excluded){
 		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
 			if(CopyIfNeeded(source, dest)){
@@ -175,6 +135,7 @@ void SyncPreview::OnSourceAndDestFile(const wxFileName &source, const wxFileName
 }
 
 void SyncPreview::OnSourceNotDestFolder(const wxFileName &source, const wxFileName &dest){
+    sourceitems.push_back(new DirCtrlItem(source));
 	if(data->GetFunction() != _("Clean")){
 		DirCtrlItem* item = new DirCtrlItem(dest);
         RuleResult res = data->GetRules()->Matches(source);
@@ -195,6 +156,7 @@ void SyncPreview::OnSourceNotDestFolder(const wxFileName &source, const wxFileNa
 }
 
 void SyncPreview::OnNotSourceDestFolder(const wxFileName &source, const wxFileName &dest){
+    destitems.push_back(new DirCtrlItem(dest));
 	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
 		DirCtrlIter iter = FindPath(&destitems, dest);
 		if(iter != destitems.end()){
@@ -218,6 +180,8 @@ void SyncPreview::OnNotSourceDestFolder(const wxFileName &source, const wxFileNa
 }
 
 void SyncPreview::OnSourceAndDestFolder(const wxFileName &source, const wxFileName &dest){
+    sourceitems.push_back(new DirCtrlItem(source));
+	destitems.push_back(new DirCtrlItem(dest));
 	if(data->GetFunction() == _("Move")){
 	    DirCtrlIter iter = FindPath(&sourceitems, source);
 		if(iter != sourceitems.end()){
