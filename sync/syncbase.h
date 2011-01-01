@@ -15,6 +15,12 @@ class Rules;
 #include <wx/string.h>
 #include <wx/filename.h>
 
+enum Location{
+    Source,
+    Dest,
+    SourceAndDest
+};
+
 class SyncBase
 {
 public:
@@ -23,8 +29,8 @@ public:
 
 protected:
 	std::list<wxString> FolderContentsToList(const wxFileName &path);
-	std::map<wxString, int> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
-    void OperationCaller(std::map<wxString, int> paths);
+    std::map<wxString, Location> MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist);
+    void OperationCaller(std::map<wxString, Location> paths);
 
 	virtual void OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest) = 0;
 	virtual void OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest) = 0;

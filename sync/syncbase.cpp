@@ -45,8 +45,8 @@ std::list<wxString> SyncBase::FolderContentsToList(const wxFileName &path){
 	return paths;
 }
 
-std::map<wxString, int> SyncBase::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
-	std::map<wxString, int> mergeresult;
+std::map<wxString, Location> SyncBase::MergeListsToMap(std::list<wxString> sourcelist, std::list<wxString> destlist){
+	std::map<wxString, Location> mergeresult;
 	for(auto iter = sourcelist.begin(); iter != sourcelist.end(); ++iter){
 		bool destexists = false;
 		for(auto destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
@@ -56,19 +56,18 @@ std::map<wxString, int> SyncBase::MergeListsToMap(std::list<wxString> sourcelist
 				break;
 			}
 		}
-		int where = 1;
-		if(destexists){
-			where = 3;
-		}
-		mergeresult[*iter] = where;
+        if(destexists)
+            mergeresult[*iter] = SourceAndDest;
+        else
+            mergeresult[*iter] = Source;
 	}
 	for(auto destiter = destlist.begin(); destiter != destlist.end(); ++destiter){
-		mergeresult[*destiter] = 2;
+		mergeresult[*destiter] = Dest;
 	}
 	return mergeresult;
 }
 
-void SyncBase::OperationCaller(std::map<wxString, int> paths){
+void SyncBase::OperationCaller(std::map<wxString, Location> paths){
     for(auto iter = paths.begin(); iter != paths.end(); ++iter){
         if(wxGetApp().GetAbort())
 			return;
@@ -79,22 +78,22 @@ void SyncBase::OperationCaller(std::map<wxString, int> paths){
             source = wxFileName::DirName(sourceroot.GetPathWithSep() + (*iter).first);
             dest = wxFileName::DirName(destroot.GetPathWithSep() + (*iter).first); 
 
-            if((*iter).second == 1)
+            if((*iter).second == Source)
                 OnSourceNotDestFolder(source, dest);
-            else if((*iter).second == 2)
+            else if((*iter).second == Dest)
                 OnNotSourceDestFolder(source, dest);
-            else if((*iter).second == 3)
+            else if((*iter).second == SourceAndDest)
                 OnSourceAndDestFolder(source, dest);
         }
         else{
             source = wxFileName::FileName(sourceroot.GetPathWithSep() + (*iter).first);
             dest = wxFileName::FileName(destroot.GetPathWithSep() + (*iter).first); 
 
-            if((*iter).second == 1)
+            if((*iter).second == Source)
                 OnSourceNotDestFile(source, dest);
-            else if((*iter).second == 2)
+            else if((*iter).second == Dest)
                 OnNotSourceDestFile(source, dest);				
-            else if((*iter).second == 3)
+            else if((*iter).second == SourceAndDest)
                 OnSourceAndDestFile(source, dest);
         }
     }
