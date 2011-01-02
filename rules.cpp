@@ -19,7 +19,7 @@
 
 RuleResult Rule::Matches(wxFileName path){
     //If we have an invalid rule then don't try to match
-    if(!valid)
+    if(!valid || normalised == "" || rule == "")
         return NoMatch;
     //If we have a folder then a file rule isn't applied, but not vice-versa
     if(path.IsDir() && (function == FileInclude || function == FileExclude))
