@@ -24,6 +24,7 @@
 using namespace boost::interprocess;
 
 #include "toucan.h"
+#include "rules.h"
 #include "settings.h"
 #include "basicfunctions.h"
 #include "forms/frmprogress.h"
@@ -98,9 +99,7 @@ void OutputProgress(const wxString &message, OutputType type){
     std::string out =  message.ToStdString();
 
     try{
-//        permissions access;
- //       access.set_unrestricted();
-        message_queue mq(open_or_create, "progress", 100, 10000/*, access*/);
+        message_queue mq(open_or_create, "progress", 100, 10000);
         mq.send(out.data(), out.size(), type);
     }
     catch(std::exception &ex){
@@ -393,18 +392,11 @@ bool UpdateRules(){
 	long version;
 	wxFileConfig *config = wxGetApp().m_Rules_Config;
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Rules.ini"))){
-		if(!wxGetApp().IsReadOnly()){
-			config->Write(wxT("General/Version"), 300);
-			config->Flush();
-			return true;
-		}
-		else{
-			return false;
-		}
+		return true;
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
-	if(version == 300){
+	if(version == 310){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
@@ -420,7 +412,70 @@ bool UpdateRules(){
 		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR);
 		return false;
 	}
-	config->Write(wxT("General/Version"), 300);
+    if(version == 300){
+	    bool cont;
+	    wxString value;
+	    long dummy;
+	    //Iterate through all of the groups
+	    cont = config->GetFirstGroup(value, dummy);
+	    while(cont ){
+            if(value == "General"){
+                cont = config->GetNextGroup(value, dummy);
+                continue;
+            }
+		    RuleSet rules(value);
+            wxArrayString filestoinclude = StringToArrayString(config->Read(value + "/FilesToInclude"), "|");
+            for(unsigned int i = 0; i < filestoinclude.Count(); i++){
+                RuleType type;
+                if(filestoinclude.Item(i).Left(1) == "*")
+                    type = Regex;
+                else if(filestoinclude.Item(i).Left(1) == "<" || filestoinclude.Item(i).Left(1) == "<" && filestoinclude.Item(i).Right(1) == "B")
+                    type = Size;
+                else if(filestoinclude.Item(i).Left(1) == "<" || filestoinclude.Item(i).Left(1) == "<")
+                    type = Date;
+                else
+                    type = Simple;
+
+                Rule rule(filestoinclude.Item(i), FileInclude, type);
+                rules.Add(rule);
+            }
+            wxArrayString filestoexclude = StringToArrayString(config->Read(value + "/FilesToExclude"), "|");
+            for(unsigned int i = 0; i < filestoexclude.Count(); i++){
+                RuleType type;
+                if(filestoexclude.Item(i).Left(1) == "*")
+                    type = Regex;
+                else if(filestoexclude.Item(i).Left(1) == "<" || filestoexclude.Item(i).Left(1) == "<" && filestoexclude.Item(i).Right(1) == "B")
+                    type = Size;
+                else if(filestoexclude.Item(i).Left(1) == "<" || filestoexclude.Item(i).Left(1) == "<")
+                    type = Date;
+                else
+                    type = Simple;
+
+                Rule rule(filestoexclude.Item(i), FileExclude, type);
+                rules.Add(rule);
+            }
+            wxArrayString folderstoexclude = StringToArrayString(config->Read(value + "/FoldersToExclude"), "|");
+            for(unsigned int i = 0; i < folderstoexclude.Count(); i++){
+                RuleType type;
+                if(folderstoexclude.Item(i).Left(1) == "*")
+                    type = Regex;
+                else if(folderstoexclude.Item(i).Left(1) == "<" || folderstoexclude.Item(i).Left(1) == "<" && folderstoexclude.Item(i).Right(1) == "B")
+                    type = Size;
+                else if(folderstoexclude.Item(i).Left(1) == "<" || folderstoexclude.Item(i).Left(1) == "<")
+                    type = Date;
+                else
+                    type = Simple;
+
+                Rule rule(folderstoexclude.Item(i), FolderExclude, type);
+                rules.Add(rule);
+            }
+            rules.TransferToFile();
+		    cont = config->GetNextGroup(value, dummy);
+	    }
+
+        version = 310;
+    }
+	config->Write(wxT("General/Version"), 310);
 	config->Flush();
 	return true;
 }
