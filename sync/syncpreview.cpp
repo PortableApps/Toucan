@@ -48,173 +48,123 @@ DirCtrlItemArray SyncPreview::Execute(){
 }
 
 void SyncPreview::OnSourceNotDestFile(const wxFileName &source, const wxFileName &dest){
-    sourceitems.push_back(new DirCtrlItem(source));
-	if(data->GetFunction() != _("Clean")){
-		DirCtrlItem* item = new DirCtrlItem(dest);
-		if(data->GetRules()->Matches(source) != Excluded){
-			item->SetColour(wxT("Blue"));
-			destitems.push_back(item);
-			if(data->GetFunction() == _("Move")){
-				DirCtrlIter iter = FindPath(&sourceitems, source);
-				if(iter != sourceitems.end()){
-					(*iter)->SetColour(wxT("Grey"));						
-				}
-			}
-		}
-		else{
-			delete item;
-		}	
-	}
+    DirCtrlItem *sourceitem = new DirCtrlItem(source);
+    sourceitems.push_back(sourceitem);
+    if(data->GetFunction() != _("Clean") && data->GetRules()->Matches(source) != Excluded){
+        DirCtrlItem* destitem = new DirCtrlItem(dest);
+        destitem->SetColour("Blue");
+        destitems.push_back(destitem);
+		if(data->GetFunction() == _("Move")){
+            sourceitem->SetColour(wxT("Grey"));
+        }
+    }
 }
 
 void SyncPreview::OnNotSourceDestFile(const wxFileName &source, const wxFileName &dest){
-    destitems.push_back(new DirCtrlItem(dest));
-	if(data->GetRules()->Matches(dest) != Excluded){
-		if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-	        DirCtrlIter iter = FindPath(&destitems, dest);
-			if(iter != destitems.end()){
-				if(data->GetRules()->Matches(dest) != Excluded){
-					(*iter)->SetColour(wxT("Grey"));						
-				}
-			}
-		}
-		else if(data->GetFunction() == _("Equalise")){
-			if(data->GetRules()->Matches(dest) != Excluded){
-				DirCtrlItem* item = new DirCtrlItem(source);
-				item->SetColour(wxT("Blue"));
-				sourceitems.push_back(item);
-			}
-		}
-	}
+    DirCtrlItem *destitem = new DirCtrlItem(dest);
+    destitems.push_back(destitem);
+    if(data->GetRules()->Matches(dest) != Excluded){
+        if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
+            destitem->SetColour(wxT("Grey"));						
+        }
+        else if(data->GetFunction() == _("Equalise")){
+            DirCtrlItem* item = new DirCtrlItem(source);
+            item->SetColour(wxT("Blue"));
+            sourceitems.push_back(item);
+        }
+    }
 }
 
 void SyncPreview::OnSourceAndDestFile(const wxFileName &source, const wxFileName &dest){
-	sourceitems.push_back(new DirCtrlItem(source));
-	destitems.push_back(new DirCtrlItem(dest));
-	if(data->GetRules()->Matches(dest) != Excluded){
-		if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
-			if(CopyIfNeeded(source, dest)){
-	            DirCtrlIter iter = FindPath(&destitems, dest);
-				if(iter != destitems.end()){
-					(*iter)->SetColour(wxT("Green"));		
-					if(data->GetFunction() == _("Move")){
-				        DirCtrlIter iter = FindPath(&sourceitems, source);
-						if(iter != sourceitems.end()){
-							(*iter)->SetColour(wxT("Grey"));						
-						}
-					}
-				}
-			}		
-		}
-		else if(data->GetFunction() == _("Equalise")){
-			wxDateTime to, from;
-			dest.GetTimes(NULL, &to, NULL);
-			source.GetTimes(NULL, &from, NULL);		
+    DirCtrlItem *sourceitem = new DirCtrlItem(source);
+    DirCtrlItem *destitem = new DirCtrlItem(dest);
+	sourceitems.push_back(sourceitem);
+    destitems.push_back(destitem);
+    if(data->GetRules()->Matches(dest) != Excluded){
+        if(data->GetFunction() == _("Copy") || data->GetFunction() == _("Mirror") || data->GetFunction() == _("Move")){
+            if(CopyIfNeeded(source, dest)){
+                destitem->SetColour(wxT("Green"));		
+                if(data->GetFunction() == _("Move")){
+                    sourceitem->SetColour(wxT("Grey"));
+                }
+            }		
+        }
+        else if(data->GetFunction() == _("Equalise")){
+            wxDateTime to, from;
+            dest.GetTimes(NULL, &to, NULL);
+            source.GetTimes(NULL, &from, NULL);		
 
-			from.MakeTimezone(wxDateTime::UTC, true);
-			to.MakeTimezone(wxDateTime::UTC, true);
+            from.MakeTimezone(wxDateTime::UTC, true);
+            to.MakeTimezone(wxDateTime::UTC, true);
 
-			if(from.IsLaterThan(to)){
-				if(CopyIfNeeded(source, dest)){
-				DirCtrlIter iter = FindPath(&destitems, dest);
-					if(iter != destitems.end()){
-						(*iter)->SetColour(wxT("Green"));			
-					}
-				}	
-			}
-			else if(to.IsLaterThan(from)){
-				if(CopyIfNeeded(dest, source)){
-				    DirCtrlIter iter = FindPath(&sourceitems, source);
-					if(iter != sourceitems.end()){
-						(*iter)->SetColour(wxT("Green"));			
-					}
-				}					
-			}
-		}
-	}
+            if(from.IsLaterThan(to) && CopyIfNeeded(source, dest))
+                destitem->SetColour(wxT("Green"));
+            else if(to.IsLaterThan(from) && CopyIfNeeded(dest, source))
+                sourceitem->SetColour(wxT("Green"));			
+        }
+    }
 }
 
 void SyncPreview::OnSourceNotDestFolder(const wxFileName &source, const wxFileName &dest){
-    sourceitems.push_back(new DirCtrlItem(source));
-	if(data->GetFunction() != _("Clean")){
-		DirCtrlItem* item = new DirCtrlItem(dest);
+    DirCtrlItem *sourceitem = new DirCtrlItem(source);
+    sourceitems.push_back(sourceitem);
+    if(data->GetFunction() != _("Clean")){
+        DirCtrlItem* destitem = new DirCtrlItem(dest);
         RuleResult res = data->GetRules()->Matches(source);
-		if(res != Excluded && res != AbsoluteFolderExclude){
-			item->SetColour(wxT("Blue"));
-		}
-		else{
-			item->SetColour(wxT("Red"));
-		}
-		destitems.push_back(item);
-		if(data->GetFunction() == _("Move")){
-			DirCtrlIter iter = FindPath(&sourceitems, source);
-			if(iter != sourceitems.end()){
-				(*iter)->SetColour(wxT("Red"));						
-			}
-		}
-	}
+        if(res != Excluded && res != AbsoluteFolderExclude)
+            destitem->SetColour(wxT("Blue"));
+        else
+            destitem->SetColour(wxT("Red"));
+        destitems.push_back(destitem);
+        if(data->GetFunction() == _("Move"))
+            sourceitem->SetColour(wxT("Red"));
+    }
 }
 
 void SyncPreview::OnNotSourceDestFolder(const wxFileName &source, const wxFileName &dest){
-    destitems.push_back(new DirCtrlItem(dest));
-	if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
-		DirCtrlIter iter = FindPath(&destitems, dest);
-		if(iter != destitems.end()){
-            RuleResult res = data->GetRules()->Matches(dest);
-			if(res != Excluded && res != AbsoluteExcluded){
-				(*iter)->SetColour(wxT("Grey"));				
-			}		
-		}
-	}
-	else if(data->GetFunction() == _("Equalise")){
+    DirCtrlItem *destitem = new DirCtrlItem(dest);
+    destitems.push_back(destitem);
+    if(data->GetFunction() == _("Mirror") || data->GetFunction() == _("Clean")){
         RuleResult res = data->GetRules()->Matches(dest);
-		DirCtrlItem* item = new DirCtrlItem(source);
-		if(res != Excluded && res != AbsoluteExcluded){
-			item->SetColour(wxT("Blue"));
-		}
-		else{
-			item->SetColour(wxT("Red"));
-		}
-		sourceitems.push_back(item);
-	}
+        if(res != Excluded && res != AbsoluteExcluded)
+            destitem->SetColour(wxT("Grey"));		
+    }
+    else if(data->GetFunction() == _("Equalise")){
+        RuleResult res = data->GetRules()->Matches(dest);
+        DirCtrlItem* sourceitem = new DirCtrlItem(source);
+        if(res != Excluded && res != AbsoluteExcluded)
+            sourceitem->SetColour(wxT("Blue"));
+        else
+            sourceitem->SetColour(wxT("Red"));
+        sourceitems.push_back(sourceitem);
+    }
 }
 
 void SyncPreview::OnSourceAndDestFolder(const wxFileName &source, const wxFileName &dest){
-    sourceitems.push_back(new DirCtrlItem(source));
-	destitems.push_back(new DirCtrlItem(dest));
-	if(data->GetFunction() == _("Move")){
-	    DirCtrlIter iter = FindPath(&sourceitems, source);
-		if(iter != sourceitems.end()){
-            RuleResult res = data->GetRules()->Matches(source);
-			if(res != Excluded && res != AbsoluteExcluded){
-				(*iter)->SetColour(wxT("Red"));				
-			}		
-		}
-	}
+    DirCtrlItem *sourceitem = new DirCtrlItem(source);
+    sourceitems.push_back(sourceitem);
+    destitems.push_back(new DirCtrlItem(dest));
+    if(data->GetFunction() == _("Move")){
+        RuleResult res = data->GetRules()->Matches(source);
+        if(res != Excluded && res != AbsoluteExcluded){
+            sourceitem->SetColour(wxT("Red"));						
+        }
+    }
 }
 
 bool SyncPreview::CopyIfNeeded(const wxFileName &source, const wxFileName &dest){
-	//If the dest file doesn't exists then we must copy
-	if(!dest.FileExists()){
-		return true;
-	}
-	//If copy if anything says copy
-	if(    (data->GetCheckSize() && ShouldCopySize(source, dest))
-		|| (data->GetCheckTime() && ShouldCopyTime(source, dest))
-		|| (data->GetCheckShort() && ShouldCopyShort(source, dest))
-		|| (data->GetCheckFull() && ShouldCopyFull(source, dest))
-        || (!data->GetCheckSize() && !data->GetCheckTime() && 
-            !data->GetCheckShort() && !data->GetCheckFull())){
-		return true;
-	}
-	return false;
-}
-
-DirCtrlIter SyncPreview::FindPath(DirCtrlItemArray* items, const wxFileName &path){
-    for(DirCtrlIter iter = items->begin(); iter != items->end(); ++iter){
-        if((*iter)->GetPath() == path){
-            return iter;
-        }
+    //If the dest file doesn't exists then we must copy
+    if(!dest.FileExists()){
+        return true;
     }
-    return items->end();
+    //If copy if anything says copy
+    if((data->GetCheckSize() && ShouldCopySize(source, dest))
+    || (data->GetCheckTime() && ShouldCopyTime(source, dest))
+    || (data->GetCheckShort() && ShouldCopyShort(source, dest))
+    || (data->GetCheckFull() && ShouldCopyFull(source, dest))
+    || (!data->GetCheckSize() && !data->GetCheckTime() && 
+        !data->GetCheckShort() && !data->GetCheckFull())){
+        return true;
+    }
+    return false;
 }
