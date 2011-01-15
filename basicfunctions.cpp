@@ -201,8 +201,11 @@ wxArrayString GetVariables(bool builtin = false){
 
 wxArrayString GetRules(){
 	wxArrayString rules;
-	wxString path = wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules";
+	wxString path = wxGetApp().GetSettingsPath() + "rules";
 	wxDir dir(path);
+    if(!dir.IsOpened()){
+        return rules;
+    }
 	wxString filename;
 	bool valid = dir.GetFirst(&filename);
 	if(valid){
