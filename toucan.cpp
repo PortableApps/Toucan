@@ -140,6 +140,8 @@ bool Toucan::OnInit(){
 	//Make sure the data directory is there
 	if(!wxDirExists(GetSettingsPath())){
 		Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath()));
+        Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath() + "rules"));
+        Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath() + "scripts"));
 	}
 
 	//Create the config stuff and set it up
