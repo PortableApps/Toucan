@@ -29,7 +29,7 @@ LuaThread::LuaThread(const wxString &line) : wxThread(), m_Command(line){
 }
 
 void *LuaThread::Entry(){
-    OutputProgress("Toucan 3.0.4", StartingLine);
+    OutputProgress("Toucan 3.1", StartingLine);
     OutputProgress(_("Date:") + " " + m_StartTime.FormatISODate(), StartingInfo);
 	OutputProgress(_("Computer Name:") + " " + wxGetHostName(), StartingInfo);
 	OutputProgress(_("Operating System:") + " " + wxGetOsDescription(), StartingInfo);
