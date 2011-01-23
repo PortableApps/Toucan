@@ -532,7 +532,7 @@ bool UpdateSettings(){
 			return false;
 		}
 	}
-	config->Read(wxT("General/Version"), &version, 1);
+	config->Read(wxT("General/Version"), &version, 300);
 	//Return if we are up to date
 	if(version == 300){
 		delete config;
