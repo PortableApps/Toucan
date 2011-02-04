@@ -25,7 +25,7 @@ void SecureData::TransferFromFile(){
 	SetLocations(Read("Locations"));
 	SetFunction(Read<wxString>("Function"));
     RuleSet *rules = new RuleSet(Read<wxString>("Rules"));
-    rules->TransferFromFile();
+    rules->TransferFromFile(wxGetApp().GetSettingsPath());
 	SetRules(rules);
 }
 
@@ -80,7 +80,7 @@ bool SecureData::TransferFromForm(frmMain *window){
 	SetFunction(window->m_Secure_Function->GetStringSelection());
 
     RuleSet *rules = new RuleSet(window->m_Secure_Rules->GetStringSelection());
-    rules->TransferFromFile();
+    rules->TransferFromFile(wxGetApp().GetSettingsPath());
 	SetRules(rules);
 
 	return true;	

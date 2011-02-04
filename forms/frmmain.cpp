@@ -225,17 +225,6 @@ void frmMain::Init(){
 	m_Font = new wxFont();
 	m_BackupLocations = new wxArrayString();
 	m_SecureLocations = new wxArrayString();
-
-    m_RulesChoices.Add(_("File Include"));
-    m_RulesChoices.Add(_("File Exclude"));
-    m_RulesChoices.Add(_("Folder Include"));
-    m_RulesChoices.Add(_("Folder Exclude"));
-    m_RulesChoices.Add(_("Absolute Folder Exclude"));
-
-    m_RulesTypeChoices.Add(_("Simple"));
-    m_RulesTypeChoices.Add(_("Regex"));
-    m_RulesTypeChoices.Add(_("Size"));
-    m_RulesTypeChoices.Add(_("Date"));
 }
 
 void frmMain::CreateControls(){	
@@ -673,7 +662,7 @@ void frmMain::CreateControls(){
 	wxBoxSizer* RulesMainSizer = new wxBoxSizer(wxHORIZONTAL);
 	RulesSizer->Add(RulesMainSizer, 1, wxGROW|wxALL, border);
 
-    m_RulesGrid = new RulesGrid(RulesPanel, wxID_ANY);
+    m_RulesGrid = new RulesGrid(RulesPanel, wxID_ANY, m_Rules_Name);
     RulesMainSizer->Add(m_RulesGrid, 1, wxGROW|wxALL, border);
 
 	wxBoxSizer* RulesRightSizer = new wxBoxSizer(wxVERTICAL);
@@ -1127,15 +1116,7 @@ void frmMain::OnSyncDestBtnClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_ADDITEM
 void frmMain::OnRulesAddItemClick(wxCommandEvent& WXUNUSED(event)){
-    //Append a new item
-    m_RulesGrid->AppendRows();
-
-    //Set the cell editor for the type column
-    int newrow = m_RulesGrid->GetNumberRows() - 1;
-    m_RulesGrid->SetCellEditor(newrow, 0, new wxGridCellChoiceEditor(m_RulesChoices));
-    m_RulesGrid->SetCellValue(newrow, 0, m_RulesChoices.Item(0));
-    m_RulesGrid->SetCellEditor(newrow, 1, new wxGridCellChoiceEditor(m_RulesTypeChoices));
-    m_RulesGrid->SetCellValue(newrow, 1, m_RulesTypeChoices.Item(0));
+    m_RulesGrid->AddRows();
 }
 
 //ID_RULES_ADD_REMOVEITEM
@@ -1159,7 +1140,8 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
     //Actually save the rules
     const wxString name = m_Rules_Name->GetStringSelection();
 	RuleSet rules(name);
-	if(!rules.TransferFromForm(this) || !rules.TransferToFile())
+    rules = m_RulesGrid->SaveData();
+	if(!rules.TransferToFile(wxGetApp().GetSettingsPath()))
 		return;
 	
     //If the name isn't in the rules boxes then add it to all as the are identical
@@ -1223,8 +1205,8 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	RuleSet rules(m_Rules_Name->GetStringSelection());
-	if (rules.TransferFromFile()) {
-		rules.TransferToForm(this);
+	if (rules.TransferFromFile(wxGetApp().GetSettingsPath())) {
+		m_RulesGrid->LoadData(rules);
 	}
 	SetTitleBarText();
 }
@@ -1462,7 +1444,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		RuleSet *rules = new RuleSet(m_Backup_Rules->GetStringSelection());
-		if(!rules->TransferFromFile())
+		if(!rules->TransferFromFile(wxGetApp().GetSettingsPath()))
 			return;
 		m_Backup_TreeCtrl->SetRules(rules);
 	}
@@ -1479,7 +1461,7 @@ void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		RuleSet *rules = new RuleSet(m_Secure_Rules->GetStringSelection());
-		if(!rules->TransferFromFile())
+		if(!rules->TransferFromFile(wxGetApp().GetSettingsPath()))
 			return;
 		m_Secure_TreeCtrl->SetRules(rules);
 	}
@@ -2107,7 +2089,7 @@ void frmMain::OnRulesMenuClick(wxCommandEvent& evt){
 	if(menuRules->GetStringSelection() != wxEmptyString){
 		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
 		RuleSet rules(menuRules->GetStringSelection());
-		if(!rules.TransferFromFile())
+		if(!rules.TransferFromFile(wxGetApp().GetSettingsPath()))
 			return;
 
         wxString rule;
@@ -2128,7 +2110,7 @@ void frmMain::OnRulesMenuClick(wxCommandEvent& evt){
             function = FolderExclude;
 
 		rules.Add(Rule(rule, function, Simple));
-		rules.TransferToFile();
+		rules.TransferToFile(wxGetApp().GetSettingsPath());
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
 			wxCommandEvent event;

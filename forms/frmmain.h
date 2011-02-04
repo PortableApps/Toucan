@@ -367,8 +367,6 @@ public:
 	wxStaticBoxSizer* RulesNameSizer;
 	wxComboBox* m_Rules_Name;
     RulesGrid* m_RulesGrid;
-    wxArrayString m_RulesChoices;
-    wxArrayString m_RulesTypeChoices;
 	
 	//Variables
 	wxBoxSizer* VariablesTopSizer;

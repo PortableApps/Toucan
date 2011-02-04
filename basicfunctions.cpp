@@ -472,7 +472,7 @@ bool UpdateRules(){
                 Rule rule(folderstoexclude.Item(i), FolderExclude, type);
                 rules.Add(rule);
             }
-            rules.TransferToFile();
+            rules.TransferToFile(wxGetApp().GetSettingsPath());
 		    cont = config->GetNextGroup(value, dummy);
 	    }
 

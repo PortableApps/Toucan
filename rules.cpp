@@ -132,16 +132,15 @@ bool RuleSet::IsValid(){
 	return true;
 }
 
-bool RuleSet::TransferFromFile(){
-    std::unique_ptr<wxFileConfig> config(new wxFileConfig("", "", wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules" + wxFILE_SEP_PATH + name + ".ini"));
-
+bool RuleSet::TransferFromFile(const wxString& path){
+    wxFileConfig config("", "", path + "rules" + wxFILE_SEP_PATH + name + ".ini");
     wxString temprule, tempfunction, temptype;
 
     //Iterate through all of the groups and read the rules
-    for(unsigned int i = 0; i < config->GetNumberOfGroups(); i++){
-        if(!config->Read(wxString::Format("%d", i) + "/Rule", &temprule)
-        || !config->Read(wxString::Format("%d", i) + "/Function", &tempfunction)
-        || !config->Read(wxString::Format("%d", i) + "/Type", &temptype)){
+    for(unsigned int i = 0; i < config.GetNumberOfGroups(); i++){
+        if(!config.Read(wxString::Format("%d", i) + "/Rule", &temprule)
+        || !config.Read(wxString::Format("%d", i) + "/Function", &tempfunction)
+        || !config.Read(wxString::Format("%d", i) + "/Type", &temptype)){
             wxMessageBox(_("There was an error reading from the rules file"), _("Error"), wxICON_ERROR);
             return false;
         }
@@ -154,67 +153,19 @@ bool RuleSet::TransferFromFile(){
     return true;
 }
 
-bool RuleSet::TransferToFile(){
-    if(!wxDirExists(wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules")){
-        wxMkdir(wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules");
-    }
-    std::unique_ptr<wxFileConfig> config(new wxFileConfig("", "", wxGetApp().GetSettingsPath() + wxFILE_SEP_PATH + "rules" + wxFILE_SEP_PATH + name + ".ini"));
-    config->DeleteAll();
-    config->SetExpandEnvVars(false);
+bool RuleSet::TransferToFile(const wxString& path){
+    wxFileConfig config("", "", path + "rules" + wxFILE_SEP_PATH + name + ".ini");
+    config.DeleteAll();
+    config.SetExpandEnvVars(false);
 
     for(unsigned int i = 0; i < rules.size(); i++){
-        if(!config->Write(wxString::Format("%d", i) + "/Rule", rules.at(i).rule)
-        || !config->Write(wxString::Format("%d", i) + "/Function", ToEn(functionmap.right.at(rules.at(i).function)))
-        || !config->Write(wxString::Format("%d", i) + "/Type", ToEn(typemap.right.at(rules.at(i).type)))){
+        if(!config.Write(wxString::Format("%d", i) + "/Rule", rules.at(i).rule)
+        || !config.Write(wxString::Format("%d", i) + "/Function", ToEn(functionmap.right.at(rules.at(i).function)))
+        || !config.Write(wxString::Format("%d", i) + "/Type", ToEn(typemap.right.at(rules.at(i).type)))){
             wxMessageBox(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
 		    return false;
         }
     }
 
-    return true;
-}
-
-bool RuleSet::TransferFromForm(frmMain *window){
-    if(!window){
-        return false;
-    }
-
-    //Clear the existing rules
-    rules.clear();
-    for(int i = 0; i < window->m_RulesGrid->GetNumberRows(); i++){
-        Rule rule(window->m_RulesGrid->GetCellValue(i, 2),
-                  functionmap.left.at(window->m_RulesGrid->GetCellValue(i, 0)),
-                  typemap.left.at(window->m_RulesGrid->GetCellValue(i, 1)));
-        rules.push_back(rule);
-    }
-    return true;
-}
-
-bool RuleSet::TransferToForm(frmMain *window){
-    if(!window){
-        return false;
-    }
-
-    //Set the rule name
-    window->m_Rules_Name->SetStringSelection(GetName());
-
-    //Create a new grid with enough rows for the new items;
-    RulesGrid* grid = window->m_RulesGrid;
-    grid->Clear();
-    grid->AppendRows(rules.size());
-
-    //Add the rules
-    for(unsigned int i = 0; i < rules.size(); i++){
-        //Set the editors
-        grid->SetCellEditor(i, 0, new wxGridCellChoiceEditor(window->m_RulesChoices));
-        grid->SetCellValue(i, 0, window->m_RulesChoices.Item(0));
-        grid->SetCellEditor(i, 1, new wxGridCellChoiceEditor(window->m_RulesTypeChoices));
-        grid->SetCellValue(i, 1, window->m_RulesTypeChoices.Item(0));
-        //Add the items
-        grid->SetCellValue(i, 0, functionmap.right.at(rules.at(i).function));
-        grid->SetCellValue(i, 1, typemap.right.at(rules.at(i).type));
-        grid->SetCellValue(i, 2, rules.at(i).rule);
-        grid->ValidateRow(i);
-    }
     return true;
 }

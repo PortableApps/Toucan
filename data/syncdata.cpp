@@ -36,7 +36,7 @@ void SyncData::TransferFromFile(){
 	SetPreviewChanges(Read<bool>("PreviewChanges"));
 
     RuleSet *rules = new RuleSet(Read<wxString>("Rules"));
-    rules->TransferFromFile();
+    rules->TransferFromFile(wxGetApp().GetSettingsPath());
 	SetRules(rules);
 }
 
@@ -113,7 +113,7 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetPreviewChanges(window->m_SyncPreviewChanges->GetValue());
 
     RuleSet *rules = new RuleSet(window->m_Sync_Rules->GetStringSelection());
-    rules->TransferFromFile();
+    rules->TransferFromFile(wxGetApp().GetSettingsPath());
 	SetRules(rules);
 
 	return true;	

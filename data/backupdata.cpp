@@ -37,7 +37,7 @@ void BackupData::TransferFromFile(){
 	SetSolid(Read<bool>("Solid"));
 
 	RuleSet *rules = new RuleSet(Read<wxString>("Rules"));
-    rules->TransferFromFile();
+    rules->TransferFromFile(wxGetApp().GetSettingsPath());
 	SetRules(rules);
 }
 
@@ -109,7 +109,7 @@ bool BackupData::TransferFromForm(frmMain *window){
 	SetSolid(window->m_BackupSolid->GetValue());
 
 	RuleSet *rules = new RuleSet(window->m_Backup_Rules->GetStringSelection());
-    rules->TransferFromFile();
+    rules->TransferFromFile(wxGetApp().GetSettingsPath());
 	SetRules(rules);
 
 	return true;	

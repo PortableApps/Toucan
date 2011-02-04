@@ -86,14 +86,13 @@ public:
     RuleResult Matches(wxFileName path);
     bool IsValid();
 
-	bool TransferToFile();
-	bool TransferFromFile();
-	bool TransferToForm(frmMain *window);
-	bool TransferFromForm(frmMain *window);
+	bool TransferToFile(const wxString& path);
+	bool TransferFromFile(const wxString& path);
 
 	void Add(Rule rule) { rules.push_back(rule); }
 
 	const wxString& GetName() const {return name;}
+    const std::vector<Rule>& GetRules() const {return rules;}
 private:
     std::vector<Rule> rules;
 	wxString name;

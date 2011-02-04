@@ -4,10 +4,11 @@
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
+#include <wx/combobox.h>
 #include "rulesgrid.h"
 #include "../rules.h"
 
-RulesGrid::RulesGrid(wxWindow* parent, wxWindowID id) : wxGrid(parent, id, wxDefaultPosition,
+RulesGrid::RulesGrid(wxWindow* parent, wxWindowID id, wxComboBox* names) : wxGrid(parent, id, wxDefaultPosition,
                                                         wxDefaultSize, wxWANTS_CHARS|wxBORDER_THEME){
     //Bind the events we need
     Bind(wxEVT_KEY_DOWN, &RulesGrid::OnKeyDown, this, wxID_ANY);
@@ -27,6 +28,8 @@ RulesGrid::RulesGrid(wxWindow* parent, wxWindowID id) : wxGrid(parent, id, wxDef
     SetColSize(0, 150);
     SetColSize(1, 150);
     SetColSize(2, 150);
+    //Set the names combobox pointer
+    this->names = names;
 }
 
 void RulesGrid::Clear(){
@@ -104,4 +107,56 @@ void RulesGrid::DeleteSelected(){
 
     //Deselct everything as otherwise the selections will look wrong
     ClearSelection();
+}
+
+bool RulesGrid::LoadData(const RuleSet &rules){
+    //Set the combobox to our new name
+    names->SetStringSelection(rules.GetName());
+
+    Clear();
+    AddRows(rules.GetRules().size());
+
+    //Add the rules
+    for(unsigned int i = 0; i < rules.GetRules().size(); i++){
+        //Add the items
+        SetCellValue(i, 0, functionmap.right.at(rules.GetRules().at(i).function));
+        SetCellValue(i, 1, typemap.right.at(rules.GetRules().at(i).type));
+        SetCellValue(i, 2, rules.GetRules().at(i).rule);
+        ValidateRow(i);
+    }
+    return true;
+}
+    
+RuleSet RulesGrid::SaveData() const{
+    RuleSet rules(names->GetStringSelection());
+    for(int i = 0; i < GetNumberRows(); i++){
+        Rule rule(GetCellValue(i, 2),
+                  functionmap.left.at(GetCellValue(i, 0)),
+                  typemap.left.at(GetCellValue(i, 1)));
+        rules.Add(rule);
+    }
+    return rules;
+}
+
+void RulesGrid::AddRows(int count){
+    int startrow = GetNumberRows();
+    AppendRows(count);
+
+    //Get the valid options for the editors from the canonical bimaps
+    wxArrayString types, functions;
+    for(auto iter = functionmap.left.begin(); iter != functionmap.left.end(); iter++){
+        functions.Add(iter->first);
+    }
+    for(auto iter = typemap.left.begin(); iter != typemap.left.end(); iter++){
+        types.Add(iter->first);
+    }
+
+    //Add the rules
+    for(int i = startrow; i < GetNumberRows(); i++){
+        //Set the editors
+        SetCellEditor(i, 0, new wxGridCellChoiceEditor(functions));
+        SetCellValue(i, 0, functions.Item(0));
+        SetCellEditor(i, 1, new wxGridCellChoiceEditor(types));
+        SetCellValue(i, 1, types.Item(0));
+    }
 }
