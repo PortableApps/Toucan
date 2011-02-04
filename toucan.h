@@ -55,9 +55,7 @@ public:
 	wxFileConfig* m_Rules_Config;
 	wxFileConfig* m_Scripts_Config;
 	wxFileConfig* m_Variables_Config;
-	
-	//<drive label, drive letter> Used by variables to resolve drive labels
-	std::map<wxString, wxString> m_DriveLabels;
+
 	//Maps a unique id used for process generation and whether the process
 	//has finished
 	std::map<int, bool> m_StatusMap;

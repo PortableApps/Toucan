@@ -50,7 +50,7 @@ wxFileName Path::Normalise(const wxFileName &filename){
 wxString Path::Normalise(const wxString &path){
 #ifdef __WXMSW__
 	//We only need to set this up once, and do it the first time
-	if(wxGetApp().m_DriveLabels.empty()){
+	if(DriveLabels.empty()){
 		TCHAR drives[256];  
 		if(GetLogicalDriveStrings(256, drives)){  
 			LPTSTR drive = drives;
@@ -61,7 +61,7 @@ wxString Path::Normalise(const wxString &path){
 				if(GetVolumeInformation(drive, label, sizeof(label), NULL, 0, NULL, NULL, 0)){
 					volumename.Printf(wxT("%s"),label); 
 					if(volumename != wxEmptyString){
-						wxGetApp().m_DriveLabels[volumename] = wxString(drive).Left(2);
+						DriveLabels[volumename] = wxString(drive).Left(2);
 					}
 				}
 				drive += offset;  
@@ -163,23 +163,22 @@ wxString Path::Normalise(const wxString &path){
         }
 		else if(token == wxT("volume")){
 			#ifdef __WXMSW__
-				wxString strName = wxEmptyString;
+				wxString name = wxEmptyString;
 				WCHAR volumeLabel[256]; 
-				GetVolumeInformation(wxGetApp().GetSettingsPath().Left(3), volumeLabel, sizeof(volumeLabel), NULL, 0, NULL, NULL, 0);
-				strName.Printf(wxT("%s"),volumeLabel); 
-				normalised += strName;
+				GetVolumeInformation(wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(3), volumeLabel, sizeof(volumeLabel), NULL, 0, NULL, NULL, 0);
+				name.Printf(wxT("%s"),volumeLabel); 
+				normalised += name;
 			#endif
 			previousmatched = true;
 		}
 		else if(token == wxT("label")){
-		 	wxFileConfig* autorun = new wxFileConfig(wxT(""), wxT(""), wxGetApp().GetSettingsPath().Left(3) + wxFILE_SEP_PATH + wxT("autorun.inf"));
-			wxString label = autorun->Read(wxT("Autorun/Label"));
+		 	wxFileConfig autorun("", "", wxPathOnly(wxStandardPaths::Get().GetExecutablePath()).Left(3) + wxFILE_SEP_PATH + wxT("autorun.inf"));
+			wxString label = autorun.Read(wxT("Autorun/Label"));
 			normalised += label;
-			delete autorun;
 			previousmatched = true;
 		}
-		else if(wxGetApp().m_DriveLabels[token] != wxEmptyString){
-			normalised += wxGetApp().m_DriveLabels[token];
+		else if(DriveLabels[token] != wxEmptyString){
+			normalised += DriveLabels[token];
 			previousmatched = true;
 		}
 		else if(wxGetEnv(token , &strValue)){
