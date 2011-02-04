@@ -137,12 +137,13 @@ bool Toucan::OnInit(){
 		m_SettingsPath = settingspath.GetFullPath();
 
 	}
-	//Make sure the data directory is there
-	if(!wxDirExists(GetSettingsPath())){
+	//Make sure the data directories are there
+	if(!wxDirExists(GetSettingsPath()))
 		Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath()));
+    if(!wxDirExists(GetSettingsPath() + "rules"))
         Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath() + "rules"));
+    if(!wxDirExists(GetSettingsPath() + "scripts"))
         Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath() + "scripts"));
-	}
 
 	//Create the config stuff and set it up
  	m_Jobs_Config = new wxFileConfig("", "", m_SettingsPath + "Jobs.ini");
