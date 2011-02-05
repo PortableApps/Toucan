@@ -1,21 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2007-2010 Steven Lamerton
+// Copyright:   Copyright (C) 2007-2011 Steven Lamerton
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <wx/regex.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
-#include <wx/grid.h>
-#include <wx/combobox.h>
-#include <wx/msgdlg.h>
+#include <wx/variant.h>
+#include <wx/log.h>
 #include "rules.h"
-#include "toucan.h"
 #include "path.h"
-#include "basicfunctions.h"
-#include "forms/frmmain.h"
-#include "controls/rulesgrid.h"
 
 namespace{
     double GetInPB(const wxString &value){
@@ -183,7 +178,7 @@ bool RuleSet::TransferFromFile(){
         if(!config.Read(wxString::Format("%d", i) + "/Rule", &temprule)
         || !config.Read(wxString::Format("%d", i) + "/Function", &tempfunction)
         || !config.Read(wxString::Format("%d", i) + "/Type", &temptype)){
-            wxMessageBox(_("There was an error reading from the rules file"), _("Error"), wxICON_ERROR);
+            wxLogError(_("There was an error reading from the rules file"));
             return false;
         }
         else{
@@ -204,7 +199,7 @@ bool RuleSet::TransferToFile(){
         if(!config.Write(wxString::Format("%d", i) + "/Rule", rules.at(i).rule)
         || !config.Write(wxString::Format("%d", i) + "/Function", functionmap.right.at(rules.at(i).function))
         || !config.Write(wxString::Format("%d", i) + "/Type", typemap.right.at(rules.at(i).type))){
-            wxMessageBox(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
+            wxLogError(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"));
 		    return false;
         }
     }
