@@ -28,6 +28,9 @@ find_package(SWIG REQUIRED)
 find_package(CxxTest REQUIRED)
 include_directories(${CXXTEST_INCLUDE_DIR})
 
+#Find Google Test
+find_package(GTest)
+
 if(MSVC)
 	#Ask if we are using a static CRT
 	set(Toucan_Static FALSE CACHE BOOL "Should we use the static CRT?")
@@ -55,6 +58,7 @@ add_subdirectory(data)
 add_subdirectory(forms)
 add_subdirectory(secure)
 add_subdirectory(sync)
+add_subdirectory(test)
 
 #Link against them
 link_directories(backup)
