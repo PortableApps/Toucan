@@ -17,6 +17,48 @@
 #include "forms/frmmain.h"
 #include "controls/rulesgrid.h"
 
+namespace{
+    double GetInPB(const wxString &value){
+        wxString size;
+    	wxVariant var;
+    	//The size is in bytes so the length is all but one
+    	if(value.Right(2).Left(1) != wxT("k") && value.Right(2).Left(1) != wxT("M") && value.Right(2).Left(1) != wxT("G")){
+    		if(value.Right(1) == wxT("B")){
+    			var = value.Left(value.Length() - 1);
+    			size = value.Right(1);
+    		}
+    		else{
+    			//We do not know what unit is being used
+    			return 0;
+    		}
+    	}
+    	//The size is in a larger unit, so it all but two
+    	else{
+    		var = value.Left(value.Length() - 2);
+    		size = value.Right(2);
+    	}
+    	double dSize = var.GetDouble();
+    	if(size == wxT("B")){
+    		dSize = dSize/1024;
+    		size = wxT("kB");
+    	}
+    	if(size == wxT("kB")){
+    		dSize = dSize/1024;
+    		size = wxT("MB");
+    	}
+    	if(size == wxT("MB")){
+    		dSize = dSize/1024;
+    		size = wxT("GB");
+    	}
+    	if(size == wxT("GB")){
+    		dSize = dSize/1024;
+    	}
+    	//Conveting to PB, should be plenty big for a while
+    	dSize = dSize/1024;
+    	return dSize;
+    }
+}
+
 RuleResult Rule::Matches(wxFileName path){
     //If we have an invalid rule then don't try to match
     if(!valid || normalised == "" || rule == "")
@@ -39,12 +81,12 @@ RuleResult Rule::Matches(wxFileName path){
     else if(type == Size){
         wxString filesize = path.GetHumanReadableSize();
         filesize.Replace(" ", "");
-		double dfilesize = GetInPB(filesize);
-		double dexcludesize = GetInPB(rule.Right(rule.length() - 1));
+        double dfilesize = GetInPB(filesize);
+        double dexcludesize = GetInPB(rule.Right(rule.length() - 1));
         if(rule.Left(1) == "<" && dfilesize < dexcludesize)
-			match = true;
-		if(rule.Left(1) == ">" && dfilesize > dexcludesize)
-		    match = true;
+            match = true;
+        if(rule.Left(1) == ">" && dfilesize > dexcludesize)
+            match = true;
     }
     else if(type == Date){
         wxDateTime date;
@@ -132,8 +174,8 @@ bool RuleSet::IsValid(){
 	return true;
 }
 
-bool RuleSet::TransferFromFile(const wxString& path){
-    wxFileConfig config("", "", path + "rules" + wxFILE_SEP_PATH + name + ".ini");
+bool RuleSet::TransferFromFile(){
+    wxFileConfig config("", "",  Locations::GetSettingsPath() + "rules" + wxFILE_SEP_PATH + name + ".ini");
     wxString temprule, tempfunction, temptype;
 
     //Iterate through all of the groups and read the rules
@@ -145,7 +187,7 @@ bool RuleSet::TransferFromFile(const wxString& path){
             return false;
         }
         else{
-            Rule rule(temprule, functionmap.left.at(ToLang(tempfunction)), typemap.left.at(ToLang(temptype)));
+            Rule rule(temprule, functionmap.left.at(tempfunction), typemap.left.at(temptype));
             rules.push_back(rule);
         }
     }
@@ -153,15 +195,15 @@ bool RuleSet::TransferFromFile(const wxString& path){
     return true;
 }
 
-bool RuleSet::TransferToFile(const wxString& path){
-    wxFileConfig config("", "", path + "rules" + wxFILE_SEP_PATH + name + ".ini");
+bool RuleSet::TransferToFile(){
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "rules" + wxFILE_SEP_PATH + name + ".ini");
     config.DeleteAll();
     config.SetExpandEnvVars(false);
 
     for(unsigned int i = 0; i < rules.size(); i++){
         if(!config.Write(wxString::Format("%d", i) + "/Rule", rules.at(i).rule)
-        || !config.Write(wxString::Format("%d", i) + "/Function", ToEn(functionmap.right.at(rules.at(i).function)))
-        || !config.Write(wxString::Format("%d", i) + "/Type", ToEn(typemap.right.at(rules.at(i).type)))){
+        || !config.Write(wxString::Format("%d", i) + "/Function", functionmap.right.at(rules.at(i).function))
+        || !config.Write(wxString::Format("%d", i) + "/Type", typemap.right.at(rules.at(i).type))){
             wxMessageBox(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"), _("Error"), wxICON_ERROR);
 		    return false;
         }

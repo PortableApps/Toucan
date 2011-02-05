@@ -107,46 +107,6 @@ void OutputProgress(const wxString &message, OutputType type){
     }
 }
 
-double GetInPB(const wxString &value){
-	wxString size;
-	wxVariant var;
-	//The size is in bytes so the length is all but one
-	if(value.Right(2).Left(1) != wxT("k") && value.Right(2).Left(1) != wxT("M") && value.Right(2).Left(1) != wxT("G")){
-		if(value.Right(1) == wxT("B")){
-			var = value.Left(value.Length() - 1);
-			size = value.Right(1);
-		}
-		else{
-			//We do not know what unit is being used
-			return 0;
-		}
-	}
-	//The size is in a larger unit, so it all but two
-	else{
-		var = value.Left(value.Length() - 2);
-		size = value.Right(2);
-	}
-	double dSize = var.GetDouble();
-	if(size == wxT("B")){
-		dSize = dSize/1024;
-		size = wxT("kB");
-	}
-	if(size == wxT("kB")){
-		dSize = dSize/1024;
-		size = wxT("MB");
-	}
-	if(size == wxT("MB")){
-		dSize = dSize/1024;
-		size = wxT("GB");
-	}
-	if(size == wxT("GB")){
-		dSize = dSize/1024;
-	}
-	//Conveting to PB, should be plenty big for a while
-	dSize = dSize/1024;
-	return dSize;
-}
-
 wxArrayString GetJobs(Jobs::Type type){
     bool ok;
     wxString value, inputtype;
@@ -171,10 +131,11 @@ wxArrayString GetVariables(bool builtin = false){
 	long dummy;
 	wxArrayString variables;
 	//Iterate through all of the groups
-	cont = wxGetApp().m_Variables_Config->GetFirstGroup(value, dummy);
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
+	cont = config.GetFirstGroup(value, dummy);
 	while(cont){
 		variables.Add(value);
-		cont = wxGetApp().m_Variables_Config->GetNextGroup(value, dummy);
+		cont = config.GetNextGroup(value, dummy);
 	}
 	if(builtin){
 		variables.Add("date");
@@ -393,11 +354,11 @@ bool UpdateJobs(){
 
 bool UpdateRules(){
 	long version;
-	wxFileConfig *config = wxGetApp().m_Rules_Config;
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "rules.ini");
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Rules.ini"))){
 		return true;
 	}
-	config->Read(wxT("General/Version"), &version, 1);
+	config.Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
 	if(version == 310){
 		return true;
@@ -420,14 +381,14 @@ bool UpdateRules(){
 	    wxString value;
 	    long dummy;
 	    //Iterate through all of the groups
-	    cont = config->GetFirstGroup(value, dummy);
+	    cont = config.GetFirstGroup(value, dummy);
 	    while(cont ){
             if(value == "General"){
-                cont = config->GetNextGroup(value, dummy);
+                cont = config.GetNextGroup(value, dummy);
                 continue;
             }
 		    RuleSet rules(value);
-            wxArrayString filestoinclude = StringToArrayString(config->Read(value + "/FilesToInclude"), "|");
+            wxArrayString filestoinclude = StringToArrayString(config.Read(value + "/FilesToInclude"), "|");
             for(unsigned int i = 0; i < filestoinclude.Count(); i++){
                 RuleType type;
                 if(filestoinclude.Item(i).Left(1) == "*")
@@ -442,7 +403,7 @@ bool UpdateRules(){
                 Rule rule(filestoinclude.Item(i), FileInclude, type);
                 rules.Add(rule);
             }
-            wxArrayString filestoexclude = StringToArrayString(config->Read(value + "/FilesToExclude"), "|");
+            wxArrayString filestoexclude = StringToArrayString(config.Read(value + "/FilesToExclude"), "|");
             for(unsigned int i = 0; i < filestoexclude.Count(); i++){
                 RuleType type;
                 if(filestoexclude.Item(i).Left(1) == "*")
@@ -457,7 +418,7 @@ bool UpdateRules(){
                 Rule rule(filestoexclude.Item(i), FileExclude, type);
                 rules.Add(rule);
             }
-            wxArrayString folderstoexclude = StringToArrayString(config->Read(value + "/FoldersToExclude"), "|");
+            wxArrayString folderstoexclude = StringToArrayString(config.Read(value + "/FoldersToExclude"), "|");
             for(unsigned int i = 0; i < folderstoexclude.Count(); i++){
                 RuleType type;
                 if(folderstoexclude.Item(i).Left(1) == "*")
@@ -472,14 +433,13 @@ bool UpdateRules(){
                 Rule rule(folderstoexclude.Item(i), FolderExclude, type);
                 rules.Add(rule);
             }
-            rules.TransferToFile(wxGetApp().GetSettingsPath());
-		    cont = config->GetNextGroup(value, dummy);
+            rules.TransferToFile();
+		    cont = config.GetNextGroup(value, dummy);
 	    }
 
         version = 310;
     }
-	config->Write(wxT("General/Version"), 310);
-	config->Flush();
+	config.Write(wxT("General/Version"), 310);
 	return true;
 }
 

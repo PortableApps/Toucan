@@ -40,10 +40,6 @@ namespace Jobs{
 
 void OutputProgress(const wxString &message, OutputType type);
 
-/*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
-Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/
-double GetInPB(const wxString &value);
-
 //Get a list of jobs of a specific type, or if an emptystring is passed then get
 //all job names that are in use
 wxArrayString GetJobs(Jobs::Type type);

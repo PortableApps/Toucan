@@ -7,6 +7,7 @@
 #include <wx/combobox.h>
 #include "rulesgrid.h"
 #include "../rules.h"
+#include "../basicfunctions.h"
 
 RulesGrid::RulesGrid(wxWindow* parent, wxWindowID id, wxComboBox* names) : wxGrid(parent, id, wxDefaultPosition,
                                                         wxDefaultSize, wxWANTS_CHARS|wxBORDER_THEME){
@@ -119,8 +120,8 @@ bool RulesGrid::LoadData(const RuleSet &rules){
     //Add the rules
     for(unsigned int i = 0; i < rules.GetRules().size(); i++){
         //Add the items
-        SetCellValue(i, 0, functionmap.right.at(rules.GetRules().at(i).function));
-        SetCellValue(i, 1, typemap.right.at(rules.GetRules().at(i).type));
+        SetCellValue(i, 0, ToLang(functionmap.right.at(rules.GetRules().at(i).function)));
+        SetCellValue(i, 1, ToLang(typemap.right.at(rules.GetRules().at(i).type)));
         SetCellValue(i, 2, rules.GetRules().at(i).rule);
         ValidateRow(i);
     }
@@ -131,8 +132,8 @@ RuleSet RulesGrid::SaveData() const{
     RuleSet rules(names->GetStringSelection());
     for(int i = 0; i < GetNumberRows(); i++){
         Rule rule(GetCellValue(i, 2),
-                  functionmap.left.at(GetCellValue(i, 0)),
-                  typemap.left.at(GetCellValue(i, 1)));
+                  functionmap.left.at(ToEn(GetCellValue(i, 0))),
+                  typemap.left.at(ToEn(GetCellValue(i, 1))));
         rules.Add(rule);
     }
     return rules;
@@ -145,10 +146,10 @@ void RulesGrid::AddRows(int count){
     //Get the valid options for the editors from the canonical bimaps
     wxArrayString types, functions;
     for(auto iter = functionmap.left.begin(); iter != functionmap.left.end(); iter++){
-        functions.Add(iter->first);
+        functions.Add(ToLang(iter->first));
     }
     for(auto iter = typemap.left.begin(); iter != typemap.left.end(); iter++){
-        types.Add(iter->first);
+        types.Add(ToLang(iter->first));
     }
 
     //Add the rules

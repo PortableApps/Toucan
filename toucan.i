@@ -64,7 +64,7 @@
 		data->SetRecycle(options.Recycle);
 		data->SetPreviewChanges(options.PreviewChanges);
         RuleSet *ruleset = new RuleSet(rules);
-        ruleset->TransferFromFile(wxGetApp().GetSettingsPath());
+        ruleset->TransferFromFile();
 		data->SetRules(ruleset);
 		try{
 			Sync(data);
@@ -150,7 +150,7 @@
 		data->SetTest(options.Test);
 		data->SetSolid(options.Solid);
         RuleSet *ruleset = new RuleSet(rules);
-        ruleset->TransferFromFile(wxGetApp().GetSettingsPath());
+        ruleset->TransferFromFile();
 		data->SetRules(ruleset);
 		try{
 			Backup(data);
@@ -206,7 +206,7 @@
 		data->SetLocations(paths);
 		data->SetFunction(function);
         RuleSet *ruleset = new RuleSet(rules);
-        ruleset->TransferFromFile(wxGetApp().GetSettingsPath());
+        ruleset->TransferFromFile();
 		data->SetRules(ruleset);
 		try{
 			Secure(data);

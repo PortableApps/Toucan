@@ -13,6 +13,7 @@ class frmMain;
 
 #include <wx/arrstr.h>
 #include <wx/filename.h>
+#include <wx/longlong.h>
 
 #include <vector>
 
@@ -42,19 +43,25 @@ enum RuleResult{
     AbsoluteExcluded
 };
 
+namespace{
+    /*Gets a files size in petabytes, should do for now but it may need changing in a few years ;)
+    Expects to be passed the result of a wxFilename.GetHumanReadableSize()*/
+    double GetInPB(const wxString &value);
+}
+
 //A pair of bimaps for easily converting between our enums and strings
 static const boost::bimap<wxString, RuleType> typemap = boost::assign::list_of<boost::bimap<wxString, RuleType>::relation>
-    (_("Simple"), Simple)
-    (_("Regex"), Regex)
-    (_("Size"), Size)
-    (_("Date"), Date);
+    ("Simple", Simple)
+    ("Regex", Regex)
+    ("Size", Size)
+    ("Date", Date);
 
 static const boost::bimap<wxString, RuleFunction> functionmap = boost::assign::list_of<boost::bimap<wxString, RuleFunction>::relation>
-    (_("File Include"), FileInclude)
-    (_("File Exclude"), FileExclude)
-    (_("Folder Include"), FolderInclude)
-    (_("Folder Exclude"), FolderExclude)
-    (_("Absolute Folder Exclude"), AbsoluteFolderExclude);
+    ("File Include", FileInclude)
+    ("File Exclude", FileExclude)
+    ("Folder Include", FolderInclude)
+    ("Folder Exclude", FolderExclude)
+    ("Absolute Folder Exclude", AbsoluteFolderExclude);
 
 class Rule{
 public:
@@ -86,8 +93,8 @@ public:
     RuleResult Matches(wxFileName path);
     bool IsValid();
 
-	bool TransferToFile(const wxString& path);
-	bool TransferFromFile(const wxString& path);
+	bool TransferToFile();
+	bool TransferFromFile();
 
 	void Add(Rule rule) { rules.push_back(rule); }
 

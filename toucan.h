@@ -52,9 +52,7 @@ public:
 	LuaManager *m_LuaManager;
 
 	wxFileConfig* m_Jobs_Config;
-	wxFileConfig* m_Rules_Config;
 	wxFileConfig* m_Scripts_Config;
-	wxFileConfig* m_Variables_Config;
 
 	//Maps a unique id used for process generation and whether the process
 	//has finished

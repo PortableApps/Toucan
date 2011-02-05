@@ -10,13 +10,28 @@
 #include <wx/stdpaths.h>
 #include <wx/utils.h>
 #include <wx/filename.h>
+#include <wx/log.h>
 
 #include "path.h"
-#include "toucan.h"
 #include "basicfunctions.h"
 
 #include <Windows.h>
 #include <wx/msw/winundef.h>
+
+namespace Locations{
+    namespace{
+        wxString settingspath;
+    }
+
+    wxString GetSettingsPath(){
+        return settingspath;
+    }
+
+    void SetSettingsPath(wxString path){
+        settingspath = path;
+    }
+}
+
 
 void Path::CreateDirectoryPath(const wxFileName &path){
     if(!path.IsDir() || path.DirExists())
@@ -37,7 +52,7 @@ void Path::CreateDirectoryPath(const wxFileName &path){
 #else
         if(!wxDirExists(workingpath) && !wxMkdir(workingpath)){
 #endif
-		    OutputProgress(_("Could not create") + " " + workingpath, Error);
+		    wxLogError(_("Could not create") + " " + workingpath);
 	    }
     }
 }
@@ -77,6 +92,7 @@ wxString Path::Normalise(const wxString &path){
 	wxDateTime now = wxDateTime::Now();  
 	wxStringTokenizer tkz(path, wxT("@"), wxTOKEN_RET_EMPTY_ALL);
 	bool previousmatched = true;
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
 	while(tkz.HasMoreTokens()){
         token = tkz.GetNextToken();
 		wxString strValue, read;
@@ -185,11 +201,11 @@ wxString Path::Normalise(const wxString &path){
 			normalised += strValue;
 			previousmatched = true;
 		}
-		else if(wxGetApp().m_Variables_Config->HasGroup(token) && wxGetApp().m_Variables_Config->Read(token + wxT("/") + wxGetFullHostName(), &read)){
+		else if(config.HasGroup(token) && config.Read(token + wxT("/") + wxGetFullHostName(), &read)){
 			normalised += read;
 			previousmatched = true;
 		}
-		else if(wxGetApp().m_Variables_Config->HasGroup(token) && wxGetApp().m_Variables_Config->Read(token + wxT("/") + _("Other"), &read)){
+		else if(config.HasGroup(token) && config.Read(token + wxT("/") + _("Other"), &read)){
 			normalised += read;
 			previousmatched = true;
 		}

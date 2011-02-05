@@ -137,6 +137,8 @@ bool Toucan::OnInit(){
 		m_SettingsPath = settingspath.GetFullPath();
 
 	}
+    //Set the global settings path
+    Locations::SetSettingsPath(m_SettingsPath);
 	//Make sure the data directories are there
 	if(!wxDirExists(GetSettingsPath()))
 		Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath()));
@@ -147,14 +149,10 @@ bool Toucan::OnInit(){
 
 	//Create the config stuff and set it up
  	m_Jobs_Config = new wxFileConfig("", "", m_SettingsPath + "Jobs.ini");
-	m_Rules_Config = new wxFileConfig("", "", m_SettingsPath + "Rules.ini");
 	m_Scripts_Config = new wxFileConfig("", "", m_SettingsPath + "Scripts.ini");
-	m_Variables_Config = new wxFileConfig("", "", m_SettingsPath + "Variables.ini");
 
 	m_Jobs_Config->SetExpandEnvVars(false);
-	m_Rules_Config->SetExpandEnvVars(false);
 	m_Scripts_Config->SetExpandEnvVars(false);
-	m_Variables_Config->SetExpandEnvVars(false);
 
 	//Set the language and init the maps
  	wxFileConfig *settings = new wxFileConfig("", "", m_SettingsPath + "Settings.ini");
@@ -284,9 +282,7 @@ int Toucan::OnExit(){
 	//Deletion causes a flush which warns on read only devices
 	if(!wxGetApp().IsReadOnly()){
 		delete m_Jobs_Config;
-		delete m_Rules_Config;
 		delete m_Scripts_Config;
-		delete m_Variables_Config;
 	}
 	return wxApp::OnExit();
 }

@@ -25,6 +25,7 @@
 #include "../basicfunctions.h"
 #include "../path.h"
 #include "../settings.h"
+#include "../fileops.h"
 #include "../data/securedata.h"
 #include "../data/backupdata.h"
 #include "../data/syncdata.h"
@@ -1141,7 +1142,7 @@ void frmMain::OnRulesSaveClick(wxCommandEvent& WXUNUSED(event)){
     const wxString name = m_Rules_Name->GetStringSelection();
 	RuleSet rules(name);
     rules = m_RulesGrid->SaveData();
-	if(!rules.TransferToFile(wxGetApp().GetSettingsPath()))
+	if(!rules.TransferToFile())
 		return;
 	
     //If the name isn't in the rules boxes then add it to all as the are identical
@@ -1196,8 +1197,7 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 	m_RulesGrid->Clear();
-	wxGetApp().m_Rules_Config->DeleteGroup(m_Rules_Name->GetStringSelection());
-	wxGetApp().m_Rules_Config->Flush();
+    File::Delete(Locations::GetSettingsPath() + "rules" + wxFILE_SEP_PATH +  m_Rules_Name->GetStringSelection() + ".ini", false, false);
 	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
 	UpdateSizer(RulesNameSizer);
 }
@@ -1205,7 +1205,7 @@ void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_RULES_COMBO
 void frmMain::OnRulesComboSelected(wxCommandEvent& WXUNUSED(event)){
 	RuleSet rules(m_Rules_Name->GetStringSelection());
-	if (rules.TransferFromFile(wxGetApp().GetSettingsPath())) {
+	if (rules.TransferFromFile()) {
 		m_RulesGrid->LoadData(rules);
 	}
 	SetTitleBarText();
@@ -1444,7 +1444,7 @@ void frmMain::OnSyncPreviewClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Rules->GetStringSelection() != wxEmptyString){
 		RuleSet *rules = new RuleSet(m_Backup_Rules->GetStringSelection());
-		if(!rules->TransferFromFile(wxGetApp().GetSettingsPath()))
+		if(!rules->TransferFromFile())
 			return;
 		m_Backup_TreeCtrl->SetRules(rules);
 	}
@@ -1461,7 +1461,7 @@ void frmMain::OnBackupRulesSelected(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	if(m_Secure_Rules->GetStringSelection() != wxEmptyString){
 		RuleSet *rules = new RuleSet(m_Secure_Rules->GetStringSelection());
-		if(!rules->TransferFromFile(wxGetApp().GetSettingsPath()))
+		if(!rules->TransferFromFile())
 			return;
 		m_Secure_TreeCtrl->SetRules(rules);
 	}
@@ -1533,6 +1533,7 @@ void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
 			return;
 		}
 	}
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
 	for(int i = 0; i < m_Variables_List->GetItemCount(); i++){
 		wxListItem itemcol1, itemcol2;
 		itemcol1.m_itemId = i;
@@ -1543,9 +1544,8 @@ void frmMain::OnVariablesSaveClick(wxCommandEvent& WXUNUSED(event)){
 		itemcol2.m_col = 1;
 		itemcol2.m_mask = wxLIST_MASK_TEXT;
 		m_Variables_List->GetItem(itemcol2);
-		wxGetApp().m_Variables_Config->Write(m_Variables_Name->GetValue() + wxT("/") + itemcol1.m_text, itemcol2.m_text);
+		config.Write(m_Variables_Name->GetValue() + wxT("/") + itemcol1.m_text, itemcol2.m_text);
 	}
-	wxGetApp().m_Variables_Config->Flush();
 }
 
 //ID_VARIABLES_ADD
@@ -1581,9 +1581,10 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_VARIABLES_REMOVE
-void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){	
-	wxGetApp().m_Variables_Config->DeleteGroup(m_Variables_Name->GetValue());
-	wxGetApp().m_Variables_Config->Flush();
+void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
+	config.DeleteGroup(m_Variables_Name->GetValue());
+	config.Flush();
 	m_Variables_Name->Delete(m_Variables_Name->GetSelection());
 	m_Variables_Name->SetValue(wxEmptyString);
 	m_Variables_List->ClearAll();
@@ -1596,42 +1597,42 @@ void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
 //ID_VARIABLES_NAME
 void frmMain::OnVariablesNameSelected(wxCommandEvent& WXUNUSED(event)){	
 	m_Variables_List->DeleteAllItems();
-	
-	wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
+	config.SetPath(m_Variables_Name->GetValue());
     
 	long dummy;
 	wxString str;
 	int i = 0;
 	
-	bool bCont = wxGetApp().m_Variables_Config->GetFirstEntry(str, dummy);
+	bool bCont = config.GetFirstEntry(str, dummy);
 	while(bCont) {
 		m_Variables_List->InsertItem(i, wxT("Test"));
 		m_Variables_List->SetItem(i, 0, str);
 		//Return the config to the top level
-		wxGetApp().m_Variables_Config->SetPath(wxT("/"));
-		wxString strTest = wxGetApp().m_Variables_Config->Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
+		config.SetPath(wxT("/"));
+		wxString strTest = config.Read(m_Variables_Name->GetValue() + wxT("/") + str, wxT("Cannot Find Value"));
 		m_Variables_List->SetItem(i, 1, strTest);
 		//Put the config location back
-		wxGetApp().m_Variables_Config->SetPath(m_Variables_Name->GetValue());    
-		bCont = wxGetApp().m_Variables_Config->GetNextEntry(str, dummy);
+		config.SetPath(m_Variables_Name->GetValue());    
+		bCont = config.GetNextEntry(str, dummy);
 		i++;
 	}
 	m_Variables_List->SetColumnWidth(0, -1);
 	m_Variables_List->SetColumnWidth(1, -1);
 	SetTitleBarText();
-	wxGetApp().m_Variables_Config->SetPath(wxT("/"));
+	config.SetPath(wxT("/"));
 }
 
 //ID_VARIABLES_ADDITEM
-void frmMain::OnVariablesAddItemClick(wxCommandEvent& WXUNUSED(event)){	
-	wxString caption = "Choose a directory";
+void frmMain::OnVariablesAddItemClick(wxCommandEvent& WXUNUSED(event)){
+	wxString caption = _("Choose a directory");
 	wxDirDialog dialog(this, caption);
 	if (dialog.ShowModal() == wxID_OK){
 		int j = m_Variables_List->GetItemCount();
 		m_Variables_List->InsertItem(j, wxGetFullHostName());
 		m_Variables_List->SetItem(j, 1, dialog.GetPath());
-		wxGetApp().m_Variables_Config->Write(m_Variables_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
-		wxGetApp().m_Variables_Config->Flush();
+        wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
+		config.Write(m_Variables_Name->GetValue() + wxT("/") + wxGetFullHostName() , dialog.GetPath());
 	}
 }
 
@@ -1647,8 +1648,9 @@ void frmMain::OnVariablesRemoveItemClick(wxCommandEvent& WXUNUSED(event)){
 		selected = m_Variables_List->GetItemText(item);
 		m_Variables_List->DeleteItem(item);
 	}
-	wxGetApp().m_Variables_Config->DeleteEntry(m_Variables_Name->GetValue() + wxT("/") + selected);
-	wxGetApp().m_Variables_Config->Flush();
+    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
+	config.DeleteEntry(m_Variables_Name->GetValue() + wxT("/") + selected);
+	config.Flush();
 }
 
 //ID_VARIABLES_LIST
@@ -2089,7 +2091,7 @@ void frmMain::OnRulesMenuClick(wxCommandEvent& evt){
 	if(menuRules->GetStringSelection() != wxEmptyString){
 		DirCtrlItem* item = static_cast<DirCtrlItem*> (menuTree->GetItemData(menuTree->GetSelection()));
 		RuleSet rules(menuRules->GetStringSelection());
-		if(!rules.TransferFromFile(wxGetApp().GetSettingsPath()))
+		if(!rules.TransferFromFile())
 			return;
 
         wxString rule;
@@ -2110,7 +2112,7 @@ void frmMain::OnRulesMenuClick(wxCommandEvent& evt){
             function = FolderExclude;
 
 		rules.Add(Rule(rule, function, Simple));
-		rules.TransferToFile(wxGetApp().GetSettingsPath());
+		rules.TransferToFile();
 		//Refresh the rules display if needed
 		if(m_Rules_Name->GetStringSelection() == menuRules->GetStringSelection()){
 			wxCommandEvent event;

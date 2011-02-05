@@ -21,4 +21,9 @@ namespace Path{
 	static std::map<wxString, wxString> DriveLabels;
 }
 
+namespace Locations{
+    wxString GetSettingsPath();
+    void SetSettingsPath(wxString path);
+}
+
 #endif
