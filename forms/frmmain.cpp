@@ -1704,7 +1704,7 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_REMOVE
 void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	m_Script_Styled->Clear();
+	m_Script_Styled->ClearAll();
 	wxRemoveFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
 	m_Script_Name->Delete(m_Script_Name->GetSelection());
 	UpdateSizer(ScriptNameSizer);
