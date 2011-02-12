@@ -113,8 +113,6 @@ void SyncPreview::OnSourceNotDestFolder(const wxFileName &source, const wxFileNa
         RuleResult res = data->GetRules()->Matches(source);
         if(res != Excluded && res != AbsoluteFolderExclude)
             destitem->SetColour(wxT("Blue"));
-        else
-            destitem->SetColour(wxT("Red"));
         destitems.push_back(destitem);
         if(data->GetFunction() == _("Move"))
             sourceitem->SetColour(wxT("Red"));
@@ -134,8 +132,6 @@ void SyncPreview::OnNotSourceDestFolder(const wxFileName &source, const wxFileNa
         DirCtrlItem* sourceitem = new DirCtrlItem(source);
         if(res != Excluded && res != AbsoluteExcluded)
             sourceitem->SetColour(wxT("Blue"));
-        else
-            sourceitem->SetColour(wxT("Red"));
         sourceitems.push_back(sourceitem);
     }
 }

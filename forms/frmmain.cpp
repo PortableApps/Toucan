@@ -2126,16 +2126,16 @@ void frmMain::OnSyncTreeCtrlTooltip(wxTreeEvent& event){
 	DirCtrlItem* item = static_cast<DirCtrlItem*> (tree->GetItemData(event.GetItem()));
 
 	if(item->GetColour() == wxColour(wxT("Blue"))){
-		event.SetToolTip(_("Copied "));
+		event.SetToolTip(_("Copied"));
 	}
 	else if(item->GetColour() == wxColour(wxT("Grey"))){
-		event.SetToolTip(_("Deleted "));
+		event.SetToolTip(_("Deleted"));
 	}
 	else if(item->GetColour() == wxColour(wxT("Green"))){
 		event.SetToolTip(_("Overwritten"));
 	}
 	else if(item->GetColour() == wxColour(wxT("Red"))){
-		event.SetToolTip(_("If needed"));
+		event.SetToolTip(_("Deleted if empty"));
 	}
 }
 
