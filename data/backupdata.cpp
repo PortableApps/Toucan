@@ -121,7 +121,7 @@ wxArrayString BackupData::CreateCommands(){
 	wxString tempdir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");	
 	wxString solid = wxEmptyString;
 	wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za");
-	wxString includes = wxT(" @\"") + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" ");
+	wxString excludes = wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Excludes.txt") + wxT("\" ");
 
 	//Turn the inputted format into one 7zip will understand
 	if (GetFormat() == wxT("Zip")){
@@ -168,13 +168,13 @@ wxArrayString BackupData::CreateCommands(){
 	}
 
 	if(GetFunction() == _("Complete")){
-		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + includes + tempdir + " -sccUTF-8");	
+		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));	
 	}
 	else if(GetFunction() == _("Update")){
-		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + includes + tempdir + " -sccUTF-8"); 
+		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0)); 
 	}
 	else if(GetFunction() == _("Restore")){
-		commands.Add(exe + wxT("  x -aoa \"") + GetLocation(0) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword() + " -sccUTF-8");	
+		commands.Add(exe + wxT("  x -aoa \"") + GetLocation(0) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword() + " -sccUTF-8 "  + GetLocation(0));	
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
@@ -183,12 +183,15 @@ wxArrayString BackupData::CreateCommands(){
 		}
 		if(wxFileExists(GetFileLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxDateTime::Now();
-			commands.Add(exe + wxT(" u") + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") + includes + tempdir + " -sccUTF-8");
+			commands.Add(exe + wxT(" u") + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
 		}
 		else{
-			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") + includes + tempdir + " -sccUTF-8");
+			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
 		}
 	}
+    else if(GetFunction() == _("Mirror")){
+		commands.Add(exe + wxT(" u -up1q0r2x1y2z1w2 -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0)); 
+    }
 
 	if(GetFormat() == "tar"){
 		wxString tarpath = GetFileLocation();
@@ -204,6 +207,7 @@ wxArrayString BackupData::CreateCommands(){
 
 
 bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
+    //This function creates an exclusion list
 	if(wxGetApp().GetAbort()){
 		return true;
 	}
@@ -222,12 +226,10 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
                 wxFileName location = wxFileName(path + filename);
                 RuleResult result = GetRules()->Matches(location);
 
-                if((result == Excluded && location.IsDir()) || 
-                  ((result == Included || result == NoMatch) && !location.IsDir())){
-                    //We recurse to check for included files or add the file to the list
-                    CreateList(file, path + filename, length);
+                if(location.IsDir() && result == AbsoluteExcluded){
+                    file->AddLine((path + filename).Right((path + filename).length() - length));
                 }
-                else if((result == Included || result == NoMatch) && location.IsDir()){
+                else if(location.IsDir() && result == Excluded){
                     wxDir* dircheck = new wxDir(path + filename);
                     bool nosub = !dircheck->HasFiles() && !dircheck->HasSubDirs();
                     delete dircheck;
@@ -241,8 +243,7 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 					
                 }
                 else{
-                    //Do nothing as we are either an excluded file or an 
-                    //absolutely excluded folder
+                     CreateList(file, path + filename, length);
                 }
 			}
 			while (dir.GetNext(&filename));
@@ -251,7 +252,7 @@ bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
 	//We have been passed a file
 	else{
 		RuleResult res = GetRules()->Matches(wxFileName::FileName(path));
-        if(res != Excluded && res != AbsoluteExcluded){
+        if(res == Excluded || res == AbsoluteExcluded){
 			file->AddLine(path.Right(path.Length() - length));
 		}		
 	}

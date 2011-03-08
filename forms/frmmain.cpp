@@ -448,6 +448,7 @@ void frmMain::CreateControls(){
 	m_Backup_FunctionStrings.Add(_("Complete"));
 	m_Backup_FunctionStrings.Add(_("Update"));
 	m_Backup_FunctionStrings.Add(_("Differential"));
+    m_Backup_FunctionStrings.Add(_("Mirror"));
 	m_Backup_FunctionStrings.Add(_("Restore"));
 	m_Backup_Function = new wxRadioBox(BackupPanel, ID_BACKUP_FUNCTION, _("Type"), wxDefaultPosition, wxDefaultSize, m_Backup_FunctionStrings, 1, wxRA_SPECIFY_COLS);
 	m_Backup_Function->SetSelection(0);

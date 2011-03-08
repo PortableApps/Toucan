@@ -43,8 +43,8 @@ void* BackupJob::Entry(){
 		//If we are not running a restore job we need to create a list file
 		if(data->GetFunction() != _("Restore")){
 			//Set up the include file
-			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Includes.txt"));
-			if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Includes.txt"))){
+			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Excludes.txt"));
+			if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Excludes.txt"))){
 				file->Open();
 				file->Clear();
 				file->Write();
