@@ -14,7 +14,6 @@
 #include <wx/gauge.h>
 #include <wx/cmdline.h>
 #include <wx/image.h> 
-#include <cxxtest/ErrorPrinter.h>
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
@@ -31,7 +30,6 @@ using namespace boost::interprocess;
 	#include <wx/msw/winundef.h>
 #endif
 
-#include "test.h"
 #include "path.h"
 #include "fileops.h"
 #include "toucan.h"
@@ -67,7 +65,6 @@ bool Toucan::OnInit(){
 	static const wxCmdLineEntryDesc desc[] =
 	{
 		{wxCMD_LINE_SWITCH, "h", "disablesplash", "Disables the splashscreen"},
-		{wxCMD_LINE_SWITCH, "u", "unittests", "Runs the unittests"},
 		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "l", "logfile", "Path to save log", wxCMD_LINE_VAL_STRING},
@@ -84,7 +81,7 @@ bool Toucan::OnInit(){
 	delete wxMessageOutput::Set(old);
 
 	//If no script is found then we are in gui mode
-	if(!parser.Found("script") && !parser.Found("job") && !parser.Found("unittests")){
+	if(!parser.Found("script") && !parser.Found("job")){
 		m_IsGui = true;
 		#ifdef __WXMSW__
 			ShowWindow(GetConsoleWindow(), SW_HIDE);
@@ -184,12 +181,6 @@ bool Toucan::OnInit(){
 		else{
 			m_LogFile->Create();
 		}
-	}
-
-	//Run the unit tests if needed and then exit
-	if(parser.Found("unittests")){
-		CxxTest::ErrorPrinter().run();
-		exit(0);
 	}
 
     //Remove any messgae queues that might be left from a crash 
