@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Author:      Steven Lamerton
-// Copyright:   Copyright (C) 2009 - 2010 Steven Lamerton
+// Copyright:   Copyright (C) 2009 - 2011 Steven Lamerton
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -13,6 +13,9 @@ LogListCtrl::LogListCtrl(wxListCtrl* list){
 	m_List = list;
 }
 
-void LogListCtrl::DoLog(wxLogLevel WXUNUSED(level), const wxString& msg, time_t WXUNUSED(timestamp)){
+void LogListCtrl::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info){
+    //Discard verbose output, they should only be output to a file
+    if(level <= wxLOG_Info)
+        return;
     OutputProgress(msg, Error);
 }
