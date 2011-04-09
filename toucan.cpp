@@ -65,7 +65,6 @@ int main(int argc, char *argv[]){
 bool Toucan::OnInit(){
 	static const wxCmdLineEntryDesc desc[] =
 	{
-		{wxCMD_LINE_SWITCH, "h", "disablesplash", "Disables the splashscreen"},
         {wxCMD_LINE_SWITCH, "v", "verbose", "Enable verbose logging"},
 		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
@@ -95,16 +94,7 @@ bool Toucan::OnInit(){
 
 	const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 
-	wxSplashScreen *scrn = NULL;
 	wxInitAllImageHandlers();
-
-	if(m_IsGui && !parser.Found("disablesplash")){
-		if(wxFileExists(exedir + wxT("splash.jpg"))){
-			wxBitmap bitmap;
-			bitmap.LoadFile(exedir + wxT("splash.jpg"), wxBITMAP_TYPE_JPEG);
-			scrn = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_NO_TIMEOUT, 5000, NULL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR);
-		}
-	}
 
 	m_Abort = false;
 	m_LogFile = NULL;
@@ -213,11 +203,6 @@ bool Toucan::OnInit(){
 		else{
 			MainWindow->Maximize(true);
 		}
-
-		if(scrn != NULL){
-			scrn->Destroy(); 
-		}
-
 	}
 	else{
         m_Timer = new wxTimer(this, wxID_ANY);
