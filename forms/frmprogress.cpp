@@ -251,6 +251,12 @@ void frmProgress::OnIdle(wxIdleEvent &event){
 
             m_List->SetColumnWidth(1, -1);
 
+            if(wxGetApp().m_LogFile){
+                wxGetApp().m_LogFile->AddLine(wxmessage);
+                if(index % 10 == 0)
+                    wxGetApp().m_LogFile->Write();
+            }
+
             if(priority == StartingLine){
                 StartProgress();
             }
@@ -290,7 +296,7 @@ void frmProgress::RequestUserAttention(){
 
 void frmProgress::StartProgress(){
     //Send all errors to the message queue so they end up in the progess window
-    delete wxLog::SetActiveTarget(new LogMessageQueue);
+    wxGetApp().m_LogChain->SetLog(new LogMessageQueue);
 
     m_OK->Enable(false);
     m_Save->Enable(false);
@@ -299,7 +305,7 @@ void frmProgress::StartProgress(){
 
 void frmProgress::FinishProgress(){
     //Send all errors to the standard gui
-	delete wxLog::SetActiveTarget(new wxLogGui);
+	wxGetApp().m_LogChain->SetLog(new wxLogGui);
 		        
     //Enable the buttons
     m_OK->Enable(true);

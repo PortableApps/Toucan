@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "log.h"
+#include <wx/textfile.h>
 #include <boost/interprocess/ipc/message_queue.hpp>
 
 using namespace boost::interprocess;
@@ -29,4 +30,15 @@ void LogMessageQueue::DoLogRecord(wxLogLevel level, const wxString& msg, const w
     catch(std::exception &ex){
         wxLogError("%s", ex.what());
     }
+}
+
+LogFile::LogFile(wxTextFile* file) : file(file)
+{}
+
+void LogFile::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info){
+    file->AddLine(msg);
+    count++;
+    //Don't write output every line but do it fairly frequently
+    if(count % 10 == 0)
+        file->Write();
 }

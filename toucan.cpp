@@ -30,6 +30,7 @@ using namespace boost::interprocess;
 	#include <wx/msw/winundef.h>
 #endif
 
+#include "log.h"
 #include "path.h"
 #include "fileops.h"
 #include "toucan.h"
@@ -65,9 +66,10 @@ bool Toucan::OnInit(){
 	static const wxCmdLineEntryDesc desc[] =
 	{
 		{wxCMD_LINE_SWITCH, "h", "disablesplash", "Disables the splashscreen"},
+        {wxCMD_LINE_SWITCH, "v", "verbose", "Enable verbose logging"},
 		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
-		{wxCMD_LINE_OPTION, "l", "logfile", "Path to save log", wxCMD_LINE_VAL_STRING},
+		{wxCMD_LINE_OPTION, "l", "log", "Path to save log", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "j", "job", "Job to run", wxCMD_LINE_VAL_STRING},
         {wxCMD_LINE_OPTION, "p", "password", "Password for jobs and scripts", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_NONE}
@@ -105,7 +107,6 @@ bool Toucan::OnInit(){
 	}
 
 	m_Abort = false;
-	m_IsLogging = false;
 	m_LogFile = NULL;
 
 	//Set the read only flag if needed
@@ -136,6 +137,36 @@ bool Toucan::OnInit(){
 	}
     //Set the global settings path
     Locations::SetSettingsPath(m_SettingsPath);
+
+    //Set the log up
+	if(parser.Found("log")){
+		wxString path;
+		parser.Found("log", &path);
+        Path::Normalise(path);
+		m_LogFile = new wxTextFile(path);
+		if(wxFileExists(path)){
+			m_LogFile->Open();
+			m_LogFile->Clear();
+		}
+		else{
+			m_LogFile->Create();
+		}
+        delete wxLog::SetActiveTarget(new LogFile(m_LogFile));
+	}
+    else{
+        delete wxLog::SetActiveTarget(new LogBlank);
+    }
+
+    //Only output to a message box if we are not verbose
+    if(parser.Found("verbose")){
+        wxLog::SetVerbose();
+        wxLog::SetLogLevel(wxLOG_Info);
+        m_LogChain = new wxLogChain(NULL);
+    }
+    else{
+        m_LogChain = new wxLogChain(new wxLogGui);
+    }
+
 	//Make sure the data directories are there
 	if(!wxDirExists(GetSettingsPath()))
 		Path::CreateDirectoryPath(wxFileName::DirName(GetSettingsPath()));
@@ -167,21 +198,6 @@ bool Toucan::OnInit(){
 
 	//Create the lua manager
 	m_LuaManager = new LuaManager();
-
-	if(parser.Found("logfile")){
-		m_IsLogging = true;
-		wxString path;
-		parser.Found("logfile", &path);
-        Path::Normalise(path);
-		m_LogFile = new wxTextFile(path);
-		if(wxFileExists(path)){
-			m_LogFile->Open();
-			m_LogFile->Clear();
-		}
-		else{
-			m_LogFile->Create();
-		}
-	}
 
     //Remove any messgae queues that might be left from a crash 
     boost::interprocess::message_queue::remove("progress");
@@ -262,14 +278,17 @@ int Toucan::OnExit(){
         delete m_Timer;
     }
     boost::interprocess::message_queue::remove("progress");
-	if(m_IsLogging){
-		m_LogFile->Write();
-	}
 	KillConime();
 	CleanTemp();
-	delete m_LogFile;
+    //Delete the logfile
+    if(m_LogFile){
+        m_LogFile->Write();
+        delete m_LogFile;
+    }
 	delete m_Locale;
 	delete m_Settings;
+    //Clear up the log chain
+    delete wxLog::SetActiveTarget(NULL);
 	//Deletion causes a flush which warns on read only devices
 	if(!wxGetApp().IsReadOnly()){
 		delete m_Jobs_Config;

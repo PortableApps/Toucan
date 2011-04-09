@@ -61,6 +61,8 @@ public:
 	std::map<int, int> m_ProcessStatusMap;
 
 	wxString m_Password;
+    wxLogChain* m_LogChain;
+	wxTextFile* m_LogFile;
 
 private:
 	//Clean up the temporary files that might be in the data folder
@@ -80,10 +82,8 @@ private:
 	wxString m_SettingsPath;
 	bool m_IsGui;
 	bool m_IsReadOnly;
-	bool m_IsLogging;
 	bool m_Finished;
 	wxLocale* m_Locale;
-	wxTextFile* m_LogFile;
     wxTimer *m_Timer;
 
     DECLARE_CLASS(Toucan)
