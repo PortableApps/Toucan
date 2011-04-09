@@ -6,11 +6,11 @@
 
 #include "frmmain.h"
 #include "frmprogress.h"
+#include "../log.h"
 #include "../luamanager.h"
 #include "../toucan.h"
 #include "../settings.h"
 #include "../basicfunctions.h"
-#include "../controls/loglistctrl.h"
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
@@ -292,9 +292,8 @@ void frmProgress::RequestUserAttention(){
 }
 
 void frmProgress::StartProgress(){
-    //Send all errors to this window
-    LogListCtrl* logList = new LogListCtrl(m_List);
-    delete wxLog::SetActiveTarget(logList);
+    //Send all errors to the message queue so they end up in the progess window
+    delete wxLog::SetActiveTarget(new LogMessageQueue);
 
     m_OK->Enable(false);
     m_Save->Enable(false);

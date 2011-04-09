@@ -4,21 +4,25 @@
 // License:     GNU GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
 /////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _LOGLISTCTRL_H_
-#define _LOGLISTCTRL_H_
+#ifndef LOGLISTCTRL_H
+#define LOGLISTCTRL_H
 
 #include <wx/log.h>
 
-class wxListCtrl;
+namespace boost{
+    namespace interprocess{
+        class message_queue;
+    }
+}
 
-class LogListCtrl : public wxLog
+class LogMessageQueue : public wxLog
 {
 public:
-    LogListCtrl(wxListCtrl* list);
-    virtual void DoLogRecord(wxLogLevel WXUNUSED(level), const wxString& msg, const wxLogRecordInfo& info);
-
-private:
-    wxListCtrl* m_List;
+    LogMessageQueue();
+    ~LogMessageQueue();
+    void DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info);
+private: 
+    boost::interprocess::message_queue* queue;
 };
 
 #endif

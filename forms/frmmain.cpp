@@ -32,7 +32,6 @@
 #include "../controls/syncctrl.h"
 #include "../controls/previewctrl.h"
 #include "../controls/localdirctrl.h"
-#include "../controls/loglistctrl.h"
 #include "../controls/rulesgrid.h"
 
 #if defined(__WXMSW__) && !defined(__MINGW32__)
