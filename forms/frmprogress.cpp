@@ -131,7 +131,7 @@ wxBitmap frmProgress::GetBitmapResource(const wxString& name){
 	return wxNullBitmap;
 }
 
-void frmProgress::OnClose(wxCloseEvent& WXUNUSED(event)){
+void frmProgress::OnClose(wxCloseEvent& event){
     if(!wxGetApp().IsReadOnly()){
         int height, width, x, y;
         wxClientDisplayRect(&x, &y, &width, &height);
@@ -150,7 +150,7 @@ void frmProgress::OnClose(wxCloseEvent& WXUNUSED(event)){
 	}
 #endif
 	wxGetApp().m_LuaManager->NullWindow();
-	Destroy();
+    Destroy();
 }
 
 void frmProgress::OnOkClick(wxCommandEvent& WXUNUSED(event)){
@@ -202,7 +202,6 @@ void frmProgress::IncrementGauge(){
 		m_Taskbar->SetProgressValue(static_cast<HWND>(wxGetApp().MainWindow->GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
 	}
 #endif
-
 }
 
 void frmProgress::FinishGauge(){
@@ -221,9 +220,7 @@ void frmProgress::OnSize(wxSizeEvent &event){
 
 void frmProgress::OnIdle(wxIdleEvent &event){
     try{
-//        permissions access;
- //       access.set_unrestricted();
-        message_queue mq(open_or_create, "progress", 100, 10000/*, access*/);
+        message_queue mq(open_or_create, "progress", 100, 10000);
 
         std::string message;
         message.resize(10000);

@@ -1474,9 +1474,9 @@ void frmMain::OnSecureRulesSelected(wxCommandEvent& WXUNUSED(event)){
 	}
 }
 
-void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
+void frmMain::OnCloseWindow(wxCloseEvent& event){
 	if(wxGetApp().IsReadOnly()){
-		wxGetApp().MainWindow->Destroy();
+		event.Skip();
 		return;
 	}
 
@@ -1518,7 +1518,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& WXUNUSED(event)){
 		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
 	}
 
-	wxGetApp().MainWindow->Destroy();
+	event.Skip();
 }
 
 //ID_VARIABLES_SAVE

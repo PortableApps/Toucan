@@ -385,7 +385,7 @@ void Toucan::OnGetPassword(wxCommandEvent &event){
 
 void Toucan::OnProgressSetup(wxCommandEvent &event){
 	frmProgress *window = m_LuaManager->GetProgressWindow();
-	if(window){
+	if(window && window->m_Gauge){
 		window->m_Gauge->SetRange(event.GetInt());
 	}
 }

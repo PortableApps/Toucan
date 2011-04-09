@@ -51,7 +51,6 @@ void LuaManager::Run(const wxString &line, const bool showprogress){
 	    }
 
         m_Window->ShowModal();
-
     }
 }
 
