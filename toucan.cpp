@@ -66,7 +66,7 @@ bool Toucan::OnInit(){
 	static const wxCmdLineEntryDesc desc[] =
 	{
         {wxCMD_LINE_SWITCH, "v", "verbose", "Enable verbose logging"},
-		{wxCMD_LINE_OPTION, "d", "datadirectory", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
+		{wxCMD_LINE_OPTION, "d", "data", "Location of the Data folder", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "s", "script", "Script to run", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "l", "log", "Path to save log", wxCMD_LINE_VAL_STRING},
 		{wxCMD_LINE_OPTION, "j", "job", "Job to run", wxCMD_LINE_VAL_STRING},
