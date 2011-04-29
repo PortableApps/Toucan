@@ -107,9 +107,9 @@ bool Toucan::OnInit(){
 		File::Delete(wxFileName::FileName(exedir + wxT("writetest")), false, false);
 	}
 
-	if(parser.Found("datadirectory")){
+	if(parser.Found("data")){
 		wxString temp;
-		parser.Found("datadirectory", &temp);
+		parser.Found("data", &temp);
 		wxFileName name(temp);
 		name.Normalize();
 		m_SettingsPath = name.GetFullPath();
