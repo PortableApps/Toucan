@@ -53,8 +53,8 @@ bool UpdateRules();
 bool UpdateScripts();
 bool UpdateSettings();
 
-const wxString& ToLang(const wxString &en);
-const wxString& ToEn(const wxString &lang);
+wxString ToLang(const wxString &en);
+wxString ToEn(const wxString &lang);
 
 //Used by for_each in test.h
 void makedir(const wxString &path);

@@ -69,12 +69,26 @@ void SetupLanguageMap(){
     ("Absolute Folder Exclude", _("Absolute Folder Exclude"));
 }
  
-const wxString& ToLang(const wxString &en){
-	return languagemap.left.at(en);
+wxString ToLang(const wxString &en){
+    wxString lang;
+    try{
+        lang = languagemap.left.at(en);
+    }
+    catch(std::exception){
+        return en;
+    }
+    return lang;
 }
 
-const wxString& ToEn(const wxString &lang){
-	return languagemap.right.at(lang);
+wxString ToEn(const wxString &lang){
+    wxString en;
+    try{
+        en = languagemap.right.at(lang);
+    }
+    catch(std::exception){
+        return lang;
+    }
+    return en;
 }
 
 wxString ArrayStringToString(const wxArrayString &strings, const wxString &seperator){
