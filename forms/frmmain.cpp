@@ -1196,10 +1196,12 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_RULES_REMOVE
 void frmMain::OnRulesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	m_RulesGrid->Clear();
-    File::Delete(Locations::GetSettingsPath() + "rules" + wxFILE_SEP_PATH +  m_Rules_Name->GetStringSelection() + ".ini", false, false);
-	m_Rules_Name->Delete(m_Rules_Name->GetSelection());
-	UpdateSizer(RulesNameSizer);
+    if(!m_Rules_Name->GetStringSelection().IsEmpty()){
+        File::Delete(Locations::GetSettingsPath() + "rules" + wxFILE_SEP_PATH +  m_Rules_Name->GetStringSelection() + ".ini", false, false);
+        m_Rules_Name->Delete(m_Rules_Name->GetSelection());
+    }
+    m_RulesGrid->Clear();
+    UpdateSizer(RulesNameSizer);
 }
 
 //ID_RULES_COMBO
@@ -1582,11 +1584,13 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_VARIABLES_REMOVE
 void frmMain::OnVariablesRemoveClick(wxCommandEvent& WXUNUSED(event)){
-    wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
-	config.DeleteGroup(m_Variables_Name->GetValue());
-	config.Flush();
-	m_Variables_Name->Delete(m_Variables_Name->GetSelection());
-	m_Variables_Name->SetValue(wxEmptyString);
+    if(!m_Variables_Name->GetStringSelection().IsEmpty()){
+        wxFileConfig config("", "", Locations::GetSettingsPath() + "variables.ini");
+        config.DeleteGroup(m_Variables_Name->GetValue());
+        config.Flush();
+        m_Variables_Name->Delete(m_Variables_Name->GetSelection());
+        m_Variables_Name->SetValue(wxEmptyString);
+    }
 	m_Variables_List->ClearAll();
 	wxListItem column;
 	m_Variables_List->InsertColumn(0, _("Computer"));
@@ -1704,10 +1708,12 @@ void frmMain::OnScriptSaveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SCRIPT_REMOVE
 void frmMain::OnScriptRemoveClick(wxCommandEvent& WXUNUSED(event)){
-	m_Script_Styled->ClearAll();
-	wxRemoveFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
-	m_Script_Name->Delete(m_Script_Name->GetSelection());
-	UpdateSizer(ScriptNameSizer);
+    if(!m_Script_Name->GetStringSelection().IsEmpty()){
+        wxRemoveFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
+        m_Script_Name->Delete(m_Script_Name->GetSelection());
+    }
+    m_Script_Styled->ClearAll();
+    UpdateSizer(ScriptNameSizer);
 }
 
 //ID_SCRIPT_ADD
