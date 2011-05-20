@@ -17,6 +17,8 @@
 #include <wx/textfile.h>
 #include <wx/stdpaths.h>
 
+#include <boost/shared_ptr.hpp>
+
 BackupJob::BackupJob(BackupData *Data) : Job(Data){
 	;
 }
@@ -42,8 +44,7 @@ void* BackupJob::Entry(){
 		}
 		//If we are not running a restore job we need to create a list file
 		if(data->GetFunction() != _("Restore")){
-			//Set up the include file
-			wxTextFile *file = new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Excludes.txt"));
+            boost::shared_ptr<wxTextFile> file(new wxTextFile(wxGetApp().GetSettingsPath() + wxT("Excludes.txt")));
 			if(wxFileExists(wxGetApp().GetSettingsPath() + wxT("Excludes.txt"))){
 				file->Open();
 				file->Clear();

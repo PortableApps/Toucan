@@ -13,6 +13,8 @@ class wxTextFile;
 #include <wx/string.h>
 #include <wx/arrstr.h>
 
+#include <boost/shared_ptr.hpp>
+
 struct BackupOptions{
 	bool Password;
 	bool Test;
@@ -36,7 +38,7 @@ public:
 	bool TransferFromForm(frmMain *window);
 
 	wxArrayString CreateCommands();
-	bool CreateList(wxTextFile *file, wxString path, int length);
+	bool CreateList(boost::shared_ptr<wxTextFile> file, wxString path, int length);
 
 	void SetFileLocation(const wxString& FileLocation) {this->m_FileLocation = FileLocation;}
 	void SetFormat(const wxString& Format) {this->m_Format = Format;}

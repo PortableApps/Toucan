@@ -206,7 +206,7 @@ wxArrayString BackupData::CreateCommands(){
 }
 
 
-bool BackupData::CreateList(wxTextFile *file, wxString path, int length){
+bool BackupData::CreateList(boost::shared_ptr<wxTextFile> file, wxString path, int length){
     //This function creates an exclusion list
 	if(wxGetApp().GetAbort()){
 		return true;
