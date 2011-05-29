@@ -22,8 +22,8 @@ void SyncData::TransferFromFile(){
 		throw std::invalid_argument(std::string(GetName() + " is not a valid job"));
 	}
 
-	SetSource(Read<wxString>("Source"));
-	SetDest(Read<wxString>("Dest"));
+	SetSource(wxFileName::DirName(Read<wxString>("Source")));
+	SetDest(wxFileName::DirName(Read<wxString>("Dest")));
 	SetFunction(ToLang(Read<wxString>("Function")));
 	SetCheckSize(Read<bool>("CheckSize"));
 	SetCheckTime(Read<bool>("CheckTime"));
