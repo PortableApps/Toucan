@@ -1068,6 +1068,8 @@ void frmMain::OnSecureAddClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_BACKUP_REMOVE
 void frmMain::OnBackupRemoveClick(wxCommandEvent& WXUNUSED(event)){
+    if(m_Backup_TreeCtrl->GetSelectedPaths().Count() == 0)
+        return;
 	//Checks to see if it is a top level item that is being removed
 	if (m_Backup_TreeCtrl->GetItemParent(m_Backup_TreeCtrl->GetSelection()) == m_Backup_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
@@ -1082,6 +1084,8 @@ void frmMain::OnBackupRemoveClick(wxCommandEvent& WXUNUSED(event)){
 
 //ID_SECURE_REMOVE
 void frmMain::OnSecureRemoveClick(wxCommandEvent& WXUNUSED(event)){
+    if(m_Secure_TreeCtrl->GetSelectedPaths().Count() == 0)
+        return;
 	//Checks to see if it is a top level item that is being removed
 	if (m_Secure_TreeCtrl->GetItemParent(m_Secure_TreeCtrl->GetSelection()) == m_Secure_TreeCtrl->GetRootItem()){
 		//A loop to compare to normalised and non-normalised files
