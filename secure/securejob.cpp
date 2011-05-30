@@ -53,7 +53,7 @@ bool SecureJob::Crypt(const wxString &path, SecureData *data)
                 if((result == Excluded && location.IsDir()) || 
                   ((result == Included || result == NoMatch))){
                     //We recurse into subdirectories or to crypt files
-                    Crypt(path + filename, data);
+                    Crypt(path + wxFILE_SEP_PATH + filename, data);
                 }
                 else{
                     //Do nothing as we are either an excluded file or an 
@@ -101,9 +101,9 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
 	const wxString exepath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "ccrypt";
 
 	if(data->GetFunction() == _("Encrypt"))
-		command = exepath + wxT("-f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = exepath + wxT(" -f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 	else
-		command = exepath + wxT("-f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
+		command = exepath + wxT(" -f -d -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
 
 	int id = wxDateTime::Now().GetTicks();
 	wxCommandEvent *event = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_SECUREPROCESS);
