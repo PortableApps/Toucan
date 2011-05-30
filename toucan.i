@@ -22,10 +22,13 @@
 			throw std::invalid_argument("The source path is invalid");
 		}
 		if(data->GetDest().GetFullPath() == wxEmptyString || !data->GetDest().IsDir()){
-			throw std::invalid_argument("The destination path  is invalid");
+			throw std::invalid_argument("The destination path is invalid");
 		}
 		if(data->GetFunction() == wxEmptyString){
 			throw std::invalid_argument("A valid function must be selected");
+		}
+		if(!wxDirExists(data->GetSource().GetFullPath())){
+			throw std::invalid_argument("The source must exist");
 		}
 		FileCounter counter;
 		if(data->GetFunction() != _("Mirror")){
