@@ -92,11 +92,14 @@
 		if(data->GetLocations().Count() == 0){
 			throw std::invalid_argument("You must select some paths to backup");
 		}
-		if(data->GetFileLocation() == wxEmptyString || wxDirExists(data->GetFileLocation())){
-			throw std::invalid_argument("The backup archive must be specified");
-		}
 		if(data->GetFunction() == wxEmptyString){
 			throw std::invalid_argument("A valid function must be selected");
+		}
+		if(data->GetFunction() != _("Differential") && (data->GetFileLocation() == wxEmptyString || wxDirExists(data->GetFileLocation()))){
+			throw std::invalid_argument("The backup archive must be specified");
+		}
+		else if(data->GetFunction() == _("Differential") && (data->GetFileLocation() == wxEmptyString || !wxDirExists(data->GetFileLocation()))){
+			throw std::invalid_argument("The backup folder must be specified and exist");
 		}
 		if(data->GetFormat() == wxEmptyString){
 			throw std::invalid_argument("A valid format must be selected");
