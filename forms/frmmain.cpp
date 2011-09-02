@@ -234,11 +234,11 @@ void frmMain::CreateControls(){
 	wxClientDisplayRect(NULL, NULL, &width, &height);
 	if(width < 850 || height < 500 || wxGetApp().m_Settings->GetSmallBorders()){
 		border = 2;
-		SetMinSize(wxSize(750, 450));
+		SetMinSize(wxSize(800, 450));
 	}
 	else{
 		border = 5;
-		SetMinSize(wxSize(820, 540));
+		SetMinSize(wxSize(875, 540));
 	}
 
 	//Set the font from the settings
