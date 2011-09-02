@@ -198,7 +198,7 @@ void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
 void frmProgress::IncrementGauge(){
 	m_Gauge->SetValue(m_Gauge->GetValue() + 1);
 #if defined(__WXMSW__) && !defined(__MINGW32__)
-	if(m_Taskbar){
+	if(m_Gauge->IsShown() && m_Taskbar){
 		m_Taskbar->SetProgressValue(static_cast<HWND>(wxGetApp().MainWindow->GetHandle()), m_Gauge->GetValue() + 1, m_Gauge->GetRange());
 	}
 #endif
