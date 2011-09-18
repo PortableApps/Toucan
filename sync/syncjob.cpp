@@ -92,24 +92,24 @@ void SyncFiles::OnSourceNotDestFolder(const wxFileName &source, const wxFileName
     if(res != AbsoluteExcluded){
 	    SyncFiles sync(source, dest, data);
 	    sync.Execute();
+        if(data->GetFunction() != _("Clean")){
+		    wxDir destdir(dest.GetFullPath());
+		    wxDir sourcedir(source.GetFullPath());
+		    if(!destdir.HasFiles() && !destdir.HasSubDirs() && res == Excluded){
+			    DeleteDirectory(dest);
+		    }
+		    else{
+			    //Set the timestamps if needed
+			    if(data->GetTimeStamps()){
+				    CopyFolderTimestamp(source, dest);
+			    }	
+		    }
+		    if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
+			    //If we are moving and there are no files left then we need to remove the folder
+			    DeleteDirectory(source);
+		    }
+	    }
     }
-	if(data->GetFunction() != _("Clean")){
-		wxDir destdir(dest.GetFullPath());
-		wxDir sourcedir(source.GetFullPath());
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res == Excluded){
-			DeleteDirectory(dest);
-		}
-		else{
-			//Set the timestamps if needed
-			if(data->GetTimeStamps()){
-				CopyFolderTimestamp(source, dest);
-			}	
-		}
-		if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
-			//If we are moving and there are no files left then we need to remove the folder
-			DeleteDirectory(source);
-		}
-	}
 }
 
 void SyncFiles::OnNotSourceDestFolder(const wxFileName &source, const wxFileName &dest){
