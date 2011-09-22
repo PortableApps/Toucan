@@ -111,9 +111,17 @@ void SyncPreview::OnSourceNotDestFolder(const wxFileName &source, const wxFileNa
     if(data->GetFunction() != _("Clean")){
         DirCtrlItem* destitem = new DirCtrlItem(dest);
         RuleResult res = data->GetRules()->Matches(source);
-        if(res != Excluded && res != AbsoluteFolderExclude)
+        if(res == Excluded){
+            destitem->SetColour(wxT("Red"));
+            destitems.push_back(destitem);
+        }
+        else if(res != AbsoluteExcluded){
             destitem->SetColour(wxT("Blue"));
-        destitems.push_back(destitem);
+            destitems.push_back(destitem);
+        }
+        else{
+            delete destitem;
+        }
         if(data->GetFunction() == _("Move"))
             sourceitem->SetColour(wxT("Red"));
     }
