@@ -396,7 +396,7 @@ void Toucan::OnProgressSetup(wxCommandEvent &event){
 
 void Toucan::OnTimer(wxTimerEvent &WXUNUSED(event)){
     try{
-        message_queue mq(open_or_create, "progress", 100, 10000);
+        message_queue mq(open_or_create, "progress", 1000, 10000);
 
         std::string message;
         message.resize(10000);

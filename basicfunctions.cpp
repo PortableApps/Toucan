@@ -110,11 +110,14 @@ wxArrayString StringToArrayString(const wxString &string, const wxString &sepera
 }
 
 void OutputProgress(const wxString &message, OutputType type){
-    std::string out =  message.ToStdString();
+    std::string out = message.ToStdString();
 
     try{
-        message_queue mq(open_or_create, "progress", 100, 10000);
-        mq.send(out.data(), out.size(), type);
+        message_queue mq(open_or_create, "progress", 1000, 10000);
+        while(!mq.try_send(out.data(), out.size(), type))
+        {
+            wxYield();
+        }
     }
     catch(std::exception &ex){
         wxLogError("%s", ex.what());
