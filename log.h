@@ -11,12 +11,6 @@
 
 class wxTextFile;
 
-namespace boost{
-    namespace interprocess{
-        class message_queue;
-    }
-}
-
 //An empty log class to use when we are not logging to a file
 class LogBlank : public wxLog
 {};
@@ -24,11 +18,7 @@ class LogBlank : public wxLog
 class LogMessageQueue : public wxLog
 {
 public:
-    LogMessageQueue();
-    ~LogMessageQueue();
     void DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info);
-private: 
-    boost::interprocess::message_queue* queue;
 };
 
 //Log to a (user specified) file

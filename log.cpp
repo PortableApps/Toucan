@@ -5,18 +5,12 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "log.h"
+#include <wx/app.h> 
+#include <wx/msgdlg.h>
 #include <wx/textfile.h>
 #include <boost/interprocess/ipc/message_queue.hpp>
 
 using namespace boost::interprocess;
-
-LogMessageQueue::LogMessageQueue(){
-    queue = new message_queue(open_or_create, "progress", 100, 10000);
-}
-
-LogMessageQueue::~LogMessageQueue(){
-    delete queue;
-}
 
 void LogMessageQueue::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info){
     //Discard verbose output, they should only be output to a file
@@ -25,7 +19,8 @@ void LogMessageQueue::DoLogRecord(wxLogLevel level, const wxString& msg, const w
 
     std::string out =  msg.ToStdString();
     try{
-        queue->send(out.data(), out.size(), 5);
+        message_queue eq(open_or_create, "error", 100, 10000);
+        eq.send(out.data(), out.size(), 5);
     }
     catch(std::exception &ex){
         wxLogError("%s", ex.what());

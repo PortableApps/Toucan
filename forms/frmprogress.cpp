@@ -220,14 +220,15 @@ void frmProgress::OnSize(wxSizeEvent &event){
 
 void frmProgress::OnIdle(wxIdleEvent &event){
     try{
-        message_queue mq(open_or_create, "progress", 1000, 10000);
-
         std::string message;
         message.resize(10000);
         size_t size;
         unsigned int priority;
 
-        if(mq.try_receive(&message[0], message.size(), size, priority)){
+        message_queue eq(open_or_create, "error", 100, 10000);
+        message_queue mq(open_or_create, "progress", 1000, 10000);
+
+        if(eq.try_receive(&message[0], message.size(), size, priority) || mq.try_receive(&message[0], message.size(), size, priority)){
             message.resize(size);
             wxString wxmessage(message.c_str(), wxConvUTF8);
 
