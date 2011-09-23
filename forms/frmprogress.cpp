@@ -225,54 +225,56 @@ void frmProgress::OnIdle(wxIdleEvent &event){
         size_t size;
         unsigned int priority;
 
-        message_queue eq(open_or_create, "error", 100, 10000);
-        message_queue mq(open_or_create, "progress", 1000, 10000);
+        message_queue eq(open_only, "error");
+        message_queue mq(open_only, "progress");
 
-        if(eq.try_receive(&message[0], message.size(), size, priority) || mq.try_receive(&message[0], message.size(), size, priority)){
-            message.resize(size);
-            wxString wxmessage(message.c_str(), wxConvUTF8);
+        for(size_t i = 0; i < wxMin(50, mq.get_num_msg()) ; i++){
+            if(eq.try_receive(&message[0], message.size(), size, priority) || mq.try_receive(&message[0], message.size(), size, priority)){
+                message.resize(size);
+                wxString wxmessage(message.c_str(), wxConvUTF8);
 
-        	long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-			m_List->SetItem(index, 1, wxmessage);
+        	    long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
+			    m_List->SetItem(index, 1, wxmessage);
+		        m_List->SetItem(index, 0, wxString::Format("%d", mq.get_num_msg()));
 
-            if(priority == Error){
-				m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			}
-			if(priority == Error || priority == StartingLine || priority == FinishingLine){
-				m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
-			}
-            if(priority == Message || priority == Error){
-                IncrementGauge();
-            }
+                if(priority == Error){
+				    m_List->SetItemTextColour(index, wxColour(wxT("Red")));
+			    }
+			    if(priority == Error || priority == StartingLine || priority == FinishingLine){
+				    m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+			    }
+                if(priority == Message || priority == Error){
+                    IncrementGauge();
+                }
 
-            if(m_Autoscroll->GetValue()){
-			    m_List->EnsureVisible(index);
-			    Update();
-            }
+                if(m_Autoscroll->GetValue()){
+			        m_List->EnsureVisible(index);
+			        Update();
+                }
 
-            m_List->SetColumnWidth(1, -1);
+                m_List->SetColumnWidth(1, -1);
 
-            if(wxGetApp().m_LogFile){
-                wxGetApp().m_LogFile->AddLine(wxmessage);
-                if(index % 10 == 0)
-                    wxGetApp().m_LogFile->Write();
-            }
+                if(wxGetApp().m_LogFile){
+                    wxGetApp().m_LogFile->AddLine(wxmessage);
+                    if(index % 10 == 0)
+                        wxGetApp().m_LogFile->Write();
+                }
 
-            if(priority == StartingLine){
-                StartProgress();
-            }
-            else if(priority == FinishingLine){
-                FinishProgress();
+                if(priority == StartingLine){
+                    StartProgress();
+                }
+                else if(priority == FinishingLine){
+                    FinishProgress();
                 
-            }
-            else{
-                event.RequestMore();
+                }
+                message.resize(10000);
             }
         }
     }
     catch(std::exception &ex){
         wxLogError("%s", ex.what());
     }
+    event.Skip();
 }
 
 void frmProgress::RequestUserAttention(){

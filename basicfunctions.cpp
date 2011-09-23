@@ -113,7 +113,7 @@ void OutputProgress(const wxString &message, OutputType type){
     std::string out = message.ToStdString();
 
     try{
-        message_queue mq(open_or_create, "progress", 1000, 10000);
+        message_queue mq(open_only, "progress");
         while(!mq.try_send(out.data(), out.size(), type))
         {
             wxYield();

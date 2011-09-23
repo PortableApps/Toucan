@@ -19,7 +19,7 @@ void LogMessageQueue::DoLogRecord(wxLogLevel level, const wxString& msg, const w
 
     std::string out =  msg.ToStdString();
     try{
-        message_queue eq(open_or_create, "error", 100, 10000);
+        message_queue eq(open_only, "error");
         eq.send(out.data(), out.size(), 5);
     }
     catch(std::exception &ex){

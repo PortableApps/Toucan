@@ -191,6 +191,13 @@ bool Toucan::OnInit(){
 
     //Remove any messgae queues that might be left from a crash 
     boost::interprocess::message_queue::remove("progress");
+    boost::interprocess::message_queue::remove("error");
+
+    //Create the new message queues
+    {
+        message_queue mq(create_only, "progress", 5000, 10000);
+        message_queue eq(create_only, "error", 100, 10000);
+    }
 
 	if(m_IsGui){
 		//Set up the main form
@@ -263,6 +270,7 @@ int Toucan::OnExit(){
         delete m_Timer;
     }
     boost::interprocess::message_queue::remove("progress");
+    boost::interprocess::message_queue::remove("error");
 	KillConime();
 	CleanTemp();
     //Delete the logfile
