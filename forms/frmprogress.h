@@ -13,7 +13,7 @@
 	struct ITaskbarList3;
 #endif
 
-class wxListCtrl;
+class ProgressListCtrl;
 class wxButton;
 class wxGauge;
 class wxBitmapButton;
@@ -61,7 +61,7 @@ public:
 	void IncrementGauge();
 	void FinishGauge();
 
-	wxListCtrl* m_List;
+	ProgressListCtrl* m_List;
 	wxButton* m_OK;
 	wxButton* m_Cancel;
 	wxBitmapButton* m_Save;

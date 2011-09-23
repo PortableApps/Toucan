@@ -11,6 +11,7 @@
 #include "../toucan.h"
 #include "../settings.h"
 #include "../basicfunctions.h"
+#include "../controls/progresslistctrl.h"
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
@@ -90,7 +91,7 @@ void frmProgress::CreateControls(){
 	m_Gauge = new wxGauge(Panel, ID_PROGRESS_GAUGE, 100, wxDefaultPosition, wxDefaultSize, wxGA_SMOOTH|wxGA_HORIZONTAL);
 	ProgressSizer->Add(m_Gauge, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
 
-	m_List = new wxListCtrl(Panel, ID_PROGRESS_LIST, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES);
+	m_List = new ProgressListCtrl(Panel);
 	ProgressSizer->Add(m_List, 1, wxGROW|wxALL, 5);
 
 	wxBoxSizer* SmallButtonSizer = new wxBoxSizer(wxVERTICAL);
@@ -230,19 +231,20 @@ void frmProgress::OnIdle(wxIdleEvent &event){
 
         for(size_t i = 0; i < wxMin(50, mq.get_num_msg()) ; i++){
             if(eq.try_receive(&message[0], message.size(), size, priority) || mq.try_receive(&message[0], message.size(), size, priority)){
-                message.resize(size);
-                wxString wxmessage(message.c_str(), wxConvUTF8);
+                wxString column0, column1;
+                bool error;
+        	    long index = m_List->GetItemCount();
 
-        	    long index = m_List->InsertItem(m_List->GetItemCount(), wxEmptyString);
-			    m_List->SetItem(index, 1, wxmessage);
-		        m_List->SetItem(index, 0, wxString::Format("%d", mq.get_num_msg()));
+                column1 = wxString(message.c_str(), wxConvUTF8);
+                error = (priority == Error);
 
-                if(priority == Error){
-				    m_List->SetItemTextColour(index, wxColour(wxT("Red")));
-			    }
 			    if(priority == Error || priority == StartingLine || priority == FinishingLine){
-				    m_List->SetItem(index, 0, wxDateTime::Now().FormatISOTime());
+				    column0 = wxDateTime::Now().FormatISOTime();
 			    }
+
+                m_List->AddItem(error, column0, column1);
+                m_List->SetItemCount(index + 1);
+
                 if(priority == Message || priority == Error){
                     IncrementGauge();
                 }
@@ -255,7 +257,7 @@ void frmProgress::OnIdle(wxIdleEvent &event){
                 m_List->SetColumnWidth(1, -1);
 
                 if(wxGetApp().m_LogFile){
-                    wxGetApp().m_LogFile->AddLine(wxmessage);
+                    wxGetApp().m_LogFile->AddLine(column1);
                     if(index % 10 == 0)
                         wxGetApp().m_LogFile->Write();
                 }
