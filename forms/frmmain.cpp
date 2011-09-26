@@ -1745,7 +1745,7 @@ void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
 				return;
 			}
 		}
-		m_Script_Styled->Clear();
+		m_Script_Styled->ClearAll();
 		m_Script_Name->Append(entrydialog.GetValue());
 		m_Script_Name->SetStringSelection(entrydialog.GetValue());
 		UpdateSizer(ScriptNameSizer);
