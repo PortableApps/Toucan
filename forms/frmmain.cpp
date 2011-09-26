@@ -1692,8 +1692,10 @@ void frmMain::OnScriptExecute(wxCommandEvent& WXUNUSED(event)){
 }
 
 //ID_SCRIPT_NAME
-void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){	
+void frmMain::OnScriptSelected(wxCommandEvent& WXUNUSED(event)){
+    m_Script_Styled->ClearAll();
 	m_Script_Styled->LoadFile(wxGetApp().GetSettingsPath() + "scripts" + wxFILE_SEP_PATH + m_Script_Name->GetStringSelection() + ".lua");
+    m_Script_Styled->ClearSelections();
 }
 
 //ID_SCRIPT_SAVE
