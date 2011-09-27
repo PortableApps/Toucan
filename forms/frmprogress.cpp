@@ -31,9 +31,9 @@ using namespace boost::interprocess;
 
 //frmProgress event table
 BEGIN_EVENT_TABLE(frmProgress, wxDialog)
-	EVT_BUTTON(wxID_OK, frmProgress::OnOkClick)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
+	EVT_BUTTON(wxID_CLOSE, frmProgress::OnCloseClick)
 	EVT_CLOSE(frmProgress::OnClose)
     EVT_SIZE(frmProgress::OnSize)
     EVT_IDLE(frmProgress::OnIdle)
@@ -58,7 +58,7 @@ frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& captio
     if(size.GetX() < 0 || size.GetY() < 0)
         size = wxSize(640, 480);
 
-    long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER;
+    long style = wxCAPTION|wxSYSTEM_MENU|wxRESIZE_BORDER;
 
     wxDialog::Create(parent, id, caption, position, size, style);
     CreateControls();
@@ -67,7 +67,6 @@ frmProgress::frmProgress(wxWindow* parent, wxWindowID id, const wxString& captio
 //frmProgress initialisation
 void frmProgress::Init(){
 	m_List = NULL;
-	m_OK = NULL;
 	m_Cancel = NULL;
 	m_Save = NULL;
 	m_Gauge = NULL;
@@ -106,9 +105,6 @@ void frmProgress::CreateControls(){
 
 	wxBoxSizer* ButtonSizer = new wxBoxSizer(wxHORIZONTAL);
 	TopSizer->Add(ButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-	m_OK = new wxButton(Panel, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	ButtonSizer->Add(m_OK, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_Cancel = new wxButton(Panel, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	ButtonSizer->Add(m_Cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -154,12 +150,12 @@ void frmProgress::OnClose(wxCloseEvent& event){
     Destroy();
 }
 
-void frmProgress::OnOkClick(wxCommandEvent& WXUNUSED(event)){
-	Close();
-}
-
 void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
 	wxGetApp().SetAbort(true);
+}
+
+void frmProgress::OnCloseClick(wxCommandEvent& WXUNUSED(event)){
+	Close();
 }
 
 void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
@@ -303,7 +299,6 @@ void frmProgress::StartProgress(){
     //Send all errors to the message queue so they end up in the progess window
     wxGetApp().m_LogChain->SetLog(new LogMessageQueue);
 
-    m_OK->Enable(false);
     m_Save->Enable(false);
     m_Cancel->Enable(true);
 }
@@ -313,9 +308,9 @@ void frmProgress::FinishProgress(){
 	wxGetApp().m_LogChain->SetLog(new wxLogGui);
 		        
     //Enable the buttons
-    m_OK->Enable(true);
     m_Save->Enable(true);
-    m_Cancel->Enable(false);
+    m_Cancel->SetId(wxID_CLOSE);
+    m_Cancel->SetLabel(_("Close"));
 
     //Let the user know we have finished
     FinishGauge();

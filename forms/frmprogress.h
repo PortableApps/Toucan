@@ -52,6 +52,7 @@ public:
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);
+	void OnCloseClick(wxCommandEvent& event);
     wxBitmap GetBitmapResource(const wxString& name);
 
     void RequestUserAttention();
@@ -62,7 +63,6 @@ public:
 	void FinishGauge();
 
 	ProgressListCtrl* m_List;
-	wxButton* m_OK;
 	wxButton* m_Cancel;
 	wxBitmapButton* m_Save;
     wxBitmapToggleButton* m_Autoscroll;
