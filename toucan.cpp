@@ -14,6 +14,7 @@
 #include <wx/gauge.h>
 #include <wx/cmdline.h>
 #include <wx/image.h> 
+#include <wx/snglinst.h>
 
 #include <boost/interprocess/ipc/message_queue.hpp>
 
@@ -90,6 +91,17 @@ bool Toucan::OnInit(){
 	}
 	else{
 		m_IsGui = false;
+    }
+
+    m_Checker = new wxSingleInstanceChecker();
+    if(m_Checker->IsAnotherRunning())
+    {
+        if(m_IsGui)
+            wxLogError(_("Another copy of Toucan is already running, aborting."));
+        else
+            std::cout << _("Another copy of Toucan is already running, aborting.");
+        delete m_Checker;
+        return false;
     }
 
 	const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
@@ -280,6 +292,7 @@ int Toucan::OnExit(){
     }
 	delete m_Locale;
 	delete m_Settings;
+    delete m_Checker;
     //Clear up the log chain
     delete wxLog::SetActiveTarget(NULL);
 	//Deletion causes a flush which warns on read only devices

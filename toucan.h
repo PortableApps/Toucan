@@ -19,6 +19,7 @@ class LuaManager;
 class wxTextFile;
 class wxFileConfig;
 class wxTimerEvent;
+class wxSingleInstanceChecker;
 
 enum{
 	ID_OUTPUT = wxID_HIGHEST + 1,
@@ -85,6 +86,7 @@ private:
 	bool m_Finished;
 	wxLocale* m_Locale;
     wxTimer *m_Timer;
+    wxSingleInstanceChecker *m_Checker;
 
     DECLARE_CLASS(Toucan)
     DECLARE_EVENT_TABLE()
