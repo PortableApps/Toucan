@@ -48,7 +48,6 @@ public:
 
     void OnIdle(wxIdleEvent& event);
     void OnSize(wxSizeEvent& event);
-	void OnClose(wxCloseEvent& event);
 	void OnOkClick(wxCommandEvent& event);
 	void OnCancelClick(wxCommandEvent& event);
 	void OnSaveClick(wxCommandEvent& event);

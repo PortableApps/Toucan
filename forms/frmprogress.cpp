@@ -34,7 +34,6 @@ BEGIN_EVENT_TABLE(frmProgress, wxDialog)
 	EVT_BUTTON(wxID_CANCEL, frmProgress::OnCancelClick)
 	EVT_BUTTON(wxID_SAVE, frmProgress::OnSaveClick)
 	EVT_BUTTON(wxID_CLOSE, frmProgress::OnCloseClick)
-	EVT_CLOSE(frmProgress::OnClose)
     EVT_SIZE(frmProgress::OnSize)
     EVT_IDLE(frmProgress::OnIdle)
 END_EVENT_TABLE()
@@ -128,7 +127,11 @@ wxBitmap frmProgress::GetBitmapResource(const wxString& name){
 	return wxNullBitmap;
 }
 
-void frmProgress::OnClose(wxCloseEvent& event){
+void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
+	wxGetApp().SetAbort(true);
+}
+
+void frmProgress::OnCloseClick(wxCommandEvent& WXUNUSED(event)){
     if(!wxGetApp().IsReadOnly()){
         int height, width, x, y;
         wxClientDisplayRect(&x, &y, &width, &height);
@@ -148,14 +151,6 @@ void frmProgress::OnClose(wxCloseEvent& event){
 #endif
 	wxGetApp().m_LuaManager->NullWindow();
     Destroy();
-}
-
-void frmProgress::OnCancelClick(wxCommandEvent& WXUNUSED(event)){
-	wxGetApp().SetAbort(true);
-}
-
-void frmProgress::OnCloseClick(wxCommandEvent& WXUNUSED(event)){
-	Close();
 }
 
 void frmProgress::OnSaveClick(wxCommandEvent& WXUNUSED(event)){
