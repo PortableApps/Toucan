@@ -115,6 +115,12 @@ void frmProgress::CreateControls(){
 	//Set the form icon
 	wxString strPath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 	this->SetIcon(wxIcon(strPath + wxT("Toucan.ico"), wxBITMAP_TYPE_ICO));
+
+    //Set the tooltips
+    if(wxGetApp().m_Settings->GetEnableTooltips()){
+        m_Save->SetToolTip(_("Save"));
+        m_Autoscroll->SetToolTip(_("Autoscroll"));
+    }
 }
 
 //Get bitmap resources
