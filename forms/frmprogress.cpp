@@ -302,11 +302,15 @@ void frmProgress::StartProgress(){
 
     m_Save->Enable(false);
     m_Cancel->Enable(true);
+
+    SetCursor(wxCURSOR_ARROWWAIT);
 }
 
 void frmProgress::FinishProgress(){
     //Send all errors to the standard gui
 	wxGetApp().m_LogChain->SetLog(new wxLogGui);
+
+    SetCursor(wxNullCursor);
 		        
     //Enable the buttons
     m_Save->Enable(true);
