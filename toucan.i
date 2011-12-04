@@ -27,7 +27,7 @@
 		if(data->GetFunction() == wxEmptyString){
 			throw std::invalid_argument("A valid function must be selected");
 		}
-		if(!wxDirExists(data->GetSource().GetFullPath())){
+		if(!wxDirExists(Path::Normalise(data->GetSource().GetFullPath()))){
 			throw std::invalid_argument("The source must exist");
 		}
 		FileCounter counter;
