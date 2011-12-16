@@ -1047,7 +1047,7 @@ void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 	int added = arrPaths.GetCount();
 	int existing = m_BackupLocations->GetCount();
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && added + existing > 1){
-		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR);
+		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
 	}
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
@@ -1188,7 +1188,7 @@ void frmMain::OnRulesAddClick(wxCommandEvent& WXUNUSED(event)){
 	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
-				wxMessageBox(_("There is already a set of rules with this name"), _("Error"), wxICON_ERROR);
+				wxMessageBox(_("There is already a set of rules with this name"), _("Error"), wxICON_ERROR|wxOK);
 				return;
 			}
 		}
@@ -1383,13 +1383,13 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 //ID_BACKUP_RUN
 void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
-		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR);
+		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
 	}
 	//Differential needs a folder to store its files in
 	if(m_Backup_Function->GetStringSelection() ==_("Differential") && m_Backup_Location->GetValue() != wxEmptyString){
 		if(m_Backup_Location->GetValue().Right(3) == wxT(".7z") || m_Backup_Location->GetValue().Right(4) == wxT(".zip")){
-			wxMessageBox(_("Please select the folder to store your backups"), _("Error"), wxICON_ERROR);
+			wxMessageBox(_("Please select the folder to store your backups"), _("Error"), wxICON_ERROR|wxOK);
 			return;
 		}
 	}
@@ -1577,7 +1577,7 @@ void frmMain::OnVariablesAddClick(wxCommandEvent& WXUNUSED(event)){
 	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
-				wxMessageBox(_("There is already a variable with this name"), _("Error"), wxICON_ERROR);
+				wxMessageBox(_("There is already a variable with this name"), _("Error"), wxICON_ERROR|wxOK);
 				return;
 			}
 		}
@@ -1747,7 +1747,7 @@ void frmMain::OnScriptAddClick(wxCommandEvent& WXUNUSED(event)){
 	if(entrydialog.ShowModal() == wxID_OK && entrydialog.GetValue() != wxEmptyString){
 		for(unsigned int i = 0; i < existing.Count(); i++){
 			if(existing.Item(i).Lower() == entrydialog.GetValue().Lower()){
-				wxMessageBox(_("There is already a script with this name"), _("Error"), wxICON_ERROR);
+				wxMessageBox(_("There is already a script with this name"), _("Error"), wxICON_ERROR|wxOK);
 				return;
 			}
 		}
