@@ -124,13 +124,13 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
 		if(lgReturn == 0)
             OutputProgress(_("Encrypted ") + path, Message);
 		else
-			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), Error);
+			OutputProgress(_("Failed to encrypt ") + path + wxString::Format(wxT(" : %ld"), lgReturn), Error);
 	}
 	else{
 		if(lgReturn == 0)
  			OutputProgress(_("Decrypted ") + path, Message);
 		else
- 			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %i"), lgReturn), Error);
+ 			OutputProgress(_("Failed to decrypt ") + path + wxString::Format(wxT(" : %ld"), lgReturn), Error);
 	}
 	return true;
 }
