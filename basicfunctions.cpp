@@ -236,7 +236,7 @@ bool UpdateJobs(){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
-		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxICON_ERROR|wxOK);
 		return false;
 	}
 	//Back up the existing file
@@ -245,7 +245,7 @@ bool UpdateJobs(){
 	}
 	//We no longer support upgrading such old configs
 	if(version < 200){
-		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxICON_ERROR|wxOK);
 		return false;
 	}
 	if(version == 200){
@@ -381,7 +381,7 @@ bool UpdateRules(){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
-		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxICON_ERROR|wxOK);
 		return false;
 	}
 	//Back up the existing file
@@ -390,7 +390,7 @@ bool UpdateRules(){
 	}
 	//We no longer support upgrading such old configs
 	if(version < 200){
-		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxICON_ERROR|wxOK);
 		return false;
 	}
     if(version == 300){
@@ -479,7 +479,7 @@ bool UpdateScripts(){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
-		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxICON_ERROR|wxOK);
 		return false;
 	}
 	//Back up the existing file
@@ -488,7 +488,7 @@ bool UpdateScripts(){
 	}
 	//We no longer support upgrading such old configs
 	if(version < 200){
-		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Upgrading to this version of Toucan is not supported"), _("Error"), wxICON_ERROR|wxOK);
 		return false;
 	}
 	config->Write(wxT("General/Version"), 300);
@@ -516,7 +516,7 @@ bool UpdateSettings(){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
-		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxCENTRE|wxICON_ERROR|wxOK);
+		wxMessageBox(_("Please run Toucan from a device that allows writes so it can update itself"), _("Error"), wxICON_ERROR|wxOK);
 		delete config;
 		return false;
 	}

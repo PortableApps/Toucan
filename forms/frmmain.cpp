@@ -1528,7 +1528,7 @@ void frmMain::OnCloseWindow(wxCloseEvent& event){
 		}
 	}
 	catch(std::exception &arg){
-		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
+		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR);
 	}
 
 	event.Skip();
@@ -1970,7 +1970,7 @@ void frmMain::JobSave(const wxString &name, const wxString &type){
 				data->TransferToFile();
 			}
 			catch(std::exception &arg){
-				wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
+				wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR);
 			}
 		}
 		else {
@@ -2006,7 +2006,7 @@ void frmMain::JobLoad(const wxString &name, const wxString &type){
 		data->TransferToForm(this);
 	}
 	catch(std::exception &arg){
-		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR|wxCENTRE);
+		wxMessageBox(arg.what(), "Error", wxOK|wxICON_ERROR);
 	}
 	SetTitleBarText();
 	delete data;
