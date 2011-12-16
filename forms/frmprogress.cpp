@@ -232,7 +232,7 @@ void frmProgress::OnIdle(wxIdleEvent &event){
                 bool error;
         	    long index = m_List->GetItemCount();
 
-                column1 = wxString(message.c_str(), wxConvUTF8);
+                column1 = wxString(message.c_str(), wxConvUTF8, size);
                 error = (priority == Error);
 
 			    if(priority == Error || priority == StartingLine || priority == FinishingLine){
