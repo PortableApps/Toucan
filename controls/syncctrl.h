@@ -17,21 +17,6 @@ enum SyncType{
 	SYNC_DEST
 };
 
-class SyncPreviewThread : public DirThread{
-public:
-
-	SyncPreviewThread(const wxString& path, const wxString &opppath, SyncType type, SyncData *data, wxTreeItemId parent, wxEvtHandler* handler) 
-		: m_Data(data), m_OppPath(opppath), m_Type(type), DirThread(path, parent, handler)
-	{}
-
-	virtual void* Entry();
-
-private:
-	SyncData *m_Data;
-	wxString m_OppPath;
-	SyncType m_Type;
-};
-
 //A more advanced previewing control, used by sync
 class SyncPreviewDirCtrl : public PreviewDirCtrl{
 
@@ -42,7 +27,7 @@ public:
 					   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
-	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
+	virtual void AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool);
 
     void SetOppCtrl(SyncPreviewDirCtrl *ctrl) { m_Ctrl = ctrl; }
 

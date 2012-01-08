@@ -11,10 +11,11 @@
 #include <wx/log.h>
 #include <algorithm>
 
-void* PreviewThread::Entry(){
+void PreviewThread(const wxString& path, wxTreeItemId parent, RuleSet *rules, wxEvtHandler* handler)
+{
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
-	wxDir dir(m_Path);
+	wxDir dir(path);
 	if(dir.IsOpened()){
 		wxString filename;
 		//Supress any warning we might get here about folders we cant open
@@ -22,17 +23,17 @@ void* PreviewThread::Entry(){
 		if(dir.GetFirst(&filename)){
 			do {
 				//Simple check to see if we should be excluded, if so colour red
-				wxString path = m_Path + filename;
+				wxString fullpath = path + filename;
 				DirCtrlItem *item;
                 wxFileName name;
-                bool dir = wxDirExists(path);
+                bool dir = wxDirExists(fullpath);
 
 				if(dir)
-                    name = wxFileName::DirName(path);
+                    name = wxFileName::DirName(fullpath);
 				else
-					name = wxFileName::FileName(path);
+					name = wxFileName::FileName(fullpath);
                 item = new DirCtrlItem(name);
-				if(m_Rules != NULL && (m_Rules->Matches(name) == Excluded || m_Rules->Matches(name) == AbsoluteExcluded)){
+				if(rules != NULL && (rules->Matches(name) == Excluded || rules->Matches(name) == AbsoluteExcluded)){
 					item->SetColour(wxColour("Red"));
 				}
 				items->push_back(item);
@@ -47,11 +48,9 @@ void* PreviewThread::Entry(){
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
     wxTreeEvent *event = new wxTreeEvent(EVT_TRAVERSER_FINISHED, ID_TRAVERSED);
-    event->SetItem(m_Parent);
+    event->SetItem(parent);
     event->SetClientData(items);
-	wxQueueEvent(m_Handler, event);
-
-	return NULL;
+	wxQueueEvent(handler, event);
 }
 
 PreviewDirCtrl::PreviewDirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
@@ -64,6 +63,6 @@ PreviewDirCtrl::~PreviewDirCtrl(){
 	delete m_Rules;
 }
 
-DirThread* PreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
-	return new PreviewThread(path, parent, m_Rules, this);
+void PreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
+	pool->schedule(boost::bind(PreviewThread, path, parent, m_Rules, this));
 }

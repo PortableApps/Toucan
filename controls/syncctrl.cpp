@@ -13,8 +13,9 @@
 #include <wx/log.h>
 #include <algorithm>
 
-void* SyncPreviewThread::Entry(){
-	SyncPreview preview(m_Path, m_OppPath, m_Data, (m_Type == SYNC_SOURCE) ? true : false);
+void SyncPreviewThread(const wxString& path, const wxString &opppath, SyncType type, SyncData *data, wxTreeItemId parent, wxEvtHandler* handler)
+{
+	SyncPreview preview(path, opppath, data, (type == SYNC_SOURCE) ? true : false);
 	DirCtrlItemArray* items = new DirCtrlItemArray(preview.Execute());
 
 	//Sort the items, perhaps in the future the comparison method shoulf move
@@ -24,11 +25,9 @@ void* SyncPreviewThread::Entry(){
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
     wxTreeEvent *event = new wxTreeEvent(EVT_TRAVERSER_FINISHED, ID_TRAVERSED);
-    event->SetItem(m_Parent);
+    event->SetItem(parent);
     event->SetClientData(items);
-	wxQueueEvent(m_Handler, event);
-
-	return NULL;
+	wxQueueEvent(handler, event);
 }
 
 SyncPreviewDirCtrl::SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType type,
@@ -81,7 +80,7 @@ void SyncPreviewDirCtrl::OnTraversed(wxTreeEvent &event){
     }
 }
 
-DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
+void SyncPreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
 	if(m_Preview){
 		SyncData *data = new SyncData(wxT("PreviewJob"));
 		data->TransferFromForm(wxGetApp().MainWindow);
@@ -99,13 +98,13 @@ DirThread* SyncPreviewDirCtrl::GetThread(const wxString& path, wxTreeItemId pare
 		}
 		wxString opp = opproot + wxFILE_SEP_PATH + trimmedpath.Right(path.Length() - m_Root.Length());
 		if(m_Type == SYNC_SOURCE){
-			return new SyncPreviewThread(trimmedpath, opp , m_Type, data, parent, this);
+			pool->schedule(boost::bind(SyncPreviewThread, trimmedpath, opp , m_Type, data, parent, this));
 		}
 		else{
-			return new SyncPreviewThread(opp, trimmedpath , m_Type, data, parent, this);			
+			pool->schedule(boost::bind(SyncPreviewThread, opp, trimmedpath , m_Type, data, parent, this));			
 		}
 	}
 	else{
-		return new DirThread(path, parent, this);
+		pool->schedule(boost::bind(DirThread, path, parent, this));
 	}
 }

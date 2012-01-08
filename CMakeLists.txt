@@ -9,13 +9,11 @@ find_package(wxWidgets COMPONENTS net adv aui stc scintilla core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
 #Find boost
-set(BOOST_ROOT "C:/Programming/boost_1_44_0")
+set(BOOST_ROOT "C:/Programming/boost_1_48_0")
 find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
-add_definitions(-DBOOST_BIMAP_DISABLE_SERIALIZATION)
 add_definitions(-DBOOST_DATE_TIME_NO_LIB)
-#Workaround for a but in 1.44.0 and Visual Studio 2010
-add_definitions(-DBOOST_NO_RVALUE_REFERENCES)
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 #Find Lua
 find_package(Lua51 REQUIRED)

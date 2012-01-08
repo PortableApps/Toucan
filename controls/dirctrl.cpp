@@ -99,10 +99,13 @@ DirCtrlItem::DirCtrlItem(const wxFileName &path){
 	}
 };
 
-void* DirThread::Entry(){
+//The thread that actually traverses the directories, posts back its results
+//in a DirThreadEvent
+void DirThread(const wxString& path, wxTreeItemId parent, wxEvtHandler* handler) 
+{
 	DirCtrlItemArray* items = new DirCtrlItemArray();
 	//Traverse though the directory and add each file and folder
-	wxDir dir(m_Path);
+	wxDir dir(path);
 	if(dir.IsOpened()){
 		wxString filename;
 		//Supress any warning we might get here about folders we cant open
@@ -110,12 +113,12 @@ void* DirThread::Entry(){
 		bool ok = dir.GetFirst(&filename);
 		if(ok){
 			do {
-				const wxString path = m_Path + filename;
-				if(wxDirExists(path)){
-					items->push_back(new DirCtrlItem(wxFileName::DirName(path)));
+				const wxString fullpath = path + filename;
+				if(wxDirExists(fullpath)){
+					items->push_back(new DirCtrlItem(wxFileName::DirName(fullpath)));
 				}
 				else{
-					items->push_back(new DirCtrlItem(wxFileName::FileName(path)));
+					items->push_back(new DirCtrlItem(wxFileName::FileName(fullpath)));
 				}
 			} while(dir.GetNext(&filename));
 		}
@@ -128,11 +131,9 @@ void* DirThread::Entry(){
 	//Send the results back to the calling DirCtrl which takes ownership 
 	//of the vector
     wxTreeEvent *event = new wxTreeEvent(EVT_TRAVERSER_FINISHED, ID_TRAVERSED);
-    event->SetItem(m_Parent);
+    event->SetItem(parent);
     event->SetClientData(items);
-	wxQueueEvent(m_Handler, event);
-
-	return NULL;
+	wxQueueEvent(handler, event);
 }
 
 DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
@@ -155,9 +156,12 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
     //Bind our events
     Bind(wxEVT_COMMAND_TREE_ITEM_EXPANDING, &DirCtrl::OnNodeExpand, this, wxID_ANY);
     Bind(EVT_TRAVERSER_FINISHED, &DirCtrl::OnTraversed, this, ID_TRAVERSED);
+
+    m_Pool = new boost::threadpool::pool(2);
 }
 
 DirCtrl::~DirCtrl(){
+    delete m_Pool;
 	DeleteAllItems();
 }
 
@@ -184,15 +188,12 @@ void DirCtrl::AddItem(const wxString &path){
 void DirCtrl::AddDirectory(DirCtrlItem *item){
 	//If we have not yet added this directory then do so
 	if(GetChildrenCount(item->GetId()) == 0 && item->GetType() != DIRCTRL_FILE){
-		DirThread *thread = GetThread(item->GetFullPath(), item->GetId());
-		thread->Create();
-        thread->SetPriority(WXTHREAD_MIN_PRIORITY);
-		thread->Run();
+		AddThread(item->GetFullPath(), item->GetId(), m_Pool);
     }
 }
 
-DirThread* DirCtrl::GetThread(const wxString& path, wxTreeItemId parent){
-	return new DirThread(path, parent, this);
+void DirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
+    pool->schedule(boost::bind(DirThread, path, parent, this));
 }
 
 void DirCtrl::OnNodeExpand(wxTreeEvent &event){

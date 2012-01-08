@@ -10,6 +10,8 @@
 #include <vector>
 #include <map>
 
+#include <boost/threadpool.hpp>
+
 #include <wx/treectrl.h>
 #include <wx/filename.h>
 #include <wx/string.h>
@@ -101,22 +103,7 @@ inline bool DirCtrlItemComparison(DirCtrlItem *a, DirCtrlItem *b){
 typedef std::vector<DirCtrlItem*> DirCtrlItemArray;
 typedef std::vector<DirCtrlItem*>::iterator DirCtrlIter;
 
-//The thread that actually traverses the directories, posts back its results
-//in a DirThreadEvent
-class DirThread : public wxThread{
-public:
-
-	DirThread(const wxString& path, wxTreeItemId parent, wxEvtHandler* handler) 
-		: m_Handler(handler), m_Path(path), m_Parent(parent), wxThread(wxTHREAD_DETACHED)
-	{}
-
-	virtual void* Entry();
-	
-protected:
-	wxString m_Path;
-	wxTreeItemId m_Parent;
-	wxEvtHandler* m_Handler;
-};
+void DirThread(const wxString& path, wxTreeItemId parent, wxEvtHandler* handler);
 
 //Declare our own event type
 wxDECLARE_EVENT(EVT_TRAVERSER_FINISHED, wxTreeEvent);
@@ -140,7 +127,7 @@ public:
 
     virtual void ExpandUnexpanded(const wxTreeItemId &item);
 
-	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
+	virtual void AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool);
 
 protected:
 	//Event Handlers
@@ -154,6 +141,7 @@ protected:
 
 private:
 	wxImageList *m_Image;
+    boost::threadpool::pool *m_Pool;
 };
 
 #endif

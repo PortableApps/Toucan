@@ -11,19 +11,6 @@
 
 class RuleSet;
 
-class PreviewThread : public DirThread{
-public:
-
-	PreviewThread(const wxString& path, wxTreeItemId parent, RuleSet *rules, wxEvtHandler* handler) 
-		: m_Rules(rules), DirThread(path, parent, handler)
-	{}
-
-	virtual void* Entry();
-
-protected:
-	RuleSet *m_Rules;
-};
-
 //A basic previewing control, used by backup and secure
 class PreviewDirCtrl : public DirCtrl{
 
@@ -37,7 +24,7 @@ public:
 	void SetRules(RuleSet *rules) { m_Rules = rules; }
 
 	//We use our own previewing thread
-	virtual DirThread* GetThread(const wxString& path, wxTreeItemId parent);
+	virtual void AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool);
 
 protected:
    RuleSet *m_Rules;
