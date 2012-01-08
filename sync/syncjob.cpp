@@ -124,16 +124,10 @@ void SyncFiles::OnNotSourceDestFolder(const wxFileName &source, const wxFileName
 		    SyncFiles sync(source, dest, data);
 		    sync.Execute();
         }
-		wxDir dir(source.GetFullPath());
-		if(!dir.HasFiles() && !dir.HasSubDirs() && data->GetRules()->Matches(dest) != Excluded){
-			DeleteDirectory(dest);
-		}
-		else{
-			//Set the timestamps if needed
-			if(data->GetTimeStamps()){
-				CopyFolderTimestamp(dest, source);
-			}	
-		}
+        //Set the timestamps if needed
+		if(data->GetTimeStamps()){
+			CopyFolderTimestamp(dest, source);
+		}	
 	}
 }
 
