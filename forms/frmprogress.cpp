@@ -212,7 +212,8 @@ void frmProgress::FinishGauge(){
 }
 
 void frmProgress::OnSize(wxSizeEvent &event){
-    m_List->SetColumnWidth(1, -1);
+    if(m_List)
+        m_List->SetColumnWidth(1, -1);
     event.Skip();
 }
 
