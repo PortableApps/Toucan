@@ -34,7 +34,8 @@ SyncPreviewDirCtrl::SyncPreviewDirCtrl(wxWindow* parent, wxWindowID id, SyncType
 									   const wxPoint& pos,
 									   const wxSize& size, long style)
 									   :m_Type(type), PreviewDirCtrl(parent, id, pos, size, style){
-   m_Preview = false;  
+   m_Preview = false;
+   m_PreviewChanges = false;
    m_Root = wxEmptyString;
 }
 
