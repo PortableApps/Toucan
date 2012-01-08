@@ -95,10 +95,10 @@ void frmProgress::CreateControls(){
 	wxBoxSizer* SmallButtonSizer = new wxBoxSizer(wxVERTICAL);
 	MiddleSizer->Add(SmallButtonSizer, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-	m_Save = new wxBitmapButton(Panel, wxID_SAVE, GetBitmapResource(wxT("save.png")));
+	m_Save = new wxBitmapButton(Panel, wxID_SAVE, GetBitmapResource(wxT("save.png")), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	SmallButtonSizer->Add(m_Save, 0, wxALL, 5);
 
-	m_Autoscroll = new wxBitmapToggleButton(Panel, ID_PROGRESS_AUTOSCROLL, GetBitmapResource(wxT("autoscroll.png")));
+	m_Autoscroll = new wxBitmapToggleButton(Panel, ID_PROGRESS_AUTOSCROLL, GetBitmapResource(wxT("autoscroll.png")), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
     m_Autoscroll->SetValue(true);
 	SmallButtonSizer->Add(m_Autoscroll, 0, wxALL, 5);
 
