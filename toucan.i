@@ -31,11 +31,16 @@
 			throw std::invalid_argument("The source must exist");
 		}
 		FileCounter counter;
-		if(data->GetFunction() != _("Mirror")){
-			counter.AddPath(data->GetSource().GetFullPath());		
+
+		if(data->GetFunction() == _("Mirror")){
+			counter.AddPath(data->GetDest().GetFullPath());		
+		}
+		else if(data->GetFunction() == _("Equalise")){
+			counter.AddPath(data->GetSource().GetFullPath());
+			counter.AddPath(data->GetDest().GetFullPath());
 		}
 		else{
-			counter.AddPath(data->GetDest().GetFullPath());	
+			counter.AddPath(data->GetSource().GetFullPath());	
 		}
 
 		counter.Count();
