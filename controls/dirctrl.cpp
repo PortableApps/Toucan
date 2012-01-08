@@ -32,7 +32,7 @@ wxArrayString TreeStateSaver::SaveChildren(const wxString &path, wxTreeItemId pa
 	wxArrayString paths;
 	wxTreeItemId child = m_Tree->GetFirstChild(parent, cookie);
 	bool anyexpanded = false;
-	while(child.IsOk()){
+	while(child){
 		if(m_Tree->IsExpanded(child)){
 			anyexpanded = true;
 			wxArrayString newpaths = SaveChildren(path + wxT("|") + m_Tree->GetItemText(child), child);
@@ -51,7 +51,7 @@ wxArrayString TreeStateSaver::SaveChildren(const wxString &path, wxTreeItemId pa
 void TreeStateSaver::LoadChildren(wxString path, wxTreeItemId parent){
 	wxTreeItemIdValue cookie;
 	wxTreeItemId child = m_Tree->GetFirstChild(parent, cookie);
-	while(child.IsOk()){
+	while(child){
 		if(m_Tree->GetItemText(child) == path.AfterFirst(wxT('|')).BeforeFirst(wxT('|'))){
 			m_Tree->Expand(child);
 			LoadChildren(path.AfterFirst(wxT('|')), child);
@@ -168,12 +168,14 @@ DirCtrl::~DirCtrl(){
 void DirCtrl::AddItem(DirCtrlItem *item){
     m_Expand = false;
 	wxTreeItemId id = this->AppendItem(this->GetRootItem(), item->GetCaption(), item->GetIcon(), item->GetIcon(), item);
-	if(item->GetType() == DIRCTRL_FOLDER){
-		SetItemImage(id, 6, wxTreeItemIcon_Expanded);
-	}
-	if(item->GetType() == DIRCTRL_FOLDER || item->GetType() == DIRCTRL_ROOT){
-		AddDirectory(item);
-	}
+	if(id){
+        if(item->GetType() == DIRCTRL_FOLDER){
+		    SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+	    }
+	    if(item->GetType() == DIRCTRL_FOLDER || item->GetType() == DIRCTRL_ROOT){
+		    AddDirectory(item);
+	    }
+    }
 }
 
 void DirCtrl::AddItem(const wxString &path){
@@ -200,35 +202,36 @@ void DirCtrl::OnNodeExpand(wxTreeEvent &event){
 	wxBusyCursor busy;
 	wxTreeItemId parent = event.GetItem();
 	wxTreeItemIdValue cookie;
-	if(parent.IsOk()){
+	if(parent){
 		wxTreeItemId child = GetFirstChild(parent, cookie);
-		while(child.IsOk()){
+		while(child){
 			DirCtrlItem *item = static_cast<DirCtrlItem*>(GetItemData(child));
 			if(item->GetType() == DIRCTRL_FOLDER){
 				AddDirectory(item);
 			}
 			child = GetNextChild(parent, cookie);
 		}
-
 	}
 }
 
 void DirCtrl::OnTraversed(wxTreeEvent &event){
 	wxTreeItemId parent = event.GetItem();
-	if(parent.IsOk()){
+	if(parent){
 		DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
 		for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
 			wxTreeItemId id = AppendItem(parent, (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
-			if((*iter)->GetType() == DIRCTRL_FOLDER){
-				SetItemImage(id, 6, wxTreeItemIcon_Expanded);
-			}
-			SetItemTextColour(id, (*iter)->GetColour());
+            if(id){
+			    if((*iter)->GetType() == DIRCTRL_FOLDER){
+				    SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+			    }
+			    SetItemTextColour(id, (*iter)->GetColour());
+            }
 		}
+        if(GetItemParent(parent) == this->GetRootItem() || m_Expand)
+        {
+            Expand(parent);
+        }
 	}
-    if(GetItemParent(parent) == this->GetRootItem() || m_Expand)
-    {
-        Expand(parent);
-    }
 }
 
 wxArrayString DirCtrl::GetSelectedPaths(){

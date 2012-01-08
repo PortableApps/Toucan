@@ -54,12 +54,12 @@ void SyncPreviewDirCtrl::AddItem(const wxString &path){
 
 void SyncPreviewDirCtrl::OnTraversed(wxTreeEvent &event){
 	wxTreeItemId parent = event.GetItem();
-	if(parent.IsOk()){
+	if(parent){
 		DirCtrlItemArray* items = static_cast<DirCtrlItemArray*>(event.GetClientData());
         if(this->GetPreviewChanges() && items->empty()){
             wxTreeItemId newparent = this->GetItemParent(parent);
             this->Delete(parent);
-            while(newparent.IsOk() && !this->ItemHasChildren(newparent)){
+            while(newparent && !this->ItemHasChildren(newparent)){
                 parent = newparent;
                 newparent = this->GetItemParent(parent);
                 this->Delete(parent);
@@ -68,16 +68,18 @@ void SyncPreviewDirCtrl::OnTraversed(wxTreeEvent &event){
         }
 		for(DirCtrlItemArray::iterator iter = items->begin(); iter != items->end(); ++iter){
 			wxTreeItemId id = AppendItem(parent, (*iter)->GetCaption(), (*iter)->GetIcon(), (*iter)->GetIcon(), *iter);
-			if((*iter)->GetType() == DIRCTRL_FOLDER){
-				SetItemImage(id, 6, wxTreeItemIcon_Expanded);
-			}
-			SetItemTextColour(id, (*iter)->GetColour());
+			if(id){
+                if((*iter)->GetType() == DIRCTRL_FOLDER){
+				    SetItemImage(id, 6, wxTreeItemIcon_Expanded);
+			    }
+			    SetItemTextColour(id, (*iter)->GetColour());
+            }
 		}
+        if(GetItemParent(parent) == this->GetRootItem() || m_Expand)
+        {
+            Expand(parent);
+        }
 	}
-    if(GetItemParent(parent) == this->GetRootItem() || m_Expand)
-    {
-        Expand(parent);
-    }
 }
 
 void SyncPreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
