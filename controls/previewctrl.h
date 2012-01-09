@@ -24,7 +24,7 @@ public:
 	void SetRules(RuleSet *rules) { m_Rules = rules; }
 
 	//We use our own previewing thread
-	virtual void AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool);
+	virtual void AddThread(const wxString& path, wxTreeItemId parent, threadpool* pool);
 
 protected:
    RuleSet *m_Rules;

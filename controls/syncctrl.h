@@ -27,7 +27,7 @@ public:
 					   long style = wxTR_HAS_BUTTONS|wxTR_SINGLE|wxTR_HIDE_ROOT);
 
 	//We use our own previewing thread
-	virtual void AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool);
+	virtual void AddThread(const wxString& path, wxTreeItemId parent, threadpool* pool);
 
     void SetOppCtrl(SyncPreviewDirCtrl *ctrl) { m_Ctrl = ctrl; }
 

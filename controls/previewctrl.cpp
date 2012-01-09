@@ -63,6 +63,6 @@ PreviewDirCtrl::~PreviewDirCtrl(){
 	delete m_Rules;
 }
 
-void PreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
+void PreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, threadpool* pool){
 	pool->schedule(boost::bind(PreviewThread, path, parent, m_Rules, this));
 }

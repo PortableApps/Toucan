@@ -157,7 +157,7 @@ DirCtrl::DirCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSi
     Bind(wxEVT_COMMAND_TREE_ITEM_EXPANDING, &DirCtrl::OnNodeExpand, this, wxID_ANY);
     Bind(EVT_TRAVERSER_FINISHED, &DirCtrl::OnTraversed, this, ID_TRAVERSED);
 
-    m_Pool = new boost::threadpool::pool(2);
+    m_Pool = new threadpool(2);
 }
 
 DirCtrl::~DirCtrl(){
@@ -194,7 +194,7 @@ void DirCtrl::AddDirectory(DirCtrlItem *item){
     }
 }
 
-void DirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
+void DirCtrl::AddThread(const wxString& path, wxTreeItemId parent, threadpool* pool){
     pool->schedule(boost::bind(DirThread, path, parent, this));
 }
 

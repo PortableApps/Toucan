@@ -25,6 +25,13 @@
 	#include <wx/msw/winundef.h>
 #endif
 
+typedef boost::threadpool::thread_pool<boost::threadpool::task_func, 
+                                       boost::threadpool::fifo_scheduler,
+                                       boost::threadpool::static_size,
+                                       boost::threadpool::resize_controller,
+                                       boost::threadpool::immediately> 
+        threadpool;
+
 //Saves which nodes are expanded on creation and then re-expands them on deletion
 //Useful if you are refreshing a wxGenericDirCtrl for example
 class TreeStateSaver{
@@ -127,7 +134,7 @@ public:
 
     virtual void ExpandUnexpanded(const wxTreeItemId &item);
 
-	virtual void AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool);
+	virtual void AddThread(const wxString& path, wxTreeItemId parent, threadpool* pool);
 
 protected:
 	//Event Handlers
@@ -141,7 +148,7 @@ protected:
 
 private:
 	wxImageList *m_Image;
-    boost::threadpool::pool *m_Pool;
+    threadpool *m_Pool;
 };
 
 #endif

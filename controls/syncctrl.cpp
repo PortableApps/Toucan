@@ -83,7 +83,7 @@ void SyncPreviewDirCtrl::OnTraversed(wxTreeEvent &event){
 	}
 }
 
-void SyncPreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, boost::threadpool::pool* pool){
+void SyncPreviewDirCtrl::AddThread(const wxString& path, wxTreeItemId parent, threadpool* pool){
 	if(m_Preview){
 		SyncData *data = new SyncData(wxT("PreviewJob"));
 		data->TransferFromForm(wxGetApp().MainWindow);
