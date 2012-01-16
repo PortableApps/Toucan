@@ -12,6 +12,16 @@
 #include <wx/intl.h>
 
 Settings::Settings(wxString path){
+	//Set the default values
+	m_LanguageCode = wxT("en");
+	m_Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT).GetNativeFontInfoDesc();
+	m_Height = m_Width = m_Y = m_X = -1;
+    m_ProgressHeight = m_ProgressWidth = m_ProgressY = m_ProgressX = -1;
+	m_RememberSync = m_RememberBackup = m_RememberSecure = false;
+	m_EnableTooltips = false;
+	m_SmallBorders = false;
+	m_DisableStream = false;
+	m_DisableLog = false;
 	config = new wxFileConfig( wxT(""), wxT(""), path);
 }
 
@@ -44,19 +54,6 @@ bool Settings::TransferToFile(){
 }
 
 bool Settings::TransferFromFile(){
-	//Set the default values
-	m_LanguageCode = wxT("en");
-	wxFont temp = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
-	m_Font = temp.GetNativeFontInfoDesc();
-	m_Height = m_Width = m_Y = m_X = -1;
-    m_ProgressHeight = m_ProgressWidth = m_ProgressY = m_ProgressX = -1;
-	m_RememberSync = false;
-	m_RememberBackup = false;
-	m_RememberSecure = false;
-	m_EnableTooltips = false;
-	m_SmallBorders = false;
-	m_DisableStream = false;
-	m_DisableLog = false;
 	wxString stemp;
 	
 	//Read from the settings file

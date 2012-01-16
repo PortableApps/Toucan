@@ -24,7 +24,7 @@ void FileCounter::AddPaths(const wxArrayString &paths){
 	}
 }
 
-long FileCounter::GetCount(){
+long FileCounter::GetCount() const{
 	return m_Count;
 }
 

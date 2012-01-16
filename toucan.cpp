@@ -62,6 +62,24 @@ int main(int argc, char *argv[]){
 	wxEntry(argc, argv);
 }
 
+Toucan::Toucan()
+{
+	MainWindow = NULL;
+	m_Settings = NULL;
+	m_LuaManager = NULL;
+    m_Jobs_Config = NULL;
+	m_Scripts_Config = NULL;
+    m_LogChain = NULL;
+	m_LogFile = NULL;
+	m_Locale = NULL;
+    m_Timer = NULL;
+    m_Checker = NULL;
+	m_IsGui = true;
+	m_IsReadOnly = false;
+	m_Finished = false;
+	m_Abort = false;
+}
+
 //Toucan startup
 bool Toucan::OnInit(){
 	static const wxCmdLineEntryDesc desc[] =
@@ -84,7 +102,6 @@ bool Toucan::OnInit(){
 
 	//If no script is found then we are in gui mode
 	if(!parser.Found("script") && !parser.Found("job")){
-		m_IsGui = true;
 		#ifdef __WXMSW__
 			ShowWindow(GetConsoleWindow(), SW_HIDE);
 		#endif
@@ -107,9 +124,6 @@ bool Toucan::OnInit(){
 	const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
 
 	wxInitAllImageHandlers();
-
-	m_Abort = false;
-	m_LogFile = NULL;
 
 	//Set the read only flag if needed
 	wxTextFile writetest(exedir + wxT("writetest"));

@@ -29,7 +29,7 @@ class BackupData : public JobData{
 
 public:
 	BackupData(const wxString &name) : JobData(name){
-		;
+		m_Ratio = 0;
 	}
 
 	void TransferToFile();

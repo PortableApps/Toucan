@@ -74,7 +74,7 @@ public:
     }
 
     RuleResult Matches(wxFileName path);
-    bool IsValid() { return valid; }
+    bool IsValid() const { return valid; }
 
     wxString rule;
     RuleFunction function;

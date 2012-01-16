@@ -28,7 +28,9 @@ void LogMessageQueue::DoLogRecord(wxLogLevel level, const wxString& msg, const w
 }
 
 LogFile::LogFile(wxTextFile* file) : file(file)
-{}
+{
+    count = 0;
+}
 
 void LogFile::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info){
     file->AddLine(msg);

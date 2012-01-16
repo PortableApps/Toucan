@@ -14,6 +14,7 @@ class BackupProcess : public SignalProcess
 public:
 	BackupProcess(int id) : SignalProcess(id){
         Redirect();
+        m_RealPID = 0;
     }
 
     virtual bool HasInput();

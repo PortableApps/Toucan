@@ -34,6 +34,8 @@ enum{
 class Toucan: public wxApp{    
 
 public:
+    Toucan();
+
 	bool OnInit();
 	int OnExit();
     void OnTimer(wxTimerEvent &event);
