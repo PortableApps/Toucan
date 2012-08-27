@@ -200,8 +200,9 @@ wxArrayString BackupData::CreateCommands(){
 	}
 
 	if(GetTest()){
-		commands.Add(exe + " t \"" + GetFileLocation() + "\" * -r" + " -sccUTF-8");
+		commands.Add(exe + " t \"" + GetFileLocation() + "\" * -r" + " -sccUTF-8" + GetPassword());
 	}
+
 	return commands;
 }
 
