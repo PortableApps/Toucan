@@ -167,6 +167,8 @@ wxArrayString BackupData::CreateCommands(){
 		}
 	}
 
+    SetLocation(0, "\"" + GetLocation(0) + "\"");
+
 	if(GetFunction() == _("Complete")){
 		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));	
 	}
@@ -202,7 +204,6 @@ wxArrayString BackupData::CreateCommands(){
 	if(GetTest()){
 		commands.Add(exe + " t \"" + GetFileLocation() + "\" * -r" + " -sccUTF-8" + GetPassword());
 	}
-
 	return commands;
 }
 
