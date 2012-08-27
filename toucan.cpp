@@ -110,15 +110,13 @@ bool Toucan::OnInit(){
 		m_IsGui = false;
     }
 
-    m_Checker = new wxSingleInstanceChecker();
-    if(m_Checker->IsAnotherRunning())
-    {
-        if(m_IsGui)
+    if(m_IsGui) {
+        m_Checker = new wxSingleInstanceChecker();
+        if(m_Checker->IsAnotherRunning()) {
             wxLogError(_("Another copy of Toucan is already running, aborting."));
-        else
-            std::cout << _("Another copy of Toucan is already running, aborting.");
-        delete m_Checker;
-        return false;
+            delete m_Checker;
+            return false;
+        }
     }
 
 	const wxString exedir = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH;
