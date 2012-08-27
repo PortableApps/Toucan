@@ -98,7 +98,7 @@ bool SecureJob::CryptFile(const wxString &path, SecureData *data){
 #endif
 
 	wxString command;
-	const wxString exepath = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "ccrypt";
+	const wxString exepath = "\"" + wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + "ccrypt.exe\"";
 
 	if(data->GetFunction() == _("Encrypt"))
 		command = exepath + wxT(" -f -e -K\"") + data->GetPassword() + wxT("\" \"") + path + wxT("\"");
