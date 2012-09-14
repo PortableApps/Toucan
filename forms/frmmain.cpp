@@ -1050,6 +1050,10 @@ void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
 	}
+	else if(m_Backup_Function->GetStringSelection() == _("Mirror") && added + existing > 1){
+		wxMessageBox(_("Mirror only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
+		return;
+	}
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_BackupLocations->Add(arrPaths.Item(i));
 		m_Backup_TreeCtrl->AddItem(arrPaths.Item(i));		
@@ -1384,6 +1388,10 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_BackupLocations->GetCount() > 1){
 		wxMessageBox(_("Differential only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
+		return;
+	}
+	else if(m_Backup_Function->GetStringSelection() == _("Mirror") && m_BackupLocations->GetCount() > 1){
+		wxMessageBox(_("Mirror only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
 	}
 	//Differential needs a folder to store its files in
