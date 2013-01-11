@@ -1394,6 +1394,11 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 		wxMessageBox(_("Mirror only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
 	}
+    //Differential only supoprts 7z
+	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_Backup_Format->GetStringSelection() != _("7-Zip")){
+		wxMessageBox(_("Differential only supports the 7-Zip format"), _("Error"), wxICON_ERROR|wxOK);
+		return;
+	}
 	//Differential needs a folder to store its files in
 	if(m_Backup_Function->GetStringSelection() ==_("Differential") && m_Backup_Location->GetValue() != wxEmptyString){
 		if(m_Backup_Location->GetValue().Right(3) == wxT(".7z") || m_Backup_Location->GetValue().Right(4) == wxT(".zip")){
