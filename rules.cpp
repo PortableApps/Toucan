@@ -175,9 +175,9 @@ bool RuleSet::TransferFromFile(){
 
     //Iterate through all of the groups and read the rules
     for(unsigned int i = 0; i < config.GetNumberOfGroups(); i++){
-        if(!config.Read(wxString::Format("%d", i) + "/Rule", &temprule)
-        || !config.Read(wxString::Format("%d", i) + "/Function", &tempfunction)
-        || !config.Read(wxString::Format("%d", i) + "/Type", &temptype)){
+        if(!config.Read(wxString::Format("%u", i) + "/Rule", &temprule)
+        || !config.Read(wxString::Format("%u", i) + "/Function", &tempfunction)
+        || !config.Read(wxString::Format("%u", i) + "/Type", &temptype)){
             wxLogError(_("There was an error reading from the rules file"));
             return false;
         }
@@ -196,9 +196,9 @@ bool RuleSet::TransferToFile(){
     config.SetExpandEnvVars(false);
 
     for(unsigned int i = 0; i < rules.size(); i++){
-        if(!config.Write(wxString::Format("%d", i) + "/Rule", rules.at(i).rule)
-        || !config.Write(wxString::Format("%d", i) + "/Function", functionmap.right.at(rules.at(i).function))
-        || !config.Write(wxString::Format("%d", i) + "/Type", typemap.right.at(rules.at(i).type))){
+        if(!config.Write(wxString::Format("%u", i) + "/Rule", rules.at(i).rule)
+        || !config.Write(wxString::Format("%u", i) + "/Function", functionmap.right.at(rules.at(i).function))
+        || !config.Write(wxString::Format("%u", i) + "/Type", typemap.right.at(rules.at(i).type))){
             wxLogError(_("There was an error saving to the rules file, \nplease check it is not set as read only or in use"));
 		    return false;
         }
