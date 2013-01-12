@@ -34,15 +34,16 @@ int File::Delete(const wxFileName &path, bool recycle, bool ignorero){
         SetFileAttributes(longpath.fn_str(), FILE_ATTRIBUTE_NORMAL);
     }
 	if(recycle){
-		wxString tmppath(path.GetFullPath());
-		tmppath += wxT('\0');
-
+        //We cannot do long paths and the recycle bin
+        wxString shortpath = path.GetFullPath();
+        shortpath += '\0';
 		SHFILEOPSTRUCT opstruct;
 		ZeroMemory(&opstruct, sizeof(opstruct));
 		opstruct.wFunc = FO_DELETE;
-		opstruct.pFrom = longpath.fn_str() + '\0';
+		opstruct.pFrom = shortpath.t_str();
 		opstruct.fFlags = FOF_ALLOWUNDO | FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI;
-		return SHFileOperation(&opstruct);
+		int ret = SHFileOperation(&opstruct);
+        return !ret;
 	}
 	else{
 		return DeleteFile(longpath.fn_str());
