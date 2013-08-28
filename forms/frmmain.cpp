@@ -1252,7 +1252,9 @@ void frmMain::OnSyncJobAddClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	JobAdd(m_Sync_Job_Select);
     //We save the newly added job
-    OnSyncJobSaveClick(wxCommandEvent());
+	wxCommandEvent tmpevent;
+    OnSyncJobSaveClick(tmpevent);
+	//OnSyncJobSaveClick(wxCommandEvent());
 	UpdateSizer(SyncTopSizer);
 }
 
@@ -1271,7 +1273,9 @@ void frmMain::OnBackupJobAddClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	JobAdd(m_Backup_Job_Select);
     //We save the newly added job
-    OnBackupJobSaveClick(wxCommandEvent());
+	wxCommandEvent tmpevent;
+	OnBackupJobSaveClick(tmpevent);
+    //OnBackupJobSaveClick(wxCommandEvent());
 	UpdateSizer(BackupTopSizer);
 }
 
@@ -1290,7 +1294,9 @@ void frmMain::OnSecureJobAddClick(wxCommandEvent& WXUNUSED(event)){
 	}
 	JobAdd(m_Secure_Job_Select);
     //We save the newly added job
-    OnSecureJobSaveClick(wxCommandEvent());
+	wxCommandEvent tmpevent;
+	OnSecureJobSaveClick(tmpevent);
+    //OnSecureJobSaveClick(wxCommandEvent());
 	UpdateSizer(SecureTopSizer);
 }
 
