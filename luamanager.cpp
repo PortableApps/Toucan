@@ -43,7 +43,9 @@ void LuaManager::Run(const wxString &line, const bool showprogress){
 
     if(wxGetApp().IsGui()){
         m_Window = new frmProgress(wxGetApp().MainWindow, wxID_ANY, _("Progress"));
+#if defined(__WXMSW__) && !defined(__MINGW32__)		
         m_Window->SetTaskbar(wxGetApp().MainWindow->m_Taskbar);
+#endif
 
         if(!showprogress){
 		    m_Window->m_Gauge->Show(false);
