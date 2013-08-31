@@ -9,8 +9,11 @@ find_package(wxWidgets COMPONENTS net adv aui stc scintilla core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
 #Find boost
-set(BOOST_ROOT "C:/Programming/boost_1_48_0")
-find_package(Boost REQUIRED)
+#set(BOOST_ROOT "E:/dev/tools/boost_1_54_0")
+set(BOOST_ROOT "" CACHE PATH "Path to directory with Boost library")
+set(Boost_USE_STATIC_LIBS "ON")
+#find_package(Boost REQUIRED)
+find_package(Boost COMPONENTS thread system REQUIRED)
 add_definitions(-DBOOST_DATE_TIME_NO_LIB)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
@@ -89,7 +92,8 @@ add_custom_command(
 
 #Set up the exe
 add_executable(toucan ${source} ${headers})
-target_link_libraries(toucan forms backup controls data secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
+#target_link_libraries(toucan forms backup controls data secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES})
+target_link_libraries(toucan forms backup controls data secure sync ${wxWidgets_LIBRARIES} ${LUA_LIBRARIES} ${Boost_LIBRARIES})
 
 #Once we have built Toucan move it somewhere suitable
 set(Toucan_Output "" CACHE PATH "The path to an existing Toucan installation")
