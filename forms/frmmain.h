@@ -32,6 +32,7 @@ class SyncPreviewDirCtrl;
 class Settings;
 class RulesGrid;
 
+#include <wx/frame.h>
 #include <wx/aui/framemanager.h>
 #include <wx/aui/auibook.h>
 
