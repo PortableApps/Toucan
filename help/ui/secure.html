@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Secure &mdash; Toucan v3.0.4 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.0.4 documentation" href="../index.html" />
+    <link rel="next" title="Rules" href="rules.html" />
+    <link rel="prev" title="Backup" href="backup.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="rules.html" title="Rules"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="backup.html" title="Backup"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="secure">
+<h1>Secure<a class="headerlink" href="#secure" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Secure uses 256-bit AES encryption to stop other people looking at your
+files. Unlike programs such as Truecrypt and FreeOTFE which work by
+installing a driver on the system and thus require a driver Toucan
+encrypts on the file level. The main difference is that you need to
+encrypt files after you create them with Toucan whereas using Truecrypt
+files are automatically encrypted when you save them.</p>
+</div>
+<div class="section" id="user-interface">
+<h2>User Interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h2>
+<p>The layout of the Secure tab is very similar to that of the Backup tab.
+Along the top are the controls for the backup, the standard jobs area,
+the standard rules area and the choice for encryption or decryption. On
+the left hand side below these settings if the computer browser. Here
+you can select which files to encrypt/decrypt. On the right hand side is
+the file list. Once you have added files from the computer browser they
+appear here so you can easily see what will be backed up. Using the
+buttons on the right hand side you can also add Variables and expand all
+of thefolders you have selected. The file list is automatically coloured
+using any Rules you might have selected.</p>
+<blockquote>
+<div class="figure align-center">
+<img alt="The Secure Tab" src="../_images/secure.png" />
+</div>
+</blockquote>
+</div>
+</div>
+<div class="section" id="function">
+<h1>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>Encrypt</dt>
+<dd>This options encrypts the files in the file list using 256-bit
+encryption, once encrypted files will have the .cpt extension appended
+to them.</dd>
+<dt>Decrypt</dt>
+<dd>This option decrypted the selected files and folders. Please note only
+files with the .cpt extension will be processed.</dd>
+</dl>
+</div>
+<div class="section" id="preview">
+<h1>Preview<a class="headerlink" href="#preview" title="Permalink to this headline">¶</a></h1>
+<p>Whenever you add new items to a secure job they will automatically be
+previewed and so either be left black, so show they will be included in the
+job, or red to show that they have been excluded.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Secure</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#user-interface">User Interface</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#function">Function</a></li>
+<li><a class="reference internal" href="#preview">Preview</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="backup.html"
+                        title="previous chapter">Backup</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rules.html"
+                        title="next chapter">Rules</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ui/secure.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="rules.html" title="Rules"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="backup.html" title="Backup"
+             >previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

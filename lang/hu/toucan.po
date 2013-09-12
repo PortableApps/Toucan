@@ -1,0 +1,845 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-09-26 17:15-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Vidosa Attila <attila.vidosa@gmail.com>\n"
+"Language-Team:  <attila.vidosa@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:293
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:302
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:312
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:325
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:334
+msgid "The passwords do not match"
+msgstr "A jelszó nem egyezik"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:391
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:302
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:330
+msgid "Differential"
+msgstr "Különbségi"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:462
+msgid "Mirror (Copy)"
+msgstr "Tükör (Másolat)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:462
+msgid "Mirror (Update)"
+msgstr "Tükör (Frissítés)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:463
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:323
+msgid "Mirror"
+msgstr "Tükör"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:32
+msgid "Welcome to the Toucan command line system"
+msgstr "Üdvözöllek a Toucan parancssori rendszerben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:243
+msgid "The command is not recognised"
+msgstr "Nem ismert parancs"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:172
+msgid "There was an error reading from the rules file"
+msgstr "Hiba a feladat file olvasása közben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:172
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:191
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:327
+msgid "Error"
+msgstr "Hiba"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:191
+msgid ""
+"There was an error saving to the rules file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+"Hiba a szabály file írása közben, \n"
+"ellenőrizd, hogy nem csak olvasható vagy más ne használja."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:213
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:235
+msgid "File to Exclude"
+msgstr "Kizárt file"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:216
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:240
+msgid "Folder to Exclude"
+msgstr "Kizárt könyvtár"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:219
+msgid "Location to Include"
+msgstr "Hely amit tartalmazzon"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:245
+msgid "Locations to Include"
+msgstr "Helyek amit tartalmazzon"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:61
+msgid "Starting"
+msgstr "Indulok"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+msgid "Delete"
+msgstr "Törlés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+msgid "Execute"
+msgstr "Végrehajtás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:85
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:140
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr "A %d sorban hibás számú paraméter"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:97
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:116
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:133
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:145
+#, c-format
+msgid " not recognised on line %d"
+msgstr "Nem értelmezhető a %d sor"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:153
+msgid "Setting up progress bar"
+msgstr "Folyamatjelző beállítása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:296
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:324
+msgid "Equalise"
+msgstr "Egyező"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:298
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:326
+msgid "Clean"
+msgstr "Tiszta"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:177
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:303
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:331
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/backup/backupjob.cpp:42
+msgid "Restore"
+msgstr "Visszaállítás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:250
+msgid "Deleted "
+msgstr "Törölve"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:253
+msgid "Failed to delete "
+msgstr "Törlési hiba"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:266
+msgid "Moved"
+msgstr "Mozgatva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:269
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:273
+msgid "Failed to move "
+msgstr "Mozgatási hiba"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:285
+msgid "Copied "
+msgstr "Másolva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:288
+msgid "Failed to copy "
+msgstr "Másolási hiba"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:300
+msgid "Renamed "
+msgstr "Átnevezve"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:303
+msgid "Failed to rename "
+msgstr "Átnevezési hiba"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:313
+msgid "Executed "
+msgstr "Végrehajtva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:327
+msgid "Not all of the required fields are filled"
+msgstr "Nem töltöttél ki nemden szükséges mezőt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:347
+msgid "Elapsed"
+msgstr "Eltelt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:348
+msgid "Finished"
+msgstr "Végeztem"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:61
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:308
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:336
+msgid "Icons and Text"
+msgstr "Ikon és szöveg"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:67
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:311
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:339
+msgid "Sync"
+msgstr "Szinkron"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:163
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:255
+msgid "Progress"
+msgstr "Folyamat"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:293
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:321
+msgid "Copy"
+msgstr "Másolás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:294
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:301
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:322
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:329
+msgid "Update"
+msgstr "Frissítés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:297
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:325
+msgid "Move"
+msgstr "Mozgatás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:300
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:328
+msgid "Complete"
+msgstr "Kész"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:305
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:333
+msgid "Encrypt"
+msgstr "Kódolás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:306
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:334
+msgid "Decrypt"
+msgstr "Dekódolás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:309
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:337
+msgid "Text"
+msgstr "Szöveg"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:312
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:340
+msgid "Backup"
+msgstr "Mentés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:313
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:341
+msgid "Secure"
+msgstr "Biztonság"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:314
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:342
+msgid "Rules"
+msgstr "Szabályok"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:315
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:343
+msgid "Variables"
+msgstr "Változók"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:316
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:344
+msgid "Script"
+msgstr "Szkript"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:317
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:345
+msgid "Settings"
+msgstr "Beállítások"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:318
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:346
+msgid "Help"
+msgstr "Segítség"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/variables.cpp:98
+msgid "Other"
+msgstr "Egyéb"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/backup/backupjob.cpp:69
+msgid "Creating file list, this may take some time."
+msgstr "File lista létrehozása. Kis türelmet kérek."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:47
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:32
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/syncdata.cpp:43
+msgid "There was an error reading from the jobs file"
+msgstr "Hiba a feladat file olvasásakor"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:70
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:51
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/syncdata.cpp:67
+msgid ""
+"There was an error saving to the jobs file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+"Hiba a filadat file írásakor, \n"
+"ellenőrizd higy ne legyen csak olvasható a file státusza"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:241
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:371
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:503
+msgid "Job Name"
+msgstr "Feladat neve"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:274
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:532
+msgid "Function"
+msgstr "Funkció"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:282
+msgid "Retain Timestamps"
+msgstr "Időbélyeg megtartása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:286
+msgid "Retain Attributes"
+msgstr "Attribútumok megtartása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:290
+msgid "Ignore Read-Only"
+msgstr "Csak olvasható státusz figyelmen kívül hagyása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:294
+msgid "Ignore Daylight Savings"
+msgstr "Nyári időszámítás figyelmen kívül hagyása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:301
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:436
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:539
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:685
+msgid "Run"
+msgstr "Futtatás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:304
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:82
+msgid "Preview"
+msgstr "Előnézet"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:307
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:439
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:542
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:850
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:859
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:868
+msgid "Refresh"
+msgstr "Frissítés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:317
+msgid "Source"
+msgstr "Forrás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:338
+msgid "Destination"
+msgstr "Cél"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:402
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:613
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmrule.cpp:62
+msgid "Type"
+msgstr "Típus"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:409
+msgid "Format"
+msgstr "Formátum"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:413
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:422
+msgid "Compression Level"
+msgstr "Sűrítési szint"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:417
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1962
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2162
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:430
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmpassword.cpp:50
+msgid "Password"
+msgstr "Jelszó"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:449
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:552
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:829
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1514
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1530
+msgid "Computer"
+msgstr "Számítógép"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:465
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2144
+msgid "Backup Location"
+msgstr "Mentés helye"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:474
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2145
+msgid "Files to Backup"
+msgstr "File mentés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:568
+msgid "Files to Secure"
+msgstr "Fileok titkosítása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:591
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:633
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:669
+msgid "Name"
+msgstr "Név"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:612
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmrule.cpp:53
+msgid "Rule"
+msgstr "Szabályok"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:696
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:699
+msgid "Remember Entered Information"
+msgstr "Emlékezzek a megadott adatokra"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:712
+msgid "Language"
+msgstr "Nyelv"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:726
+msgid "Tab style"
+msgstr "Fülek stílusa"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:730
+msgid "Apply"
+msgstr "Alkalmazd"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:733
+msgid "Font"
+msgstr "Betütípus"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:737
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2247
+msgid "Choose font"
+msgstr "Válassz betütípust"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:744
+msgid "Enable Tooltips"
+msgstr "Segítő ablak engedélyezése"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:748
+msgid "Small Borders"
+msgstr "Kis keret"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:758
+msgid "About"
+msgstr "Szerző"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:830
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1515
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1531
+msgid "Expansion"
+msgstr "Kibontás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:843
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:852
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:861
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:870
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:881
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:77
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:99
+msgid "Save"
+msgstr "Mentés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:844
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:853
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:855
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:862
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:864
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:871
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:873
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:876
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:878
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:882
+msgid "Add"
+msgstr "Hozzáadás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:845
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:854
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:856
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:863
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:865
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:872
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:874
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:877
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:879
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:883
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:846
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:847
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:858
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:867
+msgid "Expand all"
+msgstr "Mindent kibontani"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:848
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:849
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:857
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:866
+msgid "Insert Variable"
+msgstr "Változó beszúrása"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:981
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1337
+msgid "Differential only supports one folder"
+msgstr "Külömbségiben csak 1 könyvtár támogatott"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1031
+msgid "Please select the source folder"
+msgstr "Káram adja meg a forrás könyvtárat"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1044
+msgid "Please select the destination folder"
+msgstr "Kérem adja meg a cél könyvtárat"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1106
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1163
+msgid "Please enter the name for the new rules"
+msgstr "Addj meg egy új szabályok nevét"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1106
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1163
+msgid "New Rules"
+msgstr "Új szabályok"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1152
+msgid "Do you wish to save the current rules?"
+msgstr "Elmentsem az aktuális szabályokat?"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1152
+msgid "Rules Save"
+msgstr "Szabályok mentése"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1167
+msgid "There is already a set of rules with this name"
+msgstr "Van már ilyen Hordozható Változó név"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1218
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1235
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1252
+msgid "Do you wish to save the current job?"
+msgstr "Elmentsem az aktuális feladatot?"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1218
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1235
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1252
+msgid "Job Save"
+msgstr "Feladat mentése"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1303
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1343
+msgid "Please select the folder to store your backups"
+msgstr "Kérem adja meg mentés helyét"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1309
+msgid "Restore into:"
+msgstr "Visszaállítás innen:"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1322
+msgid "Please choose a file to backup to"
+msgstr "Kérem adja meg a mentési file-t"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1466
+msgid "Please enter the name for the new varaible"
+msgstr "Addj meg egy új hordozható változó nevét"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1466
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1502
+msgid "New Variable"
+msgstr "Új változó"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1492
+msgid "Do you wish to save the current variable?"
+msgstr "Elmentsem az aktuális változót?"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1492
+msgid "Variable Save"
+msgstr "Hozdozható változók mentése"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1502
+msgid "Please enter the name for the new variable"
+msgstr "Kérem megadni az új változó nevét"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1506
+msgid "There is already a variable with this name"
+msgstr "Van már ilyen hordozható változó név"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1569
+msgid "Choose a directory"
+msgstr "Válassz könyvtárat"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1616
+msgid "Please insert the location you want to point to."
+msgstr "Kárem adja meg a kívánt helyet."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1616
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:57
+msgid "Location"
+msgstr "Hely"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1666
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1706
+msgid "Please enter the name for the new script"
+msgstr "Kérem megadni az új script nevét"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1666
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1706
+msgid "New Script"
+msgstr "Új script"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1695
+msgid "Do you wish to save the current script?"
+msgstr "Elmentsem az aktuális script-et?"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1695
+msgid "Script Save"
+msgstr "Script mentése"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1710
+msgid "There is already a script with this name"
+msgstr "Van már ilyen hordozható változó név"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1862
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1907
+msgid "Please enter the name for the new job"
+msgstr "Addj meg egy új feladat nevet"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1862
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1907
+msgid "New Job"
+msgstr "Új feladat"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1866
+msgid "There is already a job with this name"
+msgstr "Van már ilyen feladat név"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2021
+msgid "Exclude by extension"
+msgstr "Kizárva a kiterjesztés"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2022
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2027
+msgid "Exclude by name"
+msgstr "Kizárva a név"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2023
+msgid "Include by extension"
+msgstr "Tartalmazza a kiterjesztést"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2024
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2028
+msgid "Include by name"
+msgstr "Tartalmazza a nevet"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2129
+msgid "Overwritten"
+msgstr "Felülírva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2132
+msgid "If needed"
+msgstr "Ha szükséges"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2139
+msgid "Location to Extract into"
+msgstr "A kibontás helye"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2140
+msgid "Archives to Extract"
+msgstr "Arhívum kibontási helye"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2153
+msgid "None"
+msgstr "Nincs"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2156
+msgid "Fastest"
+msgstr "Leggyorsabb"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2159
+msgid "Fast"
+msgstr "Gyors"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2165
+msgid "Maximum"
+msgstr "Maximum"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2168
+msgid "Ultra"
+msgstr "Ultra"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmpassword.cpp:53
+msgid "Repeat Password"
+msgstr "Jelszó mégegyszer"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmpassword.cpp:67
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:71
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmrule.cpp:76
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:91
+msgid "OK"
+msgstr "Rendben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmpassword.cpp:71
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:74
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmrule.cpp:80
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:94
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:81
+msgid "Time"
+msgstr "Idő"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:82
+msgid "Status"
+msgstr "Állapot"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:101
+msgid "Please select a folder"
+msgstr "Válassz könyvtárat"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure/secure.cpp:148
+msgid "Encrypted "
+msgstr "Kódolva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure/secure.cpp:151
+msgid "Failed to encrypt "
+msgstr "Hiba kódolás közben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure/secure.cpp:164
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure/secure.cpp:183
+msgid "Failed to decrypt "
+msgstr "Hiba dekódolás közben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure/secure.cpp:180
+msgid "Decrypted "
+msgstr "Dekódolva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:350
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:365
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:400
+msgid "Removed "
+msgstr "Eltávolítva"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmpassword.h:24
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmpassword.h:26
+msgid "Input Password"
+msgstr "Add meg a jelszót"
+
+msgid "Zip"
+msgstr "Zip"
+
+msgid "7-Zip"
+msgstr "7-Zip"
+
+msgid "Tab style (requires restart)"
+msgstr "Feladat választó fül típusa (újraindítás szükséges)"
+
+msgid "Please select the desination folder."
+msgstr "Add meg a cél könyvtárat."
+
+msgid "File to include"
+msgstr "File-ok amit tartamaz"
+
+msgid "New Portable Variable"
+msgstr "Új hordozható változó"
+
+msgid "Backup file:"
+msgstr "Mentési file:"
+
+msgid "Please choose your backup file"
+msgstr "Add meg a Mentési file nevét"
+
+msgid "Error with Regex"
+msgstr "Regex hiba"
+
+msgid "Operation"
+msgstr "Művelet"
+
+msgid "Backup file"
+msgstr "Mentési file"
+
+msgid "File of paths"
+msgstr "Fileok könyvtára"
+
+msgid "Compression level"
+msgstr "Sűrítési szint"
+
+msgid "You need to repeat the password and ensure the two passwords are identical"
+msgstr "Nem egyforma a két jelszó"
+
+msgid "You have specified the wrong number of options"
+msgstr "Hibás számú opció lett megadva"
+
+msgid "Only the first item you dragged was added"
+msgstr "Csak az első tételt adtam hozzá"
+
+msgid "Warning"
+msgstr "Figyelem"
+
+msgid "Hidden text"
+msgstr "Rejtett szöveg"
+
+msgid "\t copied to \t"
+msgstr "\t másolva \t"
+
+msgid "\t updated \t"
+msgstr "\t frissítve \t"
+
+msgid "Toucan tried to delete a root directory. This has been forbidden for your own safety"
+msgstr "Toucan a főkönyvtárat próbálta törölni. Ez tiltott a te biztonságod miatt."
+
+msgid "Set folder timestamps for "
+msgstr "A könyvtár időadatait állítom be "
+
+msgid "Icons + Text"
+msgstr "Kép + szöveg"
+
+msgid "Opertion"
+msgstr "Művelet"
+
+msgid "Read-only"
+msgstr "Csak olvasható"
+
+msgid "Daylight savings"
+msgstr "Nyári időszámítás"
+
+msgid "Timestamps"
+msgstr "Időbélyeg"
+
+msgid "Attributes"
+msgstr "Attribútum"
+
+msgid "7 Zip"
+msgstr "7 Zip"
+
+msgid "Normal"
+msgstr "Normális"
+

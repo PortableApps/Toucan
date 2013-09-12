@@ -1,0 +1,44 @@
+================
+Compiling Toucan
+================
+
+Toucan has a number of prerequisites before it can be compiled which are 
+given in the table below. You will also need a copy of the Toucan source 
+code, which is available form the 
+`Mercurial repository <http://portableapps.hg.sourceforge.net/hgweb/portableapps/toucan/>`_.
+
+============ ============ ============================================================
+Name         Min. Version Homepage
+============ ============ ============================================================
+wxWidgets    2.9.0        http://wxwidgets.org
+CMake        2.6          http://cmake.org
+cxxtest      3.10.1       http://cxxtest.tigris.org/
+Lua          5.1          http://luabinaries.luaforge.net/
+SWIG         1.3.40       http://swig.org/
+Windows SDK  Windows 7    http://msdn.microsoft.com/en-gb/windowsserver/bb980924.aspx
+============ ============ ============================================================
+
+Firstly you need to compile wxWidgets, the following libraries are 
+required: 
+
+*  base 
+*  core 
+*  net
+*  aui 
+*  stc. 
+
+Guides for compiling wxWidgets are availiable on the 
+`wxWiki <http://wiki.wxwidgets.org/Main_Page>`_. Nothing else needs to be compiled 
+but you do need to replace the FindwxWidgets.cmake file that comes with 
+CMake with the one that lives in the Toucan repository. The correct location is
+``C:\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules`` under Windows and
+``/usr/share/cmake-2.8/Modules`` in Linux.
+
+The next step is to run CMake and to select the folder that contains the 
+source code and the folder that you would like to build files to be put 
+in. Next click the configure button and select the type of copmiler you 
+are going to use. CMake will then try to configure things as best as 
+possible. You need to keep checking and filling in red fields correctly 
+and clicking configure until there are no more red fields. The you 
+should be able to press the generate button to create your build files 
+which you can then use to build Toucan with no more configuration. 

@@ -1,0 +1,590 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scripts &mdash; Toucan v3.0.4 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.0.4 documentation" href="../index.html" />
+    <link rel="next" title="Settings" href="settings.html" />
+    <link rel="prev" title="Variables" href="variables.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="settings.html" title="Settings"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="variables.html" title="Variables"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="scripts">
+<h1>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>A Script is used to tie a number of Jobs together and to provide a way
+to extend the built-in functionality of Toucan. Behind the scenes Toucan
+has an interpreter for the Lua programming language. It is a standard
+interpreter with a number of extra Toucan functions added and as such
+should accept and existing Lua scripts.</p>
+</div>
+<div class="section" id="user-interface">
+<h2>User Interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div class="figure align-center">
+<img alt="The Script Tab" src="../_images/script.png" />
+</div>
+</blockquote>
+<p>The Script interface is very similar to the Variables interface. Scripts
+can be saved, added and removed using the standard controls in the top
+left of the window. To run a script simply press the Run button. The
+rest of the window is taken up by a large syntax highlighted text editor
+from creating scripts.</p>
+</div>
+<div class="section" id="lua-types">
+<h2>Lua Types<a class="headerlink" href="#lua-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="strings">
+<h3>strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<p>In Lua strings can be written in quotes, such as <tt class="docutils literal"><span class="pre">&quot;this</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">string&quot;</span></tt> or
+in double brackets, such as <tt class="docutils literal"><span class="pre">[[this</span> <span class="pre">is</span> <span class="pre">also</span> <span class="pre">a</span> <span class="pre">string]]</span></tt>. In Toucan it is
+preferable to use the form surrounded by square brackets. This is
+because when in quotes a \ is treated as an escape character and thus
+does not work as expected when writing Windows file paths. One solution
+is to just use a / instead, which is fully supported by Toucan or to use
+the square bracket form.</p>
+</div>
+<div class="section" id="tables">
+<h3>tables<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h3>
+<p>When Toucan needs a list of strings it uses a table, for example when
+passing a list of paths to be encrypted. The same conditions about
+strings apply when they are in tables, an example of the preferred
+format is <tt class="docutils literal"><span class="pre">{[[C:\\path\\one]],</span> <span class="pre">[[&#64;drive&#64;\\path\\two]],</span>
+<span class="pre">[[D:\\path\\&#64;date&#64;]]}</span></tt> unlike some Lua tables we do not specify an index
+for each value, they have no use to Toucan and as such just clutter the
+function calls.</p>
+<p>Toucan also uses tables when specifying options for Sync and Backup. An
+example Sync map would be <tt class="docutils literal"><span class="pre">{size</span> <span class="pre">=</span> <span class="pre">false,</span> <span class="pre">short</span> <span class="pre">=</span> <span class="pre">true}</span></tt>. This is
+technically an associative map. You do not need to set all of the
+attributes when specifying these options and any that you do not will
+take the default values shown on the functions documentation.</p>
+</div>
+</div>
+<div class="section" id="command-reference">
+<h2>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this headline">¶</a></h2>
+<p>As well as all of the built in Lua commands Toucan supports the
+following extra commands:</p>
+<div class="section" id="sync">
+<h3>sync<a class="headerlink" href="#sync" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">sync</tt><big>(</big><em>jobname</em><big>)</big></dt>
+<dd><p>Run a previously saved job</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>jobname</strong> &#8211; The name of the job</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">sync</tt><big>(</big><em>source</em>, <em>dest</em>, <em>function</em>, <em>checks = {size = true</em>, <em>time = false</em>, <em>short = true</em>, <em>full = false}</em>, <em>options = {timestamps = true</em>, <em>attributes = true</em>, <em>ignorero = false</em>, <em>ignoredls = false</em>, <em>recycle = false</em>, <em>previewchanges = false}</em>, <em>rules = &quot;&quot;</em><big>)</big></dt>
+<dd><p>Run a sync with the given options</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> &#8211; The source path</li>
+<li><strong>dest</strong> &#8211; The destination path</li>
+<li><strong>function</strong> &#8211; The function to perform, Copy, Mirror, Move, Equalise, Clean</li>
+<li><strong>checks</strong> &#8211; The checks to perform when comparing files</li>
+<li><strong>options</strong> &#8211; The options to use, for more information see</li>
+<li><strong>rules</strong> &#8211; The name of a set of rules</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="backup">
+<h3>backup<a class="headerlink" href="#backup" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">backup</tt><big>(</big><em>jobname</em><big>)</big></dt>
+<dd><p>Run a previously saved job</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>jobname</strong> &#8211; The name of the job</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">backup</tt><big>(</big><em>paths</em>, <em>location</em>, <em>function</em>, <em>format</em>, <em>ratio = 3</em>, <em>options = {password = false</em>, <em>test = false</em>, <em>solid = true}</em>, <em>rules = &quot;&quot;</em><big>)</big></dt>
+<dd><p>Run a backup with the given options</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>paths</strong> &#8211; The files and folders to archive</li>
+<li><strong>location</strong> &#8211; The location of the archive</li>
+<li><strong>function</strong> &#8211; The function to perform, Complete, Update, Differential, Restore</li>
+<li><strong>ratio</strong> &#8211; The compression ratio between 0 &amp; 5</li>
+<li><strong>options</strong> &#8211; The options to use, see for more information</li>
+<li><strong>rules</strong> &#8211; The name of a set of rules</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="secure">
+<h3>secure<a class="headerlink" href="#secure" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">secure</tt><big>(</big><em>jobname</em><big>)</big></dt>
+<dd><p>Run a previously saved job</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>jobname</strong> &#8211; The name of the job</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">secure</tt><big>(</big><em>paths</em>, <em>function</em>, <em>rules = &quot;&quot;</em><big>)</big></dt>
+<dd><p>Run a secure with the given options</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>paths</strong> &#8211; The files and folders to secure</li>
+<li><strong>function</strong> &#8211; Either Encrypt or Decrypt</li>
+<li><strong>rules</strong> &#8211; The name of a set of rules</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="print">
+<h3>print<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">print</tt><big>(</big><em>message</em>, <em>showtime = false</em>, <em>error = false</em><big>)</big></dt>
+<dd><p>Output a message, either to the progress window or the command line</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> &#8211; The message</li>
+<li><strong>showtime</strong> &#8211; If true then the current time is displayed</li>
+<li><strong>error</strong> &#8211; If true then the entry is highlighted, this has no effect on the command line</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">none</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="expand">
+<h3>expand<a class="headerlink" href="#expand" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">expand</tt><big>(</big><em>variable</em><big>)</big></dt>
+<dd><p>Perform Variable expansion on the string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>variable</strong> &#8211; The string to expand</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The expansion, or if none was found the original string</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="delete">
+<h3>delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">delete</tt><big>(</big><em>path</em><big>)</big></dt>
+<dd><blockquote>
+Deletes the given file, this does not work on folders</blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; The path of the file to delete
+:type path: string
+:returns: Whether the file was successfully deleted
+:rtype: bool</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="copy">
+<h3>copy<a class="headerlink" href="#copy" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">copy</tt><big>(</big><em>source</em>, <em>dest</em><big>)</big></dt>
+<dd><p>Copies the source file to the destination, this only applies to files
+and any existing file will be overwritten</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> &#8211; The path to the source file</li>
+<li><strong>dest</strong> &#8211; The path that the file should be copied to</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Whether the file was successfully copied</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="move">
+<h3>move<a class="headerlink" href="#move" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">move</tt><big>(</big><em>source</em>, <em>dest</em><big>)</big></dt>
+<dd><p>Moves the source file to the destination, this only applies to files
+and any existing file will be overwritten</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> &#8211; The path to the source file</li>
+<li><strong>dest</strong> &#8211; The path that the file should be copied to</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Whether the file was successfully moved</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="rename">
+<h3>rename<a class="headerlink" href="#rename" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">rename</tt><big>(</big><em>source</em>, <em>dest</em><big>)</big></dt>
+<dd><p>Renames the source file to the destination, this only applies to files
+and any existing file will be overwritten. This is the same as a copy</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> &#8211; The path to the source file</li>
+<li><strong>dest</strong> &#8211; The path that the file should be copied to</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Whether the file was successfully renamed</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="execute">
+<h3>execute<a class="headerlink" href="#execute" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">execute</tt><big>(</big><em>path</em>, <em>async = false</em><big>)</big></dt>
+<dd><p>Exectues the file at the given path, this can be a file to open or a
+program to run</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> &#8211; The path to be run</li>
+<li><strong>async</strong> &#8211; If false the script will wait for the program to finish</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The return value of the program is not async, otherwise nothing</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="getscript">
+<h3>getscript<a class="headerlink" href="#getscript" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">getscript</tt><big>(</big><em>name</em><big>)</big></dt>
+<dd><p>Used to get the full path to a saved Toucan script. This can then be
+used to run a script with the following code::
+<tt class="docutils literal"><span class="pre">dofile(getscript([[myscriptname]]))</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; The name of the script</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The full path to the script</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="inputpassword">
+<h3>inputpassword<a class="headerlink" href="#inputpassword" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">inputpassword</tt><big>(</big><big>)</big></dt>
+<dd><p>When run this command will prompt for a password, either on the
+command line or using the Password Dialog and this password will be
+used for all subsequent Secure and Backup with password jobs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="shutdown">
+<h3>shutdown<a class="headerlink" href="#shutdown" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<tt class="descname">shutdown</tt><big>(</big><big>)</big></dt>
+<dd><p>Shuts the computer down</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">Success or failure</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Scripts</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#user-interface">User Interface</a></li>
+<li><a class="reference internal" href="#lua-types">Lua Types</a><ul>
+<li><a class="reference internal" href="#strings">strings</a></li>
+<li><a class="reference internal" href="#tables">tables</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#command-reference">Command Reference</a><ul>
+<li><a class="reference internal" href="#sync">sync</a></li>
+<li><a class="reference internal" href="#backup">backup</a></li>
+<li><a class="reference internal" href="#secure">secure</a></li>
+<li><a class="reference internal" href="#print">print</a></li>
+<li><a class="reference internal" href="#expand">expand</a></li>
+<li><a class="reference internal" href="#delete">delete</a></li>
+<li><a class="reference internal" href="#copy">copy</a></li>
+<li><a class="reference internal" href="#move">move</a></li>
+<li><a class="reference internal" href="#rename">rename</a></li>
+<li><a class="reference internal" href="#execute">execute</a></li>
+<li><a class="reference internal" href="#getscript">getscript</a></li>
+<li><a class="reference internal" href="#inputpassword">inputpassword</a></li>
+<li><a class="reference internal" href="#shutdown">shutdown</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="variables.html"
+                        title="previous chapter">Variables</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="settings.html"
+                        title="next chapter">Settings</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ui/scripts.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="settings.html" title="Settings"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="variables.html" title="Variables"
+             >previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

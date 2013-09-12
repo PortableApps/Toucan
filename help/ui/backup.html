@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Backup &mdash; Toucan v3.0.4 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.0.4 documentation" href="../index.html" />
+    <link rel="next" title="Secure" href="secure.html" />
+    <link rel="prev" title="Sync" href="sync.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="secure.html" title="Secure"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sync.html" title="Sync"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="backup">
+<h1>Backup<a class="headerlink" href="#backup" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Backup is used to create a single archive from a collection of files and
+folders. The archive can be in one of two different formats, and a
+number of backup methods are available, as are a number of levels of
+compression. These range from uncompressed if you simply wish to collect
+a number of files together to ultra, which although it takes a long time
+gives maximum compression.</p>
+</div>
+<div class="section" id="user-interface">
+<h2>User Interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h2>
+<p>The Backup tab is roughly split into three sections. Along the top are
+the controls for the backup, the standard jobs area, the standard rules
+area and other settings for the backup. On the left hand side below
+these settings if the computer browser. Here you can select which files
+to backup. On the right there are two main areas. Firstly is the backup
+location selector, this is where you can select the location of the
+archive to create. Below this is the file list. Once you have added
+files from the computer browser they appear here so you can easily see
+what will be backed up. Using the buttons on the right hand side you can
+also add Variables and expand all of the folders you have selected. The
+file list is automatically coloured using any Rules you might have
+selected.</p>
+<blockquote>
+<div class="figure align-center">
+<img alt="The Backup Tab" src="../_images/backup.png" />
+</div>
+</blockquote>
+</div>
+<div class="section" id="function">
+<h2>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Complete</dt>
+<dd>This backs up all of the files you have added in the File List to the
+location specified in the Backup Location.</dd>
+<dt>Update</dt>
+<dd>This adds newer files from your File List to the Backup Location.</dd>
+<dt>Differential</dt>
+<dd>On its first run a base file is created in the folder specified in the
+Backup Location. In subsequent runs changes files are backup up in an
+archive named after the date and time. To restore a differential backup
+you need to restore the base file and then the most recent date file.
+Currently this only supports one source folder.</dd>
+<dt>Restore</dt>
+<dd>Restores files from an archive into a folder. This works the other way
+on to other the main functions, you add the files to the file list and
+they are extracted into the folder specified.</dd>
+</dl>
+</div>
+<div class="section" id="format">
+<h2>Format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h2>
+<p>Toucan supports two formats currently, they are:</p>
+<dl class="docutils">
+<dt>Zip</dt>
+<dd>An industry standard format with average compression levels and speed.
+It is ideal to use when you are taking archives to other computers as
+many operating systems have support for zip archives built in.</dd>
+<dt>7-Zip</dt>
+<dd>An improved format developed by Igor Pavlov. It is normally both faster
+and its archives are smaller than Zip archives. However support is much
+rarer.</dd>
+<dt>GZip</dt>
+<dd>When this mode is selected files are firstly added to a tarball before
+being gzipped. This format is normally used for Linux archives.</dd>
+</dl>
+</div>
+<div class="section" id="compression-level">
+<h2>Compression Level<a class="headerlink" href="#compression-level" title="Permalink to this headline">¶</a></h2>
+<p>Six levels of compression are supported, from no compression to ultra
+compression. Each increment reduces the size of the final archive but
+takes more time to produce. Please note that ultra many take a <em>very</em>
+long time, especially if you are backing up large numbers of files.</p>
+</div>
+<div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Password</dt>
+<dd>When this is enabled you will be prompted for a password at the start
+of the job. Toucan uses the standard encryption systems for both Zip and
+7-Zip archives.</dd>
+<dt>Test After Creation</dt>
+<dd>After the archive is created a test command is run to ensure the
+integrity of the archive.</dd>
+<dt>Solid Mode</dt>
+<dd>This options is only valid for 7-Zip archives. It gives an improved
+compression ratio at the cost of potentially corrupting a larger part of
+the archive if there is an issue.</dd>
+</dl>
+</div>
+<div class="section" id="preview">
+<h2>Preview<a class="headerlink" href="#preview" title="Permalink to this headline">¶</a></h2>
+<p>Whenever you add new items to a backup job they will automatically be
+previewed and so either be left black, so show they will be included in the
+job, or red to show that they have been excluded.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Backup</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#user-interface">User Interface</a></li>
+<li><a class="reference internal" href="#function">Function</a></li>
+<li><a class="reference internal" href="#format">Format</a></li>
+<li><a class="reference internal" href="#compression-level">Compression Level</a></li>
+<li><a class="reference internal" href="#other">Other</a></li>
+<li><a class="reference internal" href="#preview">Preview</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sync.html"
+                        title="previous chapter">Sync</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="secure.html"
+                        title="next chapter">Secure</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ui/backup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="secure.html" title="Secure"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sync.html" title="Sync"
+             >previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

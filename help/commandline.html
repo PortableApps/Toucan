@@ -1,0 +1,164 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Command Line &mdash; Toucan v3.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.1.0 documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples/examples.html" />
+    <link rel="prev" title="Settings" href="ui/settings.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="examples/examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ui/settings.html" title="Settings"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Toucan v3.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="command-line">
+<h1>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline">¶</a></h1>
+<p>All command line options in Toucan have a long and a short form. A
+comprehensive list is given below.</p>
+<dl class="cmdoption">
+<dt id="cmdoption-h">
+<tt class="descname">-h</tt><tt class="descclassname"></tt><tt class="descclassname">, </tt><tt class="descname">--disablesplash</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption-h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hides the startup slpash screen</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-u">
+<tt class="descname">-u</tt><tt class="descclassname"></tt><tt class="descclassname">, </tt><tt class="descname">--unittests</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption-u" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the built in unit tests</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-d">
+<tt class="descname">-d</tt><tt class="descclassname">&lt;path&gt;</tt><tt class="descclassname">, </tt><tt class="descname">--datadirectory</tt><tt class="descclassname">=&lt;path&gt;</tt><a class="headerlink" href="#cmdoption-d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the location that Toucan saves its settings. Variables can be
+used and will be expanded</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-s">
+<tt class="descname">-s</tt><tt class="descclassname">&lt;script&gt;</tt><tt class="descclassname">, </tt><tt class="descname">--script</tt><tt class="descclassname">=&lt;script&gt;</tt><a class="headerlink" href="#cmdoption-s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the given script as if it were in the input area of the Script tab
+in the user interface. Output will be sent to the command line . Please
+note that the script command line parameter takes the same input as the
+input area in the user interface. This means that if you wish to run a
+specific existing script you will need to use
+<tt class="docutils literal"><span class="pre">--script=&quot;dofile(getscript([[myscriptname]]))&quot;</span></tt></p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-j">
+<tt class="descname">-j</tt><tt class="descclassname">&lt;jobname&gt;</tt><tt class="descclassname">, </tt><tt class="descname">--job</tt><tt class="descclassname">=&lt;jobname&gt;</tt><a class="headerlink" href="#cmdoption-j" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the given job</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-l">
+<tt class="descname">-l</tt><tt class="descclassname">&lt;path&gt;</tt><tt class="descclassname">, </tt><tt class="descname">--logfile</tt><tt class="descclassname">=&lt;path&gt;</tt><a class="headerlink" href="#cmdoption-l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces a log file in the specified location, it can be used both on
+the command line and in the user interface</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-p">
+<tt class="descname">-p</tt><tt class="descclassname">&lt;path&gt;</tt><tt class="descclassname">, </tt><tt class="descname">--password</tt><tt class="descclassname">=&lt;password&gt;</tt><a class="headerlink" href="#cmdoption-p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the password to be used in command line backup and secure jobs. If you
+do not set this then you will be prompted as the job is running.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ui/settings.html"
+                        title="previous chapter">Settings</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples/examples.html"
+                        title="next chapter">Examples</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/commandline.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="examples/examples.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ui/settings.html" title="Settings"
+             >previous</a> |</li>
+        <li><a href="index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

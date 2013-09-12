@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples &mdash; Toucan v3.0.4 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.0.4 documentation" href="../index.html" />
+    <link rel="next" title="Compiling Toucan" href="../devel/compiling.html" />
+    <link rel="prev" title="Command Line" href="../commandline.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../devel/compiling.html" title="Compiling Toucan"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../commandline.html" title="Command Line"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>Running Jobs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sync</span><span class="p">(</span><span class="s">&quot;syncjobname&quot;</span><span class="p">)</span>
+<span class="n">backup</span><span class="p">(</span><span class="s">&quot;backupjobname&quot;</span><span class="p">)</span>
+<span class="n">secure</span><span class="p">(</span><span class="s">&quot;securejobname&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Running Scripts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dofile</span><span class="p">(</span><span class="n">getscript</span><span class="p">(</span><span class="s">&quot;myscriptname&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Running a Custom Job:</p>
+<div class="highlight-python"><pre>sync([[my\source]], [[my\dest]], "Copy", {size = true, time = false, short = true, full = false}, {timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false})</pre>
+</div>
+<p>Flow Control:</p>
+<div class="highlight-python"><pre>day = os.date("%A")
+if day == "Sunday" then
+        print("Never run the backup on a Sunday!")
+elseif day == "Saturday" then
+        backup("WeekendBackup")
+else
+        sync("DailySync")
+end</pre>
+</div>
+<p>The example below shows the scipt that is used to build Toucan test
+builds. It shows a few of the many different capabilities of the Lua
+scripting system.:</p>
+<div class="highlight-python"><pre>packageversion = "3.0.0.0"
+displayversion = "3.0 Pre-Release 1"
+
+toucanpath = [[C:\Users\Steven\Desktop\Toucan\Application\]]
+nsispath = [["C:\Program Files (x86)\NSIS\makensis.exe"]]
+compressorpath = [[C:\Users\Steven\Desktop\AppCompactor\AppCompactor.exe]]
+installerpath = [[C:\Users\Steven\Desktop\PortableApps.comInstaller\PortableApps.comInstaller.exe]]
+
+--Firstly we update the appinfo file to the latest version
+io.input(toucanpath .. [[App\AppInfo\appinfo.ini]])
+t = io.read("*all")
+t = string.gsub(t, "PackageVersion=%d%.%d%.%d%.%d", "PackageVersion=" .. packageversion)
+t = string.gsub(t, "DisplayVersion=.-\n", "DisplayVersion=" .. displayversion .. "\n\n")
+io.output(toucanpath .. [[App\AppInfo\appinfo.ini]])
+io.write(t)
+io.close()
+
+--Then we update the launcher
+io.input(toucanpath .. [[Other\Source\ToucanLauncher.nsi]])
+t = io.read("*all")
+t = string.gsub(t, [[!define VER "%d%.%d%.%d%.%d"]], [[!define VER "]].. packageversion .. [["]])
+io.output(toucanpath .. [[Other\Source\ToucanLauncher.nsi]])
+io.write(t)
+io.close()
+
+--Run the unittests
+if execute(toucanpath .. [[\App\Toucan\toucan.exe -u]]) ~= 0 then
+        print("The unit tests failed", false, true)
+        return
+else
+        print("Unit tests passed")
+end
+
+--Build the launcher
+if execute(nsispath .. " \"" .. toucanpath .. [[\Other\Source\ToucanLauncher.nsi"]]) ~= 0 then
+        print("Building the launcher failed", false, true)
+        return
+else
+        print("Launcher built")
+end
+
+--Compress the app
+if execute(compressorpath .. " " .. toucanpath) ~= 0 then
+        print("Compression failed", false, true)
+        return
+else
+        print("App compressed")
+end
+
+--Build the installer
+if execute(installerpath .. " " .. toucanpath) ~= 0 then
+        print("Building the installer failed", false, true)
+        return
+else
+        print("Installer created")
+end</pre>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../commandline.html"
+                        title="previous chapter">Command Line</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../devel/compiling.html"
+                        title="next chapter">Compiling Toucan</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/examples/examples.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../devel/compiling.html" title="Compiling Toucan"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../commandline.html" title="Command Line"
+             >previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

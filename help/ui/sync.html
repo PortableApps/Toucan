@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sync &mdash; Toucan v3.0.4 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.0.4 documentation" href="../index.html" />
+    <link rel="next" title="Backup" href="backup.html" />
+    <link rel="prev" title="General Overview" href="../generaloverview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="backup.html" title="Backup"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../generaloverview.html" title="General Overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="sync">
+<h1>Sync<a class="headerlink" href="#sync" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Sync can be used to keep your files up to date, or just to copy them
+around. It supports a number of different modes and uses a number of
+techniques in order to ensure that only files that are different are
+copied, reducing the number of slow writes that are performed on slow
+devices. Also attributes such as timestamps can easily be copied and
+changes in time due to daylight savings can be ignored.  Long paths and
+UNC paths are supported in the source and destination to allow easy
+syncs across networks.</p>
+</div>
+<div class="section" id="user-interface">
+<h2>User Interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h2>
+<p>The Sync user interface is split into a top half with the jobs, rules
+and other settings and then two identical halves representing the source
+and the destination of the sync job. At the top of each of these areas
+is directory selector, once you have chosen a directory its contents
+appear in the file list below. There are also buttons for expanding all
+of the folders you have selected and for selecting a variable.</p>
+<blockquote>
+<div class="figure align-center">
+<img alt="The Sync Tab" src="../_images/sync.png" />
+</div>
+</blockquote>
+</div>
+<div class="section" id="function">
+<h2>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h2>
+<p>The table below summarises the different Sync modes that are available.
+The column headers as where the fileexists, S stands for Source and D
+for Destination.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="7%" />
+<col width="7%" />
+<col width="5%" />
+<col width="5%" />
+<col width="73%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Mode</th>
+<th class="head">S and D, S newer</th>
+<th class="head">S and D, D newer</th>
+<th class="head">In S only</th>
+<th class="head">In D only</th>
+<th class="head">Summary</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Copy</td>
+<td>Copy S to D</td>
+<td>Copy S to D</td>
+<td>Copy S to D</td>
+<td>-</td>
+<td>Copy every file in the source directory to the destination directory based on the file checks. Deletes nothing.</td>
+</tr>
+<tr><td>Mirror</td>
+<td>Copy S to D</td>
+<td>Copy S to D</td>
+<td>Copy S to D</td>
+<td>Delete D</td>
+<td>Copy every file in the source directory to the destination directory, and delete every file in the destination directory that is not in the source directory.</td>
+</tr>
+<tr><td>Equalise</td>
+<td>Copy S to D</td>
+<td>Copy D to S</td>
+<td>Copy S to D</td>
+<td>Copy D to S</td>
+<td>If a file is in both directories, copy the newer to the older; if it&#8217;s in only one, copy it to the other. (This ensures that both directories have the newest possible files)</td>
+</tr>
+<tr><td>Move</td>
+<td>Copy S to D,
+Delete S</td>
+<td>-</td>
+<td>Copy S to D,
+Delete S</td>
+<td>-</td>
+<td>Copy every file in the source directory that is not already in the destination directory, and delete it from the source directory.</td>
+</tr>
+<tr><td>Clean</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>Delete D</td>
+<td>Delete from the destination directory every file / folder that is not in the source directory. This is effectively half of a mirror operation.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="file-checks">
+<h2>File Checks<a class="headerlink" href="#file-checks" title="Permalink to this headline">¶</a></h2>
+<p>File checks are the rules Toucan uses to determine whether a file should
+be copied or not. If the destination file does not exist then it is
+automatically copied. When multiple checks are selected they all all
+tested until one is true, at which point the file is copied.  It no checks
+are selected then files are always copied.</p>
+<dl class="docutils">
+<dt>Size</dt>
+<dd>This is a simple test, if the two files in question are then same size
+then it counts them as the same.</dd>
+<dt>Time</dt>
+<dd>The time check is equivilent to the old update mode. If the source file
+is newer than the destination this returns true. The fact that file
+system timestamps are not precise, epsecially on FAT32 and ext3 drives,
+is taken into account.</dd>
+<dt>Short</dt>
+<dd><blockquote class="first">
+This test is a smaller version of the full test below. It checks the
+first and last 1024 bytes of the file. It is ideal when working with
+archives, especially zip files, as they stroe a CRC32 check in this
+space and the test is much quicker than performing a full file. It</blockquote>
+<p class="last">also checks the files are of an identical length.</p>
+</dd>
+<dt>Full</dt>
+<dd>The full test does a byte by byte comparison of both files, reading
+them in small 4kB chunks. If there are no changes then the files are the
+same. This test can take a very long time for large files and the short
+method is usually adequate. This test is also not ideal when copying
+across a network as it requires twice as many reads as a simple copy.</dd>
+</dl>
+</div>
+<div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Retain Timestamps</dt>
+<dd>This will ensure that the timestamps of any copied files and folders
+are the same as their source file.</dd>
+<dt>Retain Attributes</dt>
+<dd>File and folder attributes will be copied to the destination file,
+assuming you have the correct permissions.</dd>
+<dt>Ignore Read-Only</dt>
+<dd>Read-only files in the destination will be overwritten if needed, it is
+also need if you wish to retain timestamps and the source file is
+read-only.</dd>
+<dt>Ignore Daylight Savings</dt>
+<dd>Changes to timestamps due to daylight savings time will be ignored in
+file comparisons.</dd>
+<dt>Recycle</dt>
+<dd>When files need to be deleted they will be moved to the Recycle Bin
+rather than deleted completely. This is only supported on Windows.</dd>
+<dt>Preview Only Changes</dt>
+<dd>When previewing this job only files and folders that have changes in
+them will be previewed. It is especially helpful when working with large
+jobs that only contain a few changed files.</dd>
+</dl>
+</div>
+<div class="section" id="preview">
+<h2>Preview<a class="headerlink" href="#preview" title="Permalink to this headline">¶</a></h2>
+<p>When you click the preview button the files that are affected by the settings you have chosen will be coloured to show what changes will be applied to them, if any. The meaning of the colour will be shown when you hover over it, and all of the possible given colours are given in the summary table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Colour</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Black</td>
+<td>The original file</td>
+</tr>
+<tr><td>Red</td>
+<td>The folder will only exists if it contain sub-file / sub-folders after the sync</td>
+</tr>
+<tr><td>Grey</td>
+<td>The file will be deleted</td>
+</tr>
+<tr><td>Blue</td>
+<td>The file / folder will be added</td>
+</tr>
+<tr><td>Green</td>
+<td>The file will be overwritten</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Sync</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#user-interface">User Interface</a></li>
+<li><a class="reference internal" href="#function">Function</a></li>
+<li><a class="reference internal" href="#file-checks">File Checks</a></li>
+<li><a class="reference internal" href="#other">Other</a></li>
+<li><a class="reference internal" href="#preview">Preview</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../generaloverview.html"
+                        title="previous chapter">General Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="backup.html"
+                        title="next chapter">Backup</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ui/sync.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="backup.html" title="Backup"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../generaloverview.html" title="General Overview"
+             >previous</a> |</li>
+        <li><a href="../index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

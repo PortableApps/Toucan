@@ -1,0 +1,634 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Toucan 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-24 19:38-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jin-Hwan Jeong <yongdoria@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:55
+msgid "Error"
+msgstr "오류"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:260
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:263
+msgid "Please enter your password"
+msgstr "암호를 넣으시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:269
+msgid "Sorry the passwords do not match"
+msgstr "암호가 일치하지 않습니다"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:280
+msgid "Job name"
+msgstr "백업 작업명"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:281
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:300
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:309
+msgid "Password"
+msgstr "암호 설정"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:282
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:301
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:310
+msgid "Repeated password"
+msgstr "암호 반복"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:293
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:305
+msgid "Operation"
+msgstr "작동"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:294
+msgid "Backup file"
+msgstr "백업 파일"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:306
+msgid "File of paths"
+msgstr "경로 파일"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:296
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:307
+msgid "Function"
+msgstr "기능"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:297
+msgid "Format"
+msgstr "압축 형식"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:298
+msgid "Compression level"
+msgstr "압축 속도"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:299
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:308
+msgid "Rules"
+msgstr "백업 규칙"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:322
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:331
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:341
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:354
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:363
+msgid "You need to repeat the password and ensure the two passwords are identical"
+msgstr "암호를 반복하여 입력하여야 합니다. 두 암호가 일치하여야 합니다"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:375
+msgid "None"
+msgstr "압축 안함"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:378
+msgid "Fastest"
+msgstr "아주 빠르게"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:381
+msgid "Fast"
+msgstr "빠르게"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:384
+msgid "Default"
+msgstr "기본"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:387
+msgid "Maximum"
+msgstr "느리게"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:390
+msgid "Ultra"
+msgstr "아주 느리게"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:444
+msgid "Differential"
+msgstr "차별"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:515
+msgid "Mirror (Copy)"
+msgstr "미러 (복사)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:515
+msgid "Mirror (Update)"
+msgstr "미러 (업데이트)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:516
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:167
+msgid "Mirror"
+msgstr "미러"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:22
+msgid "Welcome to the Toucan command line system.\n"
+msgstr "Toucan 명령어 라인 시스템 이용을 환영합니다.\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:93
+msgid "You have specified the wrong number of options"
+msgstr "설정 오류 번호를 지정하였습니다"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:228
+msgid "Sorry the command is not recognised"
+msgstr "죄송! 이 명령어가 인식되지 않습니다"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:122
+msgid "Error with Regex"
+msgstr "Regex 오류"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:57
+msgid "Starting"
+msgstr "시작"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:79
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:189
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:242
+msgid "Delete"
+msgstr "삭제"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:79
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:305
+msgid "Execute"
+msgstr "실행"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:81
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:139
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr "%d 줄이 부정확한 인자 갯수 입니다."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:94
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:114
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:132
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:144
+#, c-format
+msgid " not recognised on line %d"
+msgstr "%d 줄에서 인식이 안됨"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:137
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:192
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:255
+msgid "Move"
+msgstr "이동"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:137
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:195
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:275
+msgid "Copy"
+msgstr "복사"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:137
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:198
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:290
+msgid "Rename"
+msgstr "다른 이름으로 저장"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:152
+msgid "Setting up progress bar"
+msgstr "진행 막대 설정"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:167
+msgid "Equalise"
+msgstr "균등"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:176
+msgid "Restore"
+msgstr "복원"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:245
+msgid "Deleted "
+msgstr "삭제"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:248
+msgid "Failed to delete "
+msgstr "삭제 실패"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:261
+msgid "Moved"
+msgstr "이동"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:264
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:268
+msgid "Failed to move "
+msgstr "이동 실패"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:280
+msgid "Copied "
+msgstr "복사"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:283
+msgid "Failed to copy "
+msgstr "복사 실패"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:295
+msgid "Renamed "
+msgstr "다른 이름으로 저장됨"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:298
+msgid "Failed to rename "
+msgstr "다른 이름으로 저장 실패"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:308
+msgid "Executed "
+msgstr "실행"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:322
+msgid "Not all of the required fields are filled"
+msgstr "전체 필요한 항목을 채우지 않았습니다"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:350
+msgid "Elapsed"
+msgstr "경과됨"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:351
+msgid "Finished"
+msgstr "작업 완료"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:98
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:109
+msgid "Encrypt"
+msgstr "암호설정"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:101
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:133
+msgid "Decrypt"
+msgstr "암호해제"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:126
+msgid "Encrypted "
+msgstr "암호화"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:129
+msgid "Failed to encrypt "
+msgstr "암호화 실패"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:142
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:160
+msgid "Failed to decrypt "
+msgstr "암호해제 실패"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:157
+msgid "Decrypted "
+msgstr "암호해제"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:41
+msgid "Icons and Text"
+msgstr "아이콘과 텍스트"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:42
+msgid "Sync"
+msgstr "동기화"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:128
+msgid "Progress"
+msgstr "Toucan 작업 진행 중......"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/variables.cpp:85
+msgid "Other"
+msgstr "기타"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:47
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:34
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:45
+msgid ""
+"There was an error reading from the jobs file, \n"
+"please check it is not set as read only or in use."
+msgstr ""
+"작업 파일에서 읽기오류가 있습니다, \n"
+"읽기만으로 설정되지 않았는지 또는 사용 중인지 확인하시오."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:85
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:55
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:66
+msgid ""
+"There was an error saving to the jobs file, \n"
+"please check it is not set as read only or in use."
+msgstr ""
+"작업파일로 저장하는데 오류가 있습니다,\n"
+"읽기만으로 설정되지 않았는지 또는 사용 중인지 확인하시오."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:193
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:387
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1811
+msgid "Complete"
+msgstr "전부"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:196
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:254
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:388
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:87
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:138
+msgid "Update"
+msgstr "업데이트"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:319
+msgid "Creating file list, this may take some time."
+msgstr "파일 목록 생성 중, 약간 시간이 소요됩니다."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:227
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:359
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:490
+msgid "Job Name"
+msgstr "백업 작업명"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:258
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:48
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:62
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:126
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:153
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:73
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:98
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:190
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:214
+msgid "Clean"
+msgstr "제거"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:266
+msgid "Retain Timestamps"
+msgstr "작업시간 유지"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:270
+msgid "Retain Attributes"
+msgstr "속성 유지"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:274
+msgid "Ignore Read-Only"
+msgstr "읽기만 무시"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:278
+msgid "Ignore Daylight Savings"
+msgstr "서머타임 무시"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:285
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:424
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:530
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:66
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:88
+msgid "OK"
+msgstr "완료"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:288
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:427
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:533
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:79
+msgid "Preview"
+msgstr "미리보기"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:298
+msgid "Source"
+msgstr "소스 폴더"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:323
+msgid "Destination"
+msgstr "저장 폴더"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:391
+msgid "Type"
+msgstr "백업 형태"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:402
+msgid "Compression Level"
+msgstr "압축 속도"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:453
+msgid "Backup Location"
+msgstr "저장 폴더 및 이름"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:574
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:656
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:693
+msgid "Name"
+msgstr "이름"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:592
+msgid "Files to exclude (file name, path or extension)"
+msgstr "제외될 파일(파일명,경로 또는 확장자)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:611
+msgid "Folders to exclude (folder name or path)"
+msgstr "제외될 폴더(폴더명 또는 경로)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:630
+msgid "Locations to always include (file/folder name, path or  file extension)"
+msgstr "항상 포함될 위치(파일/폴더명,경로 또는 파일 확장자)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:725
+msgid "Font"
+msgstr "사용자 글꼴"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:735
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:800
+msgid "Text"
+msgstr "텍스트"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:736
+msgid "Tab style"
+msgstr "탭 스타일"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:740
+msgid "Language"
+msgstr "사용자 언어"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:753
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:755
+msgid "Remember Entered Information"
+msgstr "입력 정보 기억"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:763
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:812
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1698
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1810
+msgid "Backup"
+msgstr "백업 작업"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:766
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:813
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1701
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1820
+msgid "Secure"
+msgstr "보안 설정"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:775
+msgid "About"
+msgstr "Toucan이란"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:815
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1710
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:66
+msgid "Variables"
+msgstr "변수"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:816
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1704
+msgid "Script"
+msgstr "스크립트"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:817
+msgid "Settings"
+msgstr "설정"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:818
+msgid "Help"
+msgstr "도움말"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:963
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1254
+msgid "Differential only supports one folder"
+msgstr "차별은 한 폴더만 지원합니다"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1014
+msgid "Please select the source folder."
+msgstr "소스 폴더를 선택하시오."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1027
+msgid "Please select the desination folder."
+msgstr "저장할 폴더를 선택하시오."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1039
+msgid "File to exclude"
+msgstr "제외될 파일"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1048
+msgid "Folder to exclude"
+msgstr "제외될 폴더"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1088
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1098
+msgid "You must select a name for this set of Rules"
+msgstr "규칙설정을 위한 이름을 필히 선택하시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1205
+msgid "Location to include"
+msgstr "포함될 위치"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1220
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1260
+msgid "Please select the folder to store your backups"
+msgstr "백업 저장을 위한 폴더를 선택하시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1226
+msgid "Restore into:"
+msgstr "복구 위치:"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1239
+msgid "Please choose a file to backup to"
+msgstr "백업 파일을 선택하시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1389
+msgid "Please enter the name for the new portable variable"
+msgstr "새 이식가능 변수명을 넣으시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1389
+msgid "New Portable Variable"
+msgstr "새 이식가능 변수"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1407
+msgid "There is already a Portable Variable with this name."
+msgstr "동일명의 이식가능 변수가 이미 있습니다."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1458
+msgid "Choose a directory"
+msgstr "폴더를 선택하시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1505
+msgid "Please insert the location you want to point to."
+msgstr "원하는 위치를 입력하시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1505
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:53
+msgid "Location"
+msgstr "위치"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1573
+msgid "Please enter the name for the new script"
+msgstr "새 스크립트명을 넣으시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1573
+msgid "New Script"
+msgstr "새 스크립트"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1588
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1598
+msgid "Insert Variable"
+msgstr "변수 입력"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1765
+msgid "Please chose a job to save to"
+msgstr "저장하기 위한 작업을 선택하시오"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1956
+msgid "Overwritten"
+msgstr "겹침"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1959
+msgid "If needed"
+msgstr "필요시"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:69
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:91
+msgid "Cancel"
+msgstr "취소"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:72
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:94
+msgid "Save"
+msgstr "저장"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:76
+msgid "Time"
+msgstr "시간"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:77
+msgid "Status"
+msgstr "상태"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:153
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:154
+msgid "Hidden text"
+msgstr "숨김 텍스트"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:123
+msgid "Please select a folder."
+msgstr "폴더를 선택하시오."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:316
+msgid "Toucan tried to delete a root directory. This has been forbidden for your own safety"
+msgstr "Toucan이 루트 폴더를 삭제하려고 했습니다.  컴퓨터 안전을 위하여 금지합니다."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:332
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:346
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:381
+msgid "Removed "
+msgstr "제거 "
+
+msgid "Enable Tooltips"
+msgstr "도구 도움말 가능"
+
+msgid "Small Borders"
+msgstr "작은 경계"
+
+msgid "Apply"
+msgstr "적용"
+
+msgid "Please enter the name for the new variable"
+msgstr "새 변수명을 입력하시오"
+
+msgid "Computer"
+msgstr "컴퓨터"
+
+msgid " Expansion"
+msgstr "확장"
+
+msgid "Choose font"
+msgstr "글꼴 선택"
+
+msgid "Files to Secure"
+msgstr "암호 파일"
+
+msgid "Files to Backup"
+msgstr "백업 파일"
+

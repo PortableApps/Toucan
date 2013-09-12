@@ -1,0 +1,672 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Toucan2 Georgian (ka_GE) L10n\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-07-25 19:16-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: AcidLabz <acidlabz@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Georgian\n"
+"X-Poedit-Country: GEORGIA\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
+msgid "Password"
+msgstr "პაროლი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
+msgid "Please enter your password"
+msgstr "გთხოვთ შეიყვანოთ პაროლი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
+msgid "Please repeat your password"
+msgstr "გაიმეორეთ პაროლი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:304
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:314
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:327
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:336
+msgid "The passwords do not match"
+msgstr "პაროლები არ ემთხვევა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:154
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
+msgid "Error"
+msgstr "შეცდომა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:393
+msgid "Differential"
+msgstr "დიფერენციალური"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
+msgid "Mirror (Copy)"
+msgstr "სარკე (ასლი)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
+msgid "Mirror (Update)"
+msgstr "სარკე (განახლება)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:465
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Mirror"
+msgstr "სარკე"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:31
+msgid "Welcome to the Toucan command line system"
+msgstr "კეთილი იყოს თქვენი მობრძანება Toucan-ის კონსოლის სისტემაში"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:241
+msgid "The command is not recognised"
+msgstr "ბრძანება ამოუცნობია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:61
+msgid "Starting"
+msgstr "იწყება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:195
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:248
+msgid "Delete"
+msgstr "წაშლა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:207
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:311
+msgid "Execute"
+msgstr "შესრულება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:85
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:143
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr "ხაზს %d პარამეტრების არასწორი რაოდენობა აქვს"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:98
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:118
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:136
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:148
+#, c-format
+msgid " not recognised on line %d"
+msgstr "ამოუცნობია ხაზზე %d"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:198
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:261
+msgid "Move"
+msgstr "გადატანა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:281
+msgid "Copy"
+msgstr "ასლის გაკეთება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:204
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:296
+msgid "Rename"
+msgstr "გადარქმევა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:156
+msgid "Setting up progress bar"
+msgstr "პროგრესის ზოლის აწყობა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Clean"
+msgstr "გასუფთავება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Equalise"
+msgstr "გათანაბრება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:182
+msgid "Restore"
+msgstr "აღდგენა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:251
+msgid "Deleted "
+msgstr "წაშლილია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:254
+msgid "Failed to delete "
+msgstr "წაშლა ვერ მოხერხდა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:267
+#, fuzzy
+msgid "Moved"
+msgstr "გადატანილია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:270
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:274
+msgid "Failed to move "
+msgstr "გადატანა ვერ მოხერხდა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:286
+msgid "Copied "
+msgstr "ასლი გაკეთებულია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:289
+msgid "Failed to copy "
+msgstr "ასლის გაკეთება ვერ მოხერხდა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:301
+msgid "Renamed "
+msgstr "გადარქმეულია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:304
+msgid "Failed to rename "
+msgstr "გადარქმევა ვერ მოხერხდა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:314
+msgid "Executed "
+msgstr "შესრულებულია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
+msgid "Not all of the required fields are filled"
+msgstr "სავალდებულო ველები არ არის შევსებული"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:356
+msgid "Elapsed"
+msgstr "გასულია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:357
+msgid "Finished"
+msgstr "დასრულდა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:114
+msgid "Encrypt"
+msgstr "დაშიფრვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:106
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:144
+msgid "Decrypt"
+msgstr "გაშიფრვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:137
+msgid "Encrypted "
+msgstr "დაშიფრული"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:140
+msgid "Failed to encrypt "
+msgstr "არ მოხერხდა დაშიფრვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:157
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:176
+msgid "Failed to decrypt "
+msgstr "არ მოხერხდა გაშიფრვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:173
+msgid "Decrypted "
+msgstr "გაშიფრული"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:44
+msgid "Icons and Text"
+msgstr "ხატულები და ტექსტი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:45
+msgid "Sync"
+msgstr "სინქრონიზაცია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:129
+msgid "Progress"
+msgstr "მიმდინარეობა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/variables.cpp:94
+msgid "Other"
+msgstr "სხვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:62
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:35
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:47
+msgid "There was an error reading from the jobs file"
+msgstr "აღმოჩნდა შეცდომა დავალებათა ფაილის წაკითხვის დროს"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:97
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:57
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:68
+msgid ""
+"There was an error saving to the jobs file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+"აღმოჩნდა შეცდომა დავალებათა ფაილის შენახვისას, \n"
+"გთხოვთ შეამოწმეთ, არის თუ არა ის მხოლოდ წაკითხვადი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:378
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1863
+msgid "Complete"
+msgstr "დასრულება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:204
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:263
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:379
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:89
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:139
+msgid "Update"
+msgstr "განახლება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:326
+msgid "Creating file list, this may take some time."
+msgstr "იქმნება ფაილების ჩამონათვალი, ამას რამოდენიმე წუთი სჭირდება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:234
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:350
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:481
+msgid "Job Name"
+msgstr "დავალების სახელი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:252
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:368
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:499
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:805
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1759
+msgid "Rules"
+msgstr "წესები"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:268
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:511
+msgid "Function"
+msgstr "ფუნქცია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:276
+msgid "Retain Timestamps"
+msgstr "დროის ანაბეჭდების შენახვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:280
+msgid "Retain Attributes"
+msgstr "ატრიბუტების შენახვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:284
+msgid "Ignore Read-Only"
+msgstr "მხოლოდ წაკითხვის იგნორირება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:288
+msgid "Ignore Daylight Savings"
+msgstr "ზაფხულის დროის იგნორირება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:416
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:518
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:71
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:88
+msgid "OK"
+msgstr "კი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:298
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:419
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:521
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:79
+msgid "Preview"
+msgstr "დათვალიერებაა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:308
+msgid "Source"
+msgstr "წყარო"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:323
+msgid "Destination"
+msgstr "დანიშნულება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:382
+msgid "Type"
+msgstr "ტიპი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:389
+msgid "Format"
+msgstr "ფორმატი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:393
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:402
+msgid "Compression Level"
+msgstr "შეკუმშვის დონე"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:397
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2041
+msgid "Default"
+msgstr "საწყისი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:429
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:531
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:859
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1447
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1473
+msgid "Computer"
+msgstr "კომპიუტერი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:445
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2023
+msgid "Backup Location"
+msgstr "სათადარიგო ასლის მდებარეობა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:454
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2024
+msgid "Files to Backup"
+msgstr "სათადარიგო ასლის შექმნა ფაილებისთვის"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:547
+msgid "Files to Secure"
+msgstr "ფაილების დაცვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:568
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:650
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:688
+msgid "Name"
+msgstr "სახელი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:594
+msgid "Files to exclude (file name, path or extension)"
+msgstr "გამორიცხულია ფაილის (სახელი, გზა ან გაფართოება)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:610
+msgid "Folders to exclude (folder name or path)"
+msgstr "გამორიცხულია საქაღალდეები (საქაღალდის სახელი ან გზა)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:626
+msgid "Locations to always include (file/folder name, path or  file extension)"
+msgstr "ადგილმდებარეობა, ყოველთვის ჩართული (ფაილ/საქაღალდის სახელი, გზა თუ გაფართოება)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:717
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:720
+msgid "Remember Entered Information"
+msgstr "შეყვანილი ინფორმაციის დამახსოვრება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:727
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:803
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1750
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1862
+msgid "Backup"
+msgstr "თადარიგი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:730
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:804
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1753
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1872
+msgid "Secure"
+msgstr "უსაფრთხოება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:733
+msgid "Language"
+msgstr "ენა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:745
+msgid "Text"
+msgstr "ტექსტი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:746
+msgid "Tab style"
+msgstr "ცხრილის სტილი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:750
+msgid "Apply"
+msgstr "გამოყენება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:753
+msgid "Font"
+msgstr "შრიფტი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:757
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2151
+msgid "Choose font"
+msgstr "შრიფტის შეცვლა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:764
+msgid "Enable Tooltips"
+msgstr "დამხმარე ბუშტების გამოყენება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:768
+msgid "Small Borders"
+msgstr "მომცრო კიდეები"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:778
+msgid "About"
+msgstr "შესახებ"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:806
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1762
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:66
+msgid "Variables"
+msgstr "ცვლადები"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:807
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1756
+msgid "Script"
+msgstr "სცენარი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:808
+msgid "Settings"
+msgstr "პარამეტრები"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:809
+msgid "Help"
+msgstr "დახმარება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:860
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1448
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1474
+msgid "Expansion"
+msgstr "გაფართოება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:873
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:879
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:887
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:895
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:910
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:77
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:99
+msgid "Save"
+msgstr "შენახვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:874
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:880
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:882
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:888
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:890
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:896
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:898
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:900
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:902
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:905
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:907
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:911
+msgid "Add"
+msgstr "დამატება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:875
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:881
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:883
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:889
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:891
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:897
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:899
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:901
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:903
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:906
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:908
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:912
+msgid "Remove"
+msgstr "ამოღება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:876
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:877
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:885
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:893
+msgid "Expand all"
+msgstr "ყველას გაშლა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:884
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:892
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1639
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1649
+msgid "Insert Variable"
+msgstr "ცვლადის ჩასმა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1014
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1321
+msgid "Differential only supports one folder"
+msgstr "დიფეენციალურს მხოლოდ ერთი საქაღლადის მხარდაჭერა აქვს"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1065
+msgid "Please select the source folder"
+msgstr "გთხოვთ მიუთითოთ წყაროს საქაღალდე"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1078
+msgid "Please select the destination folder"
+msgstr "გთხოვთ მიუთითოთ დანიშნულების საქაღალდე"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1090
+msgid "File to exclude"
+msgstr "ფაილის გამორიცხვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1099
+msgid "Folder to exclude"
+msgstr "პაპკის გამორიცხვა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1140
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1159
+msgid "You must select a name for this set of Rules"
+msgstr "თქვენ უნდა მიუთითოთ სახელი ამ წესისთა კრებულისთვის"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1272
+msgid "Location to include"
+msgstr "მდებარეობის ჩასმა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1287
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1327
+msgid "Please select the folder to store your backups"
+msgstr "გთხოვთ მოუთითოთ საქაღლადე სადაც შეინახება სათადარიგო ასლები"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1293
+msgid "Restore into:"
+msgstr "აღვადგინო:"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1306
+msgid "Please choose a file to backup to"
+msgstr "გთხოვთ შეარჩიეთ ფაილი სათადარიგო ასლის შესაქმნელად"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+msgid "Please enter the name for the new variable"
+msgstr "გთხოვთ შეიყვანოთ სახელი ახალი ცვლადისთვის"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+msgid "New Variable"
+msgstr "ახალი ცვლადი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1460
+msgid "There is already a variable with this name."
+msgstr "ცვლადი ასეთი სახელით უკვე არსებობს."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1511
+msgid "Choose a directory"
+msgstr "დასტის არჩევა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+msgid "Please insert the location you want to point to."
+msgstr "გთხოვთ ჩასვით ადგილმდებარეობა რომელზეც გინდათ მიუთითოთ."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:53
+msgid "Location"
+msgstr "ადგილმდებარეობა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+msgid "Please enter the name for the new script"
+msgstr "გთხოვთ მოუთითოთ სახელი ახალი სცენარისთვის"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+msgid "New Script"
+msgstr "ახალი სცენარი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1774
+msgid "Job name"
+msgstr "დავალების სახელი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1817
+msgid "Please chose a job to save to"
+msgstr "გთხოვთ შეარჩიეთ დავალება შესანახად"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1925
+msgid "Exclude by extension"
+msgstr "გამოტოვება გაფართოებებით"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1926
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1931
+msgid "Exclude by name"
+msgstr "გამოტოვება სახელით"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1927
+msgid "Include by extension"
+msgstr "ჩათვლა გაფართოებით "
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1928
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1932
+msgid "Include by name"
+msgstr "ჩათვლა სახელით"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2008
+msgid "Overwritten"
+msgstr "გადაწერილია"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2011
+msgid "If needed"
+msgstr "თუ საჭიროა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2018
+msgid "Location to Extract into"
+msgstr "ამოარქივების მდებარეობა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2019
+msgid "Archives to Extract"
+msgstr "ამოსაარქივებელი არქივები"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2032
+msgid "None"
+msgstr "არაფერი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2035
+msgid "Fastest"
+msgstr "უსწრაფესი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2038
+msgid "Fast"
+msgstr "სწრაფი"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2044
+msgid "Maximum"
+msgstr "მაქსიმალური"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2047
+msgid "Ultra"
+msgstr "ძალიან"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:74
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:91
+msgid "Cancel"
+msgstr "გაუქმება"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:81
+msgid "Time"
+msgstr "დრო"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:82
+msgid "Status"
+msgstr "მდგომარეობა"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:123
+msgid "Please select a folder"
+msgstr "გთხოვთ აირჩიოთ საქაღალდე"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:329
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:343
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:359
+msgid "Removed "
+msgstr "ამოშლილია"
+

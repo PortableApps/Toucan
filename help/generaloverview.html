@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>General Overview &mdash; Toucan v3.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.0.4 documentation" href="index.html" />
+    <link rel="next" title="Sync" href="ui/sync.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ui/sync.html" title="Sync"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Toucan v3.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="general-overview">
+<h1>General Overview<a class="headerlink" href="#general-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="jobs">
+<h2>Jobs<a class="headerlink" href="#jobs" title="Permalink to this headline">¶</a></h2>
+<p>The fundamental object in Toucan is the job. Jobs are what tell Toucan
+which actions to perform and there are currently three supported job
+types, sync, backup and secure. Jobs can either be run in the graphical
+user interface (GUI) or on the command line. Jobs can also be associated
+with a set of Rules (see below). Jobs can either be &#8216;saved&#8217; or
+&#8216;unsaved&#8217;, once saved they are given a name and can then be reloaded
+after restarting Toucan or run quickly from the command line.</p>
+</div>
+<div class="section" id="drag-and-drop">
+<h2>Drag and Drop<a class="headerlink" href="#drag-and-drop" title="Permalink to this headline">¶</a></h2>
+<p>Drag and drop is supported throughout Toucan. In any area that expects a
+file or folder path, such as the file lists and the text parts of the
+file and folder selectors supports items being dragged onto them from
+other programs, such as file explorers. If you drag multiple files and
+folders to a location that only supports one then the first item you
+selected will be used, if it is an area where multiple files and folders
+are supported then they will all be added.</p>
+</div>
+<div class="section" id="exclusion-menus">
+<h2>Exclusion Menus<a class="headerlink" href="#exclusion-menus" title="Permalink to this headline">¶</a></h2>
+<p>Once you have selected a set of Rules in either the Sync, Backup or
+Secure you can then right click on any of the files or folders in a file
+list and easily exclude them. The options available on the menu are:</p>
+<ul class="simple">
+<li>Exclude by extension</li>
+<li>Exclude by name</li>
+<li>Include by extension</li>
+<li>Include by name</li>
+</ul>
+</div>
+<div class="section" id="standard-job-name-area">
+<h2>Standard Job / Name Area<a class="headerlink" href="#standard-job-name-area" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div class="figure align-center">
+<img alt="Job Area" src="_images/jobarea.png" />
+</div>
+</blockquote>
+<p>Most of the tabs in Toucan feature this standard area in their top-left.
+The drop down box shows any existing jobs or variables / rules / scripts
+and selecting one will load it. The first button is the save button, if
+you already have a name / job selected in the drop down then it will be
+saved. If you do not them you will be prompted to enter a new name. The
+next button is the add button. When clicked if you are currently working
+on a job you will be asked if you which to save it. Either way you will
+be asked to enter the name for your new job, starting a new job clears
+everything currently entered on the tab you are working on. The final
+button is the remove button, it deletes the job / variable / rule set /
+script you are working on and clears the current tab.</p>
+</div>
+<div class="section" id="standard-rules-area">
+<h2>Standard Rules Area<a class="headerlink" href="#standard-rules-area" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div class="figure align-center">
+<img alt="Rules Area" src="_images/rulesarea.png" />
+</div>
+</blockquote>
+<p>The Sync, Backup and Secure tabs in Toucan all have a drop down box in
+the top left labeled Rules. In this box you will find a list of all of
+the sets of Rules you currently have. In Backup and Secure selecting one
+of the sets will cause any files and folders you have selected to
+immediately be coloured based on whether they will be included or not.
+In the Sync tab the Preview button must be used.</p>
+</div>
+<div class="section" id="tooltips">
+<h2>Tooltips<a class="headerlink" href="#tooltips" title="Permalink to this headline">¶</a></h2>
+<p>Throughout Toucan tooltips are alaiviable on all buttons that do not
+have their own text to help explain them. These toolitps can be turned
+off if required in the settings tab. The Sync preview panes also have a
+tooltip when you hover over a file or folder which gives a short
+description of the operation that Toucan plans to perform.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">General Overview</a><ul>
+<li><a class="reference internal" href="#jobs">Jobs</a></li>
+<li><a class="reference internal" href="#drag-and-drop">Drag and Drop</a></li>
+<li><a class="reference internal" href="#exclusion-menus">Exclusion Menus</a></li>
+<li><a class="reference internal" href="#standard-job-name-area">Standard Job / Name Area</a></li>
+<li><a class="reference internal" href="#standard-rules-area">Standard Rules Area</a></li>
+<li><a class="reference internal" href="#tooltips">Tooltips</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ui/sync.html"
+                        title="next chapter">Sync</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/generaloverview.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ui/sync.html" title="Sync"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

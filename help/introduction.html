@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Toucan v3.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Toucan v3.1.0 documentation" href="index.html" />
+    <link rel="next" title="General Overview" href="generaloverview.html" />
+    <link rel="prev" title="Welcome to Toucan’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="generaloverview.html" title="General Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Toucan’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Toucan v3.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-toucan">
+<h2>What is Toucan?<a class="headerlink" href="#what-is-toucan" title="Permalink to this headline">¶</a></h2>
+<p>Simply put Toucan is a file syncronisation, backup and encryption tool,
+aimed at advanced users. It has been written from the ground up to be a
+<a class="reference external" href="http://portableapps.com/about/what_is_a_portable_app">portable application</a>. It also
+features a powerful inbuilt scripting system and a user interface that
+has been translated into nearly 20 languages.</p>
+</div>
+<div class="section" id="what-is-this-document">
+<h2>What is this Document?<a class="headerlink" href="#what-is-this-document" title="Permalink to this headline">¶</a></h2>
+<p>You are reading the main Toucan manual. It aims to be a complete
+reference for Toucan, the user interface, the command line options and
+scripting system. Also included are sections on translating and
+compiling Toucan, as well as a set of example scripts. It is not a guide
+to Lua, the language that Toucan uses for its scripts, for an
+introduction see the <a class="reference external" href="http://www.lua.org">Lua website</a> and
+<a class="reference external" href="http://www.lua.org/manual/5.1/">documentation</a>. If you spot any
+mistakes or have any suggestions please post them in the Toucan support forum.</p>
+</div>
+<div class="section" id="a-brief-history">
+<h2>A Brief History<a class="headerlink" href="#a-brief-history" title="Permalink to this headline">¶</a></h2>
+<p>What would eventually become Toucan, although it shares no code with it,
+first existed on the MozillaZine forums in the same thread as the
+original versions of Portable Firefox. Although it&#8217;s name has apparently
+been lost to history it was a very basic app, coded in NSIS that simply
+copied folders backwards and forwards, it was created originally for
+copying Firefox profiles. After Portable Firefox moved to
+PortableApps.com it migrated to the Liberta Project along with it&#8217;s new
+sibling, a backup tool written in NSIS that used 7-Zip as a back end.
+Together these are the distant ancestors of Toucan. After some time
+these two utilities were re-written into a single new tool in C++ using
+the wxWidgets GUI library. It was called the Portable Utility and
+Security Suite, which also added an encryption component. The code-base
+evolved for some time, before eventually moving to PortableApps.com and
+being renamed Toucan, a name chosen in a competition and thought of by
+Danny Mensingh. The initial 1.1 release was a success, receiving roughly
+40,000 downloads in it&#8217;s first month. A number of bug fix releases
+followed, most notably replacing the default encryption mode, before
+version 2 was released with an updated user interface. The next major
+release was 2.1 which moved to a new Sync engine and Progress Window.
+After that release a there was another series of of bug fixes and
+feature updates after which Version 3 was released. Version 3 is the
+latest in a long line of improvements, moving to a new scripting system
+based on Lua, support for Linux and many other general fixes and
+additions, such as a much improved Sync system.</p>
+</div>
+<div class="section" id="installing-toucan">
+<h2>Installing Toucan<a class="headerlink" href="#installing-toucan" title="Permalink to this headline">¶</a></h2>
+<p>Once you have downloaded a copy of Toucan from the
+<a class="reference external" href="http://portableapps.com/toucan">website</a> installation is simple.</p>
+<div class="section" id="with-the-portableapps-com-platform">
+<h3>With the PortableApps.com Platform<a class="headerlink" href="#with-the-portableapps-com-platform" title="Permalink to this headline">¶</a></h3>
+<p>Simply open the menu and click Options-&gt;Add a new App and follow the on
+screen instructions. Once installation has been completed Toucan will
+immediately be ready to run by clicking the link on the menu.</p>
+</div>
+<div class="section" id="without-the-portableapps-com-platform">
+<h3>Without the PortableApps.com Platform<a class="headerlink" href="#without-the-portableapps-com-platform" title="Permalink to this headline">¶</a></h3>
+<p>If you do not use the platform and menu then simply run the installer
+and follow the instructions, selecting a path for Toucan to be installed
+in. Please note as of Windows Vista it is not recommended to install
+into the Program Files directory due to permissions issues. Also you
+will need to remember the path you have chosen to install to, because
+Toucan is designed mainly as a portable application start menu shortcuts
+are not created during installation. To run Toucan navigate to the
+directory you have installed to and run Toucan.exe.</p>
+</div>
+</div>
+<div class="section" id="uninstalling-toucan">
+<h2>Uninstalling Toucan<a class="headerlink" href="#uninstalling-toucan" title="Permalink to this headline">¶</a></h2>
+<p>If Toucan is not for you then because of its portable nature
+uninstallation is very straightforward. Please consider leaving some
+feedback in the Toucan support forum to help us improve it in future
+revisions.</p>
+<div class="section" id="id1">
+<h3>With the PortableApps.com Platform<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Simply open the menu and click Options-&gt;Uninstall and follow the on
+screen instructions.</p>
+</div>
+<div class="section" id="id2">
+<h3>Without the PortableApps.com Platform<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Navigate to the folder you installed Toucan into and delete it, because
+it is a portable application nothing is left elsewhere on your computer.
+If you manually created your own start menu shortcuts you will need to
+delete these separately.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/toucan.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#what-is-toucan">What is Toucan?</a></li>
+<li><a class="reference internal" href="#what-is-this-document">What is this Document?</a></li>
+<li><a class="reference internal" href="#a-brief-history">A Brief History</a></li>
+<li><a class="reference internal" href="#installing-toucan">Installing Toucan</a><ul>
+<li><a class="reference internal" href="#with-the-portableapps-com-platform">With the PortableApps.com Platform</a></li>
+<li><a class="reference internal" href="#without-the-portableapps-com-platform">Without the PortableApps.com Platform</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#uninstalling-toucan">Uninstalling Toucan</a><ul>
+<li><a class="reference internal" href="#id1">With the PortableApps.com Platform</a></li>
+<li><a class="reference internal" href="#id2">Without the PortableApps.com Platform</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Toucan&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generaloverview.html"
+                        title="next chapter">General Overview</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="generaloverview.html" title="General Overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Toucan’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Toucan v3.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Steven Lamerton.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

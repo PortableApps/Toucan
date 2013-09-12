@@ -1,0 +1,904 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Toucan 3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-26 18:13-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Michał Trzebiatowski <hippie_1968@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:345
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:381
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:418
+msgid "Please run Toucan from a device that allows writes so it can update itself"
+msgstr "Aby program Toucan zaktualizował się sam, uruchom go z urządzenia, które zezwala na zapis"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:345
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:354
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:381
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:390
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:418
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
+msgid "Error"
+msgstr "Błąd"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:354
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:390
+msgid "Upgrading to this version of Toucan is not supported"
+msgstr "Aktualizacja do tej wersji programu Toucan nie jest obsługiwana"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
+msgid "Mirror (Copy)"
+msgstr "Lustruj (kopiuj)"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
+msgid "Mirror (Update)"
+msgstr "Lustruj (aktualizuj)"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:280
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:432
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:460
+msgid "Mirror"
+msgstr "Lustro"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:306
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:431
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:438
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:459
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:466
+msgid "Update"
+msgstr "Aktualizacja"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:307
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:430
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:458
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:433
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:461
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1577
+msgid "Equalise"
+msgstr "Synchronizuj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:435
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:463
+msgid "Clean"
+msgstr "Wyczyść"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:434
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:462
+msgid "Move"
+msgstr "Przenieś"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:31
+msgid "Progress"
+msgstr "Postęp"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:41
+msgid "Date:"
+msgstr "Data:"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:42
+msgid "Computer Name:"
+msgstr "Nazwa komputera:"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:43
+msgid "Operating System:"
+msgstr "System operacyjny:"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:59
+msgid "Elapsed:"
+msgstr "Upłynęło:"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:60
+msgid "Finished"
+msgstr "Gotowe!"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
+msgid "There was an error reading from the rules file"
+msgstr "Nastąpił błąd w czytaniu pliku reguł"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
+msgid ""
+"There was an error saving to the rules file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+"Nastąpił błąd w zapisie pliku projektów, \n"
+"sprawdź proszę czy plik nie jest ustawiony jako \"tylko do odczytu\" lub nie jest w użyciu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:214
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:236
+msgid "File to Exclude"
+msgstr "Wykluczony plik"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:217
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:241
+msgid "Folder to Exclude"
+msgstr "Wykluczony folder"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:220
+msgid "Location to Include"
+msgstr "Dołączone położenie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:246
+msgid "Locations to Include"
+msgstr "Dołączone położenia"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:62
+msgid "Starting"
+msgstr "Uruchamianie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
+msgid "Delete"
+msgstr "Usuń"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
+msgid "Execute"
+msgstr "Wykonaj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:86
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:141
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr "Linijka %d ma złą liczbę parametrów"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:98
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:117
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:134
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:146
+#, c-format
+msgid " not recognised on line %d"
+msgstr " nie można rozpoznać w linijce %d"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:154
+msgid "Setting up progress bar"
+msgstr "Ustawianie paska postępu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:178
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:440
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:468
+msgid "Restore"
+msgstr "Odnów"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:221
+msgid "The job does not exist"
+msgstr "Projekt nie istnieje"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:396
+msgid "Please input your password: "
+msgstr "Proszę podać hasło: "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:398
+msgid "Please repeat your password: "
+msgstr "Proszę powtórzyć hasło: "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:401
+msgid "Sorry the passwords do not match"
+msgstr "Przepraszam, hasła nie zgadzają się"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:437
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:465
+msgid "Complete"
+msgstr "Całkowity"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:439
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:467
+msgid "Differential"
+msgstr "Dyferencyjny"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:442
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:470
+msgid "Encrypt"
+msgstr "Zaszyfruj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:443
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:471
+msgid "Decrypt"
+msgstr "Rozszyfruj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:445
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:473
+msgid "Icons and Text"
+msgstr "Ikony i Tekst"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:446
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:474
+msgid "Text"
+msgstr "Tekst"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:448
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:476
+msgid "Sync"
+msgstr "Synchronizacja"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:449
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:477
+msgid "Backup"
+msgstr "Archiwizacja"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:450
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:478
+msgid "Secure"
+msgstr "Zabezpieczenie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:451
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:479
+msgid "Rules"
+msgstr "Reguły"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:452
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:480
+msgid "Variables"
+msgstr "Wartości zmienne"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:453
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:481
+msgid "Script"
+msgstr "Skrypt"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:454
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:482
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:455
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:483
+msgid "Help"
+msgstr "Pomoc"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1760
+msgid "Deleted "
+msgstr "Usunięte "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1763
+msgid "Failed to delete "
+msgstr "Nie udało się usunąć "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1773
+msgid "Copied "
+msgstr "Skopiowane"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1776
+msgid "Failed to copy "
+msgstr "Nie udało się skopiować "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1786
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1799
+msgid "Moved"
+msgstr "Przeniesione "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1789
+#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1802
+msgid "Failed to move "
+msgstr "Nie udało się przesunąć "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/variables.cpp:122
+msgid "Other"
+msgstr "Inne"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/backup/backupjob.cpp:70
+msgid "Creating file list, this may take some time."
+msgstr "Tworzenie listy plików, może to zająć trochę czasu."
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:246
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:401
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:539
+msgid "Job Name"
+msgstr "Nazwa Projektu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:278
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:568
+msgid "Function"
+msgstr "Funkcja"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:282
+msgid "File Checks"
+msgstr "Kontrole pliku"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:286
+msgid "File size"
+msgstr "Rozmiar pliku"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:290
+msgid "Modified time"
+msgstr "Zmodyfikowany czas"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:294
+msgid "Short Comparison"
+msgstr "Krótkie porównanie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:298
+msgid "Full Comparison"
+msgstr "Pełne porównanie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:306
+msgid "Retain Timestamps"
+msgstr "Zatrzymaj znakowanie czasu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:310
+msgid "Retain Attributes"
+msgstr "Zatrzymaj atrybuty"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:314
+msgid "Ignore Read-Only"
+msgstr "Zignoruj \"tylko do odczytu\""
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:318
+msgid "Use Recycle Bin"
+msgstr "Używaj kosza"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:322
+msgid "Preview Only Changes"
+msgstr "Tylko podgląd zmian"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:329
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:473
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:575
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:720
+msgid "Run"
+msgstr "Uruchom"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:332
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:86
+msgid "Preview"
+msgstr "Podgląd"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:335
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:476
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:578
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:886
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:895
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:904
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:347
+msgid "Source"
+msgstr "Źródło"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:368
+msgid "Destination"
+msgstr "Cel"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:432
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:648
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:62
+msgid "Type"
+msgstr "Typ"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:440
+msgid "Format"
+msgstr "Format"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:444
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:453
+msgid "Compression Level"
+msgstr "Poziom Kompresji"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:448
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1975
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2159
+msgid "Default"
+msgstr "Domyślne"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:461
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:54
+msgid "Password"
+msgstr "Hasło"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:464
+msgid "Test After Creation"
+msgstr "Testuj po utworzeniu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:467
+msgid "Solid Mode"
+msgstr "Tryb stały"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:488
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:590
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:868
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1555
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1571
+msgid "Computer"
+msgstr "Komputer"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:503
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2141
+msgid "Backup Location"
+msgstr "Archiwizuj pozycje"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:512
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2142
+msgid "Files to Backup"
+msgstr "Pliki do archiwizacji"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:605
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2128
+msgid "Files to Encrypt"
+msgstr "Pliki do zaszyfrowania"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:626
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:668
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:704
+msgid "Name"
+msgstr "Nazwa"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:647
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:53
+msgid "Rule"
+msgstr "Reguła"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:754
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:757
+msgid "Remember Entered Information"
+msgstr "Zapamiętaj wpisane informacje"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:770
+msgid "Language"
+msgstr "Język"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:784
+msgid "Tab style"
+msgstr "Tab style"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:788
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:791
+msgid "Font"
+msgstr "Czcionka"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:795
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2247
+msgid "Choose font"
+msgstr "Wybierz czcionkę"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:802
+msgid "Enable Tooltips"
+msgstr "Włącz dymki"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:806
+msgid "Small Borders"
+msgstr "Małe brzegi"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:869
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1556
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1572
+msgid "Expansion"
+msgstr "Rozszerzenie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:879
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:888
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:897
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:906
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:917
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:79
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:105
+msgid "Save"
+msgstr "Zapisz"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:880
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:889
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:891
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:898
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:900
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:907
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:909
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:912
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:914
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:918
+msgid "Add"
+msgstr "Dodaj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:881
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:890
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:892
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:899
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:901
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:908
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:910
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:913
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:915
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:919
+msgid "Remove"
+msgstr "Usuń"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:882
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:883
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:894
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:903
+msgid "Expand all"
+msgstr "Rozwiń wszystko"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:884
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:885
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:893
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:902
+msgid "Insert Variable"
+msgstr "Wstaw wartość zmienną"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:984
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1358
+msgid "Differential only supports one folder"
+msgstr "Dyferencyjny obsługuje tylko jeden folder"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1034
+msgid "Please select the source folder"
+msgstr "Proszę wybrać folder źródłowy"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1045
+msgid "Please select the destination folder"
+msgstr "Proszę wybierz folder celowy"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
+msgid "Please enter the name for the new rules"
+msgstr "Proszę wpisz nazwę dla nowych reguł"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
+msgid "New Rules"
+msgstr "Nowe reguły"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
+msgid "Do you wish to save the current rules?"
+msgstr "Czy chcesz zapisać obecne reguły?"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
+msgid "Rules Save"
+msgstr "Zapis reguł"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1166
+msgid "There is already a set of rules with this name"
+msgstr "Już istnieje zestaw reguł o tej nazwie"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
+msgid "Do you wish to save the current job?"
+msgstr "Czy chcesz zapisać obecny projekt?"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
+msgid "Job Save"
+msgstr "Zapis projektu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1302
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1364
+msgid "Please select the folder to store your backups"
+msgstr "Proszę wybierz folder do zachowania twoich archiwów"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1308
+msgid "Restore into:"
+msgstr "Odnów do:"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1324
+msgid "Please choose a file to backup to"
+msgstr "Proszę wybierz plik do zapisu archiwizacji"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
+msgid "Please enter the name for the new variable"
+msgstr "Proszę podaj nazwę dla nowej wartości zmiennej"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
+msgid "New Variable"
+msgstr "Nowa wartość zmienna"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
+msgid "Do you wish to save the current variable?"
+msgstr "Czy chcesz zapisać obecną wartość zmienną?"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
+msgid "Variable Save"
+msgstr "Zapis wartości zmiennej"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1547
+msgid "There is already a variable with this name"
+msgstr "Już istnieje wartość zmienna z tą nazwą"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
+msgid "Please insert the location you want to point to."
+msgstr "Proszę podaj pozycje celową."
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:61
+msgid "Location"
+msgstr "Pozycja"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
+msgid "Please enter the name for the new script"
+msgstr "Proszę wpisz nazwę dla nowego skryptu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
+msgid "New Script"
+msgstr "Nowy Skrypt"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
+msgid "Do you wish to save the current script?"
+msgstr "Czy chcesz zapisać obecny skrypt?"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
+msgid "Script Save"
+msgstr "Zapis skryptu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1709
+msgid "There is already a script with this name"
+msgstr "Już istnieje skrypt z tą nazwą."
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
+msgid "Please enter the name for the new job"
+msgstr "Proszę wpisz nazwę dla nowego projektu"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
+msgid "New Job"
+msgstr "Nowy Projekt"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1865
+msgid "There is already a job with this name"
+msgstr "Już istnieje projekt z tą nazwą"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2009
+msgid "Exclude by extension"
+msgstr "Wyklucz według rozszerzenia"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2010
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2015
+msgid "Exclude by name"
+msgstr "Wyklucz według nazwy"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2011
+msgid "Include by extension"
+msgstr "Dołącz według rozszerzenia"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2012
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2016
+msgid "Include by name"
+msgstr "Dołącz według nazwy"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2119
+msgid "Overwritten"
+msgstr "Nadpisane"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2122
+msgid "If needed"
+msgstr "W razie potrzeby"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2131
+msgid "Files to Decrypt"
+msgstr "Pliki do odszyfrowania"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2137
+msgid "Location to Extract into"
+msgstr "Położenie wypakowania"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2138
+msgid "Archives to Extract"
+msgstr "Archiwa do wypakowania"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2150
+msgid "None"
+msgstr "Brak"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2153
+msgid "Fastest"
+msgstr "Najszybszy"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2156
+msgid "Fast"
+msgstr "Szybki"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2162
+msgid "Maximum"
+msgstr "Maksymalny"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2165
+msgid "Ultra"
+msgstr "Ultra"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:57
+msgid "Repeat Password"
+msgstr "Powtórz hasło"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:71
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:73
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:76
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:95
+msgid "OK"
+msgstr "OK"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:75
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:76
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:80
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:98
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:83
+msgid "Time"
+msgstr "Czas"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:84
+msgid "Status"
+msgstr "Stan"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:105
+msgid "Please select a folder"
+msgstr "Proszę wybierz folder"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:116
+#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:153
+msgid "Failed to encrypt "
+msgstr "Nie udało się zaszyfrować "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:126
+#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:161
+msgid "Failed to decrypt "
+msgstr "Nie udało się rozszyfrować "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:150
+msgid "Encrypted "
+msgstr "Zaszyfrowane "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:158
+msgid "Decrypted "
+msgstr "Rozszyfrowane "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:37
+#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:40
+#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:62
+#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:71
+msgid "Could not create"
+msgstr "Nie można utworzyć"
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:346
+#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:363
+msgid "Removed "
+msgstr "Usunięto "
+
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:26
+#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:28
+msgid "Input Password"
+msgstr "Wpisz hasło"
+
+#~ msgid "Welcome to the Toucan command line system"
+#~ msgstr "Witaj w wierszu poleceń programu Toucan"
+#~ msgid "The command is not recognised"
+#~ msgstr "Polecenie nie jest uznawane"
+#~ msgid "Renamed "
+#~ msgstr "Zmieniono nazwę"
+#~ msgid "Failed to rename "
+#~ msgstr "Nie udało się zmienić nazwy"
+#~ msgid "Executed "
+#~ msgstr "Wykonane "
+#~ msgid "Not all of the required fields are filled"
+#~ msgstr "Nie wszystkie wymagane pola zostały wypełnione"
+#~ msgid "There was an error reading from the jobs file"
+#~ msgstr "Nastąpił błąd w czytaniu pliku projektów"
+#~ msgid ""
+#~ "There was an error saving to the jobs file, \n"
+#~ "please check it is not set as read only or in use"
+#~ msgstr ""
+#~ "Nastąpił błąd w zapisie pliku z projektami, \n"
+#~ "sprawdź proszę czy plik nie jest ustawiony jako \"tylko do odczytu\" lub "
+#~ "nie jest w użyciu"
+#~ msgid "Ignore Daylight Savings"
+#~ msgstr "Zignoruj czas letni"
+#~ msgid "Files to Secure"
+#~ msgstr "Pliki do zabezpieczenia"
+#~ msgid "About"
+#~ msgstr "O"
+#~ msgid "Please enter the name for the new varaible"
+#~ msgstr "Proszę wpisz nazwę dla nowej wartości zmiennej"
+#~ msgid "Choose a directory"
+#~ msgstr "Wybierz folder"
+#~ msgid "Backup file"
+#~ msgstr "Plik archiwizacji"
+#~ msgid "File of paths"
+#~ msgstr "Plik ścieżek"
+#~ msgid "Compression level"
+#~ msgstr "Poziom kompresji"
+#~ msgid ""
+#~ "You need to repeat the password and ensure the two passwords are identical"
+#~ msgstr "Musisz powtórzyć hasło i zapewnić że te dwa hasła są identyczne"
+#~ msgid "You have specified the wrong number of options"
+#~ msgstr "Podałeś złą ilość opcji"
+#~ msgid "Error with Regex"
+#~ msgstr "Błąd Regex"
+#~ msgid "Rename"
+#~ msgstr "Zmień nazwę"
+#~ msgid "Files to exclude (file name, path or extension)"
+#~ msgstr "Wykluczone pliki (nazwa pliku, ścieżka lub rozszerzenie)"
+#~ msgid "Folders to exclude (folder name or path)"
+#~ msgstr "Wykluczone foldery (nazwa folderu lub ścieżka)"
+#~ msgid ""
+#~ "Locations to always include (file/folder name, path or  file extension)"
+#~ msgstr "Zawsze załącz pozycje (plik/folder, ścieżka lub rozszerzenie pliku)"
+#~ msgid "Please select the desination folder."
+#~ msgstr "Proszę wybrać folder celowy."
+#~ msgid "You must select a name for this set of Rules"
+#~ msgstr "Musisz wybrać nazwę dla tego zbioru reguł."
+#~ msgid "New Portable Variable"
+#~ msgstr "Nowa przenośna wartość zmienna"
+#~ msgid "Please chose a job to save to"
+#~ msgstr "Proszę wybierz projekt do zapisania"
+#~ msgid "Hidden text"
+#~ msgstr "ukryty tekst"
+#~ msgid ""
+#~ "Toucan tried to delete a root directory. This has been forbidden for your "
+#~ "own safety"
+#~ msgstr ""
+#~ "Toucan próbował usunąć folder systemowy. To jest zabronione ze względu "
+#~ "dla bezpieczeństwa twojego systemu."
+#~ msgid "7-Zip"
+#~ msgstr "7-Zip"
+#~ msgid "Zip"
+#~ msgstr "Zip"
+#~ msgid "Backup file:"
+#~ msgstr "Plik archiwizacji:"
+#~ msgid "Please choose your backup file"
+#~ msgstr "Proszę wybierz twój plik zapisu archiwizacji"
+#~ msgid "\t copied to \t"
+#~ msgstr "\t skopiowane do \t"
+#~ msgid "\t updated \t"
+#~ msgstr "\t zaktualizowane \t"
+#~ msgid "Set folder timestamps for "
+#~ msgstr "Ustaw folder znakowania czasu dla"
+#~ msgid "Tab style (requires restart)"
+#~ msgstr "Styl Tab'u (potrzebny restart)"
+#~ msgid "Portable Variables"
+#~ msgstr "Przenośne wartości zmienne"
+#~ msgid "File to include"
+#~ msgstr "Plik do załączenia"
+#~ msgid "Only the first item you dragged was added"
+#~ msgstr "Tylko pierwsza pozycja którą przeciągnąłeś została dodana"
+#~ msgid "Warning"
+#~ msgstr "Ostrzeżenie"
+#~ msgid "Icons + Text"
+#~ msgstr "Ikony + Tekst"
+#~ msgid "Opertion"
+#~ msgstr "Operacja"
+#~ msgid "Read-only"
+#~ msgstr "Tylko do odczytu"
+#~ msgid "Daylight savings"
+#~ msgstr "Przestawienie czasu"
+#~ msgid "Timestamps"
+#~ msgstr "Znakowanie czasu "
+#~ msgid "Attributes"
+#~ msgstr "Atrybuty"
+
+#, fuzzy
+#~ msgid "7 Zip"
+#~ msgstr "7-Zip"
+
+#, fuzzy
+#~ msgid "Normal"
+#~ msgstr "Format"
+

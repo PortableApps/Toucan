@@ -1,0 +1,43 @@
+============
+Command Line
+============
+
+All command line options in Toucan have a long and a short form. A
+comprehensive list is given below.
+
+.. cmdoption:: -h, --disablesplash
+
+	Hides the startup slpash screen
+
+.. cmdoption:: -u, --unittests
+
+	Runs the built in unit tests
+
+.. cmdoption:: -d<path>, --datadirectory=<path>
+
+	Changes the location that Toucan saves its settings. Variables can be
+	used and will be expanded
+
+.. cmdoption:: -s<script>, --script=<script>
+
+	Runs the given script as if it were in the input area of the Script tab 
+	in the user interface. Output will be sent to the command line . Please 
+	note that the script command line parameter takes the same input as the 
+	input area in the user interface. This means that if you wish to run a 
+	specific existing script you will need to use
+	``--script="dofile(getscript([[myscriptname]]))"``
+
+.. cmdoption:: -j<jobname>, --job=<jobname>
+
+	Runs the given job
+
+.. cmdoption:: -l<path>, --logfile=<path>
+
+	Produces a log file in the specified location, it can be used both on 
+	the command line and in the user interface 
+
+.. cmdoption:: -p<path>, --password=<password>
+
+    Sets the password to be used in command line backup and secure jobs. If you
+    do not set this then you will be prompted as the job is running.
+

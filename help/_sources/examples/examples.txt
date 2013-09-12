@@ -1,0 +1,90 @@
+========
+Examples
+========
+
+Running Jobs::
+
+	sync("syncjobname")
+	backup("backupjobname")
+	secure("securejobname")
+
+Running Scripts::
+
+	dofile(getscript("myscriptname"))
+	
+
+Running a Custom Job::
+
+	sync([[my\source]], [[my\dest]], "Copy", {size = true, time = false, short = true, full = false}, {timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false})
+
+Flow Control::
+
+	day = os.date("%A")
+	if day == "Sunday" then
+		print("Never run the backup on a Sunday!")
+	elseif day == "Saturday" then
+		backup("WeekendBackup")
+	else
+		sync("DailySync")
+	end
+	
+The example below shows the scipt that is used to build Toucan test 
+builds. It shows a few of the many different capabilities of the Lua
+scripting system.::
+
+	packageversion = "3.0.0.0"
+	displayversion = "3.0 Pre-Release 1"
+
+	toucanpath = [[C:\Users\Steven\Desktop\Toucan\Application\]]
+	nsispath = [["C:\Program Files (x86)\NSIS\makensis.exe"]]
+	compressorpath = [[C:\Users\Steven\Desktop\AppCompactor\AppCompactor.exe]]
+	installerpath = [[C:\Users\Steven\Desktop\PortableApps.comInstaller\PortableApps.comInstaller.exe]]
+
+	--Firstly we update the appinfo file to the latest version
+	io.input(toucanpath .. [[App\AppInfo\appinfo.ini]])
+	t = io.read("*all")
+	t = string.gsub(t, "PackageVersion=%d%.%d%.%d%.%d", "PackageVersion=" .. packageversion)
+	t = string.gsub(t, "DisplayVersion=.-\n", "DisplayVersion=" .. displayversion .. "\n\n")
+	io.output(toucanpath .. [[App\AppInfo\appinfo.ini]])
+	io.write(t)
+	io.close()
+
+	--Then we update the launcher
+	io.input(toucanpath .. [[Other\Source\ToucanLauncher.nsi]])
+	t = io.read("*all")
+	t = string.gsub(t, [[!define VER "%d%.%d%.%d%.%d"]], [[!define VER "]].. packageversion .. [["]])
+	io.output(toucanpath .. [[Other\Source\ToucanLauncher.nsi]])
+	io.write(t)
+	io.close()
+
+	--Run the unittests
+	if execute(toucanpath .. [[\App\Toucan\toucan.exe -u]]) ~= 0 then
+		print("The unit tests failed", false, true)
+		return
+	else
+		print("Unit tests passed")
+	end
+
+	--Build the launcher
+	if execute(nsispath .. " \"" .. toucanpath .. [[\Other\Source\ToucanLauncher.nsi"]]) ~= 0 then
+		print("Building the launcher failed", false, true)
+		return
+	else
+		print("Launcher built")
+	end
+
+	--Compress the app
+	if execute(compressorpath .. " " .. toucanpath) ~= 0 then
+		print("Compression failed", false, true)
+		return
+	else
+		print("App compressed")
+	end
+
+	--Build the installer
+	if execute(installerpath .. " " .. toucanpath) ~= 0 then
+		print("Building the installer failed", false, true)
+		return
+	else
+		print("Installer created")
+	end

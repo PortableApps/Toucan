@@ -1,0 +1,100 @@
+============
+Introduction
+============
+
+What is Toucan?
+===============
+
+Simply put Toucan is a file syncronisation, backup and encryption tool, 
+aimed at advanced users. It has been written from the ground up to be a 
+`portable application 
+<http://portableapps.com/about/what_is_a_portable_app>`_. It also 
+features a powerful inbuilt scripting system and a user interface that 
+has been translated into nearly 20 languages. 
+
+What is this Document?
+======================
+
+You are reading the main Toucan manual. It aims to be a complete 
+reference for Toucan, the user interface, the command line options and 
+scripting system. Also included are sections on translating and 
+compiling Toucan, as well as a set of example scripts. It is not a guide 
+to Lua, the language that Toucan uses for its scripts, for an 
+introduction see the `Lua website <http://www.lua.org>`_ and 
+`documentation <http://www.lua.org/manual/5.1/>`_. If you spot any 
+mistakes or have any suggestions please post them in the Toucan support forum. 
+
+A Brief History
+===============
+
+What would eventually become Toucan, although it shares no code with it, 
+first existed on the MozillaZine forums in the same thread as the 
+original versions of Portable Firefox. Although it's name has apparently 
+been lost to history it was a very basic app, coded in NSIS that simply 
+copied folders backwards and forwards, it was created originally for 
+copying Firefox profiles. After Portable Firefox moved to 
+PortableApps.com it migrated to the Liberta Project along with it's new 
+sibling, a backup tool written in NSIS that used 7-Zip as a back end. 
+Together these are the distant ancestors of Toucan. After some time 
+these two utilities were re-written into a single new tool in C++ using 
+the wxWidgets GUI library. It was called the Portable Utility and 
+Security Suite, which also added an encryption component. The code-base 
+evolved for some time, before eventually moving to PortableApps.com and 
+being renamed Toucan, a name chosen in a competition and thought of by 
+Danny Mensingh. The initial 1.1 release was a success, receiving roughly 
+40,000 downloads in it's first month. A number of bug fix releases 
+followed, most notably replacing the default encryption mode, before 
+version 2 was released with an updated user interface. The next major 
+release was 2.1 which moved to a new Sync engine and Progress Window. 
+After that release a there was another series of of bug fixes and 
+feature updates after which Version 3 was released. Version 3 is the 
+latest in a long line of improvements, moving to a new scripting system 
+based on Lua, support for Linux and many other general fixes and 
+additions, such as a much improved Sync system. 
+
+Installing Toucan
+=================
+
+Once you have downloaded a copy of Toucan from the 
+`website <http://portableapps.com/toucan>`_ installation is simple. 
+
+With the PortableApps.com Platform
+----------------------------------
+
+Simply open the menu and click Options->Add a new App and follow the on 
+screen instructions. Once installation has been completed Toucan will 
+immediately be ready to run by clicking the link on the menu. 
+
+Without the PortableApps.com Platform
+-------------------------------------
+
+If you do not use the platform and menu then simply run the installer 
+and follow the instructions, selecting a path for Toucan to be installed 
+in. Please note as of Windows Vista it is not recommended to install 
+into the Program Files directory due to permissions issues. Also you 
+will need to remember the path you have chosen to install to, because 
+Toucan is designed mainly as a portable application start menu shortcuts 
+are not created during installation. To run Toucan navigate to the 
+directory you have installed to and run Toucan.exe. 
+
+Uninstalling Toucan
+===================
+
+If Toucan is not for you then because of its portable nature 
+uninstallation is very straightforward. Please consider leaving some 
+feedback in the Toucan support forum to help us improve it in future 
+revisions. 
+
+With the PortableApps.com Platform
+----------------------------------
+
+Simply open the menu and click Options->Uninstall and follow the on 
+screen instructions. 
+
+Without the PortableApps.com Platform
+-------------------------------------
+
+Navigate to the folder you installed Toucan into and delete it, because 
+it is a portable application nothing is left elsewhere on your computer. 
+If you manually created your own start menu shortcuts you will need to 
+delete these separately. 

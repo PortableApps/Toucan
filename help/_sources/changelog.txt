@@ -1,0 +1,314 @@
+=========
+Changelog
+=========
+
+3.1
+===
+
+
+- Improved Rules support, including
+    - Improved validation
+    - A new interface
+    - Wildcard support in the Simple type
+    - Seperate file and folder includes
+    - Absolute excludes
+- Username variable
+- Improved input validation
+- Tooltips everywhere
+- Improved progress display
+    - Fixed command line output
+    - Improved UI responsivness
+    - Autoscroll toggle added
+    - UI now saves position and size
+- Scripting interface improvements
+    - Undo and redo buttons
+    - Interface to add existing jobs and commands
+- Long path support in sync
+- UNC path support in sync
+- Long UNC path support in sync
+
+3.0.4 (2010-11-30)
+==================
+
+
+-  Bug fixes
+
+3.0.3 (2010-09-26)
+==================
+
+
+-  Bug fixes
+-  New date and time variables
+
+3.0.2 (2010-07-22)
+==================
+
+
+-  Bug fixes
+
+3.0.1 (2010-06-17)
+==================
+
+
+-  Bug fixes
+
+-  Help file improvements
+
+-  Dutch translation updated
+
+
+3.0 (2010-06-17)
+==================
+
+
+-  A brand new scripting back-end using Lua
+
+-  Many Sync engine improvements
+
+-  Lots of new options
+
+-  Support for long file paths in Windows
+
+-  Completely overhauled command line interface
+
+-  Improved threading
+
+-  Updated folder creation
+
+-  Updated languages
+
+-  Georgian language support added
+
+2.2.1 (2009-12-07)
+==================
+
+
+-  Bug fixes
+
+-  Improved language support
+
+
+
+2.2.0 (2009-11-03)
+==================
+
+
+-  Improved saved data handling
+
+-  Data files transitioned to English
+
+-  Refresh buttons added
+
+-  Backup and Secure now live preview
+
+-  Sync user interface improvements
+
+-  New Rules user interface
+
+-  New Rules entry dialog
+
+-  New password entry dialog
+
+-  Many bug fixes
+
+-  Improved variable normalisation
+
+-  Memory usage reduced
+
+-  Program size reduced
+
+-  Drive labels supported as variables
+
+-  Swedish and Greek languages added
+
+-  Many translation updates
+
+
+2.1.2 (2009-07-29)
+==================
+
+
+-  Improved support for small screens
+
+-  User interface consistency improved
+
+-  Helpfile updates
+
+-  Many bug fixes
+
+
+2.1.1 (2009-07-05)
+==================
+
+
+-  Settings can be applied without a restart
+
+-  Helpfile updates
+
+-  Errors now highlighted red
+
+-  Tool-tips have been added
+
+-  Many bug fixes
+
+
+2.1.0 (2009-05-17)
+==================
+
+
+-  New progress window
+
+-  New Sync engine
+
+-  Visual finished notification
+
+-  Command line output logging
+
+-  Many bug fixes
+
+-  Code moved to Mercurial
+
+-  Added Japanese, Simplified Chinese
+
+
+2.0.7 (2009-03-07)
+==================
+
+
+-  Multiple bug fixes
+
+
+2.0.6 (2009-02-21)
+==================
+
+
+-  Fix for crash on certain Windows XP computers
+
+
+2.0.5 (2009-02-20)
+==================
+
+
+-  New help file
+
+-  Tab rename
+
+-  Start up speed increase
+
+-  Portuguese, Portuguese (Brazilian), Turkish and Czech added
+
+-  Remember entered information options
+
+-  Rules system updated
+
+-  Multiple bug fixes
+
+-  Updated installer
+
+
+2.0.4 (2009-01-15)
+==================
+
+
+-  Bug fixes
+
+-  User interface Improvements
+
+-  Code re-factoring and reduction
+
+-  Added @volume@ variable
+
+-  Added Italian and Chinese
+
+
+2.0.3 (2008-12-02)
+==================
+
+
+-  Bug fixes
+
+-  User interface Improvements
+
+
+2.0.2 (2008-11-10)
+==================
+
+
+-  Bug fixes
+
+-  Sync speed improvements
+
+-  Added Bulgarian
+
+
+2.0.1 (2008-09-10)
+==================
+
+
+-  Bug fixes
+
+-  User interface Improvements
+
+-  Added Polish and Hungarian
+
+
+2.0 (2008-08-13)
+================
+
+
+-  New user interface
+
+-  Japanese removed
+
+-  Blowfish removed
+
+
+1.2.2 (2008-04-11)
+==================
+
+
+-  Bug fixes
+
+-  Folder time stamp syncing
+
+-  Added Spanish, Japanese and Estonian
+
+
+1.2.1.1 (2008-02-28)
+====================
+
+
+-  Fixed infinite loop bug
+
+
+1.2.1 (2008-02-11)
+==================
+
+
+-  Bug fixes
+
+-  Improved exclusions
+
+-  Improved command line
+
+-  Added Dutch
+
+
+1.2 (2007-11-21)
+================
+
+
+-  AES added
+
+-  Drag and drop support added
+
+-  Bug fixes
+
+-  Added French and German
+
+
+1.1 (2007-08-01)
+================
+
+
+-  Initial release

@@ -1,0 +1,754 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Toucan 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-07-25 19:16-0000\n"
+"PO-Revision-Date: 2009-08-13 21:57-0000\n"
+"Last-Translator: Steven Lamerton\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
+msgid "Password"
+msgstr "Passwort"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
+msgid "Please enter your password"
+msgstr "Bitte geben Sie Ihr Passwort ein."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
+#, fuzzy
+msgid "Please repeat your password"
+msgstr "Bitte geben Sie Ihr Passwort ein."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:304
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:314
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:327
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:336
+#, fuzzy
+msgid "The passwords do not match"
+msgstr "Uups, die Passwörter stimmen nicht überein!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:154
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
+msgid "Error"
+msgstr "Fehler"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:393
+msgid "Differential"
+msgstr "Differentiell"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
+msgid "Mirror (Copy)"
+msgstr "Spiegeln (kopieren)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
+msgid "Mirror (Update)"
+msgstr "Spiegeln (erneuern)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:465
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Mirror"
+msgstr "Spiegeln"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:31
+#, fuzzy
+msgid "Welcome to the Toucan command line system"
+msgstr "Willkommen zum Toucan Kommandozeilen-System.\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:241
+#, fuzzy
+msgid "The command is not recognised"
+msgstr "Uups, der Befehl konnte nicht erkannt werden!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:61
+msgid "Starting"
+msgstr "Starte"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:195
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:248
+msgid "Delete"
+msgstr "Löschen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:207
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:311
+msgid "Execute"
+msgstr "Ausführen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:85
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:143
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr "Zeile %d hat eine falsche Anzahl Parameter!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:98
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:118
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:136
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:148
+#, c-format
+msgid " not recognised on line %d"
+msgstr "konnte in Zeile %d nicht erkannt werden!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:198
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:261
+msgid "Move"
+msgstr "Verschieben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:281
+msgid "Copy"
+msgstr "Kopieren"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:204
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:296
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:156
+msgid "Setting up progress bar"
+msgstr "Bereite Fortschrittsanzeige vor"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Clean"
+msgstr "Säubern"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Equalise"
+msgstr "Synchronisieren"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:182
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:251
+msgid "Deleted "
+msgstr "Gelöscht"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:254
+msgid "Failed to delete "
+msgstr "Löschen fehlgeschlagen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:267
+msgid "Moved"
+msgstr "verschoben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:270
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:274
+msgid "Failed to move "
+msgstr "Verschieben fehlgeschlagen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:286
+msgid "Copied "
+msgstr "Kopiert"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:289
+msgid "Failed to copy "
+msgstr "Kopieren fehlgeschlagen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:301
+msgid "Renamed "
+msgstr "Umbenannt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:304
+msgid "Failed to rename "
+msgstr "Umbenennen fehlgeschlagen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:314
+msgid "Executed "
+msgstr "Ausgeführt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
+msgid "Not all of the required fields are filled"
+msgstr "Nicht alle benötigten Angaben wurde gemacht! Bitte füllen Sie die benötigten Felder vollständig aus."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:356
+msgid "Elapsed"
+msgstr "Vergangen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:357
+msgid "Finished"
+msgstr "fertig :-)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:114
+msgid "Encrypt"
+msgstr "Verschlüsseln"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:106
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:144
+msgid "Decrypt"
+msgstr "Entschlüsseln"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:137
+msgid "Encrypted "
+msgstr "Verschlüsselt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:140
+msgid "Failed to encrypt "
+msgstr "Verschlüsseln fehlgeschlagen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:157
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:176
+msgid "Failed to decrypt "
+msgstr "Entschlüsseln fehlgeschlagen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:173
+msgid "Decrypted "
+msgstr "Entschlüsselt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:44
+msgid "Icons and Text"
+msgstr "Symbole und Text"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:45
+msgid "Sync"
+msgstr "Sync"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:129
+msgid "Progress"
+msgstr "Fortschritt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/variables.cpp:94
+msgid "Other"
+msgstr "Sonstiges"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:62
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:35
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:47
+#, fuzzy
+msgid "There was an error reading from the jobs file"
+msgstr "Fehler beim Lesen der Auftrags-Datei! Bitte vergewissern Sie sich, dass die Datei nicht als  \"nur lesen\" markiert, oder in Benutzung ist."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:97
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:57
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:68
+#, fuzzy
+msgid ""
+"There was an error saving to the jobs file, \n"
+"please check it is not set as read only or in use"
+msgstr "Fehler beim Speichern der Auftragsdatei! Bitte vergewissern Sie sich, dass die Datei nicht als  \"nur lesen\" markiert, oder in Benutzung ist."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:378
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1863
+msgid "Complete"
+msgstr "Komplett"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:204
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:263
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:379
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:89
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:139
+msgid "Update"
+msgstr "Erneuern"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:326
+msgid "Creating file list, this may take some time."
+msgstr "Erstelle Liste der Dateien, dies kann eine Weile dauern."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:234
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:350
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:481
+msgid "Job Name"
+msgstr "Auftragsname"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:252
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:368
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:499
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:805
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1759
+msgid "Rules"
+msgstr "Regeln"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:268
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:511
+msgid "Function"
+msgstr "Funktion"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:276
+msgid "Retain Timestamps"
+msgstr "Zeitstempel beibehalten"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:280
+msgid "Retain Attributes"
+msgstr "Attribute beibehalten"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:284
+msgid "Ignore Read-Only"
+msgstr "Ignoriere \"Nur-Lesen\""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:288
+msgid "Ignore Daylight Savings"
+msgstr "Ignoriere Sommerzeit"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:416
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:518
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:71
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:88
+msgid "OK"
+msgstr "OK"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:298
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:419
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:521
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:79
+msgid "Preview"
+msgstr "Vorschau"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:308
+msgid "Source"
+msgstr "Quelle"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:323
+msgid "Destination"
+msgstr "Ziel"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:382
+msgid "Type"
+msgstr "Typ"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:389
+msgid "Format"
+msgstr "Format"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:393
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:402
+msgid "Compression Level"
+msgstr "Kompressionslevel"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:397
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2041
+msgid "Default"
+msgstr "Standard"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:429
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:531
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:859
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1447
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1473
+#, fuzzy
+msgid "Computer"
+msgstr "Komplett"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:445
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2023
+msgid "Backup Location"
+msgstr "Backup Ort"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:454
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2024
+msgid "Files to Backup"
+msgstr "zu sichernde Dateien"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:547
+#, fuzzy
+msgid "Files to Secure"
+msgstr "Auszuschließende Dateien"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:568
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:650
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:688
+msgid "Name"
+msgstr "Name"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:594
+msgid "Files to exclude (file name, path or extension)"
+msgstr "Auszuschließende Dateien (Dateiname, -pfad oder -erweiterung)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:610
+msgid "Folders to exclude (folder name or path)"
+msgstr "Auszuschließende Ordner (Ordnername oder -pfad)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:626
+msgid "Locations to always include (file/folder name, path or  file extension)"
+msgstr "Immer einzuschließende Orte (Datei-/Ordnername, -pfad oder  Dateierweiterung)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:717
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:720
+msgid "Remember Entered Information"
+msgstr "Erinnere eingegebene Informationen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:727
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:803
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1750
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1862
+msgid "Backup"
+msgstr "Backup"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:730
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:804
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1753
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1872
+msgid "Secure"
+msgstr "Sichern"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:733
+msgid "Language"
+msgstr "Sprache"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:745
+msgid "Text"
+msgstr "Text"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:746
+msgid "Tab style"
+msgstr "Tab-Stil"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:750
+msgid "Apply"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:753
+msgid "Font"
+msgstr "Schriftart"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:757
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2151
+msgid "Choose font"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:764
+msgid "Enable Tooltips"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:768
+msgid "Small Borders"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:778
+msgid "About"
+msgstr "Über"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:806
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1762
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:66
+msgid "Variables"
+msgstr "Variablen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:807
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1756
+msgid "Script"
+msgstr "Skript"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:808
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:809
+msgid "Help"
+msgstr "Hilfe"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:860
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1448
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1474
+msgid "Expansion"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:873
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:879
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:887
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:895
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:910
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:77
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:99
+msgid "Save"
+msgstr "Speichern"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:874
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:880
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:882
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:888
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:890
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:896
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:898
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:900
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:902
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:905
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:907
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:911
+msgid "Add"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:875
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:881
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:883
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:889
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:891
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:897
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:899
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:901
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:903
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:906
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:908
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:912
+#, fuzzy
+msgid "Remove"
+msgstr "Entfernt"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:876
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:877
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:885
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:893
+msgid "Expand all"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:884
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:892
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1639
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1649
+msgid "Insert Variable"
+msgstr "Variable einfügen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1014
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1321
+msgid "Differential only supports one folder"
+msgstr "Differentiell unterstützt nur einen Ordner"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1065
+#, fuzzy
+msgid "Please select the source folder"
+msgstr "Bitte wählen Sie den Quellordner."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1078
+#, fuzzy
+msgid "Please select the destination folder"
+msgstr "Bitte wählen Sie einen Zielordner."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1090
+msgid "File to exclude"
+msgstr "Auszuschließende Dateien"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1099
+msgid "Folder to exclude"
+msgstr "Auszuschließende Ordner"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1140
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1159
+msgid "You must select a name for this set of Rules"
+msgstr "Sie müssen einen Namen für diesen Satz Regeln wählen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1272
+msgid "Location to include"
+msgstr "Einzuschließende Orte"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1287
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1327
+msgid "Please select the folder to store your backups"
+msgstr "Bitte wählen Sie den Aufbewahrungsordner für die Sicherungen."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1293
+msgid "Restore into:"
+msgstr "Wiederherstellen nach:"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1306
+msgid "Please choose a file to backup to"
+msgstr "Bitte wählen Sie die zu sichernden Datei(en) aus."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+#, fuzzy
+msgid "Please enter the name for the new variable"
+msgstr "Bitte geben Sie den Namen der neuen Portable-Variablen ein."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+#, fuzzy
+msgid "New Variable"
+msgstr "Variablen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1460
+#, fuzzy
+msgid "There is already a variable with this name."
+msgstr "Es gibt schon eine Portable-Variable mit diesem Namen!"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1511
+msgid "Choose a directory"
+msgstr "Bitte wählen Sie ein Verzeichnis."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+msgid "Please insert the location you want to point to."
+msgstr "Bitte geben Sie den Zielort ein."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:53
+msgid "Location"
+msgstr "Ort"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+msgid "Please enter the name for the new script"
+msgstr "Bitte geben Sie den Namen des neuen Skriptes ein."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+msgid "New Script"
+msgstr "neues Skript"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1774
+msgid "Job name"
+msgstr "Auftragsname"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1817
+msgid "Please chose a job to save to"
+msgstr "Bitte wählen Sie einen Auftrag zum Speichern."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1925
+msgid "Exclude by extension"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1926
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1931
+msgid "Exclude by name"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1927
+msgid "Include by extension"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1928
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1932
+msgid "Include by name"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2008
+msgid "Overwritten"
+msgstr "Überschrieben"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2011
+msgid "If needed"
+msgstr "Falls notwendig"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2018
+#, fuzzy
+msgid "Location to Extract into"
+msgstr "Einzuschließende Orte"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2019
+msgid "Archives to Extract"
+msgstr ""
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2032
+msgid "None"
+msgstr "Keine"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2035
+msgid "Fastest"
+msgstr "Sehr schnell"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2038
+msgid "Fast"
+msgstr "Schnell"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2044
+msgid "Maximum"
+msgstr "Maximum"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2047
+msgid "Ultra"
+msgstr "Ultra"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:74
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:91
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:81
+msgid "Time"
+msgstr "Zeit"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:82
+msgid "Status"
+msgstr "Status"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:123
+#, fuzzy
+msgid "Please select a folder"
+msgstr "Bitte wählen Sie einen Ordner."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:329
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:343
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:359
+msgid "Removed "
+msgstr "Entfernt"
+
+#~ msgid "Repeated password"
+#~ msgstr "Wiederholtes Passwort"
+#~ msgid "Operation"
+#~ msgstr "Operation"
+#~ msgid "Backup file"
+#~ msgstr "Sicherungsdatei"
+#~ msgid "File of paths"
+#~ msgstr "Datei der Pfade"
+#~ msgid "Compression level"
+#~ msgstr "Kompressionslevel"
+#~ msgid ""
+#~ "You need to repeat the password and ensure the two passwords are identical"
+#~ msgstr ""
+#~ "Sie müssen das Passwort wiederholen und sicherstellen, dass beide "
+#~ "Passwörter übereinstimmen!"
+#~ msgid "You have specified the wrong number of options"
+#~ msgstr "Sie haben eine falsche Anzahl Optionen angegeben!"
+#~ msgid "Error with Regex"
+#~ msgstr "Regex-Fehler"
+#~ msgid "Please select the desination folder."
+#~ msgstr "Bitte wählen Sie den Zielordner."
+#~ msgid "New Portable Variable"
+#~ msgstr "neue Portable-Variable"
+#~ msgid "Hidden text"
+#~ msgstr "Versteckter Text"
+#~ msgid ""
+#~ "Toucan tried to delete a root directory. This has been forbidden for your "
+#~ "own safety"
+#~ msgstr ""
+#~ "Toucan versuchte ein Stamm- oder Systemverzeichnis zu löschen! Dies wurde "
+#~ "unterbunden, um die Integrität des Systems nicht zu gefährden."
+#~ msgid "7-Zip"
+#~ msgstr "7-Zip"
+#~ msgid "Zip"
+#~ msgstr "Zip"
+#~ msgid "Backup file:"
+#~ msgstr "Sicherungsdatei:"
+#~ msgid "Please choose your backup file"
+#~ msgstr "Bitte wählen Sie Ihre Sicherungsdatei."
+#~ msgid "\t copied to \t"
+#~ msgstr "\t kopiert nach \t"
+#~ msgid "\t updated \t"
+#~ msgstr "\t aktualisiert \t"
+#~ msgid "Set folder timestamps for "
+#~ msgstr "Setze Zeitstempel des Ordners für"
+#~ msgid "Tab style (requires restart)"
+#~ msgstr "Tab-Stil (benötigt Neustart)"
+#~ msgid "File to include"
+#~ msgstr "Einzuschließende Dateien"
+#~ msgid "Only the first item you dragged was added"
+#~ msgstr "Nur das erste Element wurde hinzugefügt!"
+#~ msgid "Warning"
+#~ msgstr "Warnung"
+#~ msgid "Icons + Text"
+#~ msgstr "Symbol + Text"
+#~ msgid "Opertion"
+#~ msgstr "Operation"
+#~ msgid "Script Name"
+#~ msgstr "Skriptname"
+#~ msgid "Read-only"
+#~ msgstr "Nur-Lesen"
+#~ msgid "Daylight savings"
+#~ msgstr "Sommerzeit"
+#~ msgid "Timestamps"
+#~ msgstr "Zeitstempel"
+#~ msgid "Attributes"
+#~ msgstr "Attribute"
+

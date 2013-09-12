@@ -1,0 +1,749 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Toucan 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-07-25 19:16-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: stergios vradelis <svradelis@mycosmos.gr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
+msgid "Password"
+msgstr "Κωδικός Ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
+msgid "Please enter your password"
+msgstr "Παρακαλώ καταχωρήστε κωδικό ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
+msgid "Please repeat your password"
+msgstr "Παρακαλώ επαναλάβετε τον κωδικό ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:304
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:314
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:327
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:336
+msgid "The passwords do not match"
+msgstr " Οι κωδικοί ασφαλείας δεν ταιριάζουν"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:154
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:393
+msgid "Differential"
+msgstr "Διαφορικό"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
+msgid "Mirror (Copy)"
+msgstr "Mirror (Αντίγραφο)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
+msgid "Mirror (Update)"
+msgstr "Mirror (Ενημέρωση)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:465
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Mirror"
+msgstr "Mirror"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:31
+msgid "Welcome to the Toucan command line system"
+msgstr "Καλωσορίσατε  στο σύστημα αρχείων του Toucan.\n"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:241
+msgid "The command is not recognised"
+msgstr " Η εντολή δεν αναγνωρίζεται"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:61
+msgid "Starting"
+msgstr "Έναρξη"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:195
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:248
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:207
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:311
+msgid "Execute"
+msgstr "Εκτέλεση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:85
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:143
+#, c-format
+msgid "Line %d has an incorrect number of parameters"
+msgstr "Η γραμμή %d έχει εσφαλμένο αριθμό παραμέτρων"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:98
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:118
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:136
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:148
+#, c-format
+msgid " not recognised on line %d"
+msgstr "δεν αναγνωρίστηκε στην γραμμή %d"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:198
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:261
+msgid "Move"
+msgstr "Μετακίνηση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:281
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:204
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:296
+msgid "Rename"
+msgstr "Μετονομασία"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:156
+msgid "Setting up progress bar"
+msgstr "Ρύθμιση μπάρας προόδου"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Clean"
+msgstr "Καθαρισμός"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
+msgid "Equalise"
+msgstr "Εξίσωση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:182
+msgid "Restore"
+msgstr "Αποκατάσταση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:251
+msgid "Deleted "
+msgstr "Διεγραμμένο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:254
+msgid "Failed to delete "
+msgstr "Αποτυχία διαγραφής"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:267
+msgid "Moved"
+msgstr "Μετακινήθηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:270
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:274
+msgid "Failed to move "
+msgstr "Αποτυχία μετακίνησης"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:286
+msgid "Copied "
+msgstr "Αντιγράφηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:289
+msgid "Failed to copy "
+msgstr "Αποτυχία αντιγραφής"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:301
+msgid "Renamed "
+msgstr "Μετονομάσθηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:304
+msgid "Failed to rename "
+msgstr "Αποτυχία μετονομασίας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:314
+msgid "Executed "
+msgstr "Εκτελέσθηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
+msgid "Not all of the required fields are filled"
+msgstr "Δεν συμπληρώθηκαν όλα τα απαιτούμενα πεδία"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:356
+msgid "Elapsed"
+msgstr "Παρήλθε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:357
+msgid "Finished"
+msgstr "Τελείωσε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:103
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:114
+msgid "Encrypt"
+msgstr "Κρυπτογράφηση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:106
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:144
+msgid "Decrypt"
+msgstr "Αποκρυπτογράφηση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:137
+msgid "Encrypted "
+msgstr "Κρυπτογραφήθηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:140
+msgid "Failed to encrypt "
+msgstr "Αποτυχία κρυπτογράφησης"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:157
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:176
+msgid "Failed to decrypt "
+msgstr "Αποτυχία αποκρυπτογράφησης"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:173
+msgid "Decrypted "
+msgstr "Αποκρυπτογραφήθηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:44
+msgid "Icons and Text"
+msgstr "Εικόνες και Κείμενο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:45
+msgid "Sync"
+msgstr "Συγχρονισμός"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:129
+msgid "Progress"
+msgstr "Πρόοδος"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/variables.cpp:94
+msgid "Other"
+msgstr "'Αλλο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:62
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:35
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:47
+msgid "There was an error reading from the jobs file"
+msgstr "Υπήρξε σφάλμα κατά την ανάγνωση από το αρχείο εργασιών"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:97
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:57
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:68
+msgid ""
+"There was an error saving to the jobs file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+"Υπήρξε σφάλμα κατά την αποθήκευση στο αρχείο εργασιών, \n"
+"παρακαλώ ελέγξτε ότι δεν είναι μόνο για ανάγνωση ή ότι δεν χρησιμοποιείται."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:201
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:378
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1863
+msgid "Complete"
+msgstr "Πλήρες"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:204
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:263
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:379
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:89
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:139
+msgid "Update"
+msgstr "Ενημέρωση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:326
+msgid "Creating file list, this may take some time."
+msgstr "Δημιουργία λίστας αρχείων,μπορεί να χρειαστεί κάποιος χρόνος."
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:234
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:350
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:481
+msgid "Job Name"
+msgstr "Όνομα Εργασίας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:252
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:368
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:499
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:805
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1759
+msgid "Rules"
+msgstr "Κανόνες"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:268
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:511
+msgid "Function"
+msgstr "Συνάρτηση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:276
+msgid "Retain Timestamps"
+msgstr "Διατήρησε Χρονοετικέτες"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:280
+msgid "Retain Attributes"
+msgstr "Διατήρησε Ιδιότητες"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:284
+msgid "Ignore Read-Only"
+msgstr "Αγνόησε  Μόνο για Ανάγνωση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:288
+msgid "Ignore Daylight Savings"
+msgstr "Αγνόησε Daylight Savings"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:295
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:416
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:518
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:71
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:88
+msgid "OK"
+msgstr "OK"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:298
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:419
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:521
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:79
+msgid "Preview"
+msgstr "Προεπισκόπηση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:308
+msgid "Source"
+msgstr "Πηγή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:323
+msgid "Destination"
+msgstr "Προορισμός"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:382
+msgid "Type"
+msgstr "Τύπος"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:389
+msgid "Format"
+msgstr "Format"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:393
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:402
+msgid "Compression Level"
+msgstr "Επίπεδο Συμπίεσης"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:397
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2041
+msgid "Default"
+msgstr "Προεπιλεγμένο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:429
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:531
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:859
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1447
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1473
+msgid "Computer"
+msgstr "Υπολογιστής"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:445
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2023
+msgid "Backup Location"
+msgstr "Τοποθεσία Αντιγράφων Ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:454
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2024
+msgid "Files to Backup"
+msgstr "Αρχεία για δημιουργία αντιγράφων ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:547
+msgid "Files to Secure"
+msgstr "Αρχεία προς ασφάλιση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:568
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:650
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:688
+msgid "Name"
+msgstr "Όνομα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:594
+msgid "Files to exclude (file name, path or extension)"
+msgstr "Αρχεία προς εξαίρεση (όνομα αρχείου, διαδρομή ή επέκταση)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:610
+msgid "Folders to exclude (folder name or path)"
+msgstr "Φάκελοι προς εξαίρεση(όνομα φακέλου ή διαδρομή)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:626
+msgid "Locations to always include (file/folder name, path or  file extension)"
+msgstr "Να συμπεριλαμβάνονται πάντα οι τοποθεσίες (όνομα αρχείου/φακέλου ή επέκταση αρχείου)"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:717
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:720
+msgid "Remember Entered Information"
+msgstr "Θυμήσου Εισηγμένες Πληροφορίες"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:727
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:803
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1750
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1862
+msgid "Backup"
+msgstr "Αντίγραφα Ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:730
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:804
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1753
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1872
+msgid "Secure"
+msgstr "Ασφάλεια"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:733
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:745
+msgid "Text"
+msgstr "Κείμενο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:746
+msgid "Tab style"
+msgstr "Στυλ Καρτελών"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:750
+msgid "Apply"
+msgstr "Εφαρμογή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:753
+msgid "Font"
+msgstr "Γραμματοσειρά"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:757
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2151
+msgid "Choose font"
+msgstr "Επιλέξτε γραμματοσειρά"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:764
+msgid "Enable Tooltips"
+msgstr "Ενεργοποίηση Tooltips"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:768
+msgid "Small Borders"
+msgstr "Μικρά περιθώρια"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:778
+msgid "About"
+msgstr "Περι"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:806
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1762
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:66
+msgid "Variables"
+msgstr "Μεταβλητές"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:807
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1756
+msgid "Script"
+msgstr "Script"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:808
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:809
+msgid "Help"
+msgstr "Βοήθεια"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:860
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1448
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1474
+msgid "Expansion"
+msgstr "Επέκταση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:873
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:879
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:887
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:895
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:910
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:77
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:99
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:874
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:880
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:882
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:888
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:890
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:896
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:898
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:900
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:902
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:905
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:907
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:911
+msgid "Add"
+msgstr "Πρόσθεσε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:875
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:881
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:883
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:889
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:891
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:897
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:899
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:901
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:903
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:906
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:908
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:912
+msgid "Remove"
+msgstr "Απομάκρυνε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:876
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:877
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:885
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:893
+msgid "Expand all"
+msgstr "Επέκτεινε όλα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:884
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:892
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1639
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1649
+msgid "Insert Variable"
+msgstr "Εισάγετε μεταβλητή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1014
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1321
+msgid "Differential only supports one folder"
+msgstr "Το διαφορικό υποστηρίζει μόνο έναν φάκελο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1065
+msgid "Please select the source folder"
+msgstr "Παρακαλώ επιλέξτε τον πηγαίο φάκελο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1078
+msgid "Please select the destination folder"
+msgstr "Παρακαλώ επιλέξτε τον φάκελο προορισμού"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1090
+msgid "File to exclude"
+msgstr "Αρχείο προς εξαίρεση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1099
+msgid "Folder to exclude"
+msgstr "Φάκελος προς εξαίρεση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1140
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1159
+msgid "You must select a name for this set of Rules"
+msgstr "Πρέπει να επιλέξετε όνομα για αυτό το σύνολο Κανόνων"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1272
+msgid "Location to include"
+msgstr "Να περιλαμβάνεται η τοποθεσία"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1287
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1327
+msgid "Please select the folder to store your backups"
+msgstr "Παρακαλώ επιλέξτε φάκελο για αποθήκευση αντιγράφων ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1293
+msgid "Restore into:"
+msgstr "Αποκατάσταση σε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1306
+msgid "Please choose a file to backup to"
+msgstr "Παρακαλώ επιλέξτε αρχείο αντιγράφου ασφαλείας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+msgid "Please enter the name for the new variable"
+msgstr "Παρακαλώ εισάγετε το όνομα της νέας  μεταβλητής"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+msgid "New Variable"
+msgstr "Νέα μεταβλητή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1460
+msgid "There is already a variable with this name."
+msgstr "Υπάρχει ήδη μια  μεταβλητή με αυτό το όνομα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1511
+msgid "Choose a directory"
+msgstr "Επιλέξτε κατάλογο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+msgid "Please insert the location you want to point to."
+msgstr "Παρακαλώ εισάγετε την τοποθεσία που θέλετε να καταδείξετε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:53
+msgid "Location"
+msgstr "Τοποθεσία"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+msgid "Please enter the name for the new script"
+msgstr "Παρακαλώ εισάγετε το όνομα του νέου script"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+msgid "New Script"
+msgstr "Νέο Script"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1774
+msgid "Job name"
+msgstr "Όνομα Εργασίας"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1817
+msgid "Please chose a job to save to"
+msgstr "Παρακαλώ επιλέξτε εργασία προς αποθήκευση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1925
+msgid "Exclude by extension"
+msgstr "Εξαίρεση κατα επέκταση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1926
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1931
+msgid "Exclude by name"
+msgstr "Εξαίρεση κατα όνομα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1927
+msgid "Include by extension"
+msgstr "Συμπεριέλαβε κατα επέκταση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1928
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1932
+msgid "Include by name"
+msgstr "Συμπεριέλαβε κατα όνομα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2008
+msgid "Overwritten"
+msgstr "Επικαλύφθηκε"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2011
+msgid "If needed"
+msgstr "Εαν χρειαστεί"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2018
+msgid "Location to Extract into"
+msgstr "Τοποθεσία προς εξαγωγή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2019
+msgid "Archives to Extract"
+msgstr "Αρχεία προς εξαγωγή"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2032
+msgid "None"
+msgstr "Κανένα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2035
+msgid "Fastest"
+msgstr "Τάχυστα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2038
+msgid "Fast"
+msgstr "Γρήγορα"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2044
+msgid "Maximum"
+msgstr "Μέγιστο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2047
+msgid "Ultra"
+msgstr "Ultra"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:74
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:91
+msgid "Cancel"
+msgstr "Άκυρο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:81
+msgid "Time"
+msgstr "Χρόνος"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:82
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:123
+msgid "Please select a folder"
+msgstr "Παρακαλώ επιλέξτε φάκελο"
+
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:329
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:343
+#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:359
+msgid "Removed "
+msgstr "Απομακρύνθηκε"
+
+#~ msgid "Repeated password"
+#~ msgstr "Επαναλαμβανόμενος Κωδικός Ασφαλείας"
+#~ msgid "Operation"
+#~ msgstr "Λειτουργεία"
+#~ msgid "Backup file"
+#~ msgstr "Αρχείο Αντιγράφου Ασφαλείας"
+#~ msgid "File of paths"
+#~ msgstr "Αρχείο Διαδρομών"
+#~ msgid "Compression level"
+#~ msgstr "Επίπεδο Συμπίεσης"
+#~ msgid ""
+#~ "You need to repeat the password and ensure the two passwords are identical"
+#~ msgstr ""
+#~ "Πρέπει να επαναλάβετε τον κωδικό ασφαλείας και να εξασφαλίσετε ότι οι δυο "
+#~ "κωδικοί είναι όμοιοι"
+#~ msgid "You have specified the wrong number of options"
+#~ msgstr "Διευκρινίσατε λανθασμένο αριθμό επιλογών"
+#~ msgid "Error with Regex"
+#~ msgstr "Σφάλμα με  Regex"
+#~ msgid "Please select the desination folder."
+#~ msgstr "Παρακαλώ επιλέξτε τον φάκελο προορισμού"
+#~ msgid "New Portable Variable"
+#~ msgstr "Νέα Φορητή Μεταβλητή"
+#~ msgid "Hidden text"
+#~ msgstr "Κρυφό κείμενο"
+#~ msgid ""
+#~ "Toucan tried to delete a root directory. This has been forbidden for your "
+#~ "own safety"
+#~ msgstr ""
+#~ "Το Toucan προσπάθησε να διαγράψει έναν αρχικό κατάλογο. Αυτό απαγορεύθηκε "
+#~ "για την δική σας ασφάλεια"
+#~ msgid "7-Zip"
+#~ msgstr "7-Zip"
+#~ msgid "Zip"
+#~ msgstr "Zip"
+#~ msgid "Backup file:"
+#~ msgstr "Backup file:"
+#~ msgid "Please choose your backup file"
+#~ msgstr "Please choose your backup file"
+#~ msgid "\t copied to \t"
+#~ msgstr "\t copied to \t"
+#~ msgid "\t updated \t"
+#~ msgstr "\t updated \t"
+#~ msgid "Set folder timestamps for "
+#~ msgstr "Set folder timestamps for "
+#~ msgid "Tab style (requires restart)"
+#~ msgstr "Tab style (requires restart)"
+#~ msgid "Portable Variables"
+#~ msgstr "Portable Variables"
+#~ msgid "File to include"
+#~ msgstr "File to include"
+#~ msgid "Only the first item you dragged was added"
+#~ msgstr "Only the first item you dragged was added"
+#~ msgid "Warning"
+#~ msgstr "Warning"
+#~ msgid "Icons + Text"
+#~ msgstr "Icons + Text"
+#~ msgid "Opertion"
+#~ msgstr "Opertion"
+#~ msgid "Script Name"
+#~ msgstr "Script Name"
+#~ msgid "Read-only"
+#~ msgstr "Read-only"
+#~ msgid "Daylight savings"
+#~ msgstr "Daylight savings"
+#~ msgid "Timestamps"
+#~ msgstr "Timestamps"
+#~ msgid "Attributes"
+#~ msgstr "Attributes"
+
+#, fuzzy
+#~ msgid "7 Zip"
+#~ msgstr "7-Zip"
+
+#, fuzzy
+#~ msgid "Normal"
+#~ msgstr "Format"
+
