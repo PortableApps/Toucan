@@ -9,3 +9,4 @@ syntax:glob
 syntax:glob
 syntax: glob
 toucan_wrap.cpp
+help/build
