@@ -1054,6 +1054,10 @@ void frmMain::OnBackupAddClick(wxCommandEvent& WXUNUSED(event)){
 		wxMessageBox(_("Mirror only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
 	}
+	else if(m_Backup_Function->GetStringSelection() == _("Restore") && added + existing > 1) {
+        wxMessageBox(_("Restore only supports one source archive file"), _("Error"), wxICON_ERROR|wxOK);
+        return;
+	}
 	for(unsigned int i = 0; i < arrPaths.Count(); i++){
 		m_BackupLocations->Add(arrPaths.Item(i));
 		m_Backup_TreeCtrl->AddItem(arrPaths.Item(i));		
@@ -1399,6 +1403,10 @@ void frmMain::OnBackupRunClick(wxCommandEvent& WXUNUSED(event)){
 	else if(m_Backup_Function->GetStringSelection() == _("Mirror") && m_BackupLocations->GetCount() > 1){
 		wxMessageBox(_("Mirror only supports one folder"), _("Error"), wxICON_ERROR|wxOK);
 		return;
+	}
+	else if(m_Backup_Function->GetStringSelection() == _("Restore") && m_BackupLocations->GetCount() > 1) {
+        wxMessageBox(_("Restore only supports one source archive file"), _("Error"), wxICON_ERROR|wxOK);
+        return;
 	}
     //Differential only supoprts 7z
 	if(m_Backup_Function->GetStringSelection() == _("Differential") && m_Backup_Format->GetStringSelection() != _("7-Zip")){
