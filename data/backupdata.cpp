@@ -120,7 +120,7 @@ wxArrayString BackupData::CreateCommands(){
 	wxString ratio, originalext;
 	wxString tempdir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");	
 	wxString solid = wxEmptyString;
-	wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za");
+	wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za.exe");
 	wxString excludes = wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Excludes.txt") + wxT("\" ");
 	wxString includes = wxT(" -i@\"" + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" "));
 
