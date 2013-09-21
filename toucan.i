@@ -104,7 +104,8 @@
            (data->GetFileLocation() == wxEmptyString || wxDirExists(data->GetFileLocation()))){
 			throw std::invalid_argument("The backup archive file must be specified");
 		}
-		else if(data->GetFunction() == _("Differential") && (data->GetFileLocation() == wxEmptyString || !wxDirExists(data->GetFileLocation()))){
+		else if((data->GetFunction() == _("Differential") || data->GetFunction() == _("Restore")) &&
+                (data->GetFileLocation() == wxEmptyString || !wxDirExists(data->GetFileLocation()))){
 			throw std::invalid_argument("The backup folder must be specified and exist");
 		}
 		if(data->GetFormat() == wxEmptyString){
