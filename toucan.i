@@ -100,8 +100,9 @@
 		if(data->GetFunction() == wxEmptyString){
 			throw std::invalid_argument("A valid function must be selected");
 		}
-		if(data->GetFunction() != _("Differential") && (data->GetFileLocation() == wxEmptyString || wxDirExists(data->GetFileLocation()))){
-			throw std::invalid_argument("The backup archive must be specified");
+		if(data->GetFunction() != _("Differential") && data->GetFunction() != _("Restore") &&
+           (data->GetFileLocation() == wxEmptyString || wxDirExists(data->GetFileLocation()))){
+			throw std::invalid_argument("The backup archive file must be specified");
 		}
 		else if(data->GetFunction() == _("Differential") && (data->GetFileLocation() == wxEmptyString || !wxDirExists(data->GetFileLocation()))){
 			throw std::invalid_argument("The backup folder must be specified and exist");
