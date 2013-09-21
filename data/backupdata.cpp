@@ -122,6 +122,7 @@ wxArrayString BackupData::CreateCommands(){
 	wxString solid = wxEmptyString;
 	wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za");
 	wxString excludes = wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Excludes.txt") + wxT("\" ");
+	wxString includes = wxT(" -i@\"" + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" "));
 
 	//Turn the inputted format into one 7zip will understand
 	if (GetFormat() == wxT("Zip")){
@@ -170,10 +171,10 @@ wxArrayString BackupData::CreateCommands(){
     SetLocation(0, "\"" + GetLocation(0) + "\"");
 
 	if(GetFunction() == _("Complete")){
-		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));	
+		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 " + includes);
 	}
 	else if(GetFunction() == _("Update")){
-		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0)); 
+		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + includes);
 	}
 	else if(GetFunction() == _("Restore")){
 		commands.Add(exe + wxT("  x -aoa \"") + GetLocation(0) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword() + " -sccUTF-8 "  + GetLocation(0));	
