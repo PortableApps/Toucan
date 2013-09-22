@@ -54,12 +54,39 @@ Differential
 Restore
 	Restores files from an archive into a folder. This works the other way 
 	on to other the main functions, you add the files to the file list and 
-	they are extracted into the folder specified. 
+	they are extracted into the folder specified. Currently this only supports
+	one source file.
+
+Mirror
+	This one is somewhat similar to Update, however it strives to exactly
+	mirror the changes in the source files/folders into the Backup Location.
+	Specifically, the following 7-Zip options are used: "-up1q0r2x1y2z1w2".
+	Below are details about archive and file actions that translates into.
+
+	+-------------------------------------------------+------------------------------------------+
+	|State condition                                  |Action                                    |
+	+=================================================+==========================================+
+	|File exists in archive, but is not matched       |File copied from old archive to new       |
+	|with wildcard                                    |                                          |
+	+-------------------------------------------------+------------------------------------------+
+	|File exists in archive, but doesn't exist on disk|File ignored, not added to the new archive|
+	+-------------------------------------------------+------------------------------------------+
+	|File doesn't exist in archive, but exists on disk|File added from disk to new archive       |
+	+-------------------------------------------------+------------------------------------------+
+	|File in archive is newer than the file on disk   |File is copied from old archive to new    |
+	+-------------------------------------------------+------------------------------------------+
+	|File in archive is older than the file on disk   |File is added from disk to new archive    |
+	+-------------------------------------------------+------------------------------------------+
+	|File in archive is same as the file on disk      |File is copied from old archive to new    |
+	+-------------------------------------------------+------------------------------------------+
+	|Can not be detected what file is newer           |File is added from disk to new archive    |
+	|(times are the same, sizes are different)        |                                          |
+	+-------------------------------------------------+------------------------------------------+
 
 Format
 ======
 
-Toucan supports two formats currently, they are:
+Toucan supports three formats currently, they are:
 
 Zip
 	An industry standard format with average compression levels and speed. 
