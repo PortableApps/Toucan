@@ -2,6 +2,14 @@
 Changelog
 =========
 
+3.1.1 (2013-09-22)
+==================
+
+- Fixed bug with Backup in Complete or Update modes
+  only including the first source file/dir into the resulting archive (`bug #2 <https://sourceforge.net/p/alt-toucan/tickets/2/>`_)
+- Added description of Mirror mode for Backup into documenation (`bug #1 <https://sourceforge.net/p/alt-toucan/tickets/1/>`_)
+- Fixed several error handling cases for Restore mode (errors were triggered when not needed and vice versa)
+
 3.1
 ===
 
