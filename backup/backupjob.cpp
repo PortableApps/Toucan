@@ -76,10 +76,11 @@ void* BackupJob::Entry(){
                 includefile->AddLine(data->GetLocation(i));
                 includefile->Write();
             }
-
 			//If we have a directory then take of the last dir and take off one for the remaining slash
 			if(isDir){
-				filename.RemoveLastDir();
+				if (filename.GetDirCount() != 0){
+					filename.RemoveLastDir();
+				}
 				length = filename.GetFullPath().Length();
 				path = filename.GetFullPath();
 			}
