@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.1.2 (2013-11-17)
+==================
+
+- Fixed wxWidgets assert being triggered when a whole drive was added
+  to a backup selection (`bug #6 <https://sourceforge.net/p/alt-toucan/tickets/6/>`_)
+- Fixed bug with UI looking flat like Win95 even on newer OSes with themes enabled (`bug #4 <https://sourceforge.net/p/alt-toucan/tickets/4/>`_)
+
 3.1.1 (2013-09-22)
 ==================
 
