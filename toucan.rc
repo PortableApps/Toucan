@@ -1,3 +1,4 @@
 aaaa ICON bitmaps/Toucan.ico 
-#define wxUSE_NO_MANIFEST 1
+#define wxUSE_NO_MANIFEST 0
+#define wxUSE_RC_MANIFEST 1
 #include "wx/msw/wx.rc"
