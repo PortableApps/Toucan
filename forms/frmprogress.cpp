@@ -236,6 +236,7 @@ void frmProgress::OnIdle(wxIdleEvent &event){
                 column1 = wxString(message.c_str(), wxConvUTF8, size);
                 error = (priority == Error);
 
+			    //TODO: Do we really want to see timestamps only at the beginning and end?
 			    if(priority == Error || priority == StartingLine || priority == FinishingLine){
 				    column0 = wxDateTime::Now().FormatISOTime();
 			    }
@@ -255,8 +256,17 @@ void frmProgress::OnIdle(wxIdleEvent &event){
                 m_List->SetColumnWidth(1, -1);
 
                 if(wxGetApp().m_LogFile){
-                    wxGetApp().m_LogFile->AddLine(column1);
-                    if(index % 10 == 0)
+                    //We want timestamps in the log file,
+                    //but we have to use the one we've generated above, if it exists
+                    if(column0.IsEmpty()){
+                        wxGetApp().m_LogFile->AddLine(wxDateTime::Now().FormatISOTime() + ": " + column1);
+                    }
+                    else{
+                        wxGetApp().m_LogFile->AddLine(column0 + ": " + column1);
+                    }
+                    //Flush the buffer if we have enough lines accumulated or
+                    //if that's the last one
+                    if((index % 10 == 0) || (priority == FinishingLine))
                         wxGetApp().m_LogFile->Write();
                 }
 

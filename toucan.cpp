@@ -175,7 +175,12 @@ bool Toucan::OnInit(){
     if(parser.Found("verbose")){
         wxLog::SetVerbose();
         wxLog::SetLogLevel(wxLOG_Info);
-        m_LogChain = new wxLogChain(NULL);
+        m_LogChain = new wxLogChain(new wxLogStream(&std::cout));
+    }
+    //...and if we are not in GUI mode
+    else if(!m_IsGui){
+        //This will send the messages to the screen in addition to logfile
+		m_LogChain = new wxLogChain(new wxLogStream(&std::cout));
     }
     else{
         m_LogChain = new wxLogChain(new wxLogGui);
@@ -439,19 +444,12 @@ void Toucan::OnTimer(wxTimerEvent &WXUNUSED(event)){
         if(mq.try_receive(&message[0], message.size(), size, priority)){
             message.resize(size);
             wxString wxmessage(message.c_str(), wxConvUTF8);
-
-            std::cout << wxmessage;
-
-			if(priority == Error || priority == StartingLine || priority == FinishingLine){
-                std::cout << "\t" << wxDateTime::Now().FormatISOTime();
-			}
+			wxLogMessage(wxmessage);
 
             if(priority == FinishingLine){
                 OnExit();
                 exit(EXIT_SUCCESS);
             }
-
-            std::cout << std::endl;
         }
     }
     catch(std::exception &ex){

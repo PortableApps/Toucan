@@ -9,6 +9,7 @@
 #include <wx/msgdlg.h>
 #include <wx/textfile.h>
 #include <boost/interprocess/ipc/message_queue.hpp>
+#include <time.h>
 
 using namespace boost::interprocess;
 
@@ -33,7 +34,10 @@ LogFile::LogFile(wxTextFile* file) : file(file)
 }
 
 void LogFile::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info){
-    file->AddLine(msg);
+    struct tm *timestruct = localtime(&info.timestamp);
+    wxString tstamp = wxString::Format("%02d:%02d:%02d", timestruct->tm_hour, timestruct->tm_min, timestruct->tm_sec);
+
+    file->AddLine(tstamp + ": " + msg);
     count++;
     //Don't write output every line but do it fairly frequently
     if(count % 10 == 0)
