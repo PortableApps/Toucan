@@ -1812,7 +1812,7 @@ void frmMain::OnSecureAddVarClick(wxCommandEvent& WXUNUSED(event)){
 void frmMain::OnAboutClick(wxCommandEvent& WXUNUSED(event)){
 	wxAboutDialogInfo info;
 	info.SetName(wxT("Toucan"));
-	info.SetVersion(wxT("3.1.3-pre.1"));
+	info.SetVersion(wxT("3.1.3"));
 	info.SetDescription(wxString::Format(wxT("Built on %s at %s"), __TDATE__, __TTIME__));
 	info.SetCopyright(wxT("(C) 2006-2013 Steven Lamerton \nName by Danny Mensingh\nMain icons by Neorame\nOther icons by the Oxygen Project\n7Zip and ccrypt are by their respective teams.\nAll items (C) their owners."));
 	info.SetWebSite(wxT("http://portableapps.com/toucan"));
