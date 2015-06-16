@@ -48,8 +48,12 @@ Differential
 	Backup Location. In subsequent runs changes files are backup up in an 
 	archive named after the date and time. To restore a differential backup 
 	you need to restore the base file and then the most recent date file. 
-	Currently this only supports one source folder. 
-
+	Currently this only supports one source folder.
+	Please note that if you delete a file from the source folder and you use
+	the 7z format, 7-Zip will create a so-called "anti-item" in the differential
+	backup, a file with the same name and zero size, which will ensure that
+	the item from the base backup is deleted upon unpacking, reflecting
+	the reality.
 
 Restore
 	Restores files from an archive into a folder. This works the other way 
