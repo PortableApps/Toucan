@@ -130,7 +130,7 @@ msgid ""
 "There was an error saving to the rules file, \n"
 "please check it is not set as read only or in use"
 msgstr ""
-"C'e' stato un errore nel salvare il file delle regole, \n"
+"C'è stato un errore nel salvare il file delle regole, \n"
 "controllate che non sia di sola lettura oppure in uso"
 
 #: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:214
@@ -203,7 +203,7 @@ msgstr "Inserite la password:"
 
 #: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:414
 msgid "Please repeat your password: "
-msgstr "Rpietete la password:"
+msgstr "Ripetete la password:"
 
 #: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:417
 msgid "Sorry the passwords do not match"
@@ -818,10 +818,10 @@ msgstr "Inserire la password"
 #~ msgstr "File da assicurare"
 
 #~ msgid "Files to exclude (file name, path or extension)"
-#~ msgstr "Files da escludere (nome file, percorso o estensione)"
+#~ msgstr "File da escludere (nome file, percorso o estensione)"
 
 #~ msgid "Folders to exclude (folder name or path)"
-#~ msgstr "Cartella da escludere (nome cartella o percorso)"
+#~ msgstr "Cartelle da escludere (nome cartella o percorso)"
 
 #~ msgid ""
 #~ "Locations to always include (file/folder name, path or  file extension)"
@@ -856,7 +856,7 @@ msgstr "Inserire la password"
 #~ msgid ""
 #~ "You need to repeat the password and ensure the two passwords are identical"
 #~ msgstr ""
-#~ "Bisogna che ripeta la password e assicurati che le due passwords siano "
+#~ "Bisogna ripetere la password e assicurarsi che le due passwords siano "
 #~ "identiche"
 
 #~ msgid "You have specified the wrong number of options"
@@ -866,7 +866,7 @@ msgstr "Inserire la password"
 #~ msgstr "Errore con Regex"
 
 #~ msgid "Please select the desination folder."
-#~ msgstr "Per favore seleziona la cartella di destinazione."
+#~ msgstr "Selezionate la cartella di destinazione."
 
 #~ msgid "New Portable Variable"
 #~ msgstr "Nuova variabile portatile"
@@ -878,7 +878,7 @@ msgstr "Inserire la password"
 #~ "Toucan tried to delete a root directory. This has been forbidden for your "
 #~ "own safety"
 #~ msgstr ""
-#~ "Toucan sta provando a cancellare una directory radice. Cio' e' stato "
+#~ "Toucan sta provando a cancellare una directory radice. Ciò è stato "
 #~ "bloccato per la tua stessa sicurezza"
 
 #~ msgid "7-Zip"
@@ -906,31 +906,31 @@ msgstr "Inserire la password"
 #~ msgstr "Stabilisci una cartella in base al formato orario per"
 
 #~ msgid "File to include"
-#~ msgstr "File to include"
+#~ msgstr "File da includere"
 
 #~ msgid "Only the first item you dragged was added"
-#~ msgstr "Only the first item you dragged was added"
+#~ msgstr "È stato aggiunto solo il primo elemento trascinato"
 
 #~ msgid "Warning"
-#~ msgstr "Warning"
+#~ msgstr "Avviso"
 
 #~ msgid "Icons + Text"
-#~ msgstr "Icons + Text"
+#~ msgstr "Icone + Testo"
 
 #~ msgid "Opertion"
-#~ msgstr "Opertion"
+#~ msgstr "Operazione"
 
 #~ msgid "Read-only"
-#~ msgstr "Read-only"
+#~ msgstr "Sola lettura"
 
 #~ msgid "Daylight savings"
-#~ msgstr "Daylight savings"
+#~ msgstr "Risparmi giornalieri"
 
 #~ msgid "Timestamps"
-#~ msgstr "Timestamps"
+#~ msgstr "Data e ora"
 
 #~ msgid "Attributes"
-#~ msgstr "Attributes"
+#~ msgstr "Attributi"
 
 #, fuzzy
 #~ msgid "7 Zip"
