@@ -2421,7 +2421,7 @@ void frmMain::OnScriptCommandTypeChange(wxCommandEvent& WXUNUSED(event)){
         items.push_back("secure({[[path1]], [[path2]]}, [[function]], [[rules]])");
     }
     else if(m_ScriptCommandType->GetStringSelection() == _("Other Commands")){
-        items.push_back("print([[message]])");
+        items.push_back("print([[message]], Message)");
         items.push_back("expand([[variable]])");
         items.push_back("delete([[path]])");
         items.push_back("copy([[source]], [[destination]])");

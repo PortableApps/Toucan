@@ -38,7 +38,7 @@ namespace Jobs{
     };
 };
 
-void OutputProgress(const wxString &message, OutputType type);
+void OutputProgress(const wxString &message, OutputType type = Message);
 
 //Get a list of jobs of a specific type, or if an emptystring is passed then get
 //all job names that are in use

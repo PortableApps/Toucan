@@ -325,8 +325,6 @@
 	}
 %}
 
-void OutputProgress(const wxString &message, OutputType type);
-
 void Sync(const wxString &jobname);
 void Sync(const wxString &source, const wxString &dest, const wxString &function, 
 		  SyncChecks checks = SyncChecks(), SyncOptions options = SyncOptions(), 
@@ -349,3 +347,11 @@ bool Rename(const wxString &source, const wxString &dest);
 int Execute(const wxString &path, bool async = false);
 bool Shutdown();
 void InputPassword();
+
+// We want to get all enums and only OutputProgess function from basicfunctions.h.
+// This is to avoid repeating declarations here, but not pull unnecessary stuff at the same time.
+%rename("$ignore", %$not %$isenum, %$not %$isenumitem, notmatch$name="OutputProgress") "";
+%include "basicfunctions.h";
+void OutputProgress(const wxString &message, OutputType type = Message);
+// Poor man's "rename disable". Know a better way? Patches are welcome!
+%rename("%s") "";

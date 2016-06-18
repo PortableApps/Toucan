@@ -150,16 +150,14 @@ secure
 print
 -----
 
-.. function:: print(message, showtime = false, error = false)
+.. function:: print(message, type = Message)
 
 	Output a message, either to the progress window or the command line
 
 	:param message: The message
-	:param showtime: If true then the current time is displayed
-	:param error: If true then the entry is highlighted, this has no effect on the command line
+	:param type: Message type, one of: FinishingLine, FinishingInfo, Message, StartingInfo, StartingLine, Error
 	:type message: string
-	:type showtime: bool
-	:type error: bool
+	:type type: enum
 	:rtype: none
 
 expand
