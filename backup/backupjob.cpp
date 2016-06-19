@@ -109,12 +109,12 @@ void* BackupJob::Entry(){
         event->SetInt(id);
         event->SetString(commands.Item(i));
         wxGetApp().QueueEvent(event);
-        while(wxGetApp().m_StatusMap[id] != true){
+        do {
             if(!process->HasInput()){
                 //If there was no input then sleep for a while so we don't thrash the CPU
                 wxMilliSleep(100);
             }
-        }
+        } while(wxGetApp().m_StatusMap[id] != true);
 
         //Grab any remaining output
         while(process->HasInput());
