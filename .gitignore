@@ -3,3 +3,8 @@ toucan_wrap.cpp
 
 # This is where we build docs
 help/build
+
+# Eclipse project files
+.cproject
+.project
+.settings/
