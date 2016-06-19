@@ -352,6 +352,5 @@ void InputPassword();
 // This is to avoid repeating declarations here, but not pull unnecessary stuff at the same time.
 %rename("$ignore", %$not %$isenum, %$not %$isenumitem, notmatch$name="OutputProgress") "";
 %include "basicfunctions.h";
-void OutputProgress(const wxString &message, OutputType type = Message);
 // Poor man's "rename disable". Know a better way? Patches are welcome!
 %rename("%s") "";
