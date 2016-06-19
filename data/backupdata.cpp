@@ -21,6 +21,7 @@
 #include <wx/radiobox.h>
 #include <wx/slider.h>
 #include <wx/checkbox.h>
+#include <wx/event.h>
 
 void BackupData::TransferFromFile(){
 	if(!wxGetApp().m_Jobs_Config->Exists(GetName())){
@@ -89,6 +90,8 @@ bool BackupData::TransferToForm(frmMain *window){
 	window->m_Backup_Function->SetStringSelection(GetFunction());
 	window->m_Backup_Format->SetStringSelection(GetFormat());
 	window->m_Backup_Ratio->SetValue(GetRatio());
+	// Post an event to update the text label and whatever else
+	wxPostEvent(window, wxScrollEvent(wxEVT_SCROLL_CHANGED, ID_BACKUP_RATIO));
 	window->m_Backup_IsPass->SetValue(GetUsesPassword());
 	window->m_Backup_Test->SetValue(GetTest());
 	window->m_BackupSolid->SetValue(GetSolid());
