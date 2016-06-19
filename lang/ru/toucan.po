@@ -25,7 +25,7 @@ msgstr ""
 #: forms/frmmain.cpp:1349 forms/frmmain.cpp:1407 forms/frmmain.cpp:2198
 #: toucan_wrap.cpp:2760 toucan_wrap.cpp:2764
 msgid "Restore"
-msgstr "Восстановлено"
+msgstr "Восстановление"
 
 #: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:45
 #: data/backupdata.cpp:173 forms/frmmain.cpp:448 forms/frmmain.cpp:2065
@@ -107,7 +107,7 @@ msgstr "Текст"
 #: basicfunctions.cpp:53 forms/frmmain.cpp:806 forms/frmmain.cpp:879
 #: forms/frmmain.cpp:1927 forms/frmmain.cpp:2043
 msgid "Sync"
-msgstr "Сихронизация"
+msgstr "Синхронизация"
 
 #: basicfunctions.cpp:54 forms/frmmain.cpp:809 forms/frmmain.cpp:880
 #: forms/frmmain.cpp:1930 forms/frmmain.cpp:2064
@@ -267,7 +267,7 @@ msgstr "Использовать Корзину"
 
 #: forms/frmmain.cpp:342
 msgid "Preview Only Changes"
-msgstr "Предварительный просмотр"
+msgstr "Предварительный просмотр только изменений"
 
 #: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
 #: forms/frmmain.cpp:739
@@ -276,7 +276,7 @@ msgstr "Запуск"
 
 #: forms/frmmain.cpp:352 forms/frmvariable.cpp:86
 msgid "Preview"
-msgstr "Просмотр"
+msgstr "Предварительный просмотр"
 
 #: forms/frmmain.cpp:355 forms/frmmain.cpp:497 forms/frmmain.cpp:599
 #: forms/frmmain.cpp:947 forms/frmmain.cpp:957 forms/frmmain.cpp:966
@@ -382,11 +382,11 @@ msgstr "Шрифт"
 
 #: forms/frmmain.cpp:862 forms/frmmain.cpp:2309
 msgid "Choose font"
-msgstr "Выбирите шрифт"
+msgstr "Выберите шрифт"
 
 #: forms/frmmain.cpp:928 forms/frmmain.cpp:1616 forms/frmmain.cpp:1635
 msgid "Expansion"
-msgstr "Расширение"
+msgstr "Значение"
 
 #: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
 msgid "Browse"
@@ -415,7 +415,7 @@ msgstr "Убрать"
 #: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
 #: forms/frmmain.cpp:965
 msgid "Expand all"
-msgstr "Раскрыть"
+msgstr "Раскрыть все"
 
 #: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
 #: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
@@ -460,7 +460,7 @@ msgstr "Новые правила"
 
 #: forms/frmmain.cpp:1183
 msgid "Do you wish to save the current rules?"
-msgstr "Желаете сохранить текущие правила??"
+msgstr "Желаете сохранить текущие правила?"
 
 #: forms/frmmain.cpp:1183
 msgid "Rules Save"
@@ -512,7 +512,7 @@ msgstr "Желаете сохранить текущую переменную?"
 
 #: forms/frmmain.cpp:1593
 msgid "Variable Save"
-msgstr "Переменная сохранена"
+msgstr "Сохранение переменной"
 
 #: forms/frmmain.cpp:1607
 msgid "There is already a variable with this name"
@@ -524,7 +524,7 @@ msgstr "Выберите папку"
 
 #: forms/frmmain.cpp:1713
 msgid "Please insert the location you want to point to."
-msgstr "Введите путь на который хотите укзать"
+msgstr "Введите путь на который хотите указать"
 
 #: forms/frmmain.cpp:1713 forms/frmvariable.cpp:61
 msgid "Location"
@@ -544,7 +544,7 @@ msgstr "Желаете сохранить текущий скрипт?"
 
 #: forms/frmmain.cpp:1762
 msgid "Script Save"
-msgstr "Скрипт сохранён"
+msgstr "Сохранить скрипт"
 
 #: forms/frmmain.cpp:1777
 msgid "There is already a script with this name"
@@ -564,11 +564,11 @@ msgstr "Правило с таким названием уже существу�
 
 #: forms/frmmain.cpp:2124
 msgid "Exclude by extension"
-msgstr "Исключить расширение"
+msgstr "Исключить по расширению"
 
 #: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
 msgid "Exclude by name"
-msgstr "Исключить имя"
+msgstr "Исключить по имени"
 
 #: forms/frmmain.cpp:2126
 msgid "Include by extension"
@@ -632,7 +632,7 @@ msgstr "Повторите пароль"
 
 #: forms/frmpassword.cpp:71 forms/frmvariable.cpp:95
 msgid "OK"
-msgstr "Ок"
+msgstr "ОК"
 
 #: forms/frmpassword.cpp:75 forms/frmprogress.cpp:108 forms/frmvariable.cpp:98
 msgid "Cancel"
@@ -684,7 +684,7 @@ msgstr "Выполнено"
 
 #: path.cpp:55
 msgid "Could not create"
-msgstr "Невозможно создать"
+msgstr "Не удалось создать"
 
 #: rules.cpp:181
 msgid "There was an error reading from the rules file"
