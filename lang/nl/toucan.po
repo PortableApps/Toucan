@@ -1,87 +1,49 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-17 18:47-0000\n"
-"PO-Revision-Date: 2010-06-17 19:32-0000\n"
-"Last-Translator: \n"
-"Language-Team:  <thomasderocker@hotmail.com>\n"
+"POT-Creation-Date: 2016-06-19 14:45+0200\n"
+"PO-Revision-Date: 2016-06-19 14:46+0200\n"
+"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
+"Language-Team: thomasderocker@hotmail.com\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: C:\\Documents and Settings\\Pieter.REDDOG.000\\Desktop\\source\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: .settings\n"
+"X-Poedit-SearchPathExcluded-2: help\n"
+"X-Poedit-SearchPathExcluded-3: lang\n"
+"X-Poedit-SearchPathExcluded-4: test\n"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:383
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:419
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:456
-msgid "Please run Toucan from a device that allows writes so it can update itself"
-msgstr "Gelieve Toucan te draaien vanaf een apparaat dat schrijven toelaat, zodat het zichzelf kan updaten"
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:418
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:976
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1012
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1504
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:128
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:208
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:244
+#: backup/backupjob.cpp:50 backup/backupjob.cpp:70 basicfunctions.cpp:48
+#: data/backupdata.cpp:179 forms/frmmain.cpp:452 forms/frmmain.cpp:1057
+#: forms/frmmain.cpp:1349 forms/frmmain.cpp:1407 forms/frmmain.cpp:2198
+#: toucan_wrap.cpp:2760 toucan_wrap.cpp:2764
+msgid "Restore"
+msgstr "Herstellen"
 
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:930
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:950
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:985
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:989
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:993
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1114
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1459
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1544
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:112
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:118
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:383
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:392
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:419
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:428
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:456
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
-msgid "Error"
-msgstr "Fout"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:392
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:428
-msgid "Upgrading to this version of Toucan is not supported"
-msgstr "Upgraden naar deze versie van Toucan wordt niet ondersteund"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:294
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1393
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:141
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
-msgid "Mirror (Copy)"
-msgstr "Mirror (kopiëren)"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:295
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:160
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
-msgid "Mirror (Update)"
-msgstr "Mirror (updaten)"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:930
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:950
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:985
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:989
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:993
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1114
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1459
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1544
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:112
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:118
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:280
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:448
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:476
-msgid "Mirror"
-msgstr "Spiegelen"
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:416
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1004
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1490
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:121
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:192
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:228
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:45
+#: data/backupdata.cpp:173 forms/frmmain.cpp:448 forms/frmmain.cpp:2065
+msgid "Complete"
+msgstr "Compleet"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:293
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:417
@@ -99,13 +61,15 @@ msgstr "Spiegelen"
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:189
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:191
 # S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:39
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:306
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:447
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:454
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:475
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:482
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:40
+#: basicfunctions.cpp:46 basicfunctions.cpp:314 data/backupdata.cpp:176
+#: forms/frmmain.cpp:449
 msgid "Update"
 msgstr "Vernieuwen"
+
+#: backup/backupjob.cpp:58
+msgid "Creating file list, this may take some time."
+msgstr "Bestandslijst aanmaken, dit kan even duren."
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:292
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:125
@@ -113,227 +77,78 @@ msgstr "Vernieuwen"
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:151
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:156
 # S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:28
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:307
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:446
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:474
+#: basicfunctions.cpp:39 basicfunctions.cpp:315 basicfunctions.cpp:318
+#: forms/frmmain.cpp:293 forms/frmmain.cpp:2044 sync/syncjob.cpp:75
+#: sync/syncpreview.cpp:84
 msgid "Copy"
 msgstr "Kopiëren"
 
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:930
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:950
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:985
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:989
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:993
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1114
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1459
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1544
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:112
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:118
+#: basicfunctions.cpp:41 basicfunctions.cpp:288 basicfunctions.cpp:318
+#: data/backupdata.cpp:195 forms/frmmain.cpp:294 forms/frmmain.cpp:451
+#: forms/frmmain.cpp:1053 forms/frmmain.cpp:1403 sync/syncjob.cpp:62
+#: sync/syncjob.cpp:75 sync/syncjob.cpp:117 sync/syncpreview.cpp:67
+#: sync/syncpreview.cpp:84 sync/syncpreview.cpp:133 toucan_wrap.cpp:2692
+msgid "Mirror"
+msgstr "Spiegelen"
+
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:296
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:179
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:449
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:477
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1577
+#: basicfunctions.cpp:42 basicfunctions.cpp:318 forms/frmmain.cpp:295
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:67 sync/syncjob.cpp:84
+#: sync/syncjob.cpp:122 sync/syncpreview.cpp:70 sync/syncpreview.cpp:92
+#: sync/syncpreview.cpp:138 toucan_wrap.cpp:2695
 msgid "Equalise"
 msgstr "Equaliseren"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:451
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:479
-msgid "Clean"
-msgstr "Schoonmaken"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:450
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:478
+#: basicfunctions.cpp:43 basicfunctions.cpp:319 forms/frmmain.cpp:296
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:53 sync/syncjob.cpp:75
+#: sync/syncjob.cpp:78 sync/syncjob.cpp:107 sync/syncjob.cpp:153
+#: sync/syncpreview.cpp:57 sync/syncpreview.cpp:84 sync/syncpreview.cpp:87
+#: sync/syncpreview.cpp:125 sync/syncpreview.cpp:151
 msgid "Move"
 msgstr "Verplaatsen"
 
-# S:\Development\Toucan\Toucan-Dev-1.2/backup.h:19
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:96
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:133
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:150
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:169
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:188
-# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.h:51
-# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:57
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:33
-msgid "Progress"
-msgstr "Voortgang"
+#: basicfunctions.cpp:44 basicfunctions.cpp:319 forms/frmmain.cpp:297
+#: sync/syncjob.cpp:50 sync/syncjob.cpp:62 sync/syncjob.cpp:95
+#: sync/syncjob.cpp:117 sync/syncjob.cpp:141 sync/syncpreview.cpp:53
+#: sync/syncpreview.cpp:67 sync/syncpreview.cpp:111 sync/syncpreview.cpp:133
+msgid "Clean"
+msgstr "Schoonmaken"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:43
-msgid "Date:"
-msgstr "Datum:"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:416
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1004
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1490
-# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:121
-# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:192
-# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:228
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:44
-msgid "Computer Name:"
-msgstr "Computernaam:"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1382
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1468
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1519
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1553
-# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.h:36
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:45
-msgid "Operating System:"
-msgstr "Besturingssysteem:"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:61
-msgid "Elapsed:"
-msgstr "Verstreken:"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:90
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:62
-msgid "Finished"
-msgstr "Klaar"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/path.cpp:29
-msgid "Could not create"
-msgstr "Kon niet aanmaken"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1147
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1154
-# S:\Development\Toucan\Toucan-Dev-1.2/normalise.h:57
-#: C:\Users\Steven\Desktop\Toucan\Lua/path.cpp:139
-msgid "Other"
-msgstr "Andere"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
-msgid "There was an error reading from the rules file"
-msgstr "Er ontstond een fout bij het lezen van het regelbestand"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
-msgid ""
-"There was an error saving to the rules file, \n"
-"please check it is not set as read only or in use"
-msgstr ""
-"Er ontstond een fout bij het opslaan van het regelbestand, \n"
-"ga na of het niet alleen-lezen is of al in gebruik is"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:214
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:236
-msgid "File to Exclude"
-msgstr "Te excluderen bestand"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:321
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:469
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:217
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:241
-msgid "Folder to Exclude"
-msgstr "Te excluderen map"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:220
-msgid "Location to Include"
-msgstr "Te includeren locatie"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:246
-msgid "Locations to Include"
-msgstr "Te includeren locaties"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:102
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:62
-msgid "Starting"
-msgstr "Starten"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
-msgid "Delete"
-msgstr "Verwijderen"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:587
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:591
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
-msgid "Execute"
-msgstr "Uitvoeren"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:86
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:141
-#, c-format
-msgid "Line %d has an incorrect number of parameters"
-msgstr "Lijn %d heeft een verkeerd aantal parameters"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:98
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:117
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:134
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:146
-#, c-format
-msgid " not recognised on line %d"
-msgstr " niet herkend op lijn %d"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:154
-msgid "Setting up progress bar"
-msgstr "Voortgangsbalk aan het opstellen"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:418
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:976
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1012
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1504
-# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:128
-# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:208
-# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:244
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:178
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:456
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:484
-msgid "Restore"
-msgstr "Herstellen"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:221
-msgid "The job does not exist"
-msgstr "Deze taak bestaat niet"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:358
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:369
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:381
-msgid "Could not run "
-msgstr "Kon niet starten"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:292
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:412
-msgid "Please input your password: "
-msgstr "Gelieve uw paswoord in te geven:"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:292
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:414
-msgid "Please repeat your password: "
-msgstr "Gelieve uw paswoord opnieuw in te geven:"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
-# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:232
-# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:268
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:417
-msgid "Sorry the passwords do not match"
-msgstr "De paswoorden zijn niet gelijk"
-
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:416
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1004
-# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1490
-# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:121
-# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:192
-# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:228
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:453
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:481
-msgid "Complete"
-msgstr "Compleet"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:455
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:483
+#: basicfunctions.cpp:47 data/backupdata.cpp:183 forms/frmmain.cpp:450
+#: forms/frmmain.cpp:1049 forms/frmmain.cpp:1343 forms/frmmain.cpp:1399
+#: forms/frmmain.cpp:1412 forms/frmmain.cpp:1417 toucan_wrap.cpp:2760
+#: toucan_wrap.cpp:2764
 msgid "Differential"
 msgstr "Verschil"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:553
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:25
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:34
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:458
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:486
+#: basicfunctions.cpp:49 forms/frmmain.cpp:587 forms/frmmain.cpp:2080
+#: forms/frmmain.cpp:2189 secure/securejob.cpp:87 secure/securejob.cpp:89
+#: secure/securejob.cpp:104 secure/securejob.cpp:124
 msgid "Encrypt"
 msgstr "Encrypteren"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:554
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:28
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:61
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:459
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:487
+#: basicfunctions.cpp:50 forms/frmmain.cpp:588 secure/securejob.cpp:88
+#: secure/securejob.cpp:90
 msgid "Decrypt"
 msgstr "Decrypteren"
 
@@ -344,8 +159,7 @@ msgstr "Decrypteren"
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:638
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:687
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:697
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:461
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:489
+#: basicfunctions.cpp:51 forms/frmmain.cpp:827 forms/frmmain.cpp:868
 msgid "Icons and Text"
 msgstr "Iconen en tekst"
 
@@ -355,13 +169,12 @@ msgstr "Iconen en tekst"
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:634
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:686
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:693
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:462
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:490
+#: basicfunctions.cpp:52 forms/frmmain.cpp:828
 msgid "Text"
 msgstr "Tekst"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:464
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:492
+#: basicfunctions.cpp:53 forms/frmmain.cpp:806 forms/frmmain.cpp:879
+#: forms/frmmain.cpp:1927 forms/frmmain.cpp:2043
 msgid "Sync"
 msgstr "Synchroniseren"
 
@@ -374,145 +187,203 @@ msgstr "Synchroniseren"
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1494
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1501
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:465
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:493
+#: basicfunctions.cpp:54 forms/frmmain.cpp:809 forms/frmmain.cpp:880
+#: forms/frmmain.cpp:1930 forms/frmmain.cpp:2064
 msgid "Backup"
 msgstr "Backup"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:242
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:466
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:494
+#: basicfunctions.cpp:55 forms/frmmain.cpp:812 forms/frmmain.cpp:881
+#: forms/frmmain.cpp:1933 forms/frmmain.cpp:2079
 msgid "Secure"
 msgstr "Beveiligen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:467
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:495
+#: basicfunctions.cpp:56 forms/frmmain.cpp:284 forms/frmmain.cpp:439
+#: forms/frmmain.cpp:578 forms/frmmain.cpp:882 forms/frmmain.cpp:1939
 msgid "Rules"
 msgstr "Regels"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:636
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:640
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:468
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:496
+#: basicfunctions.cpp:57 forms/frmmain.cpp:883 forms/frmmain.cpp:1942
+#: forms/frmvariable.cpp:74
 msgid "Variables"
 msgstr "Variabelen"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:553
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:25
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:34
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:469
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:497
+#: basicfunctions.cpp:58 forms/frmmain.cpp:884 forms/frmmain.cpp:1936
 msgid "Script"
 msgstr "Script"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:102
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:470
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:498
+#: basicfunctions.cpp:59 forms/frmmain.cpp:885
 msgid "Settings"
 msgstr "Voorkeuren"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:659
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:471
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:499
+#: basicfunctions.cpp:60 forms/frmmain.cpp:836 forms/frmmain.cpp:840
 msgid "Help"
 msgstr "Help"
 
-# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:81
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1760
-msgid "Deleted "
-msgstr "Verwijderd"
+#: basicfunctions.cpp:61
+msgid "Simple"
+msgstr ""
 
-# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:85
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1763
-msgid "Failed to delete "
-msgstr "Verwijderen mislukt"
+#: basicfunctions.cpp:62
+msgid "Regex"
+msgstr ""
 
-# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:37
-# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:60
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1773
-msgid "Copied "
-msgstr "Gekopieerd"
+#: basicfunctions.cpp:63
+msgid "Size"
+msgstr ""
 
-# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1776
-msgid "Failed to copy "
-msgstr "Kopiëren mislukt"
+#: basicfunctions.cpp:64
+msgid "Date"
+msgstr ""
 
-# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:38
-# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:49
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1786
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1799
-msgid "Moved"
-msgstr "Verplaatst"
+#: basicfunctions.cpp:65
+msgid "File Include"
+msgstr ""
 
-# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1789
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1802
-msgid "Failed to move "
-msgstr "Verplaatsen mislukt"
+#: basicfunctions.cpp:66
+msgid "File Exclude"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/backup/backupjob.cpp:70
-msgid "Creating file list, this may take some time."
-msgstr "Bestandslijst aanmaken, dit kan even duren."
+#: basicfunctions.cpp:67
+msgid "Folder Include"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:246
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:401
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:539
+#: basicfunctions.cpp:68
+msgid "Folder Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:69
+msgid "Absolute Folder Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
+#: basicfunctions.cpp:519
+msgid ""
+"Please run Toucan from a device that allows writes so it can update itself"
+msgstr ""
+"Gelieve Toucan te draaien vanaf een apparaat dat schrijven toelaat, zodat "
+"het zichzelf kan updaten"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:930
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:950
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:985
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:989
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:993
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1114
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1459
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1544
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:112
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:118
+#: basicfunctions.cpp:239 basicfunctions.cpp:248 basicfunctions.cpp:384
+#: basicfunctions.cpp:393 basicfunctions.cpp:482 basicfunctions.cpp:491
+#: basicfunctions.cpp:519 forms/frmmain.cpp:1050 forms/frmmain.cpp:1054
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1199 forms/frmmain.cpp:1400
+#: forms/frmmain.cpp:1404 forms/frmmain.cpp:1408 forms/frmmain.cpp:1413
+#: forms/frmmain.cpp:1419 forms/frmmain.cpp:1607 forms/frmmain.cpp:1777
+#: forms/frmmain.cpp:1959
+msgid "Error"
+msgstr "Fout"
+
+#: basicfunctions.cpp:248 basicfunctions.cpp:393 basicfunctions.cpp:491
+msgid "Upgrading to this version of Toucan is not supported"
+msgstr "Upgraden naar deze versie van Toucan wordt niet ondersteund"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:294
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1393
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:141
+#: basicfunctions.cpp:287
+msgid "Mirror (Copy)"
+msgstr "Mirror (kopiëren)"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:295
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:160
+#: basicfunctions.cpp:287
+msgid "Mirror (Update)"
+msgstr "Mirror (updaten)"
+
+#: controls/rulesgrid.cpp:25
+msgid "Include / Exclude"
+msgstr ""
+
+#: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
+msgid "Type"
+msgstr "Type"
+
+#: controls/rulesgrid.cpp:27
+msgid "Rule"
+msgstr "Regel"
+
+#: forms/frmmain.cpp:266 forms/frmmain.cpp:421 forms/frmmain.cpp:560
 msgid "Job Name"
 msgstr "Naam taak"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:298
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:556
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:278
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:568
+#: forms/frmmain.cpp:298 forms/frmmain.cpp:589
 msgid "Function"
 msgstr "Functie"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:282
+#: forms/frmmain.cpp:302
 msgid "File Checks"
 msgstr "Bestandscontroles"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:286
+#: forms/frmmain.cpp:306
 msgid "File size"
 msgstr "Bestandsgrootte"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:290
+#: forms/frmmain.cpp:310
 msgid "Modified time"
 msgstr "Aangepaste tijd"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:294
+#: forms/frmmain.cpp:314
 msgid "Short Comparison"
 msgstr "Korte vergelijking"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:298
+#: forms/frmmain.cpp:318
 msgid "Full Comparison"
 msgstr "Volledige vergelijking"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:306
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1147
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1154
+# S:\Development\Toucan\Toucan-Dev-1.2/normalise.h:57
+#: forms/frmmain.cpp:322 forms/frmmain.cpp:478 forms/frmmain.cpp:846
+#: forms/frmmain.cpp:1618 path.cpp:208
+msgid "Other"
+msgstr "Andere"
+
+#: forms/frmmain.cpp:326
 msgid "Retain Timestamps"
 msgstr "Tijdstempel behouden"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:309
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:310
+#: forms/frmmain.cpp:330
 msgid "Retain Attributes"
 msgstr "Attributen behouden"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:314
+#: forms/frmmain.cpp:334
 msgid "Ignore Read-Only"
 msgstr "Alleen-lezen negeren"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:318
+#: forms/frmmain.cpp:338
 msgid "Use Recycle Bin"
 msgstr "Prullenbak gebruiken"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:322
+#: forms/frmmain.cpp:342
 msgid "Preview Only Changes"
 msgstr "Alleen wijzigingen bekijken"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:329
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:473
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:575
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:720
+#: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
+#: forms/frmmain.cpp:739
 msgid "Run"
 msgstr "Starten"
 
@@ -521,65 +392,50 @@ msgstr "Starten"
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:143
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:162
 # S:\Development\Toucan\Toucan-Dev-1.2/sync.h:180
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:332
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:86
+#: forms/frmmain.cpp:352 forms/frmvariable.cpp:86
 msgid "Preview"
 msgstr "Voorbeeld"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:335
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:476
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:578
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:886
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:895
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:904
+#: forms/frmmain.cpp:355 forms/frmmain.cpp:497 forms/frmmain.cpp:599
+#: forms/frmmain.cpp:947 forms/frmmain.cpp:957 forms/frmmain.cpp:966
 msgid "Refresh"
 msgstr "Vernieuwen"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:242
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:347
+#: forms/frmmain.cpp:367
 msgid "Source"
 msgstr "Bron"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:272
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:368
+#: forms/frmmain.cpp:388
 msgid "Destination"
 msgstr "Bestemming"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:432
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:648
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:62
-msgid "Type"
-msgstr "Type"
-
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:438
 # S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:107
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:440
+#: forms/frmmain.cpp:461
 msgid "Format"
 msgstr "Formaat"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:442
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:444
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:453
+#: forms/frmmain.cpp:465 forms/frmmain.cpp:474
 msgid "Compression Level"
 msgstr "Compressieniveau"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:448
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1975
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2159
+#: forms/frmmain.cpp:469 forms/frmmain.cpp:2068 forms/frmmain.cpp:2221
 msgid "Default"
 msgstr "Standaard"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:570
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:461
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:54
+#: forms/frmmain.cpp:482 forms/frmpassword.cpp:54
 msgid "Password"
 msgstr "Paswoord"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:464
+#: forms/frmmain.cpp:485
 msgid "Test After Creation"
 msgstr "Testen na aanmaken"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:467
+#: forms/frmmain.cpp:488
 msgid "Solid Mode"
 msgstr "Vaste modus"
 
@@ -589,418 +445,582 @@ msgstr "Vaste modus"
 # S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:121
 # S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:192
 # S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:228
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:488
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:590
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:868
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1555
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1571
+#: forms/frmmain.cpp:509 forms/frmmain.cpp:611 forms/frmmain.cpp:927
+#: forms/frmmain.cpp:1615 forms/frmmain.cpp:1634
 msgid "Computer"
 msgstr "Computer"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:431
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:503
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2141
+#: forms/frmmain.cpp:524 forms/frmmain.cpp:2203
 msgid "Backup Location"
 msgstr "Backuplocatie"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:512
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2142
+#: forms/frmmain.cpp:533 forms/frmmain.cpp:2204
 msgid "Files to Backup"
 msgstr "Bestanden om te backuppen"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:605
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2128
+#: forms/frmmain.cpp:626 forms/frmmain.cpp:2190
 msgid "Files to Encrypt"
 msgstr "Te encrypteren bestanden"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:626
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:668
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:704
+#: forms/frmmain.cpp:647 forms/frmmain.cpp:687 forms/frmmain.cpp:723
 msgid "Name"
 msgstr "Naam"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:647
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:53
-msgid "Rule"
-msgstr "Regel"
+#: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
+msgid "Jobs"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:754
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:757
+#: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
+msgid "Job Commands"
+msgstr ""
+
+#: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
+msgid "Other Commands"
+msgstr ""
+
+#: forms/frmmain.cpp:799 forms/frmmain.cpp:802
 msgid "Remember Entered Information"
 msgstr "Ingevoerde informatie onthouden"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:770
+#: forms/frmmain.cpp:815
 msgid "Language"
 msgstr "Taal"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:784
+#: forms/frmmain.cpp:829
 msgid "Tab style"
 msgstr "Tab-stijl"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:788
+#: forms/frmmain.cpp:833
 msgid "Apply"
 msgstr "Toepassen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:791
-msgid "Font"
-msgstr "Lettertype"
+#: forms/frmmain.cpp:843
+msgid "About"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:795
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2247
-msgid "Choose font"
-msgstr "Lettertype kiezen"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:802
+#: forms/frmmain.cpp:850
 msgid "Enable Tooltips"
 msgstr "Tooltips inschakelen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:806
+#: forms/frmmain.cpp:854
 msgid "Small Borders"
 msgstr "Kleine randen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:869
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1556
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1572
+#: forms/frmmain.cpp:858
+msgid "Font"
+msgstr "Lettertype"
+
+#: forms/frmmain.cpp:862 forms/frmmain.cpp:2309
+msgid "Choose font"
+msgstr "Lettertype kiezen"
+
+#: forms/frmmain.cpp:928 forms/frmmain.cpp:1616 forms/frmmain.cpp:1635
 msgid "Expansion"
 msgstr "Uitbreiding"
+
+#: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
+msgid "Browse"
+msgstr ""
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1350
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1432
 # S:\Development\Toucan\Toucan-Dev-1.2/frmsave.h:36
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:879
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:888
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:897
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:906
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:917
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:78
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:104
+#: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
+#: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
+#: forms/frmprogress.cpp:121 forms/frmprogress.cpp:163
 msgid "Save"
 msgstr "Opslaan"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:880
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:889
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:891
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:898
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:900
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:907
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:909
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:912
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:914
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:918
+#: forms/frmmain.cpp:941 forms/frmmain.cpp:951 forms/frmmain.cpp:953
+#: forms/frmmain.cpp:960 forms/frmmain.cpp:962 forms/frmmain.cpp:969
+#: forms/frmmain.cpp:971 forms/frmmain.cpp:975 forms/frmmain.cpp:977
+#: forms/frmmain.cpp:981 forms/frmmain.cpp:985
 msgid "Add"
 msgstr "Toevoegen"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:38
 # S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:49
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:881
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:890
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:892
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:899
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:901
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:908
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:910
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:913
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:915
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:919
+#: forms/frmmain.cpp:942 forms/frmmain.cpp:952 forms/frmmain.cpp:954
+#: forms/frmmain.cpp:961 forms/frmmain.cpp:963 forms/frmmain.cpp:970
+#: forms/frmmain.cpp:972 forms/frmmain.cpp:976 forms/frmmain.cpp:978
+#: forms/frmmain.cpp:982
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:882
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:883
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:894
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:903
+#: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
+#: forms/frmmain.cpp:965
 msgid "Expand all"
 msgstr "Alles uitklappen"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:103
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:884
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:885
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:893
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:902
+#: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
+#: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
 msgid "Insert Variable"
 msgstr "Variabele invoegen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:984
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1358
+#: forms/frmmain.cpp:983
+msgid "Undo"
+msgstr ""
+
+#: forms/frmmain.cpp:984
+msgid "Redo"
+msgstr ""
+
+#: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
 msgid "Differential only supports one folder"
 msgstr "Verschil ondersteunt slechts één map"
 
+#: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
+msgid "Mirror only supports one folder"
+msgstr ""
+
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
+msgid "Restore only supports one source archive file"
+msgstr ""
+
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1026
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1034
+#: forms/frmmain.cpp:1112
 msgid "Please select the source folder"
 msgstr "Gelieve de bronmap te selecteren"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1128
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1045
+#: forms/frmmain.cpp:1123
 msgid "Please select the destination folder"
 msgstr "Gelieve de doelmap te selecteren"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1137
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "Please enter the name for the new rules"
 msgstr "Geef een naam voor de nieuwe regels"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "New Rules"
 msgstr "Nieuwe regels"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
+#: forms/frmmain.cpp:1183
 msgid "Do you wish to save the current rules?"
 msgstr "Wilt u de huidige regels opslaan?"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
+#: forms/frmmain.cpp:1183
 msgid "Rules Save"
 msgstr "Regels opslaan"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1166
+#: forms/frmmain.cpp:1199
 msgid "There is already a set of rules with this name"
 msgstr "Er bestaat al regelset met deze naam."
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Do you wish to save the current job?"
 msgstr "Wilt u de huidige taak opslaan?"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Job Save"
 msgstr "Taak opslaan"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1068
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1302
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1364
+#: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
 msgid "Please select the folder to store your backups"
 msgstr "Selecteer de map om backups in te bewaren"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1014
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1055
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1508
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1308
+#: forms/frmmain.cpp:1350
 msgid "Restore into:"
 msgstr "Herstel in:"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1324
+#: forms/frmmain.cpp:1366
 msgid "Please choose a file to backup to"
 msgstr "Kies een bestand om naar te backuppen"
 
+#: forms/frmmain.cpp:1412
+msgid "7-Zip"
+msgstr "7-Zip"
+
+#: forms/frmmain.cpp:1413
+msgid "Differential only supports the 7-Zip format"
+msgstr ""
+
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1137
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 msgid "Please enter the name for the new variable"
 msgstr "Geef een naam voor de nieuwe variabele"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:636
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:640
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 msgid "New Variable"
 msgstr "Nieuwe variabele"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
+#: forms/frmmain.cpp:1593
 msgid "Do you wish to save the current variable?"
 msgstr "Wilt u de huidige variabele opslaan?"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:636
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:640
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
+#: forms/frmmain.cpp:1593
 msgid "Variable Save"
 msgstr "Variabele opslaan"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1547
+#: forms/frmmain.cpp:1607
 msgid "There is already a variable with this name"
 msgstr "Er bestaat al een variabele met deze naam"
 
+#: forms/frmmain.cpp:1670
+msgid "Choose a directory"
+msgstr ""
+
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1259
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
+#: forms/frmmain.cpp:1713
 msgid "Please insert the location you want to point to."
 msgstr "Gelieve de locatie in te voegen waar u naar wil verwijzen."
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1259
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:61
+#: forms/frmmain.cpp:1713 forms/frmvariable.cpp:61
 msgid "Location"
 msgstr "Locatie"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "Please enter the name for the new script"
 msgstr "Geef een naam in voor het nieuwe script"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "New Script"
 msgstr "Nieuw script"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
+#: forms/frmmain.cpp:1762
 msgid "Do you wish to save the current script?"
 msgstr "Wilt u het huidige script opslaan?"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:553
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:25
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:34
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
+#: forms/frmmain.cpp:1762
 msgid "Script Save"
 msgstr "Script opslaan"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1709
+#: forms/frmmain.cpp:1777
 msgid "There is already a script with this name"
 msgstr "Er bestaat al een script met deze naam."
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1137
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "Please enter the name for the new job"
 msgstr "Geef een naam voor de nieuwe taak"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "New Job"
 msgstr "Nieuwe taak"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1157
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1865
+#: forms/frmmain.cpp:1959
 msgid "There is already a job with this name"
 msgstr "Er bestaat al een taak met deze naam."
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2009
+#: forms/frmmain.cpp:2124
 msgid "Exclude by extension"
 msgstr "Excluderen op extensie"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2010
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2015
+#: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
 msgid "Exclude by name"
 msgstr "Excluderen op naam"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2011
+#: forms/frmmain.cpp:2126
 msgid "Include by extension"
 msgstr "Includeren op extensie"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2012
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2016
+#: forms/frmmain.cpp:2127 forms/frmmain.cpp:2131
 msgid "Include by name"
 msgstr "Includeren op naam"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2119
+#: forms/frmmain.cpp:2175
+msgid "Copied"
+msgstr ""
+
+#: forms/frmmain.cpp:2178
+msgid "Deleted"
+msgstr ""
+
+#: forms/frmmain.cpp:2181
 msgid "Overwritten"
 msgstr "Overschreven"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2122
-msgid "If needed"
-msgstr "Indien nodig"
+#: forms/frmmain.cpp:2184
+msgid "Deleted if empty"
+msgstr ""
 
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2131
+#: forms/frmmain.cpp:2193
 msgid "Files to Decrypt"
 msgstr "Te decrypteren bestanden"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2137
+#: forms/frmmain.cpp:2199
 msgid "Location to Extract into"
 msgstr "Locatie om naar uit te pakken"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2138
+#: forms/frmmain.cpp:2200
 msgid "Archives to Extract"
 msgstr "Uit te pakken archieven"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2150
+#: forms/frmmain.cpp:2212
 msgid "None"
 msgstr "Geen"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2153
+#: forms/frmmain.cpp:2215
 msgid "Fastest"
 msgstr "Snelst"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2156
+#: forms/frmmain.cpp:2218
 msgid "Fast"
 msgstr "Snel"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:439
 # S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:110
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2162
+#: forms/frmmain.cpp:2224
 msgid "Maximum"
 msgstr "Maximaal"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2165
+#: forms/frmmain.cpp:2227
 msgid "Ultra"
 msgstr "Ultra"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:576
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:57
+#: forms/frmpassword.cpp:57
 msgid "Repeat Password"
 msgstr "Herhaal paswoord"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.cpp:148
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:71
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:72
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:76
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:95
+#: forms/frmpassword.cpp:71 forms/frmvariable.cpp:95
 msgid "OK"
 msgstr "OK"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/frmopen.cpp:141
 # S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:133
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:75
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:75
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:80
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:98
+#: forms/frmpassword.cpp:75 forms/frmprogress.cpp:108 forms/frmvariable.cpp:98
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:82
+#: forms/frmprogress.cpp:112
 msgid "Time"
 msgstr "Tijd"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:83
+#: forms/frmprogress.cpp:113
 msgid "Status"
 msgstr "Status"
 
+#: forms/frmprogress.cpp:122
+msgid "Autoscroll"
+msgstr ""
+
+#: forms/frmprogress.cpp:329
+msgid "Close"
+msgstr ""
+
 # S:\Development\Toucan\Toucan-Dev-1.2/frmopen.cpp:215
 # S:\Development\Toucan\Toucan-Dev-1.2/frmsave.cpp:207
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:105
+#: forms/frmvariable.cpp:105
 msgid "Please select a folder"
 msgstr "Gelieve een map te selecteren"
 
+# S:\Development\Toucan\Toucan-Dev-1.2/backup.h:19
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:96
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:133
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:150
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:169
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:188
+# S:\Development\Toucan\Toucan-Dev-1.2/frmprogress.h:51
+# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:57
+#: luamanager.cpp:45
+msgid "Progress"
+msgstr "Voortgang"
+
+#: luathread.cpp:33
+msgid "Date:"
+msgstr "Datum:"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:416
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1004
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1490
+# S:\Development\Toucan\Toucan-Dev-1.2/backup-func.h:121
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:192
+# S:\Development\Toucan\Toucan-Dev-1.2/basicops.h:228
+#: luathread.cpp:34
+msgid "Computer Name:"
+msgstr "Computernaam:"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1382
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1468
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1519
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:1553
+# S:\Development\Toucan\Toucan-Dev-1.2/frmopen.h:36
+#: luathread.cpp:35
+msgid "Operating System:"
+msgstr "Besturingssysteem:"
+
+#: luathread.cpp:43
+msgid "Elapsed:"
+msgstr "Verstreken:"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure.h:90
+#: luathread.cpp:44
+msgid "Finished"
+msgstr "Klaar"
+
+#: path.cpp:55
+msgid "Could not create"
+msgstr "Kon niet aanmaken"
+
+#: rules.cpp:181
+msgid "There was an error reading from the rules file"
+msgstr "Er ontstond een fout bij het lezen van het regelbestand"
+
+#: rules.cpp:202
+msgid ""
+"There was an error saving to the rules file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+"Er ontstond een fout bij het opslaan van het regelbestand, \n"
+"ga na of het niet alleen-lezen is of al in gebruik is"
+
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:116
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:160
+#: secure/securejob.cpp:91 secure/securejob.cpp:128
 msgid "Failed to encrypt "
 msgstr "Encrypteren mislukt"
 
-# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:85
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:126
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:168
-msgid "Failed to decrypt "
-msgstr "Decrypteren mislukt"
-
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:51
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:157
+#: secure/securejob.cpp:126
 msgid "Encrypted "
 msgstr "Geëncrypteerd"
 
 # S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:81
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:165
+#: secure/securejob.cpp:132
 msgid "Decrypted "
 msgstr "Gedecrypteerd"
 
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:85
+#: secure/securejob.cpp:134
+msgid "Failed to decrypt "
+msgstr "Decrypteren mislukt"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:37
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-file.h:60
+#: sync/syncjob.cpp:178 toucan_wrap.cpp:2910
+msgid "Copied "
+msgstr "Gekopieerd"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
+#: sync/syncjob.cpp:181 sync/syncjob.cpp:194 toucan_wrap.cpp:2913
+msgid "Failed to copy "
+msgstr "Kopiëren mislukt"
+
+#: sync/syncjob.cpp:234
+msgid "Skipped "
+msgstr ""
+
 # S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:38
 # S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:49
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:329
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:346
+#: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
 msgstr "Verwijderd"
 
+#: toucan.cpp:116
+msgid "Another copy of Toucan is already running, aborting."
+msgstr ""
+
+#: toucan.cpp:264
+msgid "The job does not exist"
+msgstr "Deze taak bestaat niet"
+
+#: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
+msgid "Could not run "
+msgstr "Kon niet starten"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:292
+#: toucan.cpp:413
+msgid "Please input your password: "
+msgstr "Gelieve uw paswoord in te geven:"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:292
+#: toucan.cpp:415
+msgid "Please repeat your password: "
+msgstr "Gelieve uw paswoord opnieuw in te geven:"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:946
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:997
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:232
+# S:\Development\Toucan\Toucan-Dev-1.2/toucan.cpp:268
+#: toucan.cpp:418
+msgid "Sorry the passwords do not match"
+msgstr "De paswoorden zijn niet gelijk"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:81
+#: toucan_wrap.cpp:2897
+msgid "Deleted "
+msgstr "Verwijderd"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:85
+#: toucan_wrap.cpp:2900
+msgid "Failed to delete "
+msgstr "Verwijderen mislukt"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:38
+# S:\Development\Toucan\Toucan-Dev-1.2/sync-mirror.h:49
+#: toucan_wrap.cpp:2923 toucan_wrap.cpp:2936
+msgid "Moved"
+msgstr "Verplaatst"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
+#: toucan_wrap.cpp:2926 toucan_wrap.cpp:2939
+msgid "Failed to move "
+msgstr "Verplaatsen mislukt"
+
 # S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:570
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:26
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:28
+#: forms/frmpassword.h:26 forms/frmpassword.h:28
 msgid "Input Password"
 msgstr "Paswoord invoeren"
 
+# S:\Development\Toucan\Toucan-Dev-1.2/secure-file.h:55
+#~ msgid "File to Exclude"
+#~ msgstr "Te excluderen bestand"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:321
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:469
+#~ msgid "Folder to Exclude"
+#~ msgstr "Te excluderen map"
+
+#~ msgid "Location to Include"
+#~ msgstr "Te includeren locatie"
+
+#~ msgid "Locations to Include"
+#~ msgstr "Te includeren locaties"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/sync.h:102
+#~ msgid "Starting"
+#~ msgstr "Starten"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijderen"
+
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:587
+# S:\Development\Toucan\Toucan-Dev-1.2/frmmain.cpp:591
+#~ msgid "Execute"
+#~ msgstr "Uitvoeren"
+
+#~ msgid "Line %d has an incorrect number of parameters"
+#~ msgstr "Lijn %d heeft een verkeerd aantal parameters"
+
+#~ msgid " not recognised on line %d"
+#~ msgstr " niet herkend op lijn %d"
+
+#~ msgid "Setting up progress bar"
+#~ msgstr "Voortgangsbalk aan het opstellen"
+
+#~ msgid "If needed"
+#~ msgstr "Indien nodig"

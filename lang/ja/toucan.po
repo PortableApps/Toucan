@@ -2,125 +2,696 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-26 18:13-0000\n"
+"POT-Creation-Date: 2016-06-19 14:41+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
 "Language-Team: Asabukuro <fistechen@gmail.com>\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
-"X-Poedit-Language: Japanese\n"
-"X-Poedit-Country: JAPAN\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: .settings\n"
+"X-Poedit-SearchPathExcluded-2: help\n"
+"X-Poedit-SearchPathExcluded-3: lang\n"
+"X-Poedit-SearchPathExcluded-4: test\n"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:345
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:381
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:418
-msgid "Please run Toucan from a device that allows writes so it can update itself"
-msgstr "Toucan を書き込み可能なデバイスから実行すれば自動的にアップデートが行えます"
+#: backup/backupjob.cpp:50 backup/backupjob.cpp:70 basicfunctions.cpp:48
+#: data/backupdata.cpp:179 forms/frmmain.cpp:452 forms/frmmain.cpp:1057
+#: forms/frmmain.cpp:1349 forms/frmmain.cpp:1407 forms/frmmain.cpp:2198
+#: toucan_wrap.cpp:2760 toucan_wrap.cpp:2764
+msgid "Restore"
+msgstr "復元"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:345
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:354
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:381
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:390
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:418
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
-msgid "Error"
-msgstr "エラー"
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:45
+#: data/backupdata.cpp:173 forms/frmmain.cpp:448 forms/frmmain.cpp:2065
+msgid "Complete"
+msgstr "すべて"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:354
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:390
-msgid "Upgrading to this version of Toucan is not supported"
-msgstr "このバージョンの Toucan へのアップグレードは対応していません"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
-msgid "Mirror (Copy)"
-msgstr "ミラー (コピー)"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
-msgid "Mirror (Update)"
-msgstr "ミラー (更新)"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:280
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:432
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:460
-msgid "Mirror"
-msgstr "ミラー"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:306
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:431
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:438
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:459
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:466
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:40
+#: basicfunctions.cpp:46 basicfunctions.cpp:314 data/backupdata.cpp:176
+#: forms/frmmain.cpp:449
 msgid "Update"
 msgstr "更新"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:307
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:430
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:458
+#: backup/backupjob.cpp:58
+msgid "Creating file list, this may take some time."
+msgstr "ファイル リスト作成中。 しばらく時間がかかります。"
+
+#: basicfunctions.cpp:39 basicfunctions.cpp:315 basicfunctions.cpp:318
+#: forms/frmmain.cpp:293 forms/frmmain.cpp:2044 sync/syncjob.cpp:75
+#: sync/syncpreview.cpp:84
 msgid "Copy"
 msgstr "コピー"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:433
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:461
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1577
+#: basicfunctions.cpp:41 basicfunctions.cpp:288 basicfunctions.cpp:318
+#: data/backupdata.cpp:195 forms/frmmain.cpp:294 forms/frmmain.cpp:451
+#: forms/frmmain.cpp:1053 forms/frmmain.cpp:1403 sync/syncjob.cpp:62
+#: sync/syncjob.cpp:75 sync/syncjob.cpp:117 sync/syncpreview.cpp:67
+#: sync/syncpreview.cpp:84 sync/syncpreview.cpp:133 toucan_wrap.cpp:2692
+msgid "Mirror"
+msgstr "ミラー"
+
+#: basicfunctions.cpp:42 basicfunctions.cpp:318 forms/frmmain.cpp:295
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:67 sync/syncjob.cpp:84
+#: sync/syncjob.cpp:122 sync/syncpreview.cpp:70 sync/syncpreview.cpp:92
+#: sync/syncpreview.cpp:138 toucan_wrap.cpp:2695
 msgid "Equalise"
 msgstr "等化"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:435
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:463
-msgid "Clean"
-msgstr "排除"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:434
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:462
+#: basicfunctions.cpp:43 basicfunctions.cpp:319 forms/frmmain.cpp:296
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:53 sync/syncjob.cpp:75
+#: sync/syncjob.cpp:78 sync/syncjob.cpp:107 sync/syncjob.cpp:153
+#: sync/syncpreview.cpp:57 sync/syncpreview.cpp:84 sync/syncpreview.cpp:87
+#: sync/syncpreview.cpp:125 sync/syncpreview.cpp:151
 msgid "Move"
 msgstr "移動"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:31
+#: basicfunctions.cpp:44 basicfunctions.cpp:319 forms/frmmain.cpp:297
+#: sync/syncjob.cpp:50 sync/syncjob.cpp:62 sync/syncjob.cpp:95
+#: sync/syncjob.cpp:117 sync/syncjob.cpp:141 sync/syncpreview.cpp:53
+#: sync/syncpreview.cpp:67 sync/syncpreview.cpp:111 sync/syncpreview.cpp:133
+msgid "Clean"
+msgstr "排除"
+
+#: basicfunctions.cpp:47 data/backupdata.cpp:183 forms/frmmain.cpp:450
+#: forms/frmmain.cpp:1049 forms/frmmain.cpp:1343 forms/frmmain.cpp:1399
+#: forms/frmmain.cpp:1412 forms/frmmain.cpp:1417 toucan_wrap.cpp:2760
+#: toucan_wrap.cpp:2764
+msgid "Differential"
+msgstr "差分"
+
+#: basicfunctions.cpp:49 forms/frmmain.cpp:587 forms/frmmain.cpp:2080
+#: forms/frmmain.cpp:2189 secure/securejob.cpp:87 secure/securejob.cpp:89
+#: secure/securejob.cpp:104 secure/securejob.cpp:124
+msgid "Encrypt"
+msgstr "暗号化"
+
+#: basicfunctions.cpp:50 forms/frmmain.cpp:588 secure/securejob.cpp:88
+#: secure/securejob.cpp:90
+msgid "Decrypt"
+msgstr "復号化"
+
+#: basicfunctions.cpp:51 forms/frmmain.cpp:827 forms/frmmain.cpp:868
+msgid "Icons and Text"
+msgstr "アイコンとテキスト"
+
+#: basicfunctions.cpp:52 forms/frmmain.cpp:828
+msgid "Text"
+msgstr "テキスト"
+
+#: basicfunctions.cpp:53 forms/frmmain.cpp:806 forms/frmmain.cpp:879
+#: forms/frmmain.cpp:1927 forms/frmmain.cpp:2043
+msgid "Sync"
+msgstr "同期"
+
+#: basicfunctions.cpp:54 forms/frmmain.cpp:809 forms/frmmain.cpp:880
+#: forms/frmmain.cpp:1930 forms/frmmain.cpp:2064
+msgid "Backup"
+msgstr "バックアップ"
+
+#: basicfunctions.cpp:55 forms/frmmain.cpp:812 forms/frmmain.cpp:881
+#: forms/frmmain.cpp:1933 forms/frmmain.cpp:2079
+msgid "Secure"
+msgstr "秘匿"
+
+#: basicfunctions.cpp:56 forms/frmmain.cpp:284 forms/frmmain.cpp:439
+#: forms/frmmain.cpp:578 forms/frmmain.cpp:882 forms/frmmain.cpp:1939
+msgid "Rules"
+msgstr "ルール"
+
+#: basicfunctions.cpp:57 forms/frmmain.cpp:883 forms/frmmain.cpp:1942
+#: forms/frmvariable.cpp:74
+msgid "Variables"
+msgstr "変数"
+
+#: basicfunctions.cpp:58 forms/frmmain.cpp:884 forms/frmmain.cpp:1936
+msgid "Script"
+msgstr "スクリプト"
+
+#: basicfunctions.cpp:59 forms/frmmain.cpp:885
+msgid "Settings"
+msgstr "設定"
+
+#: basicfunctions.cpp:60 forms/frmmain.cpp:836 forms/frmmain.cpp:840
+msgid "Help"
+msgstr "ヘルプ"
+
+#: basicfunctions.cpp:61
+msgid "Simple"
+msgstr ""
+
+#: basicfunctions.cpp:62
+msgid "Regex"
+msgstr ""
+
+#: basicfunctions.cpp:63
+msgid "Size"
+msgstr ""
+
+#: basicfunctions.cpp:64
+msgid "Date"
+msgstr ""
+
+#: basicfunctions.cpp:65
+msgid "File Include"
+msgstr ""
+
+#: basicfunctions.cpp:66
+msgid "File Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:67
+msgid "Folder Include"
+msgstr ""
+
+#: basicfunctions.cpp:68
+msgid "Folder Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:69
+msgid "Absolute Folder Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
+#: basicfunctions.cpp:519
+msgid "Please run Toucan from a device that allows writes so it can update itself"
+msgstr "Toucan を書き込み可能なデバイスから実行すれば自動的にアップデートが行えます"
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:248 basicfunctions.cpp:384
+#: basicfunctions.cpp:393 basicfunctions.cpp:482 basicfunctions.cpp:491
+#: basicfunctions.cpp:519 forms/frmmain.cpp:1050 forms/frmmain.cpp:1054
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1199 forms/frmmain.cpp:1400
+#: forms/frmmain.cpp:1404 forms/frmmain.cpp:1408 forms/frmmain.cpp:1413
+#: forms/frmmain.cpp:1419 forms/frmmain.cpp:1607 forms/frmmain.cpp:1777
+#: forms/frmmain.cpp:1959
+msgid "Error"
+msgstr "エラー"
+
+#: basicfunctions.cpp:248 basicfunctions.cpp:393 basicfunctions.cpp:491
+msgid "Upgrading to this version of Toucan is not supported"
+msgstr "このバージョンの Toucan へのアップグレードは対応していません"
+
+#: basicfunctions.cpp:287
+msgid "Mirror (Copy)"
+msgstr "ミラー (コピー)"
+
+#: basicfunctions.cpp:287
+msgid "Mirror (Update)"
+msgstr "ミラー (更新)"
+
+#: controls/rulesgrid.cpp:25
+msgid "Include / Exclude"
+msgstr ""
+
+#: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
+msgid "Type"
+msgstr "タイプ"
+
+#: controls/rulesgrid.cpp:27
+msgid "Rule"
+msgstr "ルール"
+
+#: forms/frmmain.cpp:266 forms/frmmain.cpp:421 forms/frmmain.cpp:560
+msgid "Job Name"
+msgstr "ジョブの名称"
+
+#: forms/frmmain.cpp:298 forms/frmmain.cpp:589
+msgid "Function"
+msgstr "操作"
+
+#: forms/frmmain.cpp:302
+msgid "File Checks"
+msgstr "ファイルのチェック"
+
+#: forms/frmmain.cpp:306
+msgid "File size"
+msgstr "ファイル サイズ"
+
+#: forms/frmmain.cpp:310
+msgid "Modified time"
+msgstr "更新日時"
+
+#: forms/frmmain.cpp:314
+msgid "Short Comparison"
+msgstr "一部を比較"
+
+#: forms/frmmain.cpp:318
+msgid "Full Comparison"
+msgstr "全体を比較"
+
+#: forms/frmmain.cpp:322 forms/frmmain.cpp:478 forms/frmmain.cpp:846
+#: forms/frmmain.cpp:1618 path.cpp:208
+msgid "Other"
+msgstr "その他"
+
+#: forms/frmmain.cpp:326
+msgid "Retain Timestamps"
+msgstr "タイムスタンプを保持"
+
+#: forms/frmmain.cpp:330
+msgid "Retain Attributes"
+msgstr "属性を保持"
+
+#: forms/frmmain.cpp:334
+msgid "Ignore Read-Only"
+msgstr "読み取り専用属性を無視"
+
+#: forms/frmmain.cpp:338
+msgid "Use Recycle Bin"
+msgstr "ごみ箱を使用"
+
+#: forms/frmmain.cpp:342
+msgid "Preview Only Changes"
+msgstr "変更のみプレビュー"
+
+#: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
+#: forms/frmmain.cpp:739
+msgid "Run"
+msgstr "実行"
+
+#: forms/frmmain.cpp:352 forms/frmvariable.cpp:86
+msgid "Preview"
+msgstr "プレビュー"
+
+#: forms/frmmain.cpp:355 forms/frmmain.cpp:497 forms/frmmain.cpp:599
+#: forms/frmmain.cpp:947 forms/frmmain.cpp:957 forms/frmmain.cpp:966
+msgid "Refresh"
+msgstr "再読み込み"
+
+#: forms/frmmain.cpp:367
+msgid "Source"
+msgstr "ソース"
+
+#: forms/frmmain.cpp:388
+msgid "Destination"
+msgstr "出力先"
+
+#: forms/frmmain.cpp:461
+msgid "Format"
+msgstr "フォーマット"
+
+#: forms/frmmain.cpp:465 forms/frmmain.cpp:474
+msgid "Compression Level"
+msgstr "圧縮レベル"
+
+#: forms/frmmain.cpp:469 forms/frmmain.cpp:2068 forms/frmmain.cpp:2221
+msgid "Default"
+msgstr "デフォルト"
+
+#: forms/frmmain.cpp:482 forms/frmpassword.cpp:54
+msgid "Password"
+msgstr "パスワード"
+
+#: forms/frmmain.cpp:485
+msgid "Test After Creation"
+msgstr "作成後にテスト"
+
+#: forms/frmmain.cpp:488
+msgid "Solid Mode"
+msgstr "ソリッド モード"
+
+#: forms/frmmain.cpp:509 forms/frmmain.cpp:611 forms/frmmain.cpp:927
+#: forms/frmmain.cpp:1615 forms/frmmain.cpp:1634
+msgid "Computer"
+msgstr "コンピュータ"
+
+#: forms/frmmain.cpp:524 forms/frmmain.cpp:2203
+msgid "Backup Location"
+msgstr "バックアップの保存先"
+
+#: forms/frmmain.cpp:533 forms/frmmain.cpp:2204
+msgid "Files to Backup"
+msgstr "バックアップするファイル"
+
+#: forms/frmmain.cpp:626 forms/frmmain.cpp:2190
+msgid "Files to Encrypt"
+msgstr "暗号化するファイル"
+
+#: forms/frmmain.cpp:647 forms/frmmain.cpp:687 forms/frmmain.cpp:723
+msgid "Name"
+msgstr "名称"
+
+#: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
+msgid "Jobs"
+msgstr ""
+
+#: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
+msgid "Job Commands"
+msgstr ""
+
+#: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
+msgid "Other Commands"
+msgstr ""
+
+#: forms/frmmain.cpp:799 forms/frmmain.cpp:802
+msgid "Remember Entered Information"
+msgstr "入力情報を記憶"
+
+#: forms/frmmain.cpp:815
+msgid "Language"
+msgstr "表示言語"
+
+#: forms/frmmain.cpp:829
+msgid "Tab style"
+msgstr "タブのスタイル"
+
+#: forms/frmmain.cpp:833
+msgid "Apply"
+msgstr "適用"
+
+#: forms/frmmain.cpp:843
+msgid "About"
+msgstr "ソフト情報"
+
+#: forms/frmmain.cpp:850
+msgid "Enable Tooltips"
+msgstr "ヒントを表示"
+
+#: forms/frmmain.cpp:854
+msgid "Small Borders"
+msgstr "コンパクト表示"
+
+#: forms/frmmain.cpp:858
+msgid "Font"
+msgstr "フォント"
+
+#: forms/frmmain.cpp:862 forms/frmmain.cpp:2309
+msgid "Choose font"
+msgstr "フォントの選択"
+
+#: forms/frmmain.cpp:928 forms/frmmain.cpp:1616 forms/frmmain.cpp:1635
+msgid "Expansion"
+msgstr "対象"
+
+#: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
+msgid "Browse"
+msgstr ""
+
+#: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
+#: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
+#: forms/frmprogress.cpp:121 forms/frmprogress.cpp:163
+msgid "Save"
+msgstr "保存"
+
+#: forms/frmmain.cpp:941 forms/frmmain.cpp:951 forms/frmmain.cpp:953
+#: forms/frmmain.cpp:960 forms/frmmain.cpp:962 forms/frmmain.cpp:969
+#: forms/frmmain.cpp:971 forms/frmmain.cpp:975 forms/frmmain.cpp:977
+#: forms/frmmain.cpp:981 forms/frmmain.cpp:985
+msgid "Add"
+msgstr "追加"
+
+#: forms/frmmain.cpp:942 forms/frmmain.cpp:952 forms/frmmain.cpp:954
+#: forms/frmmain.cpp:961 forms/frmmain.cpp:963 forms/frmmain.cpp:970
+#: forms/frmmain.cpp:972 forms/frmmain.cpp:976 forms/frmmain.cpp:978
+#: forms/frmmain.cpp:982
+msgid "Remove"
+msgstr "削除"
+
+#: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
+#: forms/frmmain.cpp:965
+msgid "Expand all"
+msgstr "全て展開"
+
+#: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
+#: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
+msgid "Insert Variable"
+msgstr "変数の入力"
+
+#: forms/frmmain.cpp:983
+msgid "Undo"
+msgstr ""
+
+#: forms/frmmain.cpp:984
+msgid "Redo"
+msgstr ""
+
+#: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
+msgid "Differential only supports one folder"
+msgstr "差分 がサポートするのは一つのフォルダのみです"
+
+#: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
+msgid "Mirror only supports one folder"
+msgstr ""
+
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
+msgid "Restore only supports one source archive file"
+msgstr ""
+
+#: forms/frmmain.cpp:1112
+msgid "Please select the source folder"
+msgstr "ソースフォルダの選択"
+
+#: forms/frmmain.cpp:1123
+msgid "Please select the destination folder"
+msgstr "出力先フォルダの選択　"
+
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
+msgid "Please enter the name for the new rules"
+msgstr "新規変数の名称を入力してください"
+
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
+msgid "New Rules"
+msgstr "新規ルール"
+
+#: forms/frmmain.cpp:1183
+msgid "Do you wish to save the current rules?"
+msgstr "このルールを保存しますか？"
+
+#: forms/frmmain.cpp:1183
+msgid "Rules Save"
+msgstr "ルールの保存"
+
+#: forms/frmmain.cpp:1199
+msgid "There is already a set of rules with this name"
+msgstr "同名のルールが存在します。"
+
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
+msgid "Do you wish to save the current job?"
+msgstr "このジョブを保存しますか？"
+
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
+msgid "Job Save"
+msgstr "ジョブの保存"
+
+#: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
+msgid "Please select the folder to store your backups"
+msgstr "バックアップの保存先と名称を選択"
+
+#: forms/frmmain.cpp:1350
+msgid "Restore into:"
+msgstr "復元先 :"
+
+#: forms/frmmain.cpp:1366
+msgid "Please choose a file to backup to"
+msgstr "バックアップ対象ファイルの指定"
+
+#: forms/frmmain.cpp:1412
+msgid "7-Zip"
+msgstr "7-Zip"
+
+#: forms/frmmain.cpp:1413
+msgid "Differential only supports the 7-Zip format"
+msgstr ""
+
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
+msgid "Please enter the name for the new variable"
+msgstr "新規変数に名称をつけてください"
+
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
+msgid "New Variable"
+msgstr "新規変数"
+
+#: forms/frmmain.cpp:1593
+msgid "Do you wish to save the current variable?"
+msgstr "この変数を保存しますか？"
+
+#: forms/frmmain.cpp:1593
+msgid "Variable Save"
+msgstr "変数の保存"
+
+#: forms/frmmain.cpp:1607
+msgid "There is already a variable with this name"
+msgstr "同名の変数が存在します。"
+
+#: forms/frmmain.cpp:1670
+msgid "Choose a directory"
+msgstr "ディレクトリの選択"
+
+#: forms/frmmain.cpp:1713
+msgid "Please insert the location you want to point to."
+msgstr "指定先を入力してください。"
+
+#: forms/frmmain.cpp:1713 forms/frmvariable.cpp:61
+msgid "Location"
+msgstr "ロケーション"
+
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
+msgid "Please enter the name for the new script"
+msgstr "新規スクリプトの名称を入力してください"
+
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
+msgid "New Script"
+msgstr "新規スクリプト"
+
+#: forms/frmmain.cpp:1762
+msgid "Do you wish to save the current script?"
+msgstr "このスクリプトを保存しますか？"
+
+#: forms/frmmain.cpp:1762
+msgid "Script Save"
+msgstr "スクリプトの保存"
+
+#: forms/frmmain.cpp:1777
+msgid "There is already a script with this name"
+msgstr "同名のスクリプトが存在します。"
+
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
+msgid "Please enter the name for the new job"
+msgstr "新規ジョブの名称を入力してください"
+
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
+msgid "New Job"
+msgstr "新規ジョブ"
+
+#: forms/frmmain.cpp:1959
+msgid "There is already a job with this name"
+msgstr "同名のジョブが存在します。"
+
+#: forms/frmmain.cpp:2124
+msgid "Exclude by extension"
+msgstr "拡張子で除外"
+
+#: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
+msgid "Exclude by name"
+msgstr "名称で除外"
+
+#: forms/frmmain.cpp:2126
+msgid "Include by extension"
+msgstr "拡張子で対象に"
+
+#: forms/frmmain.cpp:2127 forms/frmmain.cpp:2131
+msgid "Include by name"
+msgstr "名称で対象に"
+
+#: forms/frmmain.cpp:2175
+msgid "Copied"
+msgstr ""
+
+#: forms/frmmain.cpp:2178
+msgid "Deleted"
+msgstr ""
+
+#: forms/frmmain.cpp:2181
+msgid "Overwritten"
+msgstr "上書き"
+
+#: forms/frmmain.cpp:2184
+msgid "Deleted if empty"
+msgstr ""
+
+#: forms/frmmain.cpp:2193
+msgid "Files to Decrypt"
+msgstr "暗号化するファイル"
+
+#: forms/frmmain.cpp:2199
+msgid "Location to Extract into"
+msgstr "解凍先"
+
+#: forms/frmmain.cpp:2200
+msgid "Archives to Extract"
+msgstr "解凍するアーカイブ"
+
+#: forms/frmmain.cpp:2212
+msgid "None"
+msgstr "なし"
+
+#: forms/frmmain.cpp:2215
+msgid "Fastest"
+msgstr "最高速"
+
+#: forms/frmmain.cpp:2218
+msgid "Fast"
+msgstr "高速"
+
+#: forms/frmmain.cpp:2224
+msgid "Maximum"
+msgstr "最大"
+
+#: forms/frmmain.cpp:2227
+msgid "Ultra"
+msgstr "ウルトラ"
+
+#: forms/frmpassword.cpp:57
+msgid "Repeat Password"
+msgstr "パスワードの再入力"
+
+#: forms/frmpassword.cpp:71 forms/frmvariable.cpp:95
+msgid "OK"
+msgstr "OK"
+
+#: forms/frmpassword.cpp:75 forms/frmprogress.cpp:108 forms/frmvariable.cpp:98
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: forms/frmprogress.cpp:112
+msgid "Time"
+msgstr "時間"
+
+#: forms/frmprogress.cpp:113
+msgid "Status"
+msgstr "ステータス"
+
+#: forms/frmprogress.cpp:122
+msgid "Autoscroll"
+msgstr ""
+
+#: forms/frmprogress.cpp:329
+msgid "Close"
+msgstr ""
+
+#: forms/frmvariable.cpp:105
+msgid "Please select a folder"
+msgstr "フォルダを選択してください"
+
+#: luamanager.cpp:45
 msgid "Progress"
 msgstr "進行"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:41
+#: luathread.cpp:33
 msgid "Date:"
 msgstr "日時 :"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:42
+#: luathread.cpp:34
 msgid "Computer Name:"
 msgstr "コンピュータ名 :"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:43
+#: luathread.cpp:35
 msgid "Operating System:"
 msgstr "オペレーション システム :"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:59
+#: luathread.cpp:43
 msgid "Elapsed:"
 msgstr "経過 :"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:60
+#: luathread.cpp:44
 msgid "Finished"
 msgstr "完了"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
+#: path.cpp:55
+msgid "Could not create"
+msgstr "作成できません"
+
+#: rules.cpp:181
 msgid "There was an error reading from the rules file"
 msgstr "ルール ファイルの読み込みエラーが発生しました "
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
+#: rules.cpp:202
 msgid ""
 "There was an error saving to the rules file, \n"
 "please check it is not set as read only or in use"
@@ -128,738 +699,199 @@ msgstr ""
 "ルール ファイルの保存エラーが発生しました\n"
 "読み取り専用属性、または使用中でないか確認してください"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:214
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:236
-msgid "File to Exclude"
-msgstr "除外するファイル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:217
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:241
-msgid "Folder to Exclude"
-msgstr "除外するフォルダ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:220
-msgid "Location to Include"
-msgstr "対象とする場所"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:246
-msgid "Locations to Include"
-msgstr "対象とする場所"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:62
-msgid "Starting"
-msgstr "スタート"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
-msgid "Delete"
-msgstr "削除"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
-msgid "Execute"
-msgstr "実行"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:86
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:141
-#, c-format
-msgid "Line %d has an incorrect number of parameters"
-msgstr "%d 行目に不正なパラメータがあります"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:98
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:117
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:134
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:146
-#, c-format
-msgid " not recognised on line %d"
-msgstr "  %d 行目が認識不能です"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:154
-msgid "Setting up progress bar"
-msgstr "進捗バーのセット"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:178
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:440
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:468
-msgid "Restore"
-msgstr "復元"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:221
-msgid "The job does not exist"
-msgstr "ジョブが存在しません"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:396
-msgid "Please input your password: "
-msgstr "パスワードを入力してください :"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:398
-msgid "Please repeat your password: "
-msgstr "パスワードを再入力してください :"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:401
-msgid "Sorry the passwords do not match"
-msgstr "パスワードが一致しません"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:437
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:465
-msgid "Complete"
-msgstr "すべて"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:439
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:467
-msgid "Differential"
-msgstr "差分"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:442
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:470
-msgid "Encrypt"
-msgstr "暗号化"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:443
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:471
-msgid "Decrypt"
-msgstr "復号化"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:445
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:473
-msgid "Icons and Text"
-msgstr "アイコンとテキスト"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:446
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:474
-msgid "Text"
-msgstr "テキスト"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:448
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:476
-msgid "Sync"
-msgstr "同期"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:449
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:477
-msgid "Backup"
-msgstr "バックアップ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:450
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:478
-msgid "Secure"
-msgstr "秘匿"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:451
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:479
-msgid "Rules"
-msgstr "ルール"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:452
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:480
-msgid "Variables"
-msgstr "変数"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:453
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:481
-msgid "Script"
-msgstr "スクリプト"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:454
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:482
-msgid "Settings"
-msgstr "設定"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:455
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:483
-msgid "Help"
-msgstr "ヘルプ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1760
-msgid "Deleted "
-msgstr "削除完了"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1763
-msgid "Failed to delete "
-msgstr "削除に失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1773
-msgid "Copied "
-msgstr "コピー "
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1776
-msgid "Failed to copy "
-msgstr "コピーに失敗"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1786
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1799
-msgid "Moved"
-msgstr "移動完了"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1789
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1802
-msgid "Failed to move "
-msgstr "移動に失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/variables.cpp:122
-msgid "Other"
-msgstr "その他"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/backup/backupjob.cpp:70
-msgid "Creating file list, this may take some time."
-msgstr "ファイル リスト作成中。 しばらく時間がかかります。"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:246
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:401
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:539
-msgid "Job Name"
-msgstr "ジョブの名称"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:278
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:568
-msgid "Function"
-msgstr "操作"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:282
-msgid "File Checks"
-msgstr "ファイルのチェック"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:286
-msgid "File size"
-msgstr "ファイル サイズ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:290
-msgid "Modified time"
-msgstr "更新日時"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:294
-msgid "Short Comparison"
-msgstr "一部を比較"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:298
-msgid "Full Comparison"
-msgstr "全体を比較"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:306
-msgid "Retain Timestamps"
-msgstr "タイムスタンプを保持"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:310
-msgid "Retain Attributes"
-msgstr "属性を保持"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:314
-msgid "Ignore Read-Only"
-msgstr "読み取り専用属性を無視"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:318
-msgid "Use Recycle Bin"
-msgstr "ごみ箱を使用"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:322
-msgid "Preview Only Changes"
-msgstr "変更のみプレビュー"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:329
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:473
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:575
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:720
-msgid "Run"
-msgstr "実行"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:332
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:86
-msgid "Preview"
-msgstr "プレビュー"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:335
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:476
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:578
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:886
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:895
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:904
-msgid "Refresh"
-msgstr "再読み込み"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:347
-msgid "Source"
-msgstr "ソース"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:368
-msgid "Destination"
-msgstr "出力先"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:432
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:648
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:62
-msgid "Type"
-msgstr "タイプ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:440
-msgid "Format"
-msgstr "フォーマット"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:444
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:453
-msgid "Compression Level"
-msgstr "圧縮レベル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:448
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1975
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2159
-msgid "Default"
-msgstr "デフォルト"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:461
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:54
-msgid "Password"
-msgstr "パスワード"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:464
-msgid "Test After Creation"
-msgstr "作成後にテスト"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:467
-msgid "Solid Mode"
-msgstr "ソリッド モード"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:488
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:590
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:868
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1555
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1571
-msgid "Computer"
-msgstr "コンピュータ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:503
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2141
-msgid "Backup Location"
-msgstr "バックアップの保存先"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:512
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2142
-msgid "Files to Backup"
-msgstr "バックアップするファイル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:605
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2128
-msgid "Files to Encrypt"
-msgstr "暗号化するファイル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:626
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:668
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:704
-msgid "Name"
-msgstr "名称"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:647
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:53
-msgid "Rule"
-msgstr "ルール"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:754
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:757
-msgid "Remember Entered Information"
-msgstr "入力情報を記憶"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:770
-msgid "Language"
-msgstr "表示言語"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:784
-msgid "Tab style"
-msgstr "タブのスタイル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:788
-msgid "Apply"
-msgstr "適用"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:791
-msgid "Font"
-msgstr "フォント"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:795
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2247
-msgid "Choose font"
-msgstr "フォントの選択"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:802
-msgid "Enable Tooltips"
-msgstr "ヒントを表示"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:806
-msgid "Small Borders"
-msgstr "コンパクト表示"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:869
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1556
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1572
-msgid "Expansion"
-msgstr "対象"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:879
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:888
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:897
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:906
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:917
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:79
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:105
-msgid "Save"
-msgstr "保存"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:880
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:889
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:891
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:898
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:900
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:907
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:909
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:912
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:914
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:918
-msgid "Add"
-msgstr "追加"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:881
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:890
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:892
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:899
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:901
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:908
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:910
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:913
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:915
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:919
-msgid "Remove"
-msgstr "削除"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:882
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:883
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:894
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:903
-msgid "Expand all"
-msgstr "全て展開"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:884
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:885
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:893
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:902
-msgid "Insert Variable"
-msgstr "変数の入力"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:984
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1358
-msgid "Differential only supports one folder"
-msgstr "差分 がサポートするのは一つのフォルダのみです"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1034
-msgid "Please select the source folder"
-msgstr "ソースフォルダの選択"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1045
-msgid "Please select the destination folder"
-msgstr "出力先フォルダの選択　"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
-msgid "Please enter the name for the new rules"
-msgstr "新規変数の名称を入力してください"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
-msgid "New Rules"
-msgstr "新規ルール"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
-msgid "Do you wish to save the current rules?"
-msgstr "このルールを保存しますか？"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
-msgid "Rules Save"
-msgstr "ルールの保存"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1166
-msgid "There is already a set of rules with this name"
-msgstr "同名のルールが存在します。"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
-msgid "Do you wish to save the current job?"
-msgstr "このジョブを保存しますか？"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
-msgid "Job Save"
-msgstr "ジョブの保存"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1302
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1364
-msgid "Please select the folder to store your backups"
-msgstr "バックアップの保存先と名称を選択"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1308
-msgid "Restore into:"
-msgstr "復元先 :"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1324
-msgid "Please choose a file to backup to"
-msgstr "バックアップ対象ファイルの指定"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
-msgid "Please enter the name for the new variable"
-msgstr "新規変数に名称をつけてください"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
-msgid "New Variable"
-msgstr "新規変数"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
-msgid "Do you wish to save the current variable?"
-msgstr "この変数を保存しますか？"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
-msgid "Variable Save"
-msgstr "変数の保存"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1547
-msgid "There is already a variable with this name"
-msgstr "同名の変数が存在します。"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
-msgid "Please insert the location you want to point to."
-msgstr "指定先を入力してください。"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:61
-msgid "Location"
-msgstr "ロケーション"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
-msgid "Please enter the name for the new script"
-msgstr "新規スクリプトの名称を入力してください"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
-msgid "New Script"
-msgstr "新規スクリプト"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
-msgid "Do you wish to save the current script?"
-msgstr "このスクリプトを保存しますか？"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
-msgid "Script Save"
-msgstr "スクリプトの保存"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1709
-msgid "There is already a script with this name"
-msgstr "同名のスクリプトが存在します。"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
-msgid "Please enter the name for the new job"
-msgstr "新規ジョブの名称を入力してください"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
-msgid "New Job"
-msgstr "新規ジョブ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1865
-msgid "There is already a job with this name"
-msgstr "同名のジョブが存在します。"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2009
-msgid "Exclude by extension"
-msgstr "拡張子で除外"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2010
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2015
-msgid "Exclude by name"
-msgstr "名称で除外"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2011
-msgid "Include by extension"
-msgstr "拡張子で対象に"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2012
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2016
-msgid "Include by name"
-msgstr "名称で対象に"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2119
-msgid "Overwritten"
-msgstr "上書き"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2122
-msgid "If needed"
-msgstr "必要な場合のみ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2131
-msgid "Files to Decrypt"
-msgstr "暗号化するファイル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2137
-msgid "Location to Extract into"
-msgstr "解凍先"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2138
-msgid "Archives to Extract"
-msgstr "解凍するアーカイブ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2150
-msgid "None"
-msgstr "なし"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2153
-msgid "Fastest"
-msgstr "最高速"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2156
-msgid "Fast"
-msgstr "高速"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2162
-msgid "Maximum"
-msgstr "最大"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2165
-msgid "Ultra"
-msgstr "ウルトラ"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:57
-msgid "Repeat Password"
-msgstr "パスワードの再入力"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:71
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:73
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:76
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:95
-msgid "OK"
-msgstr "OK"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:75
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:76
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:80
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:98
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:83
-msgid "Time"
-msgstr "時間"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:84
-msgid "Status"
-msgstr "ステータス"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:105
-msgid "Please select a folder"
-msgstr "フォルダを選択してください"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:116
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:153
+#: secure/securejob.cpp:91 secure/securejob.cpp:128
 msgid "Failed to encrypt "
 msgstr "暗号化に失敗"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:126
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:161
-msgid "Failed to decrypt "
-msgstr "復号化に失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:150
+#: secure/securejob.cpp:126
 msgid "Encrypted "
 msgstr "暗号化完了 "
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:158
+#: secure/securejob.cpp:132
 msgid "Decrypted "
 msgstr "復号化完了"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:37
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:40
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:62
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:71
-msgid "Could not create"
-msgstr "作成できません"
+#: secure/securejob.cpp:134
+msgid "Failed to decrypt "
+msgstr "復号化に失敗 "
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:346
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:363
+#: sync/syncjob.cpp:178 toucan_wrap.cpp:2910
+msgid "Copied "
+msgstr "コピー "
+
+#: sync/syncjob.cpp:181 sync/syncjob.cpp:194 toucan_wrap.cpp:2913
+msgid "Failed to copy "
+msgstr "コピーに失敗"
+
+#: sync/syncjob.cpp:234
+msgid "Skipped "
+msgstr ""
+
+#: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
 msgstr "削除完了"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:26
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:28
+#: toucan.cpp:116
+msgid "Another copy of Toucan is already running, aborting."
+msgstr ""
+
+#: toucan.cpp:264
+msgid "The job does not exist"
+msgstr "ジョブが存在しません"
+
+#: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
+msgid "Could not run "
+msgstr ""
+
+#: toucan.cpp:413
+msgid "Please input your password: "
+msgstr "パスワードを入力してください :"
+
+#: toucan.cpp:415
+msgid "Please repeat your password: "
+msgstr "パスワードを再入力してください :"
+
+#: toucan.cpp:418
+msgid "Sorry the passwords do not match"
+msgstr "パスワードが一致しません"
+
+#: toucan_wrap.cpp:2897
+msgid "Deleted "
+msgstr "削除完了"
+
+#: toucan_wrap.cpp:2900
+msgid "Failed to delete "
+msgstr "削除に失敗 "
+
+#: toucan_wrap.cpp:2923 toucan_wrap.cpp:2936
+msgid "Moved"
+msgstr "移動完了"
+
+#: toucan_wrap.cpp:2926 toucan_wrap.cpp:2939
+msgid "Failed to move "
+msgstr "移動に失敗 "
+
+#: forms/frmpassword.h:26 forms/frmpassword.h:28
 msgid "Input Password"
 msgstr "パスワードの入力"
 
+#~ msgid "File to Exclude"
+#~ msgstr "除外するファイル"
+
+#~ msgid "Folder to Exclude"
+#~ msgstr "除外するフォルダ"
+
+#~ msgid "Location to Include"
+#~ msgstr "対象とする場所"
+
+#~ msgid "Locations to Include"
+#~ msgstr "対象とする場所"
+
+#~ msgid "Starting"
+#~ msgstr "スタート"
+
+#~ msgid "Delete"
+#~ msgstr "削除"
+
+#~ msgid "Execute"
+#~ msgstr "実行"
+
+#~ msgid "Line %d has an incorrect number of parameters"
+#~ msgstr "%d 行目に不正なパラメータがあります"
+
+#~ msgid " not recognised on line %d"
+#~ msgstr "  %d 行目が認識不能です"
+
+#~ msgid "Setting up progress bar"
+#~ msgstr "進捗バーのセット"
+
+#~ msgid "If needed"
+#~ msgstr "必要な場合のみ"
+
 #~ msgid "Welcome to the Toucan command line system"
 #~ msgstr "これは Toucan のコマンド ライン システムです"
+
 #~ msgid "The command is not recognised"
 #~ msgstr "コマンドが認識できません"
+
 #~ msgid "Renamed "
 #~ msgstr "リネーム完了"
+
 #~ msgid "Failed to rename "
 #~ msgstr "リネームに失敗 "
+
 #~ msgid "Executed "
 #~ msgstr "処理完了"
+
 #~ msgid "Not all of the required fields are filled"
 #~ msgstr "必要なエリアが入力されていません"
+
 #~ msgid "There was an error reading from the jobs file"
 #~ msgstr "ジョブ ファイルの読み込みエラーが発生しました "
+
 #~ msgid ""
 #~ "There was an error saving to the jobs file, \n"
 #~ "please check it is not set as read only or in use"
 #~ msgstr ""
 #~ "ジョブ ファイルの保存エラーが発生しました。\n"
 #~ "読み取り専用属性、または使用中でないか確認してください"
+
 #~ msgid "Ignore Daylight Savings"
 #~ msgstr "夏時間を無視"
+
 #~ msgid "Files to Secure"
 #~ msgstr "秘匿するファイル"
-#~ msgid "About"
-#~ msgstr "ソフト情報"
+
 #~ msgid "Please enter the name for the new varaible"
 #~ msgstr "新規変数の名称を入力してください"
-#~ msgid "Choose a directory"
-#~ msgstr "ディレクトリの選択"
+
 #~ msgid "Rename"
 #~ msgstr "リネーム"
+
 #~ msgid "Files to exclude (file name, path or extension)"
 #~ msgstr "除外ファイル（ファイル名、パス、または拡張子）"
+
 #~ msgid "Folders to exclude (folder name or path)"
 #~ msgstr "除外フォルダ（フォルダ名またはパス）"
-#~ msgid ""
-#~ "Locations to always include (file/folder name, path or  file extension)"
+
+#~ msgid "Locations to always include (file/folder name, path or  file extension)"
 #~ msgstr "常に対象とするアイテム（ファイル名、フォルダ名、パスまたは拡張子）"
+
 #~ msgid "You must select a name for this set of Rules"
 #~ msgstr "このルールに名称をつけてください"
+
 #~ msgid "Job name"
 #~ msgstr "ジョブの名称"
+
 #~ msgid "Please chose a job to save to"
 #~ msgstr "保存するジョブを選択してください"
+
 #~ msgid "Backup file"
 #~ msgstr "バックアップファイル"
+
 #~ msgid "File of paths"
 #~ msgstr "パスのデータ"
+
 #~ msgid "Compression level"
 #~ msgstr "圧縮レベル"
-#~ msgid ""
-#~ "You need to repeat the password and ensure the two passwords are identical"
+
+#~ msgid "You need to repeat the password and ensure the two passwords are identical"
 #~ msgstr "パスワードを二度入力してそれらが一致する必要があります。"
+
 #~ msgid "You have specified the wrong number of options"
 #~ msgstr "不正なオプションナンバーを指定しました"
+
 #~ msgid "Error with Regex"
 #~ msgstr "正規表現のエラー"
+
 #~ msgid "New Portable Variable"
 #~ msgstr "新規ポータブル変数"
+
 #~ msgid "Hidden text"
 #~ msgstr "隠しテキスト"
-#~ msgid ""
-#~ "Toucan tried to delete a root directory. This has been forbidden for your "
-#~ "own safety"
-#~ msgstr ""
-#~ "Toucan はルートディレクトリを削除しようとしました。しかし、安全のために実"
-#~ "行が禁止されています。"
-#~ msgid "7-Zip"
-#~ msgstr "7-Zip"
+
+#~ msgid "Toucan tried to delete a root directory. This has been forbidden for your own safety"
+#~ msgstr "Toucan はルートディレクトリを削除しようとしました。しかし、安全のために実行が禁止されています。"
+
 #~ msgid "Zip"
 #~ msgstr "ZIP"
-

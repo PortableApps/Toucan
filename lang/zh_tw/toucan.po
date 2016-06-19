@@ -1,722 +1,934 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Toucan 2\n"
+"Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-25 19:16-0000\n"
+"POT-Creation-Date: 2016-06-19 15:41+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Steven Lamerton\n"
+"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
 "Language-Team: <>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
-"X-Poedit-SearchPath-0: C:\\Users\\Steven\\Desktop\\Toucan\\Mercurial\\toucan\\trunk\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: .settings\n"
+"X-Poedit-SearchPathExcluded-2: help\n"
+"X-Poedit-SearchPathExcluded-3: lang\n"
+"X-Poedit-SearchPathExcluded-4: test\n"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
-msgid "Password"
-msgstr "密碼"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:233
-msgid "Please enter your password"
-msgstr "請輸入你的密碼"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:236
-#, fuzzy
-msgid "Please repeat your password"
-msgstr "請輸入你的密碼"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:295
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:304
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:314
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:327
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:336
-#, fuzzy
-msgid "The passwords do not match"
-msgstr "對不起! 密碼不符合"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:242
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/rules.cpp:154
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
-msgid "Error"
-msgstr "錯誤"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:393
-msgid "Differential"
-msgstr "相異"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
-msgid "Mirror (Copy)"
-msgstr "境像 (複製)"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:464
-msgid "Mirror (Update)"
-msgstr "境像 (更新)"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/basicfunctions.cpp:465
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
-msgid "Mirror"
-msgstr "Mirror"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:31
-#, fuzzy
-msgid "Welcome to the Toucan command line system"
-msgstr "歡迎使用 Toucan 的命令列系統。\n"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:103
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/cmdline.cpp:241
-#, fuzzy
-msgid "The command is not recognised"
-msgstr "對不起! 命令無法辨識"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:61
-msgid "Starting"
-msgstr "開啟中"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:195
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:248
-msgid "Delete"
-msgstr "刪除"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:83
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:207
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:311
-msgid "Execute"
-msgstr "執行"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:85
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:143
-#, c-format
-msgid "Line %d has an incorrect number of parameters"
-msgstr "第 %d 列有一個不正確的參數數目"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:98
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:118
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:136
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:148
-#, c-format
-msgid " not recognised on line %d"
-msgstr " 無法辨別第 %d 列"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:198
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:261
-msgid "Move"
-msgstr "移動"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:201
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:281
-msgid "Copy"
-msgstr "複製"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:141
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:204
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:296
-msgid "Rename"
-msgstr "重新命名"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:156
-msgid "Setting up progress bar"
-msgstr "設定進度列"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:169
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
-msgid "Clean"
-msgstr "清理"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:173
-msgid "Equalise"
-msgstr "平等"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:182
+#: backup/backupjob.cpp:50 backup/backupjob.cpp:70 basicfunctions.cpp:48
+#: data/backupdata.cpp:179 forms/frmmain.cpp:452 forms/frmmain.cpp:1057
+#: forms/frmmain.cpp:1349 forms/frmmain.cpp:1407 forms/frmmain.cpp:2198
+#: toucan_wrap.cpp:2760 toucan_wrap.cpp:2764
 msgid "Restore"
 msgstr "還原"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:251
-msgid "Deleted "
-msgstr "已刪除 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:254
-msgid "Failed to delete "
-msgstr "刪除失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:267
-msgid "Moved"
-msgstr "已移動"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:270
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:274
-msgid "Failed to move "
-msgstr "移動失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:286
-msgid "Copied "
-msgstr "已複製 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:289
-msgid "Failed to copy "
-msgstr "複製失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:301
-msgid "Renamed "
-msgstr "已重新命名 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:304
-msgid "Failed to rename "
-msgstr "重新命名失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:314
-msgid "Executed "
-msgstr "已執行 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:328
-msgid "Not all of the required fields are filled"
-msgstr "還有其他必須填寫的欄位尚未填寫"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:356
-msgid "Elapsed"
-msgstr "處理時間"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/script.cpp:357
-msgid "Finished"
-msgstr "完成"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:103
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:114
-msgid "Encrypt"
-msgstr "加密"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:106
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:144
-msgid "Decrypt"
-msgstr "解密"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:137
-msgid "Encrypted "
-msgstr "已加密 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:140
-msgid "Failed to encrypt "
-msgstr "加密失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:157
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:176
-msgid "Failed to decrypt "
-msgstr "解密失敗 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/secure.cpp:173
-msgid "Decrypted "
-msgstr "已解密 "
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:44
-msgid "Icons and Text"
-msgstr "圖示與文字"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/settings.cpp:45
-msgid "Sync"
-msgstr "同步"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/toucan.cpp:129
-msgid "Progress"
-msgstr "進度"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/variables.cpp:94
-msgid "Other"
-msgstr "其他"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:62
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:35
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:47
-#, fuzzy
-msgid "There was an error reading from the jobs file"
-msgstr ""
-"工作檔案發生讀取錯誤，\n"
-"請檢查它是否處於唯讀狀態或使用中。"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:97
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/securedata.cpp:57
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncdata.cpp:68
-#, fuzzy
-msgid ""
-"There was an error saving to the jobs file, \n"
-"please check it is not set as read only or in use"
-msgstr ""
-"儲存功做檔案時發生錯誤，\n"
-"請檢查他是否處於唯讀狀態或使用中。"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:201
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:378
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1863
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:45
+#: data/backupdata.cpp:173 forms/frmmain.cpp:448 forms/frmmain.cpp:2065
 msgid "Complete"
 msgstr "完整"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:204
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:263
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:379
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:89
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncpreview.cpp:139
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:40
+#: basicfunctions.cpp:46 basicfunctions.cpp:314 data/backupdata.cpp:176
+#: forms/frmmain.cpp:449
 msgid "Update"
 msgstr "更新"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/data/backupdata.cpp:326
+#: backup/backupjob.cpp:58
 msgid "Creating file list, this may take some time."
 msgstr "建立檔案清單中，請稍後片刻。"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:234
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:350
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:481
-msgid "Job Name"
-msgstr "工作名稱"
+#: basicfunctions.cpp:39 basicfunctions.cpp:315 basicfunctions.cpp:318
+#: forms/frmmain.cpp:293 forms/frmmain.cpp:2044 sync/syncjob.cpp:75
+#: sync/syncpreview.cpp:84
+msgid "Copy"
+msgstr "複製"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:252
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:368
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:499
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:805
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1759
+#: basicfunctions.cpp:41 basicfunctions.cpp:288 basicfunctions.cpp:318
+#: data/backupdata.cpp:195 forms/frmmain.cpp:294 forms/frmmain.cpp:451
+#: forms/frmmain.cpp:1053 forms/frmmain.cpp:1403 sync/syncjob.cpp:62
+#: sync/syncjob.cpp:75 sync/syncjob.cpp:117 sync/syncpreview.cpp:67
+#: sync/syncpreview.cpp:84 sync/syncpreview.cpp:133 toucan_wrap.cpp:2692
+msgid "Mirror"
+msgstr "Mirror"
+
+#: basicfunctions.cpp:42 basicfunctions.cpp:318 forms/frmmain.cpp:295
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:67 sync/syncjob.cpp:84
+#: sync/syncjob.cpp:122 sync/syncpreview.cpp:70 sync/syncpreview.cpp:92
+#: sync/syncpreview.cpp:138 toucan_wrap.cpp:2695
+msgid "Equalise"
+msgstr "平等"
+
+#: basicfunctions.cpp:43 basicfunctions.cpp:319 forms/frmmain.cpp:296
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:53 sync/syncjob.cpp:75
+#: sync/syncjob.cpp:78 sync/syncjob.cpp:107 sync/syncjob.cpp:153
+#: sync/syncpreview.cpp:57 sync/syncpreview.cpp:84 sync/syncpreview.cpp:87
+#: sync/syncpreview.cpp:125 sync/syncpreview.cpp:151
+msgid "Move"
+msgstr "移動"
+
+#: basicfunctions.cpp:44 basicfunctions.cpp:319 forms/frmmain.cpp:297
+#: sync/syncjob.cpp:50 sync/syncjob.cpp:62 sync/syncjob.cpp:95
+#: sync/syncjob.cpp:117 sync/syncjob.cpp:141 sync/syncpreview.cpp:53
+#: sync/syncpreview.cpp:67 sync/syncpreview.cpp:111 sync/syncpreview.cpp:133
+msgid "Clean"
+msgstr "清理"
+
+#: basicfunctions.cpp:47 data/backupdata.cpp:183 forms/frmmain.cpp:450
+#: forms/frmmain.cpp:1049 forms/frmmain.cpp:1343 forms/frmmain.cpp:1399
+#: forms/frmmain.cpp:1412 forms/frmmain.cpp:1417 toucan_wrap.cpp:2760
+#: toucan_wrap.cpp:2764
+msgid "Differential"
+msgstr "相異"
+
+#: basicfunctions.cpp:49 forms/frmmain.cpp:587 forms/frmmain.cpp:2080
+#: forms/frmmain.cpp:2189 secure/securejob.cpp:87 secure/securejob.cpp:89
+#: secure/securejob.cpp:104 secure/securejob.cpp:124
+msgid "Encrypt"
+msgstr "加密"
+
+#: basicfunctions.cpp:50 forms/frmmain.cpp:588 secure/securejob.cpp:88
+#: secure/securejob.cpp:90
+msgid "Decrypt"
+msgstr "解密"
+
+#: basicfunctions.cpp:51 forms/frmmain.cpp:827 forms/frmmain.cpp:868
+msgid "Icons and Text"
+msgstr "圖示與文字"
+
+#: basicfunctions.cpp:52 forms/frmmain.cpp:828
+msgid "Text"
+msgstr "文字"
+
+#: basicfunctions.cpp:53 forms/frmmain.cpp:806 forms/frmmain.cpp:879
+#: forms/frmmain.cpp:1927 forms/frmmain.cpp:2043
+msgid "Sync"
+msgstr "同步"
+
+#: basicfunctions.cpp:54 forms/frmmain.cpp:809 forms/frmmain.cpp:880
+#: forms/frmmain.cpp:1930 forms/frmmain.cpp:2064
+msgid "Backup"
+msgstr "備份"
+
+#: basicfunctions.cpp:55 forms/frmmain.cpp:812 forms/frmmain.cpp:881
+#: forms/frmmain.cpp:1933 forms/frmmain.cpp:2079
+msgid "Secure"
+msgstr "安全"
+
+#: basicfunctions.cpp:56 forms/frmmain.cpp:284 forms/frmmain.cpp:439
+#: forms/frmmain.cpp:578 forms/frmmain.cpp:882 forms/frmmain.cpp:1939
 msgid "Rules"
 msgstr "規則"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:268
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:511
-msgid "Function"
-msgstr "功能"
+#: basicfunctions.cpp:57 forms/frmmain.cpp:883 forms/frmmain.cpp:1942
+#: forms/frmvariable.cpp:74
+msgid "Variables"
+msgstr "變數"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:276
-msgid "Retain Timestamps"
-msgstr "保留時間戳記"
+#: basicfunctions.cpp:58 forms/frmmain.cpp:884 forms/frmmain.cpp:1936
+msgid "Script"
+msgstr "指令碼"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:280
-msgid "Retain Attributes"
-msgstr "保留屬性"
+#: basicfunctions.cpp:59 forms/frmmain.cpp:885
+msgid "Settings"
+msgstr "設定"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:284
-msgid "Ignore Read-Only"
-msgstr "忽略唯讀檔案"
+#: basicfunctions.cpp:60 forms/frmmain.cpp:836 forms/frmmain.cpp:840
+msgid "Help"
+msgstr "說明"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:288
-msgid "Ignore Daylight Savings"
-msgstr "忽略夏時制"
+#: basicfunctions.cpp:61
+msgid "Simple"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:295
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:416
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:518
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:71
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:88
-msgid "OK"
-msgstr "確定"
+#: basicfunctions.cpp:62
+msgid "Regex"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:298
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:419
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:521
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:79
-msgid "Preview"
-msgstr "預覽"
+#: basicfunctions.cpp:63
+msgid "Size"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:308
-msgid "Source"
-msgstr "來源"
+#: basicfunctions.cpp:64
+msgid "Date"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:323
-msgid "Destination"
-msgstr "目的地"
+#: basicfunctions.cpp:65
+msgid "File Include"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:382
+#: basicfunctions.cpp:66
+msgid "File Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:67
+msgid "Folder Include"
+msgstr ""
+
+#: basicfunctions.cpp:68
+msgid "Folder Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:69
+msgid "Absolute Folder Exclude"
+msgstr ""
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
+#: basicfunctions.cpp:519
+msgid "Please run Toucan from a device that allows writes so it can update itself"
+msgstr ""
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:248 basicfunctions.cpp:384
+#: basicfunctions.cpp:393 basicfunctions.cpp:482 basicfunctions.cpp:491
+#: basicfunctions.cpp:519 forms/frmmain.cpp:1050 forms/frmmain.cpp:1054
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1199 forms/frmmain.cpp:1400
+#: forms/frmmain.cpp:1404 forms/frmmain.cpp:1408 forms/frmmain.cpp:1413
+#: forms/frmmain.cpp:1419 forms/frmmain.cpp:1607 forms/frmmain.cpp:1777
+#: forms/frmmain.cpp:1959
+msgid "Error"
+msgstr "錯誤"
+
+#: basicfunctions.cpp:248 basicfunctions.cpp:393 basicfunctions.cpp:491
+msgid "Upgrading to this version of Toucan is not supported"
+msgstr ""
+
+#: basicfunctions.cpp:287
+msgid "Mirror (Copy)"
+msgstr "境像 (複製)"
+
+#: basicfunctions.cpp:287
+msgid "Mirror (Update)"
+msgstr "境像 (更新)"
+
+#: controls/rulesgrid.cpp:25
+msgid "Include / Exclude"
+msgstr ""
+
+#: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
 msgid "Type"
 msgstr "類型"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:389
+#: controls/rulesgrid.cpp:27
+msgid "Rule"
+msgstr ""
+
+#: forms/frmmain.cpp:266 forms/frmmain.cpp:421 forms/frmmain.cpp:560
+msgid "Job Name"
+msgstr "工作名稱"
+
+#: forms/frmmain.cpp:298 forms/frmmain.cpp:589
+msgid "Function"
+msgstr "功能"
+
+#: forms/frmmain.cpp:302
+msgid "File Checks"
+msgstr ""
+
+#: forms/frmmain.cpp:306
+msgid "File size"
+msgstr ""
+
+#: forms/frmmain.cpp:310
+msgid "Modified time"
+msgstr ""
+
+#: forms/frmmain.cpp:314
+msgid "Short Comparison"
+msgstr ""
+
+#: forms/frmmain.cpp:318
+msgid "Full Comparison"
+msgstr ""
+
+#: forms/frmmain.cpp:322 forms/frmmain.cpp:478 forms/frmmain.cpp:846
+#: forms/frmmain.cpp:1618 path.cpp:208
+msgid "Other"
+msgstr "其他"
+
+#: forms/frmmain.cpp:326
+msgid "Retain Timestamps"
+msgstr "保留時間戳記"
+
+#: forms/frmmain.cpp:330
+msgid "Retain Attributes"
+msgstr "保留屬性"
+
+#: forms/frmmain.cpp:334
+msgid "Ignore Read-Only"
+msgstr "忽略唯讀檔案"
+
+#: forms/frmmain.cpp:338
+msgid "Use Recycle Bin"
+msgstr ""
+
+#: forms/frmmain.cpp:342
+msgid "Preview Only Changes"
+msgstr ""
+
+#: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
+#: forms/frmmain.cpp:739
+msgid "Run"
+msgstr ""
+
+#: forms/frmmain.cpp:352 forms/frmvariable.cpp:86
+msgid "Preview"
+msgstr "預覽"
+
+#: forms/frmmain.cpp:355 forms/frmmain.cpp:497 forms/frmmain.cpp:599
+#: forms/frmmain.cpp:947 forms/frmmain.cpp:957 forms/frmmain.cpp:966
+msgid "Refresh"
+msgstr ""
+
+#: forms/frmmain.cpp:367
+msgid "Source"
+msgstr "來源"
+
+#: forms/frmmain.cpp:388
+msgid "Destination"
+msgstr "目的地"
+
+#: forms/frmmain.cpp:461
 msgid "Format"
 msgstr "格式"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:393
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:402
+#: forms/frmmain.cpp:465 forms/frmmain.cpp:474
 msgid "Compression Level"
 msgstr "壓縮等級"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:397
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2041
+#: forms/frmmain.cpp:469 forms/frmmain.cpp:2068 forms/frmmain.cpp:2221
 msgid "Default"
 msgstr "預設"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:429
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:531
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:859
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1447
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1473
+#: forms/frmmain.cpp:482 forms/frmpassword.cpp:54
+msgid "Password"
+msgstr "密碼"
+
+#: forms/frmmain.cpp:485
+msgid "Test After Creation"
+msgstr ""
+
+#: forms/frmmain.cpp:488
+msgid "Solid Mode"
+msgstr ""
+
+#: forms/frmmain.cpp:509 forms/frmmain.cpp:611 forms/frmmain.cpp:927
+#: forms/frmmain.cpp:1615 forms/frmmain.cpp:1634
 #, fuzzy
 msgid "Computer"
 msgstr "完整"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:445
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2023
+#: forms/frmmain.cpp:524 forms/frmmain.cpp:2203
 msgid "Backup Location"
 msgstr "備份位置"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:454
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2024
+#: forms/frmmain.cpp:533 forms/frmmain.cpp:2204
 msgid "Files to Backup"
 msgstr "Files to Backup"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:547
-#, fuzzy
-msgid "Files to Secure"
-msgstr "排除的檔案"
+#: forms/frmmain.cpp:626 forms/frmmain.cpp:2190
+msgid "Files to Encrypt"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:568
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:650
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:688
+#: forms/frmmain.cpp:647 forms/frmmain.cpp:687 forms/frmmain.cpp:723
 msgid "Name"
 msgstr "名稱"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:594
-msgid "Files to exclude (file name, path or extension)"
-msgstr "要排除的檔案 (檔名、路徑或副檔名)"
+#: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
+msgid "Jobs"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:610
-msgid "Folders to exclude (folder name or path)"
-msgstr "要排除的資料夾 (資料夾名稱或路經)"
+#: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
+msgid "Job Commands"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:626
-msgid "Locations to always include (file/folder name, path or  file extension)"
-msgstr "總是包含的位置 (檔案/資料夾、路徑或檔案副檔名)"
+#: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
+msgid "Other Commands"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:717
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:720
+#: forms/frmmain.cpp:799 forms/frmmain.cpp:802
 msgid "Remember Entered Information"
 msgstr "記住輸入的資訊"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:727
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:803
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1750
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1862
-msgid "Backup"
-msgstr "備份"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:730
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:804
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1753
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1872
-msgid "Secure"
-msgstr "安全"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:733
+#: forms/frmmain.cpp:815
 msgid "Language"
 msgstr "語言"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:745
-msgid "Text"
-msgstr "文字"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:746
+#: forms/frmmain.cpp:829
 msgid "Tab style"
 msgstr "標籤樣式"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:750
+#: forms/frmmain.cpp:833
 msgid "Apply"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:753
+#: forms/frmmain.cpp:843
+msgid "About"
+msgstr "關於"
+
+#: forms/frmmain.cpp:850
+msgid "Enable Tooltips"
+msgstr ""
+
+#: forms/frmmain.cpp:854
+msgid "Small Borders"
+msgstr ""
+
+#: forms/frmmain.cpp:858
 msgid "Font"
 msgstr "字型"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:757
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2151
+#: forms/frmmain.cpp:862 forms/frmmain.cpp:2309
 #, fuzzy
 msgid "Choose font"
 msgstr "rdgyhetgrfhe"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:764
-msgid "Enable Tooltips"
-msgstr ""
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:768
-msgid "Small Borders"
-msgstr ""
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:778
-msgid "About"
-msgstr "關於"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:806
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1762
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:66
-msgid "Variables"
-msgstr "變數"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:807
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1756
-msgid "Script"
-msgstr "指令碼"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:808
-msgid "Settings"
-msgstr "設定"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:809
-msgid "Help"
-msgstr "說明"
-
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:860
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1448
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1474
+#: forms/frmmain.cpp:928 forms/frmmain.cpp:1616 forms/frmmain.cpp:1635
 msgid "Expansion"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:873
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:879
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:887
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:895
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:910
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:77
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:99
+#: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
+msgid "Browse"
+msgstr ""
+
+#: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
+#: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
+#: forms/frmprogress.cpp:121 forms/frmprogress.cpp:163
 msgid "Save"
 msgstr "儲存"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:874
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:880
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:882
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:888
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:890
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:896
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:898
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:900
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:902
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:905
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:907
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:911
+#: forms/frmmain.cpp:941 forms/frmmain.cpp:951 forms/frmmain.cpp:953
+#: forms/frmmain.cpp:960 forms/frmmain.cpp:962 forms/frmmain.cpp:969
+#: forms/frmmain.cpp:971 forms/frmmain.cpp:975 forms/frmmain.cpp:977
+#: forms/frmmain.cpp:981 forms/frmmain.cpp:985
 msgid "Add"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:875
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:881
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:883
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:889
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:891
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:897
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:899
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:901
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:903
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:906
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:908
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:912
+#: forms/frmmain.cpp:942 forms/frmmain.cpp:952 forms/frmmain.cpp:954
+#: forms/frmmain.cpp:961 forms/frmmain.cpp:963 forms/frmmain.cpp:970
+#: forms/frmmain.cpp:972 forms/frmmain.cpp:976 forms/frmmain.cpp:978
+#: forms/frmmain.cpp:982
 #, fuzzy
 msgid "Remove"
 msgstr "已刪除 "
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:876
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:877
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:885
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:893
+#: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
+#: forms/frmmain.cpp:965
 msgid "Expand all"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:884
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:892
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1639
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1649
+#: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
+#: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
 msgid "Insert Variable"
 msgstr "插入變數"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1014
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1321
+#: forms/frmmain.cpp:983
+msgid "Undo"
+msgstr ""
+
+#: forms/frmmain.cpp:984
+msgid "Redo"
+msgstr ""
+
+#: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
 msgid "Differential only supports one folder"
 msgstr "相異同步僅支援單一資料夾"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1065
+#: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
+msgid "Mirror only supports one folder"
+msgstr ""
+
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
+msgid "Restore only supports one source archive file"
+msgstr ""
+
+#: forms/frmmain.cpp:1112
 #, fuzzy
 msgid "Please select the source folder"
 msgstr "請選擇來源資料夾。"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1078
+#: forms/frmmain.cpp:1123
 #, fuzzy
 msgid "Please select the destination folder"
 msgstr "Please select the destination folder."
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1090
-msgid "File to exclude"
-msgstr "排除的檔案"
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
+msgid "Please enter the name for the new rules"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1099
-msgid "Folder to exclude"
-msgstr "排除的資料夾"
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
+msgid "New Rules"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1140
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1159
-msgid "You must select a name for this set of Rules"
-msgstr "你必須對這個規則集合選擇一個名稱"
+#: forms/frmmain.cpp:1183
+msgid "Do you wish to save the current rules?"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1272
-msgid "Location to include"
-msgstr "要包含的位置"
+#: forms/frmmain.cpp:1183
+msgid "Rules Save"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1287
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1327
+#: forms/frmmain.cpp:1199
+msgid "There is already a set of rules with this name"
+msgstr ""
+
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
+msgid "Do you wish to save the current job?"
+msgstr ""
+
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
+msgid "Job Save"
+msgstr ""
+
+#: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
 msgid "Please select the folder to store your backups"
 msgstr "請選擇一個資料夾來儲存你的備份檔案"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1293
+#: forms/frmmain.cpp:1350
 msgid "Restore into:"
 msgstr "還原到："
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1306
+#: forms/frmmain.cpp:1366
 msgid "Please choose a file to backup to"
 msgstr "請選擇一個檔案備份到"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+#: forms/frmmain.cpp:1412
+msgid "7-Zip"
+msgstr "7-Zip"
+
+#: forms/frmmain.cpp:1413
+msgid "Differential only supports the 7-Zip format"
+msgstr ""
+
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 #, fuzzy
 msgid "Please enter the name for the new variable"
 msgstr "請輸入新增可攜變數的名稱"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1442
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 #, fuzzy
 msgid "New Variable"
 msgstr "變數"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1460
-#, fuzzy
-msgid "There is already a variable with this name."
-msgstr "這裡已經有一個同名的可攜變數。"
+#: forms/frmmain.cpp:1593
+msgid "Do you wish to save the current variable?"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1511
+#: forms/frmmain.cpp:1593
+msgid "Variable Save"
+msgstr ""
+
+#: forms/frmmain.cpp:1607
+msgid "There is already a variable with this name"
+msgstr ""
+
+#: forms/frmmain.cpp:1670
 msgid "Choose a directory"
 msgstr "選擇一個目錄"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
+#: forms/frmmain.cpp:1713
 msgid "Please insert the location you want to point to."
 msgstr "請插入你要指向的位置。"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1558
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:53
+#: forms/frmmain.cpp:1713 forms/frmvariable.cpp:61
 msgid "Location"
 msgstr "位置"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "Please enter the name for the new script"
 msgstr "請輸入新增指令碼的名稱"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1624
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "New Script"
 msgstr "新增指令碼"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1774
-msgid "Job name"
-msgstr "工作名稱"
+#: forms/frmmain.cpp:1762
+msgid "Do you wish to save the current script?"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1817
-msgid "Please chose a job to save to"
-msgstr "請選擇一個工作儲存為"
+#: forms/frmmain.cpp:1762
+msgid "Script Save"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1925
+#: forms/frmmain.cpp:1777
+msgid "There is already a script with this name"
+msgstr ""
+
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
+msgid "Please enter the name for the new job"
+msgstr ""
+
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
+msgid "New Job"
+msgstr ""
+
+#: forms/frmmain.cpp:1959
+msgid "There is already a job with this name"
+msgstr ""
+
+#: forms/frmmain.cpp:2124
 msgid "Exclude by extension"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1926
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1931
+#: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
 msgid "Exclude by name"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1927
+#: forms/frmmain.cpp:2126
 msgid "Include by extension"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1928
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:1932
+#: forms/frmmain.cpp:2127 forms/frmmain.cpp:2131
 msgid "Include by name"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2008
+#: forms/frmmain.cpp:2175
+#, fuzzy
+msgid "Copied"
+msgstr "Copied "
+
+#: forms/frmmain.cpp:2178
+#, fuzzy
+msgid "Deleted"
+msgstr "Deleted "
+
+#: forms/frmmain.cpp:2181
 msgid "Overwritten"
 msgstr "覆寫"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2011
-msgid "If needed"
-msgstr "如果需要"
+#: forms/frmmain.cpp:2184
+msgid "Deleted if empty"
+msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2018
+#: forms/frmmain.cpp:2193
+msgid "Files to Decrypt"
+msgstr ""
+
+#: forms/frmmain.cpp:2199
 #, fuzzy
 msgid "Location to Extract into"
 msgstr "要包含的位置"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2019
+#: forms/frmmain.cpp:2200
 msgid "Archives to Extract"
 msgstr ""
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2032
+#: forms/frmmain.cpp:2212
 msgid "None"
 msgstr "無"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2035
+#: forms/frmmain.cpp:2215
 msgid "Fastest"
 msgstr "最快"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2038
+#: forms/frmmain.cpp:2218
 msgid "Fast"
 msgstr "快速"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2044
+#: forms/frmmain.cpp:2224
 msgid "Maximum"
 msgstr "最大"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmmain.cpp:2047
+#: forms/frmmain.cpp:2227
 msgid "Ultra"
 msgstr "超級"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:74
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:91
+#: forms/frmpassword.cpp:57
+msgid "Repeat Password"
+msgstr ""
+
+#: forms/frmpassword.cpp:71 forms/frmvariable.cpp:95
+msgid "OK"
+msgstr "確定"
+
+#: forms/frmpassword.cpp:75 forms/frmprogress.cpp:108 forms/frmvariable.cpp:98
 msgid "Cancel"
 msgstr "取消"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:81
+#: forms/frmprogress.cpp:112
 msgid "Time"
 msgstr "時間"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmprogress.cpp:82
+#: forms/frmprogress.cpp:113
 msgid "Status"
 msgstr "狀態"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/forms/frmvariable.cpp:123
+#: forms/frmprogress.cpp:122
+msgid "Autoscroll"
+msgstr ""
+
+#: forms/frmprogress.cpp:329
+msgid "Close"
+msgstr ""
+
+#: forms/frmvariable.cpp:105
 #, fuzzy
 msgid "Please select a folder"
 msgstr "請選擇一個資料夾。"
 
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:329
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:343
-#: C:\Users\Steven\Desktop\Toucan\Mercurial\toucan\trunk/sync/syncfiles.cpp:359
+#: luamanager.cpp:45
+msgid "Progress"
+msgstr "進度"
+
+#: luathread.cpp:33
+msgid "Date:"
+msgstr ""
+
+#: luathread.cpp:34
+msgid "Computer Name:"
+msgstr ""
+
+#: luathread.cpp:35
+msgid "Operating System:"
+msgstr ""
+
+#: luathread.cpp:43
+msgid "Elapsed:"
+msgstr ""
+
+#: luathread.cpp:44
+msgid "Finished"
+msgstr "完成"
+
+#: path.cpp:55
+msgid "Could not create"
+msgstr ""
+
+#: rules.cpp:181
+msgid "There was an error reading from the rules file"
+msgstr ""
+
+#: rules.cpp:202
+msgid ""
+"There was an error saving to the rules file, \n"
+"please check it is not set as read only or in use"
+msgstr ""
+
+#: secure/securejob.cpp:91 secure/securejob.cpp:128
+msgid "Failed to encrypt "
+msgstr "加密失敗 "
+
+#: secure/securejob.cpp:126
+msgid "Encrypted "
+msgstr "已加密 "
+
+#: secure/securejob.cpp:132
+msgid "Decrypted "
+msgstr "已解密 "
+
+#: secure/securejob.cpp:134
+msgid "Failed to decrypt "
+msgstr "解密失敗 "
+
+#: sync/syncjob.cpp:178 toucan_wrap.cpp:2910
+msgid "Copied "
+msgstr "已複製 "
+
+#: sync/syncjob.cpp:181 sync/syncjob.cpp:194 toucan_wrap.cpp:2913
+msgid "Failed to copy "
+msgstr "複製失敗 "
+
+#: sync/syncjob.cpp:234
+msgid "Skipped "
+msgstr ""
+
+#: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
 msgstr "已刪除 "
 
+#: toucan.cpp:116
+msgid "Another copy of Toucan is already running, aborting."
+msgstr ""
+
+#: toucan.cpp:264
+msgid "The job does not exist"
+msgstr ""
+
+#: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
+msgid "Could not run "
+msgstr ""
+
+#: toucan.cpp:413
+msgid "Please input your password: "
+msgstr ""
+
+#: toucan.cpp:415
+msgid "Please repeat your password: "
+msgstr ""
+
+#: toucan.cpp:418
+msgid "Sorry the passwords do not match"
+msgstr ""
+
+#: toucan_wrap.cpp:2897
+msgid "Deleted "
+msgstr "已刪除 "
+
+#: toucan_wrap.cpp:2900
+msgid "Failed to delete "
+msgstr "刪除失敗 "
+
+#: toucan_wrap.cpp:2923 toucan_wrap.cpp:2936
+msgid "Moved"
+msgstr "已移動"
+
+#: toucan_wrap.cpp:2926 toucan_wrap.cpp:2939
+msgid "Failed to move "
+msgstr "移動失敗 "
+
+#: forms/frmpassword.h:26 forms/frmpassword.h:28
+msgid "Input Password"
+msgstr ""
+
+#~ msgid "Please enter your password"
+#~ msgstr "請輸入你的密碼"
+
+#, fuzzy
+#~ msgid "Please repeat your password"
+#~ msgstr "請輸入你的密碼"
+
+#, fuzzy
+#~ msgid "The passwords do not match"
+#~ msgstr "對不起! 密碼不符合"
+
+#, fuzzy
+#~ msgid "Welcome to the Toucan command line system"
+#~ msgstr "歡迎使用 Toucan 的命令列系統。\n"
+
+#, fuzzy
+#~ msgid "The command is not recognised"
+#~ msgstr "對不起! 命令無法辨識"
+
+#~ msgid "Starting"
+#~ msgstr "開啟中"
+
+#~ msgid "Delete"
+#~ msgstr "刪除"
+
+#~ msgid "Execute"
+#~ msgstr "執行"
+
+#~ msgid "Line %d has an incorrect number of parameters"
+#~ msgstr "第 %d 列有一個不正確的參數數目"
+
+#~ msgid " not recognised on line %d"
+#~ msgstr " 無法辨別第 %d 列"
+
+#~ msgid "Rename"
+#~ msgstr "重新命名"
+
+#~ msgid "Setting up progress bar"
+#~ msgstr "設定進度列"
+
+#~ msgid "Renamed "
+#~ msgstr "已重新命名 "
+
+#~ msgid "Failed to rename "
+#~ msgstr "重新命名失敗 "
+
+#~ msgid "Executed "
+#~ msgstr "已執行 "
+
+#~ msgid "Not all of the required fields are filled"
+#~ msgstr "還有其他必須填寫的欄位尚未填寫"
+
+#~ msgid "Elapsed"
+#~ msgstr "處理時間"
+
+#, fuzzy
+#~ msgid "There was an error reading from the jobs file"
+#~ msgstr ""
+#~ "工作檔案發生讀取錯誤，\n"
+#~ "請檢查它是否處於唯讀狀態或使用中。"
+
+#, fuzzy
+#~ msgid ""
+#~ "There was an error saving to the jobs file, \n"
+#~ "please check it is not set as read only or in use"
+#~ msgstr ""
+#~ "儲存功做檔案時發生錯誤，\n"
+#~ "請檢查他是否處於唯讀狀態或使用中。"
+
+#~ msgid "Ignore Daylight Savings"
+#~ msgstr "忽略夏時制"
+
+#, fuzzy
+#~ msgid "Files to Secure"
+#~ msgstr "排除的檔案"
+
+#~ msgid "Files to exclude (file name, path or extension)"
+#~ msgstr "要排除的檔案 (檔名、路徑或副檔名)"
+
+#~ msgid "Folders to exclude (folder name or path)"
+#~ msgstr "要排除的資料夾 (資料夾名稱或路經)"
+
+#~ msgid "Locations to always include (file/folder name, path or  file extension)"
+#~ msgstr "總是包含的位置 (檔案/資料夾、路徑或檔案副檔名)"
+
+#~ msgid "File to exclude"
+#~ msgstr "排除的檔案"
+
+#~ msgid "Folder to exclude"
+#~ msgstr "排除的資料夾"
+
+#~ msgid "You must select a name for this set of Rules"
+#~ msgstr "你必須對這個規則集合選擇一個名稱"
+
+#~ msgid "Location to include"
+#~ msgstr "要包含的位置"
+
+#, fuzzy
+#~ msgid "There is already a variable with this name."
+#~ msgstr "這裡已經有一個同名的可攜變數。"
+
+#~ msgid "Job name"
+#~ msgstr "工作名稱"
+
+#~ msgid "Please chose a job to save to"
+#~ msgstr "請選擇一個工作儲存為"
+
+#~ msgid "If needed"
+#~ msgstr "如果需要"
+
 #~ msgid "Repeated password"
 #~ msgstr "確認密碼"
+
 #~ msgid "Operation"
 #~ msgstr "作業"
+
 #~ msgid "Backup file"
 #~ msgstr "備份檔案"
+
 #~ msgid "File of paths"
 #~ msgstr "路徑的檔案"
+
 #~ msgid "Compression level"
 #~ msgstr "壓縮等級"
-#~ msgid ""
-#~ "You need to repeat the password and ensure the two passwords are identical"
+
+#~ msgid "You need to repeat the password and ensure the two passwords are identical"
 #~ msgstr "你必需重複輸入密碼來確定兩個密碼是相同的"
+
 #~ msgid "You have specified the wrong number of options"
 #~ msgstr "你錯誤指定選項的數目"
+
 #~ msgid "Error with Regex"
 #~ msgstr "錯誤的正規表示法"
+
 #~ msgid "Please select the desination folder."
 #~ msgstr "請選擇目的資料夾。"
+
 #~ msgid "New Portable Variable"
 #~ msgstr "新增可攜變數"
+
 #~ msgid "Hidden text"
 #~ msgstr "隱藏文字"
-#~ msgid ""
-#~ "Toucan tried to delete a root directory. This has been forbidden for your "
-#~ "own safety"
+
+#~ msgid "Toucan tried to delete a root directory. This has been forbidden for your own safety"
 #~ msgstr "Toucan 嘗試刪除一個根目錄。對你的安全性而言這是被禁止的"
-#~ msgid "7-Zip"
-#~ msgstr "7-Zip"
+
 #~ msgid "Zip"
 #~ msgstr "Zip"
 
@@ -728,45 +940,54 @@ msgstr "已刪除 "
 #~ msgid "Removed  "
 #~ msgstr "Removed "
 
-#, fuzzy
-#~ msgid "Copied"
-#~ msgstr "Copied "
-
-#, fuzzy
-#~ msgid "Deleted"
-#~ msgstr "Deleted "
 #~ msgid "Backup file:"
 #~ msgstr "Backup file:"
+
 #~ msgid "Please choose your backup file"
 #~ msgstr "Please choose your backup file"
+
 #~ msgid "\t copied to \t"
 #~ msgstr "\t copied to \t"
+
 #~ msgid "\t updated \t"
 #~ msgstr "\t updated \t"
+
 #~ msgid "Set folder timestamps for "
 #~ msgstr "Set folder timestamps for "
+
 #~ msgid "Tab style (requires restart)"
 #~ msgstr "Tab style (requires restart)"
+
 #~ msgid "Portable Variables"
 #~ msgstr "Portable Variables"
+
 #~ msgid "File to include"
 #~ msgstr "File to include"
+
 #~ msgid "Only the first item you dragged was added"
 #~ msgstr "Only the first item you dragged was added"
+
 #~ msgid "Warning"
 #~ msgstr "Warning"
+
 #~ msgid "Icons + Text"
 #~ msgstr "Icons + Text"
+
 #~ msgid "Opertion"
 #~ msgstr "Opertion"
+
 #~ msgid "Script Name"
 #~ msgstr "Script Name"
+
 #~ msgid "Read-only"
 #~ msgstr "Read-only"
+
 #~ msgid "Daylight savings"
 #~ msgstr "Daylight savings"
+
 #~ msgid "Timestamps"
 #~ msgstr "Timestamps"
+
 #~ msgid "Attributes"
 #~ msgstr "Attributes"
 
@@ -777,4 +998,3 @@ msgstr "已刪除 "
 #, fuzzy
 #~ msgid "Normal"
 #~ msgstr "Format"
-

@@ -1,123 +1,696 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.1.3\n"
+"Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-26 18:13-0000\n"
+"POT-Creation-Date: 2016-06-19 15:11+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Laktionov Ivan <laktionov.ivan@zoho.com>\n"
+"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
 "Language-Team: Laktionov Ivan <laktionov.ivan@zoho.com>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-Country: Ukraine\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: .settings\n"
+"X-Poedit-SearchPathExcluded-2: help\n"
+"X-Poedit-SearchPathExcluded-3: lang\n"
+"X-Poedit-SearchPathExcluded-4: test\n"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:345
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:381
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:418
-msgid "Please run Toucan from a device that allows writes so it can update itself"
-msgstr "Пожалуйста, запустите Toucan с устройства, которое поддерживает запись"
+#: backup/backupjob.cpp:50 backup/backupjob.cpp:70 basicfunctions.cpp:48
+#: data/backupdata.cpp:179 forms/frmmain.cpp:452 forms/frmmain.cpp:1057
+#: forms/frmmain.cpp:1349 forms/frmmain.cpp:1407 forms/frmmain.cpp:2198
+#: toucan_wrap.cpp:2760 toucan_wrap.cpp:2764
+msgid "Restore"
+msgstr "Восстановлено"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:231
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:345
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:354
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:381
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:390
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:418
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
-msgid "Error"
-msgstr "Ошибка"
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:45
+#: data/backupdata.cpp:173 forms/frmmain.cpp:448 forms/frmmain.cpp:2065
+msgid "Complete"
+msgstr "Полное"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:240
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:354
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:390
-msgid "Upgrading to this version of Toucan is not supported"
-msgstr "Обновление до этой версии Toucan не поддерживается"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
-msgid "Mirror (Copy)"
-msgstr "Зеркало (Копия)"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:279
-msgid "Mirror (Update)"
-msgstr "Зеркало (Обновить)"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:280
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:432
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:460
-msgid "Mirror"
-msgstr "Зеркало"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:306
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:431
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:438
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:459
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:466
+#: backup/backupjob.cpp:53 backup/backupjob.cpp:75 basicfunctions.cpp:40
+#: basicfunctions.cpp:46 basicfunctions.cpp:314 data/backupdata.cpp:176
+#: forms/frmmain.cpp:449
 msgid "Update"
 msgstr "Только обновить"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:307
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:430
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:458
+#: backup/backupjob.cpp:58
+msgid "Creating file list, this may take some time."
+msgstr "Создание списка файлов, это может занять некоторое время."
+
+#: basicfunctions.cpp:39 basicfunctions.cpp:315 basicfunctions.cpp:318
+#: forms/frmmain.cpp:293 forms/frmmain.cpp:2044 sync/syncjob.cpp:75
+#: sync/syncpreview.cpp:84
 msgid "Copy"
 msgstr "Копировать"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:310
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:433
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:461
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1577
+#: basicfunctions.cpp:41 basicfunctions.cpp:288 basicfunctions.cpp:318
+#: data/backupdata.cpp:195 forms/frmmain.cpp:294 forms/frmmain.cpp:451
+#: forms/frmmain.cpp:1053 forms/frmmain.cpp:1403 sync/syncjob.cpp:62
+#: sync/syncjob.cpp:75 sync/syncjob.cpp:117 sync/syncpreview.cpp:67
+#: sync/syncpreview.cpp:84 sync/syncpreview.cpp:133 toucan_wrap.cpp:2692
+msgid "Mirror"
+msgstr "Зеркало"
+
+#: basicfunctions.cpp:42 basicfunctions.cpp:318 forms/frmmain.cpp:295
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:67 sync/syncjob.cpp:84
+#: sync/syncjob.cpp:122 sync/syncpreview.cpp:70 sync/syncpreview.cpp:92
+#: sync/syncpreview.cpp:138 toucan_wrap.cpp:2695
 msgid "Equalise"
 msgstr "Дуплекс"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:170
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:435
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:463
-msgid "Clean"
-msgstr "Очистить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/basicfunctions.cpp:311
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:434
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:462
+#: basicfunctions.cpp:43 basicfunctions.cpp:319 forms/frmmain.cpp:296
+#: forms/frmmain.cpp:1471 sync/syncjob.cpp:53 sync/syncjob.cpp:75
+#: sync/syncjob.cpp:78 sync/syncjob.cpp:107 sync/syncjob.cpp:153
+#: sync/syncpreview.cpp:57 sync/syncpreview.cpp:84 sync/syncpreview.cpp:87
+#: sync/syncpreview.cpp:125 sync/syncpreview.cpp:151
 msgid "Move"
 msgstr "Переместить"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:31
+#: basicfunctions.cpp:44 basicfunctions.cpp:319 forms/frmmain.cpp:297
+#: sync/syncjob.cpp:50 sync/syncjob.cpp:62 sync/syncjob.cpp:95
+#: sync/syncjob.cpp:117 sync/syncjob.cpp:141 sync/syncpreview.cpp:53
+#: sync/syncpreview.cpp:67 sync/syncpreview.cpp:111 sync/syncpreview.cpp:133
+msgid "Clean"
+msgstr "Очистить"
+
+#: basicfunctions.cpp:47 data/backupdata.cpp:183 forms/frmmain.cpp:450
+#: forms/frmmain.cpp:1049 forms/frmmain.cpp:1343 forms/frmmain.cpp:1399
+#: forms/frmmain.cpp:1412 forms/frmmain.cpp:1417 toucan_wrap.cpp:2760
+#: toucan_wrap.cpp:2764
+msgid "Differential"
+msgstr "Дифференциальное"
+
+#: basicfunctions.cpp:49 forms/frmmain.cpp:587 forms/frmmain.cpp:2080
+#: forms/frmmain.cpp:2189 secure/securejob.cpp:87 secure/securejob.cpp:89
+#: secure/securejob.cpp:104 secure/securejob.cpp:124
+msgid "Encrypt"
+msgstr "Зашифровать"
+
+#: basicfunctions.cpp:50 forms/frmmain.cpp:588 secure/securejob.cpp:88
+#: secure/securejob.cpp:90
+msgid "Decrypt"
+msgstr "Дешифровать"
+
+#: basicfunctions.cpp:51 forms/frmmain.cpp:827 forms/frmmain.cpp:868
+msgid "Icons and Text"
+msgstr "Иконки и текст"
+
+#: basicfunctions.cpp:52 forms/frmmain.cpp:828
+msgid "Text"
+msgstr "Текст"
+
+#: basicfunctions.cpp:53 forms/frmmain.cpp:806 forms/frmmain.cpp:879
+#: forms/frmmain.cpp:1927 forms/frmmain.cpp:2043
+msgid "Sync"
+msgstr "Сихронизация"
+
+#: basicfunctions.cpp:54 forms/frmmain.cpp:809 forms/frmmain.cpp:880
+#: forms/frmmain.cpp:1930 forms/frmmain.cpp:2064
+msgid "Backup"
+msgstr "Резервирование"
+
+#: basicfunctions.cpp:55 forms/frmmain.cpp:812 forms/frmmain.cpp:881
+#: forms/frmmain.cpp:1933 forms/frmmain.cpp:2079
+msgid "Secure"
+msgstr "Шифрование"
+
+#: basicfunctions.cpp:56 forms/frmmain.cpp:284 forms/frmmain.cpp:439
+#: forms/frmmain.cpp:578 forms/frmmain.cpp:882 forms/frmmain.cpp:1939
+msgid "Rules"
+msgstr "Правила"
+
+#: basicfunctions.cpp:57 forms/frmmain.cpp:883 forms/frmmain.cpp:1942
+#: forms/frmvariable.cpp:74
+msgid "Variables"
+msgstr "Переменные"
+
+#: basicfunctions.cpp:58 forms/frmmain.cpp:884 forms/frmmain.cpp:1936
+msgid "Script"
+msgstr "Скрипт"
+
+#: basicfunctions.cpp:59 forms/frmmain.cpp:885
+msgid "Settings"
+msgstr "Настройки "
+
+#: basicfunctions.cpp:60 forms/frmmain.cpp:836 forms/frmmain.cpp:840
+msgid "Help"
+msgstr "Справка"
+
+#: basicfunctions.cpp:61
+msgid "Simple"
+msgstr "Простой"
+
+#: basicfunctions.cpp:62
+msgid "Regex"
+msgstr "Регулярное выражение"
+
+#: basicfunctions.cpp:63
+msgid "Size"
+msgstr "Размер"
+
+#: basicfunctions.cpp:64
+msgid "Date"
+msgstr "Дата"
+
+#: basicfunctions.cpp:65
+msgid "File Include"
+msgstr "Включить файл"
+
+#: basicfunctions.cpp:66
+msgid "File Exclude"
+msgstr "Исключить файл"
+
+#: basicfunctions.cpp:67
+msgid "Folder Include"
+msgstr "Включить папку"
+
+#: basicfunctions.cpp:68
+msgid "Folder Exclude"
+msgstr "Исключить папку"
+
+#: basicfunctions.cpp:69
+msgid "Absolute Folder Exclude"
+msgstr "Абсолютное исключение папки"
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
+#: basicfunctions.cpp:519
+msgid "Please run Toucan from a device that allows writes so it can update itself"
+msgstr "Пожалуйста, запустите Toucan с устройства, которое поддерживает запись"
+
+#: basicfunctions.cpp:239 basicfunctions.cpp:248 basicfunctions.cpp:384
+#: basicfunctions.cpp:393 basicfunctions.cpp:482 basicfunctions.cpp:491
+#: basicfunctions.cpp:519 forms/frmmain.cpp:1050 forms/frmmain.cpp:1054
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1199 forms/frmmain.cpp:1400
+#: forms/frmmain.cpp:1404 forms/frmmain.cpp:1408 forms/frmmain.cpp:1413
+#: forms/frmmain.cpp:1419 forms/frmmain.cpp:1607 forms/frmmain.cpp:1777
+#: forms/frmmain.cpp:1959
+msgid "Error"
+msgstr "Ошибка"
+
+#: basicfunctions.cpp:248 basicfunctions.cpp:393 basicfunctions.cpp:491
+msgid "Upgrading to this version of Toucan is not supported"
+msgstr "Обновление до этой версии Toucan не поддерживается"
+
+#: basicfunctions.cpp:287
+msgid "Mirror (Copy)"
+msgstr "Зеркало (Копия)"
+
+#: basicfunctions.cpp:287
+msgid "Mirror (Update)"
+msgstr "Зеркало (Обновить)"
+
+#: controls/rulesgrid.cpp:25
+msgid "Include / Exclude"
+msgstr "Включить / Исключить"
+
+#: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
+msgid "Type"
+msgstr "Тип"
+
+#: controls/rulesgrid.cpp:27
+msgid "Rule"
+msgstr "Правило"
+
+#: forms/frmmain.cpp:266 forms/frmmain.cpp:421 forms/frmmain.cpp:560
+msgid "Job Name"
+msgstr "Название задания"
+
+#: forms/frmmain.cpp:298 forms/frmmain.cpp:589
+msgid "Function"
+msgstr "Режим"
+
+#: forms/frmmain.cpp:302
+msgid "File Checks"
+msgstr "Сравнение"
+
+#: forms/frmmain.cpp:306
+msgid "File size"
+msgstr "Размер файла"
+
+#: forms/frmmain.cpp:310
+msgid "Modified time"
+msgstr "Время изменения"
+
+#: forms/frmmain.cpp:314
+msgid "Short Comparison"
+msgstr "Краткое сравнение"
+
+#: forms/frmmain.cpp:318
+msgid "Full Comparison"
+msgstr "Полное сравнение"
+
+#: forms/frmmain.cpp:322 forms/frmmain.cpp:478 forms/frmmain.cpp:846
+#: forms/frmmain.cpp:1618 path.cpp:208
+msgid "Other"
+msgstr "Разное"
+
+#: forms/frmmain.cpp:326
+msgid "Retain Timestamps"
+msgstr "Сохранять дату/время"
+
+#: forms/frmmain.cpp:330
+msgid "Retain Attributes"
+msgstr "Сохранять атрибуты"
+
+#: forms/frmmain.cpp:334
+msgid "Ignore Read-Only"
+msgstr "Игнорировать атрибут \"только для чтения\""
+
+#: forms/frmmain.cpp:338
+msgid "Use Recycle Bin"
+msgstr "Использовать Корзину"
+
+#: forms/frmmain.cpp:342
+msgid "Preview Only Changes"
+msgstr "Предварительный просмотр"
+
+#: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
+#: forms/frmmain.cpp:739
+msgid "Run"
+msgstr "Запуск"
+
+#: forms/frmmain.cpp:352 forms/frmvariable.cpp:86
+msgid "Preview"
+msgstr "Просмотр"
+
+#: forms/frmmain.cpp:355 forms/frmmain.cpp:497 forms/frmmain.cpp:599
+#: forms/frmmain.cpp:947 forms/frmmain.cpp:957 forms/frmmain.cpp:966
+msgid "Refresh"
+msgstr "Обновить"
+
+#: forms/frmmain.cpp:367
+msgid "Source"
+msgstr "Источник"
+
+#: forms/frmmain.cpp:388
+msgid "Destination"
+msgstr "Назначение"
+
+#: forms/frmmain.cpp:461
+msgid "Format"
+msgstr "Формат"
+
+#: forms/frmmain.cpp:465 forms/frmmain.cpp:474
+msgid "Compression Level"
+msgstr "Степень сжатия"
+
+#: forms/frmmain.cpp:469 forms/frmmain.cpp:2068 forms/frmmain.cpp:2221
+msgid "Default"
+msgstr "По умолчанию"
+
+#: forms/frmmain.cpp:482 forms/frmpassword.cpp:54
+msgid "Password"
+msgstr "Пароль"
+
+#: forms/frmmain.cpp:485
+msgid "Test After Creation"
+msgstr "Проверить после создания"
+
+#: forms/frmmain.cpp:488
+msgid "Solid Mode"
+msgstr "Сплошной режим"
+
+#: forms/frmmain.cpp:509 forms/frmmain.cpp:611 forms/frmmain.cpp:927
+#: forms/frmmain.cpp:1615 forms/frmmain.cpp:1634
+msgid "Computer"
+msgstr "Компьютер"
+
+#: forms/frmmain.cpp:524 forms/frmmain.cpp:2203
+msgid "Backup Location"
+msgstr "Выполнять резервирование в файл..."
+
+#: forms/frmmain.cpp:533 forms/frmmain.cpp:2204
+msgid "Files to Backup"
+msgstr "Выберите файлы резервирования"
+
+#: forms/frmmain.cpp:626 forms/frmmain.cpp:2190
+msgid "Files to Encrypt"
+msgstr "Файлы для шифрования"
+
+#: forms/frmmain.cpp:647 forms/frmmain.cpp:687 forms/frmmain.cpp:723
+msgid "Name"
+msgstr "Название"
+
+#: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
+msgid "Jobs"
+msgstr "Задания"
+
+#: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
+msgid "Job Commands"
+msgstr "Команды заданий"
+
+#: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
+msgid "Other Commands"
+msgstr "Другие команды"
+
+#: forms/frmmain.cpp:799 forms/frmmain.cpp:802
+msgid "Remember Entered Information"
+msgstr "Сохранить введённую информацию"
+
+#: forms/frmmain.cpp:815
+msgid "Language"
+msgstr "Язык"
+
+#: forms/frmmain.cpp:829
+msgid "Tab style"
+msgstr "Стиль вкладок"
+
+#: forms/frmmain.cpp:833
+msgid "Apply"
+msgstr "Применить"
+
+#: forms/frmmain.cpp:843
+msgid "About"
+msgstr "О программе"
+
+#: forms/frmmain.cpp:850
+msgid "Enable Tooltips"
+msgstr "Включить подсказки"
+
+#: forms/frmmain.cpp:854
+msgid "Small Borders"
+msgstr "Тонкие края"
+
+#: forms/frmmain.cpp:858
+msgid "Font"
+msgstr "Шрифт"
+
+#: forms/frmmain.cpp:862 forms/frmmain.cpp:2309
+msgid "Choose font"
+msgstr "Выбирите шрифт"
+
+#: forms/frmmain.cpp:928 forms/frmmain.cpp:1616 forms/frmmain.cpp:1635
+msgid "Expansion"
+msgstr "Расширение"
+
+#: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
+msgid "Browse"
+msgstr "Просмотр"
+
+#: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
+#: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
+#: forms/frmprogress.cpp:121 forms/frmprogress.cpp:163
+msgid "Save"
+msgstr "Сохранить"
+
+#: forms/frmmain.cpp:941 forms/frmmain.cpp:951 forms/frmmain.cpp:953
+#: forms/frmmain.cpp:960 forms/frmmain.cpp:962 forms/frmmain.cpp:969
+#: forms/frmmain.cpp:971 forms/frmmain.cpp:975 forms/frmmain.cpp:977
+#: forms/frmmain.cpp:981 forms/frmmain.cpp:985
+msgid "Add"
+msgstr "Добавить"
+
+#: forms/frmmain.cpp:942 forms/frmmain.cpp:952 forms/frmmain.cpp:954
+#: forms/frmmain.cpp:961 forms/frmmain.cpp:963 forms/frmmain.cpp:970
+#: forms/frmmain.cpp:972 forms/frmmain.cpp:976 forms/frmmain.cpp:978
+#: forms/frmmain.cpp:982
+msgid "Remove"
+msgstr "Убрать"
+
+#: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
+#: forms/frmmain.cpp:965
+msgid "Expand all"
+msgstr "Раскрыть"
+
+#: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
+#: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
+msgid "Insert Variable"
+msgstr "Введите переменную"
+
+#: forms/frmmain.cpp:983
+msgid "Undo"
+msgstr "Отмена"
+
+#: forms/frmmain.cpp:984
+msgid "Redo"
+msgstr "Повтор"
+
+#: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
+msgid "Differential only supports one folder"
+msgstr "Дифференциальный поддерживает только одну папку"
+
+#: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
+msgid "Mirror only supports one folder"
+msgstr "Зеркало поддерживает только одну папку"
+
+#: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
+msgid "Restore only supports one source archive file"
+msgstr "Восстановление поддерживает только один исходный архив"
+
+#: forms/frmmain.cpp:1112
+msgid "Please select the source folder"
+msgstr "Пожалуйста, выберите исходную папку"
+
+#: forms/frmmain.cpp:1123
+msgid "Please select the destination folder"
+msgstr "Пожалуйста, выберите папку назначения"
+
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
+msgid "Please enter the name for the new rules"
+msgstr "Введите название нового правила"
+
+#: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
+msgid "New Rules"
+msgstr "Новые правила"
+
+#: forms/frmmain.cpp:1183
+msgid "Do you wish to save the current rules?"
+msgstr "Желаете сохранить текущие правила??"
+
+#: forms/frmmain.cpp:1183
+msgid "Rules Save"
+msgstr "Правила сохранены"
+
+#: forms/frmmain.cpp:1199
+msgid "There is already a set of rules with this name"
+msgstr "Набор правил с таким названием уже существует"
+
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
+msgid "Do you wish to save the current job?"
+msgstr "Желаете сохранить текущее задание?"
+
+#: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
+msgid "Job Save"
+msgstr "Задание сохранено"
+
+#: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
+msgid "Please select the folder to store your backups"
+msgstr "Выберите папку для хранения резервных копий"
+
+#: forms/frmmain.cpp:1350
+msgid "Restore into:"
+msgstr "Восстановить в:"
+
+#: forms/frmmain.cpp:1366
+msgid "Please choose a file to backup to"
+msgstr "Выберите файл резервирования"
+
+#: forms/frmmain.cpp:1412
+msgid "7-Zip"
+msgstr "7-Zip"
+
+#: forms/frmmain.cpp:1413
+msgid "Differential only supports the 7-Zip format"
+msgstr "Дифференциальный поддерживает только формат 7-Zip"
+
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
+msgid "Please enter the name for the new variable"
+msgstr "Введите имя новой переменной окружения"
+
+#: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
+msgid "New Variable"
+msgstr "Новая переменная"
+
+#: forms/frmmain.cpp:1593
+msgid "Do you wish to save the current variable?"
+msgstr "Желаете сохранить текущую переменную?"
+
+#: forms/frmmain.cpp:1593
+msgid "Variable Save"
+msgstr "Переменная сохранена"
+
+#: forms/frmmain.cpp:1607
+msgid "There is already a variable with this name"
+msgstr "Переменная с таким названием уже существует"
+
+#: forms/frmmain.cpp:1670
+msgid "Choose a directory"
+msgstr "Выберите папку"
+
+#: forms/frmmain.cpp:1713
+msgid "Please insert the location you want to point to."
+msgstr "Введите путь на который хотите укзать"
+
+#: forms/frmmain.cpp:1713 forms/frmvariable.cpp:61
+msgid "Location"
+msgstr "Расположение"
+
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
+msgid "Please enter the name for the new script"
+msgstr "Введите название нового скрипта"
+
+#: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
+msgid "New Script"
+msgstr "Новый скрипт"
+
+#: forms/frmmain.cpp:1762
+msgid "Do you wish to save the current script?"
+msgstr "Желаете сохранить текущий скрипт?"
+
+#: forms/frmmain.cpp:1762
+msgid "Script Save"
+msgstr "Скрипт сохранён"
+
+#: forms/frmmain.cpp:1777
+msgid "There is already a script with this name"
+msgstr "Скрипт с таким названием уже существует"
+
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
+msgid "Please enter the name for the new job"
+msgstr "Введите название нового правила"
+
+#: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
+msgid "New Job"
+msgstr "Новое задание"
+
+#: forms/frmmain.cpp:1959
+msgid "There is already a job with this name"
+msgstr "Правило с таким названием уже существует"
+
+#: forms/frmmain.cpp:2124
+msgid "Exclude by extension"
+msgstr "Исключить расширение"
+
+#: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
+msgid "Exclude by name"
+msgstr "Исключить имя"
+
+#: forms/frmmain.cpp:2126
+msgid "Include by extension"
+msgstr "Включить расширение"
+
+#: forms/frmmain.cpp:2127 forms/frmmain.cpp:2131
+msgid "Include by name"
+msgstr "Включить имя"
+
+#: forms/frmmain.cpp:2175
+msgid "Copied"
+msgstr "Скопировано"
+
+#: forms/frmmain.cpp:2178
+msgid "Deleted"
+msgstr "Удалено"
+
+#: forms/frmmain.cpp:2181
+msgid "Overwritten"
+msgstr "Перезаписано"
+
+#: forms/frmmain.cpp:2184
+msgid "Deleted if empty"
+msgstr "Удалено, если пусто"
+
+#: forms/frmmain.cpp:2193
+msgid "Files to Decrypt"
+msgstr "Файлы для расшифрования"
+
+#: forms/frmmain.cpp:2199
+msgid "Location to Extract into"
+msgstr "Выполнять распаковку в..."
+
+#: forms/frmmain.cpp:2200
+msgid "Archives to Extract"
+msgstr "Архивы восстановления"
+
+#: forms/frmmain.cpp:2212
+msgid "None"
+msgstr "Отсутствует"
+
+#: forms/frmmain.cpp:2215
+msgid "Fastest"
+msgstr "Скоростное"
+
+#: forms/frmmain.cpp:2218
+msgid "Fast"
+msgstr "Быстрое"
+
+#: forms/frmmain.cpp:2224
+msgid "Maximum"
+msgstr "Максимальное"
+
+#: forms/frmmain.cpp:2227
+msgid "Ultra"
+msgstr "Ультра"
+
+#: forms/frmpassword.cpp:57
+msgid "Repeat Password"
+msgstr "Повторите пароль"
+
+#: forms/frmpassword.cpp:71 forms/frmvariable.cpp:95
+msgid "OK"
+msgstr "Ок"
+
+#: forms/frmpassword.cpp:75 forms/frmprogress.cpp:108 forms/frmvariable.cpp:98
+msgid "Cancel"
+msgstr "Отмена"
+
+#: forms/frmprogress.cpp:112
+msgid "Time"
+msgstr "Время"
+
+#: forms/frmprogress.cpp:113
+msgid "Status"
+msgstr "Состояние"
+
+#: forms/frmprogress.cpp:122
+msgid "Autoscroll"
+msgstr "Автопрокрутка"
+
+#: forms/frmprogress.cpp:329
+msgid "Close"
+msgstr "Закрыть"
+
+#: forms/frmvariable.cpp:105
+msgid "Please select a folder"
+msgstr "Пожалуйста, выберите папку"
+
+#: luamanager.cpp:45
 msgid "Progress"
 msgstr "Прогресс"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:41
+#: luathread.cpp:33
 msgid "Date:"
 msgstr "Дата:"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:42
+#: luathread.cpp:34
 msgid "Computer Name:"
 msgstr "Имя компьютера:"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:43
+#: luathread.cpp:35
 msgid "Operating System:"
 msgstr "Операционная система:"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:59
+#: luathread.cpp:43
 msgid "Elapsed:"
 msgstr "Прошло:"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/luamanager.cpp:60
+#: luathread.cpp:44
 msgid "Finished"
 msgstr "Выполнено"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:173
+#: path.cpp:55
+msgid "Could not create"
+msgstr "Невозможно создать"
+
+#: rules.cpp:181
 msgid "There was an error reading from the rules file"
 msgstr "Произошла ошибка при чтении файла правил "
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:192
+#: rules.cpp:202
 msgid ""
 "There was an error saving to the rules file, \n"
 "please check it is not set as read only or in use"
@@ -126,667 +699,114 @@ msgstr ""
 "Удостоверьтесь, что атрибут \"только для чтения\" сброшен,\n"
 "и файл не используется другой программой. "
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:214
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:236
-msgid "File to Exclude"
-msgstr "Исключить файл"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:217
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:241
-msgid "Folder to Exclude"
-msgstr "Исключить папку"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:220
-msgid "Location to Include"
-msgstr "Включить путь"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/rules.cpp:246
-msgid "Locations to Include"
-msgstr "Включить пути"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:62
-msgid "Starting"
-msgstr "Запуск"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
-msgid "Delete"
-msgstr "Удалить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:84
-msgid "Execute"
-msgstr "Выполнить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:86
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:141
-#, c-format
-msgid "Line %d has an incorrect number of parameters"
-msgstr "Ошибочный параметр в строке %d"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:98
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:117
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:134
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:146
-#, c-format
-msgid " not recognised on line %d"
-msgstr " не опознано в строке %d"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:154
-msgid "Setting up progress bar"
-msgstr "Настройка строки выполнения"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/script.cpp:178
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:440
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:468
-msgid "Restore"
-msgstr "Восстановлено"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:221
-msgid "The job does not exist"
-msgstr "Задание не существует"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:396
-msgid "Please input your password: "
-msgstr "Пожалуйста, введите пароль:"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:398
-msgid "Please repeat your password: "
-msgstr "Пожалуйста, повторите пароль:"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:401
-msgid "Sorry the passwords do not match"
-msgstr "Извините, пароли не совпадают"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:437
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:465
-msgid "Complete"
-msgstr "Полное"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:439
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:467
-msgid "Differential"
-msgstr "Дифференциальное"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:442
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:470
-msgid "Encrypt"
-msgstr "Зашифровать"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:443
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:471
-msgid "Decrypt"
-msgstr "Дешифровать"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:445
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:473
-msgid "Icons and Text"
-msgstr "Иконки и текст"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:446
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:474
-msgid "Text"
-msgstr "Текст"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:448
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:476
-msgid "Sync"
-msgstr "Сихронизация"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:449
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:477
-msgid "Backup"
-msgstr "Резервирование"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:450
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:478
-msgid "Secure"
-msgstr "Шифрование"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:451
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:479
-msgid "Rules"
-msgstr "Правила"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:452
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:480
-msgid "Variables"
-msgstr "Переменные"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:453
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:481
-msgid "Script"
-msgstr "Скрипт"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:454
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:482
-msgid "Settings"
-msgstr "Настройки "
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:455
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan.cpp:483
-msgid "Help"
-msgstr "Справка"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1760
-msgid "Deleted "
-msgstr "Удалено"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1763
-msgid "Failed to delete "
-msgstr "Ошибка удаления"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1773
-msgid "Copied "
-msgstr "Скопировано"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1776
-msgid "Failed to copy "
-msgstr "Ошибка копирования"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1786
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1799
-msgid "Moved"
-msgstr "Перемещено"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1789
-#: C:\Users\Steven\Desktop\Toucan\Lua/toucan_wrap.cpp:1802
-msgid "Failed to move "
-msgstr "Ошибка перемещения"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/variables.cpp:122
-msgid "Other"
-msgstr "Разное"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/backup/backupjob.cpp:70
-msgid "Creating file list, this may take some time."
-msgstr "Создание списка файлов, это может занять некоторое время."
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:246
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:401
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:539
-msgid "Job Name"
-msgstr "Название задания"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:278
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:568
-msgid "Function"
-msgstr "Режим"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:282
-msgid "File Checks"
-msgstr "Сравнение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:286
-msgid "File size"
-msgstr "Размер файла"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:290
-msgid "Modified time"
-msgstr "Время изменения"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:294
-msgid "Short Comparison"
-msgstr "Краткое сравнение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:298
-msgid "Full Comparison"
-msgstr "Полное сравнение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:306
-msgid "Retain Timestamps"
-msgstr "Сохранять дату/время"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:310
-msgid "Retain Attributes"
-msgstr "Сохранять атрибуты"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:314
-msgid "Ignore Read-Only"
-msgstr "Игнорировать атрибут \"только для чтения\""
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:318
-msgid "Use Recycle Bin"
-msgstr "Использовать Корзину"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:322
-msgid "Preview Only Changes"
-msgstr "Предварительный просмотр"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:329
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:473
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:575
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:720
-msgid "Run"
-msgstr "Запуск"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:332
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:86
-msgid "Preview"
-msgstr "Просмотр"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:335
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:476
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:578
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:886
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:895
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:904
-msgid "Refresh"
-msgstr "Обновить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:347
-msgid "Source"
-msgstr "Источник"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:368
-msgid "Destination"
-msgstr "Назначение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:432
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:648
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:62
-msgid "Type"
-msgstr "Тип"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:440
-msgid "Format"
-msgstr "Формат"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:444
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:453
-msgid "Compression Level"
-msgstr "Степень сжатия"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:448
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1975
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2159
-msgid "Default"
-msgstr "По умолчанию"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:461
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:54
-msgid "Password"
-msgstr "Пароль"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:464
-msgid "Test After Creation"
-msgstr "Проверить после создания"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:467
-msgid "Solid Mode"
-msgstr "Сплошной режим"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:488
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:590
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:868
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1555
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1571
-msgid "Computer"
-msgstr "Компьютер"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:503
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2141
-msgid "Backup Location"
-msgstr "Выполнять резервирование в файл..."
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:512
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2142
-msgid "Files to Backup"
-msgstr "Выберите файлы резервирования"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:605
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2128
-msgid "Files to Encrypt"
-msgstr "Файлы для шифрования"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:626
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:668
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:704
-msgid "Name"
-msgstr "Название"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:647
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:53
-msgid "Rule"
-msgstr "Правило"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:754
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:757
-msgid "Remember Entered Information"
-msgstr "Сохранить введённую информацию"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:770
-msgid "Language"
-msgstr "Язык"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:784
-msgid "Tab style"
-msgstr "Стиль вкладок"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:788
-msgid "Apply"
-msgstr "Применить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:791
-msgid "Font"
-msgstr "Шрифт"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:795
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2247
-msgid "Choose font"
-msgstr "Выбирите шрифт"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:802
-msgid "Enable Tooltips"
-msgstr "Включить подсказки"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:806
-msgid "Small Borders"
-msgstr "Тонкие края"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:869
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1556
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1572
-msgid "Expansion"
-msgstr "Расширение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:879
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:888
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:897
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:906
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:917
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:79
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:105
-msgid "Save"
-msgstr "Сохранить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:880
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:889
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:891
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:898
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:900
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:907
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:909
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:912
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:914
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:918
-msgid "Add"
-msgstr "Добавить"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:881
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:890
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:892
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:899
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:901
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:908
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:910
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:913
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:915
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:919
-msgid "Remove"
-msgstr "Убрать"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:882
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:883
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:894
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:903
-msgid "Expand all"
-msgstr "Раскрыть"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:884
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:885
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:893
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:902
-msgid "Insert Variable"
-msgstr "Введите переменную"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:984
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1358
-msgid "Differential only supports one folder"
-msgstr "Дифференциальный поддерживает только одну папку"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1034
-msgid "Please select the source folder"
-msgstr "Пожалуйста, выберите исходную папку"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1045
-msgid "Please select the destination folder"
-msgstr "Пожалуйста, выберите папку назначения"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
-msgid "Please enter the name for the new rules"
-msgstr "Введите название нового правила"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1105
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1162
-msgid "New Rules"
-msgstr "Новые правила"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
-msgid "Do you wish to save the current rules?"
-msgstr "Желаете сохранить текущие правила??"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1151
-msgid "Rules Save"
-msgstr "Правила сохранены"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1166
-msgid "There is already a set of rules with this name"
-msgstr "Набор правил с таким названием уже существует"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
-msgid "Do you wish to save the current job?"
-msgstr "Желаете сохранить текущее задание?"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1217
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1234
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1251
-msgid "Job Save"
-msgstr "Задание сохранено"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1302
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1364
-msgid "Please select the folder to store your backups"
-msgstr "Выберите папку для хранения резервных копий"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1308
-msgid "Restore into:"
-msgstr "Восстановить в:"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1324
-msgid "Please choose a file to backup to"
-msgstr "Выберите файл резервирования"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
-msgid "Please enter the name for the new variable"
-msgstr "Введите имя новой переменной окружения"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1507
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1543
-msgid "New Variable"
-msgstr "Новая переменная"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
-msgid "Do you wish to save the current variable?"
-msgstr "Желаете сохранить текущую переменную?"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1533
-msgid "Variable Save"
-msgstr "Переменная сохранена"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1547
-msgid "There is already a variable with this name"
-msgstr "Переменная с таким названием уже существует"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
-msgid "Please insert the location you want to point to."
-msgstr "Введите путь на который хотите укзать"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1649
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:61
-msgid "Location"
-msgstr "Расположение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
-msgid "Please enter the name for the new script"
-msgstr "Введите название нового скрипта"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1671
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1705
-msgid "New Script"
-msgstr "Новый скрипт"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
-msgid "Do you wish to save the current script?"
-msgstr "Желаете сохранить текущий скрипт?"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1694
-msgid "Script Save"
-msgstr "Скрипт сохранён"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1709
-msgid "There is already a script with this name"
-msgstr "Скрипт с таким названием уже существует"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
-msgid "Please enter the name for the new job"
-msgstr "Введите название нового правила"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1861
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1911
-msgid "New Job"
-msgstr "Новое задание"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:1865
-msgid "There is already a job with this name"
-msgstr "Правило с таким названием уже существует"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2009
-msgid "Exclude by extension"
-msgstr "Исключить расширение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2010
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2015
-msgid "Exclude by name"
-msgstr "Исключить имя"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2011
-msgid "Include by extension"
-msgstr "Включить расширение"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2012
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2016
-msgid "Include by name"
-msgstr "Включить имя"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2119
-msgid "Overwritten"
-msgstr "Перезаписано"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2122
-msgid "If needed"
-msgstr "При потребности"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2131
-msgid "Files to Decrypt"
-msgstr "Файлы для разшифрования"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2137
-msgid "Location to Extract into"
-msgstr "Выполнять распаковку в..."
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2138
-msgid "Archives to Extract"
-msgstr "Архивы восстановления"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2150
-msgid "None"
-msgstr "Отсутствует"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2153
-msgid "Fastest"
-msgstr "Скоростное"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2156
-msgid "Fast"
-msgstr "Быстрое"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2162
-msgid "Maximum"
-msgstr "Максимальное"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmmain.cpp:2165
-msgid "Ultra"
-msgstr "Ультра"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:57
-msgid "Repeat Password"
-msgstr "Повторите пароль"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:71
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:73
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:76
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:95
-msgid "OK"
-msgstr "Ок"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.cpp:75
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:76
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmrule.cpp:80
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:98
-msgid "Cancel"
-msgstr "Отмена"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:83
-msgid "Time"
-msgstr "Время"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmprogress.cpp:84
-msgid "Status"
-msgstr "Состояние"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmvariable.cpp:105
-msgid "Please select a folder"
-msgstr "Пожалуйста, выберите папку"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:116
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:153
+#: secure/securejob.cpp:91 secure/securejob.cpp:128
 msgid "Failed to encrypt "
 msgstr "Не удалось зашифровать"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:126
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:161
-msgid "Failed to decrypt "
-msgstr "Не удалось дешифровать"
-
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:150
+#: secure/securejob.cpp:126
 msgid "Encrypted "
 msgstr "Зашифровано"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/secure/securejob.cpp:158
+#: secure/securejob.cpp:132
 msgid "Decrypted "
 msgstr "Дешифровано"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:37
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:40
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:62
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:71
-msgid "Could not create"
-msgstr "Невозможно создать"
+#: secure/securejob.cpp:134
+msgid "Failed to decrypt "
+msgstr "Не удалось дешифровать"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:346
-#: C:\Users\Steven\Desktop\Toucan\Lua/sync/syncjob.cpp:363
+#: sync/syncjob.cpp:178 toucan_wrap.cpp:2910
+msgid "Copied "
+msgstr "Скопировано"
+
+#: sync/syncjob.cpp:181 sync/syncjob.cpp:194 toucan_wrap.cpp:2913
+msgid "Failed to copy "
+msgstr "Ошибка копирования"
+
+#: sync/syncjob.cpp:234
+msgid "Skipped "
+msgstr "Пропущено"
+
+#: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
 msgstr "Удалено"
 
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:26
-#: C:\Users\Steven\Desktop\Toucan\Lua/forms/frmpassword.h:28
+#: toucan.cpp:116
+msgid "Another copy of Toucan is already running, aborting."
+msgstr "Одиа процесс Toucan уже запущен, выхожу"
+
+#: toucan.cpp:264
+msgid "The job does not exist"
+msgstr "Задание не существует"
+
+#: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
+msgid "Could not run "
+msgstr "Не удалось запустить"
+
+#: toucan.cpp:413
+msgid "Please input your password: "
+msgstr "Пожалуйста, введите пароль:"
+
+#: toucan.cpp:415
+msgid "Please repeat your password: "
+msgstr "Пожалуйста, повторите пароль:"
+
+#: toucan.cpp:418
+msgid "Sorry the passwords do not match"
+msgstr "Извините, пароли не совпадают"
+
+#: toucan_wrap.cpp:2897
+msgid "Deleted "
+msgstr "Удалено"
+
+#: toucan_wrap.cpp:2900
+msgid "Failed to delete "
+msgstr "Ошибка удаления"
+
+#: toucan_wrap.cpp:2923 toucan_wrap.cpp:2936
+msgid "Moved"
+msgstr "Перемещено"
+
+#: toucan_wrap.cpp:2926 toucan_wrap.cpp:2939
+msgid "Failed to move "
+msgstr "Ошибка перемещения"
+
+#: forms/frmpassword.h:26 forms/frmpassword.h:28
 msgid "Input Password"
 msgstr "Введите пароль"
+
+#~ msgid "File to Exclude"
+#~ msgstr "Исключить файл"
+
+#~ msgid "Folder to Exclude"
+#~ msgstr "Исключить папку"
+
+#~ msgid "Location to Include"
+#~ msgstr "Включить путь"
+
+#~ msgid "Locations to Include"
+#~ msgstr "Включить пути"
+
+#~ msgid "Starting"
+#~ msgstr "Запуск"
+
+#~ msgid "Delete"
+#~ msgstr "Удалить"
+
+#~ msgid "Execute"
+#~ msgstr "Выполнить"
+
+#~ msgid "Line %d has an incorrect number of parameters"
+#~ msgstr "Ошибочный параметр в строке %d"
+
+#~ msgid " not recognised on line %d"
+#~ msgstr " не опознано в строке %d"
+
+#~ msgid "Setting up progress bar"
+#~ msgstr "Настройка строки выполнения"
+
+#~ msgid "If needed"
+#~ msgstr "При потребности"
 
 #~ msgid "Welcome to the Toucan command line system"
 #~ msgstr "Добро пожаловать в коммандную строку программы Toucan"
@@ -823,14 +843,8 @@ msgstr "Введите пароль"
 #~ msgid "Files to Secure"
 #~ msgstr "Выберите файлы шифрования"
 
-#~ msgid "About"
-#~ msgstr "О программе"
-
 #~ msgid "Please enter the name for the new varaible"
 #~ msgstr "Введите название новой переменной"
-
-#~ msgid "Choose a directory"
-#~ msgstr "Выберите папку"
 
 #~ msgid "Rename"
 #~ msgstr "Переименовать"
@@ -841,8 +855,7 @@ msgstr "Введите пароль"
 #~ msgid "Folders to exclude (folder name or path)"
 #~ msgstr "Исключить папки (имя папки или путь)"
 
-#~ msgid ""
-#~ "Locations to always include (file/folder name, path or  file extension)"
+#~ msgid "Locations to always include (file/folder name, path or  file extension)"
 #~ msgstr "Всегда включать следующие имена, пути и расширения папок и файлов"
 
 #~ msgid "You must select a name for this set of Rules"
