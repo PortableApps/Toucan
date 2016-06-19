@@ -2,6 +2,18 @@
 Changelog
 =========
 
+3.1.4 (2016-06-19)
+==================
+
+- Toucan is still alive! :)
+- documentation: fixed command line parameters description (`bug #1 <https://github.com/PortableApps/Toucan/issues/1>`_)
+- documentation: added description of "anti-items" (`bug #4 <https://github.com/PortableApps/Toucan/issues/4>`_)
+- scripts: fixed print command and exposed all message types available internally (`bug #8 <https://github.com/PortableApps/Toucan/issues/8>`_)
+- backup: fixed job stdout polling logic to capture quick ones (`bug #3 <https://github.com/PortableApps/Toucan/issues/3>`_)
+- backup: fixed ratio slider text not updating upon app start
+- translations: refreshed all PO files, updated RU and PL ones
+- translations: updated IT translation (eagleman)
+
 3.1.3 (2014-01-19)
 ==================
 
