@@ -1,0 +1,20 @@
+sync = toucan.Sync
+backup = toucan.Backup
+secure = toucan.Secure
+delete = toucan.Delete
+copy = toucan.Copy
+move = toucan.Move
+rename = toucan.Rename
+execute = toucan.Execute
+expand = toucan.ExpandVariable
+print = toucan.OutputProgress
+getscript = toucan.GetScriptPath
+inputpassword = toucan.InputPassword
+shutdown = toucan.Shutdown
+
+FinishingLine = toucan.FinishingLine
+FinishingInfo = toucan.FinishingInfo
+Message = toucan.Message
+StartingInfo = toucan.StartingInfo
+StartingLine = toucan.StartingLine
+Error = toucan.Error
