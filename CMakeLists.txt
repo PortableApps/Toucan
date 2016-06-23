@@ -51,8 +51,8 @@ endif(MSVC)
 if(MINGW)
 	# Under MinGW we want to add these flags
 	# -std=gnu++11 enables C++11 support with GNU extensions (otherwise it doesn't compile)
-	# -static-libgcc and -static-libstdc++ are to avoid shipping the respective DLLs alongside toucan.exe
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -static-libgcc -static-libstdc++")
+	# -static is to avoid shipping all the runtime DLLs (libstdc++, libgcc, libwinpthread), alongside toucan.exe
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -static")
 endif(MINGW)
 
 #Traverse through the sub-directories
