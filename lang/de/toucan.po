@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-19 14:16+0200\n"
-"PO-Revision-Date: 2016-06-19 14:17+0200\n"
-"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
+"PO-Revision-Date: 2017-08-15 16:51+0200\n"
+"Last-Translator: Martin Griewel <mail@griewel.de>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../..\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: .git\n"
@@ -36,11 +36,11 @@ msgstr "Komplett"
 #: basicfunctions.cpp:46 basicfunctions.cpp:314 data/backupdata.cpp:176
 #: forms/frmmain.cpp:449
 msgid "Update"
-msgstr "Erneuern"
+msgstr "Aktualisieren"
 
 #: backup/backupjob.cpp:58
 msgid "Creating file list, this may take some time."
-msgstr "Erstelle Liste der Dateien, dies kann eine Weile dauern."
+msgstr "Dateiliste erstellen, dies kann eine Weile dauern."
 
 #: basicfunctions.cpp:39 basicfunctions.cpp:315 basicfunctions.cpp:318
 #: forms/frmmain.cpp:293 forms/frmmain.cpp:2044 sync/syncjob.cpp:75
@@ -76,7 +76,7 @@ msgstr "Verschieben"
 #: sync/syncjob.cpp:117 sync/syncjob.cpp:141 sync/syncpreview.cpp:53
 #: sync/syncpreview.cpp:67 sync/syncpreview.cpp:111 sync/syncpreview.cpp:133
 msgid "Clean"
-msgstr "Säubern"
+msgstr "Ziel aufräumen"
 
 #: basicfunctions.cpp:47 data/backupdata.cpp:183 forms/frmmain.cpp:450
 #: forms/frmmain.cpp:1049 forms/frmmain.cpp:1343 forms/frmmain.cpp:1399
@@ -107,17 +107,17 @@ msgstr "Text"
 #: basicfunctions.cpp:53 forms/frmmain.cpp:806 forms/frmmain.cpp:879
 #: forms/frmmain.cpp:1927 forms/frmmain.cpp:2043
 msgid "Sync"
-msgstr "Sync"
+msgstr "Replizieren"
 
 #: basicfunctions.cpp:54 forms/frmmain.cpp:809 forms/frmmain.cpp:880
 #: forms/frmmain.cpp:1930 forms/frmmain.cpp:2064
 msgid "Backup"
-msgstr "Backup"
+msgstr "Archivieren"
 
 #: basicfunctions.cpp:55 forms/frmmain.cpp:812 forms/frmmain.cpp:881
 #: forms/frmmain.cpp:1933 forms/frmmain.cpp:2079
 msgid "Secure"
-msgstr "Sichern"
+msgstr "Schützen"
 
 #: basicfunctions.cpp:56 forms/frmmain.cpp:284 forms/frmmain.cpp:439
 #: forms/frmmain.cpp:578 forms/frmmain.cpp:882 forms/frmmain.cpp:1939
@@ -127,11 +127,11 @@ msgstr "Regeln"
 #: basicfunctions.cpp:57 forms/frmmain.cpp:883 forms/frmmain.cpp:1942
 #: forms/frmvariable.cpp:74
 msgid "Variables"
-msgstr "Variablen"
+msgstr "Variable"
 
 #: basicfunctions.cpp:58 forms/frmmain.cpp:884 forms/frmmain.cpp:1936
 msgid "Script"
-msgstr "Skript"
+msgstr "Skripte"
 
 #: basicfunctions.cpp:59 forms/frmmain.cpp:885
 msgid "Settings"
@@ -143,44 +143,44 @@ msgstr "Hilfe"
 
 #: basicfunctions.cpp:61
 msgid "Simple"
-msgstr ""
+msgstr "Name"
 
 #: basicfunctions.cpp:62
 msgid "Regex"
-msgstr ""
+msgstr "Regulärer Ausdruck"
 
 #: basicfunctions.cpp:63
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #: basicfunctions.cpp:64
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: basicfunctions.cpp:65
 msgid "File Include"
-msgstr ""
+msgstr "Datei einschließen"
 
 #: basicfunctions.cpp:66
 msgid "File Exclude"
-msgstr ""
+msgstr "Datei ausschließen"
 
 #: basicfunctions.cpp:67
 msgid "Folder Include"
-msgstr ""
+msgstr "Ordner einschließen"
 
 #: basicfunctions.cpp:68
 msgid "Folder Exclude"
-msgstr ""
+msgstr "Ordner ausschließen"
 
 #: basicfunctions.cpp:69
 msgid "Absolute Folder Exclude"
-msgstr ""
+msgstr "Absoluten Ordner ausschließen"
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
 #: basicfunctions.cpp:519
 msgid "Please run Toucan from a device that allows writes so it can update itself"
-msgstr ""
+msgstr "Es besteht ein Schreibschutz auf den Toucan Dateien"
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:248 basicfunctions.cpp:384
 #: basicfunctions.cpp:393 basicfunctions.cpp:482 basicfunctions.cpp:491
@@ -194,7 +194,7 @@ msgstr "Fehler"
 
 #: basicfunctions.cpp:248 basicfunctions.cpp:393 basicfunctions.cpp:491
 msgid "Upgrading to this version of Toucan is not supported"
-msgstr ""
+msgstr "Aktualisierung auf diese Version wird nicht unterstützt"
 
 #: basicfunctions.cpp:287
 msgid "Mirror (Copy)"
@@ -202,11 +202,11 @@ msgstr "Spiegeln (kopieren)"
 
 #: basicfunctions.cpp:287
 msgid "Mirror (Update)"
-msgstr "Spiegeln (erneuern)"
+msgstr "Spiegeln (aktualisieren)"
 
 #: controls/rulesgrid.cpp:25
 msgid "Include / Exclude"
-msgstr ""
+msgstr "Filter"
 
 #: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
 msgid "Type"
@@ -214,7 +214,7 @@ msgstr "Typ"
 
 #: controls/rulesgrid.cpp:27
 msgid "Rule"
-msgstr ""
+msgstr "Regel"
 
 #: forms/frmmain.cpp:266 forms/frmmain.cpp:421 forms/frmmain.cpp:560
 msgid "Job Name"
@@ -226,23 +226,23 @@ msgstr "Funktion"
 
 #: forms/frmmain.cpp:302
 msgid "File Checks"
-msgstr ""
+msgstr "Dateivergleich"
 
 #: forms/frmmain.cpp:306
 msgid "File size"
-msgstr ""
+msgstr "Größe"
 
 #: forms/frmmain.cpp:310
 msgid "Modified time"
-msgstr ""
+msgstr "Zeitstempel"
 
 #: forms/frmmain.cpp:314
 msgid "Short Comparison"
-msgstr ""
+msgstr "Anfang + Ende"
 
 #: forms/frmmain.cpp:318
 msgid "Full Comparison"
-msgstr ""
+msgstr "Komplett"
 
 #: forms/frmmain.cpp:322 forms/frmmain.cpp:478 forms/frmmain.cpp:846
 #: forms/frmmain.cpp:1618 path.cpp:208
@@ -259,20 +259,20 @@ msgstr "Attribute beibehalten"
 
 #: forms/frmmain.cpp:334
 msgid "Ignore Read-Only"
-msgstr "Ignoriere \"Nur-Lesen\""
+msgstr "Nur-Lesen Attribut ignorieren"
 
 #: forms/frmmain.cpp:338
 msgid "Use Recycle Bin"
-msgstr ""
+msgstr "Papierkorb benutzen"
 
 #: forms/frmmain.cpp:342
 msgid "Preview Only Changes"
-msgstr ""
+msgstr "Vorschau: nur Änderungen"
 
 #: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
 #: forms/frmmain.cpp:739
 msgid "Run"
-msgstr ""
+msgstr "Starten"
 
 #: forms/frmmain.cpp:352 forms/frmvariable.cpp:86
 msgid "Preview"
@@ -281,15 +281,15 @@ msgstr "Vorschau"
 #: forms/frmmain.cpp:355 forms/frmmain.cpp:497 forms/frmmain.cpp:599
 #: forms/frmmain.cpp:947 forms/frmmain.cpp:957 forms/frmmain.cpp:966
 msgid "Refresh"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: forms/frmmain.cpp:367
 msgid "Source"
-msgstr "Quelle"
+msgstr "Quell-Ordner"
 
 #: forms/frmmain.cpp:388
 msgid "Destination"
-msgstr "Ziel"
+msgstr "Ziel-Ordner"
 
 #: forms/frmmain.cpp:461
 msgid "Format"
@@ -297,7 +297,7 @@ msgstr "Format"
 
 #: forms/frmmain.cpp:465 forms/frmmain.cpp:474
 msgid "Compression Level"
-msgstr "Kompressionslevel"
+msgstr "Kompression"
 
 #: forms/frmmain.cpp:469 forms/frmmain.cpp:2068 forms/frmmain.cpp:2221
 msgid "Default"
@@ -305,33 +305,32 @@ msgstr "Standard"
 
 #: forms/frmmain.cpp:482 forms/frmpassword.cpp:54
 msgid "Password"
-msgstr "Passwort"
+msgstr "Mit Passwort"
 
 #: forms/frmmain.cpp:485
 msgid "Test After Creation"
-msgstr ""
+msgstr "Nach Archivierung prüfen"
 
 #: forms/frmmain.cpp:488
 msgid "Solid Mode"
-msgstr ""
+msgstr "Höhere Kompression"
 
 #: forms/frmmain.cpp:509 forms/frmmain.cpp:611 forms/frmmain.cpp:927
 #: forms/frmmain.cpp:1615 forms/frmmain.cpp:1634
-#, fuzzy
 msgid "Computer"
-msgstr "Komplett"
+msgstr "Computer"
 
 #: forms/frmmain.cpp:524 forms/frmmain.cpp:2203
 msgid "Backup Location"
-msgstr "Backup Ort"
+msgstr "Ziel-Ordner für das Archiv"
 
 #: forms/frmmain.cpp:533 forms/frmmain.cpp:2204
 msgid "Files to Backup"
-msgstr "zu sichernde Dateien"
+msgstr "Zu archivierende Dateien"
 
 #: forms/frmmain.cpp:626 forms/frmmain.cpp:2190
 msgid "Files to Encrypt"
-msgstr ""
+msgstr "Zu verschlüsselnde Dateien"
 
 #: forms/frmmain.cpp:647 forms/frmmain.cpp:687 forms/frmmain.cpp:723
 msgid "Name"
@@ -339,19 +338,19 @@ msgstr "Name"
 
 #: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
 msgid "Jobs"
-msgstr ""
+msgstr "Aufträge"
 
 #: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
 msgid "Job Commands"
-msgstr ""
+msgstr "Auftrag Kommandos"
 
 #: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
 msgid "Other Commands"
-msgstr ""
+msgstr "Weitere Kommandos"
 
 #: forms/frmmain.cpp:799 forms/frmmain.cpp:802
 msgid "Remember Entered Information"
-msgstr "Erinnere eingegebene Informationen"
+msgstr "Letzte Eingaben automatisch speichern"
 
 #: forms/frmmain.cpp:815
 msgid "Language"
@@ -363,7 +362,7 @@ msgstr "Tab-Stil"
 
 #: forms/frmmain.cpp:833
 msgid "Apply"
-msgstr ""
+msgstr "Aktivieren"
 
 #: forms/frmmain.cpp:843
 msgid "About"
@@ -371,11 +370,11 @@ msgstr "Über"
 
 #: forms/frmmain.cpp:850
 msgid "Enable Tooltips"
-msgstr ""
+msgstr "Tooltips anzeigen"
 
 #: forms/frmmain.cpp:854
 msgid "Small Borders"
-msgstr ""
+msgstr "Kleine Rahmen"
 
 #: forms/frmmain.cpp:858
 msgid "Font"
@@ -383,15 +382,15 @@ msgstr "Schriftart"
 
 #: forms/frmmain.cpp:862 forms/frmmain.cpp:2309
 msgid "Choose font"
-msgstr ""
+msgstr "Schriftart wählen"
 
 #: forms/frmmain.cpp:928 forms/frmmain.cpp:1616 forms/frmmain.cpp:1635
 msgid "Expansion"
-msgstr ""
+msgstr "Inhalt"
 
 #: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
 msgid "Browse"
-msgstr ""
+msgstr "Durchsuchen"
 
 #: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
 #: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
@@ -404,20 +403,19 @@ msgstr "Speichern"
 #: forms/frmmain.cpp:971 forms/frmmain.cpp:975 forms/frmmain.cpp:977
 #: forms/frmmain.cpp:981 forms/frmmain.cpp:985
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: forms/frmmain.cpp:942 forms/frmmain.cpp:952 forms/frmmain.cpp:954
 #: forms/frmmain.cpp:961 forms/frmmain.cpp:963 forms/frmmain.cpp:970
 #: forms/frmmain.cpp:972 forms/frmmain.cpp:976 forms/frmmain.cpp:978
 #: forms/frmmain.cpp:982
-#, fuzzy
 msgid "Remove"
-msgstr "Entfernt"
+msgstr "Entfernen"
 
 #: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
 #: forms/frmmain.cpp:965
 msgid "Expand all"
-msgstr ""
+msgstr "Alles erweitern"
 
 #: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
 #: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
@@ -426,11 +424,11 @@ msgstr "Variable einfügen"
 
 #: forms/frmmain.cpp:983
 msgid "Undo"
-msgstr ""
+msgstr "Rückgängig"
 
 #: forms/frmmain.cpp:984
 msgid "Redo"
-msgstr ""
+msgstr "Wiederholen"
 
 #: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
 msgid "Differential only supports one folder"
@@ -438,53 +436,51 @@ msgstr "Differentiell unterstützt nur einen Ordner"
 
 #: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
 msgid "Mirror only supports one folder"
-msgstr ""
+msgstr "Spiegelung unterstützt nur einen Ordner"
 
 #: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
 msgid "Restore only supports one source archive file"
-msgstr ""
+msgstr "Wiederherstellung unterstützt nur ein Archiv"
 
 #: forms/frmmain.cpp:1112
-#, fuzzy
 msgid "Please select the source folder"
-msgstr "Bitte wählen Sie den Quellordner."
+msgstr "Bitte wählen Sie den Quellordner"
 
 #: forms/frmmain.cpp:1123
-#, fuzzy
 msgid "Please select the destination folder"
-msgstr "Bitte wählen Sie einen Zielordner."
+msgstr "Bitte wählen Sie den Zielordner"
 
 #: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "Please enter the name for the new rules"
-msgstr ""
+msgstr "Bitte geben Sie einen Namen für die neue Regel ein"
 
 #: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "New Rules"
-msgstr ""
+msgstr "Neue Regeln"
 
 #: forms/frmmain.cpp:1183
 msgid "Do you wish to save the current rules?"
-msgstr ""
+msgstr "Möchten Sie die aktuellen Regeln speichern?"
 
 #: forms/frmmain.cpp:1183
 msgid "Rules Save"
-msgstr ""
+msgstr "Regeln speichern"
 
 #: forms/frmmain.cpp:1199
 msgid "There is already a set of rules with this name"
-msgstr ""
+msgstr "Dieser Name existiert bereits"
 
 #: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Do you wish to save the current job?"
-msgstr ""
+msgstr "Möchten Sie den aktuellen Auftrag speichern?"
 
 #: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Job Save"
-msgstr ""
+msgstr "Auftrag speichern"
 
 #: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
 msgid "Please select the folder to store your backups"
-msgstr "Bitte wählen Sie den Aufbewahrungsordner für die Sicherungen."
+msgstr "Bitte wählen Sie den Ordner zum speichern der Archive"
 
 #: forms/frmmain.cpp:1350
 msgid "Restore into:"
@@ -492,7 +488,7 @@ msgstr "Wiederherstellen nach:"
 
 #: forms/frmmain.cpp:1366
 msgid "Please choose a file to backup to"
-msgstr "Bitte wählen Sie die zu sichernden Datei(en) aus."
+msgstr "Bitte wählen Sie die zu sichernden Dateien aus"
 
 #: forms/frmmain.cpp:1412
 msgid "7-Zip"
@@ -500,33 +496,31 @@ msgstr "7-Zip"
 
 #: forms/frmmain.cpp:1413
 msgid "Differential only supports the 7-Zip format"
-msgstr ""
+msgstr "Differentiell ist nur bei 7-Zip möglich"
 
 #: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
-#, fuzzy
 msgid "Please enter the name for the new variable"
-msgstr "Bitte geben Sie den Namen der neuen Portable-Variablen ein."
+msgstr "Bitte geben Sie den Namen der neuen Variablen ein"
 
 #: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
-#, fuzzy
 msgid "New Variable"
-msgstr "Variablen"
+msgstr "Neue Variable"
 
 #: forms/frmmain.cpp:1593
 msgid "Do you wish to save the current variable?"
-msgstr ""
+msgstr "Möchten Sie die aktuelle Variable speichern?"
 
 #: forms/frmmain.cpp:1593
 msgid "Variable Save"
-msgstr ""
+msgstr "Variable speichern"
 
 #: forms/frmmain.cpp:1607
 msgid "There is already a variable with this name"
-msgstr ""
+msgstr "Variablenname ist bereits vorhanden"
 
 #: forms/frmmain.cpp:1670
 msgid "Choose a directory"
-msgstr "Bitte wählen Sie ein Verzeichnis."
+msgstr "Bitte wählen Sie einen Ordner"
 
 #: forms/frmmain.cpp:1713
 msgid "Please insert the location you want to point to."
@@ -538,59 +532,59 @@ msgstr "Ort"
 
 #: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "Please enter the name for the new script"
-msgstr "Bitte geben Sie den Namen des neuen Skriptes ein."
+msgstr "Bitte geben Sie den Namen des neuen Skriptes ein"
 
 #: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "New Script"
-msgstr "neues Skript"
+msgstr "Neues Skript"
 
 #: forms/frmmain.cpp:1762
 msgid "Do you wish to save the current script?"
-msgstr ""
+msgstr "Möchten Sie das aktuelle Skript speichern?"
 
 #: forms/frmmain.cpp:1762
 msgid "Script Save"
-msgstr ""
+msgstr "Skript speichern"
 
 #: forms/frmmain.cpp:1777
 msgid "There is already a script with this name"
-msgstr ""
+msgstr "Ein Skript mit dem Namen existiert bereits"
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "Please enter the name for the new job"
-msgstr ""
+msgstr "Bitte den Namen des neuen Auftrags eingeben"
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "New Job"
-msgstr ""
+msgstr "Neuer Auftrag"
 
 #: forms/frmmain.cpp:1959
 msgid "There is already a job with this name"
-msgstr ""
+msgstr "Ein Auftrag mit dem Namen existiert bereits"
 
 #: forms/frmmain.cpp:2124
 msgid "Exclude by extension"
-msgstr ""
+msgstr "Nach Extension ausschließen"
 
 #: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
 msgid "Exclude by name"
-msgstr ""
+msgstr "Nach Name ausschließen"
 
 #: forms/frmmain.cpp:2126
 msgid "Include by extension"
-msgstr ""
+msgstr "Nach Extension einschließen"
 
 #: forms/frmmain.cpp:2127 forms/frmmain.cpp:2131
 msgid "Include by name"
-msgstr ""
+msgstr "Nach Name einschließen"
 
 #: forms/frmmain.cpp:2175
 msgid "Copied"
-msgstr ""
+msgstr "Kopiert"
 
 #: forms/frmmain.cpp:2178
 msgid "Deleted"
-msgstr ""
+msgstr "Gelöscht"
 
 #: forms/frmmain.cpp:2181
 msgid "Overwritten"
@@ -598,20 +592,19 @@ msgstr "Überschrieben"
 
 #: forms/frmmain.cpp:2184
 msgid "Deleted if empty"
-msgstr ""
+msgstr "Löschen wenn leer"
 
 #: forms/frmmain.cpp:2193
 msgid "Files to Decrypt"
-msgstr ""
+msgstr "Zu entschlüsselnde Dateien"
 
 #: forms/frmmain.cpp:2199
-#, fuzzy
 msgid "Location to Extract into"
-msgstr "Einzuschließende Orte"
+msgstr "In diesen Ziel-Ordner auspacken"
 
 #: forms/frmmain.cpp:2200
 msgid "Archives to Extract"
-msgstr ""
+msgstr "Archive zum auspacken"
 
 #: forms/frmmain.cpp:2212
 msgid "None"
@@ -627,15 +620,15 @@ msgstr "Schnell"
 
 #: forms/frmmain.cpp:2224
 msgid "Maximum"
-msgstr "Maximum"
+msgstr "Stark"
 
 #: forms/frmmain.cpp:2227
 msgid "Ultra"
-msgstr "Ultra"
+msgstr "Sehr stark"
 
 #: forms/frmpassword.cpp:57
 msgid "Repeat Password"
-msgstr ""
+msgstr "Passwort wiederholen"
 
 #: forms/frmpassword.cpp:71 forms/frmvariable.cpp:95
 msgid "OK"
@@ -655,16 +648,15 @@ msgstr "Status"
 
 #: forms/frmprogress.cpp:122
 msgid "Autoscroll"
-msgstr ""
+msgstr "Automatischer Bildlauf"
 
 #: forms/frmprogress.cpp:329
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: forms/frmvariable.cpp:105
-#, fuzzy
 msgid "Please select a folder"
-msgstr "Bitte wählen Sie einen Ordner."
+msgstr "Bitte wählen Sie einen Ordner"
 
 #: luamanager.cpp:45
 msgid "Progress"
@@ -672,113 +664,113 @@ msgstr "Fortschritt"
 
 #: luathread.cpp:33
 msgid "Date:"
-msgstr ""
+msgstr "Datum:"
 
 #: luathread.cpp:34
 msgid "Computer Name:"
-msgstr ""
+msgstr "Computer Name:"
 
 #: luathread.cpp:35
 msgid "Operating System:"
-msgstr ""
+msgstr "Betriebssystem:"
 
 #: luathread.cpp:43
 msgid "Elapsed:"
-msgstr ""
+msgstr "Vergangen:"
 
 #: luathread.cpp:44
 msgid "Finished"
-msgstr "fertig :-)"
+msgstr "Fertig"
 
 #: path.cpp:55
 msgid "Could not create"
-msgstr ""
+msgstr "Konnte nicht erstellt werden"
 
 #: rules.cpp:181
 msgid "There was an error reading from the rules file"
-msgstr ""
+msgstr "Fehler beim Lesen der Regeln"
 
 #: rules.cpp:202
 msgid ""
 "There was an error saving to the rules file, \n"
 "please check it is not set as read only or in use"
-msgstr ""
+msgstr "Fehler beim Schreiben der Regeln"
 
 #: secure/securejob.cpp:91 secure/securejob.cpp:128
 msgid "Failed to encrypt "
-msgstr "Verschlüsseln fehlgeschlagen!"
+msgstr "Verschlüsseln fehlgeschlagen "
 
 #: secure/securejob.cpp:126
 msgid "Encrypted "
-msgstr "Verschlüsselt"
+msgstr "Verschlüsselt "
 
 #: secure/securejob.cpp:132
 msgid "Decrypted "
-msgstr "Entschlüsselt"
+msgstr "Entschlüsselt "
 
 #: secure/securejob.cpp:134
 msgid "Failed to decrypt "
-msgstr "Entschlüsseln fehlgeschlagen!"
+msgstr "Entschlüsseln fehlgeschlagen "
 
 #: sync/syncjob.cpp:178 toucan_wrap.cpp:2910
 msgid "Copied "
-msgstr "Kopiert"
+msgstr "Kopiert "
 
 #: sync/syncjob.cpp:181 sync/syncjob.cpp:194 toucan_wrap.cpp:2913
 msgid "Failed to copy "
-msgstr "Kopieren fehlgeschlagen!"
+msgstr "Kopieren fehlgeschlagen "
 
 #: sync/syncjob.cpp:234
 msgid "Skipped "
-msgstr ""
+msgstr "Übersprungen "
 
 #: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
-msgstr "Entfernt"
+msgstr "Entfernt "
 
 #: toucan.cpp:116
 msgid "Another copy of Toucan is already running, aborting."
-msgstr ""
+msgstr "Abbruch, es läuft bereits eine Toucan Instanz."
 
 #: toucan.cpp:264
 msgid "The job does not exist"
-msgstr ""
+msgstr "Der Auftrag existiert nicht"
 
 #: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
 msgid "Could not run "
-msgstr ""
+msgstr "Kann nicht starten "
 
 #: toucan.cpp:413
 msgid "Please input your password: "
-msgstr ""
+msgstr "Bitte das Passwort eingeben: "
 
 #: toucan.cpp:415
 msgid "Please repeat your password: "
-msgstr ""
+msgstr "Bitte das Passwort wiederholen: "
 
 #: toucan.cpp:418
 msgid "Sorry the passwords do not match"
-msgstr ""
+msgstr "Die Passwörter stimmen nicht überein"
 
 #: toucan_wrap.cpp:2897
 msgid "Deleted "
-msgstr "Gelöscht"
+msgstr "Gelöscht "
 
 #: toucan_wrap.cpp:2900
 msgid "Failed to delete "
-msgstr "Löschen fehlgeschlagen!"
+msgstr "Löschen fehlgeschlagen "
 
 #: toucan_wrap.cpp:2923 toucan_wrap.cpp:2936
 msgid "Moved"
-msgstr "verschoben"
+msgstr "Verschoben"
 
 #: toucan_wrap.cpp:2926 toucan_wrap.cpp:2939
 msgid "Failed to move "
-msgstr "Verschieben fehlgeschlagen!"
+msgstr "Verschieben fehlgeschlagen "
 
 #: forms/frmpassword.h:26 forms/frmpassword.h:28
 msgid "Input Password"
-msgstr ""
+msgstr "Passwort Eingabe"
 
 #~ msgid "Please enter your password"
 #~ msgstr "Bitte geben Sie Ihr Passwort ein."
