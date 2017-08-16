@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-19 14:16+0200\n"
-"PO-Revision-Date: 2017-08-15 16:51+0200\n"
+"PO-Revision-Date: 2017-08-16 16:20+0200\n"
 "Last-Translator: Martin Griewel <mail@griewel.de>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -141,41 +141,59 @@ msgstr "Einstellungen"
 msgid "Help"
 msgstr "Hilfe"
 
+# Do not translate > generates exception error
+# Name
 #: basicfunctions.cpp:61
 msgid "Simple"
-msgstr "Name"
+msgstr ""
 
+# Do not translate > generates exception error
+# Regulärer Ausdruck
 #: basicfunctions.cpp:62
 msgid "Regex"
-msgstr "Regulärer Ausdruck"
+msgstr ""
 
+# Do not translate > generates exception error
+# Größe
 #: basicfunctions.cpp:63
 msgid "Size"
-msgstr "Größe"
+msgstr ""
 
+# Do not translate > generates exception error
+# Datum
 #: basicfunctions.cpp:64
 msgid "Date"
-msgstr "Datum"
+msgstr ""
 
+# Do not translate > generates exception error
+# Datei einschließen
 #: basicfunctions.cpp:65
 msgid "File Include"
-msgstr "Datei einschließen"
+msgstr ""
 
+# Do not translate > generates exception error
+# Datei ausschließen
 #: basicfunctions.cpp:66
 msgid "File Exclude"
-msgstr "Datei ausschließen"
+msgstr ""
 
+# Do not translate > generates exception error
+# Ordner einschließen
 #: basicfunctions.cpp:67
 msgid "Folder Include"
-msgstr "Ordner einschließen"
+msgstr ""
 
+# Do not translate > generates exception error
+# Ordner ausschließen
 #: basicfunctions.cpp:68
 msgid "Folder Exclude"
-msgstr "Ordner ausschließen"
+msgstr ""
 
+# Do not translate > generates exception error
+# Absoluten Ordner ausschließen
 #: basicfunctions.cpp:69
 msgid "Absolute Folder Exclude"
-msgstr "Absoluten Ordner ausschließen"
+msgstr ""
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
 #: basicfunctions.cpp:519
