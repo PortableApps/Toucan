@@ -66,9 +66,9 @@ void RulesGrid::OnCellChanged(wxGridEvent &event){
 }
 
 void RulesGrid::ValidateRow(int row){
-    Rule rule(GetCellValue(row, 2), 
-              functionmap.left.at(GetCellValue(row, 0)),
-              typemap.left.at(GetCellValue(row, 1)));
+    Rule rule(GetCellValue(row, 2),
+              functionmap.left.at(ToEn(GetCellValue(row, 0))),
+              typemap.left.at(ToEn(GetCellValue(row, 1))));
     wxColour colour;
     if(!rule.IsValid())
         colour = wxColour("red");
