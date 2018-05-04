@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-19 15:42+0200\n"
+"POT-Creation-Date: 2018-05-04 14:45+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
+"Last-Translator: Giacomo Margarito <giacomomargarito@gmail.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -143,39 +143,39 @@ msgstr "Guida"
 
 #: basicfunctions.cpp:61
 msgid "Simple"
-msgstr ""
+msgstr "Semplice"
 
 #: basicfunctions.cpp:62
 msgid "Regex"
-msgstr ""
+msgstr "Espressione Regolare"
 
 #: basicfunctions.cpp:63
 msgid "Size"
-msgstr ""
+msgstr "Dimensioni"
 
 #: basicfunctions.cpp:64
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: basicfunctions.cpp:65
 msgid "File Include"
-msgstr ""
+msgstr "File da includere"
 
 #: basicfunctions.cpp:66
 msgid "File Exclude"
-msgstr ""
+msgstr "File da escludere"
 
 #: basicfunctions.cpp:67
 msgid "Folder Include"
-msgstr ""
+msgstr "Cartella da includere"
 
 #: basicfunctions.cpp:68
 msgid "Folder Exclude"
-msgstr ""
+msgstr "Cartella da escludere"
 
 #: basicfunctions.cpp:69
 msgid "Absolute Folder Exclude"
-msgstr ""
+msgstr "Cartella da escludere in assoluto"
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
 #: basicfunctions.cpp:519
@@ -209,7 +209,7 @@ msgstr "Specchio (Aggiorna)"
 
 #: controls/rulesgrid.cpp:25
 msgid "Include / Exclude"
-msgstr ""
+msgstr "Includi/Escludi"
 
 #: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
 msgid "Type"
@@ -341,15 +341,15 @@ msgstr "Nome"
 
 #: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
 msgid "Jobs"
-msgstr ""
+msgstr "Processi"
 
 #: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
 msgid "Job Commands"
-msgstr ""
+msgstr "Comandi del processo"
 
 #: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
 msgid "Other Commands"
-msgstr ""
+msgstr "Altri comandi"
 
 #: forms/frmmain.cpp:799 forms/frmmain.cpp:802
 msgid "Remember Entered Information"
@@ -393,7 +393,7 @@ msgstr "Espansione"
 
 #: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
 msgid "Browse"
-msgstr ""
+msgstr "Sfoglia"
 
 #: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
 #: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
@@ -427,11 +427,11 @@ msgstr "Inserisci la variabile"
 
 #: forms/frmmain.cpp:983
 msgid "Undo"
-msgstr ""
+msgstr "Annulla"
 
 #: forms/frmmain.cpp:984
 msgid "Redo"
-msgstr ""
+msgstr "Ripristina"
 
 #: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
 msgid "Differential only supports one folder"
@@ -439,11 +439,11 @@ msgstr "Il differenziale supporta solo una cartella"
 
 #: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
 msgid "Mirror only supports one folder"
-msgstr ""
+msgstr "Lo specchio supporta una sola cartella"
 
 #: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
 msgid "Restore only supports one source archive file"
-msgstr ""
+msgstr "Ripristina supporta solo un file dell'archivio sorgente"
 
 #: forms/frmmain.cpp:1112
 msgid "Please select the source folder"
@@ -475,11 +475,11 @@ msgstr "C'è già un set di regole con questo nome."
 
 #: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Do you wish to save the current job?"
-msgstr "Volete salvare il lavoro in corso?"
+msgstr "Volete salvare il processo in corso?"
 
 #: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Job Save"
-msgstr "Salva il lavoro"
+msgstr "Salva il processo"
 
 #: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
 msgid "Please select the folder to store your backups"
@@ -499,7 +499,7 @@ msgstr "7-Zip"
 
 #: forms/frmmain.cpp:1413
 msgid "Differential only supports the 7-Zip format"
-msgstr ""
+msgstr "Differenziale supporta solo il formato 7-zip"
 
 #: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 msgid "Please enter the name for the new variable"
@@ -555,15 +555,15 @@ msgstr "C'è già uno script con questo nome."
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "Please enter the name for the new job"
-msgstr "Scrivete il nome per il nuovo lavoro"
+msgstr "Scrivete il nome per il nuovo processo"
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "New Job"
-msgstr "Nuovo lavoro"
+msgstr "Nuovo processo"
 
 #: forms/frmmain.cpp:1959
 msgid "There is already a job with this name"
-msgstr "C'è già un lavoro con questo nome."
+msgstr "C'è già un processo con questo nome."
 
 #: forms/frmmain.cpp:2124
 msgid "Exclude by extension"
@@ -583,11 +583,11 @@ msgstr "Includi per nome"
 
 #: forms/frmmain.cpp:2175
 msgid "Copied"
-msgstr ""
+msgstr "Copiato"
 
 #: forms/frmmain.cpp:2178
 msgid "Deleted"
-msgstr ""
+msgstr "Eliminato"
 
 #: forms/frmmain.cpp:2181
 msgid "Overwritten"
@@ -595,7 +595,7 @@ msgstr "Sovrascritto"
 
 #: forms/frmmain.cpp:2184
 msgid "Deleted if empty"
-msgstr ""
+msgstr "Eliminato se vuoto"
 
 #: forms/frmmain.cpp:2193
 msgid "Files to Decrypt"
@@ -651,11 +651,11 @@ msgstr "Stato"
 
 #: forms/frmprogress.cpp:122
 msgid "Autoscroll"
-msgstr ""
+msgstr "Scorri in automatico"
 
 #: forms/frmprogress.cpp:329
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 #: forms/frmvariable.cpp:105
 msgid "Please select a folder"
@@ -727,7 +727,7 @@ msgstr "Impossibile copiare"
 
 #: sync/syncjob.cpp:234
 msgid "Skipped "
-msgstr ""
+msgstr "Tralasciato"
 
 #: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
@@ -735,11 +735,11 @@ msgstr "Rimosso"
 
 #: toucan.cpp:116
 msgid "Another copy of Toucan is already running, aborting."
-msgstr ""
+msgstr "Un'altra copia di Toucan è già in esecuzione, interruzione in corso"
 
 #: toucan.cpp:264
 msgid "The job does not exist"
-msgstr "Il lavoro non esiste"
+msgstr "Il processo non esiste"
 
 #: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
 msgid "Could not run "
@@ -853,10 +853,10 @@ msgstr "Inserire la password"
 #~ msgstr "Dovete scegliere un nome per questo gruppo di regole"
 
 #~ msgid "Job name"
-#~ msgstr "Nome lavoro"
+#~ msgstr "Nome del processo"
 
 #~ msgid "Please chose a job to save to"
-#~ msgstr "Aggiungiete un lavoro da salvare"
+#~ msgstr "Aggiungete un processo da salvare"
 
 #~ msgid "Backup file"
 #~ msgstr "File di backup"
