@@ -2,6 +2,11 @@
 Compiling Toucan
 ================
 
+.. WARNING::
+    This section is currently outdated. See
+    `this GH issue <https://github.com/PortableApps/Toucan/issues/18>`_
+    for more relevant information. It will be incorporated here at some point.
+
 Toucan has a number of prerequisites before it can be compiled which are 
 given in the table below. You will also need a copy of the Toucan source 
 code, which is available form the 
