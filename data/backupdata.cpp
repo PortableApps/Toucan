@@ -123,6 +123,7 @@ wxArrayString BackupData::CreateCommands(){
 	wxString ratio, originalext;
 	wxString tempdir = wxT(" -w\"") + wxPathOnly(GetFileLocation()) + wxT("\"");	
 	wxString solid = wxEmptyString;
+	wxString loglevel = wxT(" -bb1");
 	wxString exe = wxPathOnly(wxStandardPaths::Get().GetExecutablePath()) + wxFILE_SEP_PATH + wxT("7za.exe");
 	wxString excludes = wxT(" -x@\"") + wxGetApp().GetSettingsPath() + wxT("Excludes.txt") + wxT("\" ");
 	wxString includes = wxT(" -i@\"" + wxGetApp().GetSettingsPath() + wxT("Includes.txt") + wxT("\" "));
@@ -174,13 +175,13 @@ wxArrayString BackupData::CreateCommands(){
     SetLocation(0, "\"" + GetLocation(0) + "\"");
 
 	if(GetFunction() == _("Complete")){
-		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 " + includes);
+		commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid + loglevel +  wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 " + includes);
 	}
 	else if(GetFunction() == _("Update")){
-		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + includes);
+		commands.Add(exe + wxT(" u -t") + GetFormat() + GetPassword() + ratio + solid + loglevel + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + includes);
 	}
 	else if(GetFunction() == _("Restore")){
-		commands.Add(exe + wxT("  x -aoa \"") + GetLocation(0) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword() + " -sccUTF-8 ");
+		commands.Add(exe + wxT("  x -aoa \"") + GetLocation(0) + wxT("\" -o\"") + GetFileLocation() + wxT("\" * -r") + GetPassword() + loglevel + " -sccUTF-8 ");
 	}
 	//With the Differential type the first use creates a file called base file. On subsequent runs a file is created with a filename based on both the date and time.    
 	else if(GetFunction() == _("Differential")){
@@ -189,24 +190,24 @@ wxArrayString BackupData::CreateCommands(){
 		}
 		if(wxFileExists(GetFileLocation() + wxFILE_SEP_PATH + wxT("BaseFile.") + GetFormat())){
 			wxDateTime now = wxDateTime::Now();
-			commands.Add(exe + wxT(" u") + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
+			commands.Add(exe + wxT(" u") + GetPassword() + ratio + solid + loglevel + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
 		}
 		else{
-			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
+			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  loglevel + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
 		}
 	}
     else if(GetFunction() == _("Mirror")){
-		commands.Add(exe + wxT(" u -up1q0r2x1y2z1w2 -t") + GetFormat() + GetPassword() + ratio + solid + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0)); 
+		commands.Add(exe + wxT(" u -up1q0r2x1y2z1w2 -t") + GetFormat() + GetPassword() + ratio + solid + loglevel + wxT(" \"") + GetFileLocation() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
     }
 
 	if(GetFormat() == "tar"){
 		wxString tarpath = GetFileLocation();
 		SetFileLocation(GetFileLocation().Left(GetFileLocation().Length() - 3) + originalext);
-		commands.Add(exe + " a -tgzip " + GetPassword() + ratio + wxT(" \"") + GetFileLocation() + wxT("\" \"") + tarpath + wxT("\"") + tempdir + " -sccUTF-8");
+		commands.Add(exe + " a -tgzip " + GetPassword() + ratio + loglevel + wxT(" \"") + GetFileLocation() + wxT("\" \"") + tarpath + wxT("\"") + tempdir + " -sccUTF-8");
 	}
 
 	if(GetTest()){
-		commands.Add(exe + " t \"" + GetFileLocation() + "\" * -r" + " -sccUTF-8" + GetPassword());
+		commands.Add(exe + " t \"" + GetFileLocation() + "\" * -r" + " -sccUTF-8" + loglevel + GetPassword());
 	}
 	return commands;
 }
