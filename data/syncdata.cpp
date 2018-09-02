@@ -34,6 +34,7 @@ void SyncData::TransferFromFile(){
 	SetIgnoreRO(Read<bool>("IgnoreReadOnly"));
 	SetRecycle(Read<bool>("Recycle"));
 	SetPreviewChanges(Read<bool>("PreviewChanges"));
+	SetNoSkipped(Read<bool>("NoSkipped"));
 
     RuleSet *rules = new RuleSet(Read<wxString>("Rules"));
     rules->TransferFromFile();
@@ -56,6 +57,7 @@ void SyncData::TransferToFile(){
 	Write<bool>("IgnoreReadOnly", GetIgnoreRO());
 	Write<bool>("Recycle", GetRecycle());
 	Write<bool>("PreviewChanges", GetPreviewChanges());
+	Write<bool>("NoSkipped", GetNoSkipped());
 	Write<wxString>("Rules", GetRules() ? GetRules()->GetName() : "");
 	Write<wxString>("Type", "Sync");
 
@@ -91,6 +93,7 @@ bool SyncData::TransferToForm(frmMain *window){
 	window->m_Sync_Ignore_Readonly->SetValue(GetIgnoreRO());
 	window->m_Sync_Recycle->SetValue(GetRecycle());
 	window->m_SyncPreviewChanges->SetValue(GetPreviewChanges());
+	window->m_SyncNoSkipped->SetValue(GetNoSkipped());
 	window->m_Sync_Rules->SetStringSelection(GetRules()->GetName());
 	return true;
 }
@@ -111,6 +114,7 @@ bool SyncData::TransferFromForm(frmMain *window){
 	SetIgnoreRO(window->m_Sync_Ignore_Readonly->GetValue());
 	SetRecycle(window->m_Sync_Recycle->GetValue());
 	SetPreviewChanges(window->m_SyncPreviewChanges->GetValue());
+	SetNoSkipped(window->m_SyncNoSkipped->GetValue());
 
     RuleSet *rules = new RuleSet(window->m_Sync_Rules->GetStringSelection());
     rules->TransferFromFile();

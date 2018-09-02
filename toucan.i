@@ -71,6 +71,7 @@
 		data->SetTimeStamps(options.TimeStamps);
 		data->SetRecycle(options.Recycle);
 		data->SetPreviewChanges(options.PreviewChanges);
+		data->SetNoSkipped(options.NoSkipped);
         RuleSet *ruleset = new RuleSet(rules);
         ruleset->TransferFromFile();
 		data->SetRules(ruleset);

@@ -194,6 +194,7 @@ void frmMain::Init(){
 	m_Sync_Ignore_Readonly = NULL;
 	m_Sync_Recycle = NULL;
 	m_SyncPreviewChanges = NULL;
+	m_SyncNoSkipped = NULL;
 	BackupTopSizer = NULL;
 	m_Backup_Job_Select = NULL;
 	m_Backup_Rules = NULL;
@@ -342,6 +343,10 @@ void frmMain::CreateControls(){
 	m_SyncPreviewChanges = new wxCheckBox(SyncPanel, ID_SYNC_PREVIEW_CHANGES, _("Preview Only Changes"));
 	m_SyncPreviewChanges->SetValue(false);
 	SyncOtherSizer->Add(m_SyncPreviewChanges, 0, wxALIGN_LEFT|wxALL, border);
+
+	m_SyncNoSkipped = new wxCheckBox(SyncPanel, ID_SYNC_NO_SKIPPED, _("Do Not Log Skipped Files"));
+	m_SyncNoSkipped->SetValue(false);
+	SyncOtherSizer->Add(m_SyncNoSkipped, 0, wxALIGN_LEFT|wxALL, border);
 
 	wxBoxSizer* SyncButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	SyncTopSizer->Add(SyncButtonsSizer, 1, wxGROW|wxALL|wxALIGN_CENTER_VERTICAL, border);	
@@ -1388,7 +1393,8 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	command << "{timestamps=" << ToString(m_Sync_Timestamp->IsChecked()) << ","
 			<< "attributes=" << ToString(m_Sync_Attributes->IsChecked()) << ","
 			<< "recycle=" << ToString(m_Sync_Recycle->IsChecked()) << ","
-			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked()) << "}, ";
+			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked())
+			<< "noskipped=" << ToString(m_SyncNoSkipped->IsChecked()) << "}, ";
 	//rules
 	command << "[[" << m_Sync_Rules->GetStringSelection() << "]])";
 	wxGetApp().m_LuaManager->Run(command);
@@ -2047,6 +2053,7 @@ void frmMain::ClearToDefault(){
 		m_Sync_Ignore_Readonly->SetValue(false);
 		m_Sync_Recycle->SetValue(false);
 		m_SyncPreviewChanges->SetValue(false);
+		m_SyncNoSkipped->SetValue(false);
 		m_SyncCheckFull->SetValue(false);
 		m_SyncCheckShort->SetValue(false);
 		m_SyncCheckSize->SetValue(false);
@@ -2414,7 +2421,7 @@ void frmMain::OnScriptCommandTypeChange(wxCommandEvent& WXUNUSED(event)){
         items.push_back("backup([[jobname]])");
         items.push_back("secure([[jobname]])");
         items.push_back("sync([[source]], [[dest]], [[function]], {size = true, time = false, short = true, full = false}, "
-                        "{timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false}, "
+                        "{timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false, noskipped = false}, "
                         "[[rules]])");
         items.push_back("backup({[[path1]], [[path2]]}, [[location]], [[function]], [[format]], ratio, "
                         "{password = false, test = false, solid = true}, [[rules]])");

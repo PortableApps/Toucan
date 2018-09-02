@@ -77,6 +77,7 @@
 	$1.IgnoreRO = getfield(L, $input,"ignorero", $1.IgnoreRO);
 	$1.Recycle = getfield(L, $input,"recycle", $1.Recycle);
 	$1.PreviewChanges = getfield(L, $input,"previewchanges", $1.PreviewChanges);
+	$1.NoSkipped = getfield(L, $input,"noskipped", $1.NoSkipped);
 %}
 
 %typemap(in,checkfn="lua_istable") BackupOptions()

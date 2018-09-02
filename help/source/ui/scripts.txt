@@ -73,7 +73,7 @@ sync
 	:type jobname: string
 	:rtype: none
 
-.. function:: sync(source, dest, function, checks = {size = true, time = false, short = true, full = false}, options = {timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false}, rules = "")
+.. function:: sync(source, dest, function, checks = {size = true, time = false, short = true, full = false}, options = {timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false, noskipped = false}, rules = "")
 
 	Run a sync with the given options
 	

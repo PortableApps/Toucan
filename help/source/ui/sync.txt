@@ -115,6 +115,8 @@ Preview Only Changes
 	them will be previewed. It is especially helpful when working with large 
 	jobs that only contain a few changed files. 
 
+Do Not Log Skipped Files
+	Skipped files will not be logged when this is enabled. 
 
 Preview
 =======

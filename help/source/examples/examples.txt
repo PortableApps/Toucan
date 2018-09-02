@@ -15,7 +15,7 @@ Running Scripts::
 
 Running a Custom Job::
 
-	sync([[my\source]], [[my\dest]], "Copy", {size = true, time = false, short = true, full = false}, {timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false})
+	sync([[my\source]], [[my\dest]], "Copy", {size = true, time = false, short = true, full = false}, {timestamps = true, attributes = true, ignorero = false, ignoredls = false, recycle = false, previewchanges = false, noskipped = false})
 
 Flow Control::
 

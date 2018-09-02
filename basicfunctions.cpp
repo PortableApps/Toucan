@@ -219,10 +219,13 @@ wxArrayString GetScripts(){
 
 bool UpdateJobs(){
 	long version;
+	//Update this when updating Job format version
+	const long cur_version = 302;
+
 	wxFileConfig *config = wxGetApp().m_Jobs_Config;
 	if(!wxFileExists(wxGetApp().GetSettingsPath() + wxT("Jobs.ini"))){
 		if(!wxGetApp().IsReadOnly()){
-			config->Write(wxT("General/Version"), 301);
+			config->Write(wxT("General/Version"), cur_version);
 			config->Flush();
 			return true;
 		}
@@ -232,7 +235,7 @@ bool UpdateJobs(){
 	}
 	config->Read(wxT("General/Version"), &version, 1);
 	//Return if we are up to date
-	if(version == 301){
+	if(version == cur_version){
 		return true;
 	}
 	if(wxGetApp().IsReadOnly()){
@@ -364,7 +367,21 @@ bool UpdateJobs(){
 		}
         version = 301;
 	}
-	config->Write(wxT("General/Version"), 301);
+	if(version == 301){
+		wxString value;
+		long dummy;
+		bool exists = config->GetFirstGroup(value, dummy);
+		while(exists){
+			if(config->Read(value + wxT("/Type")) == wxT("Sync")){
+				if(!config->Read("NoSkipped")){
+					config->Write(value + wxT("/NoSkipped"), false);
+				}
+			}
+			exists = config->GetNextGroup(value, dummy);
+		}
+		version = 302;
+	}
+	config->Write(wxT("General/Version"), cur_version);
 	config->Flush();
 	return true;
 }

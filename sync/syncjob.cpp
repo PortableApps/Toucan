@@ -231,7 +231,9 @@ bool SyncFiles::CopyIfNeeded(const wxFileName &source, const wxFileName &dest){
     &&  !data->GetCheckShort() && !data->GetCheckFull())){
 		return CopyFile(source, dest);
 	}
-    OutputProgress(_("Skipped ") + source.GetFullPath(), Message);
+    if(!data->GetNoSkipped()) {
+        OutputProgress(_("Skipped ") + source.GetFullPath(), Message);
+    }
 	return false;
 }
 

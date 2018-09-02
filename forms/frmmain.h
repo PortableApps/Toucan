@@ -73,6 +73,7 @@ enum{
 	ID_SYNC_IGNORERO,
 	ID_SYNC_RECYCLE,
 	ID_SYNC_PREVIEW_CHANGES,
+	ID_SYNC_NO_SKIPPED,
 	//Backup
 	ID_PANEL_BACKUP,
 	ID_BACKUP_RUN,
@@ -339,6 +340,7 @@ public:
 	wxCheckBox* m_Sync_Ignore_Readonly;
 	wxCheckBox* m_Sync_Recycle;
 	wxCheckBox* m_SyncPreviewChanges;
+	wxCheckBox* m_SyncNoSkipped;
 	
 	//Backup
 	wxBoxSizer* BackupTopSizer;

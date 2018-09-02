@@ -28,9 +28,10 @@ struct SyncOptions{
 	bool IgnoreRO;
 	bool Recycle;
 	bool PreviewChanges;
+	bool NoSkipped;
 
 	SyncOptions() : TimeStamps(true), Attributes(true), IgnoreRO(false), 
-					Recycle(false), PreviewChanges(false)
+					Recycle(false), PreviewChanges(false), NoSkipped(false)
 	{}
 };
 
@@ -58,6 +59,7 @@ public:
 	void SetAttributes(const bool& Attributes) {this->m_Options.Attributes = Attributes;}
 	void SetRecycle(const bool& Recycle) {this->m_Options.Recycle = Recycle;}
 	void SetPreviewChanges(const bool& Changes) {this->m_Options.PreviewChanges = Changes;}
+	void SetNoSkipped(const bool& NoSkipped) {this->m_Options.NoSkipped = NoSkipped;}
 
 	const wxFileName& GetSource() const {return source;}
 	const wxFileName& GetDest() const {return dest;}
@@ -71,6 +73,7 @@ public:
 	const bool& GetAttributes() const {return m_Options.Attributes;}
 	const bool& GetRecycle() const {return m_Options.Recycle;}
 	const bool& GetPreviewChanges() const {return m_Options.PreviewChanges;}
+	const bool& GetNoSkipped() const {return m_Options.NoSkipped;}
 
 private:
 	wxFileName source;
