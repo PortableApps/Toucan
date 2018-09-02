@@ -8,3 +8,7 @@ help/build
 .cproject
 .project
 .settings/
+
+# VS Code system files
+.vscode/
+
