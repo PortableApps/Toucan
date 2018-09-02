@@ -24,22 +24,22 @@ Changelog
 3.1.3 (2014-01-19)
 ==================
 
-- Fixed "--log" option not working when used with non-GUI mode (`bug #7 <https://sourceforge.net/p/alt-toucan/tickets/7/>`_)
+- Fixed "--log" option not working when used with non-GUI mode (`SF bug #7 <https://sourceforge.net/p/alt-toucan/tickets/7/>`_)
 - Minor documentation fixes (Toucan version strings mostly)
 
 3.1.2 (2013-11-17)
 ==================
 
 - Fixed wxWidgets assert being triggered when a whole drive was added
-  to a backup selection (`bug #6 <https://sourceforge.net/p/alt-toucan/tickets/6/>`_)
-- Fixed bug with UI looking flat like Win95 even on newer OSes with themes enabled (`bug #4 <https://sourceforge.net/p/alt-toucan/tickets/4/>`_)
+  to a backup selection (`SF bug #6 <https://sourceforge.net/p/alt-toucan/tickets/6/>`_)
+- Fixed bug with UI looking flat like Win95 even on newer OSes with themes enabled (`SF bug #4 <https://sourceforge.net/p/alt-toucan/tickets/4/>`_)
 
 3.1.1 (2013-09-22)
 ==================
 
 - Fixed bug with Backup in Complete or Update modes
-  only including the first source file/dir into the resulting archive (`bug #2 <https://sourceforge.net/p/alt-toucan/tickets/2/>`_)
-- Added description of Mirror mode for Backup into documenation (`bug #1 <https://sourceforge.net/p/alt-toucan/tickets/1/>`_)
+  only including the first source file/dir into the resulting archive (`SF bug #2 <https://sourceforge.net/p/alt-toucan/tickets/2/>`_)
+- Added description of Mirror mode for Backup into documenation (`SF bug #1 <https://sourceforge.net/p/alt-toucan/tickets/1/>`_)
 - Fixed several error handling cases for Restore mode (errors were triggered when not needed and vice versa)
 
 3.1
