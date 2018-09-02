@@ -2,6 +2,15 @@
 Changelog
 =========
 
+3.1.6 (2018-09-02)
+==================
+
+- Fixed an exception appearing when switching languages (`bug #16 <https://github.com/PortableApps/Toucan/issues/16>`_)
+- Added an option for not logging the "Skipped" sync messages (forum request and `bug #15 <https://github.com/PortableApps/Toucan/issues/15>`_)
+- Updated bundled 7-Zip binary, it's version 18.05 now (the latest available)
+- Translations: updated DE and IT translations (thanks marwelix and eagleman)
+
+
 3.1.5 (2017-06-17)
 ==================
 
