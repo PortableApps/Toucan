@@ -1393,7 +1393,7 @@ void frmMain::OnSyncRunClick(wxCommandEvent& WXUNUSED(event)){
 	command << "{timestamps=" << ToString(m_Sync_Timestamp->IsChecked()) << ","
 			<< "attributes=" << ToString(m_Sync_Attributes->IsChecked()) << ","
 			<< "recycle=" << ToString(m_Sync_Recycle->IsChecked()) << ","
-			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked())
+			<< "ignorero=" << ToString(m_Sync_Ignore_Readonly->IsChecked()) << ","
 			<< "noskipped=" << ToString(m_SyncNoSkipped->IsChecked()) << "}, ";
 	//rules
 	command << "[[" << m_Sync_Rules->GetStringSelection() << "]])";
