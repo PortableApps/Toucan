@@ -74,7 +74,7 @@ Short
 	first and last 1024 bytes of the file. It is ideal when working with 
 	archives, especially zip files, as they stroe a CRC32 check in this 
 	space and the test is much quicker than performing a full file. It 
-    also checks the files are of an identical length.
+	also checks the files are of an identical length.
 
 Full
 	The full test does a byte by byte comparison of both files, reading 
