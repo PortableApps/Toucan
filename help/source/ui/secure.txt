@@ -30,7 +30,6 @@ using any Rules you might have selected.
        :align: center
        :alt: The Secure Tab
 
-========
 Function
 ========
 
@@ -43,7 +42,6 @@ Decrypt
 	This option decrypted the selected files and folders. Please note only 
 	files with the .cpt extension will be processed. 
 
-=======
 Preview
 =======
 
