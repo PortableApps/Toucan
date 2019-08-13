@@ -253,22 +253,28 @@ bool SyncFiles::DeleteDirectory(const wxFileName &path){
 				return true;
 			}
 			if(wxDirExists(path.GetFullPath() + filename)){
-				DeleteDirectory(wxFileName(path.GetFullPath() + filename));
+				//This is a directory, use DirName() so that it has a trailing path separator
+				DeleteDirectory(wxFileName::DirName(path.GetFullPath() + filename));
 			}
 			else{
 				if(RemoveFile(wxFileName(path.GetFullPath() + filename))){
-                    OutputProgress(_("Removed ") + path.GetFullPath() + filename, Message);
-                }
-            }
-	
+					OutputProgress(_("Removed file ") + path.GetFullPath() + filename, Message);
+				}
+				else{
+					OutputProgress(_("Failed to remove file ") + path.GetFullPath() + filename, Error);
+				}
+			}
 		}
 		while (dir->GetNext(&filename) );
 	} 
 	delete dir;
 	{
-  		wxLogNull log;
-		if(wxRmDir(path.GetFullPath())){
-            OutputProgress(_("Removed ") + path.GetFullPath(), Message);
+		wxLogNull log;
+		if(wxRmdir(path.GetFullPath())){
+			OutputProgress(_("Removed directory ") + path.GetFullPath(), Message);
+		}
+		else{
+			OutputProgress(_("Failed to remove directory ") + path.GetFullPath(), Error);
 		}
 	}
 	return true;
@@ -283,7 +289,6 @@ bool SyncFiles::CopyFolderTimestamp(const wxFileName &source, const wxFileName &
 
 bool SyncFiles::RemoveFile(const wxFileName &path){
 	if(File::Delete(path, data->GetRecycle(), data->GetIgnoreRO())){
-        OutputProgress(_("Removed ") + path.GetFullPath(), Message);		
 		return true;
 	}
 	return false;
