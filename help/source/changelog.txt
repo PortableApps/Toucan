@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.1.7 (2019-08-13)
+==================
+
+- Fixed recursive directory/file deletion in Sync and removed duplicated removal message (`bug #22 <https://github.com/PortableApps/Toucan/issues/22>`_)
+- Updated bundled 7-Zip binary, it's version 19.00 now (the latest available)
+- Help: corrected formatting in Secure description (thanks d-faure)
+
 3.1.6 (2018-09-02)
 ==================
 
