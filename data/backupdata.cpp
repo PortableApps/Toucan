@@ -193,7 +193,7 @@ wxArrayString BackupData::CreateCommands(){
 			commands.Add(exe + wxT(" u") + GetPassword() + ratio + solid + loglevel + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\" -u- -up0q3x2z0!\"") + GetFileLocation() + now.FormatISODate()+ wxT("-") + now.Format(wxT("%H")) + wxT("-") +  now.Format(wxT("%M")) + wxT(".") + GetFormat() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
 		}
 		else{
-			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  loglevel + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT(" \"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
+			commands.Add(exe + wxT(" a -t") + GetFormat() + GetPassword() + ratio + solid +  loglevel + wxT(" \"") + GetFileLocation() + wxT("BaseFile.") + GetFormat() + wxT("\"") + excludes + tempdir + " -sccUTF-8 "  + GetLocation(0));
 		}
 	}
     else if(GetFunction() == _("Mirror")){
