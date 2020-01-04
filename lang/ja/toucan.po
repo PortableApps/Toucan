@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-19 14:41+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Alex Tereschenko <alttoucan@gmail.com>\n"
+"Last-Translator: maboroshin <pc.genkaku.in>\n"
 "Language-Team: Asabukuro <fistechen@gmail.com>\n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: .git\n"
@@ -41,7 +41,7 @@ msgstr "更新"
 
 #: backup/backupjob.cpp:58
 msgid "Creating file list, this may take some time."
-msgstr "ファイル リスト作成中。 しばらく時間がかかります。"
+msgstr "ファイル一覧の作成中。しばらく時間がかかります。"
 
 #: basicfunctions.cpp:39 basicfunctions.cpp:315 basicfunctions.cpp:318
 #: forms/frmmain.cpp:293 forms/frmmain.cpp:2044 sync/syncjob.cpp:75
@@ -144,44 +144,44 @@ msgstr "ヘルプ"
 
 #: basicfunctions.cpp:61
 msgid "Simple"
-msgstr ""
+msgstr "単なる文字列"
 
 #: basicfunctions.cpp:62
 msgid "Regex"
-msgstr ""
+msgstr "正規表現"
 
 #: basicfunctions.cpp:63
 msgid "Size"
-msgstr ""
+msgstr "サイズ"
 
 #: basicfunctions.cpp:64
 msgid "Date"
-msgstr ""
+msgstr "日時"
 
 #: basicfunctions.cpp:65
 msgid "File Include"
-msgstr ""
+msgstr "ファイル含める"
 
 #: basicfunctions.cpp:66
 msgid "File Exclude"
-msgstr ""
+msgstr "ファイル除外"
 
 #: basicfunctions.cpp:67
 msgid "Folder Include"
-msgstr ""
+msgstr "フォルダー含める"
 
 #: basicfunctions.cpp:68
 msgid "Folder Exclude"
-msgstr ""
+msgstr "フォルダー除外"
 
 #: basicfunctions.cpp:69
 msgid "Absolute Folder Exclude"
-msgstr ""
+msgstr "フォルダ除外固定的"
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
 #: basicfunctions.cpp:519
 msgid "Please run Toucan from a device that allows writes so it can update itself"
-msgstr "Toucan を書き込み可能なデバイスから実行すれば自動的にアップデートが行えます"
+msgstr "Toucan を書き込み可能なデバイスから実行すれば自動アップデートが可能です"
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:248 basicfunctions.cpp:384
 #: basicfunctions.cpp:393 basicfunctions.cpp:482 basicfunctions.cpp:491
@@ -207,11 +207,11 @@ msgstr "ミラー (更新)"
 
 #: controls/rulesgrid.cpp:25
 msgid "Include / Exclude"
-msgstr ""
+msgstr "含める/除外"
 
 #: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
 msgid "Type"
-msgstr "タイプ"
+msgstr "種類"
 
 #: controls/rulesgrid.cpp:27
 msgid "Rule"
@@ -231,7 +231,7 @@ msgstr "ファイルのチェック"
 
 #: forms/frmmain.cpp:306
 msgid "File size"
-msgstr "ファイル サイズ"
+msgstr "ファイルの大きさ"
 
 #: forms/frmmain.cpp:310
 msgid "Modified time"
@@ -252,7 +252,7 @@ msgstr "その他"
 
 #: forms/frmmain.cpp:326
 msgid "Retain Timestamps"
-msgstr "タイムスタンプを保持"
+msgstr "日時を保持"
 
 #: forms/frmmain.cpp:330
 msgid "Retain Attributes"
@@ -286,7 +286,7 @@ msgstr "再読み込み"
 
 #: forms/frmmain.cpp:367
 msgid "Source"
-msgstr "ソース"
+msgstr "入力元"
 
 #: forms/frmmain.cpp:388
 msgid "Destination"
@@ -294,7 +294,7 @@ msgstr "出力先"
 
 #: forms/frmmain.cpp:461
 msgid "Format"
-msgstr "フォーマット"
+msgstr "圧縮形式"
 
 #: forms/frmmain.cpp:465 forms/frmmain.cpp:474
 msgid "Compression Level"
@@ -339,15 +339,15 @@ msgstr "名称"
 
 #: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
 msgid "Jobs"
-msgstr ""
+msgstr "ジョブ"
 
 #: forms/frmmain.cpp:755 forms/frmmain.cpp:2412
 msgid "Job Commands"
-msgstr ""
+msgstr "ジョブコマンド"
 
 #: forms/frmmain.cpp:756 forms/frmmain.cpp:2423
 msgid "Other Commands"
-msgstr ""
+msgstr "ほかのコマンド"
 
 #: forms/frmmain.cpp:799 forms/frmmain.cpp:802
 msgid "Remember Entered Information"
@@ -391,7 +391,7 @@ msgstr "対象"
 
 #: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
 msgid "Browse"
-msgstr ""
+msgstr "参照"
 
 #: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
 #: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
@@ -425,27 +425,27 @@ msgstr "変数の入力"
 
 #: forms/frmmain.cpp:983
 msgid "Undo"
-msgstr ""
+msgstr "元に戻す"
 
 #: forms/frmmain.cpp:984
 msgid "Redo"
-msgstr ""
+msgstr "やり直し"
 
 #: forms/frmmain.cpp:1050 forms/frmmain.cpp:1400
 msgid "Differential only supports one folder"
-msgstr "差分 がサポートするのは一つのフォルダのみです"
+msgstr "差分は単一フォルダのみ対応します"
 
 #: forms/frmmain.cpp:1054 forms/frmmain.cpp:1404
 msgid "Mirror only supports one folder"
-msgstr ""
+msgstr "ミラーは単一フォルダのみ対応します"
 
 #: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
 msgid "Restore only supports one source archive file"
-msgstr ""
+msgstr "復元は単一の圧縮ファイルのみ対応します"
 
 #: forms/frmmain.cpp:1112
 msgid "Please select the source folder"
-msgstr "ソースフォルダの選択"
+msgstr "入力元フォルダの選択"
 
 #: forms/frmmain.cpp:1123
 msgid "Please select the destination folder"
@@ -453,7 +453,7 @@ msgstr "出力先フォルダの選択　"
 
 #: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "Please enter the name for the new rules"
-msgstr "新規変数の名称を入力してください"
+msgstr "新規変数の名前を入力してください"
 
 #: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "New Rules"
@@ -497,11 +497,11 @@ msgstr "7-Zip"
 
 #: forms/frmmain.cpp:1413
 msgid "Differential only supports the 7-Zip format"
-msgstr ""
+msgstr "差分は 7-Zip 形式のみ対応します"
 
 #: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 msgid "Please enter the name for the new variable"
-msgstr "新規変数に名称をつけてください"
+msgstr "新規変数に名前をつけてください"
 
 #: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 msgid "New Variable"
@@ -533,7 +533,7 @@ msgstr "ロケーション"
 
 #: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "Please enter the name for the new script"
-msgstr "新規スクリプトの名称を入力してください"
+msgstr "新規スクリプトの名前を入力してください"
 
 #: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "New Script"
@@ -553,7 +553,7 @@ msgstr "同名のスクリプトが存在します。"
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "Please enter the name for the new job"
-msgstr "新規ジョブの名称を入力してください"
+msgstr "新規ジョブの名前を入力してください"
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "New Job"
@@ -581,11 +581,11 @@ msgstr "名称で対象に"
 
 #: forms/frmmain.cpp:2175
 msgid "Copied"
-msgstr ""
+msgstr "コピー済み"
 
 #: forms/frmmain.cpp:2178
 msgid "Deleted"
-msgstr ""
+msgstr "削除済み"
 
 #: forms/frmmain.cpp:2181
 msgid "Overwritten"
@@ -593,7 +593,7 @@ msgstr "上書き"
 
 #: forms/frmmain.cpp:2184
 msgid "Deleted if empty"
-msgstr ""
+msgstr "空を削除済み"
 
 #: forms/frmmain.cpp:2193
 msgid "Files to Decrypt"
@@ -649,11 +649,11 @@ msgstr "ステータス"
 
 #: forms/frmprogress.cpp:122
 msgid "Autoscroll"
-msgstr ""
+msgstr "自動スクロール"
 
 #: forms/frmprogress.cpp:329
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #: forms/frmvariable.cpp:105
 msgid "Please select a folder"
@@ -661,7 +661,7 @@ msgstr "フォルダを選択してください"
 
 #: luamanager.cpp:45
 msgid "Progress"
-msgstr "進行"
+msgstr "進行状況"
 
 #: luathread.cpp:33
 msgid "Date:"
@@ -725,7 +725,7 @@ msgstr "コピーに失敗"
 
 #: sync/syncjob.cpp:234
 msgid "Skipped "
-msgstr ""
+msgstr "省略"
 
 #: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
@@ -733,7 +733,7 @@ msgstr "削除完了"
 
 #: toucan.cpp:116
 msgid "Another copy of Toucan is already running, aborting."
-msgstr ""
+msgstr "Toucan の別のコピーが起動しています。中止しました。"
 
 #: toucan.cpp:264
 msgid "The job does not exist"
@@ -741,7 +741,7 @@ msgstr "ジョブが存在しません"
 
 #: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
 msgid "Could not run "
-msgstr ""
+msgstr "実行できません"
 
 #: toucan.cpp:413
 msgid "Please input your password: "
