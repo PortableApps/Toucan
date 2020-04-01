@@ -391,7 +391,7 @@ msgstr "対象"
 
 #: forms/frmmain.cpp:938 forms/frmmain.cpp:939 forms/frmmain.cpp:949
 msgid "Browse"
-msgstr "ブラウズ"
+msgstr "参照"
 
 #: forms/frmmain.cpp:940 forms/frmmain.cpp:950 forms/frmmain.cpp:959
 #: forms/frmmain.cpp:968 forms/frmmain.cpp:974 forms/frmmain.cpp:980
@@ -441,7 +441,7 @@ msgstr "ミラーは単一フォルダのみ対応します"
 
 #: forms/frmmain.cpp:1058 forms/frmmain.cpp:1408
 msgid "Restore only supports one source archive file"
-msgstr "復元はは単一の圧縮ファイルのみ対応します"
+msgstr "復元は単一の圧縮ファイルのみ対応します"
 
 #: forms/frmmain.cpp:1112
 msgid "Please select the source folder"
@@ -497,7 +497,7 @@ msgstr "7-Zip"
 
 #: forms/frmmain.cpp:1413
 msgid "Differential only supports the 7-Zip format"
-msgstr "差分は7-Zip形式のみ対応します"
+msgstr "差分は 7-Zip 形式のみ対応します"
 
 #: forms/frmmain.cpp:1567 forms/frmmain.cpp:1603
 msgid "Please enter the name for the new variable"
@@ -733,7 +733,7 @@ msgstr "削除完了"
 
 #: toucan.cpp:116
 msgid "Another copy of Toucan is already running, aborting."
-msgstr "Toucan  の別のコピーが起動しています。中止しました。"
+msgstr "Toucan の別のコピーが起動しています。中止しました。"
 
 #: toucan.cpp:264
 msgid "The job does not exist"
