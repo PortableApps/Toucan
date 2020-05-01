@@ -21,7 +21,7 @@ class wxFileConfig;
 class wxTimerEvent;
 class wxSingleInstanceChecker;
 
-#define TOUCAN_VERSION "3.1.7"
+#define TOUCAN_VERSION "3.1.8"
 
 enum{
 	ID_OUTPUT = wxID_HIGHEST + 1,
