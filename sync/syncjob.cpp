@@ -141,15 +141,16 @@ void SyncFiles::OnSourceAndDestFolder(const wxFileName &source, const wxFileName
 	if(data->GetFunction() != _("Clean")){
 		wxDir destdir(dest.GetFullPath());
 		wxDir sourcedir(source.GetFullPath());
-		if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded && res != AbsoluteExcluded){
-			DeleteDirectory(dest);
-		}
-		else{
+		//if(!destdir.HasFiles() && !destdir.HasSubDirs() && res != Excluded && res != AbsoluteExcluded){
+		//	OutputProgress(dest.GetFullPath() + " should've been deleted", Message);
+			//DeleteDirectory(dest);
+		//}
+		//else{
 			//Set the timestamps if needed
 			if(data->GetTimeStamps()){
 				CopyFolderTimestamp(source, dest);
 			}	
-		}
+		//}
 		if(!sourcedir.HasFiles() && !sourcedir.HasSubDirs() && data->GetFunction() == _("Move")){
 			//If we are moving and there are no files left then we need to remove the folder
 			DeleteDirectory(source);
