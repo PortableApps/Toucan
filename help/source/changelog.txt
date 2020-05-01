@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.1.8 (2020-05-01)
+==================
+
+- Fixed incorrect base file name in differential mode (`bug #28 <https://github.com/PortableApps/Toucan/issues/28>`_)
+- Translations: updated JP translation (thanks maboroshin)
+
 3.1.7 (2019-08-13)
 ==================
 
