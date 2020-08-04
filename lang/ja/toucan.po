@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Toucan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-19 14:41+0200\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2020-08-04 00:01+0900\n"
 "Last-Translator: maboroshin <pc.genkaku.in>\n"
 "Language-Team: Asabukuro <fistechen@gmail.com>\n"
 "Language: ja_JP\n"
@@ -37,7 +37,7 @@ msgstr "すべて"
 #: basicfunctions.cpp:46 basicfunctions.cpp:314 data/backupdata.cpp:176
 #: forms/frmmain.cpp:449
 msgid "Update"
-msgstr "更新"
+msgstr "更新分"
 
 #: backup/backupjob.cpp:58
 msgid "Creating file list, this may take some time."
@@ -62,7 +62,7 @@ msgstr "ミラー"
 #: sync/syncjob.cpp:122 sync/syncpreview.cpp:70 sync/syncpreview.cpp:92
 #: sync/syncpreview.cpp:138 toucan_wrap.cpp:2695
 msgid "Equalise"
-msgstr "等化"
+msgstr "均等化"
 
 #: basicfunctions.cpp:43 basicfunctions.cpp:319 forms/frmmain.cpp:296
 #: forms/frmmain.cpp:1471 sync/syncjob.cpp:53 sync/syncjob.cpp:75
@@ -77,7 +77,7 @@ msgstr "移動"
 #: sync/syncjob.cpp:117 sync/syncjob.cpp:141 sync/syncpreview.cpp:53
 #: sync/syncpreview.cpp:67 sync/syncpreview.cpp:111 sync/syncpreview.cpp:133
 msgid "Clean"
-msgstr "排除"
+msgstr "削除"
 
 #: basicfunctions.cpp:47 data/backupdata.cpp:183 forms/frmmain.cpp:450
 #: forms/frmmain.cpp:1049 forms/frmmain.cpp:1343 forms/frmmain.cpp:1399
@@ -176,7 +176,7 @@ msgstr "フォルダー除外"
 
 #: basicfunctions.cpp:69
 msgid "Absolute Folder Exclude"
-msgstr "フォルダ除外固定的"
+msgstr "絶対的なフォルダー除外"
 
 #: basicfunctions.cpp:239 basicfunctions.cpp:384 basicfunctions.cpp:482
 #: basicfunctions.cpp:519
@@ -207,7 +207,7 @@ msgstr "ミラー (更新)"
 
 #: controls/rulesgrid.cpp:25
 msgid "Include / Exclude"
-msgstr "含める/除外"
+msgstr "含める / 除外"
 
 #: controls/rulesgrid.cpp:26 forms/frmmain.cpp:453
 msgid "Type"
@@ -219,7 +219,7 @@ msgstr "ルール"
 
 #: forms/frmmain.cpp:266 forms/frmmain.cpp:421 forms/frmmain.cpp:560
 msgid "Job Name"
-msgstr "ジョブの名称"
+msgstr "ジョブの名前"
 
 #: forms/frmmain.cpp:298 forms/frmmain.cpp:589
 msgid "Function"
@@ -231,7 +231,7 @@ msgstr "ファイルのチェック"
 
 #: forms/frmmain.cpp:306
 msgid "File size"
-msgstr "ファイルの大きさ"
+msgstr "ファイルサイズ"
 
 #: forms/frmmain.cpp:310
 msgid "Modified time"
@@ -248,15 +248,15 @@ msgstr "全体を比較"
 #: forms/frmmain.cpp:322 forms/frmmain.cpp:478 forms/frmmain.cpp:846
 #: forms/frmmain.cpp:1618 path.cpp:208
 msgid "Other"
-msgstr "その他"
+msgstr "ほか"
 
 #: forms/frmmain.cpp:326
 msgid "Retain Timestamps"
-msgstr "日時を保持"
+msgstr "日時を維持"
 
 #: forms/frmmain.cpp:330
 msgid "Retain Attributes"
-msgstr "属性を保持"
+msgstr "属性を維持"
 
 #: forms/frmmain.cpp:334
 msgid "Ignore Read-Only"
@@ -268,7 +268,7 @@ msgstr "ごみ箱を使用"
 
 #: forms/frmmain.cpp:342
 msgid "Preview Only Changes"
-msgstr "変更のみプレビュー"
+msgstr "変更ありのみプレビュー"
 
 #: forms/frmmain.cpp:349 forms/frmmain.cpp:494 forms/frmmain.cpp:596
 #: forms/frmmain.cpp:739
@@ -302,7 +302,7 @@ msgstr "圧縮レベル"
 
 #: forms/frmmain.cpp:469 forms/frmmain.cpp:2068 forms/frmmain.cpp:2221
 msgid "Default"
-msgstr "デフォルト"
+msgstr "標準"
 
 #: forms/frmmain.cpp:482 forms/frmpassword.cpp:54
 msgid "Password"
@@ -314,7 +314,7 @@ msgstr "作成後にテスト"
 
 #: forms/frmmain.cpp:488
 msgid "Solid Mode"
-msgstr "ソリッド モード"
+msgstr "ソリッド圧縮"
 
 #: forms/frmmain.cpp:509 forms/frmmain.cpp:611 forms/frmmain.cpp:927
 #: forms/frmmain.cpp:1615 forms/frmmain.cpp:1634
@@ -335,7 +335,7 @@ msgstr "暗号化するファイル"
 
 #: forms/frmmain.cpp:647 forms/frmmain.cpp:687 forms/frmmain.cpp:723
 msgid "Name"
-msgstr "名称"
+msgstr "名前"
 
 #: forms/frmmain.cpp:754 forms/frmmain.cpp:2401
 msgid "Jobs"
@@ -359,7 +359,7 @@ msgstr "表示言語"
 
 #: forms/frmmain.cpp:829
 msgid "Tab style"
-msgstr "タブのスタイル"
+msgstr "タブの表示"
 
 #: forms/frmmain.cpp:833
 msgid "Apply"
@@ -367,7 +367,7 @@ msgstr "適用"
 
 #: forms/frmmain.cpp:843
 msgid "About"
-msgstr "ソフト情報"
+msgstr "ソフトの情報"
 
 #: forms/frmmain.cpp:850
 msgid "Enable Tooltips"
@@ -416,7 +416,7 @@ msgstr "削除"
 #: forms/frmmain.cpp:943 forms/frmmain.cpp:944 forms/frmmain.cpp:956
 #: forms/frmmain.cpp:965
 msgid "Expand all"
-msgstr "全て展開"
+msgstr "すべて展開"
 
 #: forms/frmmain.cpp:945 forms/frmmain.cpp:946 forms/frmmain.cpp:955
 #: forms/frmmain.cpp:964 forms/frmvariable.h:29 forms/frmvariable.h:31
@@ -449,7 +449,7 @@ msgstr "入力元フォルダの選択"
 
 #: forms/frmmain.cpp:1123
 msgid "Please select the destination folder"
-msgstr "出力先フォルダの選択　"
+msgstr "出力先フォルダの選択"
 
 #: forms/frmmain.cpp:1145 forms/frmmain.cpp:1195
 msgid "Please enter the name for the new rules"
@@ -469,7 +469,7 @@ msgstr "ルールの保存"
 
 #: forms/frmmain.cpp:1199
 msgid "There is already a set of rules with this name"
-msgstr "同名のルールが存在します。"
+msgstr "同名のルールが存在します"
 
 #: forms/frmmain.cpp:1247 forms/frmmain.cpp:1268 forms/frmmain.cpp:1289
 msgid "Do you wish to save the current job?"
@@ -481,15 +481,15 @@ msgstr "ジョブの保存"
 
 #: forms/frmmain.cpp:1344 forms/frmmain.cpp:1419
 msgid "Please select the folder to store your backups"
-msgstr "バックアップの保存先と名称を選択"
+msgstr "バックアップを保存するフォルダーを選択してください"
 
 #: forms/frmmain.cpp:1350
 msgid "Restore into:"
-msgstr "復元先 :"
+msgstr "復元先:"
 
 #: forms/frmmain.cpp:1366
 msgid "Please choose a file to backup to"
-msgstr "バックアップ対象ファイルの指定"
+msgstr "バックアップ先のファイルの選択"
 
 #: forms/frmmain.cpp:1412
 msgid "7-Zip"
@@ -517,11 +517,11 @@ msgstr "変数の保存"
 
 #: forms/frmmain.cpp:1607
 msgid "There is already a variable with this name"
-msgstr "同名の変数が存在します。"
+msgstr "同名の変数が存在します"
 
 #: forms/frmmain.cpp:1670
 msgid "Choose a directory"
-msgstr "ディレクトリの選択"
+msgstr "フォルダの選択"
 
 #: forms/frmmain.cpp:1713
 msgid "Please insert the location you want to point to."
@@ -529,7 +529,7 @@ msgstr "指定先を入力してください。"
 
 #: forms/frmmain.cpp:1713 forms/frmvariable.cpp:61
 msgid "Location"
-msgstr "ロケーション"
+msgstr "場所"
 
 #: forms/frmmain.cpp:1737 forms/frmmain.cpp:1773
 msgid "Please enter the name for the new script"
@@ -549,7 +549,7 @@ msgstr "スクリプトの保存"
 
 #: forms/frmmain.cpp:1777
 msgid "There is already a script with this name"
-msgstr "同名のスクリプトが存在します。"
+msgstr "同名のスクリプトが存在します"
 
 #: forms/frmmain.cpp:1955 forms/frmmain.cpp:2004
 msgid "Please enter the name for the new job"
@@ -561,7 +561,7 @@ msgstr "新規ジョブ"
 
 #: forms/frmmain.cpp:1959
 msgid "There is already a job with this name"
-msgstr "同名のジョブが存在します。"
+msgstr "同名のジョブが存在します"
 
 #: forms/frmmain.cpp:2124
 msgid "Exclude by extension"
@@ -569,15 +569,15 @@ msgstr "拡張子で除外"
 
 #: forms/frmmain.cpp:2125 forms/frmmain.cpp:2130
 msgid "Exclude by name"
-msgstr "名称で除外"
+msgstr "名前で除外"
 
 #: forms/frmmain.cpp:2126
 msgid "Include by extension"
-msgstr "拡張子で対象に"
+msgstr "拡張子で含める"
 
 #: forms/frmmain.cpp:2127 forms/frmmain.cpp:2131
 msgid "Include by name"
-msgstr "名称で対象に"
+msgstr "名前で含める"
 
 #: forms/frmmain.cpp:2175
 msgid "Copied"
@@ -597,15 +597,15 @@ msgstr "空を削除済み"
 
 #: forms/frmmain.cpp:2193
 msgid "Files to Decrypt"
-msgstr "暗号化するファイル"
+msgstr "復号化するファイル"
 
 #: forms/frmmain.cpp:2199
 msgid "Location to Extract into"
-msgstr "解凍先"
+msgstr "展開先"
 
 #: forms/frmmain.cpp:2200
 msgid "Archives to Extract"
-msgstr "解凍するアーカイブ"
+msgstr "展開するアーカイブ"
 
 #: forms/frmmain.cpp:2212
 msgid "None"
@@ -625,7 +625,7 @@ msgstr "最大"
 
 #: forms/frmmain.cpp:2227
 msgid "Ultra"
-msgstr "ウルトラ"
+msgstr "極限"
 
 #: forms/frmpassword.cpp:57
 msgid "Repeat Password"
@@ -665,19 +665,19 @@ msgstr "進行状況"
 
 #: luathread.cpp:33
 msgid "Date:"
-msgstr "日時 :"
+msgstr "日時:"
 
 #: luathread.cpp:34
 msgid "Computer Name:"
-msgstr "コンピュータ名 :"
+msgstr "コンピュータ名:"
 
 #: luathread.cpp:35
 msgid "Operating System:"
-msgstr "オペレーション システム :"
+msgstr "オペレーション システム:"
 
 #: luathread.cpp:43
 msgid "Elapsed:"
-msgstr "経過 :"
+msgstr "経過:"
 
 #: luathread.cpp:44
 msgid "Finished"
@@ -689,19 +689,19 @@ msgstr "作成できません"
 
 #: rules.cpp:181
 msgid "There was an error reading from the rules file"
-msgstr "ルール ファイルの読み込みエラーが発生しました "
+msgstr "ルール ファイルの読み込みエラーが発生しました"
 
 #: rules.cpp:202
 msgid ""
 "There was an error saving to the rules file, \n"
 "please check it is not set as read only or in use"
 msgstr ""
-"ルール ファイルの保存エラーが発生しました\n"
+"ルール用ファイルの保存エラーが発生しました\n"
 "読み取り専用属性、または使用中でないか確認してください"
 
 #: secure/securejob.cpp:91 secure/securejob.cpp:128
 msgid "Failed to encrypt "
-msgstr "暗号化に失敗"
+msgstr "暗号化に失敗 "
 
 #: secure/securejob.cpp:126
 msgid "Encrypted "
@@ -709,7 +709,7 @@ msgstr "暗号化完了 "
 
 #: secure/securejob.cpp:132
 msgid "Decrypted "
-msgstr "復号化完了"
+msgstr "復号化完了 "
 
 #: secure/securejob.cpp:134
 msgid "Failed to decrypt "
@@ -721,15 +721,15 @@ msgstr "コピー "
 
 #: sync/syncjob.cpp:181 sync/syncjob.cpp:194 toucan_wrap.cpp:2913
 msgid "Failed to copy "
-msgstr "コピーに失敗"
+msgstr "コピーに失敗 "
 
 #: sync/syncjob.cpp:234
 msgid "Skipped "
-msgstr "省略"
+msgstr "省略 "
 
 #: sync/syncjob.cpp:258 sync/syncjob.cpp:269 sync/syncjob.cpp:284
 msgid "Removed "
-msgstr "削除完了"
+msgstr "削除完了 "
 
 #: toucan.cpp:116
 msgid "Another copy of Toucan is already running, aborting."
@@ -741,15 +741,15 @@ msgstr "ジョブが存在しません"
 
 #: toucan.cpp:373 toucan.cpp:384 toucan.cpp:396
 msgid "Could not run "
-msgstr "実行できません"
+msgstr "実行できません "
 
 #: toucan.cpp:413
 msgid "Please input your password: "
-msgstr "パスワードを入力してください :"
+msgstr "パスワードを入力してください : "
 
 #: toucan.cpp:415
 msgid "Please repeat your password: "
-msgstr "パスワードを再入力してください :"
+msgstr "パスワードを再入力してください : "
 
 #: toucan.cpp:418
 msgid "Sorry the passwords do not match"
@@ -757,7 +757,7 @@ msgstr "パスワードが一致しません"
 
 #: toucan_wrap.cpp:2897
 msgid "Deleted "
-msgstr "削除完了"
+msgstr "削除完了 "
 
 #: toucan_wrap.cpp:2900
 msgid "Failed to delete "
@@ -774,6 +774,9 @@ msgstr "移動に失敗 "
 #: forms/frmpassword.h:26 forms/frmpassword.h:28
 msgid "Input Password"
 msgstr "パスワードの入力"
+
+msgid "Do Not Log Skipped Files"
+msgstr "省略ファイルをログに記録しない"
 
 #~ msgid "File to Exclude"
 #~ msgstr "除外するファイル"
