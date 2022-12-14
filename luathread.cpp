@@ -37,10 +37,10 @@ void *LuaThread::Entry(){
 
 	if (luaL_loadstring(m_State, m_Command.mb_str()) || lua_pcall(m_State, 0, 0, 0)) {
 		OutputProgress(wxT("Cannot run lua file: ") + wxString(lua_tostring(m_State, -1), wxConvUTF8), Error);
+                return;
 	}
 
     OutputProgress(wxEmptyString, Message);
     OutputProgress(_("Elapsed:") + wxT(" ") + wxDateTime::Now().Subtract(m_StartTime).Format(), FinishingInfo);
     OutputProgress(_("Finished"), FinishingLine);
-	return NULL;
 }
